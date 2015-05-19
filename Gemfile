@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
-
+#I like HAML
+gem 'haml'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.2'
 # Use mysql as the database for Active Record
@@ -40,4 +41,6 @@ gem 'spring',        group: :development
 
 group :development, :test do
   gem 'pry-byebug'
+  gem 'better_errors'
+  gem 'binding_of_caller'
 end

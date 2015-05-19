@@ -7,4 +7,13 @@ class User < ActiveRecord::Base
             :spire,
             presence: true
   validates :staff, inclusion: {in: [true, false], message: 'must be true or false'}
+  validates :spire, uniqueness: true
+
+  scope :staff,    ->{where(staff: true)}
+  #Better scope name?
+  scope :students, ->{where(staff: false)}
+
+  def full_name
+    "#{first_name} #{last_name}"
+  end
 end

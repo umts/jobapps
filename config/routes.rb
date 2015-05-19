@@ -55,4 +55,10 @@ Rails.application.routes.draw do
   #   end
   
   root 'sessions#new'
+
+  resources :sessions do
+    collection do
+      get :dev_login if Rails.env.development?
+    end
+  end
 end
