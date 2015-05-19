@@ -6,4 +6,5 @@ class User < ActiveRecord::Base
             :last_name,
             :spire,
             presence: true
+  validates :staff, inclusion: {in: [true, false], message: 'must be true or false'}
 end

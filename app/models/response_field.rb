@@ -11,7 +11,7 @@ class ResponseField < ActiveRecord::Base
             :number,
             :prompt,
             presence: true
-  validates :required, inclusion: {in: [true, false]}
+  validates :required, inclusion: {in: [true, false], 'must be true or false'}
   #No questions in one application template with the same number
   validates :number, uniqueness: {scope: :application_template}
 end
