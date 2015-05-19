@@ -1,9 +1,0 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  hired: false
-  scheduled: 2015-05-19 17:44:28
-
-two:
-  hired: false
-  scheduled: 2015-05-19 17:44:28
