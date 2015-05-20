@@ -3,11 +3,11 @@ class SessionsController < ApplicationController
 
   def destroy
     if Rails.env.development?
-      redirect_to root
+      redirect_to root_path
     else #production
       #redirect_to '/Shibboleth.sso/Logout?return=https://webauth.oit.umass.edu/Logout'
     end
-    reset_session
+    session.clear
   end
 
   def dev_login
