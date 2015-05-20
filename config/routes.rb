@@ -56,13 +56,14 @@ Rails.application.routes.draw do
   
   root 'sessions#new'
 
-  resources :sessions do
+  resource :sessions, only: [:create, :destroy] do
     collection do
       case Rails.env
       when 'development'
         get  :dev_login
         post :dev_login
       when 'production', 'test'
+        #something something Shibboleth?
       end
     end#of collection do
   end#of resources :sessions do
