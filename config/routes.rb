@@ -58,7 +58,18 @@ Rails.application.routes.draw do
 
   resources :sessions do
     collection do
-      get :dev_login if Rails.env.development?
+      case Rails.env
+      when 'development'
+        get  :dev_login
+        post :dev_login
+      when 'production', 'test'
+      end
+    end#of collection do
+  end#of resources :sessions do
+
+  resources :users do
+    member do
+      get  :show
     end
-  end
+  end#of resources :users do
 end

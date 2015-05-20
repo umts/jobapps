@@ -1,14 +1,9 @@
-%h1 Log in to development
+%h1 Development login
 
-%h2 Login as staff:
-/TODO - make buttons work
-%ul
-  - @staff.each do |user|
-    %li= user.full_name
-
-%h2 Login as a student:
-/TODO - make buttons work
-%ul
-  - @students.each do |user|
-    %li= user.full_name
-
+- [@staff, @students].each_with_index do |group, index|
+  %h2 Login as #{%w(staff student)[index]}:
+  %ul
+    - group.each do |user|
+      = form_tag action: 'dev_login' do
+        = hidden_field_tag :user_id, user.id
+        = submit_tag user.full_name
