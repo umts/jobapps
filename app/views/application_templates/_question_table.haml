@@ -1,0 +1,37 @@
+%table
+  %thead
+    %tr
+      %th Short name
+      %th Prompt
+      %th Response type
+      %th Required?
+      %th= #move up
+      %th= #move down
+      %th= #submit
+  - @template.questions.each do |question|
+    = form_for question, url: {controller: 'questions', action: 'update', id: question.id} do |f|
+      %tr
+        %td= f.text_field :name, required: true, max_length: 20
+        %td= f.text_area :prompt, required: true
+        %td= f.select :data_type,
+          options_for_select(Question::DATA_TYPES)
+        %td= f.check_box :required
+        %td= #move up
+        %td= #move down
+        %td
+          = f.hidden_field :application_template_id, value: @template.id
+          = f.hidden_field :number, value: question.number
+          = f.submit 'Save question'
+  = form_for Question.new, url: {controller: 'questions', action: 'create'} do |f|
+    %tr
+      %td= f.text_field :name, required: true, max_length: 20
+      %td= f.text_area :prompt, required: true
+      %td= f.select :data_type,
+        options_for_select(Question::DATA_TYPES)
+      %td= f.check_box :required
+      %td= #move up
+      %td= #move down
+      %td
+        = f.hidden_field :application_template_id, value: @template.id
+        = f.hidden_field :number, value: @template.questions.count + 1
+        = f.submit 'Save question'

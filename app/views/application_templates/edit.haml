@@ -1,1 +1,3 @@
 %h1 Editing #{@template.department} application
+
+= render partial: 'question_table', locals: {questions: @template.questions}

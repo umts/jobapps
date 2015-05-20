@@ -10,6 +10,8 @@ Rails.application.routes.draw do
       get  :student
     end
   end
+  
+  resources :questions, only: [:create, :update]
 
   resources :sessions, only: [:create] do
     collection do
@@ -25,4 +27,5 @@ Rails.application.routes.draw do
   end
 
   resources :site_texts, only: [:edit]
+  
 end

@@ -6,5 +6,6 @@
     = javascript_include_tag 'application.js'
     = csrf_meta_tags
   %body
-    %a{href: '/sessions', data: {method: 'delete'}} Logout
+    #navbar
+      %a{href: '/sessions', data: {method: 'delete'}} Logout
     = yield
