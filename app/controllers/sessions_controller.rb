@@ -17,7 +17,8 @@ class SessionsController < ApplicationController
     elsif request.post?
       user = User.where(id: params.fetch(:user_id)).first
       session[:user_id] = user.id
-      redirect_to user
+      redirect_to controller: 'dashboard',
+                  action: user.staff? ? 'staff' : 'student'
     end
   end
 

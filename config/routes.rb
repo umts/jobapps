@@ -56,7 +56,7 @@ Rails.application.routes.draw do
   
   root 'sessions#new'
 
-  resource :sessions, only: [:create, :destroy] do
+  resources :sessions, only: [:create, :destroy] do
     collection do
       case Rails.env
       when 'development'
@@ -68,9 +68,10 @@ Rails.application.routes.draw do
     end#of collection do
   end#of resources :sessions do
 
-  resources :users do
-    member do
-      get  :show
+  resource :dashboard, controller: :dashboard do
+    collection do
+      get  :staff
+      get  :student
     end
-  end#of resources :users do
+  end
 end
