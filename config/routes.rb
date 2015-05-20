@@ -54,9 +54,9 @@ Rails.application.routes.draw do
   #     resources :products
   #   end
   
-  root 'sessions#new'
+  root 'sessions#create'
 
-  resources :sessions, only: [:create, :destroy] do
+  resources :sessions, only: [:create] do
     collection do
       case Rails.env
       when 'development'
@@ -65,6 +65,7 @@ Rails.application.routes.draw do
       when 'production', 'test'
         #something something Shibboleth?
       end
+      delete :destroy
     end#of collection do
   end#of resources :sessions do
 

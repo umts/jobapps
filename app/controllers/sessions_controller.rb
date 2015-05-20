@@ -1,5 +1,14 @@
 class SessionsController < ApplicationController
+  #layout without_logout
   layout false
+
+  #root
+  def create
+    if Rails.env.development?
+      redirect_to action: 'dev_login'
+    else #production
+    end
+  end
 
   def destroy
     if Rails.env.development?
@@ -19,13 +28,6 @@ class SessionsController < ApplicationController
       session[:user_id] = user.id
       redirect_to controller: 'dashboard',
                   action: user.staff? ? 'staff' : 'student'
-    end
-  end
-
-  def new
-    if Rails.env.development?
-      redirect_to action: 'dev_login'
-    else #production
     end
   end
 end
