@@ -1,0 +1,3 @@
+%ul
+  - @site_texts.each do |site_text|
+    %li= link_to "Change #{site_text.name}", edit_site_text_path(site_text)
