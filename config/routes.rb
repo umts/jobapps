@@ -56,6 +56,16 @@ Rails.application.routes.draw do
   
   root 'sessions#create'
 
+  resources :application_templates, only: [:edit]
+
+  resource :dashboard, controller: :dashboard do
+    collection do
+      get  :application_templates
+      get  :staff
+      get  :student
+    end
+  end
+
   resources :sessions, only: [:create] do
     collection do
       case Rails.env
@@ -69,10 +79,4 @@ Rails.application.routes.draw do
     end#of collection do
   end#of resources :sessions do
 
-  resource :dashboard, controller: :dashboard do
-    collection do
-      get  :staff
-      get  :student
-    end
-  end
 end
