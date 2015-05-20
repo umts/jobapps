@@ -6,11 +6,11 @@ class User < ActiveRecord::Base
             :last_name,
             :spire,
             presence: true
-  validates :staff, inclusion: {in: [true, false], message: 'must be true or false'}
+  validates :staff, inclusion: {in: [true, false],
+                                message: 'must be true or false'}
   validates :spire, uniqueness: true
 
   scope :staff,    ->{where(staff: true)}
-  #Better scope name?
   scope :students, ->{where(staff: false)}
 
   def full_name
