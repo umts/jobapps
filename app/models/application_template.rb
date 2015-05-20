@@ -1,5 +1,5 @@
 class ApplicationTemplate < ActiveRecord::Base
-  has_many :response_fields
+  has_many :questions
 
   DEPARTMENTS = %w(Bus
                    Special\ Transportation)

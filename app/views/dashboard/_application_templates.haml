@@ -1,4 +1,4 @@
 %ul
   - @application_templates.each do |template|
-    %li= link_to "Configure #{template.department} application",
+    %li= link_to "Edit #{template.department} application",
       edit_application_template_path(template)
