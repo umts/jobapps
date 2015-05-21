@@ -7,11 +7,11 @@ class QuestionsController < ApplicationController
   end
 
   def move
-    #require the ID parameter
-    #require the direction parameter
-    #find the question by its ID
-    #use the model method on that question to move it in the direction specified
-    #redirect to the previous page
+    params.require(:id)
+    params.require(:direction)
+    question = Question.find(params[:id])
+    question.move(params[:direction].to_sym)
+    redirect_to :back
   end
 
   def update
