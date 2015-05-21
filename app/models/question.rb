@@ -3,7 +3,8 @@ class Question < ActiveRecord::Base
 
   DATA_TYPES = %w(text
                   number
-                  yes/no)
+                  yes/no
+                  date)
 
   validates :application_template,
             :data_type,
@@ -16,4 +17,9 @@ class Question < ActiveRecord::Base
   #No questions in one application template with the same number
   validates :number, uniqueness: {scope: :application_template}
   validates :name, length: {maximum: 20}
+
+  #Within a particular application template, moves a question up or down.
+  #Accepts the symbol :up or the symbol :down as arguments.
+  def move(direction)
+  end
 end

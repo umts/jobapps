@@ -17,7 +17,9 @@
         %td= f.select :data_type,
           options_for_select(Question::DATA_TYPES)
         %td= f.check_box :required
-        %td= #button_to 'Move up'
+        %td
+          = form_tag controller: :questions, action: :move, direction: :up, id: question.id do
+            = f.submit 'Move up'
         %td= #button_to 'Move down'
         %td
           = f.submit 'Save question'

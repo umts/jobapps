@@ -11,7 +11,11 @@ Rails.application.routes.draw do
     end
   end
   
-  resources :questions, only: [:create, :update]
+  resources :questions, only: [:create, :update] do
+    member do
+      post :move
+    end
+  end
 
   resources :sessions, only: [:create] do
     collection do
