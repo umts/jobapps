@@ -13,4 +13,13 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require jquery-ui.min
 //= require_tree .
+
+$(function(){
+  $('.datepicker').datepicker({
+    changeMonth: true,
+    changeYear:  true,
+    yearRange:   'c-5:c+5'
+  })
+})
