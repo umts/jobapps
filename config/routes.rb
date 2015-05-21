@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   root 'sessions#create'
 
-  resources :application_templates, only: [:edit]
+  resources :application_templates, only: [:edit, :show]
+
+  resources :application_records, only: [:create]
 
   resource :dashboard, controller: :dashboard do
     collection do

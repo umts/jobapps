@@ -1,0 +1,5 @@
+%h1 Job Application
+
+= form_tag controller: :application_records, action: :create do
+  = render @template.questions
+  = submit_tag 'Submit application'

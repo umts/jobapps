@@ -4,21 +4,33 @@ class Question < ActiveRecord::Base
   DATA_TYPES = %w(text
                   number
                   yes/no
-                  date)
+                  date
+                  heading)
 
   validates :application_template,
             :data_type,
-            :name,
             :number,
             :prompt,
             presence: true
+  #Headings don't require a name, just text
+  validates :name, presence: true, unless: ->{data_type == 'heading'}
   validates :required, inclusion: {in: [true, false],
                                    message: 'must be true or false'}
-  #No questions in one application template with the same number
-  validates :number, uniqueness: {scope: :application_template}
+  #No questions in one application template with the same number or the same name-
+  #allow blank names for headings
+  validates :name, :number, uniqueness: {scope: :application_template, allow_blank: true}
   validates :name, length: {maximum: 20}
 
   default_scope { order :number }
+
+  def date?
+    data_type == 'date'
+  end
+
+  def heading?
+    data_type == 'heading'
+  end
+
   #Within a particular application template, moves a question up or down.
   #Accepts the symbol :up or the symbol :down as arguments.
   def move(direction)

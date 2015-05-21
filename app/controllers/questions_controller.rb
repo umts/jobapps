@@ -2,7 +2,10 @@ class QuestionsController < ApplicationController
 
   def create
     params.require(:question).permit!
-    Question.create!(params[:question])
+    question = Question.create(params[:question])
+    if question.errors
+      flash[:errors] = question.errors.full_messages
+    end
     redirect_to :back
   end
 
@@ -18,7 +21,9 @@ class QuestionsController < ApplicationController
     params.require(:id)
     params.require(:question).permit!
     question = Question.find(params[:id])
-    question.update_attributes!(params[:question])
+    unless question.update_attributes(params[:question])
+      flash[:errors] = question.errors.full_messages
+    end
     redirect_to :back
   end
 

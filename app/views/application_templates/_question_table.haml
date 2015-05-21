@@ -12,8 +12,8 @@
   - @template.questions.each do |question|
     %tr
       = form_for question, url: {controller: 'questions', action: 'update', id: question.id} do |f|
-        %td= f.text_field :name, required: true, max_length: 20
-        %td= f.text_area :prompt, required: true
+        %td= f.text_field :name, max_length: 20
+        %td= f.text_area :prompt, required: true, size: '50x4'
         %td= f.select :data_type,
           options_for_select(Question::DATA_TYPES, question.data_type)
         %td= f.check_box :required
@@ -30,8 +30,8 @@
       %td= #button_to 'Remove question'
   = form_for Question.new, url: {controller: 'questions', action: 'create'} do |f|
     %tr
-      %td= f.text_field :name, required: true, maxlength: 20, autofocus: true
-      %td= f.text_area :prompt, required: true
+      %td= f.text_field :name, maxlength: 20#, autofocus: true
+      %td= f.text_area :prompt, required: true, size: '50x4'
       %td= f.select :data_type,
         options_for_select(Question::DATA_TYPES)
       %td= f.check_box :required
@@ -42,3 +42,8 @@
       %td= #move up, not used for new
       %td= #move down, not used for new
       %td= #remove question, not used for new
+- if flash[:errors].present?
+  The following errors occurred:
+  %ul
+    - flash[:errors].each do |error_message|
+      %li= error_message
