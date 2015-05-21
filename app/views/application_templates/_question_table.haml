@@ -5,25 +5,29 @@
       %th Prompt
       %th Response type
       %th Required?
+      %th= #submit
       %th= #move up
       %th= #move down
-      %th= #submit
       %th= #remove question
   - @template.questions.each do |question|
-    = form_for question, url: {controller: 'questions', action: 'update', id: question.id} do |f|
-      %tr
+    %tr
+      = form_for question, url: {controller: 'questions', action: 'update', id: question.id} do |f|
         %td= f.text_field :name, required: true, max_length: 20
         %td= f.text_area :prompt, required: true
         %td= f.select :data_type,
           options_for_select(Question::DATA_TYPES, question.data_type)
         %td= f.check_box :required
         %td
-          = form_tag controller: :questions, action: :move, direction: :up, id: question.id do
-            = f.submit 'Move up'
-        %td= #button_to 'Move down'
-        %td
           = f.submit 'Save question'
-        %td= #button_to 'Remove question'
+      %td
+        - unless question == @template.questions.first
+          = form_tag controller: :questions, action: :move, direction: :up, id: question.id do
+            = submit_tag 'Move up'
+      %td
+        - unless question == @template.questions.last
+          = form_tag controller: :questions, action: :move, direction: :down, id: question.id do
+            = submit_tag 'Move down'
+      %td= #button_to 'Remove question'
   = form_for Question.new, url: {controller: 'questions', action: 'create'} do |f|
     %tr
       %td= f.text_field :name, required: true, maxlength: 20, autofocus: true
@@ -31,10 +35,10 @@
       %td= f.select :data_type,
         options_for_select(Question::DATA_TYPES)
       %td= f.check_box :required
-      %td= #move up, not used for new
-      %td= #move down, not used for new
       %td
         = f.hidden_field :application_template_id, value: @template.id
         = f.hidden_field :number, value: @template.questions.count + 1
         = f.submit 'Save question'
+      %td= #move up, not used for new
+      %td= #move down, not used for new
       %td= #remove question, not used for new
