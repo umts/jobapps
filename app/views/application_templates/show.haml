@@ -1,5 +1,22 @@
 %h1 Job Application
 
 = form_tag controller: :application_records, action: :create do
-  = render @template.questions
+  = fields_for :responses do |r|
+    - @template.questions.each do |question|
+      .field
+        - if question.heading?
+          %h3= question.prompt
+        -else
+          = question.prompt
+          - case question.data_type
+          - when 'text', 'date'
+            = r.text_field question.name, required: question.required?,
+              class: ('datepicker' if question.date?), size: 50
+          - when 'number'
+            = r.number_field question.name, required: question.required?
+          - when 'yes/no'
+            Yes
+            = r.radio_button question.name, 'yes', required: question.required?
+            No
+            = r.radio_button question.name, 'no', required: question.required?
   = submit_tag 'Submit application'

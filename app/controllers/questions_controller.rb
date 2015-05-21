@@ -2,7 +2,7 @@ class QuestionsController < ApplicationController
 
   def create
     params.require(:question).permit!
-    question = Question.create(params[:question])
+    question = Question.create params[:question]
     if question.errors
       flash[:errors] = question.errors.full_messages
     end
@@ -10,18 +10,18 @@ class QuestionsController < ApplicationController
   end
 
   def move
-    params.require(:id)
-    params.require(:direction)
-    question = Question.find(params[:id])
-    question.move(params[:direction].to_sym)
+    params.require :id
+    params.require :direction
+    question = Question.find params[:id]
+    question.move params[:direction].to_sym
     redirect_to :back
   end
 
   def update
-    params.require(:id)
+    params.require:id
     params.require(:question).permit!
-    question = Question.find(params[:id])
-    unless question.update_attributes(params[:question])
+    question = Question.find params[:id]
+    unless question.update_attributes params[:question]
       flash[:errors] = question.errors.full_messages
     end
     redirect_to :back

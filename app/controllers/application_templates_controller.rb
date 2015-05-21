@@ -11,7 +11,8 @@ class ApplicationTemplatesController < ApplicationController
   private
 
   def find_template
-    @template = ApplicationTemplate.find(params.fetch(:id))
+    params.require :id
+    @template = ApplicationTemplate.find params[:id]
   end
 
 end

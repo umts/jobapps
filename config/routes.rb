@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   resources :application_templates, only: [:edit, :show]
 
-  resources :application_records, only: [:create]
+  resources :application_records, only: [:create, :show]
 
   resource :dashboard, controller: :dashboard do
     collection do

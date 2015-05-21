@@ -10,8 +10,8 @@ class User < ActiveRecord::Base
                                 message: 'must be true or false'}
   validates :spire, uniqueness: true
 
-  scope :staff,    ->{where(staff: true)}
-  scope :students, ->{where(staff: false)}
+  scope :staff,    ->{where staff: true}
+  scope :students, ->{where staff: false}
 
   def full_name
     "#{first_name} #{last_name}"

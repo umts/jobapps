@@ -1,0 +1,6 @@
+%h1 UMass Transit Job Applications
+/welcome site text
+
+- @application_templates.each do |template|
+  .option
+    = link_to "Fill out #{template.department} application", template
