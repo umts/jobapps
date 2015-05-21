@@ -17,13 +17,11 @@
         %td= f.select :data_type,
           options_for_select(Question::DATA_TYPES)
         %td= f.check_box :required
-        %td= #move up
-        %td= #move down
+        %td= #button_to 'Move up'
+        %td= #button_to 'Move down'
         %td
-          = f.hidden_field :application_template_id, value: @template.id
-          = f.hidden_field :number, value: question.number
           = f.submit 'Save question'
-        %td= #remove question
+        %td= #button_to 'Remove question'
   = form_for Question.new, url: {controller: 'questions', action: 'create'} do |f|
     %tr
       %td= f.text_field :name, required: true, max_length: 20
