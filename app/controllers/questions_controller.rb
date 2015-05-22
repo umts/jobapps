@@ -18,10 +18,12 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    params.require:id
+    params.require :id
     params.require(:question).permit!
     question = Question.find params[:id]
-    unless question.update_attributes params[:question]
+    if question.update params[:question]
+      flash[:message] = 'Question was successfully updated.'
+    else
       flash[:errors] = question.errors.full_messages
     end
     redirect_to :back
