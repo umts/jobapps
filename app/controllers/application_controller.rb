@@ -15,4 +15,5 @@ class ApplicationController < ActionController::Base
   def site_texts
     @site_texts = SiteText.order :name
   end
+  #I am writing a comment. 
 end
