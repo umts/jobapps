@@ -1,0 +1,7 @@
+%ul
+- @pending_records.each do |department, records|
+  %li
+    = department.name
+    %ul
+      - records.each do |record|
+        %li= link_to record.user.proper_name, record

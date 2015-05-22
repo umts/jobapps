@@ -2,7 +2,9 @@ class ApplicationRecordsController < ApplicationController
 
   def create
     params.require :responses
-    record = ApplicationRecord.create(responses: params[:responses],
+    params.require :department_id
+    record = ApplicationRecord.create(department_id: params[:department_id],
+                                      responses: params[:responses],
                                       user: @current_user,
                                       reviewed: false)
     redirect_to record #if staff, if not go to the thank you page or something
