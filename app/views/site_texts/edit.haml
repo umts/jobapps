@@ -2,5 +2,5 @@
 = form_for @site_text, url: {controller: :site_texts, 
                             action: :update,
                             id: @site_text.id} do |f|
-  = f.text_area :text, size: '50x8'
-  = f.submit 
+  = f.text_area :text, size: '100x20', maxlength: 1000
+  = f.submit 'Change text'

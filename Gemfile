@@ -2,6 +2,8 @@ source 'https://rubygems.org'
 
 #I like HAML
 gem 'haml'
+# Markdown parsing with Redcardpet
+gem 'redcarpet'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.2'
 # Use mysql as the database for Active Record
@@ -41,10 +43,15 @@ gem 'spring',        group: :development
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
-group :development, :test do
-  gem 'pry-byebug'
+group :development do
+  #better_errors and binding_of_caller for in-browser debugging
   gem 'better_errors'
   gem 'binding_of_caller'
+end
+
+group :development, :test do
+  #pry for inline debugging
+  gem 'pry-byebug'
 end
 
 group :test do
