@@ -1,0 +1,15 @@
+%h1 Application Record
+
+submitted by
+= @record.user.full_name
+= format_date_time @record.created_at
+
+%table
+  %thead
+    %tr
+      %th Question name
+      %th Response
+  - @record.responses.each do |question_name, response|
+    %tr
+      %td= question_name
+      %td= response

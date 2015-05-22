@@ -6,4 +6,5 @@ class ApplicationRecord < ActiveRecord::Base
   validates :responses,
             :user,
             presence: true
+  validates :reviewed, inclusion: {in: [true, false]}
 end

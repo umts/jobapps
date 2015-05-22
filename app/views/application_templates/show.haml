@@ -5,7 +5,7 @@
     - @template.questions.each do |question|
       .field
         - if question.heading?
-          %h3= question.prompt
+          %h3.heading= question.prompt
         -else
           = question.prompt
           - case question.data_type

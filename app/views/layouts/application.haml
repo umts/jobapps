@@ -7,5 +7,17 @@
     = csrf_meta_tags
   %body
     #navbar
-      %a{href: '/sessions', data: {method: 'delete'}} Logout
+      - if @current_user.present?
+        %a{href: '/sessions', data: {method: 'delete'}} Logout
+        - if @current_user.staff?
+          = link_to 'Dashboard', staff_dashboard_path
+    - if flash[:message].present?
+      #message
+        = flash[:message]
+    - if flash[:errors].present?
+      #errors
+        The following errors occurred:
+        %ul
+          - flash[:errors].each do |error_message|
+            %li= error_message
     = yield

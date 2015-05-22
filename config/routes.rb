@@ -32,6 +32,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :site_texts, only: [:edit]
+  resources :site_texts, only: [:edit] do
+    collection do
+      get  :request_new
+      post :request_new
+    end
+  end
   
 end
