@@ -1,4 +1,21 @@
 class SiteTextsController < ApplicationController
+  def edit
+    params.require :id
+    @site_text = SiteText.find params[:id]
+  end
+  
+  def update
+    params.require(:site_text).permit!
+    params.require :id
+    site_text = SiteText.find params[:id] 
+    if site_text.update params[:site_text]
+      flash[:message] = 'Text was successfully updated.'
+    else
+      flash[:errors] = site_text.errors.full_messages
+    end
+    redirect_to :back
+  end
+
   def request_new
     if request.post? #if get, renders default view
       params.require :location
