@@ -15,4 +15,5 @@ class ApplicationController < ActionController::Base
   def site_texts
     @site_texts = SiteText.order :name
   end
+  #This comment causes a merge conflict.
 end
