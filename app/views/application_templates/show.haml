@@ -19,4 +19,4 @@
             = r.radio_button question.name, 'yes', required: question.required?
             No
             = r.radio_button question.name, 'no', required: question.required?
-  = submit_tag 'Submit application'
+  = submit_tag 'Submit application' unless @current_user.staff?

@@ -3,4 +3,4 @@
 
 - @application_templates.each do |template|
   .option
-    = link_to "Fill out #{template.department} application", template
+    = link_to "Fill out #{template.department.name} application", template

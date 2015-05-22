@@ -24,7 +24,8 @@ class SessionsController < ApplicationController
       @staff    = User.staff.limit    5
       @students = User.students.limit 5
     elsif request.post?
-      user = User.where(id: params.fetch(:user_id)).first
+      params.require :user_id
+      user = User.where(id: params[:user_id]).first
       session[:user_id] = user.id
       redirect_to controller: 'dashboard',
                   action: user.staff? ? 'staff' : 'student'
