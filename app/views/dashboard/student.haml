@@ -1,6 +1,16 @@
 %h1 UMass Transit Job Applications
 = text 'welcome'
 
-- @application_templates.each do |template|
-  .option
-    = link_to "Fill out #{template.department.name} application", template
+- if @interviews.present?
+  - @interviews.each do |interview|
+    .interview_explain_text
+      Your #{interview.application_record.department.name} interview
+      has been scheduled for #{format_date_time interview.scheduled}
+      at the UMass Transit Services garage.
+    .interview_review_link
+      = link_to 'Review your application', interview.application_record
+- else
+  Please select the application which you would like to submit.
+  - @application_templates.each do |template|
+    .option= link_to "Fill out #{template.department.name} application", template
+

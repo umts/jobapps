@@ -7,6 +7,7 @@ class DashboardController < ApplicationController
   end
 
   def student
+    @interviews = @current_user.interviews
   end
 
   private

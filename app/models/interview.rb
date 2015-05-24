@@ -3,6 +3,7 @@ class Interview < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :application_record
+  belongs_to :interview
 
   validates :hired, inclusion: {in: [true, false], message: 'must be true or false'}
   validates :application_record,
