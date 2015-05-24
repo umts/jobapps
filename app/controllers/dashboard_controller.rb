@@ -3,6 +3,7 @@ class DashboardController < ApplicationController
 
   def staff
     @pending_records = ApplicationRecord.pending.by_user_name.group_by(&:department)
+    @pending_interviews = Interview.pending
   end
 
   def student

@@ -14,5 +14,13 @@ submitted by
       %td= question_name
       %td= response
 
-= button_to 'Mark as reviewed and schedule interview'
-= button_to 'Mark as reviewed'
+= form_for Interview.new, url: {controller: :interviews, action: :create} do |f|
+  = f.hidden_field :application_record_id, value: @record.id
+  = f.hidden_field :user_id, value: @record.user_id
+  = f.hidden_field :hired, value: false
+  = f.label :scheduled, 'Interview date/time'
+  = f.text_field :scheduled, required: true, class: 'datetimepicker'
+  = f.submit 'Mark as reviewed and schedule interview'
+
+= form_tag action: :review, id: @record.id do
+  = submit_tag 'Mark as reviewed'

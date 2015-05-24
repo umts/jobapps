@@ -3,15 +3,20 @@ Rails.application.routes.draw do
 
   resources :application_templates, only: [:edit, :show]
 
-  resources :application_records, only: [:create, :show]
+  resources :application_records, only: [:create, :show] do
+    member do
+      post :review
+    end
+  end
 
   resource :dashboard, controller: :dashboard do
     collection do
-      get  :application_templates
       get  :staff
       get  :student
     end
   end
+
+  resources :interviews, only: [:create, :show]
   
   resources :questions, only: [:create, :update] do
     member do
