@@ -21,6 +21,8 @@ submitted by
       New interview date/time:
       = text_field_tag :scheduled, '', required: true, class: 'datetimepicker'
       = submit_tag 'Reschedule interview'
+    = form_tag controller: :interviews, action: :complete, id: @interview.id do |f|
+      = submit_tag 'Mark interview as completed'
   - else
     %h3 Review application
     = form_for Interview.new, url: {controller: :interviews, action: :create} do |f|

@@ -1,5 +1,17 @@
 class InterviewsController < ApplicationController
-  before_action :find, only: [:reschedule, :show]
+  before_action :find, except: :create
+
+  def complete
+    if @interview.update completed: true
+      flash[:message] = 'Interview marked as completed.'
+      #TODO: some kind of API call to UMTS.org.
+      #May not want to implement if we're keeping this generic.
+      redirect_to staff_dashboard_path
+    else
+      flash[:errors] = @interview.errors.full_messages
+      redirect_to :back
+    end
+  end
   
   def create
     params.require(:interview).permit!
