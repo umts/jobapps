@@ -22,4 +22,5 @@
             = r.radio_button question.name, 'yes', required: question.required?
             No
             = r.radio_button question.name, 'no', required: question.required?
+  = hidden_field_tag :department_id, @template.department_id
   = submit_tag 'Submit application' unless @current_user.staff?
