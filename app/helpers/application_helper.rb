@@ -2,7 +2,7 @@ module ApplicationHelper
 
   def text name
     text = SiteText.where(name: name).first.try :text
-    render_markdown text
+    render_markdown text if text.present?
   end
 
   private
