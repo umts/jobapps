@@ -18,6 +18,6 @@ class Interview < ActiveRecord::Base
   scope :pending, ->{where completed: false}
 
   def information
-    "#{format_date_time scheduled} #{user.proper_name}"
+    "#{format_date_time scheduled} at #{location}: #{user.proper_name}"
   end
 end
