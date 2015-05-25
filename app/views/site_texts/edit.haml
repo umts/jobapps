@@ -1,9 +1,16 @@
 %h1 Editing #{@site_text.name} text
 - unless @site_text.name == 'markdown explanation'
   = text 'markdown explanation'
+Enter text here to update the live site.
+We suggest using the sandbox (below) to preview your change and then copying it into this box.
 = form_for @site_text, url: {controller: :site_texts, 
                             action: :update,
                             id: @site_text.id} do |f|
-  = f.text_area :text, size: '100x20', maxlength: 1000
-  .action= f.submit 'Update text and preview below'
-= text @site_text.name
+  = f.text_area :text, size: '100x20'
+  .action= f.submit 'Update text'
+%h3 Markdown sandbox
+Enter text here to preview without updating.
+= form_tag do
+  = text_area_tag :preview_input, @preview_input, size: '100x20'
+  = submit_tag 'Preview below'
+= render_markdown @preview_input
