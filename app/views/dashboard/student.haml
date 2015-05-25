@@ -6,7 +6,7 @@
     .interview_explain_text
       Your #{interview.application_record.department.name} interview
       has been scheduled for #{format_date_time interview.scheduled}
-      at the UMass Transit Services garage.
+      at #{interview.location}.
     .interview_review_link
       = link_to 'Review your application', interview.application_record
 - else
