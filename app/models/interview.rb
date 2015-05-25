@@ -9,6 +9,7 @@ class Interview < ActiveRecord::Base
             :hired,
             inclusion: {in: [true, false], message: 'must be true or false'}
   validates :application_record,
+            :location,
             :scheduled,
             :user,
             presence: true

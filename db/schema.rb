@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150525135337) do
+ActiveRecord::Schema.define(version: 20150525160116) do
 
   create_table "application_records", force: true do |t|
     t.text     "responses"
@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 20150525135337) do
     t.integer  "user_id"
     t.integer  "application_record_id"
     t.boolean  "completed"
+    t.string   "location"
   end
 
   create_table "questions", force: true do |t|
