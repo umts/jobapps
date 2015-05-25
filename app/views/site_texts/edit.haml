@@ -11,6 +11,8 @@ We suggest using the sandbox (below) to preview your change and then copying it 
 %h3 Markdown sandbox
 Enter text here to preview without updating.
 = form_tag do
-  = text_area_tag :preview_input, @preview_input, size: '100x20'
+  = text_area_tag :preview_input, @preview_input || @site_text.text, size: '100x20'
   = submit_tag 'Preview below'
-= render_markdown @preview_input
+- if @preview_input.present?
+  %h3 Preview output
+  = render_markdown @preview_input

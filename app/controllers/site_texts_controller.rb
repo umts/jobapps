@@ -4,7 +4,6 @@ class SiteTextsController < ApplicationController
     params.permit  :preview_input
     params.permit  :preview_text
     @site_text = SiteText.find params[:id]
-    #binding.pry
     @preview_input = params[:preview_input]
   end
   
