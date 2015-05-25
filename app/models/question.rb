@@ -44,6 +44,7 @@ class Question < ActiveRecord::Base
     other_question = application_template.questions.where(number: other_number).first
     if other_question.present?
       ActiveRecord::Base.transaction do
+        binding.pry
         other_question.number = number
         number = other_number
         save validate: false
