@@ -11,6 +11,8 @@
       = link_to 'Review your application', interview.application_record
 - else
   Please select the application which you would like to submit.
-  - @application_templates.each do |template|
-    .option= link_to "Fill out #{template.department.name} application", template
+  - @positions.each do |department, positions|
+    %h3= department.name
+    - positions.each do |position|
+      %li= link_to "Submit application for #{position.name}", position.application_template
 

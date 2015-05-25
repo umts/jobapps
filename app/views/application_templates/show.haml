@@ -1,8 +1,5 @@
 %h1 Job Application
 
-- if @template.department.name == 'Bus'
-  = text 'minimum bus driver requirements'
-
 = form_tag controller: :application_records, action: :create do
   = fields_for :responses do |r|
     - @template.questions.each do |question|
@@ -22,5 +19,5 @@
             = r.radio_button question.name, 'yes', required: question.required?
             No
             = r.radio_button question.name, 'no', required: question.required?
-  = hidden_field_tag :department_id, @template.department_id
+  = hidden_field_tag :position_id, @template.position_id
   = submit_tag 'Submit application' unless @current_user.staff?

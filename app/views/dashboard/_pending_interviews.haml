@@ -1,7 +1,14 @@
 %ul
-  - @pending_interviews.each do |department, interviews|
+  - @departments.each do |department|
     %li
-      = department.name
-      %ul
-        - interviews.each do |interview|
-          %li= link_to interview.information, interview.application_record
+      %h3= department.name
+    %ul
+      - department.positions.each do |position|
+        %li
+          = position.name
+          %ul
+            - if @pending_interviews.key position
+              - @pending_interviews[position].each do |interview|
+                %li= link_to interview.information, interview.application_record
+            - else
+              No pending interviews

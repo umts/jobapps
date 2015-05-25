@@ -1,8 +1,8 @@
 class ApplicationTemplate < ActiveRecord::Base
   has_many :questions
-  belongs_to :department
+  belongs_to :position
+  delegate :department, to: :position
 
-  validates :department, presence: true
+  validates :position, presence: true
 
-  scope :by_department, ->{joins(:department).order 'departments.name'}
 end

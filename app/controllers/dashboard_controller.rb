@@ -1,5 +1,5 @@
 class DashboardController < ApplicationController
-  before_action :application_templates
+  before_action :positions
 
   def main
     if @current_user.staff?
@@ -10,7 +10,8 @@ class DashboardController < ApplicationController
   end
 
   def staff
-    @pending_records = ApplicationRecord.pending.by_user_name.group_by &:department
+    @departments = Department.includes :positions
+    @pending_records = ApplicationRecord.pending.by_user_name.group_by &:position
     @pending_interviews = Interview.pending.group_by &:department
   end
 
@@ -20,8 +21,8 @@ class DashboardController < ApplicationController
 
   private
 
-  def application_templates
-    @application_templates = ApplicationTemplate.by_department
+  def positions
+    @positions = Position.all.group_by &:department
   end
 
 end

@@ -2,8 +2,8 @@ class ApplicationRecordsController < ApplicationController
 
   def create
     params.require :responses
-    params.require :department_id
-    record = ApplicationRecord.create(department_id: params[:department_id],
+    params.require :position_id
+    record = ApplicationRecord.create(position_id: params[:position_id],
                                       responses: params[:responses],
                                       user: @current_user,
                                       reviewed: false)
