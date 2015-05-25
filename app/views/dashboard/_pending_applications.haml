@@ -1,7 +1,14 @@
 %ul
-- @pending_records.each do |department, records|
-  %li
-    = department.name
+  - @departments.each do |department|
+    %li
+      %h3= department.name
     %ul
-      - records.each do |record|
-        %li= link_to record.user.proper_name, record
+      - department.positions.each do |position|
+        %li
+          = position.name
+          %ul
+            - if @pending_records.key position
+              - @pending_records[position].each do |record|
+                %li= link_to record.user.proper_name, record
+            - else
+              No pending applications

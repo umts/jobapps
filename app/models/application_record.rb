@@ -1,11 +1,12 @@
 class ApplicationRecord < ActiveRecord::Base
   belongs_to :user
-  belongs_to :department
+  belongs_to :position
+  delegate :department, to: :position
   has_one    :interview
 
   serialize :responses, Hash
 
-  validates :department,
+  validates :position,
             :responses,
             :user,
             presence: true
