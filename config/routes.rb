@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root 'sessions#create'
+  root 'dashboard#main'
 
   resources :application_templates, only: [:edit, :show]
 
@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   resource :dashboard, controller: :dashboard do
     collection do
-      get  :application_templates
+      get  :main
       get  :staff
       get  :student
     end
@@ -19,7 +19,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :sessions, only: [:create] do
+  resources :sessions, skip_current_user: true, only: [:new] do
     collection do
       case Rails.env
       when 'development'

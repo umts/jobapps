@@ -3,12 +3,6 @@ class SessionsController < ApplicationController
   layout false
 
   #root
-  def create
-    if Rails.env.development?
-      redirect_to action: 'dev_login'
-    else #production
-    end
-  end
 
   def destroy
     if Rails.env.development?
@@ -31,4 +25,12 @@ class SessionsController < ApplicationController
                   action: user.staff? ? 'staff' : 'student'
     end
   end
+ 
+  def new
+    if Rails.env.development?
+      redirect_to action: 'dev_login'
+    else #production
+    end
+  end
+
 end
