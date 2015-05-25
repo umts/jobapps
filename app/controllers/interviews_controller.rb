@@ -28,7 +28,8 @@ class InterviewsController < ApplicationController
 
   def reschedule
     params.require :scheduled
-    if @interview.update scheduled: params[:scheduled]
+    params.require :location
+    if @interview.update scheduled: params[:scheduled], location: params[:location]
       flash[:message] = 'Interview has been rescheduled.'
       redirect_to staff_dashboard_path
     else

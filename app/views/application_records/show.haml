@@ -17,9 +17,11 @@ submitted by
 - if @current_user.staff?
   - if @interview.present?
     %h3 Reschedule interview
-    = form_tag controller: :interviews, action: :reschedule, id: @interview.id do |f|
+    = form_tag controller: :interviews, action: :reschedule, id: @interview.id do
       New interview date/time:
-      = text_field_tag :scheduled, '', required: true, class: 'datetimepicker'
+      = text_field_tag :scheduled, '', required: true, class: 'datetimepicker', placeholder: 'Click here to select date/time...', size: 30
+      New location:
+      = text_field_tag :location, @interview.location, required: true, size: 30
       = submit_tag 'Reschedule interview'
     = form_tag controller: :interviews, action: :complete, id: @interview.id do |f|
       = submit_tag 'Mark interview as completed'
@@ -30,9 +32,10 @@ submitted by
       = f.hidden_field :user_id, value: @record.user_id
       = f.hidden_field :hired, value: false
       = f.hidden_field :completed, value: false
-      = f.label :scheduled, 'Interview date/time'
-      = f.text_field :scheduled, required: true, class: 'datetimepicker'
+      = f.label :scheduled, 'Interview date/time:'
+      = f.text_field :scheduled, required: true, class: 'datetimepicker', placeholder: 'Click here to select date/time...', size: 30
+      = f.label :location
+      = f.text_field :location, required: true, size: 30
       = f.submit 'Mark as reviewed and schedule interview'
-
     = form_tag action: :review, id: @record.id do
       = submit_tag 'Mark as reviewed'
