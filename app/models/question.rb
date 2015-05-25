@@ -33,27 +33,26 @@ class Question < ActiveRecord::Base
 
   #Within a particular application template, moves a question up or down.
   #Accepts the symbol :up or the symbol :down as arguments.
-  def move(direction)
+  def move direction
     #binding.pry
     case direction
     when :up
-      other_number = number - 1
+      other_number = self.number - 1
     when :down
-      other_number = number + 1
+      other_number = self.number + 1
     end
     other_question = application_template.questions.where(number: other_number).first
     if other_question.present?
       ActiveRecord::Base.transaction do
-        binding.pry
-        other_question.number = number
-        number = other_number
-        save validate: false
-        other_question.save validate: false
-        #Since we skipped validations in order to save, re-run validations. If either
-        #question fails, raise an exception, which will rollback the transaction.
-        #The exception does not percolate further up the stack, so we don't need to
+        other_question.number = self.number
+        self.number = other_number
+        self.save validate: false
+        other_question.save
+        #Since we skipped validations in order to save, re-run validations.
+        #If the question fails, raise an exception.
+        #The exception does not propagate further up the stack, so we don't need to
         #handle it elsewhere or raise any specific exception.
-        raise unless valid? && other_question.valid?
+        raise unless self.valid?
       end
     end
   end
