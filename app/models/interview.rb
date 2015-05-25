@@ -1,8 +1,22 @@
 class Interview < ActiveRecord::Base
-  belongs_to :user
+  include DateAndTimeMethods
 
-  validates :hired, inclusion: {in: [true, false], message: 'must be true or false'}
-  validates :scheduled,
+  belongs_to :user
+  belongs_to :application_record
+  delegate :department, to: :application_record
+
+  validates :completed,
+            :hired,
+            inclusion: {in: [true, false], message: 'must be true or false'}
+  validates :application_record,
+            :scheduled,
             :user,
-             presence: true
+            presence: true
+
+  default_scope {order :scheduled}
+  scope :pending, ->{where completed: false}
+
+  def information
+    "#{format_date_time scheduled} #{user.proper_name}"
+  end
 end

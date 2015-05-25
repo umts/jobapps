@@ -28,6 +28,8 @@
           = form_tag controller: :questions, action: :move, direction: :down, id: question.id do
             = submit_tag 'Move down'
       %td= #button_to 'Remove question'
+  %tr
+    %td#new_question_header{colspan: 8} Add new question:
   = form_for Question.new, url: {controller: :questions, action: :create} do |f|
     %tr
       %td= f.text_field :name, maxlength: 20#, autofocus: true

@@ -1,6 +1,7 @@
 class ApplicationRecord < ActiveRecord::Base
   belongs_to :user
   belongs_to :department
+  has_one    :interview
 
   serialize :responses, Hash
 
