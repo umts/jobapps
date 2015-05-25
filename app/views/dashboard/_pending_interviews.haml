@@ -1,3 +1,7 @@
 %ul
-  - @pending_interviews.each do |interview|
-    %li= link_to interview.information, interview
+  - @pending_interviews.each do |department, interviews|
+    %li
+      = department.name
+      %ul
+        - interviews.each do |interview|
+          %li= link_to interview.information, interview.application_record

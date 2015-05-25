@@ -16,7 +16,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :interviews, only: [:create, :show]
+  resources :interviews, only: [:create, :show] do
+    member do
+      post :reschedule
+    end
+  end
   
   resources :questions, only: [:create, :update] do
     member do

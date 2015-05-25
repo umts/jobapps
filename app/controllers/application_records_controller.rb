@@ -23,6 +23,7 @@ class ApplicationRecordsController < ApplicationController
   def show
     params.require :id
     @record = ApplicationRecord.find params[:id]
+    @interview = @record.interview
   end
 
 end

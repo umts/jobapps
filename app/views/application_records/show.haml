@@ -15,14 +15,22 @@ submitted by
       %td= response
 
 - if @current_user.staff?
-  %h3 Review application
-  = form_for Interview.new, url: {controller: :interviews, action: :create} do |f|
-    = f.hidden_field :application_record_id, value: @record.id
-    = f.hidden_field :user_id, value: @record.user_id
-    = f.hidden_field :hired, value: false
-    = f.label :scheduled, 'Interview date/time'
-    = f.text_field :scheduled, required: true, class: 'datetimepicker'
-    = f.submit 'Mark as reviewed and schedule interview'
+  - if @interview.present?
+    %h3 Reschedule interview
+    = form_tag controller: :interviews, action: :reschedule, id: @interview.id do |f|
+      New interview date/time:
+      = text_field_tag :scheduled, '', required: true, class: 'datetimepicker'
+      = submit_tag 'Reschedule interview'
+  - else
+    %h3 Review application
+    = form_for Interview.new, url: {controller: :interviews, action: :create} do |f|
+      = f.hidden_field :application_record_id, value: @record.id
+      = f.hidden_field :user_id, value: @record.user_id
+      = f.hidden_field :hired, value: false
+      = f.hidden_field :completed, value: false
+      = f.label :scheduled, 'Interview date/time'
+      = f.text_field :scheduled, required: true, class: 'datetimepicker'
+      = f.submit 'Mark as reviewed and schedule interview'
 
-  = form_tag action: :review, id: @record.id do
-    = submit_tag 'Mark as reviewed'
+    = form_tag action: :review, id: @record.id do
+      = submit_tag 'Mark as reviewed'
