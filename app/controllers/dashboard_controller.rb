@@ -18,6 +18,7 @@ class DashboardController < ApplicationController
 
   def student
     @interviews = @current_user.interviews
+    @application_records = @current_user.application_records.where(reviewed: false).group_by &:position
   end
 
   private

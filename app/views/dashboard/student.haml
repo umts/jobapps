@@ -14,5 +14,8 @@
   - @positions.each do |department, positions|
     %h3= department.name
     - positions.each do |position|
-      %li= link_to "Submit application for #{position.name}", position.application_template
+      - if @application_records.keys.include? position
+        %li= link_to "Review your application for #{position.name}", @application_records[position].last
+      - else
+        %li= link_to "Submit application for #{position.name}", position.application_template
 
