@@ -1,12 +1,14 @@
 %h1 Staff Dashboard
 
-%h3.dashboard_heading Pending applications
+%h2.dashboard_heading Pending applications
 = render partial: 'pending_applications'
-%h3.dashboard_heading Pending interviews
+%h2.dashboard_heading Pending interviews
 = render partial: 'pending_interviews'
-%h3.dashboard_heading Application forms
+%h2.dashboard_heading Application forms
 = render partial: 'application_templates'
-%h3.dashboard_heading Configurable site text
+%h2.dashboard_heading Staff members
+= render partial: 'users'
+%h2.dashboard_heading Configurable site text
 = render partial: 'site_texts'
-%h3.dashboard_heading Past applications / interviews
-%h3.dashboard_heading Reports
+%h2.dashboard_heading Past applications / interviews
+%h2.dashboard_heading Reports

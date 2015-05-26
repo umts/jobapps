@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
                                 message: 'must be true or false'}
   validates :spire, uniqueness: true
 
+  default_scope {order :last_name, :first_name}
   scope :staff,    ->{where staff: true}
   scope :students, ->{where staff: false}
 
