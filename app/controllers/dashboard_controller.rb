@@ -2,6 +2,7 @@ class DashboardController < ApplicationController
   before_action :positions
 
   def main
+    permit_student_access
     if @current_user.staff?
       redirect_to staff_dashboard_path
     else
@@ -12,10 +13,11 @@ class DashboardController < ApplicationController
   def staff
     @departments = Department.includes :positions
     @pending_records = ApplicationRecord.pending.by_user_name.group_by &:position
-    @pending_interviews = Interview.pending.group_by &:department
+    @pending_interviews = Interview.pending.group_by &:position
   end
 
   def student
+    permit_student_access
     @interviews = @current_user.interviews
   end
 

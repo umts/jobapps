@@ -7,7 +7,7 @@
         %li
           = position.name
           %ul
-            - if @pending_records.key position
+            - if @pending_records.keys.include? position
               - @pending_records[position].each do |record|
                 %li= link_to record.user.proper_name, record
             - else

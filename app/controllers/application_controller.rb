@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  include BeforeRender
   include DateAndTimeMethods
   helper_method DateAndTimeMethods.instance_methods
 
@@ -7,9 +8,27 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :site_texts
   before_action :set_current_user, unless: -> { params[:skip_current_user] }
+  before_render :access_control
   layout 'application'
 
+  rescue_from AccessDeniedException do
+    if request.xhr?
+      render nothing: true, status: 401
+    else render file: 'public/401.html', status: 401, layout: false
+    end
+  end
+
   private
+
+  def access_control
+    if @current_user.present? && @current_user.student? && !@permit_student_access
+      raise AccessDeniedException
+    end
+  end
+
+  def permit_student_access
+    @permit_student_access = true
+  end
 
   def set_current_user
     if session[:user_id].present?
