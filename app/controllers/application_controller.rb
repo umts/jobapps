@@ -13,8 +13,8 @@ class ApplicationController < ActionController::Base
 
   rescue_from AccessDeniedException do
     if request.xhr?
-      render nothing: true, status: 401
-    else render file: 'public/401.html', status: 401, layout: false
+      render nothing: true, status: :unauthorized
+    else render file: 'public/401.html', status: :unauthorized, layout: false
     end
   end
 
