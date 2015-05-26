@@ -3,10 +3,8 @@ class ApplicationController < ActionController::Base
   include DateAndTimeMethods
   helper_method DateAndTimeMethods.instance_methods
 
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
+  attr_accessor :current_user
   protect_from_forgery with: :exception
-  before_action :site_texts
   before_action :set_current_user, unless: -> { params[:skip_current_user] }
   attr_accessor :permit_student_access
   before_render :access_control
@@ -37,9 +35,5 @@ class ApplicationController < ActionController::Base
     else
       redirect_to new_session_path
     end
-  end
-
-  def site_texts
-    @site_texts = SiteText.order :name
   end
 end
