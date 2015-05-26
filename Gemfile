@@ -2,6 +2,8 @@ source 'https://rubygems.org'
 
 #I like HAML
 gem 'haml'
+# Figaro for configuration storage
+gem 'figaro'
 # Markdown parsing with Redcardpet
 gem 'redcarpet'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'

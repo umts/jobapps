@@ -1,0 +1,9 @@
+Hello <%= @user.first_name %>,
+
+Your interview has been scheduled for <%= @interview.scheduled %> at <%= @interview.location %>.
+
+You may confirm your interview status <%=link_to 'here', student_dashboard_path %>.
+
+Best,
+
+<%= Figaro.env.organization_name %>
