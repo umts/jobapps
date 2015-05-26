@@ -19,6 +19,7 @@ Rails.application.routes.draw do
 
   resources :interviews, only: [:create, :show] do
     member do
+      post :complete
       post :reschedule
     end
   end

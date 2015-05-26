@@ -23,6 +23,8 @@ submitted by
       New location:
       = text_field_tag :location, @interview.location, required: true, size: 30
       = submit_tag 'Reschedule interview'
+    = form_tag controller: :interviews, action: :complete, id: @interview.id do |f|
+      = submit_tag 'Mark interview as completed'
   - else
     %h3 Review application
     = form_for Interview.new, url: {controller: :interviews, action: :create} do |f|
