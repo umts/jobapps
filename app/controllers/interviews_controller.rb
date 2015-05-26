@@ -14,8 +14,7 @@ class InterviewsController < ApplicationController
   end
   
   def create
-    params.require(:interview).permit!
-    interview = Interview.create params[:interview]
+    interview = Interview.create interview_parameters
     if interview
       interview.application_record.update reviewed: true
       flash[:message] = 'Interview has been scheduled and application marked as reviewed.'
@@ -46,6 +45,15 @@ class InterviewsController < ApplicationController
   def find
     params.require :id
     @interview = Interview.find params[:id]
+  end
+
+  def interview_parameters
+    params.require(:interview).permit :application_record_id,
+                                      :completed,
+                                      :hired,
+                                      :location
+                                      :scheduled
+                                      :user_id
   end
 
 end

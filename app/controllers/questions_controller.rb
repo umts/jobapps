@@ -2,7 +2,7 @@ class QuestionsController < ApplicationController
 
   def create
     params.require(:question).permit!
-    question = Question.create params[:question]
+    question = Question.create question_parameters
     if question.errors
       flash[:errors] = question.errors.full_messages
     end
@@ -21,12 +21,23 @@ class QuestionsController < ApplicationController
     params.require :id
     params.require(:question).permit!
     question = Question.find params[:id]
-    if question.update params[:question]
+    if question.update question_parameters
       flash[:message] = 'Question was successfully updated.'
     else
       flash[:errors] = question.errors.full_messages
     end
     redirect_to :back
+  end
+
+  private
+
+  def question_parameters
+    params.require(:question).permit :application_template_id,
+                                     :data_type,
+                                     :name,
+                                     :number,
+                                     :prompt,
+                                     :required
   end
 
 end
