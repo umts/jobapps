@@ -8,9 +8,7 @@ class UsersController < ApplicationController
     if user
       flash[:message] = "#{user.full_name} has been added as a staff member."
       redirect_to root_path
-    else
-      flash[:errors] = user.errors.full_messages
-      redirect_to :back
+    else show_errors
     end
   end
 
@@ -30,9 +28,7 @@ class UsersController < ApplicationController
     if @user.update params[:user]
       flash[:message] = "#{@user.full_name} has been updated."
       redirect_to root_path
-    else
-      flash[:errors] = @user.errors.full_messages
-      redirect_to :back
+    else show_errors
     end
   end
 
@@ -45,10 +41,10 @@ class UsersController < ApplicationController
 
   def permit_user_attributes
     params.require(:user).permit!
-    #params.require(:user).permit :email,
-                                 #:first_name,
-                                 #:last_name,
-                                 #:staff,
-                                 #:spire
+  end
+
+  def show_errors
+    flash[:errors] = @user.errors.full_messages
+    redirect_to :back
   end
 end
