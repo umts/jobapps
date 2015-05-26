@@ -13,6 +13,7 @@ class DashboardController < ApplicationController
     @departments = Department.includes :positions
     @pending_records = ApplicationRecord.pending.by_user_name.group_by &:position
     @pending_interviews = Interview.pending.group_by &:department
+    @site_texts = SiteText.order :name
   end
 
   def student
