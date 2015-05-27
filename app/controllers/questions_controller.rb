@@ -3,7 +3,7 @@ class QuestionsController < ApplicationController
 
   def create
     question = Question.create question_parameters
-    if question
+    if question.valid?
       flash[:message] = 'Question was successfully created.'
     else
       flash[:errors] = question.errors.full_messages

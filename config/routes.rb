@@ -48,6 +48,9 @@ Rails.application.routes.draw do
       get  :request_new
       post :request_new
     end
+    member do
+      post :edit#for previewing changes
+    end
   end
 
   resources :users, except: [:index, :show]
