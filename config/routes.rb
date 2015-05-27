@@ -24,7 +24,7 @@ Rails.application.routes.draw do
     end
   end
   
-  resources :questions, only: [:create, :update] do
+  resources :questions, only: [:create, :destroy, :update] do
     member do
       post :move
     end
