@@ -16,7 +16,7 @@ class InterviewsController < ApplicationController
   def create
     #params.require(:interview).permit!
     params.require(:interview).permit :application_record_id,
-                                      :completed
+                                      :completed,
                                       :hired,
                                       :location,
                                       :scheduled,

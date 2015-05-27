@@ -7,5 +7,8 @@ default from: 'transit-it@admin.umass.edu'
     mail to: @user.email
          subject: 'Interview Confirmation'
   end
+  #TO DO: def instructions. Make configurable in yml file.
+  #Not everyone will have a website.
+  #def instruction (take what?)
 
 end
