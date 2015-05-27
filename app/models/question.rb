@@ -5,7 +5,8 @@ class Question < ActiveRecord::Base
                   number
                   yes/no
                   date
-                  heading)
+                  heading
+                  explanation)
 
   validates :application_template,
             :data_type,
@@ -13,7 +14,7 @@ class Question < ActiveRecord::Base
             :prompt,
             presence: true
   #Headings don't require a name, just text
-  validates :name, presence: true, unless: ->{data_type == 'heading'}
+  validates :name, presence: true, unless: ->{%w(explanation heading).include? data_type}
   validates :required, inclusion: {in: [true, false],
                                    message: 'must be true or false'}
   #No questions in one application template with the same number or the same name-
@@ -25,6 +26,10 @@ class Question < ActiveRecord::Base
 
   def date?
     data_type == 'date'
+  end
+
+  def explanation?
+    data_type == 'explanation'
   end
 
   def heading?
@@ -52,7 +57,7 @@ class Question < ActiveRecord::Base
         #If the question fails, raise an exception.
         #The exception does not propagate further up the stack, so we don't need to
         #handle it elsewhere or raise any specific exception.
-        raise unless self.valid?
+        raise ActiveRecord::Rollback unless self.valid?
       end
     end
   end

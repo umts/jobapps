@@ -1,0 +1,18 @@
+/todo - figure out why I have to write this
+- user, action = locals[:user], locals[:action]
+= form_for user, url: {controller: :users, action: action, id: user.id} do |f|
+  .field
+    = f.label :first_name
+    = f.text_field :first_name, required: true
+  .field
+    = f.label :last_name
+    = f.text_field :last_name, required: true
+  .field
+    = f.label :email
+    = f.text_field :email, required: true
+  .field
+    = f.label :spire
+    = f.number_field :spire, required: true
+  .action
+    = f.hidden_field :staff, value: true
+    = f.submit 'Save changes'
