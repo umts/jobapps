@@ -1,10 +1,9 @@
 class UsersController < ApplicationController
 
   before_action :find_user, only: [:destroy, :edit, :update]
-  before_action :permit_user_attributes, only: [:create, :update]
 
   def create
-    user = User.create params[:user]
+    user = User.create user_parameters
     if user
       flash[:message] = "#{user.full_name} has been added as a staff member."
       redirect_to root_path
@@ -25,7 +24,7 @@ class UsersController < ApplicationController
   end
 
   def update
-    if @user.update params[:user]
+    if @user.update user_parameters
       flash[:message] = "#{@user.full_name} has been updated."
       redirect_to root_path
     else show_errors
@@ -39,8 +38,12 @@ class UsersController < ApplicationController
     @user = User.find params[:id]
   end
 
-  def permit_user_attributes
-    params.require(:user).permit!
+  def user_parameters
+    params.require(:user).permit :email,
+                                 :first_name,
+                                 :last_name,
+                                 :spire,
+                                 :staff
   end
 
   def show_errors

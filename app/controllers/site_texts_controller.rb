@@ -11,7 +11,7 @@ class SiteTextsController < ApplicationController
     params.require(:site_text).permit!
     params.require :id
     site_text = SiteText.find params[:id] 
-    if site_text.update params[:site_text]
+    if site_text.update site_text_parameters
       flash[:message] = 'Text was successfully updated.'
     else
       flash[:errors] = site_text.errors.full_messages
@@ -26,5 +26,11 @@ class SiteTextsController < ApplicationController
       #TODO: email IT
       flash[:message] = 'Your request has been sent. Thank you!'
     end
+  end
+
+  private
+
+  def site_text_parameters
+    params.require(:site_text).permit :text
   end
 end

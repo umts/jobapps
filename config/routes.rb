@@ -24,7 +24,7 @@ Rails.application.routes.draw do
     end
   end
   
-  resources :questions, only: [:create, :update] do
+  resources :questions, only: [:create, :destroy, :update] do
     member do
       post :move
     end
@@ -47,6 +47,9 @@ Rails.application.routes.draw do
     collection do
       get  :request_new
       post :request_new
+    end
+    member do
+      post :edit#for previewing changes
     end
   end
 

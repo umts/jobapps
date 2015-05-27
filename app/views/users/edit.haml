@@ -2,8 +2,4 @@
 
 = render 'form', locals: {user: @user, action: :update}
 
-= form_tag controller: :users,
-           action: :destroy,
-           method: :delete,
-           id: @user.id do
-  = submit_tag "Remove #{@user.full_name}"
+= button_to "Remove #{@user.full_name}", @user, method: :delete

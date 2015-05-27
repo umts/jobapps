@@ -4,7 +4,9 @@
   = fields_for :responses do |r|
     - @template.questions.each do |question|
       .field
-        - if question.heading?
+        - if question.explanation?
+          = render_markdown question.prompt
+        - elsif question.heading?
           %h3.heading= question.prompt
         -else
           = question.prompt
