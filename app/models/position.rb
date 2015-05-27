@@ -10,4 +10,8 @@ class Position < ActiveRecord::Base
   
   default_scope { order :name }
 
+  def name_and_department
+    "#{name} (#{department.name})"
+  end
+
 end

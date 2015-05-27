@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   root 'dashboard#main'
 
-  resources :application_templates, only: [:edit, :show]
+  resources :application_templates, only: [:new, :edit, :show]
 
   resources :application_records, only: [:create, :show] do
     member do
@@ -17,12 +17,16 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :departments, only: [:new, :create]
+
   resources :interviews, only: [:create, :show] do
     member do
       post :complete
       post :reschedule
     end
   end
+
+  resources :positions, except: [:index, :show]
   
   resources :questions, only: [:create, :destroy, :update] do
     member do

@@ -1,4 +1,4 @@
-%h1 Job Application
+%h1 Job Application for #{@template.position.name_and_department}
 
 = form_tag controller: :application_records, action: :create do
   = fields_for :responses do |r|

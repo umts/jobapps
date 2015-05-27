@@ -3,6 +3,5 @@ class ApplicationTemplate < ActiveRecord::Base
   belongs_to :position
   delegate :department, to: :position
 
-  validates :position, presence: true
-
+  validates :position, presence: true, uniqueness: true
 end

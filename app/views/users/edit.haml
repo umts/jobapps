@@ -1,5 +1,5 @@
 %h1 Edit settings for #{@user.full_name}
 
-= render 'form', locals: {user: @user, action: :update}
+= render 'form', user: @user, action: :update
 
 = button_to "Remove #{@user.full_name}", @user, method: :delete

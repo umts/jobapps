@@ -3,8 +3,8 @@ class UsersController < ApplicationController
   before_action :find_user, only: [:destroy, :edit, :update]
 
   def create
-    user = User.create user_parameters
-    if user
+    @user = User.create user_parameters
+    if @user
       flash[:message] = "#{user.full_name} has been added as a staff member."
       redirect_to root_path
     else show_errors
@@ -38,6 +38,11 @@ class UsersController < ApplicationController
     @user = User.find params[:id]
   end
 
+  def show_errors
+    flash[:errors] = @user.errors.full_messages
+    redirect_to :back
+  end
+
   def user_parameters
     params.require(:user).permit :email,
                                  :first_name,
@@ -46,8 +51,4 @@ class UsersController < ApplicationController
                                  :staff
   end
 
-  def show_errors
-    flash[:errors] = @user.errors.full_messages
-    redirect_to :back
-  end
 end

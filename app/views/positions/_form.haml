@@ -1,0 +1,9 @@
+= form_for position, url: {controller: :positions, action: action, id: position.id} do |f|
+  .field
+    = f.label :department_id
+    = f.select :department_id, options_from_collection_for_select(Department.all, :id, :name)
+  .field
+    = f.label :name
+    = f.text_field :name, required: true
+  .action
+    = f.submit 'Save changes'

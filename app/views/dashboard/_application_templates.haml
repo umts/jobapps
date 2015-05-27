@@ -7,5 +7,8 @@
         %li
           = position.name
           %ul
-            %li= link_to "View application for #{position.name}", position.application_template
-            %li= link_to "Edit application for #{position.name}", edit_application_template_path(position.application_template)
+            - if position.application_template.present?
+              %li= link_to 'View application', position.application_template
+              %li= link_to 'Edit application', edit_application_template_path(position.application_template)
+            - else
+              %li= link_to 'Create application', new_application_template_path(position_id: position.id)
