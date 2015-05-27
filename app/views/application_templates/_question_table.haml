@@ -21,12 +21,10 @@
           = f.submit 'Save question'
       %td
         - unless question == @template.questions.first
-          = form_tag controller: :questions, action: :move, direction: :up, id: question.id do
-            = submit_tag 'Move up'
+          = button_to 'Move up', move_question_path(question, direction: :up)
       %td
         - unless question == @template.questions.last
-          = form_tag controller: :questions, action: :move, direction: :down, id: question.id do
-            = submit_tag 'Move down'
+          = button_to 'Move down', move_question_path(question, direction: :down)
       %td= button_to 'Remove question', question, method: :delete
   %tr
     %td#new_question_header{colspan: 8} Add new question:
