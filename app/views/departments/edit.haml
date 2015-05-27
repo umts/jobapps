@@ -1,0 +1,5 @@
+%h1 Edit #{@department.name}
+
+= render 'form', department: @department, action: :update
+
+= button_to "Remove #{@department.name}", @department, method: :delete

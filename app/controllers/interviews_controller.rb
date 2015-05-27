@@ -38,9 +38,6 @@ class InterviewsController < ApplicationController
     end
   end
 
-  def show
-  end
-
   private
 
   def find
