@@ -52,8 +52,8 @@ class InterviewsController < ApplicationController
     params.require(:interview).permit :application_record_id,
                                       :completed,
                                       :hired,
-                                      :location
-                                      :scheduled
+                                      :location,
+                                      :scheduled,
                                       :user_id
   end
 

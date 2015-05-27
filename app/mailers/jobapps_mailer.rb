@@ -4,7 +4,7 @@ default from: 'transit-it@admin.umass.edu'
   def interview_confirmation interview
     @interview = interview
     @user = interview.user
-    mail to: @user.email
+    mail to: @user.email,
          subject: 'Interview Confirmation'
   end
   #TO DO: def instructions. Make configurable in yml file.
