@@ -6,6 +6,7 @@ class ApplicationTemplatesController < ApplicationController
   end
 
   def show
+    permit_student_access
   end
 
   private

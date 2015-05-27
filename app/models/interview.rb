@@ -3,7 +3,9 @@ class Interview < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :application_record
-  delegate :department, to: :application_record
+  delegate :department,
+           :position,
+           to: :application_record
 
   validates :completed,
             :hired,
