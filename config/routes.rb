@@ -19,7 +19,7 @@ Rails.application.routes.draw do
 
   resources :departments, except: [:index, :show]
 
-  resources :interviews, only: :create do
+  resources :interviews, only: [:create, :show] do
     member do
       post :complete
       post :reschedule

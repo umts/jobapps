@@ -38,6 +38,14 @@ class InterviewsController < ApplicationController
     end
   end
 
+  def show
+    respond_to do |format|
+      format.ics do
+        render 'interview.ics', layout: false
+      end
+    end
+  end
+
   private
 
   def find

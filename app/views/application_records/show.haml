@@ -16,6 +16,9 @@ submitted by
 
 - if @current_user.staff?
   - if @interview.present?
+    Interview scheduled for 
+    = format_date_time @interview.scheduled
+    .export_link= link_to 'Click here for a calendar export file', interview_path(@interview, format: :ics)
     %h3 Reschedule interview
     = form_tag controller: :interviews, action: :reschedule, id: @interview.id do
       New interview date/time:

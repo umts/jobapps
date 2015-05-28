@@ -1,0 +1,13 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//UMASS_TRANSIT_JOBAPPS//INTERVIEW_EXPORT//EN
+TZID:US-Eastern
+METHOD:PUBLISH
+BEGIN:VEVENT
+DTSTART:<%= format_date_time @interview.scheduled, format: :iCal %>
+SUMMARY:<%= @interview.calendar_title %>
+UID:INTERVIEW<%= @interview.id -%>@UMASS_TRANSIT//JOBAPPS
+DTSTAMP:<%= format_date_time DateTime.now, format: :iCal %>
+STATUS:CONFIRMED
+END:VEVENT
+END:VCALENDAR
