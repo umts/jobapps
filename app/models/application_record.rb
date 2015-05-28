@@ -14,4 +14,9 @@ class ApplicationRecord < ActiveRecord::Base
 
   scope :pending,      ->{where reviewed: false}
   scope :by_user_name, ->{joins(:user).order('users.last_name, users.first_name')}
+
+  def pending?
+    !reviewed
+  end
+
 end

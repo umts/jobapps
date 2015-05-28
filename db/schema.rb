@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150526194428) do
+ActiveRecord::Schema.define(version: 20150528204053) do
 
   create_table "application_records", force: true do |t|
     t.text     "responses"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20150526194428) do
     t.integer  "user_id"
     t.boolean  "reviewed"
     t.integer  "position_id"
+    t.text     "staff_note"
   end
 
   create_table "application_templates", force: true do |t|

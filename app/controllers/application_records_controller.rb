@@ -1,5 +1,7 @@
 class ApplicationRecordsController < ApplicationController
 
+  before_action :find_record, except: :create
+
   def create
     permit_student_access
     params.require :responses
@@ -8,16 +10,26 @@ class ApplicationRecordsController < ApplicationController
                                       responses: params[:responses],
                                       user: @current_user,
                                       reviewed: false)
-    redirect_to record #if staff, if not go to the thank you page or something
+    show_message :application_receipt_confirmation,
+       default: 'Your application has been submitted. Thank you!'
+    redirect_to student_dashboard_path
   end
 
   def review
-    params.require :id
-    record = ApplicationRecord.find params[:id]
-    if record.update_attribute :reviewed, true
-      flash[:message] = 'Application has been marked as reviewed.'
-    else flash[:errors] = record.errors.full_messages
+    params.require :accepted
+    if params[:accepted] == 'true'
+      interview_parameters = params.require(:interview).
+                                    permit :location, :scheduled
+      interview_parameters.merge! completed: false,
+        hired: false, application_record: @record, user: @record.user
+      Interview.create! interview_parameters
+    else
+      staff_note = params.require :staff_note
+      @record.update staff_note: staff_note
+      #show_message :application_review_confirmation,
+        #default: 'Application has been marked as reviewed.'
     end
+    @record.update reviewed: true
     redirect_to staff_dashboard_path
   end
 
@@ -26,6 +38,13 @@ class ApplicationRecordsController < ApplicationController
     params.require :id
     @record = ApplicationRecord.find params[:id]
     @interview = @record.interview
+  end
+
+  private
+
+  def find_record
+    params.require :id
+    @record = ApplicationRecord.find params[:id]
   end
 
 end
