@@ -1,7 +1,13 @@
 require 'factory_girl_rails'
 require 'simplecov'
 
-SimpleCov.start
+SimpleCov.start do
+  add_group 'Models',     '/app/models'
+  add_group 'Controller', '/app/controllers'
+  add_group 'Helpers',    '/app/helpers'
+  add_filter '/config/'
+  add_filter '/spec/'
+end
 RSpec.configure do |config|
   config.before :all do
     FactoryGirl.reload
