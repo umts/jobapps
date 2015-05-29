@@ -25,4 +25,12 @@ describe DashboardController do
       expect(response).to have_http_status :unauthorized
     end
   end
+
+  describe 'GET #student' do
+    it 'allows student access' do
+      set_current_user_to :studennt
+      get :student
+      expect(response).not_to have_http_status :unauthorized
+    end
+  end
 end
