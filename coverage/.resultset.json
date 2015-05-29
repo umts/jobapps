@@ -13,14 +13,14 @@
         null,
         null,
         1,
-        0,
-        0,
-        0,
+        1,
+        1,
+        1,
         null,
         null,
         1,
-        0,
-        0,
+        2,
+        2,
         null,
         null
       ],
@@ -122,6 +122,11 @@
         null,
         null
       ],
+      "/Users/karin/jobapps/app/models/site_text.rb": [
+        1,
+        1,
+        null
+      ],
       "/Users/karin/jobapps/app/models/application_template.rb": [
         1,
         1,
@@ -162,6 +167,6 @@
         null
       ]
     },
-    "timestamp": 1432909377
+    "timestamp": 1432912506
   }
 }
