@@ -20,6 +20,15 @@ RSpec.configure do |config|
   end
 end
 
+#controller helper methods
+
 def set_current_user_to user
-  session[:user_id] = user.id
+  session[:user_id] = case user
+  when :staff
+    (create :user, staff: true).id
+  when :student
+    (create :user, staff: false).id
+  when User
+    user.id
+  end
 end

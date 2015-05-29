@@ -1,5 +1,6 @@
 class ApplicationTemplatesController < ApplicationController
 
+  prepend_before_action :access_control, only: :show
   before_action :find_template, except: :new
   
   def new
@@ -12,7 +13,6 @@ class ApplicationTemplatesController < ApplicationController
   end
 
   def show
-    permit_student_access
   end
 
   private

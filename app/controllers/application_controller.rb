@@ -6,27 +6,20 @@ class ApplicationController < ActionController::Base
   attr_accessor :current_user
   protect_from_forgery with: :exception
   before_action :set_current_user, unless: -> { params[:skip_current_user]}
-  attr_accessor :permit_student_access
-  before_render :access_control
+  before_action :access_control
   layout 'application'
-
-  rescue_from AccessDeniedException do
-    if request.xhr?
-      render nothing: true, status: :unauthorized
-    else render file: 'public/401.html', status: :unauthorized, layout: false
-    end
-  end
 
   private
 
   def access_control
-    if @current_user.present? && @current_user.student? && !@permit_student_access
-      raise AccessDeniedException
-    end
+    deny_access if @current_user.student?
   end
 
-  def permit_student_access
-    @permit_student_access = true
+  def deny_access
+    if request.xhr?
+      render nothing: true, status: :unauthorized and return
+    else render file: 'public/401.html', status: :unauthorized, layout: false and return
+    end
   end
 
   def set_current_user

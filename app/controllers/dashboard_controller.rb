@@ -1,8 +1,8 @@
 class DashboardController < ApplicationController
-  before_action :positions
+  skip_before_action :access_control, only: [:main, :student]
+  before_action :positions, except: :main
 
   def main
-    permit_student_access
     if @current_user.staff?
       redirect_to staff_dashboard_path
     else
@@ -19,9 +19,8 @@ class DashboardController < ApplicationController
   end
 
   def student
-    permit_student_access
     @interviews = @current_user.interviews
-    @application_records = @current_user.application_records.where(reviewed: false).group_by &:position
+    @application_records = @current_user.application_records.pending.group_by &:position
   end
 
   private

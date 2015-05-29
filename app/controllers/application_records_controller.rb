@@ -1,9 +1,9 @@
 class ApplicationRecordsController < ApplicationController
 
+  prepend_before_action :access_control, only: [:create, :show]
   before_action :find_record, except: :create
 
   def create
-    permit_student_access
     params.require :responses
     params.require :position_id
     record = ApplicationRecord.create(position_id: params[:position_id],
@@ -34,7 +34,6 @@ class ApplicationRecordsController < ApplicationController
   end
 
   def show
-    permit_student_access
     params.require :id
     @record = ApplicationRecord.find params[:id]
     @interview = @record.interview
