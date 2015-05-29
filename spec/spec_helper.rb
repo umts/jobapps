@@ -1,5 +1,7 @@
 require 'factory_girl_rails'
+require 'simplecov'
 
+SimpleCov.start
 RSpec.configure do |config|
   config.before :all do
     FactoryGirl.reload

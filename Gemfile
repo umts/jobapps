@@ -59,4 +59,5 @@ end
 group :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
+  gem 'simplecov', '>= 0.9'
 end
