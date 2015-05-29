@@ -6,6 +6,7 @@ SimpleCov.start do
   add_filter '/config/'
   add_filter '/spec/'
 end
+
 RSpec.configure do |config|
   config.before :all do
     FactoryGirl.reload
@@ -17,4 +18,8 @@ RSpec.configure do |config|
   config.mock_with :rspec do |mocks|
     mocks.verify_partial_doubles = true
   end
+end
+
+def set_current_user_to user
+  session[:user_id] = user.id
 end
