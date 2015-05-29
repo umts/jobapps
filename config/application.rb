@@ -23,5 +23,7 @@ module Jobapps
 
     #Autoload all modules in /lib
     config.autoload_paths << Rails.root.join('lib')
+    #Autoload all modules in /vendor/lib
+    config.autoload_paths << Rails.root.join('vendor/lib')
   end
 end
