@@ -20,6 +20,10 @@ class Interview < ActiveRecord::Base
 
   default_scope {order :scheduled}
   scope :pending, ->{where completed: false}
+  
+  def calendar_title
+    "Interview with #{user.full_name}"
+  end
 
   def information
     "#{format_date_time scheduled} at #{location}: #{user.proper_name}"
