@@ -16,6 +16,8 @@ class Interview < ActiveRecord::Base
             :user,
             presence: true
 
+  after_create :send_confirmation
+
   default_scope {order :scheduled}
   scope :pending, ->{where completed: false}
   
@@ -25,5 +27,15 @@ class Interview < ActiveRecord::Base
 
   def information
     "#{format_date_time scheduled} at #{location}: #{user.proper_name}"
+  end
+
+  def pending?
+    !completed
+  end
+
+  private
+
+  def send_confirmation
+    JobappsMailer.interview_confirmation self
   end
 end

@@ -15,30 +15,42 @@ submitted by
       %td= response
 
 - if @current_user.staff?
-  - if @interview.present?
-    Interview scheduled for 
-    = format_date_time @interview.scheduled
-    .export_link= link_to 'Click here for a calendar export file', interview_path(@interview, format: :ics)
-    %h3 Reschedule interview
-    = form_tag controller: :interviews, action: :reschedule, id: @interview.id do
-      New interview date/time:
-      = text_field_tag :scheduled, '', required: true, class: 'datetimepicker', placeholder: 'Click here to select date/time...', size: 30
-      New location:
-      = text_field_tag :location, @interview.location, required: true, size: 30
-      = submit_tag 'Reschedule interview'
-    = form_tag controller: :interviews, action: :complete, id: @interview.id do |f|
-      = submit_tag 'Mark interview as completed'
-  - else
+  - if @record.pending?
     %h3 Review application
-    = form_for Interview.new, url: {controller: :interviews, action: :create} do |f|
-      = f.hidden_field :application_record_id, value: @record.id
-      = f.hidden_field :user_id, value: @record.user_id
-      = f.hidden_field :hired, value: false
-      = f.hidden_field :completed, value: false
-      = f.label :scheduled, 'Interview date/time:'
-      = f.text_field :scheduled, required: true, class: 'datetimepicker', placeholder: 'Click here to select date/time...', size: 30
-      = f.label :location
-      = f.text_field :location, required: true, size: 30
-      = f.submit 'Mark as reviewed and schedule interview'
-    = form_tag action: :review, id: @record.id do
-      = submit_tag 'Mark as reviewed'
+    = form_tag controller: :application_records, action: :review, id: @record.id, accepted: false do
+      .field
+        Reason for rejection:
+        = text_area_tag :staff_note, '', required: true
+      .text These notes #{CONFIG[:on_application_denial][:specify_reason] ? 'will' : 'will not'} be shown to the applicant.
+      .action= submit_tag 'Review application without scheduling interview'
+    = form_tag controller: :application_records, action: :review, id: @record.id, accepted: true do
+      = fields_for :interview do |f|
+        .field
+          = f.label :scheduled, 'Date and time of interview'
+          = f.text_field :scheduled, class: 'datetimepicker', placeholder: 'Click here to select date/time...', size: 40
+        .field
+          = f.label :location
+          = f.text_field :location
+      .action= submit_tag 'Review application and schedule interview'
+  - else
+    Application reviewed on
+    = format_date_time @record.updated_at
+    - if @record.staff_note.present?
+      .notes
+        Reason for denial:
+        = @record.staff_note
+  - if @interview.present?
+    - if @interview.pending?
+      .export_link= link_to 'Click here for a calendar export file', interview_path(@interview, format: :ics)
+      %h3 Reschedule interview
+      = form_tag controller: :interviews, action: :reschedule, id: @interview.id do
+        New interview date/time:
+        = text_field_tag :scheduled, '', required: true, class: 'datetimepicker', placeholder: 'Click here to select date/time...', size: 30
+        New location:
+        = text_field_tag :location, @interview.location, required: true, size: 30
+        = submit_tag 'Reschedule interview'
+      = form_tag controller: :interviews, action: :complete, id: @interview.id do |f|
+        = submit_tag 'Mark interview as completed'
+    - else #application is being reviewed for whatever reason
+      Interview occurred on
+      = format_date_time @interview.scheduled

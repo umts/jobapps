@@ -2,8 +2,8 @@ source 'https://rubygems.org'
 
 #I like HAML
 gem 'haml'
-# Figaro for configuration storage
-gem 'figaro'
+# Snappconfig for configuration storage
+gem 'snappconfig'
 # Markdown parsing with Redcardpet
 gem 'redcarpet'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -59,4 +59,5 @@ end
 group :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
+  gem 'simplecov', '>= 0.9'
 end
