@@ -7,7 +7,7 @@ class UsersController < ApplicationController
     if @user
       flash[:message] = "#{user.full_name} has been added as a staff member."
       redirect_to root_path
-    else show_errors
+    else show_errors @user
     end
   end
 
@@ -27,7 +27,7 @@ class UsersController < ApplicationController
     if @user.update user_parameters
       flash[:message] = "#{@user.full_name} has been updated."
       redirect_to root_path
-    else show_errors
+    else show_errors @user
     end
   end
 
@@ -36,11 +36,6 @@ class UsersController < ApplicationController
   def find_user
     params.require :id
     @user = User.find params[:id]
-  end
-
-  def show_errors
-    flash[:errors] = @user.errors.full_messages
-    redirect_to :back
   end
 
   def user_parameters

@@ -29,4 +29,9 @@ class ApplicationController < ActionController::Base
       redirect_to new_session_path
     end
   end
+
+  def show_errors object
+    flash[:errors] = object.errors.full_messages
+    redirect_to :back and return
+  end
 end

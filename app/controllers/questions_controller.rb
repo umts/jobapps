@@ -3,12 +3,12 @@ class QuestionsController < ApplicationController
 
   def create
     question = Question.create question_parameters
-    if question.valid?
+    if question
       flash[:message] = 'Question was successfully created.'
-    else
-      flash[:errors] = question.errors.full_messages
+      redirect_to :back
+    else show_errors question
     end
-    redirect_to :back
+
   end
 
   def destroy
@@ -26,10 +26,9 @@ class QuestionsController < ApplicationController
   def update
     if @question.update question_parameters
       flash[:message] = 'Question was successfully updated.'
-    else
-      flash[:errors] = @question.errors.full_messages
+      redirect_to :back
+    else show_errors @question
     end
-    redirect_to :back
   end
 
   private

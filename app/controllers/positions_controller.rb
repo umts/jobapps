@@ -6,7 +6,7 @@ class PositionsController < ApplicationController
     if @position
       flash[:message] = "Position #{@position.name_and_department} successfully created."
       redirect_to root_path
-    else show_errors
+    else show_errors @position
     end
   end
 
@@ -26,7 +26,7 @@ class PositionsController < ApplicationController
     if @position.update position_parameters
       flash[:message] = "#{@position.name_and_department} has been updated."
       redirect_to root_path
-    else show_errors
+    else show_errors @position
     end
   end
 
@@ -41,10 +41,4 @@ class PositionsController < ApplicationController
     params.require(:position).permit :department_id,
                                      :name
   end
-
-  def show_errors
-    flash[:errors] = @position.errors.full_messages
-    redirect_to :back
-  end
-
 end

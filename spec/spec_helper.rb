@@ -20,7 +20,15 @@ RSpec.configure do |config|
   end
 end
 
-#controller helper methods
+#controller spec helper methods
+
+#TODO: write a custom matcher?
+def expect_redirect_to_back path = 'http://text.example.com/redirect',  &block
+  request.env['HTTP_REFERER'] = path
+  yield
+  expect(response).to have_http_status :redirect
+  expect(response).to redirect_to path
+end
 
 def set_current_user_to user
   session[:user_id] = case user
@@ -32,3 +40,5 @@ def set_current_user_to user
     user.id
   end
 end
+
+

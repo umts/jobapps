@@ -7,34 +7,17 @@ class InterviewsController < ApplicationController
       #TODO: some kind of API call to UMTS.org.
       #May not want to implement if we're keeping this generic.
       redirect_to staff_dashboard_path
-    else
-      flash[:errors] = @interview.errors.full_messages
-      redirect_to :back
+    else show_errors @interview
     end
   end
   
-  def create
-    interview = Interview.create interview_parameters
-    if interview
-      interview.application_record.update reviewed: true
-      JobappsMailer.interview_confirmation interview 
-      flash[:message] = 'Interview has been scheduled and application marked as reviewed.'
-      redirect_to root_path
-    else
-      flash[:errors] = interview.errors.full_messages
-      redirect_to :back
-    end
-  end
-
   def reschedule
     params.require :scheduled
     params.require :location
     if @interview.update scheduled: params[:scheduled], location: params[:location]
       flash[:message] = 'Interview has been rescheduled.'
       redirect_to staff_dashboard_path
-    else
-      flash[:errors] = @interview.errors.full_messages
-      redirect_to :back
+    else show_errors @interview
     end
   end
 
@@ -61,5 +44,4 @@ class InterviewsController < ApplicationController
                                       :scheduled,
                                       :user_id
   end
-
 end

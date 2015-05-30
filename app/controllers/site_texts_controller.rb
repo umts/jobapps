@@ -13,10 +13,9 @@ class SiteTextsController < ApplicationController
     site_text = SiteText.find params[:id] 
     if site_text.update site_text_parameters
       flash[:message] = 'Text was successfully updated.'
-    else
-      flash[:errors] = site_text.errors.full_messages
+      redirect_to :back
+    else show_errors site_text
     end
-    redirect_to :back
   end
 
   def request_new

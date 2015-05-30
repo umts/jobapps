@@ -6,7 +6,7 @@ class DepartmentsController < ApplicationController
     if @department
       flash[:message] = "Department #{@department.name} successfully created."
       redirect_to root_path
-    else show_errors
+    else show_errors @department
     end
   end
 
@@ -26,7 +26,7 @@ class DepartmentsController < ApplicationController
     if @department.update department_parameters
       flash[:message] = "#{@department.name} has been updated."
       redirect_to root_path
-    else show_errors
+    else show_errors @department
     end
   end
 
@@ -39,11 +39,6 @@ class DepartmentsController < ApplicationController
 
   def department_parameters
     params.require(:department).permit :name
-  end
-
-  def show_errors
-    flash[:errors] = @department.errors.full_messages
-    redirect_to :back
   end
 
 end
