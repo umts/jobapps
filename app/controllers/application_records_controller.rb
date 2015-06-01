@@ -1,6 +1,6 @@
 class ApplicationRecordsController < ApplicationController
 
-  prepend_before_action :access_control, only: [:create, :show]
+  skip_before_action :access_control, only: [:create, :show]
   before_action :find_record, except: :create
 
   def create

@@ -6,11 +6,12 @@ class ApplicationController < ActionController::Base
   attr_accessor :current_user
   protect_from_forgery with: :exception
   before_action :set_current_user, unless: -> { params[:skip_current_user]}
-  before_action :access_control
+  before_action :access_control #must occur after finding current user
   layout 'application'
 
   private
 
+  #Appended as a before_action in controllers by default
   def access_control
     deny_access if @current_user.student?
   end
