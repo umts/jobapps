@@ -23,7 +23,7 @@ end
 #controller spec helper methods
 
 #TODO: write a custom matcher?
-def expect_redirect_to_back path = 'http://text.example.com/redirect',  &block
+def expect_redirect_to_back path = 'http://test.host/redirect',  &block
   request.env['HTTP_REFERER'] = path
   yield
   expect(response).to have_http_status :redirect
