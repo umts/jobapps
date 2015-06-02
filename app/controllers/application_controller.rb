@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::Base
-  include BeforeRender
   include DateAndTimeMethods
   helper_method DateAndTimeMethods.instance_methods
 
