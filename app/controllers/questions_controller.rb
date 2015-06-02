@@ -2,8 +2,8 @@ class QuestionsController < ApplicationController
   before_action :find_question, except: :create
 
   def create
-    question = Question.create question_parameters
-    if question
+    question = Question.new question_parameters
+    if question.save
       flash[:message] = 'Question was successfully created.'
       redirect_to :back
     else show_errors question
