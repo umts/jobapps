@@ -36,13 +36,8 @@ Rails.application.routes.draw do
 
   resources :sessions, skip_current_user: true, only: [:new] do
     collection do
-      case Rails.env
-      when 'development'
-        get  :dev_login
-        post :dev_login
-      when 'production', 'test'
-        #something something Shibboleth?
-      end
+      get  :dev_login
+      post :dev_login
       delete :destroy
     end
   end
