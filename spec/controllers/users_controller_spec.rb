@@ -118,4 +118,51 @@ describe UsersController do
       end
     end
   end
+
+  describe 'GET #edit' do
+    before :each do
+      @user = create :user
+    end
+    let :submit do
+      get :edit, id: @user.id
+    end
+    context 'student' do
+      it 'does not allow access' do
+        set_current_user_to :student
+        submit
+        expect(response).to have_http_status :unauthorized
+      end
+    end
+    context 'staff' do
+      before :each do
+        set_current_user_to :staff
+      end
+      it 'renders the template' do
+        submit
+        expect(response).to render_template 'edit'
+      end
+    end
+  end
+
+  describe 'GET #new' do
+    let :submit do
+      get :new
+    end
+    context 'student' do
+      it 'does not allow access' do
+        set_current_user_to :student
+        submit
+        expect(response).to have_http_status :unauthorized
+      end
+    end
+    context 'staff' do
+      before :each do
+        set_current_user_to :staff
+      end
+      it 'renders the template' do
+        submit
+        expect(response).to render_template 'new'
+      end
+    end
+  end
 end
