@@ -12,15 +12,15 @@ class DashboardController < ApplicationController
 
   def staff
     @departments = Department.includes :positions
-    @pending_records = ApplicationRecord.pending.by_user_name.group_by &:position
     @pending_interviews = Interview.pending.group_by &:position
+    @pending_records = ApplicationRecord.pending.by_user_name.group_by &:position
     @site_texts = SiteText.order :name
     @staff = User.staff
   end
 
   def student
-    @interviews = @current_user.interviews
     @application_records = @current_user.application_records.pending.group_by &:position
+    @interviews = @current_user.interviews
   end
 
   private

@@ -38,6 +38,7 @@ def set_current_user_to user
     (create :user, staff: false).id
   when User
     user.id
+  else raise ArgumentError, 'Invalid user type'
   end
 end
 

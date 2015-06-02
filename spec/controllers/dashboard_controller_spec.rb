@@ -19,18 +19,50 @@ describe DashboardController do
   end
 
   describe 'GET #staff' do
-    it 'disallows student access' do
-      set_current_user_to :student
+    let :submit do
       get :staff
-      expect(response).to have_http_status :unauthorized
+    end
+    context 'student' do
+      it 'does not allow access' do
+        set_current_user_to :student
+        submit
+        expect(response).to have_http_status :unauthorized
+      end
+    end
+    context 'staff' do
+      before :each do
+        set_current_user_to :staff
+      end
+      it 'assigns the required instance variables' do
+        submit
+        expect(assigns.keys).to include *%w(departments
+                                            pending_interviews
+                                            pending_records
+                                            positions
+                                            site_texts
+                                            staff)
+      end
     end
   end
 
   describe 'GET #student' do
-    it 'allows student access' do
-      set_current_user_to :studennt
+    let :submit do
       get :student
-      expect(response).not_to have_http_status :unauthorized
+    end
+    context 'student' do
+      before :each do
+        set_current_user_to :student
+      end
+      it 'allows access' do
+        submit
+        expect(response).not_to have_http_status :unauthorized
+      end
+      it 'assigns the required instance variables' do
+        submit
+        expect(assigns.keys).to include *%w(application_records
+                                            interviews
+                                            positions)
+      end
     end
   end
 end
