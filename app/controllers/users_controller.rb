@@ -3,10 +3,10 @@ class UsersController < ApplicationController
   before_action :find_user, only: [:destroy, :edit, :update]
 
   def create
-    @user = User.create user_parameters
-    if @user
-      flash[:message] = "#{user.full_name} has been added as a staff member."
-      redirect_to root_path
+    @user = User.new user_parameters
+    if @user.save
+      flash[:message] = "#{@user.full_name} has been added as a staff member."
+      redirect_to staff_dashboard_path
     else show_errors @user
     end
   end
@@ -14,7 +14,7 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     flash[:message] = "#{@user.full_name} has been deleted as a staff member."
-    redirect_to root_path
+    redirect_to staff_dashboard_path
   end
    
   def edit
@@ -26,7 +26,7 @@ class UsersController < ApplicationController
   def update
     if @user.update user_parameters
       flash[:message] = "#{@user.full_name} has been updated."
-      redirect_to root_path
+      redirect_to staff_dashboard_path
     else show_errors @user
     end
   end

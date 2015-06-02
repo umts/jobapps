@@ -26,15 +26,24 @@ describe UsersController do
       context 'errors' do
         before :each do
           #What does this line accomplish?
-          #What is this technique known as?
-          expect(User).to receive(:create).and_return false
+          @user = {first_name: ''}
         end
         it 'shows errors' do
-          #Can't quite look for the flash here, since we're stubbing
-          #out the creation, which means the errors hash isn't created
-          expect_any_instance_of(ApplicationController).
-            to receive(:show_errors)
+          expect_redirect_to_back{submit}
+          expect(flash.keys).to include 'errors'
+        end
+      end
+      context 'no errors' do
+        it 'saves the user' do
+          expect{submit}.to change{User.count}.by 1
+        end
+        it 'displays a flash message' do
           submit
+          expect(flash.keys).to include 'message'
+        end
+        it 'redirects to staff dashboard' do
+          submit
+          expect(response).to redirect_to staff_dashboard_path
         end
       end
     end
