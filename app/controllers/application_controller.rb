@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  include ConfigurableMessages
   include DateAndTimeMethods
   helper_method DateAndTimeMethods.instance_methods
 
