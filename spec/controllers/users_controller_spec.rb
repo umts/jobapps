@@ -3,17 +3,13 @@ require 'rails_helper'
 describe UsersController do
   describe 'POST #create' do
     before :each do
-      #Why is this an instance variable?
       @user = attributes_for :user
     end
-    #What does a let block do?
     let :submit do
       post :create, user: @user
     end
     context 'student' do
-      #What does this test do?
       it 'does not allow access' do
-        #Where does the set_current_user_to method come from?
         set_current_user_to :student
         submit
         expect(response).to have_http_status :unauthorized
@@ -25,7 +21,6 @@ describe UsersController do
       end
       context 'invalid input' do
         before :each do
-          #What does this line accomplish?
           @user = {first_name: ''}
         end
         it 'shows errors' do
