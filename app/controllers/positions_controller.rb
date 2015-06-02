@@ -2,10 +2,10 @@ class PositionsController < ApplicationController
   before_action :find_position, only: [:destroy, :edit, :update]
 
   def create
-    @position = Position.create position_parameters
-    if @position
+    @position = Position.new position_parameters
+    if @position.save
       flash[:message] = "Position #{@position.name_and_department} successfully created."
-      redirect_to root_path
+      redirect_to staff_dashboard_path
     else show_errors @position
     end
   end
@@ -13,7 +13,7 @@ class PositionsController < ApplicationController
   def destroy
     @position.destroy
     flash[:message] = "Position #{@position.name_and_department} deleted."
-    redirect_to root_path
+    redirect_to staff_dashboard_path
   end
 
   def edit
@@ -25,7 +25,7 @@ class PositionsController < ApplicationController
   def update
     if @position.update position_parameters
       flash[:message] = "#{@position.name_and_department} has been updated."
-      redirect_to root_path
+      redirect_to staff_dashboard_path
     else show_errors @position
     end
   end
