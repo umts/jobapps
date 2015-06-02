@@ -2,10 +2,10 @@ class DepartmentsController < ApplicationController
   before_action :find_department, only: [:destroy, :edit, :update]
 
   def create
-    @department = Department.create department_parameters
-    if @department
+    @department = Department.new department_parameters
+    if @department.save
       flash[:message] = "Department #{@department.name} successfully created."
-      redirect_to root_path
+      redirect_to staff_dashboard_path
     else show_errors @department
     end
   end
@@ -13,7 +13,7 @@ class DepartmentsController < ApplicationController
   def destroy
     @department.destroy
     flash[:message] = "Department #{@department.name} and any positions deleted."
-    redirect_to root_path
+    redirect_to staff_dashboard_path
   end
 
   def edit
@@ -25,7 +25,7 @@ class DepartmentsController < ApplicationController
   def update
     if @department.update department_parameters
       flash[:message] = "#{@department.name} has been updated."
-      redirect_to root_path
+      redirect_to staff_dashboard_path
     else show_errors @department
     end
   end
