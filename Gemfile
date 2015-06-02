@@ -61,4 +61,5 @@ group :test do
   gem 'factory_girl_rails'
   gem 'simplecov', '>= 0.9'
   gem 'mocha'
+  gem 'timecop'
 end
