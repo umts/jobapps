@@ -4,7 +4,8 @@ class UsersController < ApplicationController
   def create
     @user = User.new user_parameters
     if @user.save
-      flash[:message] = "#{@user.full_name} has been added as a staff member."
+      show_message :user_create,
+                   default: 'User has been created.'
       redirect_to staff_dashboard_path
     else show_errors @user
     end
@@ -12,7 +13,8 @@ class UsersController < ApplicationController
 
   def destroy
     @user.destroy
-    flash[:message] = "#{@user.full_name} has been deleted as a staff member."
+    show_message :user_destroy,
+                 default: 'User has been removed.'
     redirect_to staff_dashboard_path
   end
 
@@ -24,7 +26,8 @@ class UsersController < ApplicationController
 
   def update
     if @user.update user_parameters
-      flash[:message] = "#{@user.full_name} has been updated."
+      show_message :user_update,
+                   default: 'User has been updated.'
       redirect_to staff_dashboard_path
     else show_errors @user
     end
