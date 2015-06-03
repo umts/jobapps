@@ -3,7 +3,8 @@ class InterviewsController < ApplicationController
 
   def complete
     if @interview.update completed: true
-      flash[:message] = 'Interview marked as completed.'
+      show_message :interview_complete,
+        default: 'Interview marked as completed.'
       #TODO: some kind of API call to UMTS.org.
       #May not want to implement if we're keeping this generic.
       redirect_to staff_dashboard_path
@@ -15,7 +16,8 @@ class InterviewsController < ApplicationController
     params.require :scheduled
     params.require :location
     if @interview.update scheduled: params[:scheduled], location: params[:location]
-      flash[:message] = 'Interview has been rescheduled.'
+      show_message :interview_reschedule,
+        default: 'Interview has been rescheduled.'
       redirect_to staff_dashboard_path
     else show_errors @interview
     end

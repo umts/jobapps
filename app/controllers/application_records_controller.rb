@@ -10,7 +10,7 @@ class ApplicationRecordsController < ApplicationController
                                       responses: params[:responses],
                                       user: @current_user,
                                       reviewed: false)
-    show_message :application_receipt_confirmation,
+    show_message :application_receipt,
        default: 'Your application has been submitted. Thank you!'
     redirect_to student_dashboard_path
   end
@@ -26,8 +26,8 @@ class ApplicationRecordsController < ApplicationController
     else
       staff_note = params.require :staff_note
       @record.update staff_note: staff_note
-      #show_message :application_review_confirmation,
-        #default: 'Application has been marked as reviewed.'
+      show_message :application_review,
+        default: 'Application has been marked as reviewed.'
     end
     @record.update reviewed: true
     redirect_to staff_dashboard_path

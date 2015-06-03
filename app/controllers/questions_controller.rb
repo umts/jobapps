@@ -4,7 +4,8 @@ class QuestionsController < ApplicationController
   def create
     question = Question.new question_parameters
     if question.save
-      flash[:message] = 'Question was successfully created.'
+      show_message :question_create,
+        default: 'Question was successfully updated.'
       redirect_to :back
     else show_errors question
     end
@@ -13,7 +14,8 @@ class QuestionsController < ApplicationController
 
   def destroy
     @question.destroy
-    flash[:message] = 'Question was successfully removed.'
+    show_message :question_destroy,
+      default: 'Question was succesfully removed.'
     redirect_to :back
   end
 
@@ -25,7 +27,8 @@ class QuestionsController < ApplicationController
 
   def update
     if @question.update question_parameters
-      flash[:message] = 'Question was successfully updated.'
+      show_message :question_update,
+        default: 'Question was successfully updated.'
       redirect_to :back
     else show_errors @question
     end

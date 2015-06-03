@@ -5,11 +5,13 @@ module ConfigurableMessages
     klass.extend ConfigurableMessages
   end
 
-  MISSING_MESSAGE_VALUE_ERROR = ->(key){raise ArgumentError,
-    'Message not given in configuration file and default was not specified.'}
-
   def show_message key, options = {}
-    flash[:message] = CONFIG[:messages][key] ||
-      options.fetch(:default, &MISSING_MESSAGE_VALUE_ERROR)
+    configured_value = CONFIG[:messages][key]
+    flash[:message] = if configured_value.present?
+      configured_value
+    elsif options[:default].present?
+      options[:default]
+    else raise ArgumentError, "Message #{key} not configured and default not specified."
+    end
   end
 end
