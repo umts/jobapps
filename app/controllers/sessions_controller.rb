@@ -5,12 +5,12 @@
 class SessionsController < ApplicationController
   # layout without_logout
   layout false
+  skip_before_action :set_current_user, :access_control
 
   def destroy
-    if Rails.env.development?
-      redirect_to dev_login_sessions_path
-    else # production
+    if Rails.env.production?
       # redirect_to '/Shibboleth.sso/Logout?return=https://webauth.oit.umass.edu/Logout'
+    else redirect_to dev_login_sessions_path
     end
     session.clear
   end
@@ -31,9 +31,10 @@ class SessionsController < ApplicationController
   end
 
   def new
-    if Rails.env.development?
-      redirect_to action: 'dev_login'
-    else # production
+    if Rails.env.production?
+      # TODO: decide on this behavior
+    else
+      redirect_to dev_login_sessions_path
     end
   end
 

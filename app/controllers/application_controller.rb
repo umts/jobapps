@@ -5,9 +5,9 @@ class ApplicationController < ActionController::Base
 
   attr_accessor :current_user
   protect_from_forgery with: :exception
-  before_action :set_current_user, unless: -> { params[:skip_current_user] }
+  before_action :set_current_user
   # access control must occur after finding current user
-  before_action :access_control, unless: -> { params[:skip_current_user] }
+  before_action :access_control
   layout 'application'
 
   private

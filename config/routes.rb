@@ -34,7 +34,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :sessions, skip_current_user: true, only: [:new] do
+  resources :sessions, only: [:new] do
     collection do
       get  :dev_login
       post :dev_login
