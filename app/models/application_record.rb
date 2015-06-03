@@ -12,10 +12,10 @@ class ApplicationRecord < ActiveRecord::Base
             presence: true
   validates :reviewed, inclusion: { in: [true, false] }
 
-  scope :pending,      -> { where reviewed: false }
+  scope :pending, -> { where reviewed: false }
 
   def self.by_user_name
-    joins(:user).order('users.last_name, users.first_name')
+    joins(:user).order 'users.last_name, users.first_name'
   end
 
   def pending?

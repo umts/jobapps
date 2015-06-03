@@ -15,6 +15,15 @@ describe Interview do
       expect(@interview.calendar_title).to include interviewee.last_name
     end
   end
+
+  describe 'create hooks' do
+    it 'sends confirmation on creation' do
+      expect(JobappsMailer)
+        .to receive :interview_confirmation
+      create :interview
+    end
+  end
+
   describe 'information' do
     before :each do
       @interview = create :interview
@@ -32,6 +41,7 @@ describe Interview do
       expect(@interview.information).to include user.last_name
     end
   end
+
   describe 'pending?' do
     it 'returns true if interview has not been completed' do
       interview = create :interview, completed: false
