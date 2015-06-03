@@ -3,18 +3,18 @@ require 'rails_helper'
 describe QuestionsController do
   describe 'POST #create' do
     before :each do
-      @question = attributes_with_foreign_keys_for :question 
+      @question = attributes_with_foreign_keys_for :question
       @path = 'http://test.host/redirect'
     end
     let :submit do
       request.env['HTTP_REFERER'] = @path
-      post :create, question: @question 
+      post :create, question: @question
     end
     context 'student' do
       it 'does not allow access' do
         when_current_user_is :student
         submit
-        expect(response).to have_http_status :unauthorized 
+        expect(response).to have_http_status :unauthorized
       end
     end
     context 'staff' do
@@ -23,26 +23,28 @@ describe QuestionsController do
       end
       context 'invalid input' do
         before :each do
-          @question = {number: ''}  
+          @question = { number: '' }
         end
         it 'displays errors' do
           submit
           expect(flash.keys).to include 'errors'
         end
         it 'redirects back' do
-          expect_redirect_to_back(@path){submit}
+          expect_redirect_to_back(@path) { submit }
         end
       end
       context 'valid input' do
         it 'creates a question as specified' do
-          expect{submit}.to change{Question.count}.by 1
+          expect { submit }
+            .to change { Question.count }
+            .by 1
         end
         it 'displays a message' do
           submit
-          expect(flash.keys).to include 'message' 
+          expect(flash.keys).to include 'message'
         end
         it 'redirects back' do
-          expect_redirect_to_back(@path){submit}
+          expect_redirect_to_back(@path) { submit }
         end
       end
     end
