@@ -7,7 +7,7 @@ describe Interview do
       @interview = create :interview, location: 'Anywhere'
     end
     it 'is titleized (starts with a capital letter)' do
-      expect(@interview.calendar_title).to match /^[[:upper:]]/
+      expect(@interview.calendar_title).to match(/^[[:upper:]]/)
     end
     it 'includes the name of interviewee' do
       interviewee = @interview.user
@@ -20,7 +20,8 @@ describe Interview do
       @interview = create :interview
     end
     it 'includes the formatted date and time' do
-      expect(@interview.information).to include format_date_time(@interview.scheduled)
+      expect(@interview.information)
+        .to include format_date_time(@interview.scheduled)
     end
     it 'includes the location' do
       expect(@interview.information).to include @interview.location

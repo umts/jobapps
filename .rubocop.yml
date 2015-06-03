@@ -5,5 +5,14 @@ AllCops:
     - 'config/**/*'
     - 'db/**/*'
 
+# Don't prefer fail to raise.
 Style/SignalException:
+  Enabled: false
+
+# Don't enforce parentheses for method arguments.
+Style/MethodDefParentheses:
+  Enabled: false
+
+# Don't tell me to use DateTime.zone.now.
+Rails/TimeZone:
   Enabled: false

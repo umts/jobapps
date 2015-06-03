@@ -3,21 +3,21 @@ require 'rails_helper'
 describe QuestionsController do
   describe 'POST #create' do
     before :each do
-      #establish parameters
+      # establish parameters
     end
     let :submit do
-      #submit request to controller action
+      # submit request to controller action
     end
     context 'student' do
       it 'does not allow access'
     end
     context 'staff' do
       before :each do
-        #establish staff current user
+        # establish staff current user
       end
       context 'invalid input' do
         before :each do
-          #establish invalid controller input
+          # establish invalid controller input
         end
         it 'displays errors'
         it 'redirects back'
@@ -32,17 +32,17 @@ describe QuestionsController do
 
   describe 'DELETE #destroy' do
     before :each do
-      #establish parameters
+      # establish parameters
     end
     let :submit do
-      #submit request to controller action
+      # submit request to controller action
     end
     context 'student' do
       it 'does not allow access'
     end
     context 'staff' do
       before :each do
-        #establish staff current user
+        # establish staff current user
       end
       it 'destroys the question'
       it 'displays a flash message'
@@ -59,33 +59,35 @@ describe QuestionsController do
     end
     context 'student' do
       it 'does not allow access' do
-        set_current_user_to :student
+        when_current_user_is :student
         submit
         expect(response).to have_http_status :unauthorized
       end
     end
     context 'staff' do
       before :each do
-        set_current_user_to :staff
+        when_current_user_is :staff
       end
       context 'moving up' do
         before :each do
           @direction = 'up'
         end
-        #expect the controller to call #move on the question with :up as an argument
+        # expect the controller to call #move on the question
+        # with :up as an argument
         it 'calls #move with :up'
         it 'redirects back' do
-          expect_redirect_to_back{submit}
+          expect_redirect_to_back { submit }
         end
       end
       context 'moving down' do
         before :each do
           @direction = 'down'
         end
-        #expect the controller to call #move on the question with :up as an argument
+        # expect the controller to call #move on the question
+        # with :down as an argument
         it 'calls #move with :down'
         it 'redirects back' do
-          expect_redirect_to_back{submit}
+          expect_redirect_to_back { submit }
         end
       end
     end
@@ -93,17 +95,17 @@ describe QuestionsController do
 
   describe 'PUT #update' do
     before :each do
-      #establish parameters
+      # establish parameters
     end
     let :submit do
-      #submit request to controller action
+      # submit request to controller action
     end
     context 'student' do
       it 'does not allow access'
     end
     context 'staff' do
       before :each do
-        #establish staff current user
+        # establish staff current user
       end
       context 'invalid input' do
         it 'shows errors'
