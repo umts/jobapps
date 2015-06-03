@@ -4,6 +4,7 @@ AllCops:
     - 'bin/**/*'
     - 'config/**/*'
     - 'db/**/*'
+    - 'vendor/**/*'
 
 # Don't prefer fail to raise.
 Style/SignalException:
