@@ -35,13 +35,4 @@ class InterviewsController < ApplicationController
     params.require :id
     @interview = Interview.find params[:id]
   end
-
-  def interview_parameters
-    params.require(:interview).permit :application_record_id,
-                                      :completed,
-                                      :hired,
-                                      :location,
-                                      :scheduled,
-                                      :user_id
-  end
 end
