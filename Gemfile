@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+#Rubocop for extra yelling-at-us-ness
+gem 'rubocop', require: false
 #I like HAML
 gem 'haml'
 # Snappconfig for configuration storage
