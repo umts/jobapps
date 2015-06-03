@@ -15,6 +15,8 @@ class SessionsController < ApplicationController
     session.clear
   end
 
+  # '... and return' is correct behavior here, disable rubocop warning
+  # rubocop:disable Style/AndOr
   def dev_login
     if Rails.env.production?
       redirect_to new_session_path and return
@@ -29,6 +31,8 @@ class SessionsController < ApplicationController
       end
     end
   end
+  # '... and return' is correct behavior here, disable rubocop warning
+  # rubocop:enable Style/AndOr
 
   def new
     if Rails.env.production?
@@ -45,3 +49,4 @@ class SessionsController < ApplicationController
     @user = User.where(id: params[:user_id]).first
   end
 end
+# rubocop:enable Style/EmptyElse, Style/GuardClause

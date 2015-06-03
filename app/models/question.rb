@@ -66,4 +66,5 @@ class Question < ActiveRecord::Base
       raise ActiveRecord::Rollback unless self.valid?
     end
   end
+  # rubocop:enable Style/RedundantSelf
 end

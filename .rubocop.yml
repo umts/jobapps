@@ -24,10 +24,6 @@ Style/Documentation:
 
 # Relax complexity testing to codeclimate standards (roughly).
 Metrics/AbcSize:
-  Max: 25
+  Max: 20
 Metrics/MethodLength:
-  Max: 25
-
-# Don't complain about && vs 'and', etc, particular for '... and return'.
-Style/AndOr:
-  Enabled: false
+  Max: 20

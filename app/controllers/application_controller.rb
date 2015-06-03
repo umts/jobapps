@@ -17,6 +17,8 @@ class ApplicationController < ActionController::Base
     deny_access if @current_user.student?
   end
 
+  # '... and return' is the correct behavior here, disable rubocop warning
+  # rubocop:disable Style/AndOr
   def deny_access
     if request.xhr?
       render nothing: true, status: :unauthorized and return
@@ -26,6 +28,7 @@ class ApplicationController < ActionController::Base
              layout: false and return
     end
   end
+  # rubocop:enable Style/AndOr
 
   def set_current_user
     if session[:user_id].present?
@@ -35,8 +38,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # '... and return' is the correct behavior here, disable rubocop warning
+  # rubocop:disable Style/AndOr
   def show_errors object
     flash[:errors] = object.errors.full_messages
     redirect_to :back and return
   end
+  # rubocop:enable Style/AndOr
 end
