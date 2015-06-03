@@ -2,7 +2,7 @@ require 'codeclimate-test-reporter'
 require 'factory_girl_rails'
 require 'simplecov'
 
-CodeClimate::TestReporter.start
+CodeClimate::TestReporter.start if ENV['CI']
 SimpleCov.start 'rails'
 SimpleCov.start do
   add_filter '/config/'
