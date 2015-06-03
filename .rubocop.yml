@@ -4,3 +4,6 @@ AllCops:
     - 'bin/**/*'
     - 'config/**/*'
     - 'db/**/*'
+
+Style/SignalException:
+  Enabled: false
