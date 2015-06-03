@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-
   before_action :find_user, only: [:destroy, :edit, :update]
 
   def create
@@ -16,7 +15,7 @@ class UsersController < ApplicationController
     flash[:message] = "#{@user.full_name} has been deleted as a staff member."
     redirect_to staff_dashboard_path
   end
-   
+
   def edit
   end
 
@@ -45,5 +44,4 @@ class UsersController < ApplicationController
                                  :spire,
                                  :staff
   end
-
 end

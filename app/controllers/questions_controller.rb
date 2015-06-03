@@ -5,17 +5,16 @@ class QuestionsController < ApplicationController
     question = Question.new question_parameters
     if question.save
       show_message :question_create,
-        default: 'Question was successfully updated.'
+                   default: 'Question was successfully updated.'
       redirect_to :back
     else show_errors question
     end
-
   end
 
   def destroy
     @question.destroy
     show_message :question_destroy,
-      default: 'Question was succesfully removed.'
+                 default: 'Question was succesfully removed.'
     redirect_to :back
   end
 
@@ -28,7 +27,7 @@ class QuestionsController < ApplicationController
   def update
     if @question.update question_parameters
       show_message :question_update,
-        default: 'Question was successfully updated.'
+                   default: 'Question was successfully updated.'
       redirect_to :back
     else show_errors @question
     end
@@ -49,5 +48,4 @@ class QuestionsController < ApplicationController
                                      :prompt,
                                      :required
   end
-
 end

@@ -1,8 +1,7 @@
 class ApplicationTemplatesController < ApplicationController
-
   skip_before_action :access_control, only: :show
   before_action :find_template, except: :new
-  
+
   def new
     params.require :position_id
     template = ApplicationTemplate.create position_id: params[:position_id]
@@ -21,5 +20,4 @@ class ApplicationTemplatesController < ApplicationController
     params.require :id
     @template = ApplicationTemplate.find params[:id]
   end
-
 end

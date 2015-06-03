@@ -1,29 +1,30 @@
 class SiteTextsController < ApplicationController
   before_action :find_site_text, except: :request_new
 
-  #Accepts GET and POST - the latter shows a preview
+  # Accepts GET and POST - the latter shows a preview
   def edit
-    params.permit  :preview_input
+    params.permit :preview_input
     @preview_input = params[:preview_input]
   end
-  
+
   def update
     if @site_text.update site_text_parameters
       show_message :site_text_update_confirmation,
-        default: 'Text was successfully updated.'
+                   default: 'Text was successfully updated.'
       redirect_to staff_dashboard_path
     else show_errors @site_text
     end
   end
 
   def request_new
-    if request.post? #if get, renders default view
+    if request.post?
       params.require :location
       params.require :description
-      #TODO: email IT
+      # TODO: email IT
       show_message :site_text_request_confirmation,
-        default: 'Your request has been sent. Thank you!'
+                   default: 'Your request has been sent. Thank you!'
       redirect_to staff_dashboard_path
+    else render 'request_new'
     end
   end
 

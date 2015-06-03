@@ -4,7 +4,7 @@ class PositionsController < ApplicationController
   def create
     @position = Position.new position_parameters
     if @position.save
-      flash[:message] = "Position #{@position.name_and_department} successfully created."
+      flash[:message] = "Position #{@position.name_and_department} created."
       redirect_to staff_dashboard_path
     else show_errors @position
     end

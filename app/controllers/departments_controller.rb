@@ -12,7 +12,7 @@ class DepartmentsController < ApplicationController
 
   def destroy
     @department.destroy
-    flash[:message] = "Department #{@department.name} and any positions deleted."
+    flash[:message] = "Department #{@department.name} and positions deleted."
     redirect_to staff_dashboard_path
   end
 
@@ -40,5 +40,4 @@ class DepartmentsController < ApplicationController
   def department_parameters
     params.require(:department).permit :name
   end
-
 end
