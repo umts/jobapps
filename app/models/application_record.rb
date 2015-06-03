@@ -2,7 +2,7 @@ class ApplicationRecord < ActiveRecord::Base
   belongs_to :user
   belongs_to :position
   delegate :department, to: :position
-  has_one    :interview
+  has_one :interview
 
   serialize :responses, Hash
 
@@ -10,13 +10,15 @@ class ApplicationRecord < ActiveRecord::Base
             :responses,
             :user,
             presence: true
-  validates :reviewed, inclusion: {in: [true, false]}
+  validates :reviewed, inclusion: { in: [true, false] }
 
-  scope :pending,      ->{where reviewed: false}
-  scope :by_user_name, ->{joins(:user).order('users.last_name, users.first_name')}
+  scope :pending,      -> { where reviewed: false }
+
+  def self.by_user_name
+    joins(:user).order('users.last_name, users.first_name')
+  end
 
   def pending?
     !reviewed
   end
-
 end

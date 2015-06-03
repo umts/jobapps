@@ -16,3 +16,14 @@ Style/MethodDefParentheses:
 # Don't enforce DateTime.zone.now.
 Rails/TimeZone:
   Enabled: false
+
+# Don't worry about documentation for now.
+Style/Documentation:
+  Enabled: false
+
+# Relax complexity testing to codeclimate standards (roughly).
+Metrics/AbcSize:
+  Max: 20
+Metrics/MethodLength:
+  Max: 20
+
