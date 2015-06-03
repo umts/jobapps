@@ -42,6 +42,7 @@ class Question < ActiveRecord::Base
   # Within a particular application template, moves a question up or down.
   # Accepts the symbol :up or the symbol :down as arguments.
 
+  # Using self to be explicit, so disable rubocop warning.
   # rubocop:disable Style/RedundantSelf
   def move direction
     case direction

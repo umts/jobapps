@@ -15,8 +15,6 @@ class SessionsController < ApplicationController
     session.clear
   end
 
-  # This has already been flagged on codeclimate.
-  # rubocop:disable Metrics/AbcSize
   def dev_login
     if Rails.env.production?
       redirect_to new_session_path and return
@@ -25,9 +23,8 @@ class SessionsController < ApplicationController
         @staff    = User.staff.limit 5
         @students = User.students.limit 5
       elsif request.post?
-        params.require :user_id
-        user = User.where(id: params[:user_id]).first
-        session[:user_id] = user.id
+        find_user
+        session[:user_id] = @user.id
         redirect_to main_dashboard_path
       end
     end
@@ -38,5 +35,12 @@ class SessionsController < ApplicationController
       redirect_to action: 'dev_login'
     else # production
     end
+  end
+
+  private
+
+  def find_user
+    params.require :user_id
+    @user = User.where(id: params[:user_id]).first
   end
 end
