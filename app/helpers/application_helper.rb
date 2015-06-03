@@ -1,5 +1,4 @@
 module ApplicationHelper
-
   def render_markdown text
     renderer = Redcarpet::Render::HTML
     markdown = Redcarpet::Markdown.new renderer
