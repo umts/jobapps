@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :question do
-    association :application_template
+    application_template
     data_type   'text'
     sequence    :number
     prompt      'Question prompt'

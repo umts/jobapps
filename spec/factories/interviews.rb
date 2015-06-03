@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :interview do
-    association :application_record
-    association :user
+    application_record
+    user
     completed false
     hired false
     location 'Location'
