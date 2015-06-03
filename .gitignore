@@ -15,6 +15,9 @@
 /log/*.log
 /tmp
 
+#No secrets
+/config/secrets.yml
+
 .DS_Store
 
 # Ignore application configuration
