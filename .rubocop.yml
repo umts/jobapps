@@ -13,6 +13,6 @@ Style/SignalException:
 Style/MethodDefParentheses:
   Enabled: false
 
-# Don't tell me to use DateTime.zone.now.
+# Don't enforce DateTime.zone.now.
 Rails/TimeZone:
   Enabled: false
