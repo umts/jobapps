@@ -45,11 +45,11 @@ end
 # 2. a specific instance of User.
 def when_current_user_is user
   session[:user_id] =
-  case user
-  when Symbol
-    (create :user, user).id
-  when User
-    user.id
-  else raise ArgumentError, 'Invalid user type'
-  end
+    case user
+    when Symbol
+      (create :user, user).id
+    when User
+      user.id
+    else raise ArgumentError, 'Invalid user type'
+    end
 end

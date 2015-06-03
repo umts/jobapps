@@ -5,7 +5,7 @@
 class SessionsController < ApplicationController
   # layout without_logout
   layout false
-  skip_before_action :set_current_user, :access_control
+  skip_before_action :require_current_user, :access_control
 
   def destroy
     if Rails.env.production?

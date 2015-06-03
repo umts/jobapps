@@ -9,17 +9,13 @@ Rails.application.routes.draw do
     end
   end
 
-  resource :dashboard, controller: :dashboard do
-    collection do
-      get  :main
-      get  :staff
-      get  :student
-    end
-  end
+  get '/dashboard/main',    to: 'dashboard#main',    as: :main_dashboard
+  get '/dashboard/staff',   to: 'dashboard#staff',   as: :staff_dashboard
+  get '/dashboard/student', to: 'dashboard#student', as: :student_dashboard
 
   resources :departments, except: [:index, :show]
 
-  resources :interviews, only: [:create, :show] do
+  resources :interviews, only: :show do
     member do
       post :complete
       post :reschedule

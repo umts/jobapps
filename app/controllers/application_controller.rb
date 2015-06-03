@@ -1,11 +1,10 @@
 class ApplicationController < ActionController::Base
   include ConfigurableMessages
   include DateAndTimeMethods
-  helper_method DateAndTimeMethods.instance_methods
 
   attr_accessor :current_user
   protect_from_forgery with: :exception
-  before_action :set_current_user
+  before_action :require_current_user
   # access control must occur after finding current user
   before_action :access_control
   layout 'application'
@@ -30,7 +29,7 @@ class ApplicationController < ActionController::Base
   end
   # rubocop:enable Style/AndOr
 
-  def set_current_user
+  def require_current_user
     if session[:user_id].present?
       @current_user = User.find session[:user_id]
     else

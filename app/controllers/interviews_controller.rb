@@ -1,5 +1,5 @@
 class InterviewsController < ApplicationController
-  before_action :find, except: :create
+  before_action :find
 
   def complete
     if @interview.update completed: true
