@@ -40,13 +40,14 @@ def expect_redirect_to_back path = 'http://test.host/redirect',  &block
   expect(response).to redirect_to path
 end
 
+# Sets current user based on two acceptable values:
+# 1. a symbol name of a user factory trait;
+# 2. a specific instance of User.
 def when_current_user_is user
   session[:user_id] =
   case user
-  when :staff
-    (create :user, staff: true).id
-  when :student
-    (create :user, staff: false).id
+  when Symbol
+    (create :user, user).id
   when User
     user.id
   else raise ArgumentError, 'Invalid user type'

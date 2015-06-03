@@ -5,5 +5,12 @@ FactoryGirl.define do
     last_name  'LastName'
     staff      false
     sequence(:spire) { |n| n.to_s.rjust 8, '0' }
+
+    trait :staff do
+      staff true
+    end
+    trait :student do
+      staff false
+    end
   end
 end
