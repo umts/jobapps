@@ -6,3 +6,4 @@ env:
 before_script: mysql -e 'create database jobapps_test'
 script:
   - bundle exec rake rubocop
+  - bundle exec rspec spec
