@@ -57,6 +57,7 @@ group :development, :test do
 end
 
 group :test do
+  gem 'codeclimate-test-reporter', require: false
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'simplecov', '>= 0.9'
