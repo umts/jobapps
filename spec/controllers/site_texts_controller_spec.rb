@@ -11,14 +11,14 @@ describe SiteTextsController do
       end
       context 'student' do
         it 'does not allow access' do
-          set_current_user_to :student
+          when_current_user_is :student
           submit
           expect(response).to have_http_status :unauthorized
         end
       end
       context 'staff' do
         before :each do
-          set_current_user_to :staff
+          when_current_user_is :staff
         end
         it 'renders the correct template' do
           submit
@@ -36,16 +36,16 @@ describe SiteTextsController do
       end
       context 'student' do
         it 'does not allow access' do
-          set_current_user_to :student
+          when_current_user_is :student
           submit
           expect(response).to have_http_status :unauthorized
         end
       end
       context 'staff' do
         before :each do
-          set_current_user_to :staff
+          when_current_user_is :staff
         end
-        it 'passes the preview input parameter through as an instance variable' do
+        it 'passes preview input parameter through as an instance variable' do
           submit
           expect(assigns[:preview_input]).to eql @input
         end
@@ -56,28 +56,28 @@ describe SiteTextsController do
   describe 'PUT #update' do
     before :each do
       @site_text = create :site_text
-      @changes = {text: 'new text'}
+      @changes = { text: 'new text' }
     end
     let :submit do
       put :update, id: @site_text.id, site_text: @changes
     end
     context 'student' do
       it 'does not allow access' do
-        set_current_user_to :student
+        when_current_user_is :student
         submit
         expect(response).to have_http_status :unauthorized
       end
     end
     context 'staff' do
       before :each do
-        set_current_user_to :staff
+        when_current_user_is :staff
       end
       context 'invalid input' do
         before :each do
-          @changes = {text: ''}
+          @changes = { text: '' }
         end
         it 'redirects back with errors' do
-          expect_redirect_to_back{submit}
+          expect_redirect_to_back { submit }
           expect(flash.keys).to include 'errors'
         end
       end
@@ -104,14 +104,14 @@ describe SiteTextsController do
     end
     context 'student' do
       it 'does not allow access' do
-        set_current_user_to :student
+        when_current_user_is :student
         submit
         expect(response).to have_http_status :unauthorized
       end
     end
     context 'staff' do
       before :each do
-        set_current_user_to :staff
+        when_current_user_is :staff
       end
       it 'renders the correct template' do
         submit
@@ -130,16 +130,16 @@ describe SiteTextsController do
     end
     context 'student' do
       it 'does not allow access' do
-        set_current_user_to :student
+        when_current_user_is :student
         submit
         expect(response).to have_http_status :unauthorized
       end
     end
     context 'staff' do
       before :each do
-        set_current_user_to :staff
+        when_current_user_is :staff
       end
-      #TODO: Implement mailer method and mock here
+      # TODO: Implement mailer method and mock here
       it 'sends IT an email'
       it 'includes a flash message' do
         submit

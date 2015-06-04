@@ -4,3 +4,6 @@ rvm:
 env:
   - CODECLIMATE_REPO_TOKEN=d69084d39be74e8dafe9a689102b19130a21abe963dce8aa6146078098c9b242
 before_script: mysql -e 'create database jobapps_test'
+script:
+  - bundle exec rake rubocop
+  - bundle exec rspec spec

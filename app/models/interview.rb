@@ -9,7 +9,7 @@ class Interview < ActiveRecord::Base
 
   validates :completed,
             :hired,
-            inclusion: {in: [true, false], message: 'must be true or false'}
+            inclusion: { in: [true, false], message: 'must be true or false' }
   validates :application_record,
             :location,
             :scheduled,
@@ -18,9 +18,9 @@ class Interview < ActiveRecord::Base
 
   after_create :send_confirmation
 
-  default_scope {order :scheduled}
-  scope :pending, ->{where completed: false}
-  
+  default_scope { order :scheduled }
+  scope :pending, -> { where completed: false }
+
   def calendar_title
     "Interview with #{user.full_name}"
   end

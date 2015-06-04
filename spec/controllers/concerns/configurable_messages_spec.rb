@@ -4,9 +4,9 @@ include ConfigurableMessages
 describe ConfigurableMessages do
   describe 'show_message' do
     before :each do
-      #Replace actual config with these messages
-      messages = {present_message: 'present value'}
-      #Stub it out to return these messages
+      # Replace actual config with these messages
+      messages = { present_message: 'present value' }
+      # Stub it out to return these messages
       expect(CONFIG).to receive(:[]).with(:messages).and_return messages
     end
     context 'message present in configuration,' do
@@ -24,7 +24,8 @@ describe ConfigurableMessages do
       end
       context 'default not specified,' do
         it 'raises an ArgumentError' do
-          expect{show_message :missing_message}.to raise_error(ArgumentError)
+          expect { show_message :missing_message }
+            .to raise_error(ArgumentError)
         end
       end
     end

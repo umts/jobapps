@@ -10,27 +10,29 @@ describe UsersController do
     end
     context 'student' do
       it 'does not allow access' do
-        set_current_user_to :student
+        when_current_user_is :student
         submit
         expect(response).to have_http_status :unauthorized
       end
     end
     context 'staff' do
       before :each do
-        set_current_user_to :staff
+        when_current_user_is :staff
       end
       context 'invalid input' do
         before :each do
-          @user = {first_name: ''}
+          @user = { first_name: '' }
         end
         it 'shows errors' do
-          expect_redirect_to_back{submit}
+          expect_redirect_to_back { submit }
           expect(flash.keys).to include 'errors'
         end
       end
       context 'valid input' do
         it 'saves the user' do
-          expect{submit}.to change{User.count}.by 1
+          expect { submit }
+            .to change { User.count }
+            .by 1
         end
         it 'displays a flash message' do
           submit
@@ -46,33 +48,35 @@ describe UsersController do
 
   describe 'DELETE #destroy' do
     before :each do
-      @user = create :user 
+      @user = create :user
     end
     let :submit do
       delete :destroy, id: @user.id
     end
     context 'student' do
       it 'does not allow access' do
-        set_current_user_to :student
+        when_current_user_is :student
         submit
         expect(response).to have_http_status :unauthorized
       end
     end
     context 'staff' do
-     before :each do
-       set_current_user_to :staff 
-     end
-     it 'destroys the user' do
-       expect{submit}.to change{User.count}.by -1
-     end
-     it 'flashes a confirmation message' do
-       submit
-       expect(flash.keys).to include 'message'
-     end
-     it 'redirects to staff dashboard' do
-       submit
-       expect(response).to redirect_to staff_dashboard_path
-     end
+      before :each do
+        when_current_user_is :staff
+      end
+      it 'destroys the user' do
+        expect { submit }
+          .to change { User.count }
+          .by(-1)
+      end
+      it 'flashes a confirmation message' do
+        submit
+        expect(flash.keys).to include 'message'
+      end
+      it 'redirects to staff dashboard' do
+        submit
+        expect(response).to redirect_to staff_dashboard_path
+      end
     end
   end
 
@@ -85,14 +89,14 @@ describe UsersController do
     end
     context 'student' do
       it 'does not allow access' do
-        set_current_user_to :student
+        when_current_user_is :student
         submit
         expect(response).to have_http_status :unauthorized
       end
     end
     context 'staff' do
       before :each do
-        set_current_user_to :staff
+        when_current_user_is :staff
       end
       it 'renders the template' do
         submit
@@ -107,14 +111,14 @@ describe UsersController do
     end
     context 'student' do
       it 'does not allow access' do
-        set_current_user_to :student
+        when_current_user_is :student
         submit
         expect(response).to have_http_status :unauthorized
       end
     end
     context 'staff' do
       before :each do
-        set_current_user_to :staff
+        when_current_user_is :staff
       end
       it 'renders the template' do
         submit
@@ -126,21 +130,21 @@ describe UsersController do
   describe 'PUT #update' do
     before :each do
       @user = create :user
-      @changes = {first_name: 'Glenn'}
+      @changes = { first_name: 'Glenn' }
     end
     let :submit do
-      put :update, {id: @user.id, user: @changes}
+      put :update, id: @user.id, user: @changes
     end
     context 'student' do
       it 'does not allow access' do
-        set_current_user_to :student
+        when_current_user_is :student
         submit
         expect(response).to have_http_status :unauthorized
       end
     end
     context 'staff' do
       before :each do
-        set_current_user_to :staff
+        when_current_user_is :staff
       end
       it 'updates the user' do
         submit
@@ -156,10 +160,10 @@ describe UsersController do
       end
       context 'invalid input' do
         before :each do
-          @changes = {first_name: ''}
+          @changes = { first_name: '' }
         end
         it 'flashes an error message' do
-          expect_redirect_to_back{submit}
+          expect_redirect_to_back { submit }
           expect(flash.keys).to include 'errors'
         end
       end

@@ -10,14 +10,14 @@ describe InterviewsController do
     end
     context 'student' do
       it 'does not allow access' do
-        set_current_user_to :student
+        when_current_user_is :student
         submit
         expect(response).to have_http_status :unauthorized
       end
     end
     context 'staff' do
       before :each do
-        set_current_user_to :staff
+        when_current_user_is :staff
       end
       it 'marks interview as complete' do
         submit
@@ -25,13 +25,13 @@ describe InterviewsController do
       end
       context 'with errors' do
         it 'redirects with errors stored in flash' do
-          #TODO: would it be better to double this specific object?
-          expect_any_instance_of(Interview).
-            to receive(:update).
-            and_return(false)
-          expect_redirect_to_back {submit}
-          #to have_key won't work here,
-          #ActionDispatch::Flash::FlashHash doesn't respond to has_key?
+          # TODO: would it be better to double this specific object?
+          expect_any_instance_of(Interview)
+            .to receive(:update)
+            .and_return(false)
+          expect_redirect_to_back { submit }
+          # to have_key won't work here,
+          # ActionDispatch::Flash::FlashHash doesn't respond to has_key?
           expect(flash.keys).to include 'errors'
         end
       end
@@ -52,25 +52,26 @@ describe InterviewsController do
     before :each do
       @interview = create :interview
       @location = 'New location'
-      #beginning_of_day to eliminate failures based on the seconds not matching up
+      # beginning_of_day to eliminate failures
+      # based on the seconds not matching up
       @scheduled = 1.day.since.beginning_of_day
     end
     let :submit do
       post :reschedule,
-        id: @interview.id,
-        location: @location,
-        scheduled: @scheduled.strftime('%Y/%m/%d %H:%M')
+           id: @interview.id,
+           location: @location,
+           scheduled: @scheduled.strftime('%Y/%m/%d %H:%M')
     end
     context 'student' do
       it 'does not allow access' do
-        set_current_user_to :student
+        when_current_user_is :student
         submit
         expect(response).to have_http_status :unauthorized
       end
     end
     context 'staff' do
       before :each do
-        set_current_user_to :staff
+        when_current_user_is :staff
       end
       it 'updates interview as specified' do
         submit
@@ -88,13 +89,13 @@ describe InterviewsController do
       end
       context 'with errors' do
         it 'redirects with errors stored in flash' do
-          #TODO: would it be better to double this specific object?
-          expect_any_instance_of(Interview).
-            to receive(:update).
-            and_return(false)
-          expect_redirect_to_back {submit}
-          #to have_key won't work here,
-          #ActionDispatch::Flash::FlashHash doesn't respond to has_key?
+          # TODO: would it be better to double this specific object?
+          expect_any_instance_of(Interview)
+            .to receive(:update)
+            .and_return(false)
+          expect_redirect_to_back { submit }
+          # to have_key won't work here,
+          # ActionDispatch::Flash::FlashHash doesn't respond to has_key?
           expect(flash.keys).to include 'errors'
         end
       end
@@ -110,19 +111,18 @@ describe InterviewsController do
     end
     context 'student' do
       it 'does not allow access' do
-        set_current_user_to :student
+        when_current_user_is :student
         submit
         expect(response).to have_http_status :unauthorized
       end
     end
     context 'staff' do
       before :each do
-        set_current_user_to :staff
+        when_current_user_is :staff
       end
       it 'does not respond to HTML if so requested' do
-        expect{
-          get :show, id: @interview.id, format: :html
-        }.to raise_error ActionController::UnknownFormat
+        expect { get :show, id: @interview.id, format: :html }
+          .to raise_error ActionController::UnknownFormat
       end
       it 'renders an ICS file if so requested' do
         submit

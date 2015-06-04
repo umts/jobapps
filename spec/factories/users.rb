@@ -1,9 +1,16 @@
 FactoryGirl.define do
   factory :user do
-    email 'person@example.com'
+    email      'person@example.com'
     first_name 'FirstName'
     last_name  'LastName'
     staff      false
-    sequence(:spire){|n| n.to_s.rjust 8, '0'}
+    sequence(:spire) { |n| n.to_s.rjust 8, '0' }
+
+    trait :staff do
+      staff true
+    end
+    trait :student do
+      staff false
+    end
   end
 end

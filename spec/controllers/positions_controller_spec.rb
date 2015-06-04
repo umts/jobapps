@@ -10,27 +10,29 @@ describe PositionsController do
     end
     context 'student' do
       it 'does not allow access' do
-        set_current_user_to :student
+        when_current_user_is :student
         submit
         expect(response).to have_http_status :unauthorized
       end
     end
     context 'staff' do
       before :each do
-        set_current_user_to :staff
+        when_current_user_is :staff
       end
       context 'invalid input' do
         before :each do
-          @position = {name: ''}
+          @position = { name: '' }
         end
         it 'shows errors' do
-          expect_redirect_to_back{submit}
+          expect_redirect_to_back { submit }
           expect(flash.keys).to include 'errors'
         end
       end
       context 'valid input' do
         it 'saves the position' do
-          expect{submit}.to change{Position.count}.by 1
+          expect { submit }
+            .to change { Position.count }
+            .by 1
         end
         it 'displays a flash message' do
           submit
@@ -46,33 +48,35 @@ describe PositionsController do
 
   describe 'DELETE #destroy' do
     before :each do
-      @position = create :position 
+      @position = create :position
     end
     let :submit do
       delete :destroy, id: @position.id
     end
     context 'student' do
       it 'does not allow access' do
-        set_current_user_to :student
+        when_current_user_is :student
         submit
         expect(response).to have_http_status :unauthorized
       end
     end
     context 'staff' do
-     before :each do
-       set_current_user_to :staff 
-     end
-     it 'destroys the position' do
-       expect{submit}.to change{Position.count}.by -1
-     end
-     it 'flashes a confirmation message' do
-       submit
-       expect(flash.keys).to include 'message'
-     end
-     it 'redirects to staff dashboard' do
-       submit
-       expect(response).to redirect_to staff_dashboard_path
-     end
+      before :each do
+        when_current_user_is :staff
+      end
+      it 'destroys the position' do
+        expect { submit }
+          .to change { Position.count }
+          .by(-1)
+      end
+      it 'flashes a confirmation message' do
+        submit
+        expect(flash.keys).to include 'message'
+      end
+      it 'redirects to staff dashboard' do
+        submit
+        expect(response).to redirect_to staff_dashboard_path
+      end
     end
   end
 
@@ -85,14 +89,14 @@ describe PositionsController do
     end
     context 'student' do
       it 'does not allow access' do
-        set_current_user_to :student
+        when_current_user_is :student
         submit
         expect(response).to have_http_status :unauthorized
       end
     end
     context 'staff' do
       before :each do
-        set_current_user_to :staff
+        when_current_user_is :staff
       end
       it 'renders the template' do
         submit
@@ -107,14 +111,14 @@ describe PositionsController do
     end
     context 'student' do
       it 'does not allow access' do
-        set_current_user_to :student
+        when_current_user_is :student
         submit
         expect(response).to have_http_status :unauthorized
       end
     end
     context 'staff' do
       before :each do
-        set_current_user_to :staff
+        when_current_user_is :staff
       end
       it 'renders the template' do
         submit
@@ -126,21 +130,21 @@ describe PositionsController do
   describe 'PUT #update' do
     before :each do
       @position = create :position
-      @changes = {name: 'Operations Manager'}
+      @changes = { name: 'Operations Manager' }
     end
     let :submit do
-      put :update, {id: @position.id, position: @changes}
+      put :update, id: @position.id, position: @changes
     end
     context 'student' do
       it 'does not allow access' do
-        set_current_user_to :student
+        when_current_user_is :student
         submit
         expect(response).to have_http_status :unauthorized
       end
     end
     context 'staff' do
       before :each do
-        set_current_user_to :staff
+        when_current_user_is :staff
       end
       it 'updates the position' do
         submit
@@ -156,10 +160,10 @@ describe PositionsController do
       end
       context 'invalid input' do
         before :each do
-          @changes = {name: ''}
+          @changes = { name: '' }
         end
         it 'flashes an error message' do
-          expect_redirect_to_back{submit}
+          expect_redirect_to_back { submit }
           expect(flash.keys).to include 'errors'
         end
       end

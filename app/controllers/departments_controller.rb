@@ -4,7 +4,8 @@ class DepartmentsController < ApplicationController
   def create
     @department = Department.new department_parameters
     if @department.save
-      flash[:message] = "Department #{@department.name} successfully created."
+      show_message :department_create,
+                   default: 'Department has been created.'
       redirect_to staff_dashboard_path
     else show_errors @department
     end
@@ -12,7 +13,8 @@ class DepartmentsController < ApplicationController
 
   def destroy
     @department.destroy
-    flash[:message] = "Department #{@department.name} and any positions deleted."
+    show_message :department_destroy,
+                 default: 'Department has been deleted.'
     redirect_to staff_dashboard_path
   end
 
@@ -24,7 +26,8 @@ class DepartmentsController < ApplicationController
 
   def update
     if @department.update department_parameters
-      flash[:message] = "#{@department.name} has been updated."
+      show_message :department_update,
+                   default: 'Department has been updated.'
       redirect_to staff_dashboard_path
     else show_errors @department
     end
@@ -40,5 +43,4 @@ class DepartmentsController < ApplicationController
   def department_parameters
     params.require(:department).permit :name
   end
-
 end

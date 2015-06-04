@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :position do
-    association :department
+    department
     name 'Position'
   end
 end

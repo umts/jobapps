@@ -3,46 +3,48 @@ require 'rails_helper'
 describe QuestionsController do
   describe 'POST #create' do
     before :each do
-      @question = attributes_with_foreign_keys_for :question 
+      @question = attributes_with_foreign_keys_for :question
       @path = 'http://test.host/redirect'
     end
     let :submit do
       request.env['HTTP_REFERER'] = @path
-      post :create, question: @question 
+      post :create, question: @question
     end
     context 'student' do
       it 'does not allow access' do
-        set_current_user_to :student
+        when_current_user_is :student
         submit
-        expect(response).to have_http_status :unauthorized 
+        expect(response).to have_http_status :unauthorized
       end
     end
     context 'staff' do
       before :each do
-        set_current_user_to :staff
+        when_current_user_is :staff
       end
       context 'invalid input' do
         before :each do
-          @question = {number: ''}  
+          @question = { number: '' }
         end
         it 'displays errors' do
           submit
           expect(flash.keys).to include 'errors'
         end
         it 'redirects back' do
-          expect_redirect_to_back(@path){submit}
+          expect_redirect_to_back(@path) { submit }
         end
       end
       context 'valid input' do
         it 'creates a question as specified' do
-          expect{submit}.to change{Question.count}.by 1
+          expect { submit }
+            .to change { Question.count }
+            .by 1
         end
         it 'displays a message' do
           submit
-          expect(flash.keys).to include 'message' 
+          expect(flash.keys).to include 'message'
         end
         it 'redirects back' do
-          expect_redirect_to_back(@path){submit}
+          expect_redirect_to_back(@path) { submit }
         end
       end
     end
@@ -50,12 +52,19 @@ describe QuestionsController do
 
   describe 'DELETE #destroy' do
     before :each do
+<<<<<<< HEAD
       @question = create :question 
       @path = 'http://test.host/redirect'
     end
     let :submit do
       request.env['HTTP_REFERER'] = @path
       delete :destroy, id: @question.id 
+=======
+      # establish parameters
+    end
+    let :submit do
+      # submit request to controller action
+>>>>>>> 487ca7f864b26794b8688b026019fffb1e68b45b
     end
     context 'student' do
       it 'does not allow access' do
@@ -66,6 +75,7 @@ describe QuestionsController do
     end
     context 'staff' do
       before :each do
+<<<<<<< HEAD
         set_current_user_to :staff
       end
       it 'destroys the question' do
@@ -78,6 +88,9 @@ describe QuestionsController do
       it 'redirects back' do
         submit
         expect_redirect_to_back(@path){submit}
+=======
+        # establish staff current user
+>>>>>>> 487ca7f864b26794b8688b026019fffb1e68b45b
       end
     end
   end
@@ -93,41 +106,53 @@ describe QuestionsController do
     end
     context 'student' do
       it 'does not allow access' do
-        set_current_user_to :student
+        when_current_user_is :student
         submit
         expect(response).to have_http_status :unauthorized
       end
     end
     context 'staff' do
       before :each do
-        set_current_user_to :staff
+        when_current_user_is :staff
       end
       context 'moving up' do
         before :each do
           @direction = 'up'
         end
+<<<<<<< HEAD
         it 'calls #move with :up' do
           expect_any_instance_of(Question).
             to receive(:move).
             with :up
           submit
         end
+=======
+        # expect the controller to call #move on the question
+        # with :up as an argument
+        it 'calls #move with :up'
+>>>>>>> 487ca7f864b26794b8688b026019fffb1e68b45b
         it 'redirects back' do
-          expect_redirect_to_back{submit}
+          expect_redirect_to_back { submit }
         end
       end
       context 'moving down' do
         before :each do
           @direction = 'down'
         end
+<<<<<<< HEAD
         it 'calls #move with :down' do
           expect_any_instance_of(Question).
             to receive(:move).
             with :down
           submit
         end
+=======
+        # expect the controller to call #move on the question
+        # with :down as an argument
+        it 'calls #move with :down'
+>>>>>>> 487ca7f864b26794b8688b026019fffb1e68b45b
         it 'redirects back' do
-          expect_redirect_to_back{submit}
+          expect_redirect_to_back { submit }
         end
       end
     end
@@ -135,17 +160,21 @@ describe QuestionsController do
 
   describe 'PUT #update' do
     before :each do
+<<<<<<< HEAD
       #create a question with number 2
+=======
+      # establish parameters
+>>>>>>> 487ca7f864b26794b8688b026019fffb1e68b45b
     end
     let :submit do
-      #submit request to controller action
+      # submit request to controller action
     end
     context 'student' do
       it 'does not allow access'
     end
     context 'staff' do
       before :each do
-        #establish staff current user
+        # establish staff current user
       end
       context 'invalid input' do
         it 'shows errors'
