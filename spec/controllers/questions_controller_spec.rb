@@ -52,31 +52,23 @@ describe QuestionsController do
 
   describe 'DELETE #destroy' do
     before :each do
-<<<<<<< HEAD
       @question = create :question 
       @path = 'http://test.host/redirect'
     end
     let :submit do
       request.env['HTTP_REFERER'] = @path
       delete :destroy, id: @question.id 
-=======
-      # establish parameters
-    end
-    let :submit do
-      # submit request to controller action
->>>>>>> 487ca7f864b26794b8688b026019fffb1e68b45b
     end
     context 'student' do
       it 'does not allow access' do
-        set_current_user_to :student
+        when_current_user_is :student
         submit
         expect(response).to have_http_status :unauthorized
       end
     end
     context 'staff' do
       before :each do
-<<<<<<< HEAD
-        set_current_user_to :staff
+        when_current_user_is :staff
       end
       it 'destroys the question' do
         expect{submit}.to change{Question.count}.by -1
@@ -88,9 +80,6 @@ describe QuestionsController do
       it 'redirects back' do
         submit
         expect_redirect_to_back(@path){submit}
-=======
-        # establish staff current user
->>>>>>> 487ca7f864b26794b8688b026019fffb1e68b45b
       end
     end
   end
@@ -119,18 +108,12 @@ describe QuestionsController do
         before :each do
           @direction = 'up'
         end
-<<<<<<< HEAD
         it 'calls #move with :up' do
           expect_any_instance_of(Question).
             to receive(:move).
             with :up
           submit
         end
-=======
-        # expect the controller to call #move on the question
-        # with :up as an argument
-        it 'calls #move with :up'
->>>>>>> 487ca7f864b26794b8688b026019fffb1e68b45b
         it 'redirects back' do
           expect_redirect_to_back { submit }
         end
@@ -139,18 +122,12 @@ describe QuestionsController do
         before :each do
           @direction = 'down'
         end
-<<<<<<< HEAD
         it 'calls #move with :down' do
           expect_any_instance_of(Question).
             to receive(:move).
             with :down
           submit
         end
-=======
-        # expect the controller to call #move on the question
-        # with :down as an argument
-        it 'calls #move with :down'
->>>>>>> 487ca7f864b26794b8688b026019fffb1e68b45b
         it 'redirects back' do
           expect_redirect_to_back { submit }
         end
@@ -160,30 +137,49 @@ describe QuestionsController do
 
   describe 'PUT #update' do
     before :each do
-<<<<<<< HEAD
-      #create a question with number 2
-=======
-      # establish parameters
->>>>>>> 487ca7f864b26794b8688b026019fffb1e68b45b
+      @question = create :question
+      @changes = { number: 2 }
+      @path = 'http://test.host/redirect'
     end
     let :submit do
-      # submit request to controller action
+      request.env['HTTP_REFERER'] = @path
+      put :update, id: @question.id, question: @changes
     end
     context 'student' do
-      it 'does not allow access'
+      it 'does not allow access' do
+        when_current_user_is :student
+        submit
+        expect(response).to have_http_status :unauthorized
+      end
     end
     context 'staff' do
       before :each do
-        # establish staff current user
+        when_current_user_is :staff
       end
       context 'invalid input' do
-        it 'shows errors'
-        it 'redirects back'
+        before :each do
+          @changes = {number: ''}
+        end
+        it 'shows errors' do
+          submit
+          expect(flash.keys).to include 'errors'
+        end
+        it 'redirects back' do
+          expect_redirect_to_back {submit}
+        end
       end
       context 'valid input' do
-        it 'updates the question as specified'
-        it 'displays a message'
-        it 'redirects back'
+        it 'updates the question as specified' do
+          submit
+          expect(@question.reload.number).to eql 2
+        end
+        it 'displays a message' do
+          submit
+          expect(flash.keys).to include 'message'
+        end
+        it 'redirects back' do
+          expect_redirect_to_back {submit}
+        end
       end
     end
   end

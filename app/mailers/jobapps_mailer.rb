@@ -7,8 +7,10 @@ class JobappsMailer < ActionMailer::Base
     mail to: @user.email,
          subject: 'Interview Confirmation'
   end
-
-  # TO DO: def instructions. Make configurable in yml file.
-  # Not everyone will have a website.
-  # def instruction (take what?)
+  
+  #def application_denial application
+  #@application = application
+  #@user = application.user
+  #mail to: @user.email, subject: 'Application Denial'
+  #end
 end
