@@ -50,29 +50,45 @@ describe QuestionsController do
 
   describe 'DELETE #destroy' do
     before :each do
-      #establish parameters
+      @question = create :question 
+      @path = 'http://test.host/redirect'
     end
     let :submit do
-      #submit request to controller action
+      request.env['HTTP_REFERER'] = @path
+      delete :destroy, id: @question.id 
     end
     context 'student' do
-      it 'does not allow access'
+      it 'does not allow access' do
+        set_current_user_to :student
+        submit
+        expect(response).to have_http_status :unauthorized
+      end
     end
     context 'staff' do
       before :each do
-        #establish staff current user
+        set_current_user_to :staff
       end
-      it 'destroys the question'
-      it 'displays a flash message'
-      it 'redirects back'
+      it 'destroys the question' do
+        expect{submit}.to change{Question.count}.by -1
+      end
+      it 'displays a flash message' do
+        submit
+        expect(flash.keys).to include 'message'
+      end
+      it 'redirects back' do
+        submit
+        expect_redirect_to_back(@path){submit}
+      end
     end
   end
 
   describe 'POST #move' do
     before :each do
       @question = create :question
+      @path = 'http://test.host/redirect'
     end
     let :submit do
+      request.env['HTTP_REFERER'] = @path
       post :move, id: @question.id, direction: @direction
     end
     context 'student' do
@@ -90,8 +106,12 @@ describe QuestionsController do
         before :each do
           @direction = 'up'
         end
-        #expect the controller to call #move on the question with :up as an argument
-        it 'calls #move with :up'
+        it 'calls #move with :up' do
+          expect_any_instance_of(Question).
+            to receive(:move).
+            with :up
+          submit
+        end
         it 'redirects back' do
           expect_redirect_to_back{submit}
         end
@@ -100,8 +120,12 @@ describe QuestionsController do
         before :each do
           @direction = 'down'
         end
-        #expect the controller to call #move on the question with :up as an argument
-        it 'calls #move with :down'
+        it 'calls #move with :down' do
+          expect_any_instance_of(Question).
+            to receive(:move).
+            with :down
+          submit
+        end
         it 'redirects back' do
           expect_redirect_to_back{submit}
         end
@@ -111,7 +135,7 @@ describe QuestionsController do
 
   describe 'PUT #update' do
     before :each do
-      #establish parameters
+      #create a question with number 2
     end
     let :submit do
       #submit request to controller action
