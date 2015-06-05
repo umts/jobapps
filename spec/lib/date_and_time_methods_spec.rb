@@ -3,7 +3,7 @@ include DateAndTimeMethods
 
 describe DateAndTimeMethods do
   before :each do
-    @datetime = DateTime.now
+    @datetime = DateTime.current
     Timecop.freeze @datetime
   end
   describe 'format_date_time' do

@@ -10,15 +10,9 @@ AllCops:
 Style/SignalException:
   Enabled: false
 
-# Don't enforce parentheses for method arguments.
-Style/MethodDefParentheses:
-  Enabled: false
-
-# Don't enforce DateTime.zone.now.
-Rails/TimeZone:
-  Enabled: false
-
 # Don't worry about documentation for now.
+# In particular, this fails for things like
+# controller files, which seems unnecessary.
 Style/Documentation:
   Enabled: false
 

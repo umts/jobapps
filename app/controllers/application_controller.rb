@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
 
   # '... and return' is the correct behavior here, disable rubocop warning
   # rubocop:disable Style/AndOr
-  def show_errors object
+  def show_errors(object)
     flash[:errors] = object.errors.full_messages
     redirect_to :back and return
   end
