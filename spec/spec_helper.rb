@@ -32,6 +32,15 @@ def attributes_with_foreign_keys_for(*args)
   end
 end
 
+# Expects that the controller action called after this is invoked
+# will call show_message with the symbol given, and a hash
+# containing a default.
+def expect_flash_message(name)
+  expect_any_instance_of(ConfigurableMessages)
+    .to receive(:show_message)
+    .with(name, hash_including(:default))
+end
+
 # TODO: write a custom matcher?
 def expect_redirect_to_back(path = 'http://test.host/redirect',  &block)
   request.env['HTTP_REFERER'] = path

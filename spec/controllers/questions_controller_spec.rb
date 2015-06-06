@@ -39,9 +39,9 @@ describe QuestionsController do
             .to change { Question.count }
             .by 1
         end
-        it 'displays a message' do
+        it 'displays the question_create message' do
+          expect_flash_message :question_create
           submit
-          expect(flash.keys).to include 'message'
         end
         it 'redirects back' do
           expect_redirect_to_back(@path) { submit }

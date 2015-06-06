@@ -34,9 +34,9 @@ describe UsersController do
             .to change { User.count }
             .by 1
         end
-        it 'displays a flash message' do
+        it 'displays the user_create message' do
+          expect_flash_message :user_create
           submit
-          expect(flash.keys).to include 'message'
         end
         it 'redirects to staff dashboard' do
           submit
@@ -69,9 +69,9 @@ describe UsersController do
           .to change { User.count }
           .by(-1)
       end
-      it 'flashes a confirmation message' do
+      it 'displays the user_destroy message' do
+        expect_flash_message :user_destroy
         submit
-        expect(flash.keys).to include 'message'
       end
       it 'redirects to staff dashboard' do
         submit
@@ -150,9 +150,9 @@ describe UsersController do
         submit
         expect(@user.reload.first_name).to eql 'Glenn'
       end
-      it 'flashes a confirmation message' do
+      it 'displays the user_update message' do
+        expect_flash_message :user_update
         submit
-        expect(flash.keys).to include 'message'
       end
       it 'redirects to staff dashboard' do
         submit
