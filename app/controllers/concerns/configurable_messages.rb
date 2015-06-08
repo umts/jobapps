@@ -1,11 +1,11 @@
 module ConfigurableMessages
   extend ActiveSupport::Concern
 
-  def self.included klass
+  def self.included(klass)
     klass.extend self
   end
 
-  def show_message key, options = {}
+  def show_message(key, options = {})
     configured_value = CONFIG[:messages][key]
     flash[:message] =
     if configured_value.present?

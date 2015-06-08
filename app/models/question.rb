@@ -44,7 +44,7 @@ class Question < ActiveRecord::Base
 
   # Using self to be explicit, so disable rubocop warning.
   # rubocop:disable Style/RedundantSelf
-  def move direction
+  def move(direction)
     case direction
     when :up
       other_number = self.number - 1
@@ -52,7 +52,7 @@ class Question < ActiveRecord::Base
       other_number = self.number + 1
     end
     questions = application_template.questions
-    other_question = questions.find_by(number: other_number)
+    other_question = questions.find_by number: other_number
     ActiveRecord::Base.transaction do
       raise ActiveRecord::Rollback unless other_question.present?
       other_question.number = self.number

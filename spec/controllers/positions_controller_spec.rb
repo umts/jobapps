@@ -34,9 +34,9 @@ describe PositionsController do
             .to change { Position.count }
             .by 1
         end
-        it 'displays a flash message' do
+        it 'displays the position_create message' do
+          expect_flash_message :position_create
           submit
-          expect(flash.keys).to include 'message'
         end
         it 'redirects to staff dashboard' do
           submit
@@ -69,9 +69,9 @@ describe PositionsController do
           .to change { Position.count }
           .by(-1)
       end
-      it 'flashes a confirmation message' do
+      it 'displays the position_destroy message' do
+        expect_flash_message :position_destroy
         submit
-        expect(flash.keys).to include 'message'
       end
       it 'redirects to staff dashboard' do
         submit
@@ -150,9 +150,9 @@ describe PositionsController do
         submit
         expect(@position.reload.name).to eql 'Operations Manager'
       end
-      it 'flashes a confirmation message' do
+      it 'displays the position_update message' do
+        expect_flash_message :position_update
         submit
-        expect(flash.keys).to include 'message'
       end
       it 'redirects to staff dashboard' do
         submit

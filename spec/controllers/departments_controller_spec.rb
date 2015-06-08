@@ -34,9 +34,9 @@ describe DepartmentsController do
             .to change { Department.count }
             .by 1
         end
-        it 'displays a flash message' do
+        it 'displays the department_create message' do
+          expect_flash_message :department_create
           submit
-          expect(flash.keys).to include 'message'
         end
         it 'redirects to staff dashboard' do
           submit
@@ -69,9 +69,9 @@ describe DepartmentsController do
           .to change { Department.count }
           .by(-1)
       end
-      it 'flashes a confirmation message' do
+      it 'shows the department_destroy message' do
+        expect_flash_message :department_destroy
         submit
-        expect(flash.keys).to include 'message'
       end
       it 'redirects to staff dashboard' do
         submit
@@ -150,9 +150,9 @@ describe DepartmentsController do
         submit
         expect(@department.reload.name).to eql 'Operations'
       end
-      it 'flashes a confirmation message' do
+      it 'shows the department_update message' do
+        expect_flash_message :department_update
         submit
-        expect(flash.keys).to include 'message'
       end
       it 'redirects to staff dashboard' do
         submit

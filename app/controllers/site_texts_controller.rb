@@ -9,7 +9,7 @@ class SiteTextsController < ApplicationController
 
   def update
     if @site_text.update site_text_parameters
-      show_message :site_text_update_confirmation,
+      show_message :site_text_update,
                    default: 'Text was successfully updated.'
       redirect_to staff_dashboard_path
     else show_errors @site_text
@@ -21,7 +21,7 @@ class SiteTextsController < ApplicationController
       params.require :location
       params.require :description
       # TODO: email IT
-      show_message :site_text_request_confirmation,
+      show_message :site_text_request,
                    default: 'Your request has been sent. Thank you!'
       redirect_to staff_dashboard_path
     else render 'request_new'

@@ -23,10 +23,21 @@ describe DashboardController do
       get :staff
     end
     context 'student' do
-      it 'does not allow access' do
+      before :each do
         when_current_user_is :student
-        submit
-        expect(response).to have_http_status :unauthorized
+      end
+      context 'HTML request' do
+        it 'does not allow access' do
+          submit
+          expect(response).to have_http_status :unauthorized
+        end
+      end
+      context 'XHR request' do
+        it 'does not allow access' do
+          xhr :get, :staff
+          expect(response).to have_http_status :unauthorized
+          expect(response.body).to be_blank
+        end
       end
     end
     context 'staff' do

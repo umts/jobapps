@@ -86,9 +86,9 @@ describe SiteTextsController do
           submit
           expect(@site_text.reload.text).to eql 'new text'
         end
-        it 'includes a flash message' do
+        it 'displays the site_text_update message' do
+          expect_flash_message :site_text_update
           submit
-          expect(flash.keys).to include 'message'
         end
         it 'redirects to staff dashboard' do
           submit
@@ -141,9 +141,9 @@ describe SiteTextsController do
       end
       # TODO: Implement mailer method and mock here
       it 'sends IT an email'
-      it 'includes a flash message' do
+      it 'displays the site_text_request message' do
+        expect_flash_message :site_text_request
         submit
-        expect(flash.keys).to include 'message'
       end
       it 'redirects to staff dashboard' do
         submit
