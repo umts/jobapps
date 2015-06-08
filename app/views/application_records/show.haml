@@ -21,7 +21,12 @@ submitted by
       .field
         Reason for rejection:
         = text_area_tag :staff_note, '', required: true
-      .text These notes #{CONFIG[:on_application_denial][:specify_reason] ? 'will' : 'will not'} be shown to the applicant.
+      .text
+        - if configured_value [:on_application_denial, :provide_reason],
+                              default: true
+          These notes will be provided to the applicant.
+        - else
+          These notes will not be provided to the applicant.
       .action= submit_tag 'Review application without scheduling interview'
     = form_tag controller: :application_records, action: :review, id: @record.id, accepted: true do
       = fields_for :interview do |f|
