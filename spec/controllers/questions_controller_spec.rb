@@ -52,12 +52,12 @@ describe QuestionsController do
 
   describe 'DELETE #destroy' do
     before :each do
-      @question = create :question 
+      @question = create :question
       @path = 'http://test.host/redirect'
     end
     let :submit do
       request.env['HTTP_REFERER'] = @path
-      delete :destroy, id: @question.id 
+      delete :destroy, id: @question.id
     end
     context 'student' do
       it 'does not allow access' do
@@ -71,7 +71,9 @@ describe QuestionsController do
         when_current_user_is :staff
       end
       it 'destroys the question' do
-        expect{submit}.to change{Question.count}.by -1
+        expect { submit }
+          .to change { Question.count }
+          .by(-1)
       end
       it 'displays a flash message' do
         submit
@@ -79,7 +81,7 @@ describe QuestionsController do
       end
       it 'redirects back' do
         submit
-        expect_redirect_to_back(@path){submit}
+        expect_redirect_to_back(@path) { submit }
       end
     end
   end
@@ -109,9 +111,9 @@ describe QuestionsController do
           @direction = 'up'
         end
         it 'calls #move with :up' do
-          expect_any_instance_of(Question).
-            to receive(:move).
-            with :up
+          expect_any_instance_of(Question)
+            .to receive(:move)
+            .with :up
           submit
         end
         it 'redirects back' do
@@ -123,9 +125,9 @@ describe QuestionsController do
           @direction = 'down'
         end
         it 'calls #move with :down' do
-          expect_any_instance_of(Question).
-            to receive(:move).
-            with :down
+          expect_any_instance_of(Question)
+            .to receive(:move)
+            .with :down
           submit
         end
         it 'redirects back' do
@@ -158,14 +160,14 @@ describe QuestionsController do
       end
       context 'invalid input' do
         before :each do
-          @changes = {number: ''}
+          @changes = { number: '' }
         end
         it 'shows errors' do
           submit
           expect(flash.keys).to include 'errors'
         end
         it 'redirects back' do
-          expect_redirect_to_back {submit}
+          expect_redirect_to_back { submit }
         end
       end
       context 'valid input' do
@@ -173,12 +175,12 @@ describe QuestionsController do
           submit
           expect(@question.reload.number).to eql 2
         end
-        it 'displays a message' do
+        it 'displays the question update message' do
+          expect_flash_message :question_update
           submit
-          expect(flash.keys).to include 'message'
         end
         it 'redirects back' do
-          expect_redirect_to_back {submit}
+          expect_redirect_to_back { submit }
         end
       end
     end

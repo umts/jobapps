@@ -7,10 +7,10 @@ class JobappsMailer < ActionMailer::Base
     mail to: @user.email,
          subject: 'Interview Confirmation'
   end
-  
-  #def application_denial application
-  #@application = application
-  #@user = application.user
-  #mail to: @user.email, subject: 'Application Denial'
-  #end
+
+  # def application_denial application
+  # @application = application
+  # @user = application.user
+  # mail to: @user.email, subject: 'Application Denial'
+  # end
 end
