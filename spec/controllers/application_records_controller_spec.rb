@@ -18,9 +18,9 @@ describe ApplicationRecordsController do
           .to change { ApplicationRecord.count }
           .by 1
       end
-      it 'shows a message' do
+      it 'shows the application_receipt message' do
+        expect_flash_message :application_receipt
         submit
-        expect(flash.keys).to include 'message'
       end
       it 'redirects to the student dashboard' do
         submit
@@ -84,6 +84,10 @@ describe ApplicationRecordsController do
         it 'marks record as reviewed' do
           submit
           expect(@record.reload.reviewed).to eql true
+        end
+        it 'displays application_review message' do
+          expect_flash_message :application_review
+          submit
         end
         it 'redirects to staff dashboard' do
           submit

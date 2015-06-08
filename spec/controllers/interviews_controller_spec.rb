@@ -40,9 +40,9 @@ describe InterviewsController do
           submit
           expect(response).to redirect_to staff_dashboard_path
         end
-        it 'displays a confirmation message' do
+        it 'displays the interview_complete confirmation message' do
+          expect_flash_message :interview_complete
           submit
-          expect(flash[:message]).not_to be_empty
         end
       end
     end
@@ -79,9 +79,9 @@ describe InterviewsController do
         expect(@interview.location).to eql @location
         expect(@interview.scheduled).to eql @scheduled
       end
-      it 'displays a confirmation message' do
+      it 'displays the interview_reschedule confirmation message' do
+        expect_flash_message :interview_reschedule
         submit
-        expect(flash[:message]).not_to be_empty
       end
       it 'redirects to staff dashboard' do
         submit
