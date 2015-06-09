@@ -1,4 +1,5 @@
 module ConfigurableMessages
+  include ApplicationConfiguration
   extend ActiveSupport::Concern
 
   def self.included(klass)
@@ -6,15 +7,6 @@ module ConfigurableMessages
   end
 
   def show_message(key, options = {})
-    configured_value = CONFIG[:messages][key]
-    flash[:message] =
-    if configured_value.present?
-      configured_value
-    elsif options[:default].present?
-      options[:default]
-    else
-      raise ArgumentError,
-            "Message #{key} not configured and default not specified."
-    end
+    flash[:message] = configured_value [:messages, key], options
   end
 end
