@@ -14,7 +14,7 @@ class QuestionsController < ApplicationController
   def destroy
     @question.destroy
     show_message :question_destroy,
-                 default: 'Question was succesfully removed.'
+                 default: 'Question was successfully removed.'
     redirect_to :back
   end
 
