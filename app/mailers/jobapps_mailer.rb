@@ -1,6 +1,6 @@
 class JobappsMailer < ActionMailer::Base
   include ApplicationConfiguration
-  helper_method ApplicationConfiguration.instance_methods
+  helper_method :configured_value
 
   def interview_confirmation(interview)
     @interview = interview
