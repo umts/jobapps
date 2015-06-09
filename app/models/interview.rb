@@ -16,7 +16,7 @@ class Interview < ActiveRecord::Base
             :user,
             presence: true
 
-  after_create :send_confirmation, unless: -> { Rails.env.test? }
+  after_create :send_confirmation
 
   default_scope { order :scheduled }
   scope :pending, -> { where completed: false }
@@ -36,6 +36,6 @@ class Interview < ActiveRecord::Base
   private
 
   def send_confirmation
-    JobappsMailer.interview_confirmation self
+    JobappsMailer.interview_confirmation self unless Rails.env.test?
   end
 end
