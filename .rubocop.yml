@@ -16,6 +16,11 @@ Style/SignalException:
 Style/Documentation:
   Enabled: false
 
+# Don't tell me not to write Hash.new. I wrote it
+# because I want it.
+Style/EmptyLiteral:
+  Enabled: false
+
 # Relax complexity testing to codeclimate standards (roughly).
 Metrics/AbcSize:
   Max: 20

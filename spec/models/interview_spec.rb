@@ -2,6 +2,18 @@ require 'rails_helper'
 include DateAndTimeMethods
 
 describe Interview do
+  describe 'create hooks' do
+    it 'sends an email when not in test' do
+      expect(Rails.env).to receive(:test?).and_return false
+      # need to specify configuration value
+      allow(CONFIG).to receive(:[]).with(:email)
+        .and_return default_from: 'test@example.com'
+      # expect the mailer method to be called
+      expect(JobappsMailer).to receive(:interview_confirmation)
+      create :interview
+    end
+  end
+
   describe 'calendar_title' do
     before :each do
       @interview = create :interview, location: 'Anywhere'
@@ -13,14 +25,6 @@ describe Interview do
       interviewee = @interview.user
       expect(@interview.calendar_title).to include interviewee.first_name
       expect(@interview.calendar_title).to include interviewee.last_name
-    end
-  end
-
-  describe 'create hooks' do
-    it 'sends confirmation on creation' do
-      expect(JobappsMailer)
-        .to receive :interview_confirmation
-      create :interview
     end
   end
 
