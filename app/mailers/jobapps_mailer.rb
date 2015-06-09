@@ -1,10 +1,11 @@
 class JobappsMailer < ActionMailer::Base
-  default from: 'transit-it@admin.umass.edu'
+  include ApplicationConfiguration
 
   def interview_confirmation(interview)
     @interview = interview
     @user = interview.user
-    mail to: @user.email,
+    mail from: configured_value([:email, :default_from], default: false),
+         to: @user.email,
          subject: 'Interview Confirmation'
   end
 

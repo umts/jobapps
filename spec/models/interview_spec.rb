@@ -16,14 +16,6 @@ describe Interview do
     end
   end
 
-  describe 'create hooks' do
-    it 'sends confirmation on creation' do
-      expect(JobappsMailer)
-        .to receive :interview_confirmation
-      create :interview
-    end
-  end
-
   describe 'information' do
     before :each do
       @interview = create :interview
