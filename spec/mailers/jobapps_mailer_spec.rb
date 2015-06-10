@@ -1,18 +1,15 @@
 require 'rails_helper'
+include ApplicationConfiguration
 
 describe JobappsMailer do
+  before :each do
+    @from = configured_value [:email, :default_from]
+  end
+
   describe 'interview_confirmation' do
     before :each do
       @interview = create :interview
       @user = @interview.user
-      @from = 'test@example.com'
-      # Stub out the configuration value
-      allow_any_instance_of(ApplicationConfiguration)
-        .to receive :configured_value
-      expect_any_instance_of(ApplicationConfiguration)
-        .to receive(:configured_value)
-        .with([:email, :default_from], anything)
-        .and_return @from
     end
     let :output do
       JobappsMailer.interview_confirmation @interview
@@ -34,14 +31,6 @@ describe JobappsMailer do
     before :each do
       @interview = create :interview
       @user = @interview.user
-      @from = 'test@example.com'
-      # Stub out the configuration value
-      allow_any_instance_of(ApplicationConfiguration)
-        .to receive :configured_value
-      expect_any_instance_of(ApplicationConfiguration)
-        .to receive(:configured_value)
-        .with([:email, :default_from], anything)
-        .and_return @from
     end
     let :output do
       JobappsMailer.interview_reschedule @interview
@@ -63,13 +52,6 @@ describe JobappsMailer do
     before :each do
       @application_record = create :application_record, staff_note: 'note'
       @user = @application_record.user
-      @from = 'test@example.com'
-      allow_any_instance_of(ApplicationConfiguration)
-        .to receive :configured_value
-      expect_any_instance_of(ApplicationConfiguration)
-        .to receive(:configured_value)
-        .with([:email, :default_from], anything)
-        .and_return @from
     end
     let :output do
       JobappsMailer.application_denial @application_record
@@ -85,9 +67,13 @@ describe JobappsMailer do
     end
     context 'notify_of_reason is set to true' do
       before :each do
+        # Allow generic invocation
+        allow_any_instance_of(ApplicationConfiguration)
+          .to receive :configured_value
+        # Stub the invocation we expect
         allow_any_instance_of(ApplicationConfiguration)
           .to receive(:configured_value)
-          .with([:on_application_denial, :notify_of_reason])
+          .with([:on_application_denial, :notify_of_reason], anything)
           .and_return true
       end
       it 'includes a reason for application denial' do
@@ -97,9 +83,13 @@ describe JobappsMailer do
     end
     context 'notify_of_reason is set to false' do
       before :each do
+        # Allow generic invocation
+        allow_any_instance_of(ApplicationConfiguration)
+          .to receive :configured_value
+        # Stub the invocation we expect
         allow_any_instance_of(ApplicationConfiguration)
           .to receive(:configured_value)
-          .with([:on_application_denial, :notify_of_reason])
+          .with([:on_application_denial, :notify_of_reason], anything)
           .and_return false
       end
       it 'does not include a reason for application denial' do

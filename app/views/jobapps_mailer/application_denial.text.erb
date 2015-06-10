@@ -1,11 +1,12 @@
 Hello <%= @user.first_name %>,
 
-<% if configured_value [:on_application_denial, :notify_of_reason] %>
+<% if configured_value [:on_application_denial, :notify_of_reason], default: true %>
   Your application has been denied due to the following reason:
   <%= @application_record.staff_note %>
 <% else %>
   Your application has been denied.
 <% end %>
+
 Best,
 
 <%= configured_value [:organization_name] %>

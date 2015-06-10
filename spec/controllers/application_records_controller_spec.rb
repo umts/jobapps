@@ -102,12 +102,15 @@ describe ApplicationRecordsController do
               .with([:on_application_denial, :notify_applicant], anything)
               .and_return true
           end
-          it 'sends application denial email to user' do
+          it 'sends application denial email' do
             expect(JobappsMailer)
               .to receive(:application_denial)
               .with @record
             submit
           end
+        end
+        context 'notify_applicant set to false' do
+          it 'does not send application denial email'
         end
       end
     end
