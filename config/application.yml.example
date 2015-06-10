@@ -6,7 +6,7 @@
 # This value will populate landing pages, page titles, and email templates.
 organization_name: 'UMass Transit'
 
-emails:
+email:
   # This value determines where site emails will be sent from (e.g. noreply).
   default_from: 'transit-it@admin.umass.edu'
 
