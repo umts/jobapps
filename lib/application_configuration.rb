@@ -1,8 +1,4 @@
 module ApplicationConfiguration
-  def self.included(klass)
-    klass.extend self
-  end
-
   def configured_value(config_path, options = {})
     value = CONFIG
     config_path.each do |key|

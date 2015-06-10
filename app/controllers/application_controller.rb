@@ -1,10 +1,7 @@
 class ApplicationController < ActionController::Base
   include ApplicationConfiguration
-  # TODO: not this
-  helper_method ApplicationConfiguration.instance_methods
   include ConfigurableMessages
   include DateAndTimeMethods
-  helper_method DateAndTimeMethods.instance_methods
 
   attr_accessor :current_user
   protect_from_forgery with: :exception

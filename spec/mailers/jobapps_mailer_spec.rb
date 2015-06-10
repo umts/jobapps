@@ -7,6 +7,8 @@ describe JobappsMailer do
       @user = @interview.user
       @from = 'test@example.com'
       # Stub out the configuration value
+      allow_any_instance_of(ApplicationConfiguration)
+        .to receive :configured_value
       expect_any_instance_of(ApplicationConfiguration)
         .to receive(:configured_value)
         .with([:email, :default_from], anything)
