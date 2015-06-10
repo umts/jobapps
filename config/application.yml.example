@@ -11,7 +11,7 @@ emails:
   default_from: 'transit-it@admin.umass.edu'
 
 # OPTIONAL KEYS
-# Some site behaviors are configurable. The default values are provide below -
+# Some site behaviors are configurable. The default values are provided below -
 # simply copy and paste these key-value pairs into your application.yml file
 # and change any values which you wish to change.
 
