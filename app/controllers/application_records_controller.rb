@@ -29,6 +29,10 @@ class ApplicationRecordsController < ApplicationController
       @record.update staff_note: staff_note
       show_message :application_review,
                    default: 'Application has been marked as reviewed.'
+      if configured_value [:on_application_denial, :notify_applicant],
+                          default: true
+        JobappsMailer.application_denial(@record)
+      end
     end
     @record.update reviewed: true
     redirect_to staff_dashboard_path
