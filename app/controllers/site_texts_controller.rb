@@ -18,9 +18,9 @@ class SiteTextsController < ApplicationController
 
   def request_new
     if request.post?
-      params.require :location
-      params.require :description
-      # TODO: email IT
+      location = params.require :location
+      description = params.require :description
+      JobappsMailer.site_text_request @current_user, location, description
       show_message :site_text_request,
                    default: 'Your request has been sent. Thank you!'
       redirect_to staff_dashboard_path

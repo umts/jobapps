@@ -137,10 +137,15 @@ describe SiteTextsController do
     end
     context 'staff' do
       before :each do
-        when_current_user_is :staff
+        @user = create :user, :staff
+        when_current_user_is @user
       end
-      # TODO: Implement mailer method and mock here
-      it 'sends IT an email'
+      it 'sends IT an email' do
+        expect(JobappsMailer)
+          .to receive(:site_text_request)
+          .with @user, @location, @description
+        submit
+      end
       it 'displays the site_text_request message' do
         expect_flash_message :site_text_request
         submit

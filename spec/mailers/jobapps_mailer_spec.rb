@@ -6,48 +6,6 @@ describe JobappsMailer do
     @from = configured_value [:email, :default_from]
   end
 
-  describe 'interview_confirmation' do
-    before :each do
-      @interview = create :interview
-      @user = @interview.user
-    end
-    let :output do
-      JobappsMailer.interview_confirmation @interview
-    end
-    it 'emails from the configured value' do
-      expect(output.from).to eql Array(@from)
-    end
-    it 'emails to the interviewee' do
-      expect(output.to).to eql Array(@user.email)
-    end
-    it 'has a subject of interview confirmation' do
-      expect(output.subject).to eql 'Interview Confirmation'
-    end
-    it 'includes the date and time of the interview' do
-      expect(output.body.encoded).to include @interview.scheduled.to_s
-    end
-  end
-  describe 'interview reschedule' do
-    before :each do
-      @interview = create :interview
-      @user = @interview.user
-    end
-    let :output do
-      JobappsMailer.interview_reschedule @interview
-    end
-    it 'emails from the configured value' do
-      expect(output.from).to eql Array(@from)
-    end
-    it 'emails to the interviewee' do
-      expect(output.to).to eql Array(@user.email)
-    end
-    it 'has a subject of interview rescheduled' do
-      expect(output.subject).to eql 'Interview Rescheduled'
-    end
-    it 'includes the date and time of the interview' do
-      expect(output.body.encoded).to include @interview.scheduled.to_s
-    end
-  end
   describe 'application denial' do
     before :each do
       @application_record = create :application_record, staff_note: 'note'
@@ -96,6 +54,83 @@ describe JobappsMailer do
         expect(output.body.encoded)
           .not_to include @application_record.staff_note
       end
+    end
+  end
+
+  describe 'interview_confirmation' do
+    before :each do
+      @interview = create :interview
+      @user = @interview.user
+    end
+    let :output do
+      JobappsMailer.interview_confirmation @interview
+    end
+    it 'emails from the configured value' do
+      expect(output.from).to eql Array(@from)
+    end
+    it 'emails to the interviewee' do
+      expect(output.to).to eql Array(@user.email)
+    end
+    it 'has a subject of interview confirmation' do
+      expect(output.subject).to eql 'Interview Confirmation'
+    end
+    it 'includes the date and time of the interview' do
+      expect(output.body.encoded).to include @interview.scheduled.to_s
+    end
+  end
+
+  describe 'interview reschedule' do
+    before :each do
+      @interview = create :interview
+      @user = @interview.user
+    end
+    let :output do
+      JobappsMailer.interview_reschedule @interview
+    end
+    it 'emails from the configured value' do
+      expect(output.from).to eql Array(@from)
+    end
+    it 'emails to the interviewee' do
+      expect(output.to).to eql Array(@user.email)
+    end
+    it 'has a subject of interview rescheduled' do
+      expect(output.subject).to eql 'Interview Rescheduled'
+    end
+    it 'includes the date and time of the interview' do
+      expect(output.body.encoded).to include @interview.scheduled.to_s
+    end
+  end
+
+  describe 'site_text_request' do
+    before :each do
+      @user = create :user
+      @location = 'the desired location'
+      @description = 'the description of the text'
+    end
+    let :output do
+      JobappsMailer.site_text_request @user, @location, @description
+    end
+    it 'emails from the default configured value' do
+      expect(output.from).to eql Array(@from)
+    end
+    it 'emails to the site_text_request_email configured value' do
+      expect(output.to)
+        .to eql Array(configured_value [:email, :site_text_request_address])
+    end
+    it 'has a subject that includes the words Site text request' do
+      expect(output.subject).to include 'Site text request'
+    end
+    it 'includes the full name of the requesting user' do
+      expect(output.body.encoded).to include @user.full_name
+    end
+    it 'includes the desired location of the site text' do
+      expect(output.body.encoded).to include @location
+    end
+    it 'includes the description of the site text' do
+      expect(output.body.encoded).to include @description
+    end
+    it 'includes the email of the requesting user' do
+      expect(output.body.encoded).to include @user.email
     end
   end
 end

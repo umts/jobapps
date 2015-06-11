@@ -110,7 +110,19 @@ describe ApplicationRecordsController do
           end
         end
         context 'notify_applicant set to false' do
-          it 'does not send application denial email'
+          before :each do
+            allow_any_instance_of(ApplicationConfiguration)
+              .to receive :configured_value
+            allow_any_instance_of(ApplicationConfiguration)
+              .to receive(:configured_value)
+              .with([:on_application_denial, :notify_applicant], anything)
+              .and_return false
+          end
+          it 'does not send application denial email' do
+            expect(JobappsMailer)
+              .not_to receive(:application_denial)
+            submit
+          end
         end
       end
     end
