@@ -35,12 +35,6 @@ ActiveRecord::Schema.define(version: 20150611203412) do
     t.datetime "updated_at"
   end
 
-  create_table "email_templates", force: true do |t|
-    t.text     "text"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "interviews", force: true do |t|
     t.boolean  "hired"
     t.datetime "scheduled"
@@ -60,17 +54,6 @@ ActiveRecord::Schema.define(version: 20150611203412) do
   end
 
   create_table "questions", force: true do |t|
-    t.string   "name"
-    t.text     "prompt"
-    t.string   "data_type"
-    t.boolean  "required"
-    t.integer  "number"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "application_template_id"
-  end
-
-  create_table "response_fields", force: true do |t|
     t.string   "name"
     t.text     "prompt"
     t.string   "data_type"
