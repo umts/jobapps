@@ -17,6 +17,7 @@ class Interview < ActiveRecord::Base
             presence: true
 
   after_create :send_confirmation
+  after_update :resend_confirmation
 
   default_scope { order :scheduled }
   scope :pending, -> { where completed: false }
@@ -34,6 +35,12 @@ class Interview < ActiveRecord::Base
   end
 
   private
+
+  def resend_confirmation
+    if location_changed? || scheduled_changed?
+      JobappsMailer.interview_reschedule self
+    end
+  end
 
   def send_confirmation
     JobappsMailer.interview_confirmation self unless Rails.env.test?

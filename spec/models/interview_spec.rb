@@ -2,15 +2,28 @@ require 'rails_helper'
 include DateAndTimeMethods
 
 describe Interview do
-  describe 'create hooks' do
-    it 'sends an email when not in test' do
-      expect(Rails.env).to receive(:test?).and_return false
-      # need to specify configuration value
-      allow(CONFIG).to receive(:[]).with(:email)
-        .and_return default_from: 'test@example.com'
+  describe 'callbacks' do
+    it 'sends interview confirmation mailer when interview is created' do
       # expect the mailer method to be called
-      expect(JobappsMailer).to receive(:interview_confirmation)
+      expect(JobappsMailer).to receive :interview_confirmation
       create :interview
+    end
+    context 'interview reschedule mailer method' do
+      before :each do
+        @interview = create :interview
+      end
+      it 'sends when location changes' do
+        expect(JobappsMailer).to receive :interview_reschedule
+        @interview.update location: 'another location'
+      end
+      it 'sends when scheduled changes' do
+        expect(JobappsMailer).to receive :interview_reschedule
+        @interview.update scheduled: 1.day.since.to_datetime
+      end
+      it 'does not send if completed changes' do
+        expect(JobappsMailer).not_to receive :interview_reschedule
+        @interview.toggle :completed
+      end
     end
   end
 

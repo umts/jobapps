@@ -19,8 +19,6 @@ module ConfigurableMessages
     return if messages.blank?
     configured_default = messages[message_name.to_s]
     return if configured_default.blank?
-    # Would be too long as guard clause
-    # rubocop:disable Style/GuardClause
     if configured_default != controller_default # including if neither exists
       raise ArgumentError, <<-MESSAGE
         Configurable message #{message_name} has mismatched default:
@@ -29,6 +27,5 @@ module ConfigurableMessages
         Please update the application.yml.example file to match.
         MESSAGE
     end
-    # rubocop:enable Style/GuardClause
   end
 end
