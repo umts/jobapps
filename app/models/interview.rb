@@ -43,6 +43,6 @@ class Interview < ActiveRecord::Base
   end
 
   def send_confirmation
-    JobappsMailer.interview_confirmation self unless Rails.env.test?
+    JobappsMailer.interview_confirmation self
   end
 end
