@@ -5,14 +5,24 @@ class JobappsMailer < ActionMailer::Base
   def interview_confirmation(interview)
     @interview = interview
     @user = interview.user
-    mail from: configured_value([:email, :default_from], default: false),
+    mail from: configured_value([:email, :default_from]),
          to: @user.email,
          subject: 'Interview Confirmation'
   end
 
-  # def application_denial application
-  # @application = application
-  # @user = application.user
-  # mail to: @user.email, subject: 'Application Denial'
-  # end
+  def interview_reschedule(interview)
+    @interview = interview
+    @user = interview.user
+    mail from: configured_value([:email, :default_from]),
+         to: @user.email,
+         subject: 'Interview Rescheduled'
+  end
+
+  def application_denial(application_record)
+    @application_record = application_record
+    @user = application_record.user
+    mail from: configured_value([:email, :default_from]),
+         to: @user.email,
+         subject: 'Application Denial'
+  end
 end

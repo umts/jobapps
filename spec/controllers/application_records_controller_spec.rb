@@ -93,6 +93,25 @@ describe ApplicationRecordsController do
           submit
           expect(response).to redirect_to staff_dashboard_path
         end
+        context 'notify_applicant set to true' do
+          before :each do
+            allow_any_instance_of(ApplicationConfiguration)
+              .to receive :configured_value
+            allow_any_instance_of(ApplicationConfiguration)
+              .to receive(:configured_value)
+              .with([:on_application_denial, :notify_applicant], anything)
+              .and_return true
+          end
+          it 'sends application denial email' do
+            expect(JobappsMailer)
+              .to receive(:application_denial)
+              .with @record
+            submit
+          end
+        end
+        context 'notify_applicant set to false' do
+          it 'does not send application denial email'
+        end
       end
     end
   end
