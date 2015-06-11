@@ -2,7 +2,7 @@ class JobappsMailer < ActionMailer::Base
   include ApplicationConfiguration
   helper_method :configured_value
 
-  #for some reason the configured_value method doesn't work here
+  # for some reason the configured_value method doesn't work here
   default from: CONFIG[:email][:default_from]
 
   def application_denial(application_record)
