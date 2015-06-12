@@ -115,7 +115,7 @@ describe JobappsMailer do
     end
     it 'emails to the site_text_request_email configured value' do
       expect(output.to)
-        .to eql Array(configured_value [:email, :site_text_request_address])
+        .to eql Array(configured_value [:email, :site_contact_email])
     end
     it 'has a subject that includes the words Site text request' do
       expect(output.subject).to include 'Site text request'

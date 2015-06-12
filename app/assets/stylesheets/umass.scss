@@ -1,7 +1,7 @@
 #umass_banner{
   background-color: #881c1c;
   max-width: 100%;
-  padding: 1.15em;
+  padding: 1.25em;
   #links{
     padding: 0 2em 0 0;
     float: right;
@@ -18,6 +18,18 @@
       width: 1.75em;
       text-indent: -9999px;
       background: #881c1c url('search.svg') 0 0 no-repeat;
+    }
+  }
+}
+
+#footer{
+  background-color: black;
+  padding: 1.25em;
+  text-align: center;
+  .content{
+    color: silver;
+    a{
+      color: silver;
     }
   }
 }

@@ -1,7 +1,7 @@
 !!!
 %html
   %head
-    %title #{configured_value [:organization_name]} Job Applications | UMass Amherst
+    %title Job Applications | #{configured_value [:organization_name]} | UMass Amherst
     = stylesheet_link_tag 'application.css', media: 'all'
     = javascript_include_tag 'application.js'
     = csrf_meta_tags
@@ -25,3 +25,4 @@
             %li= error_message
     #main_content
       = yield
+    #footer=render partial: 'layouts/footer'
