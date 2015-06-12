@@ -15,3 +15,11 @@
  *= require jquery-ui.min
  *= require jquery.datetimepicker
  */
+
+body{
+  margin: 0px;
+}
+
+#main_content{
+  margin: 10px;
+}

@@ -6,11 +6,13 @@
     = javascript_include_tag 'application.js'
     = csrf_meta_tags
   %body
-    #navbar
-      - if @current_user.present?
-        %a{href: '/sessions', data: {method: 'delete'}} Logout
-        - if @current_user.staff?
-          = link_to 'Dashboard', staff_dashboard_path
+    #umass_banner
+      #wordmark= image_tag 'wordmark.svg', height: 25
+      #navbar
+        - if @current_user.present?
+          %a{href: '/sessions', data: {method: 'delete'}} Logout
+          - if @current_user.staff?
+            = link_to 'Dashboard', staff_dashboard_path
     - if flash[:message].present?
       #message
         = flash[:message]
@@ -20,4 +22,5 @@
         %ul
           - flash[:errors].each do |error_message|
             %li= error_message
-    = yield
+    #main_content
+      = yield
