@@ -8,7 +8,8 @@
   %body
     #umass_banner
       #wordmark= image_tag 'wordmark.svg', height: 25
-      #navbar
+      #search= render partial: 'layouts/umass_search'
+      #links
         - if @current_user.present?
           %a{href: '/sessions', data: {method: 'delete'}} Logout
           - if @current_user.staff?
