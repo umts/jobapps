@@ -9,9 +9,9 @@ organization_name: 'UMass Transit'
 email:
   # This value determines where site emails will be sent from (e.g. noreply).
   default_from: 'transit-it@admin.umass.edu'
-  # This value determines where requests for configurable site text
-  # additions will be sent.
-  site_text_request_address: 'transit-it@admin.umass.edu'
+  # This value determines where emails about your site's content should go,
+  # including emails about configurable site text requests.
+  site_contact_email: 'transit-it@admin.umass.edu'
 
 # OPTIONAL KEYS
 # Some site behaviors are configurable. The default values are provided below -
