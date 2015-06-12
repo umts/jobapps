@@ -17,9 +17,18 @@
  */
 
 body{
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
   margin: 0px;
 }
 
+#content_wrapper{
+  flex: 1;
+}
+
 #main_content{
-  margin: 10px;
+  max-width: 50em;
+  background-color: #fafafa;
+  margin: 0 auto;
 }
