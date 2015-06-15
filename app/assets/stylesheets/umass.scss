@@ -3,8 +3,8 @@
   max-width: 100%;
   padding: 1.25em;
   #links{
-    padding: 0 2em 0 0;
     float: right;
+    padding: 0 2em 0 0;
     a{
       color: white;
       font-size: 16px;
@@ -14,10 +14,10 @@
   #search{
     float: right;
     #submit{
-      height: 1.75em;
-      width: 1.75em;
-      text-indent: -9999px;
       background: #881c1c url('search.svg') 0 0 no-repeat;
+      height: 1.75em;
+      text-indent: -9999px;
+      width: 1.75em;
     }
   }
 }
