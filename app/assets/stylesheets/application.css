@@ -18,9 +18,9 @@
 
 body{
   display: flex;
-  min-height: 100vh;
   flex-direction: column;
   margin: 0px;
+  min-height: 100vh;
 }
 
 #content_wrapper{
@@ -28,7 +28,7 @@ body{
 }
 
 #main_content{
-  max-width: 50em;
   background-color: #fafafa;
   margin: 0 auto;
+  max-width: 50em;
 }

@@ -2,6 +2,9 @@
   background-color: #881c1c;
   max-width: 100%;
   padding: 1.25em;
+  #wordmark{
+    float: left;
+  }
   #links{
     float: right;
     padding: 0 2em 0 0;
@@ -15,6 +18,9 @@
     float: right;
     #submit{
       background: #881c1c url('search.svg') 0 0 no-repeat;
+      background-size: contain;
+      border: none;
+      cursor: pointer;
       height: 1.75em;
       text-indent: -9999px;
       width: 1.75em;
@@ -31,10 +37,7 @@
   background-color: black;
   padding: 1.25em;
   text-align: center;
-  .content{
+  .content, a{
     color: silver;
-    a{
-      color: silver;
-    }
   }
 }
