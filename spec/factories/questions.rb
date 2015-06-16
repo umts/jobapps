@@ -5,6 +5,5 @@ FactoryGirl.define do
     sequence    :number
     prompt      'Question prompt'
     required    true
-    sequence(:name) { |n| "Question name #{n}" }
   end
 end

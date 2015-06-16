@@ -11,74 +11,73 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150611203412) do
+ActiveRecord::Schema.define(version: 20150616194121) do
 
-  create_table "application_records", force: true do |t|
-    t.text     "responses"
+  create_table "application_records", force: :cascade do |t|
+    t.text     "responses",   limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_id"
-    t.boolean  "reviewed"
-    t.integer  "position_id"
-    t.text     "staff_note"
+    t.integer  "user_id",     limit: 4
+    t.boolean  "reviewed",    limit: 1
+    t.integer  "position_id", limit: 4
+    t.text     "staff_note",  limit: 65535
   end
 
-  create_table "application_templates", force: true do |t|
+  create_table "application_templates", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "position_id"
+    t.integer  "position_id", limit: 4
   end
 
-  create_table "departments", force: true do |t|
-    t.string   "name"
+  create_table "departments", force: :cascade do |t|
+    t.string   "name",       limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "interviews", force: true do |t|
-    t.boolean  "hired"
+  create_table "interviews", force: :cascade do |t|
+    t.boolean  "hired",                 limit: 1
     t.datetime "scheduled"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_id"
-    t.integer  "application_record_id"
-    t.boolean  "completed"
-    t.string   "location"
+    t.integer  "user_id",               limit: 4
+    t.integer  "application_record_id", limit: 4
+    t.boolean  "completed",             limit: 1
+    t.string   "location",              limit: 255
   end
 
-  create_table "positions", force: true do |t|
-    t.integer  "department_id"
-    t.string   "name"
+  create_table "positions", force: :cascade do |t|
+    t.integer  "department_id", limit: 4
+    t.string   "name",          limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "questions", force: true do |t|
-    t.string   "name"
-    t.text     "prompt"
-    t.string   "data_type"
-    t.boolean  "required"
-    t.integer  "number"
+  create_table "questions", force: :cascade do |t|
+    t.text     "prompt",                  limit: 65535
+    t.string   "data_type",               limit: 255
+    t.boolean  "required",                limit: 1
+    t.integer  "number",                  limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "application_template_id"
+    t.integer  "application_template_id", limit: 4
   end
 
-  create_table "site_texts", force: true do |t|
-    t.string   "name"
-    t.text     "text"
+  create_table "site_texts", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.text     "text",       limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "users", force: true do |t|
-    t.string   "first_name"
-    t.string   "last_name"
-    t.string   "spire"
+  create_table "users", force: :cascade do |t|
+    t.string   "first_name", limit: 255
+    t.string   "last_name",  limit: 255
+    t.string   "spire",      limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "staff"
-    t.string   "email"
+    t.boolean  "staff",      limit: 1
+    t.string   "email",      limit: 255
   end
 
 end

@@ -13,17 +13,11 @@ class Question < ActiveRecord::Base
             :number,
             :prompt,
             presence: true
-  # Headings don't require a name, just text
-  validates :name,
-            presence: true,
-            unless: -> { %w(explanation heading).include? data_type }
   validates :required, inclusion: { in: [true, false],
                                     message: 'must be true or false' }
-  # No questions in one application template with the same number or name
-  # Allow blank names for headings
-  validates :name, :number, uniqueness: { scope: :application_template,
-                                          allow_blank: true }
-  validates :name, length: { maximum: 20 }
+  # No questions in one application template with the same number
+  validates :number, uniqueness: { scope: :application_template,
+                                   allow_blank: true }
 
   default_scope { order :number }
 

@@ -1,7 +1,6 @@
 %table
   %thead
     %tr
-      %th Short name
       %th Prompt
       %th Response type
       %th Required?
@@ -12,7 +11,6 @@
   - @template.questions.each do |question|
     %tr
       = form_for question do |f|
-        %td= f.text_field :name, max_length: 20
         %td= f.text_area :prompt, required: true, size: '50x4'
         %td= f.select :data_type,
           options_for_select(Question::DATA_TYPES, question.data_type)
@@ -30,7 +28,6 @@
     %td#new_question_header{colspan: 8} Add new question:
   = form_for Question.new do |f|
     %tr
-      %td= f.text_field :name, maxlength: 20#, autofocus: true
       %td= f.text_area :prompt, required: true, size: '50x4'
       %td= f.select :data_type,
         options_for_select(Question::DATA_TYPES)

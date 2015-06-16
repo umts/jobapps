@@ -7,11 +7,11 @@ submitted by
 %table
   %thead
     %tr
-      %th Question name
+      %th Question
       %th Response
-  - @record.responses.each do |question_name, response|
+  - @record.responses.each do |prompt, response|
     %tr
-      %td= question_name
+      %td= prompt
       %td= response
 
 - if @current_user.staff?
