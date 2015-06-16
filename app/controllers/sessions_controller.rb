@@ -1,7 +1,6 @@
 # Disabling some rubocop settings for this file because we are coming
 # back to implement production later - some amount of useless else clauses, etc
 # are here on purpose.
-# rubocop:disable Style/EmptyElse, Style/GuardClause
 class SessionsController < ApplicationController
   # layout without_logout
   layout false
@@ -49,4 +48,3 @@ class SessionsController < ApplicationController
     @user = User.where(id: params[:user_id]).first
   end
 end
-# rubocop:enable Style/EmptyElse, Style/GuardClause
