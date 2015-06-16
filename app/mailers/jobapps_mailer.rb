@@ -30,7 +30,7 @@ class JobappsMailer < ActionMailer::Base
     @user = user
     @location = location
     @description = description
-    mail to: configured_value([:email, :site_text_request_address]),
+    mail to: configured_value([:email, :site_contact_email]),
          subject: "Site text request from #{user.full_name}"
   end
 end

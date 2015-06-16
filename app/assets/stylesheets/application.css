@@ -15,3 +15,20 @@
  *= require jquery-ui.min
  *= require jquery.datetimepicker
  */
+
+body{
+  display: flex;
+  flex-direction: column;
+  margin: 0px;
+  min-height: 100vh;
+}
+
+#content_wrapper{
+  flex: 1;
+}
+
+#main_content{
+  background-color: #fafafa;
+  margin: 0 auto;
+  max-width: 50em;
+}

@@ -1,0 +1,9 @@
+%form#banner_search{action: 'http://googlebox.oit.umass.edu/search', method: 'get', name: 'gs'}
+  %div
+    %label{for: 'q'}
+      %input#q{name: 'q', size: 22, placeholder: 'Search UMass', type: 'text'}
+    %input#submit{input: 'submit', name: 'sa', value: 'Go', type: 'submit'}
+    %input{name: 'site', value: 'default_collection', type: 'hidden'}
+    %input{name: 'client', value: 'default_frontend', type: 'hidden'}
+    %input{name: 'proxystylesheet', value: 'default_frontend', type: 'hidden'}
+    %input{name: 'output', value: 'xml_no_dtd', type: 'hidden'}
