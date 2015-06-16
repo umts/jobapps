@@ -20,8 +20,7 @@ class DashboardController < ApplicationController
   end
 
   def student
-    @application_records = @current_user.application_records
-                           .pending.group_by(&:position)
+    @application_records = @current_user.application_records.group_by(&:position)
     @interviews = @current_user.interviews
   end
 

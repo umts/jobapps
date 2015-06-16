@@ -59,3 +59,22 @@ submitted by
     - else #application is being reviewed for whatever reason
       Interview occurred on
       = format_date_time @interview.scheduled
+- else # student
+  - if @record.pending?
+    Your application is pending and has not yet been reviewed.
+    - if configured_value [:on_application_denial, :notify_applicant], default: true
+      You will be notified when your application has been reviewed.
+    - else
+      You will be contacted if an interview is requested.
+  - else
+    - if @interview.present?
+      - if @interview.pending?
+        Your interview is scheduled for
+      - else
+        Your interview occurred on
+      = format_date_time @interview.scheduled
+    - else
+      Your application has been denied.
+      - if configured_value([:on_application_denial, :provide_reason], default: true)
+        Reason:
+        = @record.staff_note
