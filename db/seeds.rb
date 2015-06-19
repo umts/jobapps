@@ -2,14 +2,14 @@ require 'factory_girl_rails'
 
 # If you wish to clear your database prior to running this file,
 # you may do so by uncommenting the following:
-#=begin
+=begin
 Rails.application.eager_load!
 table_names = ActiveRecord::Base.connection.tables.select do |table_name|
   Object.const_defined? table_name.classify
 end
 tables = table_names.map { |table_name| table_name.classify.constantize }
 tables.each(&:delete_all)
-#=end
+=end
 
 # SITE TEXTS
 FactoryGirl.create :site_text, name: 'welcome', text: 'Welcome to the job application page.'
