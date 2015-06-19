@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
   # rubocop:enable Style/AndOr
 
   def require_current_user
-    if session[:user_id].present?
+    if session.key?(:user_id) && User.find_by(id: session[:user_id]).present?
       @current_user = User.find session[:user_id]
     else
       redirect_to new_session_path
