@@ -1,6 +1,3 @@
-# Disabling some rubocop settings for this file because we are coming
-# back to implement production later - some amount of useless else clauses, etc
-# are here on purpose.
 class SessionsController < ApplicationController
   # layout without_logout
   layout false
@@ -25,7 +22,6 @@ class SessionsController < ApplicationController
         @students = User.students.limit 5
       elsif request.post?
         find_user
-        session[:user_id] = @user.id
         redirect_to main_dashboard_path
       end
     end
@@ -45,6 +41,7 @@ class SessionsController < ApplicationController
 
   def find_user
     params.require :user_id
-    @user = User.where(id: params[:user_id]).first
+    @user = User.find_by(id: params[:user_id])
+    session[:user_id] = @user.id
   end
 end
