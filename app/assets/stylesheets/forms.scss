@@ -1,0 +1,54 @@
+.form{
+  .title{
+    text-align: center;
+  }
+
+  .heading{
+    background:  #ece0e0;
+    font-size:   20px;
+    font-weight: bold;
+    margin:      1em auto;
+    padding:     0.3em;
+    text-align:  center;
+  }
+
+  .explanation{
+    font-size: 90%;
+    font-style: italic;
+    text-align: center;
+  }
+
+  .field{
+    margin: 1em;
+    .label{
+      display:      inline-block;
+      margin-right: 1em;
+      text-align:   right;
+      vertical-align: top;
+      width:        18em;
+    }
+    input[type='number']{
+      width: 3em;
+    }
+    select{
+      border: 1px solid gray;
+      width:  22.5em;
+    }
+  }
+
+  span.ast{
+    color: red;
+  }
+  .actions{
+    margin-bottom: 1em;
+    text-align: center; 
+    input{
+      background: lightgray;
+      border: 1px solid gray;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      padding: 0.5em 2em;
+    }
+  }
+}
