@@ -58,7 +58,7 @@ describe 'application_records/show.haml' do
   end
   context 'current user is student' do
     before :each do
-      when_current_user_is :student
+      when_current_user_is :student, view: true
     end
     context 'application not reviewed' do
       before :each do

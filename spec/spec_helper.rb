@@ -53,7 +53,7 @@ end
 # 1. a symbol name of a user factory trait;
 # 2. a specific instance of User.
 def when_current_user_is(user, options = {})
-  current_user = 
+  current_user =
     case user
     when Symbol
       create :user, user
