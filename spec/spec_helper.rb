@@ -52,13 +52,17 @@ end
 # Sets current user based on two acceptable values:
 # 1. a symbol name of a user factory trait;
 # 2. a specific instance of User.
-def when_current_user_is(user)
-  session[:user_id] =
+def when_current_user_is(user, options = {})
+  current_user = 
     case user
     when Symbol
-      (create :user, user).id
+      create :user, user
     when User
-      user.id
+      user
     else raise ArgumentError, 'Invalid user type'
     end
+  if options.key? :view
+    assign :current_user, current_user
+  else session[:user_id] = current_user.id
+  end
 end

@@ -6,7 +6,7 @@ describe 'application_records/show.haml' do
   end
   context 'current user is staff' do
     before :each do
-      when_current_user_is :staff
+      when_current_user_is :staff, view: true
     end
     context 'application not reviewed' do
       before :each do
@@ -27,7 +27,10 @@ describe 'application_records/show.haml' do
           @record.update staff_note: @note
           assign :record, @record
         end
-        it 'contains the staff note'
+        it 'contains the staff note' do
+          render
+          expect(rendered).to include @note
+        end
       end
       context 'interview present' do
         before :each do
