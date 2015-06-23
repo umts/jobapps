@@ -83,7 +83,7 @@ describe 'application_records/show.haml' do
           end
           it 'contains text saying that the interview is scheduled' do
             render
-            expect(rendered).to include 'scheduled'
+            expect(rendered).to include 'interview is scheduled'
           end
           it 'contains the time and date when the interview is scheduled'
         end
