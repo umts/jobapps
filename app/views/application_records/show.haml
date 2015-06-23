@@ -46,6 +46,8 @@ submitted by
         = @record.staff_note
   - if @interview.present?
     - if @interview.pending?
+      Interview is scheduled for: 
+      = @interview.information
       .export_link= link_to 'Click here for a calendar export file', interview_path(@interview, format: :ics)
       %h3 Reschedule interview
       = form_tag controller: :interviews, action: :reschedule, id: @interview.id do
