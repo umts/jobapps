@@ -81,7 +81,10 @@ describe 'application_records/show.haml' do
             @interview.update completed: false
             assign :interview, @interview
           end
-          it 'contains text saying that the interview is scheduled'
+          it 'contains text saying that the interview is scheduled' do
+            render
+            expect(rendered).to include 'scheduled'
+          end
           it 'contains the time and date when the interview is scheduled'
         end
         context 'interview is complete' do
