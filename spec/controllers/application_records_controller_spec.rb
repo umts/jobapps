@@ -130,14 +130,14 @@ describe ApplicationRecordsController do
 
   describe 'GET #show' do
     before :each do
-      @record = create :application_record
+      @record = create :application_record, user: (create :user, :student)
     end
     let :submit do
       get :show, id: @record.id
     end
-    context 'student' do
+    context 'applicant student' do
       before :each do
-        when_current_user_is :student
+        when_current_user_is @record.user
       end
       it 'renders the correct template' do
         submit
@@ -146,6 +146,19 @@ describe ApplicationRecordsController do
       it 'assigns the correct variables' do
         submit
         expect(assigns.keys).to include 'record', 'interview'
+      end
+    end
+    context 'record belongs to another student' do
+      before :each do
+        student_1 = create :user, :student
+        student_2 = create :user, :student
+        @record = create :application_record, user: student_1
+        when_current_user_is student_2
+      end
+      it 'does not allow access' do
+        submit
+        expect(response).to have_http_status :unauthorized
+        expect(response).not_to render_template 'show'
       end
     end
     context 'staff' do
