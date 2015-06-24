@@ -17,16 +17,16 @@ describe 'application_records/show.haml' do
       it 'contains a form to reject the application and provide a staff note' do
         render
         action_path = review_application_record_path(@record, accepted: false)
-        expect(rendered).to have_tag 'form', with: {action: action_path} do
-          with_tag 'textarea', with: {name: 'staff_note'}
+        expect(rendered).to have_form action_path, :post do
+          with_text_area :staff_note
         end
       end
       it 'contains a form to accept the application and schedule an interview' do
         render
         action_path = review_application_record_path(@record, accepted: true)
-        expect(rendered).to have_tag 'form', with: {action: action_path} do
-          with_tag 'input', with:{id: 'interview_location'}
-          with_tag 'input', with:{id: 'interview_scheduled', class: 'datetimepicker'}
+        expect(rendered).to have_form action_path, :post do
+          with_text_field 'interview[location]'
+          with_tag 'input#interview_scheduled.datetimepicker'
         end
       end
     end
@@ -61,14 +61,14 @@ describe 'application_records/show.haml' do
           end
           it 'contains a link to a calendar export file' do
             render
-            expect(rendered).to have_tag 'div', with: {class: 'export_link'} do
+            expect(rendered).to have_tag '.export_link' do
               with_tag 'a', with:{href: interview_path(@interview, format: :ics)}
             end
           end
           it 'contains a form to reschedule an interview' do
             render
             expect(rendered).to have_form reschedule_interview_path(@interview), :post do
-              with_tag 'input', with:{id: 'scheduled', class: 'datetimepicker'}
+              with_tag 'input#scheduled.datetimepicker'
               with_text_field :location, @interview.location
             end
           end
@@ -83,9 +83,9 @@ describe 'application_records/show.haml' do
             @interview.update completed: true
             assign :interview, @interview
           end
-          it 'shows when the interview occurred' do
+          it 'shows when and where the interview occurred' do
             render
-            expect(rendered).to include format_date_time(@interview.scheduled)
+            expect(rendered).to include @interview.information
           end
         end
       end
@@ -121,11 +121,11 @@ describe 'application_records/show.haml' do
           end
           it 'contains text saying that the interview is scheduled' do
             render
-            expect(rendered).to include 'scheduled'
+            expect(rendered).to include 'is scheduled for'
           end
-          it 'contains the time and date when the interview is scheduled' do
+          it 'contains the time and location of the interview' do
             render
-            expect(rendered).to include format_date_time(@interview.scheduled)
+            expect(rendered).to include @interview.information
           end
         end
         context 'interview is complete' do
