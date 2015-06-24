@@ -1,5 +1,6 @@
 ENV['RAILS_ENV'] ||= 'test'
 require 'factory_girl_rails'
+require 'rspec-html-matchers'
 require 'spec_helper'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'

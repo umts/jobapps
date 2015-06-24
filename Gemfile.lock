@@ -137,11 +137,18 @@ GEM
     rainbow (2.0.0)
     rake (10.4.2)
     redcarpet (3.3.1)
+    rspec (3.3.0)
+      rspec-core (~> 3.3.0)
+      rspec-expectations (~> 3.3.0)
+      rspec-mocks (~> 3.3.0)
     rspec-core (3.3.0)
       rspec-support (~> 3.3.0)
     rspec-expectations (3.3.0)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.3.0)
+    rspec-html-matchers (0.7.0)
+      nokogiri (~> 1)
+      rspec (~> 3)
     rspec-mocks (3.3.0)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.3.0)
@@ -210,6 +217,7 @@ DEPENDENCIES
   pry-byebug
   rails
   redcarpet
+  rspec-html-matchers
   rspec-rails
   rubocop
   sass-rails

@@ -47,6 +47,7 @@ end
 group :test do
   gem 'codeclimate-test-reporter', require: false
   gem 'rspec-rails'
+  gem 'rspec-html-matchers'
   gem 'factory_girl_rails'
   gem 'simplecov'
   gem 'mocha'
