@@ -37,8 +37,7 @@ class ApplicationRecordsController < ApplicationController
   end
 
   def show
-    params.require :id
-    @record = ApplicationRecord.find params[:id]
+    deny_access if @current_user.student? && @current_user != @record.user
     @interview = @record.interview
   end
 
