@@ -60,7 +60,7 @@ submitted by
         = submit_tag 'Mark interview as completed'
     - else #application is being reviewed for whatever reason
       Interview occurred on
-      = format_date_time @interview.scheduled
+      = @interview.information
 - else # student
   - if @record.pending?
     Your application is pending and has not yet been reviewed.
@@ -74,7 +74,7 @@ submitted by
         Your interview is scheduled for
       - else
         Your interview occurred on
-      = format_date_time @interview.scheduled
+      = @interview.information
     - else
       Your application has been denied.
       - if configured_value([:on_application_denial, :provide_reason], default: true)
