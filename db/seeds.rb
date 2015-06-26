@@ -24,7 +24,7 @@ position = FactoryGirl.create :position, department: department, name: 'The best
 staff_member = FactoryGirl.create :user, :staff, first_name: 'Staff', last_name: 'member'
 students = Hash.new
 %w(with_no_applications with_pending_application with_denied_application with_completed_interview with_pending_interview).each do |student_type|
-  students[student_type] = FactoryGirl.create :user, :student, first_name: 'Student', last_name: student_type.humanize.downcase
+  students[student_type] = FactoryGirl.create :user, :student, first_name: 'Student', last_name: student_type.humanize
 end
 
 # APPLICATION RECORDS

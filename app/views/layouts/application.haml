@@ -10,11 +10,11 @@
     #umass_banner
       #wordmark= image_tag 'wordmark.svg', height: 25
       #search= render partial: 'layouts/umass_search'
-      #links
-        - if @current_user.present?
+      - if @current_user.present?
+        #links
           %a{href: '/sessions', data: {method: 'delete'}} Logout
-          - if @current_user.staff?
-            = link_to 'Dashboard', staff_dashboard_path
+          = link_to 'Dashboard', staff_dashboard_path if @current_user.staff?
+        #current_user_name= @current_user.full_name
     #transportation_banner
       = image_tag 'trans-header-large.png'
     - if flash[:message].present?
