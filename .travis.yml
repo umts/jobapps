@@ -9,3 +9,7 @@ script:
   - 'bundle exec rspec spec'
   - 'bundle exec rake db:migrate'
   - 'bundle exec rake db:seed'
+notifications:
+  email:
+    recipients:
+      - transit-programmers@admin.umass.edu
