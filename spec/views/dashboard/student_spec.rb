@@ -55,10 +55,25 @@ describe 'dashboard/student.haml' do
             .with([:on_application_denial, :notify_applicant], anything)
             .and_return false
         end
-        it 'does not contain a link to review the application' do
-          render
-          action_path = application_record_path @application_record
-          expect(rendered).not_to have_tag 'a', with: { href: action_path }
+        context 'application is pending' do
+          before :each do
+            @application_record.update reviewed: false
+          end
+          it 'contains a link to review the application' do
+            render
+            action_path = application_record_path @application_record
+            expect(rendered).to have_tag 'a', with: { href: action_path }
+          end
+        end
+        context 'application has been reviewed' do
+          before :each do
+            @application_record.update reviewed: true
+          end
+          it 'does not contain a link to review the application' do
+            render
+            action_path = application_record_path @application_record
+            expect(rendered).not_to have_tag 'a', with: { href: action_path }
+          end
         end
       end
     end

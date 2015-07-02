@@ -17,7 +17,7 @@
       - if has_submitted_application
         - application = @application_records[position].last #most recent application, if more than one
         - should_show_rejected_applications = configured_value [:on_application_denial, :notify_applicant], default: true
-      - if has_submitted_application && (application.pending? || should_show_rejected_applications?)
+      - if has_submitted_application && (application.pending? || should_show_rejected_applications)
         %li= link_to "Review your application for #{position.name}", @application_records[position].last
       - elsif position.application_template.present?
         %li= link_to "Submit application for #{position.name}", application_template_path(position.application_template)

@@ -31,5 +31,5 @@ body{
 #main_content{
   background-color: #fafafa;
   margin: 0 auto;
-  max-width: 50em;
+  min-width: 50em;
 }
