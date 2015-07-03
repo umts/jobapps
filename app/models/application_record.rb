@@ -2,7 +2,7 @@ class ApplicationRecord < ActiveRecord::Base
   belongs_to :user
   belongs_to :position
   delegate :department, to: :position
-  has_one :interview
+  has_one :interview, dependent: :destroy
 
   serialize :responses, Hash
 
