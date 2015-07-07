@@ -3,7 +3,7 @@ class DashboardController < ApplicationController
   before_action :positions, except: :main
 
   def main
-    if @current_user.staff?
+    if @current_user.present? && @current_user.staff?
       redirect_to staff_dashboard_path
     else
       redirect_to student_dashboard_path
@@ -20,9 +20,14 @@ class DashboardController < ApplicationController
   end
 
   def student
-    @application_records = @current_user.application_records
-                           .group_by(&:position)
-    @interviews = @current_user.interviews
+    if @current_user.present?
+      @application_records = @current_user.application_records
+                             .group_by(&:position)
+      @interviews = @current_user.interviews
+    else
+      @application_records = Hash.new
+      @interviews = Hash.new
+    end
   end
 
   private

@@ -3,6 +3,7 @@ class ApplicationRecordsController < ApplicationController
   before_action :find_record, except: :create
 
   def create
+    # TODO: create a user if current user is nil
     params.require :responses
     params.require :position_id
     ApplicationRecord.create(position_id: params[:position_id],

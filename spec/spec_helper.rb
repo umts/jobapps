@@ -59,6 +59,7 @@ def when_current_user_is(user)
       (create :user, user).id
     when User
       user.id
+    when nil then nil
     else raise ArgumentError, 'Invalid user type'
     end
 end
