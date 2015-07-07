@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
              layout: false
     end
   end
-  
+
   def set_current_user
     if session.key?(:user_id) && User.find_by(id: session[:user_id]).present?
       @current_user = User.find session[:user_id]
