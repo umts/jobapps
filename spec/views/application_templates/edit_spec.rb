@@ -40,8 +40,7 @@ describe 'application_templates/edit.haml' do
   end
   it 'contains a form to add a new question' do
     render
-    action_path = questions_path
-    expect(rendered).to have_form action_path, :post
+    expect(rendered).to have_form questions_path, :post
   end
   it 'shows a button to move up if button is in middle' do
     render
