@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
 
   def destroy
     if Rails.env.production?
-      # redirect_to '/Shibboleth.sso/Logout?return=https://webauth.oit.umass.edu/Logout'
+      redirect_to '/Shibboleth.sso/Logout?return=https://webauth.oit.umass.edu/Logout'
     else redirect_to dev_login_sessions_path
     end
     session.clear
@@ -18,8 +18,9 @@ class SessionsController < ApplicationController
       redirect_to new_session_path and return
     else
       if request.get?
-        @staff    = User.staff.limit 5
-        @students = User.students.limit 5
+        @staff     = User.staff
+        @students  = User.students
+        @new_spire = (User.pluck(:spire).map(&:to_i).last + 1).to_s.rjust 8, '0'
       elsif request.post?
         find_user
         redirect_to main_dashboard_path
@@ -40,8 +41,11 @@ class SessionsController < ApplicationController
   private
 
   def find_user
-    params.require :user_id
-    @user = User.find_by(id: params[:user_id])
-    session[:user_id] = @user.id
+    if params.permit(:user_id).present?
+      @user = User.find_by(id: params[:user_id])
+      session[:user_id] = @user.id
+    elsif params.permit(:spire).present?
+      session[:spire] = params[:spire]
+    end
   end
 end

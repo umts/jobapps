@@ -31,11 +31,19 @@ describe SessionsController do
           .to receive(:production?)
           .and_return true
       end
-      it 'clears the session'
+      it 'redirects to something about Shibboleth'
+      it 'clears the session' do
+        expect_any_instance_of(ActionController::TestSession)
+          .to receive :clear
+        submit
+      end
     end
   end
 
   describe 'GET #dev_login' do
+    before :each do
+      when_current_user_is nil
+    end
     let :submit do
       get :dev_login
     end
@@ -55,6 +63,7 @@ describe SessionsController do
         expect(Rails.env)
           .to receive(:production?)
           .and_return false
+        create :user # for SPIRE purposes
       end
       it 'assigns instance variables' do
         submit
@@ -69,6 +78,7 @@ describe SessionsController do
 
   describe 'POST #dev_login' do
     before :each do
+      when_current_user_is nil
       @user = create :user
     end
     let :submit do
@@ -103,6 +113,9 @@ describe SessionsController do
   end
 
   describe 'GET #new' do
+    before :each do
+      when_current_user_is nil
+    end
     let :submit do
       get :new
     end

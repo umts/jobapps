@@ -24,9 +24,6 @@ class DashboardController < ApplicationController
       @application_records = @current_user.application_records
                              .group_by(&:position)
       @interviews = @current_user.interviews
-    else
-      @application_records = Hash.new
-      @interviews = Hash.new
     end
   end
 
