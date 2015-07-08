@@ -59,6 +59,10 @@ def when_current_user_is(user)
       (create :user, user).id
     when User
       user.id
+    when nil
+      # need spire for requests but current_user should still be nil
+      session[:spire] = build(:user).spire
+      nil
     else raise ArgumentError, 'Invalid user type'
     end
 end

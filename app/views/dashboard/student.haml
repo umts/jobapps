@@ -14,7 +14,7 @@
   - @positions.each do |department, positions|
     %h3= department.name
     - positions.each do |position|
-      - if @application_records.keys.include?(position) && (@application_records[position].last.pending? || (configured_value [:on_application_denial, :notify_applicant], default: true))
+      - if @application_records.present? && @application_records.keys.include?(position) && (@application_records[position].last.pending? || (configured_value [:on_application_denial, :notify_applicant], default: true))
         %li= link_to "Review your application for #{position.name}", @application_records[position].last
       - else
         %li= link_to "Submit application for #{position.name}", position.application_template

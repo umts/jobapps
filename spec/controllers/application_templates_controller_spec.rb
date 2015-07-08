@@ -66,6 +66,13 @@ describe ApplicationTemplatesController do
     let :submit do
       get :show, id: @template.id
     end
+    context 'no user' do
+      it 'allows access' do
+        when_current_user_is nil
+        submit
+        expect(response).not_to have_http_status :unauthorized
+      end
+    end
     context 'student' do
       it 'allows access' do
         when_current_user_is :student

@@ -1,9 +1,14 @@
 %h1 Development login
 
+= form_tag '/sessions/dev_login' do
+  = hidden_field_tag :spire, @new_spire
+  = submit_tag 'Log in with SPIRE, not user record'
+= form_tag '/sessions/dev_login' do
+  = submit_tag 'Log in with no SPIRE or user record (should fail)'
 - [@staff, @students].each_with_index do |group, index|
   %h2 Login as #{%w(staff student)[index]}:
   %ul
     - group.each do |user|
-      = form_tag action: 'dev_login' do
+      = form_tag '/sessions/dev_login' do
         = hidden_field_tag :user_id, user.id
         = submit_tag user.full_name

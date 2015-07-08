@@ -16,6 +16,13 @@ describe DashboardController do
         expect(response).to redirect_to student_dashboard_path
       end
     end
+    context 'as no user' do
+      it 'redirects to student dashboard' do
+        when_current_user_is nil
+        get :main
+        expect(response).to redirect_to student_dashboard_path
+      end
+    end
   end
 
   describe 'GET #staff' do
@@ -59,6 +66,19 @@ describe DashboardController do
   describe 'GET #student' do
     let :submit do
       get :student
+    end
+    context 'no user' do
+      before :each do
+        when_current_user_is nil
+      end
+      it 'allows access' do
+        submit
+        expect(response).not_to have_http_status :unauthorized
+      end
+      it 'assigns the required instance variables' do
+        submit
+        expect(assigns.keys).to include 'positions'
+      end
     end
     context 'student' do
       before :each do
