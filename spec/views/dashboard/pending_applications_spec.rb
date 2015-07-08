@@ -10,7 +10,7 @@ describe 'dashboard/_pending_applications.haml' do
       assign :departments, Array(@department)
       assign :pending_records, Hash[@position, Array(@pending_record)]
     end
-    it 'includes a link to the pending record' do
+    it 'includes a link to any pending applications' do
       render
       action_path = application_record_path @pending_record
       expect(rendered).to have_tag 'a', with: { href: action_path }
