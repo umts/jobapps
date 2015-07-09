@@ -22,13 +22,15 @@ describe 'dashboard/student.haml' do
   context 'interview is not present' do
     before :each do
       assign :interviews, nil
-      @position = create :position
       department = create :department
+      @position = create :position
+      # hash mapping positions to departments
       assign :positions, Hash[department, Array(@position)]
     end
     context 'student has already submitted an application' do
       before :each do
         @application_record = create :application_record
+        # hash mapping application records to their positions
         assign :application_records, Hash[@position, Array(@application_record)]
       end
       context 'configured value notify of application denial reason is true' do
