@@ -5,10 +5,12 @@ describe 'dashboard/_pending_interviews.haml' do
   context 'there are students with pending interviews' do
     before :each do
       @application_record = create :application_record
-      @pending_interview = create :interview, application_record: @application_record
+      @pending_interview = create :interview,
+                                  application_record: @application_record
       @department = create :department
       @position = create :position, department: @department
       assign :departments, Array(@department)
+      # maps array pf pending interviews to their positions
       assign :pending_interviews, Hash[@position, Array(@pending_interview)]
     end
     it 'includes a link to any pending interviews' do
