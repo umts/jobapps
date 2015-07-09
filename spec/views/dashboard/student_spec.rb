@@ -11,7 +11,7 @@ describe 'dashboard/student.haml' do
       render
       expect(rendered).to include @interview.information
     end
-    it 'contains a link to review the application' do
+    it 'contains an interview review link that reviews the application' do
       render
       action_path = application_record_path @interview.application_record
       expect(rendered).to have_tag '.interview_review_link' do
