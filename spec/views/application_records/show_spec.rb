@@ -147,7 +147,9 @@ describe 'application_records/show.haml' do
       end
       context 'interview not present' do
         before :each do
-          @record.interview.delete if @record.interview.present?
+          #  commenting out the line below still makes the test pass.
+          #  So why even include it?
+          #  @record.interview.delete if @record.interview.present?
           assign :interview, nil
         end
         it 'contains text saying application has been denied' do
