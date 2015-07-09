@@ -7,7 +7,7 @@ describe 'dashboard/student.haml' do
       @interview = create :interview
       assign :interviews, Array(@interview)
     end
-    it 'displays the date, time, and location of each interview' do
+    it 'displays the date, time, and location of the interview' do
       render
       expect(rendered).to include @interview.information
     end
