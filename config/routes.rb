@@ -4,7 +4,6 @@ Rails.application.routes.draw do
   else root 'dashboard#main'
   end
 
-
   resources :application_templates, only: [:new, :edit, :show]
 
   resources :application_records, only: [:create, :show] do
@@ -12,6 +11,8 @@ Rails.application.routes.draw do
       post :review
     end
   end
+
+  get '/bus', to: 'application_templates#bus', as: :bus_application
 
   get '/dashboard/main',    to: 'dashboard#main',    as: :main_dashboard
   get '/dashboard/staff',   to: 'dashboard#staff',   as: :staff_dashboard
