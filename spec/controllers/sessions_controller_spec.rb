@@ -105,6 +105,12 @@ describe SessionsController do
         submit
         expect(session[:user_id]).to eql @user.id
       end
+      context 'SPIRE submitted' do
+        it 'creates a session with that SPIRE' do
+          post :dev_login, spire: '12345678'
+          expect(session[:spire]).to eql '12345678'
+        end
+      end
       it 'redirects to main dashboard' do
         submit
         expect(response).to redirect_to main_dashboard_path
