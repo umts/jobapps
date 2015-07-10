@@ -55,7 +55,7 @@ describe SessionsController do
     it 'renders correct template' do
       submit
       expect(response).to render_template 'dev_login'
-  end
+    end
   end
 
   describe 'POST #dev_login' do

@@ -11,9 +11,7 @@ class SessionsController < ApplicationController
     session.clear
   end
 
-  # '... and return' is correct behavior here, disable rubocop warning
-  # rubocop:disable Style/AndOr
-  def dev_login
+  def dev_login # route not defined in production
     if request.get?
       @staff     = User.staff
       @students  = User.students
@@ -23,8 +21,6 @@ class SessionsController < ApplicationController
       redirect_to main_dashboard_path
     end
   end
-  # '... and return' is correct behavior here, disable rubocop warning
-  # rubocop:enable Style/AndOr
 
   def new
     if Rails.env.production?
