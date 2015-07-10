@@ -59,7 +59,7 @@ def when_current_user_is(user, options = {})
     when Symbol
       create :user, user
     when User
-      user.id
+      user
     when nil
       # need spire for requests but current_user should still be nil
       session[:spire] = build(:user).spire
@@ -68,6 +68,6 @@ def when_current_user_is(user, options = {})
     end
   if options.key? :view
     assign :current_user, current_user
-  else session[:user_id] = current_user.id
+  else session[:user_id] = current_user.try :id
   end
 end
