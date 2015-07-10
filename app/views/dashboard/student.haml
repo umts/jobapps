@@ -5,8 +5,7 @@
   - @interviews.each do |interview|
     .interview_explain_text
       Your #{interview.application_record.department.name} interview
-      has been scheduled for #{format_date_time interview.scheduled}
-      at #{interview.location}.
+      has been scheduled for #{interview.information}.
     .interview_review_link
       = link_to 'Review your application', interview.application_record
 - else
@@ -14,8 +13,11 @@
   - @positions.each do |department, positions|
     %h3= department.name
     - positions.each do |position|
-      - if @application_records.present? && @application_records.keys.include?(position) && (@application_records[position].last.pending? || (configured_value [:on_application_denial, :notify_applicant], default: true))
+      - has_submitted_application = @application_records.keys.include? position
+      - if has_submitted_application
+        - application = @application_records[position].last #most recent application, if more than one
+        - should_show_rejected_applications = configured_value [:on_application_denial, :notify_applicant], default: true
+      - if has_submitted_application && (application.pending? || should_show_rejected_applications)
         %li= link_to "Review your application for #{position.name}", @application_records[position].last
-      - else
-        %li= link_to "Submit application for #{position.name}", position.application_template
-
+      - elsif position.application_template.present?
+        %li= link_to "Submit application for #{position.name}", application_template_path(position.application_template)

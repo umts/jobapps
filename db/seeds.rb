@@ -1,19 +1,6 @@
 require 'factory_girl_rails'
 require 'csv'
 
-# If you wish to clear your database prior to running this file,
-# you may do so by uncommenting the following:
-begin
-  Rails.application.eager_load!
-  table_names = ActiveRecord::Base.connection.tables.select do |table_name|
-    Object.const_defined? table_name.classify
-  end
-  tables = table_names.map { |table_name| table_name.classify.constantize }
-  tables.each(&:delete_all)
-end
-
-FactoryGirl.create :user, first_name: 'David', last_name: 'Faulkenberry', email: 'dfaulken@umass.edu', spire: '12345678', staff: true
-
 FactoryGirl.create :site_text, name: 'welcome', text: 'Welcome to the UMass Transit job application page.'
 FactoryGirl.create :site_text, name: 'markdown explanation', text: <<MARKDOWN
 Configurable site text is interpreted and shown to end users using a protocol known as Markdown. This means that you can do some of your own text formatting. Here's how:

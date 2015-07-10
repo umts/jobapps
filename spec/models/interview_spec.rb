@@ -52,10 +52,12 @@ describe Interview do
     it 'includes the location' do
       expect(@interview.information).to include @interview.location
     end
-    it 'includes the name of interviewee' do
+    it 'includes the name of interviewee if so requested' do
       user = @interview.user
-      expect(@interview.information).to include user.first_name
-      expect(@interview.information).to include user.last_name
+      expect(@interview.information include_name: true)
+        .to include user.first_name
+      expect(@interview.information include_name: true)
+        .to include user.last_name
     end
   end
 

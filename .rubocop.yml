@@ -6,9 +6,11 @@ AllCops:
     - 'db/**/*'
     - 'vendor/**/*'
 
-# Don't prefer fail to raise.
-Style/SignalException:
-  Enabled: false
+# Relax complexity testing to codeclimate standards (roughly).
+Metrics/AbcSize:
+  Max: 20
+Metrics/MethodLength:
+  Max: 20
 
 # Don't worry about documentation for now.
 # In particular, this fails for things like
@@ -21,11 +23,9 @@ Style/Documentation:
 Style/EmptyLiteral:
   Enabled: false
 
-# Relax complexity testing to codeclimate standards (roughly).
-Metrics/AbcSize:
-  Max: 20
-Metrics/MethodLength:
-  Max: 20
-
 Style/GuardClause:
   MinBodyLength: 10
+
+# Don't prefer fail to raise.
+Style/SignalException:
+  Enabled: false

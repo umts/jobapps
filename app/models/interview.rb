@@ -26,8 +26,10 @@ class Interview < ActiveRecord::Base
     "Interview with #{user.full_name}"
   end
 
-  def information
-    "#{format_date_time scheduled} at #{location}: #{user.proper_name}"
+  def information(options = {})
+    info = "#{format_date_time scheduled} at #{location}"
+    info += ": #{user.proper_name}" if options.key? :include_name
+    info
   end
 
   def pending?

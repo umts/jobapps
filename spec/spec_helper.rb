@@ -14,6 +14,7 @@ RSpec.configure do |config|
     FactoryGirl.reload
   end
   config.include FactoryGirl::Syntax::Methods
+  # config.include RSpecHtmlMatchers
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end
@@ -52,17 +53,21 @@ end
 # Sets current user based on two acceptable values:
 # 1. a symbol name of a user factory trait;
 # 2. a specific instance of User.
-def when_current_user_is(user)
-  session[:user_id] =
+def when_current_user_is(user, options = {})
+  current_user =
     case user
     when Symbol
-      (create :user, user).id
+      create :user, user
     when User
-      user.id
+      user
     when nil
       # need spire for requests but current_user should still be nil
       session[:spire] = build(:user).spire
       nil
     else raise ArgumentError, 'Invalid user type'
     end
+  if options.key? :view
+    assign :current_user, current_user
+  else session[:user_id] = current_user.try :id
+  end
 end

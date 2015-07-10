@@ -5,6 +5,6 @@ $(document).ready ->
     yearRange:   'c-5:c+5'
 
   $('.datetimepicker').datetimepicker
-    formatTime: 'g:i a'
+    format: 'l, F j, Y g:i a'
     step:       15
   return

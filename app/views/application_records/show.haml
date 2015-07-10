@@ -13,7 +13,7 @@ submitted by
     %tr
       %td= prompt
       %td= response
-
+      
 - if @current_user.staff?
   - if @record.pending?
     %h3 Review application
@@ -46,6 +46,8 @@ submitted by
         = @record.staff_note
   - if @interview.present?
     - if @interview.pending?
+      Interview is scheduled for: 
+      = @interview.information
       .export_link= link_to 'Click here for a calendar export file', interview_path(@interview, format: :ics)
       %h3 Reschedule interview
       = form_tag controller: :interviews, action: :reschedule, id: @interview.id do
@@ -58,7 +60,7 @@ submitted by
         = submit_tag 'Mark interview as completed'
     - else #application is being reviewed for whatever reason
       Interview occurred on
-      = format_date_time @interview.scheduled
+      = @interview.information
 - else # student
   - if @record.pending?
     Your application is pending and has not yet been reviewed.
@@ -72,7 +74,7 @@ submitted by
         Your interview is scheduled for
       - else
         Your interview occurred on
-      = format_date_time @interview.scheduled
+      = @interview.information
     - else
       Your application has been denied.
       - if configured_value([:on_application_denial, :provide_reason], default: true)
