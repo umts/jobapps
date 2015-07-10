@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
-  root 'dashboard#main'
+  if Rails.env.development?
+    root 'sessions#dev_login'
+  else root 'dashboard#main'
+  end
+
 
   resources :application_templates, only: [:new, :edit, :show]
 

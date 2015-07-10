@@ -1,5 +1,5 @@
 class ApplicationTemplate < ActiveRecord::Base
-  has_many :questions
+  has_many :questions, dependent: :destroy
   belongs_to :position
   delegate :department, to: :position
 

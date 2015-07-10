@@ -1,7 +1,7 @@
 class Position < ActiveRecord::Base
   belongs_to :department
-  has_one :application_template
-  has_many :application_records
+  has_one :application_template, dependent: :destroy
+  has_many :application_records, dependent: :destroy
   has_many :interviews, through: :application_records
 
   validates :department,

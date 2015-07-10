@@ -3,6 +3,7 @@ class ApplicationRecordsController < ApplicationController
   before_action :find_record, except: :create
 
   def create
+    create_user if @current_user.blank?
     params.require :responses
     params.require :position_id
     ApplicationRecord.create(position_id: params[:position_id],
@@ -37,12 +38,18 @@ class ApplicationRecordsController < ApplicationController
   end
 
   def show
-    params.require :id
-    @record = ApplicationRecord.find params[:id]
+    deny_access if @current_user.student? && @current_user != @record.user
     @interview = @record.interview
   end
 
   private
+
+  def create_user
+    user_attributes = params.require(:user).permit!
+    user_attributes.merge! spire: session[:spire], staff: false
+    session[:user_id] = User.create(user_attributes).id
+    set_current_user
+  end
 
   def find_record
     params.require :id
