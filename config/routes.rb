@@ -37,8 +37,10 @@ Rails.application.routes.draw do
 
   resources :sessions, only: [:new] do
     collection do
-      get  :dev_login
-      post :dev_login
+      unless Rails.env.development?
+        get  :dev_login
+        post :dev_login
+      end
       delete :destroy
     end
   end

@@ -14,17 +14,13 @@ class SessionsController < ApplicationController
   # '... and return' is correct behavior here, disable rubocop warning
   # rubocop:disable Style/AndOr
   def dev_login
-    if Rails.env.production?
-      redirect_to new_session_path and return
-    else
-      if request.get?
-        @staff     = User.staff
-        @students  = User.students
-        @new_spire = (User.pluck(:spire).map(&:to_i).last + 1).to_s.rjust 8, '0'
-      elsif request.post?
-        find_user
-        redirect_to main_dashboard_path
-      end
+    if request.get?
+      @staff     = User.staff
+      @students  = User.students
+      @new_spire = (User.pluck(:spire).map(&:to_i).last + 1).to_s.rjust 8, '0'
+    elsif request.post?
+      find_user
+      redirect_to main_dashboard_path
     end
   end
   # '... and return' is correct behavior here, disable rubocop warning
