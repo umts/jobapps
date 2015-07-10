@@ -20,23 +20,31 @@ describe 'application_templates/edit.haml' do
   end
   it 'has a prompt that is required' do
     render
-    expect(rendered).to have_tag 'textarea',
-                                 with: { required: 'required',
-                                         name: 'question[prompt]' }
+    action_path = question_path @top_question
+    expect(rendered).to have_form action_path, :post do
+      with_text_area 'question[prompt]'
+    end
   end
   it 'contains options to select data type' do
     render
-    expect(rendered).to have_tag 'select', with: { name: 'question[data_type]' }
+    action_path = question_path @top_question
+    expect(rendered).to have_form action_path, :post do
+      with_select 'question[data_type]'
+    end
   end
   it 'contains a check box to determine whether question is required' do
     render
-    expect(rendered).to have_tag 'input',
-                                 with: { type: 'checkbox',
-                                         name: 'question[required]' }
+    action_path = question_path @top_question
+    expect(rendered).to have_form action_path, :post do
+      with_checkbox 'question[required]'
+    end
   end
-  it 'has a submit button' do
+  it 'has a submit button to save the question' do
     render
-    expect(rendered).to have_tag 'input', with: { type: 'submit' }
+    action_path = question_path @top_question
+    expect(rendered).to have_form action_path, :post do
+      with_submit 'Save question'
+    end
   end
   it 'contains a form to add a new question' do
     render
@@ -44,32 +52,32 @@ describe 'application_templates/edit.haml' do
   end
   it 'shows a button to move up if button is in middle' do
     render
-    action_path = move_question_path(@middle_question, direction: :up)
+    action_path = move_question_path @middle_question, direction: :up
     expect(rendered).to have_form action_path, :post
   end
   it 'shows a button to move down if button is in middle' do
     render
-    action_path = move_question_path(@middle_question, direction: :down)
+    action_path = move_question_path @middle_question, direction: :down
     expect(rendered).to have_form action_path, :post
   end
   it 'does not have a button to move up if top question' do
     render
-    action_path = move_question_path(@top_question, direction: :up)
+    action_path = move_question_path @top_question, direction: :up
     expect(rendered).not_to have_form action_path, :post
   end
   it 'has a button to move down if top question' do
     render
-    action_path = move_question_path(@top_question, direction: :down)
+    action_path = move_question_path @top_question, direction: :down
     expect(rendered).to have_form action_path, :post
   end
   it 'does not have a button to move down if bottom question' do
     render
-    action_path = move_question_path(@bottom_question, direction: :down)
+    action_path = move_question_path @bottom_question, direction: :down
     expect(rendered).not_to have_form action_path, :post
   end
   it 'has a button to move up if bottom question' do
     render
-    action_path = move_question_path(@bottom_question, direction: :up)
+    action_path = move_question_path @bottom_question, direction: :up
     expect(rendered).to have_form action_path, :post
   end
 end
