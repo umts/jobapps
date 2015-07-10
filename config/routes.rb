@@ -37,7 +37,7 @@ Rails.application.routes.draw do
 
   resources :sessions, only: [:new] do
     collection do
-      unless Rails.env.development?
+      unless Rails.env.production?
         get  :dev_login
         post :dev_login
       end
