@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
     if request.get?
       @staff     = User.staff
       @students  = User.students
-      @new_spire = (User.pluck(:spire).map(&:to_i).last + 1).to_s.rjust 8, '0'
+      @new_spire = new_spire
     elsif request.post?
       find_user
       redirect_to main_dashboard_path
@@ -39,5 +39,9 @@ class SessionsController < ApplicationController
     elsif params.permit(:spire).present?
       session[:spire] = params[:spire]
     end
+  end
+
+  def new_spire
+    (User.pluck(:spire).map(&:to_i).last + 1).to_s.rjust 8, '0'
   end
 end
