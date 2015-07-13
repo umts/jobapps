@@ -79,4 +79,7 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # Session timeout after 1 hour
+  config.session_store :cookie_store, expire_after: 1.hour
 end
