@@ -1,4 +1,5 @@
 .form{
+  margin: 0 5em;
   .title{
     text-align: center;
   }
@@ -21,11 +22,11 @@
   .field{
     margin: 1em;
     .label{
-      display:      inline-block;
-      margin-right: 1em;
-      text-align:   right;
+      display:        inline-block;
+      margin-right:   1em;
+      text-align:     right;
       vertical-align: top;
-      width:        18em;
+      width:          20em;
     }
     input[type='number']{
       width: 3em;
