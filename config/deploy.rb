@@ -8,7 +8,6 @@ set :deploy_to, "/srv/#{fetch :application}"
 set :log_level, :info
 set :scm, :git
 set :keep_releases, 5
-set :use_sudo, true
 
 set :linked_files, fetch(:linked_files, []).push(
   'config/application.yml',
