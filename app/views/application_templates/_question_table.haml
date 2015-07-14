@@ -4,10 +4,10 @@
       %th Prompt
       %th Response type
       %th Required?
-      %th= #submit
-      %th= #move up
-      %th= #move down
-      %th= #remove question
+      %th= # submit
+      %th= # move up
+      %th= # move down
+      %th= # remove question
   - @template.questions.each do |question|
     %tr
       = form_for question do |f|
@@ -22,10 +22,11 @@
           = button_to 'Move up', move_question_path(question, direction: :up)
       %td
         - unless question == @template.questions.last
-          = button_to 'Move down', move_question_path(question, direction: :down)
+          = button_to 'Move down',
+            move_question_path(question, direction: :down)
       %td= button_to 'Remove question', question, method: :delete
   %tr
-    %td#new_question_header{colspan: 8} Add new question:
+    %td#new_question_header{ colspan: 8 } Add new question:
   = form_for Question.new do |f|
     %tr
       %td= f.text_area :prompt, required: true, size: '50x4'
@@ -36,6 +37,6 @@
         = f.hidden_field :application_template_id, value: @template.id
         = f.hidden_field :number, value: @template.questions.count + 1
         = f.submit 'Save question'
-      %td= #move up, not used for new
-      %td= #move down, not used for new
-      %td= #remove question, not used for new
+      %td= # move up, not used for new
+      %td= # move down, not used for new
+      %td= # remove question, not used for new

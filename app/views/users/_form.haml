@@ -1,4 +1,5 @@
-= form_for user, url: {controller: :users, action: action, id: user.id} do |f|
+= form_for user,
+  url: { controller: :users, action: action, id: user.id } do |f|
   .field
     = f.label :first_name
     = f.text_field :first_name, required: true

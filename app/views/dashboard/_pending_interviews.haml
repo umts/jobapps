@@ -7,7 +7,7 @@
         %li
           = position.name
           %ul
-            - if @pending_interviews.has_key? position
+            - if @pending_interviews.key? position
               - @pending_interviews[position].each do |interview|
                 %li= link_to interview.information(include_name: true),
                   interview.application_record

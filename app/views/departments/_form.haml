@@ -1,4 +1,5 @@
-= form_for department, url: {controller: :departments, action: action, id: department.id} do |f|
+= form_for department, url: { controller: :departments,
+  action: action, id: department.id } do |f|
   .field
     = f.label :name
     = f.text_field :name, required: true

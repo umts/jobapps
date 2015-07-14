@@ -2,4 +2,5 @@
 
 = render 'form', position: @position, action: :update
 
-= button_to "Remove #{@position.name_and_department}", @position, method: :delete
+= button_to "Remove #{@position.name_and_department}",
+  @position, method: :delete
