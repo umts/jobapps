@@ -51,6 +51,8 @@ group :production do
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
   gem 'capistrano-passenger'
+  # Notify us of things gone terribly, horribly wrong
+  gem 'exception_notification'
 end
 
 group :test do

@@ -82,4 +82,9 @@ Rails.application.configure do
 
   # Session timeout after 1 hour
   config.session_store :cookie_store, expire_after: 1.hour
+
+  config.middleware.use ExceptionNotification::Rack,
+    email: { email_prefix: 'umts/jobapps exception: ',
+             sender_address: %{Jobapps <transit-it@admin.umass.edu>},
+             exception_recipients: %w(programmers@admin.umass.edu) }
 end
