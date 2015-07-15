@@ -19,6 +19,7 @@
 
 # Ignore application configuration
 /config/application.yml
+/config/database.yml
 
 # Ignore all of coverage, except the .last_run.json
 coverage/index.html

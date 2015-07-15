@@ -46,6 +46,13 @@ group :development, :test do
   gem 'pry-byebug'
 end
 
+group :production do
+  gem 'capistrano'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rails'
+  gem 'capistrano-passenger'
+end
+
 group :test do
   gem 'codeclimate-test-reporter', require: false
   gem 'rspec-rails'
