@@ -6,9 +6,7 @@ before_script:
   - cp config/application.yml.example config/application.yml
   - cp config/database.yml.example config/database.yml
 script:
-  - 'bundle exec rake rubocop'
-  - 'bundle exec rspec spec'
-  - 'bundle exec haml-lint app/views'
+  - 'bundle exec rake travis'
   - 'bundle exec rake db:migrate'
   - 'bundle exec rake db:seed'
 notifications:

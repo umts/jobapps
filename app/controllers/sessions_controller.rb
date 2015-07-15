@@ -4,11 +4,11 @@ class SessionsController < ApplicationController
   skip_before_action :access_control, :set_current_user, :set_spire
 
   def destroy
+    session.clear
     if Rails.env.production?
       redirect_to '/Shibboleth.sso/Logout?return=https://webauth.oit.umass.edu/Logout'
-    else redirect_to dev_login_sessions_path
+    else redirect_to dev_login_path
     end
-    session.clear
   end
 
   def dev_login # route not defined in production
@@ -22,12 +22,8 @@ class SessionsController < ApplicationController
     end
   end
 
-  def new
-    if Rails.env.production?
-      # TODO: decide on this behavior
-    else
-      redirect_to dev_login_sessions_path
-    end
+  # Only shows if no user in databse AND no SPIRE provided from Shibboleth
+  def unauthenticated
   end
 
   private

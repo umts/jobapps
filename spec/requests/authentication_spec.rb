@@ -4,9 +4,9 @@ require 'rails_helper'
 # equivalent to not being authenticated.
 describe 'Authentication' do
   context 'unauthenticated user' do
-    it 'redirects to new session path' do
+    it 'redirects to unauthenticated session path' do
       get '/dashboard/staff'
-      expect(response).to redirect_to new_session_path
+      expect(response).to redirect_to unauthenticated_session_path
     end
   end
 end

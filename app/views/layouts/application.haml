@@ -12,7 +12,7 @@
       #search= render partial: 'layouts/umass_search'
       - if @current_user.present?
         #links
-          %a{ href: '/sessions', data: { method: 'delete' } } Logout
+          = link_to 'Logout', destroy_session_path
           = link_to 'Dashboard', staff_dashboard_path if @current_user.staff?
         #current_user_name= @current_user.full_name
     #transportation_banner
