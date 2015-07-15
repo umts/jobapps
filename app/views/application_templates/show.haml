@@ -21,7 +21,7 @@
             .explanation= render_markdown question.prompt
           - elsif question.heading?
             %h3.heading= question.prompt
-          -else
+          - else
             .label= r.label question.prompt
             - case question.data_type
             - when 'text', 'date'
@@ -31,9 +31,11 @@
               = r.number_field question.prompt, required: question.required?
             - when 'yes/no'
               Yes
-              = r.radio_button question.prompt, 'yes', required: question.required?
+              = r.radio_button question.prompt, 'yes',
+                required: question.required?
               No
-              = r.radio_button question.prompt, 'no', required: question.required?
+              = r.radio_button question.prompt, 'no',
+                required: question.required?
             - if question.required?
               %span.ast *
     = hidden_field_tag :position_id, @template.position_id

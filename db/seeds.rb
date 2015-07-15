@@ -1,8 +1,12 @@
 require 'factory_girl_rails'
 require 'csv'
 
+# SPIRE will have to be set to what it actually is on deploy
+FactoryGirl.create :user, first_name: 'David', last_name: 'Faulkenberry', staff: true, spire: '12345678', email: 'dfaulken@umass.edu'
+
 FactoryGirl.create :site_text, name: 'welcome', text: 'Welcome to the UMass Transit job application page.'
-FactoryGirl.create :site_text, name: 'markdown explanation', text: <<MARKDOWN
+markdown_text = FactoryGirl.create :site_text, name: 'markdown explanation'
+markdown_text.update text: <<MARKDOWN
 Configurable site text is interpreted and shown to end users using a protocol known as Markdown. This means that you can do some of your own text formatting. Here's how:
 
 + Surround text with \*asterisks\* or \_underscores\_for *italic text*
@@ -11,7 +15,7 @@ Configurable site text is interpreted and shown to end users using a protocol kn
 + For links, write the link text in [brackets] followed by the destination in (parentheses). Here's an example:
 + Typing '`[our homepage](https://umasstransit.org)`' outputs the following link: [our homepage](https://umasstransit.org)
 
-For additional information, we like to reference [this tutorial](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) (and if you're feeling particularly meta, feel free to check out [how we wrote a Markdown tutorial in Markdown](/site_texts/3/edit)).
+For additional information, we like to reference [this tutorial](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) (and if you're feeling particularly meta, feel free to check out [how we wrote a Markdown tutorial in Markdown](/site_texts/#{markdown_text.id}/edit)).
 MARKDOWN
 department = FactoryGirl.create :department, name: 'Bus'
 position = FactoryGirl.create :position, department: department, name: 'Operator'

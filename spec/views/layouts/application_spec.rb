@@ -9,8 +9,7 @@ describe 'layouts/application.haml' do
     end
     it 'displays a link to logout' do
       render
-      expect(rendered).to have_tag 'a', with: { href: '/sessions',
-                                                'data-method' => 'delete' }
+      expect(rendered).to have_tag 'a', with: { href: '/sessions/destroy' }
     end
     context 'current user is staff' do
       before :each do

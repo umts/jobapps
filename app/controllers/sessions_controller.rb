@@ -4,38 +4,26 @@ class SessionsController < ApplicationController
   skip_before_action :access_control, :set_current_user, :set_spire
 
   def destroy
+    session.clear
     if Rails.env.production?
       redirect_to '/Shibboleth.sso/Logout?return=https://webauth.oit.umass.edu/Logout'
-    else redirect_to dev_login_sessions_path
-    end
-    session.clear
-  end
-
-  # '... and return' is correct behavior here, disable rubocop warning
-  # rubocop:disable Style/AndOr
-  def dev_login
-    if Rails.env.production?
-      redirect_to new_session_path and return
-    else
-      if request.get?
-        @staff     = User.staff
-        @students  = User.students
-        @new_spire = (User.pluck(:spire).map(&:to_i).last + 1).to_s.rjust 8, '0'
-      elsif request.post?
-        find_user
-        redirect_to main_dashboard_path
-      end
+    else redirect_to dev_login_path
     end
   end
-  # '... and return' is correct behavior here, disable rubocop warning
-  # rubocop:enable Style/AndOr
 
-  def new
-    if Rails.env.production?
-      # TODO: decide on this behavior
-    else
-      redirect_to dev_login_sessions_path
+  def dev_login # route not defined in production
+    if request.get?
+      @staff     = User.staff
+      @students  = User.students
+      @new_spire = new_spire
+    elsif request.post?
+      find_user
+      redirect_to main_dashboard_path
     end
+  end
+
+  # Only shows if no user in databse AND no SPIRE provided from Shibboleth
+  def unauthenticated
   end
 
   private
@@ -47,5 +35,9 @@ class SessionsController < ApplicationController
     elsif params.permit(:spire).present?
       session[:spire] = params[:spire]
     end
+  end
+
+  def new_spire
+    (User.pluck(:spire).map(&:to_i).last + 1).to_s.rjust 8, '0'
   end
 end

@@ -4,6 +4,8 @@ source 'https://rubygems.org'
 gem 'rubocop', require: false
 # I like HAML
 gem 'haml'
+# HAML linter
+gem 'haml-lint'
 # Snappconfig for configuration storage
 gem 'snappconfig'
 # Markdown parsing with Redcardpet
@@ -42,6 +44,13 @@ end
 group :development, :test do
   # pry for inline debugging
   gem 'pry-byebug'
+end
+
+group :production do
+  gem 'capistrano'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rails'
+  gem 'capistrano-passenger'
 end
 
 group :test do
