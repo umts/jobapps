@@ -29,3 +29,7 @@ Style/GuardClause:
 # Don't prefer fail to raise.
 Style/SignalException:
   Enabled: false
+
+# This just doesn't work.
+Rails/TimeZone:
+  Enabled: false
