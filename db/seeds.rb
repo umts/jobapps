@@ -1,7 +1,7 @@
 require 'factory_girl_rails'
 require 'csv'
 
-# SPIRE will have to be set to what it actually is on deploy
+exit if Rails.env.test?
 FactoryGirl.create :user, first_name: 'David', last_name: 'Faulkenberry', staff: true, spire: '12345678', email: 'dfaulken@umass.edu'
 
 FactoryGirl.create :site_text, name: 'welcome', text: 'Welcome to the UMass Transit job application page.'
