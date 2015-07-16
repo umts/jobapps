@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'coffee-rails'
+gem 'factory_girl_rails'
 gem 'haml'
 gem 'haml-lint'
 gem 'haml-rails'
@@ -28,7 +29,6 @@ group :development, :test do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'codeclimate-test-reporter'
-  gem 'factory_girl_rails'
   gem 'mocha'
   gem 'pry-byebug'
   gem 'rspec-html-matchers'

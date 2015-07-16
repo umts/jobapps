@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 20150616194121) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id",     limit: 4
-    t.boolean  "reviewed",    limit: 1
+    t.boolean  "reviewed"
     t.integer  "position_id", limit: 4
     t.text     "staff_note",  limit: 65535
   end
@@ -36,13 +36,13 @@ ActiveRecord::Schema.define(version: 20150616194121) do
   end
 
   create_table "interviews", force: :cascade do |t|
-    t.boolean  "hired",                 limit: 1
+    t.boolean  "hired"
     t.datetime "scheduled"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id",               limit: 4
     t.integer  "application_record_id", limit: 4
-    t.boolean  "completed",             limit: 1
+    t.boolean  "completed"
     t.string   "location",              limit: 255
   end
 
@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(version: 20150616194121) do
   create_table "questions", force: :cascade do |t|
     t.text     "prompt",                  limit: 65535
     t.string   "data_type",               limit: 255
-    t.boolean  "required",                limit: 1
+    t.boolean  "required"
     t.integer  "number",                  limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -76,7 +76,7 @@ ActiveRecord::Schema.define(version: 20150616194121) do
     t.string   "spire",      limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "staff",      limit: 1
+    t.boolean  "staff"
     t.string   "email",      limit: 255
   end
 
