@@ -2,4 +2,3 @@ linters:
   RuboCop:
     ignored_cops:
       - Metrics/BlockNesting
-      - Rails/TimeZone

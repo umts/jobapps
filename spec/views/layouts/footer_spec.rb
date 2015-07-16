@@ -9,7 +9,7 @@ describe 'layouts/_footer.haml' do
   end
   it 'includes the copyright year' do
     render
-    expect(rendered).to include Time.now.year.to_s
+    expect(rendered).to include Time.zone.now.year.to_s
   end
   it 'includes a link to umass.edu' do
     render
