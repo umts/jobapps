@@ -13,12 +13,12 @@
   - @positions.each do |department, positions|
     %h3= department.name
     - positions.each do |position|
-      - has_submitted_application = @application_records.present? && @application_records.keys.include? position
-      - if has_submitted_application
+      - app_submitted = @application_records.try(:keys).try(:include?, position)
+      - if app_submitted
         // most recent application, if more than one
         - application = @application_records[position].last
         - should_show = application.pending? || should_show_denied_applications?
-      - if has_submitted_application && should_show
+      - if app_submitted && should_show
         %li= link_to "Review your application for #{position.name}", application
       - elsif position.application_template.present?
         %li= link_to "Submit application for #{position.name}",
