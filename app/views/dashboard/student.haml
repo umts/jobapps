@@ -13,7 +13,7 @@
   - @positions.each do |department, positions|
     %h3= department.name
     - positions.each do |position|
-      - has_submitted_application = @application_records.keys.include? position
+      - has_submitted_application = @application_records.present? && @application_records.keys.include? position
       - if has_submitted_application
         // most recent application, if more than one
         - application = @application_records[position].last
