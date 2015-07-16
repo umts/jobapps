@@ -2,7 +2,7 @@ require 'factory_girl_rails'
 require 'csv'
 
 exit if Rails.env.test?
-FactoryGirl.create :user, first_name: 'David', last_name: 'Faulkenberry', staff: true, spire: '12345678', email: 'dfaulken@umass.edu'
+FactoryGirl.create :user, first_name: 'David', last_name: 'Faulkenberry', staff: true, spire: '12345678@umass.edu', email: 'dfaulken@umass.edu'
 
 FactoryGirl.create :site_text, name: 'welcome', text: 'Welcome to the UMass Transit job application page.'
 markdown_text = FactoryGirl.create :site_text, name: 'markdown explanation'

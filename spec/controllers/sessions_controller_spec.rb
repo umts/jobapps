@@ -33,7 +33,7 @@ describe SessionsController do
       end
       it 'redirects to something about Shibboleth' do
         submit
-        expect(response).to redirect_to '/Shibboleth.sso/Logout?return=https://webauth.oit.umass.edu/Logout'
+        expect(response).to redirect_to '/Shibboleth.sso/Logout?return=https://webauth.umass.edu/Logout'
       end
       it 'clears the session' do
         expect_any_instance_of(ActionController::TestSession)

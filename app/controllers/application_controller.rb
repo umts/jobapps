@@ -6,9 +6,8 @@ class ApplicationController < ActionController::Base
   attr_accessor :current_user
   protect_from_forgery with: :exception
   before_action :set_current_user
-  before_action :set_spire, if: -> { @current_user.blank? }
-  # To allow student users or even non-users to access pages,
-  # skip this before_action in the individual controller.
+  before_action :set_spire
+  before_action :redirect_unauthenticated
   before_action :access_control
   layout 'application'
 
@@ -22,10 +21,6 @@ class ApplicationController < ActionController::Base
   end
   # rubocop:enable Style/AndOr
 
-  def current_user_exists?
-    session.key?(:user_id) && User.find_by(id: session[:user_id]).present?
-  end
-
   def deny_access
     if request.xhr?
       render nothing: true, status: :unauthorized
@@ -36,23 +31,30 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def set_current_user
-    @current_user = User.find session[:user_id] if current_user_exists?
-  end
-
   # '... and return' is the correct behavior here, disable rubocop warning
   # rubocop:disable Style/AndOr
-  def set_spire
-    if spire_exists?
-      session[:spire] ||= request.env['SPIRE_ID']
-    else # no spire in session from initial request and none in current request
+  def redirect_unauthenticated
+    unless @current_user.present? || session.key?(:spire)
+      logger.info 'Request:'
+      logger.info request.inspect
+      logger.info 'Session:'
+      logger.info session.inspect
       redirect_to unauthenticated_session_path and return
     end
   end
   # rubocop:enable Style/AndOr
 
-  def spire_exists?
-    session.key?(:spire) || request.env.key?('SPIRE_ID')
+  def set_current_user
+    @current_user =
+      if session.key? :user_id
+        User.find_by id: session[:user_id]
+      elsif session.key? :spire
+        User.find_by spire: session[:spire]
+      end
+  end
+
+  def set_spire
+    session[:spire] = request.env['fcIdNumber'] if request.env.key? 'fcIdNumber'
   end
 
   # '... and return' is the correct behavior here, disable rubocop warning
