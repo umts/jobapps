@@ -141,9 +141,13 @@ describe SiteTextsController do
         when_current_user_is @user
       end
       it 'sends IT an email' do
+        mail = ActionMailer::MessageDelivery.new(JobappsMailer,
+                                                 :site_text_request)
         expect(JobappsMailer)
           .to receive(:site_text_request)
-          .with @user, @location, @description
+          .with(@user, @location, @description)
+          .and_return mail
+        expect(mail).to receive(:deliver_now).and_return true
         submit
       end
       it 'displays the site_text_request message' do

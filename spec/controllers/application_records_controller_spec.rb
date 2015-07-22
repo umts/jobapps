@@ -120,9 +120,13 @@ describe ApplicationRecordsController do
               .and_return true
           end
           it 'sends application denial email' do
+            mail = ActionMailer::MessageDelivery.new(JobappsMailer,
+                                                     :application_denial)
             expect(JobappsMailer)
               .to receive(:application_denial)
-              .with @record
+              .with(@record)
+              .and_return mail
+            expect(mail).to receive(:deliver_now).and_return true
             submit
           end
         end
