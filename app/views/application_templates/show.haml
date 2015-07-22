@@ -5,16 +5,16 @@
     %span.ast *
     ) are required.
   = form_tag controller: :application_records, action: :create do
-    - unless @current_user.present?
-      = fields_for :user do |u|
+    = fields_for :user do |u|
+      .field
+        .heading Please complete the following personal information.
+        .explanation You will be able to log in and review your application.
+      - [:first_name, :last_name, :email].each do |field|
         .field
-          .heading Please complete the following personal information.
-          .explanation You will be able to log in and review your application.
-        - [:first_name, :last_name, :email].each do |field|
-          .field
-            .label= u.label field
-            = u.text_field field, size: 50, required: true
-            %span.ast *
+          .label= u.label field
+          = u.text_field field, size: 50, required: true,
+            value: @current_user.try(field)
+          %span.ast *
     = fields_for :responses do |r|
       - @template.questions.each do |question|
         .field
