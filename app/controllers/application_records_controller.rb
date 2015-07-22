@@ -28,7 +28,7 @@ class ApplicationRecordsController < ApplicationController
       @record.update staff_note: params.require(:staff_note)
       if configured_value [:on_application_denial, :notify_applicant],
                           default: true
-        JobappsMailer.application_denial @record
+        JobappsMailer.application_denial(@record).deliver_now
       end
     end
     show_message :application_review,
