@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150616194121) do
+ActiveRecord::Schema.define(version: 20150727150527) do
 
   create_table "application_records", force: :cascade do |t|
     t.text     "responses",   limit: 65535
@@ -21,6 +21,13 @@ ActiveRecord::Schema.define(version: 20150616194121) do
     t.boolean  "reviewed"
     t.integer  "position_id", limit: 4
     t.text     "staff_note",  limit: 65535
+  end
+
+  create_table "application_template_drafts", force: :cascade do |t|
+    t.integer  "application_template_id", limit: 4
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id",                 limit: 4
   end
 
   create_table "application_templates", force: :cascade do |t|
@@ -54,13 +61,14 @@ ActiveRecord::Schema.define(version: 20150616194121) do
   end
 
   create_table "questions", force: :cascade do |t|
-    t.text     "prompt",                  limit: 65535
-    t.string   "data_type",               limit: 255
+    t.text     "prompt",                        limit: 65535
+    t.string   "data_type",                     limit: 255
     t.boolean  "required"
-    t.integer  "number",                  limit: 4
+    t.integer  "number",                        limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "application_template_id", limit: 4
+    t.integer  "application_template_id",       limit: 4
+    t.integer  "application_template_draft_id", limit: 4
   end
 
   create_table "site_texts", force: :cascade do |t|

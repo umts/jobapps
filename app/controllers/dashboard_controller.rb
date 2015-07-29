@@ -17,6 +17,7 @@ class DashboardController < ApplicationController
                        .by_user_name.group_by(&:position)
     @site_texts = SiteText.order :name
     @staff = User.staff
+    @templates = ApplicationTemplate.all
   end
 
   def student
