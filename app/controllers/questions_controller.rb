@@ -18,12 +18,6 @@ class QuestionsController < ApplicationController
     redirect_to :back
   end
 
-  def move
-    params.require :direction
-    @question.move params[:direction].to_sym
-    redirect_to :back
-  end
-
   def update
     if @question.update question_parameters
       show_message :question_update,

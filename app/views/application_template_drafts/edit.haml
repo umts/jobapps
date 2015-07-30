@@ -1,0 +1,38 @@
+%h1.title Editing #{@draft.position.name_and_department}
+= form_for @draft do |f|
+  %table#edit_draft
+    %tr
+      %th Prompt
+      %th Response type
+      %th Required?
+      %th
+      %th
+      %th
+      %th
+    = f.fields_for :questions do |g|
+      - question = g.object
+      - if question.new_record?
+        %tr
+          %td.centered{ colspan: 6 } Add new question...
+      %tr
+        = g.hidden_field :number
+        %td= g.text_area :prompt, required: !question.new_record?, size: '35x4'
+        %td= g.select :data_type, Question::DATA_TYPES,
+          include_blank: 'Select a data type...',
+          required: !question.new_record?
+        %td= g.check_box :required
+        - if question.new_record?
+          %td{ colspan: 4 }
+        - else
+          %td
+            - unless g.index.zero?
+              = button_to 'Move up',
+               move_question_application_template_draft_path(@draft, number: question.number, direction: :up)
+          %td
+            - unless question == @draft.questions.not_new.last
+              = button_to 'Move down',
+                move_question_application_template_draft_path(@draft, number: question.number, direction: :down)
+          %td= button_to 'Remove question', remove_question_application_template_draft_path(@draft, number: question.number)
+  .actions
+    = f.submit 'Save changes and continue editing'
+    = f.submit 'Preview changes'

@@ -12,7 +12,7 @@ class ApplicationTemplate < ActiveRecord::Base
 
   def create_draft(user)
     return false if draft_belonging_to?(user)
-    draft_attributes = attributes.except(:id).merge user: user,
+    draft_attributes = attributes.except('id', 'position_id').merge user: user,
                                                     application_template: self
     draft = ApplicationTemplateDraft.create draft_attributes
     questions.each do |question|
