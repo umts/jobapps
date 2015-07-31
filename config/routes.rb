@@ -6,6 +6,14 @@ Rails.application.routes.draw do
 
   resources :application_templates, only: [:new, :edit, :show]
 
+  resources :application_template_drafts, except: [:create, :index] do
+    member do
+      post :move_question
+      post :remove_question
+      post :update_application_template
+    end
+  end
+
   resources :application_records, only: [:create, :show] do
     member do
       post :review
@@ -29,12 +37,6 @@ Rails.application.routes.draw do
 
   resources :positions, except: [:index, :show]
   
-  resources :questions, only: [:create, :destroy, :update] do
-    member do
-      post :move
-    end
-  end
-
   # sessions
   unless Rails.env.production?
     get  'sessions/dev_login', to: 'sessions#dev_login', as: :dev_login

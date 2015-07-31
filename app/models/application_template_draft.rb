@@ -8,10 +8,6 @@ class ApplicationTemplateDraft < ActiveRecord::Base
   validates :application_template, uniqueness: { scope: :user_id }
   validates :application_template, :user, presence: true
 
-  def new_question
-    Question.new application_template_draft: self, number: new_question_number
-  end
-
   def move_question(question_number, direction)
     transaction do
       question = questions.find_by number: question_number
@@ -29,6 +25,10 @@ class ApplicationTemplateDraft < ActiveRecord::Base
       # Validate it afterwards, and do nothing if there is an error.
       raise ActiveRecord::Rollback unless question.valid?
     end
+  end
+
+  def new_question
+    Question.new application_template_draft: self, number: new_question_number
   end
 
   def remove_question(question_number)
@@ -58,6 +58,6 @@ class ApplicationTemplateDraft < ActiveRecord::Base
   private
 
   def new_question_number
-    questions.count + 1
+    questions.last.number + 1
   end
 end
