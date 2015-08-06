@@ -50,7 +50,7 @@ class ApplicationTemplateDraftsController < ApplicationController
     @draft.update_application_template!
     flash[:message] = 'Application has been updated and is now live. ' \
                       'Draft has been discarded.'
-    redirect_to application_templates_url
+    redirect_to staff_dashboard_url
   end
 
   private

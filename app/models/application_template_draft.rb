@@ -42,6 +42,14 @@ class ApplicationTemplateDraft < ActiveRecord::Base
     question_to_remove
   end
 
+  def update_application_template!
+    application_template.update(attributes.except 'application_template_id', 'user_id')
+    application_template.questions.delete_all
+    questions.update_all application_template_id: application_template.id,
+                         application_template_draft_id: nil
+    delete
+  end
+
   def update_questions(question_data)
     return if question_data.blank?
     question_data.each do |_index, question_attributes|
