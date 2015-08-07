@@ -18,11 +18,15 @@ gem 'snappconfig'
 gem 'uglifier'
 
 group :production do
+  gem 'exception_notification'
+end
+
+group :development do
   gem 'capistrano'
+  gem 'capistrano-pending'
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
   gem 'capistrano-passenger'
-  gem 'exception_notification'
 end
 
 group :development, :test do
