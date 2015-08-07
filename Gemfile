@@ -22,11 +22,11 @@ group :production do
 end
 
 group :development do
-  gem 'capistrano'
-  gem 'capistrano-pending'
-  gem 'capistrano-bundler'
-  gem 'capistrano-rails'
-  gem 'capistrano-passenger'
+  gem 'capistrano', require: false
+  gem 'capistrano-pending', require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-passenger', require: false
 end
 
 group :development, :test do
