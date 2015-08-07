@@ -39,13 +39,13 @@ describe Question do
 
   describe 'move' do
     before :each do
-      @template       = create :application_template
+      @template = create :application_template
       @question_above = create :question,
                                application_template: @template,
                                number: 2
-      @question       = create :question,
-                               application_template: @template,
-                               number: 3
+      @question = create :question,
+                         application_template: @template,
+                         number: 3
       @question_below = create :question,
                                application_template: @template,
                                number: 4
