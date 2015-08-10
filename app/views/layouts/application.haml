@@ -9,7 +9,6 @@
   %body
     #umass_banner
       #wordmark= image_tag 'wordmark.svg', height: 25
-      #search= render partial: 'layouts/umass_search'
       - if @current_user.present?
         #links
           = link_to 'Logout', destroy_session_path
