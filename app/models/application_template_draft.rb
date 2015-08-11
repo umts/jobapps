@@ -43,7 +43,7 @@ class ApplicationTemplateDraft < ActiveRecord::Base
   end
 
   def update_application_template!
-    application_template.update(attributes.except 'application_template_id', 'user_id')
+    application_template.update(attributes.except 'application_template_id', 'user_id', 'id')
     application_template.questions.delete_all
     questions.update_all application_template_id: application_template.id,
                          application_template_draft_id: nil
