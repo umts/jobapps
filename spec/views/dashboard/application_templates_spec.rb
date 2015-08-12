@@ -7,12 +7,13 @@ describe 'dashboard/_application_templates.haml' do
     assign :departments, Array(@department)
     @position = create :position, department: @department
     assign :positions, Array(@position)
-    when_current_user_is :staff, view: true
+    @user = create :user, :staff
+    when_current_user_is @user, view: true
   end
   context 'there are application templates present' do
     before :each do
       @template = create :application_template, position: @position
-      assign :templates, Array(@template)
+      assign :templates, Hash[@position, @template]
     end
     it 'contains a link to view the application template' do
       render
@@ -28,7 +29,7 @@ describe 'dashboard/_application_templates.haml' do
     end
     context 'there are existing drafts for that application' do
       before :each do
-        @draft = create :application_template_draft, application_template: @template
+        @draft = create :application_template_draft, application_template: @template, user: @user
       end
       it 'has a link to resume editing the saved draft' do
         render
@@ -38,7 +39,9 @@ describe 'dashboard/_application_templates.haml' do
       it 'has a button to discard the saved draft' do
         render
         action_path = application_template_draft_path @draft
-        expect(rendered).to have_form action_path, :delete
+        expect(rendered).to have_form action_path, :post do
+          with_tag 'input', with: { name: '_method', value: 'delete' }
+        end
       end
     end
   end
