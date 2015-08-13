@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :application_template_draft do
+  factory :application_draft do
     application_template
     user
   end

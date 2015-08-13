@@ -1,10 +1,10 @@
-class ApplicationTemplateDraft < ActiveRecord::Base
+class ApplicationDraft < ActiveRecord::Base
   has_many :questions, dependent: :destroy
   accepts_nested_attributes_for :questions
   belongs_to :application_template
   belongs_to :user
   delegate :position, to: :application_template
-  
+
   validates :application_template, uniqueness: { scope: :user_id }
   validates :application_template, :user, presence: true
 
@@ -28,14 +28,14 @@ class ApplicationTemplateDraft < ActiveRecord::Base
   end
 
   def new_question
-    Question.new application_template_draft: self, number: new_question_number
+    Question.new application_draft: self, number: new_question_number
   end
 
   def remove_question(question_number)
     question_to_remove = questions.find_by number: question_number
     question_to_remove.delete
     questions.where('number > ?', question_number).find_each do |question|
-      question.number -=1
+      question.number -= 1
       question.save
     end
     save
@@ -43,10 +43,11 @@ class ApplicationTemplateDraft < ActiveRecord::Base
   end
 
   def update_application_template!
-    application_template.update(attributes.except 'application_template_id', 'user_id', 'id')
+    application_template.update(attributes.except 'application_template_id',
+                                                  'user_id', 'id')
     application_template.questions.delete_all
     questions.update_all application_template_id: application_template.id,
-                         application_template_draft_id: nil
+                         application_draft_id: nil
     delete
   end
 
@@ -57,12 +58,12 @@ class ApplicationTemplateDraft < ActiveRecord::Base
       if question.present?
         question.update question_attributes
       else
-        question_attributes.merge! application_template_draft_id: id
+        question_attributes.merge! application_draft_id: id
         Question.create question_attributes
       end
     end
   end
-  
+
   private
 
   def new_question_number

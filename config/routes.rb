@@ -4,9 +4,9 @@ Rails.application.routes.draw do
   else root 'dashboard#main'
   end
 
-  resources :application_templates, only: [:new, :edit, :show]
+  resources :application_templates, only: [:new, :show]
 
-  resources :application_template_drafts, except: [:create, :index] do
+  resources :application_drafts, except: [:create, :index] do
     member do
       post :move_question
       post :remove_question

@@ -7,9 +7,12 @@ describe Question do
   end
   context 'data_type identification methods' do
     before :each do
-      @date = create :question, data_type: 'date', application_template: @template
-      @explanation = create :question, data_type: 'explanation', application_template: @template
-      @heading = create :question, data_type: 'heading', application_template: @template
+      @date = create :question, data_type: 'date',
+                                application_template: @template
+      @explanation = create :question, data_type: 'explanation',
+                                       application_template: @template
+      @heading = create :question, data_type: 'heading',
+                                   application_template: @template
     end
 
     describe 'date?' do

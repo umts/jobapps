@@ -13,10 +13,10 @@
               %li
                 - if template.draft_belonging_to? @current_user
                   - draft = template.draft_belonging_to @current_user
-                  = link_to 'Resume editing saved draft', edit_application_template_draft_path(draft)
+                  = link_to 'Resume editing saved draft', edit_application_draft_path(draft)
                   %br
-                  = button_to 'Discard saved draft', application_template_draft_path(draft), method: :delete
+                  = button_to 'Discard saved draft', application_draft_path(draft), method: :delete
                 - else
-                  = link_to 'Edit application', new_application_template_draft_path(application_template_id: template.id)
+                  = link_to 'Edit application', new_application_draft_path(application_template_id: template.id)
             - else # position has no template... yet
               %li= link_to 'Create application', new_application_template_path(position_id: position.id)

@@ -47,6 +47,6 @@
 
 .form
   .actions
-    = button_to 'Continue editing', edit_application_template_draft_path(@draft), method: :get
+    = button_to 'Continue editing', edit_application_draft_path(@draft), method: :get
     = button_to 'Discard changes', @draft, method: :delete
-    = button_to 'Save application', update_application_template_application_template_draft_path(@draft)
+    = button_to 'Save application', update_application_template_application_draft_path(@draft)
