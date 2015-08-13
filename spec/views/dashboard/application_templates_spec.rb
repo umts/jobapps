@@ -13,7 +13,7 @@ describe 'dashboard/_application_templates.haml' do
   context 'there are application templates present' do
     before :each do
       @template = create :application_template, position: @position
-      assign :templates, Hash[@position, @template]
+      assign :templates, Hash[@position, Array(@template)]
     end
     it 'contains a link to view the application template' do
       render
@@ -46,6 +46,9 @@ describe 'dashboard/_application_templates.haml' do
     end
   end
   context 'there are no application templates for the positions listed' do
+    before :each do
+      assign :templates, Hash.new
+    end
     it 'contains a link to create an application' do
       render
       action_path = new_application_template_path(position_id: @position.id)
