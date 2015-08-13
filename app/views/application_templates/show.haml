@@ -23,7 +23,7 @@
           - elsif question.heading?
             %h3.heading= question.prompt
           - else
-            .label= r.label question.prompt
+            .label= r.label question.prompt, question.prompt
             - case question.data_type
             - when 'text', 'date'
               = r.text_field question.prompt, required: question.required?,
