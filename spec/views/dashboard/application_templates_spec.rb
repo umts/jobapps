@@ -23,22 +23,23 @@ describe 'dashboard/_application_templates.haml' do
     context 'there are no existing drafts for that application' do
       it 'contains a link to edit the application' do
         render
-        action_path = new_application_draft_path(application_template_id: @template.id)
+        action_path = new_draft_path(application_template_id: @template.id)
         expect(rendered).to have_tag 'a', with: { href: action_path }
       end
     end
     context 'there are existing drafts for that application' do
       before :each do
-        @draft = create :application_draft, application_template: @template, user: @user
+        @draft = create :application_draft, application_template: @template,
+                                            user: @user
       end
       it 'has a link to resume editing the saved draft' do
         render
-        action_path = edit_application_draft_path @draft
+        action_path = edit_draft_path @draft
         expect(rendered).to have_tag 'a', with: { href: action_path }
       end
       it 'has a button to discard the saved draft' do
         render
-        action_path = application_draft_path @draft
+        action_path = draft_path @draft
         expect(rendered).to have_form action_path, :post do
           with_tag 'input', with: { name: '_method', value: 'delete' }
         end

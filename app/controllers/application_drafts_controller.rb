@@ -1,5 +1,5 @@
 class ApplicationDraftsController < ApplicationController
-  before_action :find_application_draft, except: :new
+  before_action :find_draft, except: :new
 
   def destroy
     @draft.destroy
@@ -14,20 +14,20 @@ class ApplicationDraftsController < ApplicationController
   def new
     template = ApplicationTemplate.find(params.require :application_template_id)
     @draft = template.create_draft @current_user
-    redirect_to edit_application_draft_path(@draft)
+    redirect_to edit_draft_path(@draft)
   end
 
   def move_question
     question_number = params.require(:number).to_i
     direction = params.require(:direction).to_sym
     @draft.move_question question_number, direction
-    redirect_to edit_application_draft_path
+    redirect_to edit_draft_path
   end
 
   def remove_question
     question_number = params.require(:number).to_i
     @draft.remove_question question_number
-    redirect_to edit_application_draft_path
+    redirect_to edit_draft_path
   end
 
   def save_question
@@ -35,12 +35,12 @@ class ApplicationDraftsController < ApplicationController
   end
 
   def update
-    draft_params = params.require(:application_draft).permit!
+    draft_params = params.require(:draft).permit!
     @draft.update draft_params.except(:questions_attributes)
     @draft.update_questions draft_params[:questions_attributes]
     case params.require :commit
     when 'Save changes and continue editing'
-      redirect_to edit_application_draft_path(@draft)
+      redirect_to edit_draft_path(@draft)
     when 'Preview changes'
       render 'show'
     end
@@ -55,7 +55,7 @@ class ApplicationDraftsController < ApplicationController
 
   private
 
-  def find_application_draft
+  def find_draft
     @draft = ApplicationDraft.includes(:questions)
              .find(params.require :id)
   end
