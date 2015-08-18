@@ -18,18 +18,15 @@ class ApplicationRecordsController < ApplicationController
   def review
     if params.require(:accepted) == 'true'
       interview_parameters = params.require(:interview)
-                             .permit(:location, :scheduled)
+      interview_parameters.require :location
+      interview_parameters.require :scheduled
+      interview_parameters = interview_parameters.symbolize_keys
       interview_parameters.merge! completed: false,
                                   hired: false,
                                   application_record: @record,
                                   user: @record.user
       Interview.create! interview_parameters
-    else
-      @record.update staff_note: params.require(:staff_note)
-      if configured_value [:on_application_denial, :notify_applicant],
-                          default: true
-        JobappsMailer.application_denial(@record).deliver_now
-      end
+    else @record.deny_with params.require(:staff_note)
     end
     show_message :application_review,
                  default: 'Application has been marked as reviewed.'

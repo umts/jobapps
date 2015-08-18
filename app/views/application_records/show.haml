@@ -41,10 +41,10 @@ submitted by
           = f.text_field :scheduled,
             class: 'datetimepicker',
             placeholder: 'Click here to select date/time...',
-            size: 40
+            size: 40, required: true
         .field
           = f.label :location
-          = f.text_field :location
+          = f.text_field :location, required: true
       .action= submit_tag 'Review application and schedule interview'
   - else
     Application reviewed on
