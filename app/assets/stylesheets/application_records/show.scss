@@ -1,0 +1,17 @@
+/*
+desired behavior: 
+
+Concatenation
+
+<strong>Question1:</strong> Answer1
+
+use flex box
+*/
+
+.questions_responses_container{
+  margin-top: 1em;
+  display: flex;
+  .questions_column{
+    flex-direction: column;
+  }
+}

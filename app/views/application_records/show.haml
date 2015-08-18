@@ -4,15 +4,17 @@ submitted by
 = @record.user.full_name
 = format_date_time @record.created_at
 
-%table
-  %thead
-    %tr
-      %th Question
-      %th Response
-  - @record.responses.each do |prompt, response|
-    %tr
-      %td= prompt
-      %td= response
+.questions_responses_container
+  .questions_column
+    %strong Question
+    .question_item
+    - @record.responses.each do |prompt, response|
+      = prompt
+  .responses_column
+    %strong Response
+    .response_item
+    - @record.responses.each do |prompt, response|
+      = response
 
 - if @current_user.staff?
   - if @record.pending?
