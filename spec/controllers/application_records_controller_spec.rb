@@ -88,15 +88,20 @@ describe ApplicationRecordsController do
         end
       end
       context 'record not accepted' do
+        before :each do
+          @staff_note = 'because I said so'
+        end
         let :submit do
           post :review,
                id: @record.id,
                accepted: 'false',
-               staff_note: 'because I said so'
+               staff_note: @staff_note
         end
         it 'updates record with staff note given' do
+          expect_any_instance_of(ApplicationRecord)
+            .to receive(:deny_with)
+            .with @staff_note
           submit
-          expect(@record.reload.staff_note).to eql 'because I said so'
         end
         it 'marks record as reviewed' do
           submit
@@ -109,41 +114,6 @@ describe ApplicationRecordsController do
         it 'redirects to staff dashboard' do
           submit
           expect(response).to redirect_to staff_dashboard_path
-        end
-        context 'notify_applicant set to true' do
-          before :each do
-            allow_any_instance_of(ApplicationConfiguration)
-              .to receive :configured_value
-            allow_any_instance_of(ApplicationConfiguration)
-              .to receive(:configured_value)
-              .with([:on_application_denial, :notify_applicant], anything)
-              .and_return true
-          end
-          it 'sends application denial email' do
-            mail = ActionMailer::MessageDelivery.new(JobappsMailer,
-                                                     :application_denial)
-            expect(JobappsMailer)
-              .to receive(:application_denial)
-              .with(@record)
-              .and_return mail
-            expect(mail).to receive(:deliver_now).and_return true
-            submit
-          end
-        end
-        context 'notify_applicant set to false' do
-          before :each do
-            allow_any_instance_of(ApplicationConfiguration)
-              .to receive :configured_value
-            allow_any_instance_of(ApplicationConfiguration)
-              .to receive(:configured_value)
-              .with([:on_application_denial, :notify_applicant], anything)
-              .and_return false
-          end
-          it 'does not send application denial email' do
-            expect(JobappsMailer)
-              .not_to receive(:application_denial)
-            submit
-          end
         end
       end
     end
