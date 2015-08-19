@@ -30,10 +30,6 @@ class ApplicationDraftsController < ApplicationController
     redirect_to edit_draft_path
   end
 
-  def save_question
-    # what do here?
-  end
-
   def update
     draft_params = params.require(:draft).permit!
     @draft.update draft_params.except(:questions_attributes)
