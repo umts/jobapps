@@ -11,7 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150616194121) do
+ActiveRecord::Schema.define(version: 20150813161127) do
+
+  create_table "application_drafts", force: :cascade do |t|
+    t.integer  "application_template_id", limit: 4
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id",                 limit: 4
+  end
 
   create_table "application_records", force: :cascade do |t|
     t.text     "responses",   limit: 65535
@@ -61,6 +68,7 @@ ActiveRecord::Schema.define(version: 20150616194121) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "application_template_id", limit: 4
+    t.integer  "application_draft_id",    limit: 4
   end
 
   create_table "site_texts", force: :cascade do |t|
