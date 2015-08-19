@@ -13,5 +13,16 @@ use flex box
   display: flex;
   .questions_column{
     flex-direction: column;
+    .question_item{
+      flex: 1;
+      margin-top: 1em;
+    }
+  }
+  .responses_column{
+    flex-direction: column;
+    .response_item{
+      flex: 1;
+      margin-top: 1em;
+    }
   }
 }

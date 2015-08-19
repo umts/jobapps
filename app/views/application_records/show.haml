@@ -6,14 +6,16 @@ submitted by
 
 .questions_responses_container
   .questions_column
-    %strong Question
-    .question_item
-    - @record.responses.each do |prompt, response|
-      = prompt
+    %strong
+      %h3 Question
+    - @record.responses.keys.each do |prompt|
+      .question_item
+      %strong= prompt
   .responses_column
-    %strong Response
-    .response_item
-    - @record.responses.each do |prompt, response|
+    %strong
+      %h3 Response
+    - @record.responses.values.each do |response|
+      .response_item
       = response
 
 - if @current_user.staff?
