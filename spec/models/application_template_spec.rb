@@ -60,19 +60,18 @@ describe ApplicationTemplate do
 
   describe 'draft_belonging_to?' do
     before :each do
-      @application_template = create :application_template
       @user = create :user
+      @application_template = create :application_template
     end
     let :call do
       @application_template.draft_belonging_to? @user
     end
-    it 'returns false if a draft exists for the user in question' do
+    it 'returns false if a draft does not exist for the user in question' do 
       expect(call).to eql false
     end
-    it 'returns true if a draft does not exist for the user in question' do
-      create :application_draft,
-             user: @user,
-             application_template: @application_template
+    it 'returns true if a draft does exist for the user in question' do
+      create :application_draft, user: @user,
+                     application_template: @application_template
       expect(call).to eql true
     end
   end
