@@ -4,17 +4,6 @@ submitted by
 = @record.user.full_name
 = format_date_time @record.created_at
 
-<<<<<<< HEAD
-%table
-  %thead
-    %tr
-      %th Question
-      %th Response
-  - @record.responses.each do |prompt, response|
-    %tr
-      %td= prompt
-      %td= response
-=======
 .questions_responses_container
   .questions_column
     %strong
@@ -28,7 +17,6 @@ submitted by
     - @record.responses.values.each do |response|
       .response_item
       = response
->>>>>>> f30da4b... Questions and Answers list no longer table
 
 - if @current_user.staff?
   - if @record.pending?
