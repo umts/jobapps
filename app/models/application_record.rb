@@ -18,6 +18,14 @@ class ApplicationRecord < ActiveRecord::Base
     joins(:user).order 'users.last_name, users.first_name'
   end
 
+  def deny_with(staff_note)
+    update staff_note: staff_note
+    if configured_value [:on_application_denial, :notify_applicant],
+                        default: true
+      JobappsMailer.application_denial(self).deliver_now
+    end
+  end
+
   def pending?
     !reviewed
   end
