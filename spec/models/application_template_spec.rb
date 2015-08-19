@@ -48,7 +48,7 @@ describe ApplicationTemplate do
       @draft = create :application_draft,
                       application_template: @application_template,
                       user: @user
-      # other draft - why do we need this?
+      # other draft
       create :application_draft,
              application_template: @application_template,
              user: other_user
