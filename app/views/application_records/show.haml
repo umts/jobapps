@@ -4,6 +4,7 @@ submitted by
 = @record.user.full_name
 = format_date_time @record.created_at
 
+<<<<<<< HEAD
 %table
   %thead
     %tr
@@ -13,6 +14,21 @@ submitted by
     %tr
       %td= prompt
       %td= response
+=======
+.questions_responses_container
+  .questions_column
+    %strong
+      %h3 Question
+    - @record.responses.keys.each do |prompt|
+      .question_item
+      %strong= prompt
+  .responses_column
+    %strong
+      %h3 Response
+    - @record.responses.values.each do |response|
+      .response_item
+      = response
+>>>>>>> f30da4b... Questions and Answers list no longer table
 
 - if @current_user.staff?
   - if @record.pending?
