@@ -19,11 +19,13 @@ describe 'application_drafts/edit.haml' do
   it 'has inputs for each question field' do
     render
     expect(rendered).to have_tag 'tr' do
-      base_tag_name = 'application_draft[questions_attributes][2]'
-      with_hidden_field "#{base_tag_name}[number]"
-      with_text_area "#{base_tag_name}[prompt]"
-      with_select "#{base_tag_name}[data_type]"
-      with_checkbox "#{base_tag_name}[required]"
+      (0...@draft.questions.count).each do |index|
+        base_tag_name = "application_draft[questions_attributes][#{index}]"
+        with_hidden_field "#{base_tag_name}[number]"
+        with_text_area "#{base_tag_name}[prompt]"
+        with_select "#{base_tag_name}[data_type]"
+        with_checkbox "#{base_tag_name}[required]"
+      end
     end
   end
   it 'has a button to remove each existing question' do
