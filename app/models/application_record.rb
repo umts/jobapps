@@ -1,3 +1,5 @@
+include ApplicationConfiguration
+
 class ApplicationRecord < ActiveRecord::Base
   belongs_to :user
   belongs_to :position
