@@ -1,43 +1,47 @@
-.form
-  %h1.title Application for #{@template.position.name_and_department}
-  %strong
-    Fields marked with an asterisk (
-    %span.ast *
-    ) are required.
-  = form_tag controller: :application_records, action: :create do
-    = fields_for :user do |u|
-      .field
-        .heading Please complete the following personal information.
-        .explanation You will be able to log in and review your application.
-      - [:first_name, :last_name, :email].each do |field|
+- if @template.questions.empty?
+  The #{@template.position.name_and_department} application
+  is not currently available.
+- else
+  .form
+    %h1.title Application for #{@template.position.name_and_department}
+    %strong
+      Fields marked with an asterisk (
+      %span.ast *
+      ) are required.
+    = form_tag controller: :application_records, action: :create do
+      = fields_for :user do |u|
         .field
-          .label= u.label field
-          = u.text_field field, size: 50, required: true,
-            value: @current_user.try(field)
-          %span.ast *
-    = fields_for :responses do |r|
-      - @template.questions.each do |question|
-        .field
-          - if question.explanation?
-            .explanation= render_markdown question.prompt
-          - elsif question.heading?
-            %h3.heading= question.prompt
-          - else
-            .label= r.label question.prompt, question.prompt
-            - case question.data_type
-            - when 'text', 'date'
-              = r.text_field question.prompt, required: question.required?,
-                class: ('datepicker' if question.date?), size: 50
-            - when 'number'
-              = r.number_field question.prompt, required: question.required?
-            - when 'yes/no'
-              Yes
-              = r.radio_button question.prompt, 'yes',
-                required: question.required?
-              No
-              = r.radio_button question.prompt, 'no',
-                required: question.required?
-            - if question.required?
-              %span.ast *
-    = hidden_field_tag :position_id, @template.position_id
-    .actions= submit_tag 'Submit application' unless @current_user.try :staff?
+          .heading Please complete the following personal information.
+          .explanation You will be able to log in and review your application.
+        - [:first_name, :last_name, :email].each do |field|
+          .field
+            .label= u.label field
+            = u.text_field field, size: 50, required: true,
+              value: @current_user.try(field)
+            %span.ast *
+      = fields_for :responses do |r|
+        - @template.questions.each do |question|
+          .field
+            - if question.explanation?
+              .explanation= render_markdown question.prompt
+            - elsif question.heading?
+              %h3.heading= question.prompt
+            - else
+              .label= r.label question.prompt, question.prompt
+              - case question.data_type
+              - when 'text', 'date'
+                = r.text_field question.prompt, required: question.required?,
+                  class: ('datepicker' if question.date?), size: 50
+              - when 'number'
+                = r.number_field question.prompt, required: question.required?
+              - when 'yes/no'
+                Yes
+                = r.radio_button question.prompt, 'yes',
+                  required: question.required?
+                No
+                = r.radio_button question.prompt, 'no',
+                  required: question.required?
+              - if question.required?
+                %span.ast *
+      = hidden_field_tag :position_id, @template.position_id
+      .actions= submit_tag 'Submit application' unless @current_user.try :staff?

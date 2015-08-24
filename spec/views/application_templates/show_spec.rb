@@ -5,6 +5,7 @@ describe 'application_templates/show.haml' do
   before :each do
     @template = create :application_template
     assign :template, @template
+    create :question, application_template: @template, prompt: 'A Prompt'
   end
   let :action_path do
     application_records_path
@@ -12,6 +13,16 @@ describe 'application_templates/show.haml' do
   context 'current user is present' do
     before :each do
       @current_user = create :user
+    end
+    context 'no questions are present' do
+      before :each do
+        @template = create :application_template # no questions
+        assign :template, @template
+      end
+      it 'shows a message about the application not being available' do
+        render
+        expect(rendered).to include 'is not currently available'
+      end
     end
     it 'pre-fills in the personal information values' do
       render
@@ -30,7 +41,6 @@ describe 'application_templates/show.haml' do
         expect(rendered).to have_form action_path, :post
       end
       it 'does not downcase capitalized question prompts' do
-        create :question, application_template: @template, prompt: 'A Prompt'
         render
         expect(rendered).to have_form action_path, :post do
           with_text_field 'responses[A Prompt]' do
