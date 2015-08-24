@@ -9,15 +9,6 @@ class ApplicationTemplatesController < ApplicationController
     render 'show'
   end
 
-  def new
-    params.require :position_id
-    template = ApplicationTemplate.create position_id: params[:position_id]
-    redirect_to edit_application_template_path(template)
-  end
-
-  def edit
-  end
-
   def show
   end
 
