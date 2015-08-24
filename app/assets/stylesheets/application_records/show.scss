@@ -4,6 +4,7 @@
   .questions_column{
     flex-direction: column;
     .question_item{
+      font-weight: bold;
       flex: 1;
       margin: 1em;
     }
