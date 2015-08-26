@@ -14,14 +14,6 @@ describe 'application_records/show.haml' do
         @record.update reviewed: false
         assign :record, @record
       end
-      it 'displays the time and date the application was submitted' do
-        render
-        expect(rendered).to include format_date_time(@record.created_at)
-      end
-      it 'displays the name and email of the user' do
-        render
-        expect(rendered).to include @record.user.name_and_email
-      end
       it 'contains a form to reject the application and provide a staff note' do
         render
         action_path = review_application_record_path @record, accepted: false
