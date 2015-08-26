@@ -33,7 +33,8 @@ describe 'application_records/show.haml' do
         render
         action_path = review_application_record_path @record, accepted: true
         expect(rendered).to have_form action_path, :post do
-          with_text_field 'interview[location]'
+          with_text_field 'interview[location]',
+                          @record.position.default_interview_location
           with_tag 'input#interview_scheduled.datetimepicker'
         end
       end
