@@ -10,15 +10,6 @@ describe User do
     end
   end
 
-  describe 'name_and_email' do
-    before :each do
-      @user = create :user
-    end
-    it 'gives the full name followed by email, separated by a comma' do
-      expect(@user.name_and_email).to eql "#{@user.full_name}, #{@user.email}"
-    end
-  end
-
   describe 'proper_name' do
     before :each do
       @user = create :user
