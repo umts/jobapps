@@ -1,18 +1,18 @@
 %h1 Application Record
 
-submitted by
-= @record.user.full_name
+submitted
 = format_date_time @record.created_at
+by:
+= @record.user.name_and_email
 
-%table
-  %thead
-    %tr
-      %th Question
-      %th Response
+.questions_responses_container
+  .question_row
+    %h3.question_item Question
+    %h3.response_item Response
   - @record.responses.each do |prompt, response|
-    %tr
-      %td= prompt
-      %td= response
+    .question_row
+      .question_item= prompt
+      .response_item= response
 
 - if @current_user.staff?
   - if @record.pending?
@@ -21,63 +21,70 @@ submitted by
       action: :review,
       id: @record.id,
       accepted: false do
-      .field
+      .field.note_item
         Reason for rejection:
         = text_area_tag :staff_note, '', required: true
-      .text
+      .text.note_item
         - if configured_value [:on_application_denial, :provide_reason],
                               default: true
           These notes will be provided to the applicant.
         - else
           These notes will not be provided to the applicant.
-      .action= submit_tag 'Review application without scheduling interview'
+      .action.note_item
+        = submit_tag 'Review application without scheduling interview'
     = form_tag controller: :application_records,
       action: :review,
       id: @record.id,
       accepted: true do
       = fields_for :interview do |f|
-        .field
+        .field.note_item
           = f.label :scheduled, 'Date and time of interview'
           = f.text_field :scheduled,
             class: 'datetimepicker',
             placeholder: 'Click here to select date/time...',
             size: 40, required: true
-        .field
+        .field.note_item
           = f.label :location
           = f.text_field :location, required: true
-      .action= submit_tag 'Review application and schedule interview'
+      .action.note_item= submit_tag 'Review application and schedule interview'
   - else
     Application reviewed on
     = format_date_time @record.updated_at
     - if @record.staff_note.present?
-      .notes
+      .notes.note_item
         Reason for denial:
         = @record.staff_note
   - if @interview.present?
     - if @interview.pending?
-      Interview is scheduled for:
-      = @interview.information
-      .export_link= link_to 'Click here for a calendar export file',
+      .note_item
+        Interview is scheduled for:
+        = @interview.information
+      .export_link.note_item= link_to 'Click here for a calendar export file',
         interview_path(@interview, format: :ics)
       %h3 Reschedule interview
       = form_tag controller: :interviews,
         action: :reschedule,
         id: @interview.id do
-        New interview date/time:
-        = text_field_tag :scheduled, '',
-          required: true, class: 'datetimepicker',
-          placeholder: 'Click here to select date/time...', size: 30
-        New location:
-        = text_field_tag :location, @interview.location,
-          required: true, size: 30
-        = submit_tag 'Reschedule interview'
+        .field.note_item
+          New interview date/time:
+          = text_field_tag :scheduled, '',
+            required: true, class: 'datetimepicker',
+            placeholder: 'Click here to select date/time...', size: 30
+        .field.note_item
+          New location:
+          = text_field_tag :location, @interview.location,
+            required: true, size: 30
+        .action.note_item
+          = submit_tag 'Reschedule interview'
       = form_tag controller: :interviews,
         action: :complete,
         id: @interview.id do
-        = submit_tag 'Mark interview as completed'
+        .action.note_item
+          = submit_tag 'Mark interview as completed'
     - else # application is being reviewed for whatever reason
-      Interview occurred on
-      = @interview.information
+      .note_item
+        Interview occurred on
+        = @interview.information
 - else # student
   - if @record.pending?
     Your application is pending and has not yet been reviewed.
