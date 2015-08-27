@@ -67,6 +67,9 @@ class ApplicationDraft < ActiveRecord::Base
   private
 
   def new_question_number
-    questions.last.number + 1
+    if questions.present?
+      questions.last.number + 1
+    else 1
+    end
   end
 end
