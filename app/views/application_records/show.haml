@@ -6,13 +6,12 @@ by:
 = @record.user.name_and_email
 
 .questions_responses_container
-  .questions_column
+  .question_row
     %h3 Question
-    - @record.responses.keys.each do |prompt|
-      .question_item= prompt
-  .responses_column
     %h3 Response
-    - @record.responses.values.each do |response|
+  - @record.responses.each do |prompt, response|
+    .question_row
+      .question_item= prompt
       .response_item= response
 
 - if @current_user.staff?
