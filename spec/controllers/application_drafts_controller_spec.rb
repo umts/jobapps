@@ -97,5 +97,134 @@ describe ApplicationDraftsController do
         expect(response).to have_http_status :unauthorized
       end
     end
+    context 'staff' do
+      before :each do
+        when_current_user_is :staff
+      end
+      it 'creates a draft for the correct application template' do
+        expect { submit }
+          .to change { @template.drafts.count }
+          .by 1
+      end
+      it 'redirects to the edit page for that draft' do
+        submit
+        draft = assigns.fetch :draft
+        expect(response).to redirect_to edit_draft_path(draft)
+      end
+    end
+  end
+
+  describe 'POST #move_question' do
+    before :each do
+      @draft = create :application_draft
+      @question = create :question, application_draft: @draft
+      @direction = :up
+    end
+    let :submit do
+      post :move_question,
+           id: @draft.id,
+           number: @question.number,
+           direction: @direction
+    end
+    context 'student' do
+      before :each do
+        when_current_user_is :student
+      end
+      it 'does not allow access' do
+        expect_any_instance_of(ApplicationDraft)
+          .not_to receive(:move_question)
+        submit
+        expect(response).to have_http_status :unauthorized
+      end
+    end
+    context 'staff' do
+      before :each do
+        when_current_user_is :staff
+      end
+      it 'assigns the correct draft to the draft instance variable' do
+        submit
+        expect(assigns.fetch :draft).to eql @draft
+      end
+      it 'calls #move_question on the draft' do
+        expect_any_instance_of(ApplicationDraft)
+          .to receive(:move_question)
+          .with(@question.number, @direction)
+        submit
+      end
+      it 'redirects to the edit path' do
+        submit
+        expect(response).to redirect_to edit_draft_path(@draft)
+      end
+    end
+  end
+
+  describe 'POST #remove_question' do
+    before :each do
+      @draft = create :application_draft
+      @question = create :question, application_draft: @draft
+    end
+    let :submit do
+      post :remove_question, id: @draft.id, number: @question.number
+    end
+    context 'student' do
+      before :each do
+        when_current_user_is :student
+      end
+      it 'does not allow access' do
+        expect_any_instance_of(ApplicationDraft)
+          .not_to receive :remove_question
+        submit
+        expect(response).to have_http_status :unauthorized
+      end
+    end
+    context 'staff' do
+      before :each do
+        when_current_user_is :staff
+      end
+      it 'assigns the correct application draft to the draft instance variable' do
+        submit
+        expect(assigns.fetch :draft).to eql @draft
+      end
+      it 'calls #remove_question on the draft with the number referenced' do
+        expect_any_instance_of(ApplicationDraft)
+          .to receive(:remove_question)
+          .with @question.number
+        submit
+      end
+      it 'redirects to the edit path for the draft' do
+        submit
+        expect(response).to redirect_to edit_draft_path(@draft)
+      end
+    end
+  end
+
+  describe 'POST #update' do
+    before :each do
+      @draft = create :application_draft
+      @question1 = create :question, application_draft: @draft
+      @question2 = create :question, application_draft: @draft
+    end
+    let :submit do
+      post :update, id: @draft
+    end
+    context 'student' do
+      before :each do
+        when_current_user_is :student
+      end
+      it 'does not allow access' do
+        expect_any_instance_of(ApplicationDraft)
+          .not_to receive :update
+        submit
+        expect(response).to have_http_status :unauthorized
+      end
+    end
+    context 'staff' do
+      before :each do
+        when_current_user_is :staff
+      end
+      it 'updates the draft with the changes given' do
+        
+      end
+    end
   end
 end
