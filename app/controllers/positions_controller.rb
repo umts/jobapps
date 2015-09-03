@@ -38,7 +38,8 @@ class PositionsController < ApplicationController
   end
 
   def position_parameters
-    params.require(:position).permit :department_id,
+    params.require(:position).permit :default_interview_location,
+                                     :department_id,
                                      :name
   end
 end
