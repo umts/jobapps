@@ -1,0 +1,22 @@
+.questions_responses_container{
+  margin-top: 1em;
+  display: flex;
+  flex-direction: column;
+  .question_row{
+    border-bottom: 1px solid black;
+    display: flex;
+    flex-direction: row;
+    .question_item{
+      font-weight: bold;
+      margin: 1em;
+      flex: 2;
+    }
+    .response_item{
+      margin: 1em;
+      flex: 3;
+    }
+  }
+}
+.note_item{
+  margin-top: 1em;
+}
