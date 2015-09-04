@@ -181,7 +181,7 @@ describe ApplicationDraftsController do
       before :each do
         when_current_user_is :staff
       end
-      it 'assigns the correct application draft to the draft instance variable' do
+      it 'assigns the correct draft to the draft instance variable' do
         submit
         expect(assigns.fetch :draft).to eql @draft
       end
@@ -201,8 +201,6 @@ describe ApplicationDraftsController do
   describe 'POST #update' do
     before :each do
       @draft = create :application_draft
-      @question1 = create :question, application_draft: @draft
-      @question2 = create :question, application_draft: @draft
     end
     let :submit do
       post :update, id: @draft
@@ -223,7 +221,50 @@ describe ApplicationDraftsController do
         when_current_user_is :staff
       end
       it 'updates the draft with the changes given' do
-        
+        expect { submit }
+        # TO WHAT? Change question count by one? how make that happen?
+      end
+    end
+  end
+
+  describe 'POST #update_application_template' do
+    before :each do
+      @draft = create :application_draft
+    end
+    let :submit do
+      post :update_application_template, id: @draft.id
+    end
+    context 'not staff' do
+      before :each do
+        when_current_user_is :student
+      end
+      it 'does not allow access' do
+        expect_any_instance_of(ApplicationDraft)
+          .not_to receive :update_application_template!
+        submit
+        expect(response).to have_http_status :unauthorized
+      end
+    end
+    context 'staff' do
+      before :each do
+        when_current_user_is :staff
+      end
+      it 'assigns the correct draft to the draft instance variable' do
+        submit
+        expect(assigns.fetch :draft).to eql @draft
+      end
+      it 'calls update_application_template! on the draft' do
+        expect_any_instance_of(ApplicationDraft)
+          .to receive :update_application_template!
+        submit
+      end
+      it 'includes a flash message' do
+        submit
+        expect(flash[:message]).not_to be_empty
+      end
+      it 'redirects to the staff dashboard' do
+        submit
+        expect(response).to redirect_to staff_dashboard_url
       end
     end
   end
