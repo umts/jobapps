@@ -45,7 +45,9 @@ by:
             size: 40, required: true
         .field.note_item
           = f.label :location
-          = f.text_field :location, required: true
+          = f.text_field :location,
+                         required: true,
+                         value: @record.position.default_interview_location
       .action.note_item= submit_tag 'Review application and schedule interview'
   - else
     Application reviewed on

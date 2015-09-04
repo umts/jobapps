@@ -7,5 +7,8 @@
   .field
     = f.label :name
     = f.text_field :name, required: true
+  .field
+    = f.label :default_interview_location
+    = f.text_field :default_interview_location, required: false
   .action
     = f.submit 'Save changes'
