@@ -200,10 +200,13 @@ describe ApplicationDraftsController do
 
   describe 'POST #update' do
     before :each do
+      @commit = 'Save changes and continue editing'
       @draft = create :application_draft
+      @new_user = create :user
+      @draft_changes = { user_id: @new_user.id }
     end
     let :submit do
-      post :update, id: @draft
+      post :update, id: @draft, draft: @draft_changes, commit: @commit
     end
     context 'student' do
       before :each do
@@ -220,9 +223,29 @@ describe ApplicationDraftsController do
       before :each do
         when_current_user_is :staff
       end
+      it 'assigns the correct draft variable' do
+        submit
+        expect(assigns.fetch :draft).to eql @draft
+      end
       it 'updates the draft with the changes given' do
-        expect { submit }
-        # TO WHAT? Change question count by one? how make that happen?
+        expect { submit }.to change { @draft.reload.user }.to @new_user
+      end
+      it 'updates questions' do
+        expect_any_instance_of(ApplicationDraft).to receive :update_questions
+        submit
+      end
+      context 'saving changes' do
+        it 'redirects to the edit page for the draft' do
+          submit
+          expect(response).to redirect_to edit_draft_path(@draft)
+        end
+      end
+      context 'previewing changes' do
+        it 'renders the show page' do
+          @commit = 'Preview changes'
+          submit
+          expect(response).to render_template 'show'
+        end
       end
     end
   end
