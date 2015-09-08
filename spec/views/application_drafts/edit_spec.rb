@@ -11,16 +11,16 @@ describe 'application_drafts/edit.haml' do
   end
   it 'has a form to edit the draft' do
     render
-    action_path = edit_draft_path @draft
+    action_path = draft_path @draft
     expect(rendered).to have_form action_path, :post do
-      with_tag 'form', with: { class: 'edit_application_draft' }
+      with_tag 'form', with: { class: 'edit_draft' }
     end
   end
   it 'has inputs for each question field' do
     render
     expect(rendered).to have_tag 'tr' do
       (0...@draft.questions.count).each do |index|
-        base_tag_name = "application_draft[questions_attributes][#{index}]"
+        base_tag_name = "draft[questions_attributes][#{index}]"
         with_hidden_field "#{base_tag_name}[number]"
         with_text_area "#{base_tag_name}[prompt]"
         with_select "#{base_tag_name}[data_type]"

@@ -1,5 +1,5 @@
 %h1.title Editing #{@draft.position.name_and_department}
-= form_for @draft, url: edit_draft_path(@draft) do |f|
+= form_for @draft, as: :draft, url: draft_path(@draft) do |f|
   %table#edit_draft
     %tr
       %th Prompt

@@ -34,6 +34,7 @@ class ApplicationDraftsController < ApplicationController
     draft_params = params.require(:draft).permit!
     @draft.update draft_params.except(:questions_attributes)
     @draft.update_questions draft_params[:questions_attributes]
+    @draft.reload # since questions have been updated
     case params.require :commit
     when 'Save changes and continue editing'
       redirect_to edit_draft_path(@draft)
