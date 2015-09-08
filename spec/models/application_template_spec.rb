@@ -35,7 +35,6 @@ describe ApplicationTemplate do
         expect(call.application_template).to eql @application_template
       end
       it 'adds the questions of the application template to the draft' do
-        # there are no questions in the draft, so this fails.
         expect(call.questions.size).to eql @application_template.questions.size
       end
     end

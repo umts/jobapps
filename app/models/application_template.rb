@@ -13,14 +13,14 @@ class ApplicationTemplate < ActiveRecord::Base
   def create_draft(user)
     return false if draft_belonging_to?(user)
     draft_attributes = attributes.except('id', 'position_id')
-                       .merge user: user,
-                              application_template: self
+                       .symbolize_keys.merge user: user,
+                                             application_template: self
     draft = ApplicationDraft.create draft_attributes
     questions.each do |question|
       new_question = question.dup
       new_question.assign_attributes application_template: nil,
                                      application_draft: draft
-      new_question.save
+      new_question.save!
     end
     draft
   end

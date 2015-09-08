@@ -13,7 +13,8 @@ class ApplicationDraftsController < ApplicationController
 
   def new
     template = ApplicationTemplate.find(params.require :application_template_id)
-    @draft = template.create_draft @current_user
+    @draft = template.create_draft(@current_user) ||
+             template.draft_belonging_to(@current_user)
     redirect_to edit_draft_path(@draft)
   end
 
@@ -21,19 +22,20 @@ class ApplicationDraftsController < ApplicationController
     question_number = params.require(:number).to_i
     direction = params.require(:direction).to_sym
     @draft.move_question question_number, direction
-    redirect_to edit_draft_path
+    redirect_to edit_draft_path(@draft)
   end
 
   def remove_question
     question_number = params.require(:number).to_i
     @draft.remove_question question_number
-    redirect_to edit_draft_path
+    redirect_to edit_draft_path(@draft)
   end
 
   def update
     draft_params = params.require(:draft).permit!
     @draft.update draft_params.except(:questions_attributes)
     @draft.update_questions draft_params[:questions_attributes]
+    @draft.reload # since questions have been updated
     case params.require :commit
     when 'Save changes and continue editing'
       redirect_to edit_draft_path(@draft)
