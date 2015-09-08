@@ -8,7 +8,7 @@ class ApplicationTemplatesController < ApplicationController
     @template = ApplicationTemplate.find_by position: position
     render 'show'
   end
-  
+
   def new
     # make a new empty template
     # make a draft for that template and go to its edit page
