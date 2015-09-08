@@ -20,7 +20,7 @@ class ApplicationTemplate < ActiveRecord::Base
       new_question = question.dup
       new_question.assign_attributes application_template: nil,
                                      application_draft: draft
-      new_question.save
+      new_question.save!
     end
     draft
   end

@@ -22,13 +22,13 @@ class ApplicationDraftsController < ApplicationController
     question_number = params.require(:number).to_i
     direction = params.require(:direction).to_sym
     @draft.move_question question_number, direction
-    redirect_to edit_draft_path
+    redirect_to edit_draft_path(@draft)
   end
 
   def remove_question
     question_number = params.require(:number).to_i
     @draft.remove_question question_number
-    redirect_to edit_draft_path
+    redirect_to edit_draft_path(@draft)
   end
 
   def update
