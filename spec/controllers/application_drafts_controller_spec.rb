@@ -99,12 +99,23 @@ describe ApplicationDraftsController do
     end
     context 'staff' do
       before :each do
-        when_current_user_is :staff
+        @user = create :user, :staff
+        when_current_user_is @user
       end
-      it 'creates a draft for the correct application template' do
-        expect { submit }
-          .to change { @template.drafts.count }
-          .by 1
+      context 'no pre-existing draft' do
+        it 'creates a draft for the correct application template' do
+          expect { submit }
+            .to change { @template.drafts.count }
+            .by 1
+        end
+      end
+      context 'pre-existing draft' do
+        it 'finds the pre-existing draft' do
+          draft = create :application_draft,
+                         application_template: @template, user: @user
+          submit
+          expect(assigns.fetch :draft).to eql draft
+        end
       end
       it 'redirects to the edit page for that draft' do
         submit
