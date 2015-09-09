@@ -19,7 +19,7 @@ class Question < ActiveRecord::Base
                                     message: 'must be true or false' }
   # No questions in one application template with the same number
   validates :number, uniqueness: { scope: :application_template,
-                                   allow_blank: true }
+                                   if: -> { application_template.present? } }
   validates :number,
             uniqueness: { scope: :application_draft,
                           if: -> { application_draft.present? } }
