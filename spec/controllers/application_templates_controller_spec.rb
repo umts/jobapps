@@ -52,6 +52,24 @@ describe ApplicationTemplatesController do
     end
   end
 
+  describe 'POST #new' do
+    context 'staff' do
+      before :each do
+        when_current_user_is :staff
+        department = create :department
+        position = create :position, department: department
+        @template = create :application_template, position: position
+      end
+      let :submit do
+        get :new
+      end
+      it 'assigns the correct template to the template instance variable' do
+        submit
+        expect(assigns.fetch :template).to eql @template
+      end
+    end
+  end
+
   describe 'GET #show' do
     before :each do
       @template = create :application_template
