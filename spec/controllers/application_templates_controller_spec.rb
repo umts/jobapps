@@ -61,7 +61,7 @@ describe ApplicationTemplatesController do
         @draft = create :application_draft, application_template: template
       end
       let :submit do
-        get :new
+        get :new, position_id: position.id 
       end
       it 'assigns the correct draft to the draft variable' do
         submit
