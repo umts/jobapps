@@ -10,11 +10,9 @@ class ApplicationTemplatesController < ApplicationController
   end
 
   def new
-    # make a new empty template
-    # make a draft for that template and go to its edit page
     position = Position.find(params.require :position_id)
-    @template = ApplicationTemplate.create!(position: position)
-    @draft = @template.create_draft @current_user
+    template = ApplicationTemplate.create!(position: position)
+    @draft = template.create_draft @current_user
     redirect_to edit_draft_path(@draft)
   end
 
