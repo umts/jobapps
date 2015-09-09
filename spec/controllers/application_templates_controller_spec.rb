@@ -52,20 +52,20 @@ describe ApplicationTemplatesController do
     end
   end
 
-  describe 'POST #new' do
+  describe 'GET #new' do
     context 'staff' do
       before :each do
         when_current_user_is :staff
-        department = create :department
-        position = create :position, department: department
-        @template = create :application_template, position: position
+        position = create :position
+        template = create :application_template, position: position
+        @draft = create :application_draft, application_template: template
       end
       let :submit do
         get :new
       end
-      it 'assigns the correct template to the template instance variable' do
+      it 'assigns the correct draft to the draft variable' do
         submit
-        expect(assigns.fetch :template).to eql @template
+        expect(assigns.fetch :draft).to eql @draft
       end
     end
   end
