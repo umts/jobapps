@@ -2,10 +2,50 @@ require 'spec_helper'
 require 'rails_helper'
 
 describe Question do
-  before :each do
-    @template = create :application_template
+  context 'validations' do
+    # Yes that's right, ladies and gentlemen,
+    # we are testing an XOR gate.
+    before :each do
+      @draft = create :application_draft
+      @template = create :application_template
+    end
+    context 'question belonging to neither draft nor template' do
+      it 'fails' do
+        question = build :question,
+                         application_draft: nil,
+                         application_template: nil
+        expect { question.save! }.to raise_error ActiveRecord::RecordInvalid
+      end
+    end
+    context 'question belonging to draft but not template' do
+      it 'passes' do
+        question = build :question,
+                         application_draft: @draft,
+                         application_template: nil
+        expect { question.save! }.not_to raise_error
+      end
+    end
+    context 'questions belonging to template but not draft' do
+      it 'passes' do
+        question = build :question,
+                         application_draft: nil,
+                         application_template: @template
+        expect { question.save! }.not_to raise_error
+      end
+    end
+    context 'question belonging to both draft and template' do
+      it 'fails' do
+        question = build :question,
+                         application_draft: @draft,
+                         application_template: @template
+        expect { question.save! }.to raise_error ActiveRecord::RecordInvalid
+      end
+    end
   end
   context 'data_type identification methods' do
+    before :each do
+      @template = create :application_template
+    end
     before :each do
       @date = create :question, data_type: 'date',
                                 application_template: @template
