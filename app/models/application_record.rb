@@ -15,6 +15,7 @@ class ApplicationRecord < ActiveRecord::Base
   validates :reviewed, inclusion: { in: [true, false] }
 
   scope :pending, -> { where reviewed: false }
+  scope :newest_first, -> { order 'created_at desc' }
 
   def deny_with(staff_note)
     update staff_note: staff_note
