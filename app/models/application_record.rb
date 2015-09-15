@@ -16,10 +16,6 @@ class ApplicationRecord < ActiveRecord::Base
 
   scope :pending, -> { where reviewed: false }
 
-  def self.by_user_name
-    joins(:user).order 'users.last_name, users.first_name'
-  end
-
   def deny_with(staff_note)
     update staff_note: staff_note
     if configured_value [:on_application_denial, :notify_applicant],

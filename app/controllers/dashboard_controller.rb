@@ -14,7 +14,7 @@ class DashboardController < ApplicationController
     @departments = Department.includes :positions
     @pending_interviews = Interview.pending.group_by(&:position)
     @pending_records = ApplicationRecord.pending
-                       .by_user_name.group_by(&:position)
+                       .sort_by(&:created_at).reverse.group_by(&:position)
     @site_texts = SiteText.order :name
     @staff = User.staff
     @templates = ApplicationTemplate.all.group_by(&:position)
