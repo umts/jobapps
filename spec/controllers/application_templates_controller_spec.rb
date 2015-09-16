@@ -55,17 +55,34 @@ describe ApplicationTemplatesController do
   describe 'GET #new' do
     context 'staff' do
       before :each do
-        when_current_user_is :staff
-        position = create :position
-        template = create :application_template, position: position
-        @draft = create :application_draft, application_template: template
+        @user = create :user, staff: true
+        when_current_user_is @user
+        @position = create :position
       end
       let :submit do
-        get :new, position_id: position.id 
+        get :new, position_id: @position.id
       end
-      it 'assigns the correct draft to the draft variable' do
+      it 'creates an application template for that position' do
+        expect(@position.application_template).to be_nil
         submit
-        expect(assigns.fetch :draft).to eql @draft
+        expect(@position.reload.application_template).not_to be_nil
+      end
+      it 'creates a draft for that application template for the current user' do
+        submit
+        draft = assigns.fetch :draft
+        expect(draft.user).to eql @user
+      end
+      it 'assigns the created draft to a draft variable' do
+        draft = create :application_draft
+        expect_any_instance_of(ApplicationTemplate)
+          .to receive(:create_draft).with(@user).and_return draft
+        submit
+        expect(assigns.fetch :draft).to eql draft
+      end
+      it 'redirects to the edit page for that draft' do
+        submit
+        draft = assigns.fetch :draft
+        expect(response).to redirect_to edit_draft_path(draft)
       end
     end
   end
