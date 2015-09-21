@@ -9,6 +9,13 @@ class ApplicationTemplatesController < ApplicationController
     render 'show'
   end
 
+  def new
+    position = Position.find(params.require :position_id)
+    template = ApplicationTemplate.create!(position: position)
+    @draft = template.create_draft @current_user
+    redirect_to edit_draft_path(@draft)
+  end
+
   def show
   end
 
