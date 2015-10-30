@@ -9,8 +9,8 @@ class ApplicationRecordsController < ApplicationController
     params.require :position_id
     ApplicationRecord.create!(position_id: params[:position_id],
                               responses: @data,
-                             user: @current_user,
-                             reviewed: false)
+                              user: @current_user,
+                              reviewed: false)
     show_message :application_receipt,
                  default: 'Your application has been submitted. Thank you!'
     redirect_to student_dashboard_path
@@ -37,7 +37,6 @@ class ApplicationRecordsController < ApplicationController
 
   def show
     deny_access if @current_user.student? && @current_user != @record.user
-    @record.responses
   end
 
   private

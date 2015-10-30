@@ -4,7 +4,13 @@ describe ApplicationRecordsController do
   describe 'POST #create' do
     before :each do
       @position = create :position
-      @responses = { question: 'answer' }
+      @responses = { "response_1" => "No",
+                     "prompt_1"=>"Do you like cats",
+                     "response_2"=>"10/07/2015",
+                     "prompt_2"=>"Another question",
+                     "response_3"=>"",
+                     "prompt_3"=>"This thing"}
+
       @user = Hash.new
     end
     let :submit do
@@ -137,6 +143,7 @@ describe ApplicationRecordsController do
       it 'assigns the correct variables' do
         submit
         expect(assigns.keys).to include 'record', 'interview'
+        # why interview?
       end
     end
     context 'record belongs to another student' do
