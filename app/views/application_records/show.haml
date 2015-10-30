@@ -5,13 +5,13 @@ submitted
 by:
 = @record.user.name_and_email
 
-.questions_responses_container
-  .question_row
-    %h3.question_item Question
+.prompts_responses_container
+  .prompt_response_row
+    %h3.prompt_item Question
     %h3.response_item Response
   - @record.responses.each do |prompt, response|
-    .question_row
-      .question_item= prompt
+    .prompt_response_row
+      .prompt_item= prompt
       .response_item= response
 
 - if @current_user.staff?

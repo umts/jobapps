@@ -6,7 +6,7 @@ class ApplicationRecord < ActiveRecord::Base
   delegate :department, to: :position
   has_one :interview, dependent: :destroy
 
-  serialize :responses, Hash
+  serialize :responses, Array 
 
   validates :position,
             :responses,

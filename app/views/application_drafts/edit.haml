@@ -18,7 +18,7 @@
             = g.hidden_field :number
             .field_attribute_1
               = g.text_area :prompt, required: !question.new_record?,
-                                     size: '35x4'
+                size: '35x4',
             .field_attribute
               = g.select :data_type, Question::DATA_TYPES,
               include_blank: 'Select a data type...',

@@ -1,13 +1,14 @@
 class ApplicationRecordsController < ApplicationController
   skip_before_action :access_control, only: [:create, :show]
   before_action :find_record, except: :create
+  include ApplicationHelper
 
   def create
     create_user if @current_user.blank?
-    params.require :responses
+    @data = parse_application_data(params.require :responses)
     params.require :position_id
-    ApplicationRecord.create(position_id: params[:position_id],
-                             responses: params[:responses],
+    ApplicationRecord.create!(position_id: params[:position_id],
+                              responses: @data,
                              user: @current_user,
                              reviewed: false)
     show_message :application_receipt,
@@ -36,7 +37,7 @@ class ApplicationRecordsController < ApplicationController
 
   def show
     deny_access if @current_user.student? && @current_user != @record.user
-    @interview = @record.interview
+    @record.responses
   end
 
   private
