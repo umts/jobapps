@@ -7,7 +7,7 @@ class ApplicationRecordsController < ApplicationController
     create_user if @current_user.blank?
     @data = parse_application_data(params.require :responses)
     params.require :position_id
-    ApplicationRecord.create!(position_id: params[:position_id],
+    ApplicationRecord.create(position_id: params[:position_id],
                               responses: @data,
                               user: @current_user,
                               reviewed: false)
@@ -37,6 +37,7 @@ class ApplicationRecordsController < ApplicationController
 
   def show
     deny_access if @current_user.student? && @current_user != @record.user
+    @interview = @record.interview
   end
 
   private
