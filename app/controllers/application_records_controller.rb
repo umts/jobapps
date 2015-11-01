@@ -1,6 +1,6 @@
 class ApplicationRecordsController < ApplicationController
   skip_before_action :access_control, only: [:create, :show]
-  before_action :find_record, except: :create
+  before_action :find_record, except: [:create, :csv_export]
   include ApplicationHelper
 
   def create
@@ -14,6 +14,9 @@ class ApplicationRecordsController < ApplicationController
     show_message :application_receipt,
                  default: 'Your application has been submitted. Thank you!'
     redirect_to student_dashboard_path
+  end
+
+  def csv_export
   end
 
   def review

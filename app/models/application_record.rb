@@ -16,6 +16,8 @@ class ApplicationRecord < ActiveRecord::Base
 
   scope :pending, -> { where reviewed: false }
   scope :newest_first, -> { order 'created_at desc' }
+  scope :between,
+        -> (start_date, end_date) { where created_at: start_date..end_date }
 
   def deny_with(staff_note)
     update staff_note: staff_note
