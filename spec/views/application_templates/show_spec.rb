@@ -5,7 +5,8 @@ describe 'application_templates/show.haml' do
   before :each do
     @template = create :application_template
     assign :template, @template
-    create :question, application_template: @template, prompt: 'A Prompt'
+    @question = create :question, application_template: @template,
+                                  prompt: 'A Prompt'
   end
   let :action_path do
     application_records_path
@@ -43,8 +44,8 @@ describe 'application_templates/show.haml' do
       it 'does not downcase capitalized question prompts' do
         render
         expect(rendered).to have_form action_path, :post do
-          with_text_field 'responses[A Prompt]' do
-            with_text 'A Prompt'
+          with_tag 'label' do
+            with_text @question.prompt
           end
         end
       end

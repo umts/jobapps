@@ -20,9 +20,9 @@ module ApplicationHelper
       end
     end
     prompts.size.times do |i|
-      p_r[i] = [prompts[i], responses[i]] 
+      p_r[i] = [prompts[i], responses[i]]
     end
-    return p_r
+    p_r
   end
 
   def render_markdown(text)

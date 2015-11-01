@@ -8,9 +8,9 @@ class ApplicationRecordsController < ApplicationController
     @data = parse_application_data(params.require :responses)
     params.require :position_id
     ApplicationRecord.create(position_id: params[:position_id],
-                              responses: @data,
-                              user: @current_user,
-                              reviewed: false)
+                             responses: @data,
+                             user: @current_user,
+                             reviewed: false)
     show_message :application_receipt,
                  default: 'Your application has been submitted. Thank you!'
     redirect_to student_dashboard_path

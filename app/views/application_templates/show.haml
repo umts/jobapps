@@ -30,10 +30,12 @@
               .label= r.label question.prompt, question.prompt
               - case question.data_type
               - when 'text', 'date'
-                = r.text_field question.unique_name, required: question.required?,
+                = r.text_field question.unique_name,
+                  required: question.required?,
                   class: ('datepicker' if question.date?), size: 50
               - when 'number'
-                = r.number_field question.unique_name, required: question.required?
+                = r.number_field question.unique_name,
+                  required: question.required?
               - when 'yes/no'
                 Yes
                 = r.radio_button question.unique_name, 'yes',
@@ -43,6 +45,7 @@
                   required: question.required?
               - if question.required?
                 %span.ast *
-              = r.hidden_field question.unique_prompt_name, value: question.prompt
+              = r.hidden_field question.unique_prompt_name,
+                value: question.prompt
       = hidden_field_tag :position_id, @template.position_id
       .actions= submit_tag 'Submit application' unless @current_user.try :staff?
