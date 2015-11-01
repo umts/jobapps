@@ -53,6 +53,28 @@ describe ApplicationRecordsController do
     # No reason for staff to use this page
   end
 
+  describe 'GET #csv_export' do
+    before :each do
+      when_current_user_is :staff
+      @start_date = 1.week.ago.to_date
+      @end_date = Date.today
+    end
+    let :submit do
+      get :csv_export,
+          start_date: @start_date.strftime('%m/%d/%Y'),
+          end_date: @end_date.strftime('%m/%d/%Y')
+    end
+    it 'calls AR#between with the correct parameters' do
+      expect(ApplicationRecord).to receive(:between).with @start_date, @end_date
+      submit
+    end
+    it 'assigns the correct records to the instance variable' do
+      expect(ApplicationRecord).to receive(:between).and_return 'whatever'
+      submit
+      expect(assigns.fetch :records).to eql 'whatever'
+    end
+  end
+
   describe 'POST #review' do
     before :each do
       @record = create :application_record

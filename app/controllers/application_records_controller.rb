@@ -17,6 +17,9 @@ class ApplicationRecordsController < ApplicationController
   end
 
   def csv_export
+    start_date = parse_american_date(params.require :start_date)
+    end_date = parse_american_date(params.require :end_date)
+    @records = ApplicationRecord.between(start_date, end_date)
   end
 
   def review

@@ -6,4 +6,8 @@ module DateAndTimeMethods
     else datetime.strftime '%A, %B %e, %Y - %l:%M %P'
     end
   end
+
+  def parse_american_date(date)
+    Date.strptime(date, '%m/%d/%Y')
+  end
 end
