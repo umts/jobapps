@@ -1,4 +1,4 @@
-= form_tag csv_export_application_records_path do
+= form_tag csv_export_application_records_path, method: :get do
   Export records between
   = text_field_tag :start_date, '', class: 'datepicker', required: true
   and

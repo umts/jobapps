@@ -1,1 +1,6 @@
-%h1 Application Records
+Record Number,Prompt,Response
+<% @records.each do |record| %>
+<% record.responses.each do |prompt, response| %>
+<%= [record.id, prompt, response].join(',') %>
+<% end %>
+<% end %>

@@ -20,6 +20,7 @@ class ApplicationRecordsController < ApplicationController
     start_date = parse_american_date(params.require :start_date)
     end_date = parse_american_date(params.require :end_date)
     @records = ApplicationRecord.between(start_date, end_date)
+    render 'csv_export.csv.erb', layout: false
   end
 
   def review
