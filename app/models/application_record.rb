@@ -9,7 +9,7 @@ class ApplicationRecord < ActiveRecord::Base
   serialize :responses, Array
 
   validates :position,
-            :responses,
+            # :responses, 
             :user,
             presence: true
   validates :reviewed, inclusion: { in: [true, false] }
@@ -27,7 +27,14 @@ class ApplicationRecord < ActiveRecord::Base
     end
   end
 
+  def add_response_data(prompt, response)
+    update(responses: responses << [prompt, response])
+    self
+  end
+
   def pending?
     !reviewed
   end
+
 end
+
