@@ -9,7 +9,7 @@ class ApplicationRecord < ActiveRecord::Base
   serialize :responses, Array
 
   validates :position,
-            # :responses, 
+            # :responses, put back in once import is complete
             :user,
             presence: true
   validates :reviewed, inclusion: { in: [true, false] }
@@ -35,6 +35,4 @@ class ApplicationRecord < ActiveRecord::Base
   def pending?
     !reviewed
   end
-
 end
-
