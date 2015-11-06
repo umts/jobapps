@@ -18,6 +18,9 @@ Rails.application.routes.draw do
     collection do
       get  :csv_export
     end
+    collection do
+      get :past_applications
+    end
     member do
       post :review
     end

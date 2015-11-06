@@ -9,7 +9,9 @@ class ApplicationRecord < ActiveRecord::Base
   serialize :responses, Array
 
   validates :position,
-            # :responses, 
+            # :responses, put back in once import is complete
+    # attr accessor suspend validation 
+    # imports that bypass validation
             :user,
             presence: true
   validates :reviewed, inclusion: { in: [true, false] }
