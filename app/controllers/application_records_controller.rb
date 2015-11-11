@@ -24,6 +24,8 @@ class ApplicationRecordsController < ApplicationController
   end
 
   def past_applications
+    # text field tags must be unique to the page, hence records_start_date
+    # instead of just start_date
     start_date = parse_american_date(params.require :records_start_date)
     end_date = parse_american_date(params.require :records_end_date)
     @records = ApplicationRecord.between(start_date, end_date)
