@@ -26,7 +26,7 @@ class ApplicationRecordsController < ApplicationController
   def past_applications
     start_date = parse_american_date(params.require :start_date)
     end_date = parse_american_date(params.require :end_date)
-    @records = ApplicationRecord.between(start_date, end_date)
+    @records = ApplicationRecord.between(start_date, end_date).order(params[:sort])
     render 'past_application_records'
   end
 
