@@ -8,7 +8,7 @@
   %tbody
     - @records.each do |record| 
       %tr
-        %td{data: {order: record.created_at.to_i()}}
+        %td{data: {order: record.created_at.to_i}}
           = format_date_time record.created_at
         %td 
           = link_to(record.user.proper_name, application_record_path(record.id))
