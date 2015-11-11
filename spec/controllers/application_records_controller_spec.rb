@@ -82,9 +82,9 @@ describe ApplicationRecordsController do
       @end_date = Date.today
     end
     let :submit do
-      get :past_applications
-          start_date: @start_date.strftime('%m/%d/%Y'),
-          end_date: @end_date.strftime('%m/%d/%Y')
+      get :past_applications,
+          records_start_date: @start_date.strftime('%m/%d/%Y'),
+          records_end_date: @end_date.strftime('%m/%d/%Y')
     end
     it 'calls AR#between with the correct parameters' do
       expect(ApplicationRecord).to receive(:between).with @start_date, @end_date

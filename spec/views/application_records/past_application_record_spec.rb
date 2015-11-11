@@ -34,10 +34,9 @@ describe 'application_records/past_application_records.haml' do
   context 'application record has an upcoming interview' do
     # an interview that has not been completed
     before :each do
-      @record = create :application_record
       @interview = create :interview,
                            completed: false,
-                           application_record: @record
+                           application_record: @record1
     end
     it 'displays the date of the upcoming interview' do
       render
@@ -46,10 +45,20 @@ describe 'application_records/past_application_records.haml' do
   end
   context 'application record has a completed interview' do
     # an interview that has been completed
+    before :each do
+      @interview = create :interview,
+                          completed: true,
+                          application_record: @record1
+    end
+    it 'displays the date of the completed interview' do
+      render
+      expect(rendered).to include format_date_time @interview.scheduled
+    end
   end
   context 'application record has no interview' do
-    # a record by itself without an interview
+    it 'tells the user that the interview is not scheduled' do
+      render
+      expect(rendered).to include 'not scheduled'
+    end
   end
 end
-
-# look at spec/views/application_records/show_spec for examples
