@@ -57,7 +57,7 @@ describe ApplicationRecordsController do
     before :each do
       when_current_user_is :staff
       @start_date = 1.week.ago.to_date
-      @end_date = Date.today
+      @end_date = Time.zone.today
     end
     let :submit do
       get :csv_export,
@@ -79,7 +79,7 @@ describe ApplicationRecordsController do
     before :each do
       when_current_user_is :staff
       @start_date = 1.week.ago.to_date
-      @end_date = Date.today
+      @end_date = Time.zone.today
     end
     let :submit do
       get :past_applications,

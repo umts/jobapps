@@ -11,7 +11,7 @@ describe ApplicationRecord do
         @too_future_record = create :application_record
       end
       @just_right_record = create :application_record
-      @start_date = Date.today
+      @start_date = Time.zone.today
       @end_date = 1.week.since
     end
     let :call do
@@ -74,11 +74,11 @@ describe ApplicationRecord do
   describe 'add_response_data' do
     context 'application record with no existing responses' do
       before :each do
-        headers = ['x', 'y', 'z']
+        headers = %w(x y z)
         @question = 'a question'
         @answer = 'an answer'
         fields = ['1', @question, @answer]
-        row = CSV::Row.new(headers, fields)
+        CSV::Row.new(headers, fields)
         @record = create :application_record, responses: nil
       end
       let :call do
@@ -92,22 +92,24 @@ describe ApplicationRecord do
       before :each do
         @question1 = 'question1'
         @answer1 = 'answer1'
-        headers = ['x', 'y', 'z']
+        headers = %w(x y z)
         @question = 'a question'
         @answer = 'an answer'
         fields = ['1', @question, @answer]
-        row = CSV::Row.new(headers, fields)
-        @record = create :application_record, responses: [[@question1, @answer1]]
+        CSV::Row.new(headers, fields)
+        @record = create :application_record,
+                         responses: [[@question1, @answer1]]
       end
       let :call do
         @record.add_response_data(@question, @answer)
       end
       it 'appends the changes to the existing responses' do
-        expect(call.responses).to eql [[@question1, @answer1],[@question, @answer]]
+        expect(call.responses).to eql [[@question1, @answer1],
+                                       [@question, @answer]]
       end
     end
-  end 
-  
+  end
+
   describe 'pending?' do
     it 'returns true if record has not been reviewed' do
       record = create :application_record, reviewed: false

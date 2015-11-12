@@ -5,8 +5,8 @@ describe 'application_records/past_application_records.haml' do
   before :each do
     @user1 = create :user, first_name: 'Rick', last_name: 'Cat'
     @record1 = create :application_record,
-                       user: @user1,
-                       staff_note: 'note'
+                      user: @user1,
+                      staff_note: 'note'
     @records = [@record1]
     assign :records, @records
   end
@@ -28,15 +28,16 @@ describe 'application_records/past_application_records.haml' do
   end
   it 'provides a UNIX timestamp by which to sort the records' do
     render
-    expect(rendered).to have_tag 'td', 
-      with: { 'data-order' => @record1.created_at.to_i}
+    expect(rendered).to have_tag 'td',
+                                 with: { 'data-order' =>
+                                          @record1.created_at.to_i }
   end
   context 'application record has an upcoming interview' do
     # an interview that has not been completed
     before :each do
       @interview = create :interview,
-                           completed: false,
-                           application_record: @record1
+                          completed: false,
+                          application_record: @record1
     end
     it 'displays the date of the upcoming interview' do
       render

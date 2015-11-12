@@ -10,8 +10,8 @@ class ApplicationRecord < ActiveRecord::Base
 
   validates :position,
             # :responses, put back in once import is complete
-    # attr accessor suspend validation 
-    # imports that bypass validation
+            # attr accessor suspend validation
+            # imports that bypass validation
             :user,
             presence: true
   validates :reviewed, inclusion: { in: [true, false] }
@@ -37,6 +37,4 @@ class ApplicationRecord < ActiveRecord::Base
   def pending?
     !reviewed
   end
-
 end
-
