@@ -74,6 +74,7 @@ describe ApplicationRecord do
   describe 'add_response_data' do
     context 'application record with no existing responses' do
       before :each do
+        # The header content doesn't matter, it only matters that they're there.
         headers = %w(x y z)
         @question = 'a question'
         @answer = 'an answer'
@@ -92,6 +93,7 @@ describe ApplicationRecord do
       before :each do
         @existing_question = 'existing question'
         @existing_answer = 'existing answer'
+        # The header content doesn't matter, it only matters that they're there.
         headers = %w(x y z)
         @new_question = 'new question'
         @new_answer = 'new answer'
