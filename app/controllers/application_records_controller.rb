@@ -1,6 +1,6 @@
 class ApplicationRecordsController < ApplicationController
   skip_before_action :access_control, only: [:create, :show]
-  before_action :find_record, except: :create
+  before_action :find_record, except: [:create, :csv_export]
 
   def create
     create_user if @current_user.blank?
@@ -13,6 +13,13 @@ class ApplicationRecordsController < ApplicationController
     show_message :application_receipt,
                  default: 'Your application has been submitted. Thank you!'
     redirect_to student_dashboard_path
+  end
+
+  def csv_export
+    start_date = parse_american_date(params.require :start_date)
+    end_date = parse_american_date(params.require :end_date)
+    @records = ApplicationRecord.between(start_date, end_date)
+    render 'csv_export.csv.erb', layout: false
   end
 
   def review
