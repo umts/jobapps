@@ -4,7 +4,7 @@ class ApplicationRecordsController < ApplicationController
 
   def create
     create_user if @current_user.blank?
-    params.require :responses
+    params.require(:responses)
     params.require :position_id
     ApplicationRecord.create(position_id: params[:position_id],
                              responses: params[:responses],
@@ -14,7 +14,7 @@ class ApplicationRecordsController < ApplicationController
                  default: 'Your application has been submitted. Thank you!'
     redirect_to student_dashboard_path
   end
-  
+
   def csv_export
     start_date = parse_american_date(params.require :start_date)
     end_date = parse_american_date(params.require :end_date)

@@ -26,11 +26,6 @@ class ApplicationRecord < ActiveRecord::Base
       JobappsMailer.application_denial(self).deliver_now
     end
   end
-  
-  def add_response_data(prompt, response)
-    update(responses: responses << [prompt, response])
-    self
-  end
 
   def pending?
     !reviewed
