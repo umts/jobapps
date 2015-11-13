@@ -4,7 +4,7 @@ class ApplicationRecordsController < ApplicationController
 
   def create
     create_user if @current_user.blank?
-    params.require(:responses)
+    params.require :responses
     params.require :position_id
     ApplicationRecord.create(position_id: params[:position_id],
                              responses: params[:responses],

@@ -165,7 +165,6 @@ describe ApplicationRecordsController do
       it 'assigns the correct variables' do
         submit
         expect(assigns.keys).to include 'record', 'interview'
-        # why interview?
       end
     end
     context 'record belongs to another student' do

@@ -9,7 +9,7 @@ class ApplicationRecord < ActiveRecord::Base
   serialize :responses, Hash
 
   validates :position,
-            :responses, # this validation makes the test fail
+            :responses,
             :user,
             presence: true
   validates :reviewed, inclusion: { in: [true, false] }

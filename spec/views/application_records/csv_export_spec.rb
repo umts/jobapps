@@ -4,6 +4,10 @@ include RSpecHtmlMatchers
 
 describe 'application_records/csv_export.csv.erb' do
   before :each do
+    # this test does not simply create an application record, because
+    # it is supposed to be able to be run when an actual application
+    # record's responses are serialized as either a hash or an array.
+    # hence needing to hardcode an ID and all.
     @id = 1
     @prompt = 'A question'
     @response = 'An answer'
