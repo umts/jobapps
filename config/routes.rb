@@ -15,6 +15,9 @@ Rails.application.routes.draw do
   end
 
   resources :application_records, only: [:create, :show] do
+    collection do
+      get  :csv_export
+    end
     member do
       post :review
     end

@@ -1,6 +1,27 @@
 require 'rails_helper'
+require 'csv'
 
 describe ApplicationRecord do
+  describe 'between' do
+    before :each do
+      Timecop.freeze 1.week.ago do
+        @too_past_record = create :application_record
+      end
+      Timecop.freeze 1.month.since do
+        @too_future_record = create :application_record
+      end
+      @just_right_record = create :application_record
+      @start_date = Time.zone.today
+      @end_date = 1.week.since
+    end
+    let :call do
+      ApplicationRecord.between @start_date, @end_date
+    end
+    it 'gives the application records between the given dates' do
+      expect(call).to include @just_right_record
+      expect(call).not_to include @too_future_record, @too_past_record
+    end
+  end
   describe 'deny_with' do
     before :each do
       @record = create :application_record
@@ -46,6 +67,45 @@ describe ApplicationRecord do
         expect(JobappsMailer)
           .not_to receive(:application_denial)
         call
+      end
+    end
+  end
+
+  describe 'add_response_data' do
+    context 'application record with no existing responses' do
+      before :each do
+        headers = %w(x y z)
+        @question = 'a question'
+        @answer = 'an answer'
+        fields = ['1', @question, @answer]
+        CSV::Row.new(headers, fields)
+        @record = create :application_record, responses: nil
+      end
+      let :call do
+        @record.add_response_data(@question, @answer)
+      end
+      it 'makes the changes to the correct application record' do
+        expect(call.responses).to eql [[@question, @answer]]
+      end
+    end
+    context 'application record with existing responses' do
+      before :each do
+        @question1 = 'question1'
+        @answer1 = 'answer1'
+        headers = %w(x y z)
+        @question = 'a question'
+        @answer = 'an answer'
+        fields = ['1', @question, @answer]
+        CSV::Row.new(headers, fields)
+        @record = create :application_record, responses: [[@question1,
+                                                           @answer1]]
+      end
+      let :call do
+        @record.add_response_data(@question, @answer)
+      end
+      it 'appends the changes to the existing responses' do
+        expect(call.responses).to eql [[@question1, @answer1],
+                                       [@question, @answer]]
       end
     end
   end

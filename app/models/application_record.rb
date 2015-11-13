@@ -9,7 +9,7 @@ class ApplicationRecord < ActiveRecord::Base
   serialize :responses, Hash
 
   validates :position,
-            :responses,
+            :responses, # this validation makes the test fail
             :user,
             presence: true
   validates :reviewed, inclusion: { in: [true, false] }
@@ -23,6 +23,11 @@ class ApplicationRecord < ActiveRecord::Base
                         default: true
       JobappsMailer.application_denial(self).deliver_now
     end
+  end
+  
+  def add_response_data(prompt, response)
+    update(responses: responses << [prompt, response])
+    self
   end
 
   def pending?
