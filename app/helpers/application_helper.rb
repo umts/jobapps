@@ -9,7 +9,7 @@ module ApplicationHelper
   def parse_application_data(data)
     prompts = []
     responses = []
-    p_r = []
+    paired_prompts_and_responses = []
     data.each do |k, v|
       data_type, number = k.split '_'
       case data_type
@@ -20,9 +20,9 @@ module ApplicationHelper
       end
     end
     prompts.size.times do |i|
-      p_r[i] = [prompts[i], responses[i]]
+      paired_prompts_and_responses[i] = [prompts[i], responses[i]]
     end
-    p_r
+    paired_prompts_and_responses
   end
 
   def render_markdown(text)
