@@ -6,6 +6,25 @@ module ApplicationHelper
     configured_value [:organization_name]
   end
 
+  def parse_application_data(data)
+    prompts = []
+    responses = []
+    paired_prompts_and_responses = []
+    data.each do |k, v|
+      data_type, number = k.split '_'
+      case data_type
+      when 'response'
+        responses[number.to_i] = v
+      when 'prompt'
+        prompts[number.to_i] = v
+      end
+    end
+    prompts.size.times do |i|
+      paired_prompts_and_responses[i] = [prompts[i], responses[i]]
+    end
+    paired_prompts_and_responses
+  end
+
   def render_markdown(text)
     renderer = Redcarpet::Render::HTML
     markdown = Redcarpet::Markdown.new renderer

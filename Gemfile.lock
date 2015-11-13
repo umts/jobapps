@@ -108,6 +108,11 @@ GEM
       nokogiri (~> 1.6.0)
       ruby_parser (~> 3.5)
     i18n (0.7.0)
+    jquery-datatables-rails (3.3.0)
+      actionpack (>= 3.1)
+      jquery-rails
+      railties (>= 3.1)
+      sass-rails
     jquery-datetimepicker-rails (2.4.1.0)
     jquery-rails (4.0.4)
       rails-dom-testing (~> 1.0)
@@ -263,6 +268,7 @@ DEPENDENCIES
   haml
   haml-lint
   haml-rails
+  jquery-datatables-rails
   jquery-datetimepicker-rails
   jquery-rails
   jquery-timepicker-rails

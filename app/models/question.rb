@@ -43,6 +43,14 @@ class Question < ActiveRecord::Base
     %w(text date).include? data_type
   end
 
+  def unique_prompt_name
+    "prompt_#{number}"
+  end
+
+  def unique_name
+    "response_#{number}"
+  end
+
   private
 
   # must have app temp or app temp draft, but not both

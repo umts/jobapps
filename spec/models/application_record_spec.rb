@@ -71,6 +71,47 @@ describe ApplicationRecord do
     end
   end
 
+  describe 'add_response_data' do
+    context 'application record with no existing responses' do
+      before :each do
+        # The header content doesn't matter, it only matters that they're there.
+        headers = %w(x y z)
+        @question = 'a question'
+        @answer = 'an answer'
+        fields = ['1', @question, @answer]
+        CSV::Row.new(headers, fields)
+        @record = create :application_record, responses: nil
+      end
+      let :call do
+        @record.add_response_data(@question, @answer)
+      end
+      it 'makes the changes to the correct application record' do
+        expect(call.responses).to eql [[@question, @answer]]
+      end
+    end
+    context 'application record with existing responses' do
+      before :each do
+        @existing_question = 'existing question'
+        @existing_answer = 'existing answer'
+        # The header content doesn't matter, it only matters that they're there.
+        headers = %w(x y z)
+        @new_question = 'new question'
+        @new_answer = 'new answer'
+        fields = ['1', @new_question, @new_answer]
+        CSV::Row.new(headers, fields)
+        @record = create :application_record, responses: [[@existing_question,
+                                                           @existing_answer]]
+      end
+      let :call do
+        @record.add_response_data(@new_question, @new_answer)
+      end
+      it 'appends the changes to the existing responses' do
+        expect(call.responses).to eql [[@existing_question, @existing_answer],
+                                       [@new_question, @new_answer]]
+      end
+    end
+  end
+
   describe 'pending?' do
     it 'returns true if record has not been reviewed' do
       record = create :application_record, reviewed: false
