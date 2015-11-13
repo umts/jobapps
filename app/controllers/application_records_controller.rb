@@ -1,6 +1,6 @@
 class ApplicationRecordsController < ApplicationController
   skip_before_action :access_control, only: [:create, :show]
-  before_action :find_record, except: [:create, :csv_export]
+  before_action :find_record, except: [:create, :csv_export, :past_applications]
   include ApplicationHelper
 
   def create
@@ -21,6 +21,15 @@ class ApplicationRecordsController < ApplicationController
     end_date = parse_american_date(params.require :end_date)
     @records = ApplicationRecord.between(start_date, end_date)
     render 'csv_export.csv.erb', layout: false
+  end
+
+  def past_applications
+    # text field tags must be unique to the page, hence records_start_date
+    # instead of just start_date
+    start_date = parse_american_date(params.require :records_start_date)
+    end_date = parse_american_date(params.require :records_end_date)
+    @records = ApplicationRecord.between(start_date, end_date)
+    render 'past_application_records'
   end
 
   def review

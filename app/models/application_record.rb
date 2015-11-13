@@ -9,7 +9,7 @@ class ApplicationRecord < ActiveRecord::Base
   serialize :responses, Array
 
   validates :position,
-            # :responses, put back in once import is complete
+            :responses,
             :user,
             presence: true
   validates :reviewed, inclusion: { in: [true, false] }
