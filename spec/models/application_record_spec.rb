@@ -80,7 +80,10 @@ describe ApplicationRecord do
         @answer = 'an answer'
         fields = ['1', @question, @answer]
         CSV::Row.new(headers, fields)
-        @record = create :application_record, responses: nil
+        # Need to have an existing (saved) but invalid record,
+        # so we save with blank responses without validating
+        @record = build :application_record, responses: nil
+        @record.save validate: false
       end
       let :call do
         @record.add_response_data(@question, @answer)
