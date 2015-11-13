@@ -90,22 +90,22 @@ describe ApplicationRecord do
     end
     context 'application record with existing responses' do
       before :each do
-        @question1 = 'question1'
-        @answer1 = 'answer1'
+        @existing_question = 'existing question'
+        @existing_answer = 'existing answer'
         headers = %w(x y z)
-        @question = 'a question'
-        @answer = 'an answer'
-        fields = ['1', @question, @answer]
+        @new_question = 'new question'
+        @new_answer = 'new answer'
+        fields = ['1', @new_question, @new_answer]
         CSV::Row.new(headers, fields)
-        @record = create :application_record, responses: [[@question1,
-                                                           @answer1]]
+        @record = create :application_record, responses: [[@existing_question,
+                                                           @existing_answer]]
       end
       let :call do
-        @record.add_response_data(@question, @answer)
+        @record.add_response_data(@new_question, @new_answer)
       end
       it 'appends the changes to the existing responses' do
-        expect(call.responses).to eql [[@question1, @answer1],
-                                       [@question, @answer]]
+        expect(call.responses).to eql [[@existing_question, @existing_answer],
+                                       [@new_question, @new_answer]]
       end
     end
   end
