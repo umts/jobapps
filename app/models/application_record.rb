@@ -6,7 +6,7 @@ class ApplicationRecord < ActiveRecord::Base
   delegate :department, to: :position
   has_one :interview, dependent: :destroy
 
-  serialize :responses, Hash
+  serialize :responses, Array
 
   validates :position,
             :responses,
@@ -25,6 +25,11 @@ class ApplicationRecord < ActiveRecord::Base
                         default: true
       JobappsMailer.application_denial(self).deliver_now
     end
+  end
+
+  def add_response_data(prompt, response)
+    update(responses: responses << [prompt, response])
+    self
   end
 
   def pending?

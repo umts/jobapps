@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.dataTables.min
 //= require jquery-ui.min
 //= require jquery.datetimepicker
 //= require_tree .
