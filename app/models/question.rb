@@ -44,11 +44,11 @@ class Question < ActiveRecord::Base
   end
 
   def unique_prompt_name
-    "prompt_#{number}"
+    "prompt_#{number - 1}"
   end
 
   def unique_name
-    "response_#{number}"
+    "response_#{number - 1}"
   end
 
   private
