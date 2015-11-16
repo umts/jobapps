@@ -6,10 +6,10 @@ class ApplicationRecord < ActiveRecord::Base
   delegate :department, to: :position
   has_one :interview, dependent: :destroy
 
-  serialize :responses, Array
+  serialize :data, Array
 
   validates :position,
-            :responses,
+            :data,
             :user,
             presence: true
   validates :reviewed, inclusion: { in: [true, false] }
@@ -28,7 +28,7 @@ class ApplicationRecord < ActiveRecord::Base
   end
 
   def add_response_data(prompt, response)
-    update(responses: responses << [prompt, response])
+    update(data: data << [prompt, response])
     self
   end
 
