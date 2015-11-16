@@ -5,10 +5,10 @@ class ApplicationRecordsController < ApplicationController
 
   def create
     create_user if @current_user.blank?
-    @data = parse_application_data(params.require :responses)
+    @data = parse_application_data(params.require :data)
     params.require :position_id
     ApplicationRecord.create(position_id: params[:position_id],
-                             responses: @data,
+                             data: @data,
                              user: @current_user,
                              reviewed: false)
     show_message :application_receipt,
