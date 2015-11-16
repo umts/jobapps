@@ -45,7 +45,7 @@
                   required: question.required?
               - if question.required?
                 %span.ast *
-              = r.hidden_field question.unique_prompt_name,
-                value: question.prompt
+            = r.hidden_field question.unique_prompt_name,
+              value: question.prompt
       = hidden_field_tag :position_id, @template.position_id
       .actions= submit_tag 'Submit application' unless @current_user.try :staff?
