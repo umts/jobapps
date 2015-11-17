@@ -19,7 +19,7 @@
           = u.text_field field, size: 50, required: true,
             value: @current_user.try(field)
           %span.ast *
-    = fields_for :responses do |r|
+    = fields_for :data do |r|
       - @draft.questions.each do |question|
         .field
           - if question.explanation?

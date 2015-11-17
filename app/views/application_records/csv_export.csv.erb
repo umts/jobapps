@@ -1,6 +1,6 @@
 Record Number,Prompt,Response
 <% @records.each do |record| %>
-<% record.responses.each do |prompt, response| %>
+<% record.data.each do |prompt, response| %>
 <%= [record.id, prompt, response].to_csv %>
 <% end %>
 <% end %>
