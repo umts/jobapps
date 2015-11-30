@@ -9,7 +9,7 @@ by:
   .prompt_response_row
     %h3.prompt_item Question
     %h3.response_item Response
-  - @record.responses.each do |prompt, response|
+  - @record.data.each do |prompt, response|
     .prompt_response_row
       .prompt_item= prompt
       .response_item= response
