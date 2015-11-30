@@ -7,6 +7,12 @@ describe 'application_templates/show.haml' do
     assign :template, @template
     @question = create :question, application_template: @template,
                                   prompt: 'A Prompt'
+    @heading = create :question, application_template: @template,
+                                 prompt: 'A heading',
+                                 data_type: 'heading'
+    @explanation = create :question, application_template: @template,
+                                     prompt: 'An explanation',
+                                     data_type: 'explanation'
   end
   let :action_path do
     application_records_path
@@ -40,6 +46,20 @@ describe 'application_templates/show.haml' do
       it 'contains a form to submit the application' do
         render
         expect(rendered).to have_form action_path, :post
+      end
+      it 'includes the unique prompt name for headings' do
+        render
+        expect(rendered).to have_form action_path, :post do
+          with_tag 'input', type: 'hidden',
+                            value: @heading.unique_prompt_name
+        end
+      end
+      it 'includes the unique prompt name for explanations' do
+        render
+        expect(rendered).to have_form action_path, :post do
+          with_tag 'input', type: 'hidden',
+                            value: @explanation.unique_prompt_name
+        end
       end
       it 'does not downcase capitalized question prompts' do
         render
