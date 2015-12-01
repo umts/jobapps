@@ -1,0 +1,15 @@
+%table.data_table.display
+  %thead
+    %tr
+      %th= 'Date Submitted'
+      %th= 'Ethnicity'
+      %th= 'Gender'
+  %tbody
+    - @records.each do |record|
+      %tr
+        %td{ data: { order: record.created_at.to_i } }
+          = format_date_time record.created_at
+        %td
+          = record.ethnicity
+        %td
+          = record.gender

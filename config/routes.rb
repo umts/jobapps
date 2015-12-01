@@ -21,6 +21,9 @@ Rails.application.routes.draw do
     collection do
       get :past_applications
     end
+    collection do
+      get :eeo_data
+    end
     member do
       post :review
     end

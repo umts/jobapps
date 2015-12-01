@@ -1,0 +1,6 @@
+= form_tag eeo_data_application_records_path, method: :get do
+  List EEO data between
+  = text_field_tag :eeo_start_date, '', class: 'datepicker', required: true
+  and
+  = text_field_tag :eeo_end_date, '', class: 'datepicker', required: true 
+  = submit_tag 'List EEO data'
