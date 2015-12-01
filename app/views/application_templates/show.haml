@@ -49,19 +49,22 @@
               value: question.prompt
       = hidden_field_tag :position_id, @template.position_id
       .heading Voluntary Equal Employment Opportunity Information
-      .explanation 
-        The University of Massachusetts and the Pioneer Valley 
+      .explanation
+        The University of Massachusetts and the Pioneer Valley
         Transit Authority are equal opportunity employers. To help
-        us insure that we are complying with EEO policies, please supply 
+        us insure that we are complying with EEO policies, please supply
         the information requested below.
       .field
-        .label Please select the ethnic group with which you most closely identify
-        = select_tag :ethnicity, options_for_select(['Prefer not to answer',
-                                                     'White (Not of Hispanic origin)',
-                                                     'Black (Not of Hispanic origin)',
-                                                     'Hispanic',
-                                                     'Asian or Pacific Islander',
-                                                     'American Indian or Alaskan Native'])
+        .label
+          Please select the ethnic group with which you most closely identify
+        = select_tag :ethnicity,
+                     options_for_select(['Prefer not to answer',
+                                         'White (Not of Hispanic origin)',
+                                         'Black (Not of Hispanic origin)',
+                                         'Hispanic',
+                                         'Asian or Pacific Islander',
+                                         'American Indian or Alaskan Native',
+                                         'Mixed ethnicity'])
       .field
         .label Please select the gender with which you most closely identify
         = select_tag :gender, options_for_select(['Prefer not to answer',

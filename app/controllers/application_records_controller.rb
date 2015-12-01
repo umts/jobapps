@@ -1,20 +1,19 @@
 class ApplicationRecordsController < ApplicationController
   skip_before_action :access_control, only: [:create, :show]
-  before_action :find_record, except: [:create, :csv_export, :eeo_data, :past_applications]
+  before_action :find_record, except: [:create,
+                                       :csv_export,
+                                       :eeo_data,
+                                       :past_applications]
   include ApplicationHelper
 
   def create
     create_user if @current_user.blank?
     data = parse_application_data(params.require :data)
     params.require :position_id
-    params.require :ethnicity
-    params.require :gender
-    ApplicationRecord.create(position_id: params[:position_id],
-                             data: data,
-                             user: @current_user,
-                             reviewed: false,
-                             ethnicity: params[:ethnicity],
-                             gender: params[:gender])
+    ApplicationRecord.create(params.permit(:position_id, :ethnicity, :gender)
+                             .merge(data: data,
+                                    user: @current_user,
+                                    reviewed: false))
     show_message :application_receipt,
                  default: 'Your application has been submitted. Thank you!'
     redirect_to student_dashboard_path
