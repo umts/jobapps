@@ -58,16 +58,9 @@
         .label
           Please select the ethnic group with which you most closely identify
         = select_tag :ethnicity,
-                     options_for_select(['Prefer not to answer',
-                                         'White (Not of Hispanic origin)',
-                                         'Black (Not of Hispanic origin)',
-                                         'Hispanic',
-                                         'Asian or Pacific Islander',
-                                         'American Indian or Alaskan Native',
-                                         'Mixed ethnicity'])
+          options_for_select(ApplicationRecord::ETHNICITY_OPTIONS)
       .field
         .label Please select the gender with which you most closely identify
-        = select_tag :gender, options_for_select(['Prefer not to answer',
-                                                  'Male',
-                                                  'Female'])
+        = select_tag :gender,
+          options_for_select(ApplicationRecord::GENDER_OPTIONS)
       .actions= submit_tag 'Submit application' unless @current_user.try :staff?

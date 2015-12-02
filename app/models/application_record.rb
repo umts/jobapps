@@ -19,6 +19,18 @@ class ApplicationRecord < ActiveRecord::Base
   scope :between,
         -> (start_date, end_date) { where created_at: start_date..end_date }
 
+  ETHNICITY_OPTIONS = ['Prefer not to answer',
+                       'White (Not of Hispanic origin)',
+                       'Black (Not of Hispanic origin)',
+                       'Hispanic',
+                       'Asian or Pacific Islander',
+                       'American Indian or Alaskan Native',
+                       'Mixed ethnicity']
+
+  GENDER_OPTIONS = ['Prefer not to answer',
+                    'Male',
+                    'Female']
+
   def deny_with(staff_note)
     update staff_note: staff_note
     if configured_value [:on_application_denial, :notify_applicant],

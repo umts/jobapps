@@ -10,8 +10,8 @@ describe 'application_records/eeo_data.haml' do
                       user: @user1,
                       ethnicity: @ethnicity,
                       gender: @gender
-    @records = [@record1]
-    assign :records, @records
+    records = [@record1]
+    assign :records, records
   end
   it 'displays a table of application records' do
     render
