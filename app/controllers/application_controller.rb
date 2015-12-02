@@ -5,8 +5,8 @@ class ApplicationController < ActionController::Base
 
   attr_accessor :current_user
   protect_from_forgery with: :exception
-  before_action :set_current_user
   before_action :set_spire
+  before_action :set_current_user
   before_action :redirect_unauthenticated
   before_action :access_control
   layout 'application'

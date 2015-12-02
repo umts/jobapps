@@ -77,6 +77,7 @@ describe DashboardController do
           request.env['fcIdNumber'] = @user.spire
         end
         it 'renders the correct page' do
+          submit
           expect(response).not_to have_http_status :unauthorized
           expect(response).to render_template 'staff'
         end
