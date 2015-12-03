@@ -274,7 +274,7 @@ DEPENDENCIES
   mocha
   mysql
   pry-byebug
-  rails (~> 4)
+  rails (~> 4.2)
   redcarpet
   rspec-html-matchers
   rspec-rails
