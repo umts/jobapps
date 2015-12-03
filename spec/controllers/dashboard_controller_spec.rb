@@ -48,17 +48,43 @@ describe DashboardController do
       end
     end
     context 'staff' do
-      before :each do
-        when_current_user_is :staff
+      context 'already logged in' do
+        before :each do
+          when_current_user_is :staff
+        end
+        it 'assigns the required instance variables' do
+          submit
+          expect(assigns.keys).to include(*%w(departments
+                                              pending_interviews
+                                              pending_records
+                                              positions
+                                              site_texts
+                                              staff))
+        end
       end
-      it 'assigns the required instance variables' do
-        submit
-        expect(assigns.keys).to include(*%w(departments
-                                            pending_interviews
-                                            pending_records
-                                            positions
-                                            site_texts
-                                            staff))
+      context 'in the process of logging in' do
+        # Step 1: Unauthenticated user requests dashboard/staff.
+        # Step 2: Unauthenticated user is redirected to Shibboleth login page.
+        # Step 3: User authenticates as staff.
+        # Step 4: User is redirected back to dashboard/staff,
+        #         with the fcIdNumber in the request data from Shibboleth.
+        # Step 5: This fcIdNumber is stored in the session as SPIRE,
+        #         which sets the current user, and they are allowed access.
+        #
+        # This test assesses step 5.
+        before :each do
+          @user = create :user, :staff
+          request.env['fcIdNumber'] = @user.spire
+        end
+        it 'renders the correct page' do
+          submit
+          expect(response).not_to have_http_status :unauthorized
+          expect(response).to render_template 'staff'
+        end
+        it 'sets the correct current user' do
+          submit
+          expect(assigns.fetch :current_user).to eql @user
+        end
       end
     end
   end
