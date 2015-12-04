@@ -8,6 +8,7 @@ class ApplicationRecord < ActiveRecord::Base
 
   serialize :data, Array
 
+  # validate ethnicity and gender in constants but allow blank
   validates :position,
             :data,
             :user,
@@ -18,17 +19,19 @@ class ApplicationRecord < ActiveRecord::Base
   scope :newest_first, -> { order 'created_at desc' }
   scope :between,
         -> (start_date, end_date) { where created_at: start_date..end_date }
+  # scope :with_gender, -> { where 'gender is not null' }
+  # scope :with_ethnicity, -> { where 'ethnicity is not null' }
+  scope :with_gender, -> { where.not gender: nil }
+  scope :with_ethnicity, -> { where.not ethnicity: nil }
 
-  ETHNICITY_OPTIONS = ['Prefer not to answer',
-                       'White (Not of Hispanic origin)',
+  ETHNICITY_OPTIONS = ['White (Not of Hispanic origin)',
                        'Black (Not of Hispanic origin)',
                        'Hispanic',
                        'Asian or Pacific Islander',
                        'American Indian or Alaskan Native',
                        'Mixed ethnicity']
 
-  GENDER_OPTIONS = ['Prefer not to answer',
-                    'Male',
+  GENDER_OPTIONS = ['Male',
                     'Female']
 
   def deny_with(staff_note)

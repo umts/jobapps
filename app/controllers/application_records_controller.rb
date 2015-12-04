@@ -39,6 +39,10 @@ class ApplicationRecordsController < ApplicationController
     start_date = parse_american_date(params.require :eeo_start_date)
     end_date = parse_american_date(params.require :eeo_end_date)
     @records = ApplicationRecord.between(start_date, end_date)
+    @ethnicity_counts = @records.with_ethnicity.group(:ethnicity).count
+    @gender_counts = @records.with_gender.group(:gender).count
+    @combined_counts = @records.with_ethnicity.with_gender
+                               .group(:ethnicity, :gender).count
   end
 
   def review

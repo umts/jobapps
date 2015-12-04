@@ -3,6 +3,9 @@ include RSpecHtmlMatchers
 
 describe 'application_records/eeo_data.haml' do
   before :each do
+    ethnicity_counts = {}
+    gender_counts = {}
+    combined_counts = {}
     @ethnicity = 'The ethnicity of Rick'
     @gender = 'The gender of Rick'
     @user1 = create :user, first_name: 'Rick', last_name: 'Cat'
@@ -11,7 +14,11 @@ describe 'application_records/eeo_data.haml' do
                       ethnicity: @ethnicity,
                       gender: @gender
     records = [@record1]
+    # all these assignings because error otherwise
     assign :records, records
+    assign :ethnicity_counts, ethnicity_counts
+    assign :gender_counts, gender_counts
+    assign :combined_counts, combined_counts
   end
   it 'displays a table of application records' do
     render

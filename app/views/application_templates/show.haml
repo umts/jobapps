@@ -56,11 +56,13 @@
         the information requested below.
       .field
         .label
-          Please select the ethnic group with which you most closely identify
+          Please select the ethnic group with which you most closely identify:
         = select_tag :ethnicity,
-          options_for_select(ApplicationRecord::ETHNICITY_OPTIONS)
+          options_for_select(ApplicationRecord::ETHNICITY_OPTIONS),
+          include_blank: 'Prefer not to answer'
       .field
-        .label Please select the gender with which you most closely identify
+        .label Please select the gender with which you most closely identify:
         = select_tag :gender,
-          options_for_select(ApplicationRecord::GENDER_OPTIONS)
+          options_for_select(ApplicationRecord::GENDER_OPTIONS),
+          include_blank: 'Prefer not to answer'
       .actions= submit_tag 'Submit application' unless @current_user.try :staff?
