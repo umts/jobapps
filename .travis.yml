@@ -9,4 +9,4 @@ script: 'bundle exec rake travis db:reset'
 notifications:
   email:
     recipients:
-      - transit-programmers@admin.umass.edu
+      - programmers@admin.umass.edu
