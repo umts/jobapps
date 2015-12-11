@@ -1,0 +1,9 @@
+%table#eeo_table
+  %thead
+    %tr
+    %th Ethnicity
+    %th Total Applicants
+  - @ethnicities.each do |ethnicity|
+    %tr
+      %td= ethnicity
+      %td= @ethnicity_counts[ethnicity] || 0

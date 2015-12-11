@@ -1,20 +1,16 @@
-.totals_display{
-  display: flex;
-  margin-top: 2em;
-  flex-direction: column;
-  .total_row.heading{
-    font-weight: bold;
+table#eeo_table{
+  font-family: "Lucida Sans Unicode";
+  margin: 45px;
+  border-collapse: collapse;
+  text-align: left;
+  width: 75%;
+  th{
+    font-weight: normal;
+    padding: 10px 8px;
+    border-bottom: 2px solid black;
   }
-  .total_row{
-    padding: .5em;
-    display: flex;
-    flex: 1;
-    .total_item.word{
-      flex: 2;
-    }
-    .total_item{
-      flex: 3;
-      border: 1px solid black;
-    }
+  td{
+    border-bottom: 1px solid #ccc;
+    padding: 6px 8px;
   }
 }

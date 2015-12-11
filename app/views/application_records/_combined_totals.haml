@@ -1,0 +1,11 @@
+%table#eeo_table
+  %thead
+    %tr
+      %th Ethnicity
+      %th Gender
+      %th Total Applicants
+  - @combined.each do |combination|
+    %tr
+      - combination.each do |value|
+        %td= value
+      %td= @combined_counts[combination] || 0

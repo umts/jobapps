@@ -11,28 +11,7 @@
           = format_date_time record.created_at
         %td= record.ethnicity
         %td= record.gender
-
-.totals_display
-  .total_row.heading
-    Ethnicity Totals
-  - @ethnicity_counts.each do |ethnicity, total|
-    .total_row
-      .total_item.word= ethnicity
-      .total_item= total
-
-.totals_display
-  .total_row.heading
-    Gender Totals
-  - @gender_counts.each do |gender, total|
-    .total_row
-      .total_item.word= gender
-      .total_item= total
-
-.totals_display
-  .total_row.heading
-    Combined Totals
-  - @combined_counts.each do |type, total|
-    .total_row
-      - type.each do |e, g|
-        .total_item.word= "#{e} #{g}"
-      .total_item= total
+%h3 Totals:
+= render partial: 'ethnicity_totals'
+= render partial: 'gender_totals'
+= render partial: 'combined_totals'
