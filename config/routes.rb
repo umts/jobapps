@@ -4,7 +4,11 @@ Rails.application.routes.draw do
   else root 'dashboard#main'
   end
 
-  resources :application_templates, only: [:new, :show]
+  resources :application_templates, only: [:index, :new, :show] do
+    collection do
+      post :update_visible
+    end
+  end
 
   resources :application_drafts, as: :drafts, except: [:create, :index] do
     member do
