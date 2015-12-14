@@ -87,13 +87,14 @@ describe ApplicationRecordsController do
           eeo_end_date: @end_date.strftime('%m/%d/%Y')
     end
     it 'calls AR#between with the correct parameters' do
-      expect(ApplicationRecord).to receive(:between).with(@start_date, @end_date)
+      expect(ApplicationRecord).to receive(:eeo_data)
+        .with(@start_date, @end_date)
         .and_return ApplicationRecord.none
       submit
     end
     it 'assigns the correct records to the instance variable' do
       record = ApplicationRecord.none
-      expect(ApplicationRecord).to receive(:between).and_return record
+      expect(ApplicationRecord).to receive(:eeo_data).and_return record
       submit
       expect(assigns.fetch :records).to eql record
     end

@@ -5,7 +5,7 @@
       %th Ethnicity
       %th Gender
   %tbody
-    - @records.each do |record|
+    - @records[:all].each do |record|
       %tr
         %td{ data: { order: record.created_at.to_i } }
           = format_date_time record.created_at

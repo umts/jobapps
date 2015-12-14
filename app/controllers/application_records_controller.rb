@@ -26,6 +26,12 @@ class ApplicationRecordsController < ApplicationController
     render 'csv_export.csv.erb', layout: false
   end
 
+  def eeo_data
+    start_date = parse_american_date(params.require :eeo_start_date)
+    end_date = parse_american_date(params.require :eeo_end_date)
+    @records = ApplicationRecord.eeo_data(start_date, end_date)
+  end
+
   def past_applications
     # text field tags must be unique to the page, hence records_start_date
     # instead of just start_date
@@ -33,25 +39,6 @@ class ApplicationRecordsController < ApplicationController
     end_date = parse_american_date(params.require :records_end_date)
     @records = ApplicationRecord.between(start_date, end_date)
     render 'past_application_records'
-  end
-
-  def eeo_data
-    start_date = parse_american_date(params.require :eeo_start_date)
-    end_date = parse_american_date(params.require :eeo_end_date)
-    @records = ApplicationRecord.between(start_date, end_date)
-    # Combine the current ethnicity options with any ethnicity values
-    # stored in the database
-    @ethnicities = ApplicationRecord::ETHNICITY_OPTIONS |
-                   @records.with_ethnicity.pluck(:ethnicity)
-    @ethnicity_counts = @records.with_ethnicity.group(:ethnicity).count
-    # Combine the current gender options with any gender values
-    # stored in the database
-    @genders = ApplicationRecord::GENDER_OPTIONS |
-               @records.with_gender.pluck(:gender)
-    @gender_counts = @records.with_gender.group(:gender).count
-    @combined = @ethnicities.product @genders
-    @combined_counts = @records.with_ethnicity.with_gender
-                       .group(:ethnicity, :gender).count
   end
 
   def review

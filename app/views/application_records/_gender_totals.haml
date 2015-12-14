@@ -3,8 +3,8 @@
     %tr
       %th Gender
       %th Total Applicants
-  - @genders.each do |gender|
+  - @records[:genders].each do |gender, count|
     %tr
-      %td=gender
-      %td= @gender_counts[gender] || 0
+      %td= gender
+      %td= count
 
