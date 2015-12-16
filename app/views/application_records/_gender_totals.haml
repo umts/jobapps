@@ -1,0 +1,10 @@
+%table#eeo_table
+  %thead
+    %tr
+      %th Gender
+      %th Total Applicants
+  - @records[:genders].each do |gender, count|
+    %tr
+      %td= gender
+      %td= count
+

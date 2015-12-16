@@ -1,6 +1,7 @@
-= form_tag csv_export_application_records_path, method: :get do
-  Export records between
-  = text_field_tag :start_date, '', class: 'datepicker', required: true
-  and
-  = text_field_tag :end_date, '', class: 'datepicker', required: true
-  = submit_tag 'Generate CSV'
+.date_range
+  = form_tag csv_export_application_records_path, method: :get do
+    Export records between
+    = text_field_tag :start_date, '', class: 'datepicker', required: true
+    and
+    = text_field_tag :end_date, '', class: 'datepicker', required: true
+    = submit_tag 'Generate CSV'

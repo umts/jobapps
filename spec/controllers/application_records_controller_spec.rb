@@ -75,6 +75,31 @@ describe ApplicationRecordsController do
     end
   end
 
+  describe 'GET #eeo_data' do
+    before :each do
+      when_current_user_is :staff
+      @start_date = 1.week.ago.to_date
+      @end_date = Time.zone.today
+    end
+    let :submit do
+      get :eeo_data,
+          eeo_start_date: @start_date.strftime('%m/%d/%Y'),
+          eeo_end_date: @end_date.strftime('%m/%d/%Y')
+    end
+    it 'calls AR#between with the correct parameters' do
+      expect(ApplicationRecord).to receive(:eeo_data)
+        .with(@start_date, @end_date)
+        .and_return ApplicationRecord.none
+      submit
+    end
+    it 'assigns the correct records to the instance variable' do
+      record = ApplicationRecord.none
+      expect(ApplicationRecord).to receive(:eeo_data).and_return record
+      submit
+      expect(assigns.fetch :records).to eql record
+    end
+  end
+
   describe 'GET #past_applications' do
     before :each do
       when_current_user_is :staff

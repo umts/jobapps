@@ -16,10 +16,9 @@ Rails.application.routes.draw do
 
   resources :application_records, only: [:create, :show] do
     collection do
-      get  :csv_export
-    end
-    collection do
+      get :csv_export
       get :past_applications
+      get :eeo_data
     end
     member do
       post :review

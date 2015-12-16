@@ -1,0 +1,19 @@
+%table#eeo_table
+  %thead
+    %tr
+      %th Females by ethnicity
+      %th Total Applicants
+  - @records[:female_ethnicities].each do |ethnicity, count|
+    %tr
+      %td= ethnicity
+      %td= count
+
+%table#eeo_table
+  %thead
+    %tr
+      %th Males by ethnicity
+      %th Total Applicants
+  - @records[:male_ethnicities].each do |ethnicity, count|
+    %tr
+      %td= ethnicity
+      %td= count

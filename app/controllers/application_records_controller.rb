@@ -1,16 +1,19 @@
 class ApplicationRecordsController < ApplicationController
   skip_before_action :access_control, only: [:create, :show]
-  before_action :find_record, except: [:create, :csv_export, :past_applications]
+  before_action :find_record, except: [:create,
+                                       :csv_export,
+                                       :eeo_data,
+                                       :past_applications]
   include ApplicationHelper
 
   def create
     create_user if @current_user.blank?
     data = parse_application_data(params.require :data)
     params.require :position_id
-    ApplicationRecord.create(position_id: params[:position_id],
-                             data: data,
-                             user: @current_user,
-                             reviewed: false)
+    ApplicationRecord.create(params.permit(:position_id, :ethnicity, :gender)
+                             .merge(data: data,
+                                    user: @current_user,
+                                    reviewed: false))
     show_message :application_receipt,
                  default: 'Your application has been submitted. Thank you!'
     redirect_to student_dashboard_path
@@ -21,6 +24,12 @@ class ApplicationRecordsController < ApplicationController
     end_date = parse_american_date(params.require :end_date)
     @records = ApplicationRecord.between(start_date, end_date)
     render 'csv_export.csv.erb', layout: false
+  end
+
+  def eeo_data
+    start_date = parse_american_date(params.require :eeo_start_date)
+    end_date = parse_american_date(params.require :eeo_end_date)
+    @records = ApplicationRecord.eeo_data(start_date, end_date)
   end
 
   def past_applications

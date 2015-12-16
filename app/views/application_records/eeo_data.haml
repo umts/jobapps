@@ -1,0 +1,17 @@
+%table.data_table.display
+  %thead
+    %tr
+      %th Date Submitted
+      %th Ethnicity
+      %th Gender
+  %tbody
+    - @records[:all].each do |record|
+      %tr
+        %td{ data: { order: record.created_at.to_i } }
+          = format_date_time record.created_at
+        %td= record.ethnicity
+        %td= record.gender
+%h3 Totals:
+= render partial: 'ethnicity_totals'
+= render partial: 'gender_totals'
+= render partial: 'combined_totals'
