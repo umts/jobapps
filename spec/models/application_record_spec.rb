@@ -136,11 +136,18 @@ describe ApplicationRecord do
     let :call do
       ApplicationRecord.gender_eeo_data @start_date, @end_date
     end
+    it 'calls AR#between to gather application records' do
+      relation = ApplicationRecord.all
+      expect(ApplicationRecord).to receive(:between)
+        .with(@start_date, @end_date)
+        .and_return(relation)
+      call
+    end
     it 'counts records within the correct date range' do
       create :application_record,
              gender: 'Female'
       Timecop.freeze 2.weeks.ago do
-       create :application_record,
+        create :application_record,
                gender: 'Female'
       end
       expect(call).to contain_exactly ['Female', 1]
@@ -158,6 +165,7 @@ describe ApplicationRecord do
       expect(call).to contain_exactly ['Female', 0], ['Male', 1]
     end
   end
+
   describe 'self.eeo_data' do
     before :each do
       @start_date = 1.week.ago
@@ -167,29 +175,68 @@ describe ApplicationRecord do
     let :call do
       ApplicationRecord.eeo_data @start_date, @end_date
     end
-     it 'calls AR#between to gather application records' do
-       # this doesn't bloody work
-       expect(ApplicationRecord)
-         .to receive(:between)
-         .with(@start_date, @end_date)
-         call
-      end
+    it 'calls AR#between to gather application records' do
+      relation = ApplicationRecord.all
+      expect(ApplicationRecord).to receive(:between)
+        .with(@start_date, @end_date)
+        .and_return(relation).at_least(:once)
+      # needs to return an activerecord relation. Also
+      # the method :between is called twice in the test,
+      # technically. gender_eeo_data uses it.
+      call
+    end
+    it 'returns a hash' do
+      expect(call).to be_a Hash
+    end
     it 'assigns records to the hash within the correct date range' do
       create :application_record,
-              ethnicity: 'Klingon',
-              gender: 'Female'
+             ethnicity: 'Klingon',
+             gender: 'Female'
       Timecop.freeze 2.weeks.ago do
-       create :application_record,
+        create :application_record,
                ethnicity: 'Klingon',
                gender: 'Female'
       end
-      expect(call[:all].count).to eql 1 
+      expect(call[:all].count).to eql 1
     end
     it 'counts records containing ethnicities not from ethnicity_options' do
       create :application_record,
-              ethnicity: 'Betazoid',
-              gender: 'Male'
-      expect(call[:ethnicities]).to contain_exactly ['Betazoid', 1], ['Klingon', 0]
+             ethnicity: 'Betazoid',
+             gender: 'Male'
+      expect(call[:ethnicities]).to contain_exactly ['Betazoid', 1],
+                                                    ['Klingon', 0]
+    end
+    it 'calls AR#gender_eeo_data to assign values to genders key in hash' do
+      expect(ApplicationRecord).to receive(:gender_eeo_data)
+        .with(@start_date, @end_date)
+        .and_return('something')
+      call
+      expect(call[:genders]).to eql 'something'
+    end
+    it 'puts all genders and the counts thereof in the hash' do
+      create :application_record,
+             gender: 'Female'
+      expect(call[:genders]).to contain_exactly ['Male', 0], ['Female', 1]
+    end
+    it 'puts counts of all male members of every ethnicity in the hash' do
+      create :application_record,
+             ethnicity: 'Klingon',
+             gender: 'Male'
+      create :application_record,
+             ethnicity: 'Betazoid',
+             gender: 'Female'
+      expect(call[:male_ethnicities]).to contain_exactly ['Betazoid', 0],
+                                                         ['Klingon', 1]
+    end
+    it 'puts counts of all female members of every ethnicity in the hash' do
+      create :application_record,
+             ethnicity: 'Klingon',
+             gender: 'Male'
+      create :application_record,
+             ethnicity: 'Betazoid',
+             gender: 'Female'
+      expect(call[:female_ethnicities]).to contain_exactly ['Betazoid', 1],
+                                                           ['Klingon', 0]
     end
   end
 end
