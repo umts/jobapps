@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151130170123) do
+ActiveRecord::Schema.define(version: 20151217172608) do
 
   create_table "application_drafts", force: :cascade do |t|
     t.integer  "application_template_id", limit: 4
@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(version: 20151130170123) do
     t.integer  "application_record_id", limit: 4
     t.boolean  "completed"
     t.string   "location",              limit: 255
+    t.string   "interview_note",        limit: 255
   end
 
   create_table "positions", force: :cascade do |t|

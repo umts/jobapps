@@ -19,9 +19,36 @@ describe InterviewsController do
       before :each do
         when_current_user_is :staff
       end
-      it 'marks interview as complete' do
-        submit
-        expect(@interview.reload.completed?).to eql true
+      context 'hired button is pressed' do
+        let :submit do
+          post :complete, id: @interview.id, hired: true
+        end
+        it 'marks interview as complete' do
+          submit
+          expect(@interview.reload.completed?).to eql true
+        end
+        it 'markes interview as hired' do
+          submit
+          expect(@interview.reload.hired).to eql true
+        end
+      end
+      context 'not hired button is pressed' do
+        let :submit do
+          post :complete, id: @interview.id, hired: false,
+                          interview_note: 'note'
+        end
+        it 'marks the interview as complete' do
+          submit
+          expect(@interview.reload.completed?).to eql true
+        end
+        it 'marks interview as not hired' do
+          submit
+          expect(@interview.reload.hired).to eql false
+        end
+        it 'adds an interview note to the interview' do
+          submit
+          expect(@interview.reload.interview_note).to eql 'note'
+        end
       end
       context 'with errors' do
         it 'redirects with errors stored in flash' do

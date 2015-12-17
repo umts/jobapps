@@ -5,6 +5,7 @@
       %th= 'Name'
       %th= 'Interview'
       %th= 'Staff Note'
+      %th= 'Hired?'
   %tbody
     - @records.each do |record|
       %tr
@@ -22,3 +23,10 @@
             = format_date_time record.interview.scheduled
         %td
           = record.staff_note
+        %td
+          - unless record.interview.nil?
+            - if record.interview.hired == true
+              Yes
+            - else
+              No -
+              = record.interview.interview_note
