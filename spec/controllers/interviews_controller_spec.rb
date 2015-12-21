@@ -25,11 +25,11 @@ describe InterviewsController do
         end
         it 'marks interview as complete' do
           submit
-          expect(@interview.reload.completed?).to eql true
+          expect(@interview.reload).to be_completed
         end
         it 'markes interview as hired' do
           submit
-          expect(@interview.reload.hired).to eql true
+          expect(@interview.reload).to be_hired
         end
       end
       context 'not hired button is pressed' do
@@ -39,11 +39,11 @@ describe InterviewsController do
         end
         it 'marks the interview as complete' do
           submit
-          expect(@interview.reload.completed?).to eql true
+          expect(@interview.reload).to be_completed
         end
         it 'marks interview as not hired' do
           submit
-          expect(@interview.reload.hired).to eql false
+          expect(@interview.reload).not_to be_hired
         end
         it 'adds an interview note to the interview' do
           submit
