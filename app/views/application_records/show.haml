@@ -30,7 +30,7 @@ by:
           These notes will be provided to the applicant.
         - else
           These notes will not be provided to the applicant.
-      .action.note_item
+      .note_item
         = submit_tag 'Review application without scheduling interview'
     = form_tag controller: :application_records,
       action: :review,
@@ -48,10 +48,11 @@ by:
           = f.text_field :location,
                          required: true,
                          value: @record.position.default_interview_location
-      .action.note_item= submit_tag 'Review application and schedule interview'
+      .note_item= submit_tag 'Review application and schedule interview'
   - else
-    Application reviewed on
-    = format_date_time @record.updated_at
+    .note_item
+      Application reviewed on:
+      = format_date_time @record.updated_at
     - if @record.staff_note.present?
       .notes.note_item
         Reason for denial:
@@ -76,13 +77,20 @@ by:
           New location:
           = text_field_tag :location, @interview.location,
             required: true, size: 30
-        .action.note_item
+        .note_item
           = submit_tag 'Reschedule interview'
+      %h3 Mark interview as complete:
       = form_tag controller: :interviews,
         action: :complete,
         id: @interview.id do
-        .action.note_item
-          = submit_tag 'Mark interview as completed'
+        .note_item
+          = submit_tag 'Candidate hired',
+            name: 'hired'
+        .field.note_item
+          Reason for rejection:
+          = text_area_tag :interview_note
+        .note_item
+          = submit_tag 'Candidate not hired'
     - else # application is being reviewed for whatever reason
       .note_item
         Interview occurred on
