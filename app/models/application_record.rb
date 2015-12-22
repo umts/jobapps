@@ -21,8 +21,6 @@ class ApplicationRecord < ActiveRecord::Base
         -> (start_date, end_date) { where created_at: start_date..end_date }
   scope :with_gender, -> { where.not gender: [nil, ''] }
   scope :with_ethnicity, -> { where.not ethnicity: [nil, ''] }
-  scope :male, -> { where gender: 'Male' }
-  scope :female, -> { where gender: 'Female' }
 
   ETHNICITY_OPTIONS = ['White (Not of Hispanic origin)',
                        'Black (Not of Hispanic origin)',
