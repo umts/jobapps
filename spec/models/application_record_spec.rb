@@ -1,6 +1,28 @@
 require 'rails_helper'
 
 describe ApplicationRecord do
+  describe 'add_data_types' do
+    before :each do
+      @record = create :application_record,
+                       data: [['a question', 'an answer']]
+    end
+    context 'there exists a question that matches the given prompt' do
+      it 'gives the data_type the value of the question data_type' do
+        create :question,
+               data_type: 'yes/no',
+               prompt: 'a question',
+               application_template: (create :application_template)
+        @record.add_data_types
+        expect(@record.data).to eql [['a question', 'an answer', 'yes/no']]
+      end
+    end
+    context 'there is no question that matches the given prompt' do
+      it 'gives the data_type a text value' do
+        @record.add_data_types
+        expect(@record.data).to eql [['a question', 'an answer', 'text']]
+      end
+    end
+  end
   describe 'add_response_data' do
     context 'application record with no existing response data' do
       before :each do

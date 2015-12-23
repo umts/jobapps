@@ -5,14 +5,21 @@ submitted
 by:
 = @record.user.name_and_email
 
-.prompts_responses_container
-  .prompt_response_row
+.data_container
+  .data_row
     %h3.prompt_item Question
     %h3.response_item Response
-  - @record.data.each do |prompt, response|
-    .prompt_response_row
-      .prompt_item= prompt
-      .response_item= response
+  - @record.data.each do |prompt, response, data_type|
+    - if data_type == 'heading'
+      .data_row
+        .heading_item= prompt.upcase
+    - elsif data_type == 'explanation'
+      .data_row
+        .explanation_item= prompt
+    - else
+      .data_row
+        .prompt_item= prompt
+        .response_item= response
 
 - if @current_user.staff?
   - if @record.pending?
