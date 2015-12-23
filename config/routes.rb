@@ -50,13 +50,13 @@ Rails.application.routes.draw do
   get 'sessions/unauthenticated', to: 'sessions#unauthenticated', as: :unauthenticated_session
   get 'sessions/destroy', to: 'sessions#destroy', as: :destroy_session
 
-  resources :site_texts, only: [:edit, :update] do
+  resources :site_texts, only: [:edit, :show, :update] do
     collection do
       get  :request_new
       post :request_new
     end
     member do
-      post :edit#for previewing changes
+      post :edit # for previewing changes
     end
   end
 
