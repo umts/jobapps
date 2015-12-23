@@ -43,6 +43,10 @@ class Question < ActiveRecord::Base
     %w(text date).include? data_type
   end
 
+  def unique_data_type_name
+    "data_type_#{number - 1}"
+  end
+
   def unique_prompt_name
     "prompt_#{number - 1}"
   end

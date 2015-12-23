@@ -38,15 +38,17 @@
                   required: question.required?
               - when 'yes/no'
                 Yes
-                = r.radio_button question.unique_name, 'yes',
+                = r.radio_button question.unique_name, 'Yes',
                   required: question.required?
                 No
-                = r.radio_button question.unique_name, 'no',
+                = r.radio_button question.unique_name, 'No',
                   required: question.required?
               - if question.required?
                 %span.ast *
             = r.hidden_field question.unique_prompt_name,
               value: question.prompt
+            = r.hidden_field question.unique_data_type_name,
+              value: question.data_type
       = hidden_field_tag :position_id, @template.position_id
       .heading Voluntary Equal Employment Opportunity Information
       .explanation
