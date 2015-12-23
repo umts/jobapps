@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'csv'
 
 describe ApplicationRecord do
   describe 'add_response_data' do
