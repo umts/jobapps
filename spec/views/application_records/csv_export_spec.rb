@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'csv'
 include RSpecHtmlMatchers
 
 describe 'application_records/csv_export.csv.erb' do
