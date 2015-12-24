@@ -170,7 +170,7 @@ describe SiteTextsController do
         get :show, id: 'not a name of anything'
       end
       it 'raises RecordNotFound exception' do
-        expect{ submit }.to raise_error ActiveRecord::RecordNotFound
+        expect { submit }.to raise_error ActiveRecord::RecordNotFound
       end
     end
     context 'site text exists' do
