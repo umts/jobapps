@@ -77,7 +77,7 @@ describe SiteTextsController do
           @changes = { text: '' }
         end
         it 'redirects back with errors' do
-          expect_redirect_to_back { submit }
+          expect { submit }.to redirect_back
           expect(flash.keys).to include 'errors'
         end
       end

@@ -24,7 +24,7 @@ describe PositionsController do
           @position = { name: '' }
         end
         it 'shows errors' do
-          expect_redirect_to_back { submit }
+          expect { submit }.to redirect_back
           expect(flash.keys).to include 'errors'
         end
       end
@@ -163,7 +163,7 @@ describe PositionsController do
           @changes = { name: '' }
         end
         it 'flashes an error message' do
-          expect_redirect_to_back { submit }
+          expect { submit }.to redirect_back
           expect(flash.keys).to include 'errors'
         end
       end

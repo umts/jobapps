@@ -56,7 +56,7 @@ describe InterviewsController do
           expect_any_instance_of(Interview)
             .to receive(:update)
             .and_return(false)
-          expect_redirect_to_back { submit }
+          expect { submit }.to redirect_back
           # to have_key won't work here,
           # ActionDispatch::Flash::FlashHash doesn't respond to has_key?
           expect(flash.keys).to include 'errors'
@@ -120,7 +120,7 @@ describe InterviewsController do
           expect_any_instance_of(Interview)
             .to receive(:update)
             .and_return(false)
-          expect_redirect_to_back { submit }
+          expect { submit }.to redirect_back
           # to have_key won't work here,
           # ActionDispatch::Flash::FlashHash doesn't respond to has_key?
           expect(flash.keys).to include 'errors'
