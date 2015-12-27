@@ -40,6 +40,15 @@ def expect_redirect_to_back(path = 'http://test.host/redirect', &block)
   expect(response).to redirect_to path
 end
 
+# Using the human attribute names for the given AR model
+# and the hash of attributes from the keyword argument,
+# fills in form elements with the provided attributes
+def fill_in_fields_for(model, attributes:)
+  attributes.each do |attribute, value|
+    fill_in model.human_attribute_name(attribute), with: value
+  end
+end
+
 # Sets current user based on two acceptable values:
 # 1. a symbol name of a user factory trait;
 # 2. a specific instance of User.
