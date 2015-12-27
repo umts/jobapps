@@ -6,6 +6,8 @@ describe 'creating users', type: :feature do
     visit new_user_path
   end
 
+  # staff attribute is a hidden field in the form,
+  # so no need to fill it in
   let(:user_fields) { attributes_for(:user).except :staff }
 
   context 'with required form elements filled in' do
@@ -24,8 +26,7 @@ describe 'creating users', type: :feature do
     end
     it 'has a flash message' do
       click_on 'Save changes'
-      expect(page).to have_selector '#message'
-      expect(page).to have_content 'User has been created.'
+      expect(page).to have_selector '#message', text: 'User has been created.'
     end
   end
 
@@ -40,8 +41,7 @@ describe 'creating users', type: :feature do
     end
     it 'has flash errors' do
       click_on 'Save changes'
-      expect(page).to have_selector '#errors'
-      expect(page).to have_content "First name can't be blank"
+      expect(page).to have_selector '#errors', text: "First name can't be blank"
     end
   end
 end
