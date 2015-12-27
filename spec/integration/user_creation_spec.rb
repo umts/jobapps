@@ -5,15 +5,15 @@ describe 'creating users', type: :feature do
     when_current_user_is :staff, integration: true
     visit new_user_path
   end
-  let(:attrs) { attributes_for :user }
+  let(:user_fields) { attributes_for :user }
 
   context 'with required form elements filled in' do
     before :each do
       within('form.new_user') do
-        fill_in 'First name', with: attrs[:first_name]
-        fill_in 'Last name', with: attrs[:last_name]
-        fill_in 'Email', with: attrs[:email]
-        fill_in 'SPIRE', with: attrs[:spire]
+        fill_in 'First name', with: user_fields[:first_name]
+        fill_in 'Last name', with: user_fields[:last_name]
+        fill_in 'Email', with: user_fields[:email]
+        fill_in 'SPIRE', with: user_fields[:spire]
       end
     end
     it 'renders the staff dashboard' do
