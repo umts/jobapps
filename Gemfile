@@ -33,9 +33,11 @@ end
 group :development, :test do
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'capybara'
   gem 'codeclimate-test-reporter'
   gem 'mocha'
   gem 'pry-byebug'
+  gem 'rack_session_access'
   gem 'rspec-html-matchers'
   gem 'rspec-rails'
   gem 'simplecov'

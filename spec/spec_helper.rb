@@ -58,6 +58,8 @@ def when_current_user_is(user, options = {})
     end
   if options.key? :view
     assign :current_user, current_user
+  elsif options.key? :integration
+    page.set_rack_session user_id: current_user.try(:id)
   else session[:user_id] = current_user.try :id
   end
 end
