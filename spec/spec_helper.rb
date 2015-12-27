@@ -3,7 +3,9 @@ require 'factory_girl_rails'
 require 'simplecov'
 
 CodeClimate::TestReporter.start if ENV['CI']
-SimpleCov.start 'rails'
+SimpleCov.start 'rails' do
+  refuse_coverage_drop
+end
 
 RSpec.configure do |config|
   config.raise_errors_for_deprecations!
