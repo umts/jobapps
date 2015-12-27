@@ -1,7 +1,7 @@
 require 'codeclimate-test-reporter'
 require 'factory_girl_rails'
 require 'simplecov'
-require 'support/redirect_to_back_matcher'
+require 'support/redirect_back_matcher'
 
 CodeClimate::TestReporter.start if ENV['CI']
 SimpleCov.start 'rails'
