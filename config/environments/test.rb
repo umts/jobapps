@@ -41,5 +41,8 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  # RackSessionAccess gives us access to the rack session
+  # during feature tests
   config.middleware.use RackSessionAccess::Middleware
 end
