@@ -30,11 +30,15 @@ class SiteTextsController < ApplicationController
     end
   end
 
+  def show
+  end
+
   private
 
   def find_site_text
     params.require :id
-    @site_text = SiteText.find params[:id]
+    @site_text = SiteText.find_by(name: params[:id])
+    raise ActiveRecord::RecordNotFound if @site_text.nil?
   end
 
   def site_text_parameters

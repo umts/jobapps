@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :site_text do
-    name 'text name'
+    sequence(:name) { |n| "Name #{n}" }
     text 'text'
   end
 end

@@ -15,7 +15,7 @@ by:
         .heading_item= prompt.upcase
     - elsif data_type == 'explanation'
       .data_row
-        .explanation_item= prompt
+        .explanation_item= render_markdown prompt
     - else
       .data_row
         .prompt_item= prompt
