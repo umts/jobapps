@@ -8,7 +8,7 @@ describe 'creating users', type: :feature do
 
   # staff attribute is a hidden field in the form,
   # so no need to fill it in
-  let(:user_fields) { attributes_for(:user).except :staff }
+  let!(:user_fields) { attributes_for(:user).except :staff }
 
   context 'with required form elements filled in' do
     before :each do
