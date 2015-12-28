@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'creating users', type: :feature do
+describe 'creating users' do
   before :each do
     when_current_user_is :staff, integration: true
     visit new_user_path
