@@ -21,10 +21,8 @@ class ApplicationTemplatesController < ApplicationController
 
   def toggle_active
     if params[:down]
-      # set attribute active on templates to false
       @template.update!(active: false)
     elsif params[:up]
-      # set attribute active on templates to true
       @template.update!(active: true)
     end
     render 'show'

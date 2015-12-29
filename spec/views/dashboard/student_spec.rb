@@ -86,7 +86,8 @@ describe 'dashboard/student.haml' do
       context 'applications are present for position' do
         before :each do
           @application_template = create :application_template,
-                                         position: @position
+                                         position: @position,
+                                         active: true
         end
         it 'lists links to submit application for positions' do
           render
@@ -96,6 +97,17 @@ describe 'dashboard/student.haml' do
       end
       context 'no applications are present for position' do
         it 'does not list links to submit application for position' do
+          render
+          expect(rendered).not_to have_tag 'a'
+        end
+      end
+      context 'applications for the position are inactive' do
+        before :each do
+          @template = create :application_template,
+                             position: @position,
+                             active: false
+        end
+        it 'does not list the link to submit application for position' do
           render
           expect(rendered).not_to have_tag 'a'
         end

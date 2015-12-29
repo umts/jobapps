@@ -11,7 +11,8 @@
 
         = t.submit 'Deactivate application', name: 'down'
     - else
-      This application is currently inactive. Hiring again? Click below to reactivate.
+      This application is currently inactive. Hiring again?
+      Click below to reactivate.
       = form_for @template, url: { controller: :application_templates,
                                    action: :toggle_active,
                                    id: @template.id }, method: :post do |t|
