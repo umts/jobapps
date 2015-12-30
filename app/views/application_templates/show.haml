@@ -4,19 +4,21 @@
 - else
   - if @current_user.try :staff?
     - if @template.active?
-      Not hiring currently? Click here to take down the application:
-      = form_for @template, url: { controller: :application_templates,
-                                  action: :toggle_active,
-                                  id: @template.id }, method: :post do |t|
+      .note_item
+        Not hiring currently? Click below to take down the application:
+        = form_for @template, url: { controller: :application_templates,
+                                    action: :set_active,
+                                    id: @template.id }, method: :post do |t|
 
-        = t.submit 'Deactivate application', name: 'down'
+          .note_item= t.submit 'Deactivate application', name: 'down'
     - else
-      This application is currently inactive. Hiring again?
-      Click below to reactivate.
-      = form_for @template, url: { controller: :application_templates,
-                                   action: :toggle_active,
-                                   id: @template.id }, method: :post do |t|
-        = t.submit 'Reactivate application', name: 'up'
+      .note_item
+        This application is currently inactive. Hiring again?
+        Click below to reactivate:
+        = form_for @template, url: { controller: :application_templates,
+                                     action: :set_active,
+                                     id: @template.id }, method: :post do |t|
+          .note_item= t.submit 'Reactivate application', name: 'up'
   .form
     %h1.title Application for #{@template.position.name_and_department}
     %strong

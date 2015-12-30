@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
   resources :application_templates, only: [:new, :show] do
     member do
-      post :toggle_active
+      post :set_active
     end
   end
 

@@ -110,12 +110,12 @@ describe ApplicationTemplatesController do
     end
   end
 
-  describe 'POST #toggle_active' do
+  describe 'POST #set_active' do
     before :each do
       @template = create :application_template
     end
     let :submit do
-      post :toggle_active, id: @template.id
+      post :set_active, id: @template.id
     end
     context 'student' do
       it 'does not allow access' do
@@ -130,7 +130,7 @@ describe ApplicationTemplatesController do
       end
       context 'button to reactivate application template has been pressed' do
         let :submit do
-          post :toggle_active, id: @template.id, up: 'value'
+          post :set_active, id: @template.id, up: 'value'
         end
         it 'marks the application as active' do
           submit
@@ -139,7 +139,7 @@ describe ApplicationTemplatesController do
       end
       context 'button to deactivate application template has been pressed' do
         let :submit do
-          post :toggle_active, id: @template.id, down: 'value'
+          post :set_active, id: @template.id, down: 'value'
         end
         it 'marks the application as inactive' do
           submit

@@ -19,7 +19,7 @@ class ApplicationTemplatesController < ApplicationController
   def show
   end
 
-  def toggle_active
+  def set_active
     if params[:down]
       @template.update!(active: false)
     elsif params[:up]
