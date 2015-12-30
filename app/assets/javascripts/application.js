@@ -15,4 +15,5 @@
 //= require jquery.dataTables.min
 //= require jquery-ui.min
 //= require jquery.datetimepicker
+//= require jquery.sumoselect.min
 //= require_tree .
