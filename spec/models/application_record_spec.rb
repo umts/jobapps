@@ -88,6 +88,22 @@ describe ApplicationRecord do
     end
   end
 
+  describe 'in_department' do
+    before :each do
+      @department = create :department
+      position = create :position, department: @department
+      @good_record = create :application_record,  position: position
+      @bad_record = create :application_record, position: create(:position)
+    end
+    let :call do
+      ApplicationRecord.in_department @department.id
+    end
+    it 'only returns records for the specified department(s)' do
+      expect(call).to include @good_record
+      expect(call).not_to include @bad_record
+    end
+  end
+
   describe 'deny_with' do
     before :each do
       @record = create :application_record
@@ -152,10 +168,12 @@ describe ApplicationRecord do
     before :each do
       @start_date = 1.week.ago
       @end_date = 1.week.since
+      @department = create :department
+      @position = create :position, department: @department
       stub_const 'ApplicationRecord::GENDER_OPTIONS', ['Female']
     end
     let :call do
-      ApplicationRecord.gender_eeo_data @start_date, @end_date
+      ApplicationRecord.gender_eeo_data @start_date, @end_date, @department.id
     end
     it 'calls AR#between to gather application records' do
       relation = ApplicationRecord.all
@@ -164,37 +182,51 @@ describe ApplicationRecord do
         .and_return(relation)
       call
     end
+    it 'calls AR#in_department to filter application records' do
+      relation = ApplicationRecord.all
+      expect(ApplicationRecord).to receive(:in_department)
+        .with(@department.id)
+        .and_return(relation)
+      call
+    end
     it 'counts records within the correct date range' do
       create :application_record,
-             gender: 'Female'
+             gender: 'Female',
+             position: @position
       Timecop.freeze 2.weeks.ago do
         create :application_record,
-               gender: 'Female'
+               gender: 'Female',
+               position: @position
       end
       expect(call).to contain_exactly ['Female', 1]
     end
     it 'counts only records with a gender attribute' do
       create :application_record,
-             gender: nil
+             gender: nil,
+             position: @position
       create :application_record,
-             gender: ''
+             gender: '',
+             position: @position
       expect(call).to contain_exactly ['Female', 0]
     end
     it 'counts records whose gender is not one of the gender_options' do
       create :application_record,
-             gender: 'Male'
+             gender: 'Male',
+             position: @position
       expect(call).to contain_exactly ['Female', 0], ['Male', 1]
     end
   end
 
   describe 'self.eeo_data' do
     before :each do
+      @department = create :department
+      @position = create :position, department: @department
       @start_date = 1.week.ago
       @end_date = 1.week.since
       stub_const 'ApplicationRecord::ETHNICITY_OPTIONS', ['Klingon']
     end
     let :call do
-      ApplicationRecord.eeo_data @start_date, @end_date
+      ApplicationRecord.eeo_data @start_date, @end_date, @department.id
     end
     it 'calls AR#between to gather application records' do
       relation = ApplicationRecord.all
@@ -206,56 +238,74 @@ describe ApplicationRecord do
       # technically. gender_eeo_data uses it.
       call
     end
+    it 'calls AR#in_department to filter application records' do
+      relation = ApplicationRecord.all
+      expect(ApplicationRecord).to receive(:in_department)
+        .with(@department.id)
+        .and_return(relation).at_least(:once)
+      # needs to return an activerecord relation. Also
+      # the method :in_department
+      # technically. gender_eeo_data uses it.
+      call
+    end
     it 'returns a hash' do
       expect(call).to be_a Hash
     end
     it 'assigns records to the hash within the correct date range' do
       create :application_record,
              ethnicity: 'Klingon',
-             gender: 'Female'
+             gender: 'Female',
+             position: @position
       Timecop.freeze 2.weeks.ago do
         create :application_record,
                ethnicity: 'Klingon',
-               gender: 'Female'
+               gender: 'Female',
+               position: @position
       end
       expect(call[:all].count).to eql 1
     end
     it 'counts records containing ethnicities not from ethnicity_options' do
       create :application_record,
              ethnicity: 'Betazoid',
-             gender: 'Male'
+             gender: 'Male',
+             position: @position
       expect(call[:ethnicities]).to contain_exactly ['Betazoid', 1],
                                                     ['Klingon', 0]
     end
     it 'calls AR#gender_eeo_data to assign values to genders key in hash' do
       expect(ApplicationRecord).to receive(:gender_eeo_data)
-        .with(@start_date, @end_date)
+        .with(@start_date, @end_date, @department.id)
         .and_return('something')
       call
       expect(call[:genders]).to eql 'something'
     end
     it 'puts all genders and the counts thereof in the hash' do
       create :application_record,
-             gender: 'Female'
+             gender: 'Female',
+             position: @position
       expect(call[:genders]).to contain_exactly ['Male', 0], ['Female', 1]
     end
     it 'puts counts of all male members of every ethnicity in the hash' do
       create :application_record,
              ethnicity: 'Klingon',
-             gender: 'Male'
+             gender: 'Male',
+             position: @position
       create :application_record,
              ethnicity: 'Betazoid',
-             gender: 'Female'
+             gender: 'Female',
+             position: @position
       expect(call[:male_ethnicities]).to contain_exactly ['Betazoid', 0],
                                                          ['Klingon', 1]
     end
     it 'puts counts of all female members of every ethnicity in the hash' do
       create :application_record,
              ethnicity: 'Klingon',
-             gender: 'Male'
+             gender: 'Male',
+             position: @position
       create :application_record,
              ethnicity: 'Betazoid',
-             gender: 'Female'
+             gender: 'Female',
+             position: @position
       expect(call[:female_ethnicities]).to contain_exactly ['Betazoid', 1],
                                                            ['Klingon', 0]
     end

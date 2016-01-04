@@ -22,9 +22,9 @@ class ApplicationRecordsController < ApplicationController
   def csv_export
     start_date = parse_american_date(params.require :start_date)
     end_date = parse_american_date(params.require :end_date)
-    @records = ApplicationRecord.joins(:position)
-                .where(positions: { department_id: params[:department_id] })
-                .between(start_date, end_date)
+    params.require :department_id
+    @records = ApplicationRecord.in_department(params[:department_id])
+               .between(start_date, end_date)
     render 'csv_export.csv.erb', layout: false
   end
 
@@ -32,9 +32,8 @@ class ApplicationRecordsController < ApplicationController
     start_date = parse_american_date(params.require :eeo_start_date)
     end_date = parse_american_date(params.require :eeo_end_date)
     params.require :department_id
-    @records = ApplicationRecord.joins(:position)
-                .where(positions: { department_id: params[:department_id] })
-                .between(start_date, end_date)
+    @records = ApplicationRecord
+               .eeo_data(start_date, end_date, params[:department_id])
   end
 
   def past_applications
@@ -43,9 +42,8 @@ class ApplicationRecordsController < ApplicationController
     start_date = parse_american_date(params.require :records_start_date)
     end_date = parse_american_date(params.require :records_end_date)
     params.require :department_id
-    @records = ApplicationRecord.joins(:position)
-                .where(positions: { department_id: params[:department_id] })
-                .between(start_date, end_date)
+    @records = ApplicationRecord.in_department(params[:department_id])
+               .between(start_date, end_date)
     render 'past_application_records'
   end
 

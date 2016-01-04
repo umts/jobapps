@@ -58,11 +58,19 @@ describe ApplicationRecordsController do
       when_current_user_is :staff
       @start_date = 1.week.ago.to_date
       @end_date = Time.zone.today
+      @department = create :department
     end
     let :submit do
       get :csv_export,
           start_date: @start_date.strftime('%m/%d/%Y'),
-          end_date: @end_date.strftime('%m/%d/%Y')
+          end_date: @end_date.strftime('%m/%d/%Y'),
+          department_id: @department.id
+    end
+    it 'calls AR#in_department with the correct parameters' do
+      expect(ApplicationRecord).to receive(:in_department)
+        .with(@department.id.to_s)
+        .and_return ApplicationRecord.none
+      submit
     end
     it 'calls AR#between with the correct parameters' do
       expect(ApplicationRecord).to receive(:between).with @start_date, @end_date
@@ -79,17 +87,19 @@ describe ApplicationRecordsController do
     before :each do
       when_current_user_is :staff
       @start_date = 1.week.ago.to_date
-      @end_date = Time.zone.today
+      @end_date = 1.week.since.to_date
+      @departments = create(:department).id
     end
     let :submit do
       get :eeo_data,
           eeo_start_date: @start_date.strftime('%m/%d/%Y'),
-          eeo_end_date: @end_date.strftime('%m/%d/%Y')
+          eeo_end_date: @end_date.strftime('%m/%d/%Y'),
+          department_id: @departments
     end
-    it 'calls AR#between with the correct parameters' do
+    it 'calls AR#eeo_data with the correct parameters' do
       expect(ApplicationRecord).to receive(:eeo_data)
-        .with(@start_date, @end_date)
-        .and_return ApplicationRecord.none
+        .with(@start_date, @end_date, @departments.to_s)
+      # to_s because it gets passed as a string in params
       submit
     end
     it 'assigns the correct records to the instance variable' do
@@ -105,14 +115,22 @@ describe ApplicationRecordsController do
       when_current_user_is :staff
       @start_date = 1.week.ago.to_date
       @end_date = Time.zone.today
+      @departments = create(:department).id
     end
     let :submit do
       get :past_applications,
           records_start_date: @start_date.strftime('%m/%d/%Y'),
-          records_end_date: @end_date.strftime('%m/%d/%Y')
+          records_end_date: @end_date.strftime('%m/%d/%Y'),
+          department_id: @departments
     end
     it 'calls AR#between with the correct parameters' do
       expect(ApplicationRecord).to receive(:between).with @start_date, @end_date
+      submit
+    end
+    it 'calls AR#in_department with the correct parameters' do
+      expect(ApplicationRecord).to receive(:in_department)
+        .with(@departments.to_s)
+        .and_return ApplicationRecord.none
       submit
     end
     it 'assigns the correct records to the instance variable' do
