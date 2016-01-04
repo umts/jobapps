@@ -190,29 +190,24 @@ describe ApplicationRecord do
       call
     end
     it 'counts records within the correct date range' do
-      create :application_record,
-             gender: 'Female',
-             position: @position
+      create :application_record, position: @position,
+                                  gender: 'Female'
       Timecop.freeze 2.weeks.ago do
-        create :application_record,
-               gender: 'Female',
-               position: @position
+        create :application_record, position: @position,
+                                    gender: 'Female'
       end
       expect(call).to contain_exactly ['Female', 1]
     end
     it 'counts only records with a gender attribute' do
-      create :application_record,
-             gender: nil,
-             position: @position
-      create :application_record,
-             gender: '',
-             position: @position
+      create :application_record, position: @position,
+                                  gender: nil
+      create :application_record, position: @position,
+                                  gender: ''
       expect(call).to contain_exactly ['Female', 0]
     end
     it 'counts records whose gender is not one of the gender_options' do
-      create :application_record,
-             gender: 'Male',
-             position: @position
+      create :application_record, position: @position,
+                                  gender: 'Male'
       expect(call).to contain_exactly ['Female', 0], ['Male', 1]
     end
   end
@@ -233,9 +228,10 @@ describe ApplicationRecord do
       expect(ApplicationRecord).to receive(:between)
         .with(@start_date, @end_date)
         .and_return(relation).at_least(:once)
-      # needs to return an activerecord relation. Also
-      # the method :between is called twice in the test,
-      # technically. gender_eeo_data uses it.
+      # needs to return an ActiveRecord relation, because
+      # we need to call something on it later. Also,
+      # the method :between is called more than once,
+      # hence the at_least(:once).
       call
     end
     it 'calls AR#in_department to filter application records' do
@@ -243,32 +239,30 @@ describe ApplicationRecord do
       expect(ApplicationRecord).to receive(:in_department)
         .with(@department.id)
         .and_return(relation).at_least(:once)
-      # needs to return an activerecord relation. Also
-      # the method :in_department
-      # technically. gender_eeo_data uses it.
+      # needs to return an activerecord relation, because
+      # we need to use the object it returns later. Also
+      # the method :in_department is called more than
+      # once, hence the at_least(:once).
       call
     end
     it 'returns a hash' do
       expect(call).to be_a Hash
     end
     it 'assigns records to the hash within the correct date range' do
-      create :application_record,
-             ethnicity: 'Klingon',
-             gender: 'Female',
-             position: @position
+      create :application_record, position: @position,
+                                  ethnicity: 'Klingon',
+                                  gender: 'Female'
       Timecop.freeze 2.weeks.ago do
-        create :application_record,
-               ethnicity: 'Klingon',
-               gender: 'Female',
-               position: @position
+        create :application_record, position: @position,
+                                    ethnicity: 'Klingon',
+                                    gender: 'Female'
       end
       expect(call[:all].count).to eql 1
     end
     it 'counts records containing ethnicities not from ethnicity_options' do
-      create :application_record,
-             ethnicity: 'Betazoid',
-             gender: 'Male',
-             position: @position
+      create :application_record, position: @position,
+                                  ethnicity: 'Betazoid',
+                                  gender: 'Male'
       expect(call[:ethnicities]).to contain_exactly ['Betazoid', 1],
                                                     ['Klingon', 0]
     end
@@ -280,32 +274,27 @@ describe ApplicationRecord do
       expect(call[:genders]).to eql 'something'
     end
     it 'puts all genders and the counts thereof in the hash' do
-      create :application_record,
-             gender: 'Female',
-             position: @position
+      create :application_record, position: @position,
+                                  gender: 'Female'
       expect(call[:genders]).to contain_exactly ['Male', 0], ['Female', 1]
     end
     it 'puts counts of all male members of every ethnicity in the hash' do
-      create :application_record,
-             ethnicity: 'Klingon',
-             gender: 'Male',
-             position: @position
-      create :application_record,
-             ethnicity: 'Betazoid',
-             gender: 'Female',
-             position: @position
+      create :application_record, position: @position,
+                                  ethnicity: 'Klingon',
+                                  gender: 'Male'
+      create :application_record, position: @position,
+                                  ethnicity: 'Betazoid',
+                                  gender: 'Female'
       expect(call[:male_ethnicities]).to contain_exactly ['Betazoid', 0],
                                                          ['Klingon', 1]
     end
     it 'puts counts of all female members of every ethnicity in the hash' do
-      create :application_record,
-             ethnicity: 'Klingon',
-             gender: 'Male',
-             position: @position
-      create :application_record,
-             ethnicity: 'Betazoid',
-             gender: 'Female',
-             position: @position
+      create :application_record, position: @position,
+                                  ethnicity: 'Klingon',
+                                  gender: 'Male'
+      create :application_record, position: @position,
+                                  ethnicity: 'Betazoid',
+                                  gender: 'Female'
       expect(call[:female_ethnicities]).to contain_exactly ['Betazoid', 1],
                                                            ['Klingon', 0]
     end

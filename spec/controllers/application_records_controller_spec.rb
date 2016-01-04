@@ -64,12 +64,14 @@ describe ApplicationRecordsController do
       get :csv_export,
           start_date: @start_date.strftime('%m/%d/%Y'),
           end_date: @end_date.strftime('%m/%d/%Y'),
-          department_id: @department.id
+          department_ids: @department.id
     end
     it 'calls AR#in_department with the correct parameters' do
       expect(ApplicationRecord).to receive(:in_department)
         .with(@department.id.to_s)
         .and_return ApplicationRecord.none
+      # Needs to return something, because we must call
+      # other methods on what it returns later.
       submit
     end
     it 'calls AR#between with the correct parameters' do
@@ -94,7 +96,7 @@ describe ApplicationRecordsController do
       get :eeo_data,
           eeo_start_date: @start_date.strftime('%m/%d/%Y'),
           eeo_end_date: @end_date.strftime('%m/%d/%Y'),
-          department_id: @departments
+          department_ids: @departments
     end
     it 'calls AR#eeo_data with the correct parameters' do
       expect(ApplicationRecord).to receive(:eeo_data)
@@ -121,7 +123,7 @@ describe ApplicationRecordsController do
       get :past_applications,
           records_start_date: @start_date.strftime('%m/%d/%Y'),
           records_end_date: @end_date.strftime('%m/%d/%Y'),
-          department_id: @departments
+          department_ids: @departments
     end
     it 'calls AR#between with the correct parameters' do
       expect(ApplicationRecord).to receive(:between).with @start_date, @end_date
@@ -131,6 +133,8 @@ describe ApplicationRecordsController do
       expect(ApplicationRecord).to receive(:in_department)
         .with(@departments.to_s)
         .and_return ApplicationRecord.none
+      # needs to return something, because we need to call
+      # other methods on what it returns later.
       submit
     end
     it 'assigns the correct records to the instance variable' do

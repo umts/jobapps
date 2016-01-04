@@ -2,7 +2,7 @@
   = form_tag csv_export_application_records_path, method: :get do
     Export records for
     .note_item
-      = select_tag :department_id,
+      = select_tag :department_ids,
       options_from_collection_for_select(@departments, :id, :name),
       class: 'dept_select', multiple: true
     between

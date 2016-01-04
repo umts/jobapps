@@ -20,9 +20,9 @@ class ApplicationRecord < ActiveRecord::Base
   scope :between,
         -> (start_date, end_date) { where created_at: start_date..end_date }
   scope :in_department,
-        lambda { |department_id|
+        lambda { |department_ids|
           joins(:position)
-            .where(positions: { department_id: department_id })
+            .where(positions: { department_id: department_ids })
         }
   scope :with_gender, -> { where.not gender: [nil, ''] }
   scope :with_ethnicity, -> { where.not ethnicity: [nil, ''] }
@@ -63,24 +63,24 @@ class ApplicationRecord < ActiveRecord::Base
     !reviewed
   end
 
-  def self.gender_eeo_data(start_date, end_date, department_id)
+  def self.gender_eeo_data(start_date, end_date, department_ids)
     gender_records = between(start_date, end_date).with_gender
-                     .in_department(department_id)
+                     .in_department(department_ids)
     all_genders = GENDER_OPTIONS | gender_records.pluck(:gender)
     all_genders.map do |option|
       [option, gender_records.where(gender: option).count]
     end
   end
 
-  def self.eeo_data(start_date, end_date, department_id)
+  def self.eeo_data(start_date, end_date, department_ids)
     records = {}
-    records[:all] = between(start_date, end_date).in_department(department_id)
+    records[:all] = between(start_date, end_date).in_department(department_ids)
     ethnicity_records = records[:all].with_ethnicity
     all_ethnicities = ETHNICITY_OPTIONS | ethnicity_records.pluck(:ethnicity)
     records[:ethnicities] = all_ethnicities.map do |option|
       [option, ethnicity_records.where(ethnicity: option).count]
     end
-    records[:genders] = gender_eeo_data(start_date, end_date, department_id)
+    records[:genders] = gender_eeo_data(start_date, end_date, department_ids)
     records[:male_ethnicities] = all_ethnicities.map do |ethnicity|
       [ethnicity, ethnicity_records.where(ethnicity: ethnicity,
                                           gender: 'Male').count]
