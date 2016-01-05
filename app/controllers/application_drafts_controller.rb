@@ -10,7 +10,6 @@ class ApplicationDraftsController < ApplicationController
   def edit
     @draft.questions << @draft.new_question
     @site_text = SiteText.find_by(name: 'markdown explanation')
-    @template = @draft.application_template
   end
 
   def new
