@@ -110,12 +110,12 @@ describe ApplicationTemplatesController do
     end
   end
 
-  describe 'POST #set_active' do
+  describe 'POST #toggle_active' do
     before :each do
       @template = create :application_template
     end
     let :submit do
-      post :set_active, id: @template.id
+      post :toggle_active, id: @template.id
     end
     context 'student' do
       it 'does not allow access' do
@@ -127,28 +127,31 @@ describe ApplicationTemplatesController do
     context 'staff' do
       before :each do
         when_current_user_is :staff
+        request.env['HTTP_REFERER'] = 'http://test.host/redirect'
       end
-      context 'button to reactivate application template has been pressed' do
+      context 'button to activate application template has been pressed' do
         let :submit do
-          post :set_active, id: @template.id, up: 'value'
+          post :toggle_active, id: @template.id
         end
         it 'marks the application as active' do
+          @template.update active: false
           submit
-          expect(@template.reload.active).to eql true
+          expect(@template.reload).to be_active
         end
       end
       context 'button to deactivate application template has been pressed' do
         let :submit do
-          post :set_active, id: @template.id, down: 'value'
+          post :toggle_active, id: @template.id
         end
         it 'marks the application as inactive' do
+          @template.update active: true
           submit
-          expect(@template.reload.active).to eql false
+          expect(@template.reload).not_to be_active
         end
       end
-      it 'renders the show page' do
+      it 'redirects back' do
         submit
-        expect(response).to render_template 'show'
+        expect(response).to redirect_to :back
       end
     end
   end

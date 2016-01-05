@@ -9,6 +9,7 @@ class ApplicationTemplate < ActiveRecord::Base
   delegate :department, to: :position
 
   validates :position, presence: true, uniqueness: true
+  validates :active, inclusion: { in: [true, false] }
 
   def create_draft(user)
     return false if draft_belonging_to?(user)

@@ -45,7 +45,9 @@ describe ApplicationDraftsController do
 
   describe 'GET #edit' do
     before :each do
-      @draft = create :application_draft
+      @template = create :application_template
+      @draft = create :application_draft,
+                      application_template_id: @template.id
     end
     let :submit do
       get :edit, id: @draft.id
@@ -66,6 +68,10 @@ describe ApplicationDraftsController do
       it 'assigns the correct draft to the draft instance variable' do
         submit
         expect(assigns.fetch :draft).to eql @draft
+      end
+      it 'assigns the correct template to the template instance variable' do
+        submit
+        expect(assigns.fetch :template).to eql @template
       end
       it 'adds a question to the draft, in memory only' do
         expect { submit }

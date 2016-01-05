@@ -9,6 +9,27 @@ describe 'application_drafts/edit.haml' do
     @question = create :question, application_draft: @draft
     @bottom_question = create :question, application_draft: @draft
   end
+  context 'application template is active' do
+    it 'has a button to deactivate the application' do
+      action_path = toggle_active_application_template_url @template
+      render
+      expect(rendered).to have_form action_path, :post do
+        with_tag :input, with: { type: 'submit',
+                                 value: 'Deactivate application' }
+      end
+    end
+  end
+  context 'application template is inactive' do
+    it 'has a button to reactivate the application' do
+      @template.update active: false
+      action_path = toggle_active_application_template_url @template
+      render
+      expect(rendered).to have_form action_path, :post do
+        with_tag :input, with: { type: 'submit',
+                                 value: 'Activate application' }
+      end
+    end
+  end
   it 'has a form to edit the draft' do
     render
     action_path = draft_path @draft

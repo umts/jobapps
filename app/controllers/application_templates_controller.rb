@@ -11,7 +11,7 @@ class ApplicationTemplatesController < ApplicationController
 
   def new
     position = Position.find(params.require :position_id)
-    template = ApplicationTemplate.create!(position: position)
+    template = ApplicationTemplate.create!(position: position, active: true)
     @draft = template.create_draft @current_user
     redirect_to edit_draft_path(@draft)
   end
@@ -19,13 +19,9 @@ class ApplicationTemplatesController < ApplicationController
   def show
   end
 
-  def set_active
-    if params[:down]
-      @template.update!(active: false)
-    elsif params[:up]
-      @template.update!(active: true)
-    end
-    render 'show'
+  def toggle_active
+    @template.toggle!(:active)
+    redirect_to :back
   end
 
   private

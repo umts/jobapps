@@ -76,21 +76,23 @@ describe 'application_templates/show.haml' do
       end
       context 'application is marked as active' do
         it 'has a button to take down the application' do
-          @template.active = true
-          action_path = set_active_application_template_path @template
+          @template.update active: true
+          action_path = toggle_active_application_template_url @template
           render
           expect(rendered).to have_form action_path, :post do
-            with_tag :input, with: { type: 'submit', name: 'down' }
+            with_tag 'input', with: { type: 'submit',
+                                      value: 'Deactivate application' }
           end
         end
       end
       context 'application is marked as inactive' do
         it 'has a button to reactivate the application' do
-          @template.active = false
-          action_path = set_active_application_template_path @template
+          @template.update active: false
+          action_path = toggle_active_application_template_url @template
           render
           expect(rendered).to have_form action_path, :post do
-            with_tag :input, with: { type: 'submit', name: 'up' }
+            with_tag :input, with: { type: 'submit',
+                                     value: 'Activate application' }
           end
         end
       end
