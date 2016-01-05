@@ -4,6 +4,7 @@ describe 'creating users' do
   before :each do
     when_current_user_is :staff, integration: true
     visit new_user_path
+    fail
   end
 
   # staff attribute is a hidden field in the form,
