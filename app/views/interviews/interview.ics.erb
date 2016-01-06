@@ -8,6 +8,7 @@ DTSTART:<%= format_date_time @interview.scheduled, format: :iCal %>
 SUMMARY:<%= @interview.calendar_title %>
 UID:INTERVIEW<%= @interview.id -%>@UMASS_TRANSIT//JOBAPPS
 DTSTAMP:<%= format_date_time DateTime.now, format: :iCal %>
+DESCRIPTION:<%= application_record_url %>
 STATUS:CONFIRMED
 END:VEVENT
 END:VCALENDAR
