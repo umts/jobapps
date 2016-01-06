@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 20151217172608) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "position_id", limit: 4
+    t.boolean  "visible",               default: true
   end
 
   create_table "departments", force: :cascade do |t|
