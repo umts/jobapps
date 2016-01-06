@@ -5,6 +5,12 @@ class InterviewsController < ApplicationController
     if @interview.update completed: true
       show_message :interview_complete,
                    default: 'Interview marked as completed.'
+      if params[:hired]
+        @interview.update hired: true
+      else
+        @interview.update hired: false,
+                          interview_note: params[:interview_note]
+      end
       # TODO: some kind of API call to create users.
       redirect_to staff_dashboard_path
     else show_errors @interview

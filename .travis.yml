@@ -5,8 +5,8 @@ before_script:
   - mysql -e 'create database jobapps_test'
   - cp config/application.yml.example config/application.yml
   - cp config/database.yml.example config/database.yml
-script: 'bundle exec rake travis db:reset'
+script: 'bundle exec rake db:reset travis'
 notifications:
   email:
     recipients:
-      - transit-programmers@admin.umass.edu
+      - programmers@admin.umass.edu

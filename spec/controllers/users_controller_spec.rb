@@ -24,7 +24,7 @@ describe UsersController do
           @user = { first_name: '' }
         end
         it 'shows errors' do
-          expect_redirect_to_back { submit }
+          expect { submit }.to redirect_back
           expect(flash.keys).to include 'errors'
         end
       end
@@ -163,7 +163,7 @@ describe UsersController do
           @changes = { first_name: '' }
         end
         it 'flashes an error message' do
-          expect_redirect_to_back { submit }
+          expect { submit }.to redirect_back
           expect(flash.keys).to include 'errors'
         end
       end

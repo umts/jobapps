@@ -11,7 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20151208200954) do
+=======
+ActiveRecord::Schema.define(version: 20151217172608) do
+>>>>>>> umts/master
 
   create_table "application_drafts", force: :cascade do |t|
     t.integer  "application_template_id", limit: 4
@@ -28,6 +32,8 @@ ActiveRecord::Schema.define(version: 20151208200954) do
     t.boolean  "reviewed"
     t.integer  "position_id", limit: 4
     t.text     "staff_note",  limit: 65535
+    t.string   "ethnicity",   limit: 255
+    t.string   "gender",      limit: 255
   end
 
   create_table "application_templates", force: :cascade do |t|
@@ -52,6 +58,7 @@ ActiveRecord::Schema.define(version: 20151208200954) do
     t.integer  "application_record_id", limit: 4
     t.boolean  "completed"
     t.string   "location",              limit: 255
+    t.string   "interview_note",        limit: 255
   end
 
   create_table "positions", force: :cascade do |t|

@@ -1,15 +1,16 @@
-%ul
-  - @departments.each do |department|
-    %li
-      %h3= department.name
-    %ul
-      - department.positions.each do |position|
-        %li
-          = position.name
-          %ul
-            - if @pending_interviews.key? position
-              - @pending_interviews[position].each do |interview|
-                %li= link_to interview.information(include_name: true),
-                  interview.application_record
-            - else
-              No pending interviews
+.dashboard_partial
+  %ul
+    - @departments.each do |department|
+      %li
+        %h3= department.name
+      %ul
+        - department.positions.each do |position|
+          %li
+            = position.name
+            %ul
+              - if @pending_interviews.key? position
+                - @pending_interviews[position].each do |interview|
+                  %li= link_to interview.information(include_name: true),
+                    interview.application_record
+              - else
+                No pending interviews

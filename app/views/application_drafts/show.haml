@@ -36,10 +36,10 @@
               = r.number_field question.prompt, required: question.required?
             - when 'yes/no'
               Yes
-              = r.radio_button question.prompt, 'yes',
+              = r.radio_button question.prompt, 'Yes',
                 required: question.required?
               No
-              = r.radio_button question.prompt, 'no',
+              = r.radio_button question.prompt, 'No',
                 required: question.required?
             - if question.required?
               %span.ast *

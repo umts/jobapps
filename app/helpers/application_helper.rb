@@ -7,22 +7,17 @@ module ApplicationHelper
   end
 
   def parse_application_data(data)
-    prompts = []
-    responses = []
-    paired_prompts_and_responses = []
+    questions = []
     data.each do |k, v|
-      data_type, number = k.split '_'
-      case data_type
-      when 'response'
-        responses[number.to_i] = v
-      when 'prompt'
-        prompts[number.to_i] = v
-      end
+      match_data = k.match(/^(prompt|response|data_type)_(\d+)$/)
+      next unless match_data.present?
+      input_type, number = match_data.captures
+      questions[number.to_i] ||= []
+      input_types = %w(prompt response data_type)
+      index = input_types.index input_type
+      questions[number.to_i][index] = v
     end
-    prompts.size.times do |i|
-      paired_prompts_and_responses[i] = [prompts[i], responses[i]]
-    end
-    paired_prompts_and_responses
+    questions
   end
 
   def render_markdown(text)

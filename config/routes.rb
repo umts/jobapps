@@ -20,10 +20,9 @@ Rails.application.routes.draw do
 
   resources :application_records, only: [:create, :show] do
     collection do
-      get  :csv_export
-    end
-    collection do
+      get :csv_export
       get :past_applications
+      get :eeo_data
     end
     member do
       post :review
@@ -55,13 +54,13 @@ Rails.application.routes.draw do
   get 'sessions/unauthenticated', to: 'sessions#unauthenticated', as: :unauthenticated_session
   get 'sessions/destroy', to: 'sessions#destroy', as: :destroy_session
 
-  resources :site_texts, only: [:edit, :update] do
+  resources :site_texts, only: [:edit, :show, :update] do
     collection do
       get  :request_new
       post :request_new
     end
     member do
-      post :edit#for previewing changes
+      post :edit # for previewing changes
     end
   end
 
