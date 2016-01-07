@@ -1,7 +1,7 @@
 require 'rails_helper'
 include RSpecHtmlMatchers
 
-describe 'application_records/past_application_records.haml' do
+describe 'application_records/past_applications.haml' do
   before :each do
     @user = create :user, first_name: 'Rick', last_name: 'Cat'
     @record = create :application_record,

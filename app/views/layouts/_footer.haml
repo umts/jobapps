@@ -5,4 +5,4 @@
   &bull;
   = link_to 'Site Policies', 'http://umass.edu/site_policies'
   &bull;
-  = link_to 'Site Contact', configured_value([:email, :site_contact_email])
+  = mail_to configured_value([:email, :site_contact_email]), 'Site Contact'

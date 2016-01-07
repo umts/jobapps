@@ -31,7 +31,7 @@ describe 'layouts/_footer.haml' do
       .and_return site_contact_email
     render
     expect(rendered)
-      .to have_tag 'a', with: { href: site_contact_email } do
+      .to have_tag 'a', with: { href: "mailto:#{site_contact_email}" } do
       with_text 'Site Contact'
     end
   end

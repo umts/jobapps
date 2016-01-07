@@ -6,8 +6,8 @@ before_script:
   - cp config/application.yml.example config/application.yml
   - cp config/database.yml.example config/database.yml
 script:
-  - 'bundle exec rake db:reset'
-  - 'bundle exec rake travis'
+  - bundle exec rake db:reset
+  - bundle exec rake travis
 notifications:
   email:
     recipients:
