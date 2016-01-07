@@ -5,7 +5,9 @@ before_script:
   - mysql -e 'create database jobapps_test'
   - cp config/application.yml.example config/application.yml
   - cp config/database.yml.example config/database.yml
-script: 'bundle exec rake db:reset travis'
+script:
+  - bundle exec rake db:reset
+  - bundle exec rake travis
 notifications:
   email:
     recipients:

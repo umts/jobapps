@@ -1,4 +1,6 @@
-%ul
-  - @site_texts.each do |site_text|
-    %li= link_to "Change #{site_text.name} text", edit_site_text_path(site_text)
-  %li= link_to 'Request new site text', request_new_site_texts_path
+.dashboard_partial
+  %ul
+    - @site_texts.each do |site_text|
+      %li= link_to "Change #{site_text.name} text",
+        edit_site_text_path(site_text)
+    %li= link_to 'Request new site text', request_new_site_texts_path

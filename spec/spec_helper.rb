@@ -4,7 +4,9 @@ require 'simplecov'
 require 'support/redirect_back_matcher'
 
 CodeClimate::TestReporter.start if ENV['CI']
-SimpleCov.start 'rails'
+SimpleCov.start 'rails' do
+  refuse_coverage_drop
+end
 
 RSpec.configure do |config|
   config.raise_errors_for_deprecations!
