@@ -135,8 +135,7 @@ describe ApplicationTemplatesController do
         end
         it 'marks the application as active' do
           @template.update active: false
-          submit
-          expect(@template.reload).to be_active
+          expect { submit }.to change { @template.reload.active? }
         end
       end
       context 'button to deactivate application template has been pressed' do
@@ -145,8 +144,7 @@ describe ApplicationTemplatesController do
         end
         it 'marks the application as inactive' do
           @template.update active: true
-          submit
-          expect(@template.reload).not_to be_active
+          expect { submit }.to change { @template.reload.active? }
         end
       end
       it 'redirects back' do
