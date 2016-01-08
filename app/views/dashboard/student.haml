@@ -20,6 +20,10 @@
         - should_show = application.pending? || should_show_denied_applications?
       - if app_submitted && should_show
         %li= link_to "Review your application for #{position.name}", application
-      - elsif position.application_template.present?
+      - elsif position.application_template.try(:active?)
         %li= link_to "Submit application for #{position.name}",
           application_template_path(position.application_template)
+      - else
+        %li
+          We are not currently hiring for the position,
+          #{position.name}. Please check back.

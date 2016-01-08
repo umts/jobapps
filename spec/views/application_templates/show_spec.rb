@@ -74,6 +74,28 @@ describe 'application_templates/show.haml' do
       before :each do
         when_current_user_is :staff, view: true
       end
+      context 'application is marked as active' do
+        it 'has a button to take down the application' do
+          @template.update active: true
+          action_path = toggle_active_application_template_url @template
+          render
+          expect(rendered).to have_form action_path, :post do
+            with_tag 'input', with: { type: 'submit',
+                                      value: 'Deactivate application' }
+          end
+        end
+      end
+      context 'application is marked as inactive' do
+        it 'has a button to reactivate the application' do
+          @template.update active: false
+          action_path = toggle_active_application_template_url @template
+          render
+          expect(rendered).to have_form action_path, :post do
+            with_tag :input, with: { type: 'submit',
+                                     value: 'Activate application' }
+          end
+        end
+      end
       it 'shows the application form with no submit button' do
         render
         expect(rendered).to have_form action_path, :post do

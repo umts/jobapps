@@ -109,4 +109,48 @@ describe ApplicationTemplatesController do
       end
     end
   end
+
+  describe 'POST #toggle_active' do
+    before :each do
+      @template = create :application_template
+    end
+    let :submit do
+      post :toggle_active, id: @template.id
+    end
+    context 'student' do
+      it 'does not allow access' do
+        when_current_user_is :student
+        submit
+        expect(response).to have_http_status :unauthorized
+      end
+    end
+    context 'staff' do
+      before :each do
+        when_current_user_is :staff
+        request.env['HTTP_REFERER'] = 'http://test.host/redirect'
+      end
+      context 'button to activate application template has been pressed' do
+        let :submit do
+          post :toggle_active, id: @template.id
+        end
+        it 'marks the application as active' do
+          @template.update active: false
+          expect { submit }.to change { @template.reload.active? }
+        end
+      end
+      context 'button to deactivate application template has been pressed' do
+        let :submit do
+          post :toggle_active, id: @template.id
+        end
+        it 'marks the application as inactive' do
+          @template.update active: true
+          expect { submit }.to change { @template.reload.active? }
+        end
+      end
+      it 'redirects back' do
+        submit
+        expect(response).to redirect_to :back
+      end
+    end
+  end
 end

@@ -3,11 +3,12 @@ include RSpecHtmlMatchers
 
 describe 'application_drafts/edit.haml' do
   before :each do
-    @template = create :application_template
-    @draft = create :application_draft, application_template: @template
+    @draft = create :application_draft
+    assign :draft, @draft
     @top_question = create :question, application_draft: @draft
     @question = create :question, application_draft: @draft
     @bottom_question = create :question, application_draft: @draft
+    # questions are needed to test that moving them works
   end
   it 'has a form to edit the draft' do
     render
@@ -77,5 +78,33 @@ describe 'application_drafts/edit.haml' do
                                            number: @bottom_question.number,
                                            direction: :up)
     expect(rendered).to have_form action_path, :post
+  end
+  context 'application template is active' do
+    before :each do
+      @active_template = create :application_template, active: true
+      @draft.update application_template: @active_template
+    end
+    it 'has a button to deactivate the application' do
+      action_path = toggle_active_application_template_url @active_template
+      render
+      expect(rendered).to have_form action_path, :post do
+        with_tag :input, with: { type: 'submit',
+                                 value: 'Deactivate application' }
+      end
+    end
+  end
+  context 'application template is inactive' do
+    before :each do
+      @inactive_template = create :application_template, active: false
+      @draft.update application_template: @inactive_template
+    end
+    it 'has a button to reactivate the application' do
+      action_path = toggle_active_application_template_url @inactive_template
+      render
+      expect(rendered).to have_form action_path, :post do
+        with_tag :input, with: { type: 'submit',
+                                 value: 'Activate application' }
+      end
+    end
   end
 end
