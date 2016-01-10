@@ -31,14 +31,18 @@ group :development do
 end
 
 group :development, :test do
-  gem 'better_errors'
-  gem 'binding_of_caller'
+  gem 'better_errors', require: false
+  gem 'binding_of_caller', require: false
+  gem 'capybara'
   gem 'codeclimate-test-reporter'
+  gem 'fuubar', require: false
+  gem 'guard-rspec', require: false
   gem 'mocha'
-  gem 'pry-byebug'
+  gem 'pry-byebug', require: false
+  gem 'rack_session_access'
   gem 'rspec-html-matchers'
   gem 'rspec-rails'
   gem 'simplecov'
-  gem 'spring'
+  gem 'spring', require: false
   gem 'timecop'
 end

@@ -35,6 +35,15 @@ def expect_flash_message(name)
     .with(name, hash_including(:default))
 end
 
+# Using the human attribute names for the given AR model
+# and the hash of attributes from the keyword argument,
+# fills in form elements with the provided attributes
+def fill_in_fields_for(model, attributes:)
+  attributes.each do |attribute, value|
+    fill_in model.human_attribute_name(attribute), with: value
+  end
+end
+
 # Sets current user based on two acceptable values:
 # 1. a symbol name of a user factory trait;
 # 2. a specific instance of User.
@@ -53,6 +62,8 @@ def when_current_user_is(user, options = {})
     end
   if options.key? :view
     assign :current_user, current_user
+  elsif options.key? :integration
+    page.set_rack_session user_id: current_user.try(:id)
   else session[:user_id] = current_user.try :id
   end
 end
