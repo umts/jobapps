@@ -25,7 +25,7 @@
         %ul
           - flash[:errors].each do |error_message|
             %li= error_message
-    #content_wrapper
-      #main_content
+    .content_wrapper
+      .main_content
         = yield
     #footer= render partial: 'layouts/footer'
