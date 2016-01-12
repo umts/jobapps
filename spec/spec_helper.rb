@@ -50,20 +50,25 @@ end
 def when_current_user_is(user, options = {})
   current_user =
     case user
-    when Symbol
-      create :user, user
-    when User
-      user
-    when nil
-      # need spire for requests but current_user should still be nil
-      session[:spire] = build(:user).spire
-      nil
+    when Symbol then create :user, user
+    when User then user
+    when nil then nil
     else raise ArgumentError, 'Invalid user type'
     end
+  set_current_user current_user, options
+end
+
+private
+
+# Helper method, sets the current user based on any
+# options defined (mostly spec type)
+def set_current_user(user, **options)
   if options.key? :view
-    assign :current_user, current_user
+    assign :current_user, user
   elsif options.key? :integration
-    page.set_rack_session user_id: current_user.try(:id)
-  else session[:user_id] = current_user.try :id
+    page.set_rack_session user_id: user.try(:id)
+  elsif user.present?
+    session[:user_id] = user.id
+  else session[:spire] = build(:user).spire
   end
 end
