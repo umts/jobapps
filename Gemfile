@@ -38,7 +38,7 @@ group :development, :test do
   gem 'fuubar', require: false
   gem 'guard-rspec', require: false
   gem 'mocha'
-  gem 'pry-byebug', require: false
+  gem 'pry-byebug'
   gem 'rack_session_access'
   gem 'rspec-html-matchers'
   gem 'rspec-rails'

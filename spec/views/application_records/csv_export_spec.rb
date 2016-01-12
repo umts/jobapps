@@ -15,9 +15,15 @@ describe 'application_records/csv_export.csv.erb' do
   end
   it 'displays comma separated id, prompt, and response for all records' do
     render
-    data = CSV.parse(rendered, headers: true)
-    expect(data.first.fetch 'Record Number').to eql @id.to_s
-    expect(data.first.fetch 'Prompt').to eql @prompt
-    expect(data.first.fetch 'Response').to eql @response
+    data = CSV.parse rendered, headers: true
+    row = data.first
+    expect(row.fetch 'Record Number').to eql @id.to_s
+    expect(row.fetch 'Prompt').to eql @prompt
+    expect(row.fetch 'Response').to eql @response
+  end
+  it 'has the correct number of lines' do
+    render
+    data = CSV.parse rendered, headers: true
+    expect(data.size).to be 1
   end
 end
