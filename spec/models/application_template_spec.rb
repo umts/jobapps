@@ -3,9 +3,7 @@ require 'rails_helper'
 describe ApplicationTemplate do
   describe 'create_draft' do
     before :each do
-      @application_template = create :application_template
-      create :question, application_template: @application_template
-      create :question, application_template: @application_template
+      @application_template = create :application_template, :with_questions
       @user = create :user
     end
     let :call do
