@@ -18,23 +18,22 @@ describe ApplicationRecordsController do
                     data: @data,
                     user: @user
     end
+    context 'current user is nil' do
+      it 'creates a user' do
+        when_current_user_is nil
+        @user = {
+          first_name: 'FirstName',
+          last_name:  'LastName',
+          email:      'flastnam@umass.edu'
+        }
+        expect { submit }
+          .to change { User.count }
+          .by 1
+      end
+    end
     context 'student' do
       before :each do
         when_current_user_is :student
-      end
-      context 'current user is nil' do
-        it 'creates a user' do
-          when_current_user_is nil
-          @user = {
-            first_name: 'FirstName',
-            last_name:  'LastName',
-            email:      'flastnam@umass.edu'
-          }
-          session[:spire] = '12345678'
-          expect { submit }
-            .to change { User.count }
-            .by 1
-        end
       end
       it 'creates an application record as specified' do
         expect { submit }
