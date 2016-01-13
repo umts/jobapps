@@ -34,6 +34,7 @@ describe 'submitting application records' do
                           last_name: 'Smith',
                           email: 'johnsmith@umass.edu',
                           spire: spire }
+      # SPIRE isn't a field on the page, so we don't fill it in
       fill_in_fields_for User, attributes: user_attributes.except(:spire)
       expect { click_on 'Submit application' }
         .to change { User.count }.by 1
