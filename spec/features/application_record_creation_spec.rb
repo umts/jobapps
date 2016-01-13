@@ -23,16 +23,18 @@ describe 'submitting application records' do
     end
   end
   context 'student has been authenticated but has no user object' do
+    let(:spire) { '12345678@umass.edu' }
     before :each do
       when_current_user_is nil, integration: true
-      page.set_rack_session spire: '12345678@umass.edu'
+      page.set_rack_session spire: spire
       visit application_template_path(application_template)
     end
     it 'creates a user object based on how the user fields are filled in' do
       user_attributes = { first_name: 'John',
                           last_name: 'Smith',
-                          email: 'johnsmith@umass.edu' }
-      fill_in_fields_for User, attributes: user_attributes
+                          email: 'johnsmith@umass.edu',
+                          spire: spire }
+      fill_in_fields_for User, attributes: user_attributes.except(:spire)
       expect { click_on 'Submit application' }
         .to change { User.count }.by 1
       expect(User.last).to have_attributes user_attributes
