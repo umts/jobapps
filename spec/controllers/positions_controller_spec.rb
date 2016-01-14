@@ -15,35 +15,6 @@ describe PositionsController do
         expect(response).to have_http_status :unauthorized
       end
     end
-    context 'staff' do
-      before :each do
-        when_current_user_is :staff
-      end
-      context 'invalid input' do
-        before :each do
-          @position = { name: '' }
-        end
-        it 'shows errors' do
-          expect { submit }.to redirect_back
-          expect(flash.keys).to include 'errors'
-        end
-      end
-      context 'valid input' do
-        it 'saves the position' do
-          expect { submit }
-            .to change { Position.count }
-            .by 1
-        end
-        it 'displays the position_create message' do
-          expect_flash_message :position_create
-          submit
-        end
-        it 'redirects to staff dashboard' do
-          submit
-          expect(response).to redirect_to staff_dashboard_path
-        end
-      end
-    end
   end
 
   describe 'DELETE #destroy' do
@@ -58,24 +29,6 @@ describe PositionsController do
         when_current_user_is :student
         submit
         expect(response).to have_http_status :unauthorized
-      end
-    end
-    context 'staff' do
-      before :each do
-        when_current_user_is :staff
-      end
-      it 'destroys the position' do
-        expect { submit }
-          .to change { Position.count }
-          .by(-1)
-      end
-      it 'displays the position_destroy message' do
-        expect_flash_message :position_destroy
-        submit
-      end
-      it 'redirects to staff dashboard' do
-        submit
-        expect(response).to redirect_to staff_dashboard_path
       end
     end
   end
@@ -94,15 +47,6 @@ describe PositionsController do
         expect(response).to have_http_status :unauthorized
       end
     end
-    context 'staff' do
-      before :each do
-        when_current_user_is :staff
-      end
-      it 'renders the template' do
-        submit
-        expect(response).to render_template 'edit'
-      end
-    end
   end
 
   describe 'GET #new' do
@@ -114,15 +58,6 @@ describe PositionsController do
         when_current_user_is :student
         submit
         expect(response).to have_http_status :unauthorized
-      end
-    end
-    context 'staff' do
-      before :each do
-        when_current_user_is :staff
-      end
-      it 'renders the template' do
-        submit
-        expect(response).to render_template 'new'
       end
     end
   end
@@ -140,32 +75,6 @@ describe PositionsController do
         when_current_user_is :student
         submit
         expect(response).to have_http_status :unauthorized
-      end
-    end
-    context 'staff' do
-      before :each do
-        when_current_user_is :staff
-      end
-      it 'updates the position' do
-        submit
-        expect(@position.reload.name).to eql 'Operations Manager'
-      end
-      it 'displays the position_update message' do
-        expect_flash_message :position_update
-        submit
-      end
-      it 'redirects to staff dashboard' do
-        submit
-        expect(response).to redirect_to staff_dashboard_path
-      end
-      context 'invalid input' do
-        before :each do
-          @changes = { name: '' }
-        end
-        it 'flashes an error message' do
-          expect { submit }.to redirect_back
-          expect(flash.keys).to include 'errors'
-        end
       end
     end
   end
