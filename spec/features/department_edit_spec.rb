@@ -2,11 +2,11 @@ require 'rails_helper'
 
 describe 'editing departments' do
   let(:base_attributes) { { name: 'Bananas' } }
+  let(:dept) { create :department, base_attributes }
 
   before :each do
     when_current_user_is :staff, integration: true
-    @dept = create :department, base_attributes
-    visit edit_department_path(@dept)
+    visit edit_department_path(dept)
   end
 
   context 'all fields filled in' do
@@ -19,7 +19,7 @@ describe 'editing departments' do
 
     it 'changes the given field' do
       click_on 'Save changes'
-      expect(@dept.reload.name).to eql 'Apples'
+      expect(dept.reload.name).to eql 'Apples'
     end
 
     it 'redirects to the staff dashboard' do
@@ -44,12 +44,12 @@ describe 'editing departments' do
 
     it 'does not change the given field' do
       click_on 'Save changes'
-      expect(@dept.reload.name).to eql 'Bananas'
+      expect(dept.reload.name).to eql 'Bananas'
     end
 
     it 'redirects back to same page' do
       click_on 'Save changes'
-      expect(page.current_url).to eql edit_department_url(@dept)
+      expect(page.current_url).to eql edit_department_url(dept)
     end
 
     it 'gives a flash error' do

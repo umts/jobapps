@@ -6,7 +6,7 @@ describe 'creating departments' do
     visit new_department_path
   end
 
-  let!(:department_fields) { attributes_for(:department).except :staff }
+  let!(:department_fields) { attributes_for(:department) }
 
   context 'name is filled in' do
     before :each do
