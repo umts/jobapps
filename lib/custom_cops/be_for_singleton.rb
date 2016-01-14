@@ -1,5 +1,3 @@
-require 'pry-byebug'
-
 module RuboCop
   module Cop
     module CustomCops
