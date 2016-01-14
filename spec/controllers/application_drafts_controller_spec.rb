@@ -71,7 +71,7 @@ describe ApplicationDraftsController do
         expect { submit }
           .not_to change { @draft.questions.count }
         # Factory draft has 0 questions by default
-        expect(assigns.fetch(:draft).questions.size).to eql 1
+        expect(assigns.fetch(:draft).questions.size).to be 1
       end
       it 'renders the edit template' do
         submit

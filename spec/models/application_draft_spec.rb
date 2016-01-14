@@ -67,8 +67,8 @@ describe ApplicationDraft do
     end
     it 'initializes a new question for the draft with the correct number' do
       expect(call.application_draft).to eql @draft
-      expect(call.number).to eql 4
-      expect(call.new_record?).to eql true
+      expect(call.number).to be 4
+      expect(call.new_record?).to be true
     end
   end
 

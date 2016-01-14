@@ -57,28 +57,28 @@ describe Question do
 
     describe 'date?' do
       it 'returns true if data type is date' do
-        expect(@date.date?).to eql true
+        expect(@date.date?).to be true
       end
       it 'returns false if data type is not date' do
-        expect(@explanation.date?).to eql false
+        expect(@explanation.date?).to be false
       end
     end
 
     describe 'explanation?' do
       it 'returns true if data type is explanation' do
-        expect(@explanation.explanation?).to eql true
+        expect(@explanation.explanation?).to be true
       end
       it 'returns false if data type is not explanation' do
-        expect(@heading.explanation?).to eql false
+        expect(@heading.explanation?).to be false
       end
     end
 
     describe 'heading?' do
       it 'returns true if data type is heading' do
-        expect(@heading.heading?).to eql true
+        expect(@heading.heading?).to be true
       end
       it 'returns false if data type is not heading' do
-        expect(@date.heading?).to eql false
+        expect(@date.heading?).to be false
       end
     end
   end
@@ -91,14 +91,14 @@ describe Question do
       %w(date text).each do |data_type|
         question = create :question, application_draft: @draft,
                                      data_type: data_type
-        expect(question.takes_placeholder?).to eql true
+        expect(question.takes_placeholder?).to be true
       end
     end
     it 'returns false for explanation, heading, number, or yes/no' do
       %w(explanation heading number yes/no).each do |data_type|
         question = create :question, application_draft: @draft,
                                      data_type: data_type
-        expect(question.takes_placeholder?).to eql false
+        expect(question.takes_placeholder?).to be false
       end
     end
   end

@@ -64,11 +64,11 @@ describe Interview do
   describe 'pending?' do
     it 'returns true if interview has not been completed' do
       interview = create :interview, completed: false
-      expect(interview.pending?).to eql true
+      expect(interview.pending?).to be true
     end
     it 'returns false if interview has been completed' do
       interview = create :interview, completed: true
-      expect(interview.pending?).to eql false
+      expect(interview.pending?).to be false
     end
   end
 end
