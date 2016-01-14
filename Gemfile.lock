@@ -287,6 +287,9 @@ GEM
     uglifier (2.7.2)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    umts-custom-cops (0.1.0)
+      rspec (~> 3.0)
+      rubocop (= 0.35.1)
     xpath (2.0.0)
       nokogiri (~> 1.3)
 
@@ -331,6 +334,7 @@ DEPENDENCIES
   spring
   timecop
   uglifier
+  umts-custom-cops
 
 BUNDLED WITH
    1.10.6

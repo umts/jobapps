@@ -8,7 +8,7 @@ describe ApplicationConfiguration do
         expect(CONFIG).to receive(:[]).with(:present_key).and_return true
       end
       it 'returns the value' do
-        expect(configured_value [:present_key]).to eql true
+        expect(configured_value [:present_key]).to be true
       end
     end
     context 'value not present in configuration' do

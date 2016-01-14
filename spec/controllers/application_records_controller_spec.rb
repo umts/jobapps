@@ -177,7 +177,7 @@ describe ApplicationRecordsController do
         end
         it 'marks record as reviewed' do
           submit
-          expect(@record.reload.reviewed).to eql true
+          expect(@record.reload.reviewed).to be true
         end
         it 'redirects to staff dashboard' do
           submit
@@ -202,7 +202,7 @@ describe ApplicationRecordsController do
         end
         it 'marks record as reviewed' do
           submit
-          expect(@record.reload.reviewed).to eql true
+          expect(@record.reload.reviewed).to be true
         end
         it 'displays application_review message' do
           expect_flash_message :application_review
