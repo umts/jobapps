@@ -1,3 +1,5 @@
+require: ./lib/custom_cops/be_for_singleton.rb
+
 AllCops:
   RunRailsCops: true
   Exclude:

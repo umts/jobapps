@@ -5,6 +5,7 @@ require 'support/redirect_back_matcher'
 
 CodeClimate::TestReporter.start if ENV['CI']
 SimpleCov.start 'rails' do
+  add_filter '/lib/custom_cops'
   refuse_coverage_drop
 end
 
