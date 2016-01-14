@@ -12,4 +12,14 @@ describe 'deleting users' do
       .to change { User.count }.by(-1)
     expect(User.all).not_to include @user
   end
+
+  it 'redirects you to the staff dashboard' do
+    click_on "Remove #{@user.full_name}"
+    expect(page.current_url).to eql staff_dashboard_url
+  end
+
+  it 'has a flash message' do
+    click_on "Remove #{@user.full_name}"
+    expect(page).to have_selector '#message', text: 'User has been removed.'
+  end
 end
