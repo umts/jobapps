@@ -19,7 +19,8 @@ module RuboCop
 
         def on_send(node)
           return unless node.method_name == :to
-          return unless node.child_nodes.first.method_name == :expect
+          return unless node.child_nodes &&
+                        node.child_nodes.first.method_name == :expect
 
           matcher = node.child_nodes[1]
           return unless %i(eq eql).include? matcher.method_name
