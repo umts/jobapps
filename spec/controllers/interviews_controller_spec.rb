@@ -52,7 +52,6 @@ describe InterviewsController do
       end
       context 'with errors' do
         it 'redirects with errors stored in flash' do
-          # TODO: would it be better to double this specific object?
           expect_any_instance_of(Interview)
             .to receive(:update)
             .and_return(false)
@@ -116,7 +115,6 @@ describe InterviewsController do
       end
       context 'with errors' do
         it 'redirects with errors stored in flash' do
-          # TODO: would it be better to double this specific object?
           expect_any_instance_of(Interview)
             .to receive(:update)
             .and_return(false)

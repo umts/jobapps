@@ -46,4 +46,5 @@ group :development, :test do
   gem 'spring', require: false
   gem 'timecop'
   gem 'umts-custom-cops', require: false
+  gem 'umts-custom-matchers'
 end
