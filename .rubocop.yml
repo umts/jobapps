@@ -1,3 +1,5 @@
+require: umts-custom-cops
+
 AllCops:
   RunRailsCops: true
   Exclude:
