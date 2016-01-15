@@ -45,4 +45,5 @@ group :development, :test do
   gem 'simplecov'
   gem 'spring', require: false
   gem 'timecop'
+  gem 'umts-custom-matchers'
 end
