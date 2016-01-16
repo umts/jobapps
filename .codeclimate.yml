@@ -9,7 +9,6 @@ engines:
     enabled: true
   duplication:
     enabled: true
-    config:
       languages:
       - ruby
   eslint:
