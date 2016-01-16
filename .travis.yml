@@ -10,6 +10,6 @@ script:
   - bundle exec rake travis
 notifications:
   email:
-    on_success: change
+    on_success: never
     on_failure: change
     recipients: programmers@admin.umass.edu
