@@ -1,0 +1,31 @@
+AllCops:
+  RunRailsCops: true
+  Exclude:
+    - 'bin/**/*'
+    - 'config/**/*'
+    - 'db/**/*'
+    - 'vendor/**/*'
+
+# Relax complexity testing to codeclimate standards (roughly).
+Metrics/AbcSize:
+  Max: 20
+Metrics/MethodLength:
+  Max: 20
+
+# Don't worry about documentation for now.
+# In particular, this fails for things like
+# controller files, which seems unnecessary.
+Style/Documentation:
+  Enabled: false
+
+# Don't tell me not to write Hash.new. I wrote it
+# because I want it.
+Style/EmptyLiteral:
+  Enabled: false
+
+Style/GuardClause:
+  MinBodyLength: 10
+
+# Don't prefer fail to raise.
+Style/SignalException:
+  Enabled: false

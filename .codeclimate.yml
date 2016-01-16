@@ -18,6 +18,7 @@ engines:
     enabled: true
   rubocop:
     enabled: true
+    config: '.codeclimate-rubocop.yml'
 ratings:
   paths:
   - Gemfile.lock
