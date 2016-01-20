@@ -15,35 +15,6 @@ describe DepartmentsController do
         expect(response).to have_http_status :unauthorized
       end
     end
-    context 'staff' do
-      before :each do
-        when_current_user_is :staff
-      end
-      context 'invalid input' do
-        before :each do
-          @department = { name: '' }
-        end
-        it 'shows errors' do
-          expect { submit }.to redirect_back
-          expect(flash.keys).to include 'errors'
-        end
-      end
-      context 'valid input' do
-        it 'saves the department' do
-          expect { submit }
-            .to change { Department.count }
-            .by 1
-        end
-        it 'displays the department_create message' do
-          expect_flash_message :department_create
-          submit
-        end
-        it 'redirects to staff dashboard' do
-          submit
-          expect(response).to redirect_to staff_dashboard_path
-        end
-      end
-    end
   end
 
   describe 'DELETE #destroy' do
@@ -58,24 +29,6 @@ describe DepartmentsController do
         when_current_user_is :student
         submit
         expect(response).to have_http_status :unauthorized
-      end
-    end
-    context 'staff' do
-      before :each do
-        when_current_user_is :staff
-      end
-      it 'destroys the department' do
-        expect { submit }
-          .to change { Department.count }
-          .by(-1)
-      end
-      it 'shows the department_destroy message' do
-        expect_flash_message :department_destroy
-        submit
-      end
-      it 'redirects to staff dashboard' do
-        submit
-        expect(response).to redirect_to staff_dashboard_path
       end
     end
   end
@@ -94,15 +47,6 @@ describe DepartmentsController do
         expect(response).to have_http_status :unauthorized
       end
     end
-    context 'staff' do
-      before :each do
-        when_current_user_is :staff
-      end
-      it 'renders the template' do
-        submit
-        expect(response).to render_template 'edit'
-      end
-    end
   end
 
   describe 'GET #new' do
@@ -114,15 +58,6 @@ describe DepartmentsController do
         when_current_user_is :student
         submit
         expect(response).to have_http_status :unauthorized
-      end
-    end
-    context 'staff' do
-      before :each do
-        when_current_user_is :staff
-      end
-      it 'renders the template' do
-        submit
-        expect(response).to render_template 'new'
       end
     end
   end
@@ -140,32 +75,6 @@ describe DepartmentsController do
         when_current_user_is :student
         submit
         expect(response).to have_http_status :unauthorized
-      end
-    end
-    context 'staff' do
-      before :each do
-        when_current_user_is :staff
-      end
-      it 'updates the department' do
-        submit
-        expect(@department.reload.name).to eql 'Operations'
-      end
-      it 'shows the department_update message' do
-        expect_flash_message :department_update
-        submit
-      end
-      it 'redirects to staff dashboard' do
-        submit
-        expect(response).to redirect_to staff_dashboard_path
-      end
-      context 'invalid input' do
-        before :each do
-          @changes = { name: '' }
-        end
-        it 'flashes an error message' do
-          expect { submit }.to redirect_back
-          expect(flash.keys).to include 'errors'
-        end
       end
     end
   end
