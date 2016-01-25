@@ -1,0 +1,1 @@
+$('dept-select').multipleSelect();
