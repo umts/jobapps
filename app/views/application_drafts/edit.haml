@@ -17,8 +17,7 @@
     again? Click below to reactivate the application.
   .actions
     = button_to 'Activate application',
-        toggle_active_application_template_url(@draft.application_template)
-  
+          toggle_active_application_template_url(@draft.application_template)
 %h1.title Editing #{@draft.position.name_and_department}
 #flex_wrapper
   .form_column
