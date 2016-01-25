@@ -8,6 +8,19 @@ html {
   text-align: center;
 }
 
+.actions{
+  margin: 1em;
+  text-align: center;
+  input{
+    background: lightgray;
+    border: 1px solid gray;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0.5em 2em;
+  }
+}
+
 #flex_wrapper{
   display: flex;
   .form_column{
@@ -50,18 +63,6 @@ html {
       padding: .5em;
       border-bottom: 1px solid black;
       height: 5em;
-    }
-  }
-  .actions{
-    margin: 1em;
-    text-align: center; 
-    input{
-      background: lightgray;
-      border: 1px solid gray;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 16px;
-      padding: 0.5em 2em;
     }
   }
 }
