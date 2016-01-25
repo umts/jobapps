@@ -211,10 +211,9 @@ describe ApplicationDraftsController do
 
   describe 'POST #update' do
     before :each do
-      @commit = 'Save changes and continue editing'
       @draft = create :application_draft
-      @new_user = create :user
-      @draft_changes = { user_id: @new_user.id }
+      @draft_changes = { questions_attributes: 'some_attributes' }
+      @commit = 'Save changes and continue editing'
     end
     let :submit do
       post :update, id: @draft, draft: @draft_changes, commit: @commit
@@ -225,7 +224,7 @@ describe ApplicationDraftsController do
       end
       it 'does not allow access' do
         expect_any_instance_of(ApplicationDraft)
-          .not_to receive :update
+          .not_to receive :update_questions
         submit
         expect(response).to have_http_status :unauthorized
       end
@@ -233,16 +232,18 @@ describe ApplicationDraftsController do
     context 'staff' do
       before :each do
         when_current_user_is :staff
+        # Mock it out above so that we don't get errors
+        # from the original method being invoked
+        # on an incorrect data structure
+        expect_any_instance_of(ApplicationDraft)
+          .to receive(:update_questions)
+          .with 'some_attributes'
       end
       it 'assigns the correct draft variable' do
         submit
         expect(assigns.fetch :draft).to eql @draft
       end
       it 'updates the draft with the changes given' do
-        expect { submit }.to change { @draft.reload.user }.to @new_user
-      end
-      it 'updates questions' do
-        expect_any_instance_of(ApplicationDraft).to receive :update_questions
         submit
       end
       context 'saving changes' do
