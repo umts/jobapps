@@ -41,7 +41,7 @@ class ApplicationRecordsController < ApplicationController
     # instead of just start_date
     start_date = parse_american_date(params.require :records_start_date)
     end_date = parse_american_date(params.require :records_end_date)
-    @records = ApplicationRecord.in_department(params.permit[:department_ids])
+    @records = ApplicationRecord.in_department(params.require :department_ids)
                .between(start_date, end_date)
   end
 
