@@ -22,7 +22,7 @@ class ApplicationRecordsController < ApplicationController
   def csv_export
     start_date = parse_american_date(params.require :start_date)
     end_date = parse_american_date(params.require :end_date)
-    @records = ApplicationRecord.in_department(params.permit[:department_ids])
+    @records = ApplicationRecord.in_department(params.require[:department_ids])
                .between(start_date, end_date)
     render 'csv_export.csv.erb', layout: false
   end
@@ -30,10 +30,9 @@ class ApplicationRecordsController < ApplicationController
   def eeo_data
     start_date = parse_american_date(params.require :eeo_start_date)
     end_date = parse_american_date(params.require :eeo_end_date)
-    params.require :department_ids
     @records = ApplicationRecord.eeo_data(start_date,
                                           end_date,
-                                          params[:department_ids])
+                                          params.require[:department_ids])
   end
 
   def past_applications
