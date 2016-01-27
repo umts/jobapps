@@ -89,25 +89,47 @@ describe ApplicationRecordsController do
       when_current_user_is :staff
       @start_date = 1.week.ago.to_date
       @end_date = 1.week.since.to_date
-      @departments = create(:department).id
+      @department = create :department
     end
-    let :submit do
-      get :eeo_data,
-          eeo_start_date: @start_date.strftime('%m/%d/%Y'),
-          eeo_end_date: @end_date.strftime('%m/%d/%Y'),
-          department_ids: @departments
+    context 'submitting with the department ID param' do
+      let :submit do
+        get :eeo_data,
+            eeo_start_date: @start_date.strftime('%m/%d/%Y'),
+            eeo_end_date: @end_date.strftime('%m/%d/%Y'),
+            department_ids: @department.id
+      end
+      it 'calls AR#eeo_data with the correct parameters' do
+        expect(ApplicationRecord).to receive(:eeo_data)
+          .with(@start_date, @end_date, @department.id.to_s)
+          # to_s because params are a string
+        submit
+      end
+      it 'assigns the correct records to the instance variable' do
+        record = ApplicationRecord.none
+        expect(ApplicationRecord).to receive(:eeo_data).and_return record
+        submit
+        expect(assigns.fetch :records).to eql record
+      end
     end
-    it 'calls AR#eeo_data with the correct parameters' do
-      expect(ApplicationRecord).to receive(:eeo_data)
-        .with(@start_date, @end_date, @departments.to_s)
-      # to_s because it gets passed as a string in params
-      submit
-    end
-    it 'assigns the correct records to the instance variable' do
-      record = ApplicationRecord.none
-      expect(ApplicationRecord).to receive(:eeo_data).and_return record
-      submit
-      expect(assigns.fetch :records).to eql record
+    context 'submitting without the department ID param' do
+      let :submit do
+        get :eeo_data,
+            eeo_start_date: @start_date.strftime('%m/%d/%Y'),
+            eeo_end_date: @end_date.strftime('%m/%d/%Y')
+      end
+      # the third argument in this case is not from the params,
+      # it is a given array
+      it 'calls AR#eeo_data with the correct parameters' do
+        expect(ApplicationRecord).to receive(:eeo_data)
+          .with(@start_date, @end_date, Department.all.pluck(:id))
+        submit
+      end
+      it 'assigns the correct records to the instance variable' do
+        record = ApplicationRecord.none
+        expect(ApplicationRecord).to receive(:eeo_data).and_return record
+        submit
+        expect(assigns.fetch :records).to eql record
+      end
     end
   end
 

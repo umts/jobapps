@@ -1,0 +1,10 @@
+[x] Make department filter not required
+[x] Remove the jquery validate function
+[x] Make the default all-departments
+[x] Remove all classes needed for the jquery validate function
+[ ] Bundle
+[ ] run rspec
+[ ] make controller tests different
+[ ] run rake travis
+[ ] change all the forms on the dashboard to use the new JS 
+

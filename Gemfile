@@ -19,7 +19,6 @@ gem 'uglifier'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-wenzhixin--multiple-select'
-  gem 'rails-assets-jquery-validation'
 end
 group :production do
   gem 'exception_notification'

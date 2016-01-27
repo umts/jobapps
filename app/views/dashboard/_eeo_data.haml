@@ -4,7 +4,7 @@
     .note_item
       = select_tag :department_ids,
       options_from_collection_for_select(@departments, :id, :name),
-      class: 'dept_select', multiple: true
+      class: 'dept-select', multiple: true
     between
     = text_field_tag :eeo_start_date, '', class: 'datepicker', required: true
     and

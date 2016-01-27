@@ -22,17 +22,27 @@ class ApplicationRecordsController < ApplicationController
   def csv_export
     start_date = parse_american_date(params.require :start_date)
     end_date = parse_american_date(params.require :end_date)
-    @records = ApplicationRecord.in_department(params.require[:department_ids])
-               .between(start_date, end_date)
+    if params[:department_ids]
+      @records = ApplicationRecord.in_department(params[:department_ids])
+                 .between(start_date, end_date)
+    else
+      @records = ApplicationRecord.between(start_date, end_date)
+    end
     render 'csv_export.csv.erb', layout: false
   end
 
   def eeo_data
     start_date = parse_american_date(params.require :eeo_start_date)
     end_date = parse_american_date(params.require :eeo_end_date)
-    @records = ApplicationRecord.eeo_data(start_date,
-                                          end_date,
-                                          params.require[:department_ids])
+    if params[:department_ids]
+      @records = ApplicationRecord.eeo_data(start_date,
+                                            end_date,
+                                            params[:department_ids])
+    else
+      @records = ApplicationRecord.eeo_data(start_date,
+                                            end_date,
+                                            Department.all.pluck(:id))
+    end
   end
 
   def past_applications
@@ -40,8 +50,12 @@ class ApplicationRecordsController < ApplicationController
     # instead of just start_date
     start_date = parse_american_date(params.require :records_start_date)
     end_date = parse_american_date(params.require :records_end_date)
-    @records = ApplicationRecord.in_department(params.require :department_ids)
-               .between(start_date, end_date)
+    if params[:department_ids]
+      @records = ApplicationRecord.in_department(params[:department_ids])
+                                  .between(start_date, end_date)
+    else
+      @records = ApplicationRecord.between(start_date, end_date)
+    end
   end
 
   def review
