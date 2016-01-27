@@ -52,7 +52,7 @@ class ApplicationRecordsController < ApplicationController
     end_date = parse_american_date(params.require :records_end_date)
     if params[:department_ids]
       @records = ApplicationRecord.in_department(params[:department_ids])
-                                  .between(start_date, end_date)
+                 .between(start_date, end_date)
     else
       @records = ApplicationRecord.between(start_date, end_date)
     end

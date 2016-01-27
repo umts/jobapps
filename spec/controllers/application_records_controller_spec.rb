@@ -75,7 +75,8 @@ describe ApplicationRecordsController do
         submit
       end
       it 'calls AR#between with the correct parameters' do
-        expect(ApplicationRecord).to receive(:between).with @start_date, @end_date
+        expect(ApplicationRecord).to receive(:between)
+          .with @start_date, @end_date
         submit
       end
       it 'assigns the correct records to the instance variable' do
@@ -95,7 +96,8 @@ describe ApplicationRecordsController do
         submit
       end
       it 'calls AR#between with the correct parameters' do
-        expect(ApplicationRecord).to receive(:between).with @start_date, @end_date
+        expect(ApplicationRecord).to receive(:between)
+          .with @start_date, @end_date
         submit
       end
       it 'assigns the correct records to the instance variable' do
@@ -123,7 +125,7 @@ describe ApplicationRecordsController do
       it 'calls AR#eeo_data with the correct parameters' do
         expect(ApplicationRecord).to receive(:eeo_data)
           .with(@start_date, @end_date, @department.id.to_s)
-          # to_s because params are a string
+        # to_s because params are a string
         submit
       end
       it 'assigns the correct records to the instance variable' do
@@ -170,7 +172,8 @@ describe ApplicationRecordsController do
             department_ids: @department.id
       end
       it 'calls AR#between with the correct parameters' do
-        expect(ApplicationRecord).to receive(:between).with @start_date, @end_date
+        expect(ApplicationRecord).to receive(:between)
+          .with @start_date, @end_date
         submit
       end
       it 'calls AR#in_department with the correct parameters' do
@@ -194,7 +197,8 @@ describe ApplicationRecordsController do
             records_end_date: @end_date.strftime('%m/%d/%Y')
       end
       it 'calls AR#between with the correct parameters' do
-        expect(ApplicationRecord).to receive(:between).with @start_date, @end_date
+        expect(ApplicationRecord).to receive(:between)
+          .with @start_date, @end_date
         submit
       end
       it 'does not call AR#in_department' do
