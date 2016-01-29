@@ -91,8 +91,10 @@ describe ApplicationRecordsController do
             start_date: @start_date.strftime('%m/%d/%Y'),
             end_date: @end_date.strftime('%m/%d/%Y')
       end
-      it 'does not call AR#in_department' do
-        expect(ApplicationRecord).not_to receive(:in_department)
+      it 'calls AR#in_department with all department IDs' do
+        expect(ApplicationRecord).to receive(:in_department)
+          .with(Department.all.pluck(:id)).and_return ApplicationRecord.none
+        # must return something - another method is called on the results
         submit
       end
       it 'calls AR#between with the correct parameters' do
@@ -146,6 +148,7 @@ describe ApplicationRecordsController do
       it 'calls AR#eeo_data with the correct parameters' do
         expect(ApplicationRecord).to receive(:eeo_data)
           .with(@start_date, @end_date, Department.all.pluck(:id))
+          .and_return ApplicationRecord.none
         submit
       end
       it 'assigns the correct records to the instance variable' do
@@ -180,8 +183,7 @@ describe ApplicationRecordsController do
         expect(ApplicationRecord).to receive(:in_department)
           .with(@department.id.to_s)
           .and_return ApplicationRecord.none
-        # needs to return something, because we need to call
-        # other methods on what it returns later.
+        #  needs to return something - other methods are called on the results
         submit
       end
       it 'assigns the correct records to the instance variable' do
@@ -201,8 +203,10 @@ describe ApplicationRecordsController do
           .with @start_date, @end_date
         submit
       end
-      it 'does not call AR#in_department' do
-        expect(ApplicationRecord).not_to receive(:in_department)
+      it 'calls AR#in_department with all department IDs' do
+        # must return something, as a method is called on the results
+        expect(ApplicationRecord).to receive(:in_department)
+          .with(Department.all.pluck(:id)).and_return ApplicationRecord.none
         submit
       end
       it 'assigns the correct records to the instance variable' do
