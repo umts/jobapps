@@ -12,7 +12,8 @@ describe 'creating new positions' do
       within 'form.new_position' do
         fill_in_fields_for Position, attributes:
         { name: 'Our new shiny position',
-          default_interview_location: 'UMTS', department: department }
+          default_interview_location: 'UMTS',
+          department: department }
       end
     end
     it 'creates a new position with the proper attributes' do
