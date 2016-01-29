@@ -10,8 +10,9 @@ describe 'creating new positions' do
   context 'required fields are filled in' do
     before :each do
       within 'form.new_position' do
-        fill_in_fields_for Position, attributes: {name: 'Our new shiny position',
-          default_interview_location: 'UMTS', department: department}
+        fill_in_fields_for Position, attributes:
+        { name: 'Our new shiny position',
+          default_interview_location: 'UMTS', department: department }
       end
     end
     it 'creates a new position with the proper attributes' do
@@ -35,7 +36,8 @@ describe 'creating new positions' do
   context 'missing required field' do
     before :each do
       within 'form.new_position' do
-        fill_in_fields_for Position, attributes: {name: '', department: department}
+        fill_in_fields_for Position,
+                           attributes: { name: '', department: department }
       end
     end
     it 'does not add anything' do
