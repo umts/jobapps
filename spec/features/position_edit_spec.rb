@@ -8,6 +8,7 @@ describe 'editing positions' do
       default_interview_location: 'UMTS' }
   end
   let!(:position) { create :position, base_attributes }
+  let(:save) { click_on 'Save changes' }
   before :each do
     when_current_user_is :staff, integration: true
     visit edit_position_path(position)
@@ -15,18 +16,18 @@ describe 'editing positions' do
   context 'required fields are filled in' do
     before :each do
       within 'form.edit_position' do
-        fill_in_fields_for Position, attributes: { name: 'The name changed!' }
+        fill_in_fields_for Position, attributes: {name: 'The name changed!'}
       end
     end
     it 'changes the desired field' do
-      expect { click_on 'Save changes' }.to change { position.reload.name }
+      expect { save }.to change { position.reload.name }
     end
     it 'redirects to the dashboard' do
-      click_on 'Save changes'
+      save
       expect(page.current_url).to eql staff_dashboard_url
     end
     it 'renders a positive flash message' do
-      click_on 'Save changes'
+      save
       expect(page).to have_selector '#message',
                                     text: 'Position has been updated'
     end
@@ -35,18 +36,18 @@ describe 'editing positions' do
   context 'required fields are not filled in' do
     before :each do
       within 'form.edit_position' do
-        fill_in_fields_for Position, attributes: { name: '' }
+        fill_in_fields_for Position, attributes: {name: ''}
       end
     end
     it 'changes nothing' do
-      expect { click_on 'Save changes' }.not_to change { position.reload.name }
+      expect { save }.not_to change { position.reload.name }
     end
     it 'redirects to the same page' do
-      click_on 'Save changes'
+      save
       expect(page.current_url).to eql edit_position_url(position)
     end
     it 'renders a negative flash message' do
-      click_on 'Save changes'
+      save
       expect(page).to have_selector '#errors', text: 'Name can\'t be blank'
     end
   end
