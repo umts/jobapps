@@ -37,7 +37,6 @@ describe 'creating new positions' do
     before :each do
       within 'form.new_position' do
         fill_in 'Name', with: ''
-        fill_in 'Default interview location', with: 'UMTS'
         select(department.name, from: 'Department')
       end
     end
