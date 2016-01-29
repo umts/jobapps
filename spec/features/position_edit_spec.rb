@@ -19,8 +19,7 @@ describe 'editing positions' do
       end
     end
     it 'changes the desired field' do
-      click_on 'Save changes'
-      expect(position.reload.name).to eql 'The name changed!'
+      expect{click_on 'Save changes'}.to change{position.reload.name}
     end
     it 'redirects to the dashboard' do
       click_on 'Save changes'
@@ -40,8 +39,7 @@ describe 'editing positions' do
       end
     end
     it 'changes nothing' do
-      click_on 'Save changes'
-      expect(position.reload.name).to eql 'A position'
+      expect{click_on 'Save changes'}.not_to change{position.reload.name}
     end
     it 'redirects to the same page' do
       click_on 'Save changes'

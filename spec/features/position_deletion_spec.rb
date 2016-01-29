@@ -1,4 +1,5 @@
 require 'rails_helper'
+
 describe 'deleting a position' do
   let!(:department) { create :department }
   let!(:base_attributes) do
