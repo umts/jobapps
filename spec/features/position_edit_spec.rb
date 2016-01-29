@@ -16,7 +16,7 @@ describe 'editing positions' do
   context 'required fields are filled in' do
     before :each do
       within 'form.edit_position' do
-        fill_in_fields_for Position, attributes: {name: 'The name changed!'}
+        fill_in_fields_for Position, attributes: { name: 'The name changed!' }
       end
     end
     it 'changes the desired field' do
@@ -36,7 +36,7 @@ describe 'editing positions' do
   context 'required fields are not filled in' do
     before :each do
       within 'form.edit_position' do
-        fill_in_fields_for Position, attributes: {name: ''}
+        fill_in_fields_for Position, attributes: { name: '' }
       end
     end
     it 'changes nothing' do

@@ -8,7 +8,11 @@ describe 'deleting a position' do
       default_interview_location: 'UMTS' }
   end
   let!(:position) { create :position, base_attributes }
-  let(:delete) { click_on "Remove #{position.name} (#{position.department.name})" }
+  let(:delete) do
+    dept_name = position.department.name
+    pos_name = position.name
+    click_on "Remove #{pos_name} (#{dept_name})"
+  end
   before :each do
     when_current_user_is :staff, integration: true
     visit edit_position_path(position)
