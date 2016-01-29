@@ -1,5 +1,5 @@
 FactoryGirl.define do
   factory :department do
-    name 'Bus'
+    sequence(:name) { |n| "Name #{n}" }
   end
 end

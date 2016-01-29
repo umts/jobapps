@@ -5,6 +5,6 @@ FactoryGirl.define do
     completed false
     hired false
     location 'Location'
-    scheduled DateTime.now
+    scheduled Time.zone.now
   end
 end

@@ -22,11 +22,11 @@ describe User do
   describe 'student?' do
     it 'returns true if user is not staff' do
       user = create :user, staff: false
-      expect(user.student?).to eql true
+      expect(user).to be_student
     end
     it 'returns false if user is staff' do
       user = create :user, staff: true
-      expect(user.student?).to eql false
+      expect(user).not_to be_student
     end
   end
 end

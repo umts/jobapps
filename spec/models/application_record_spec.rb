@@ -156,11 +156,11 @@ describe ApplicationRecord do
   describe 'pending?' do
     it 'returns true if record has not been reviewed' do
       record = create :application_record, reviewed: false
-      expect(record.pending?).to eql true
+      expect(record).to be_pending
     end
     it 'returns false if record has been reviewed' do
       record = create :application_record, reviewed: true
-      expect(record.pending?).to eql false
+      expect(record).not_to be_pending
     end
   end
 
@@ -257,7 +257,7 @@ describe ApplicationRecord do
                                     ethnicity: 'Klingon',
                                     gender: 'Female'
       end
-      expect(call[:all].count).to eql 1
+      expect(call[:all].count).to be 1
     end
     it 'counts records containing ethnicities not from ethnicity_options' do
       create :application_record, position: @position,

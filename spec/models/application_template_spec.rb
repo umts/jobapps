@@ -3,9 +3,7 @@ require 'rails_helper'
 describe ApplicationTemplate do
   describe 'create_draft' do
     before :each do
-      @application_template = create :application_template
-      create :question, application_template: @application_template
-      create :question, application_template: @application_template
+      @application_template = create :application_template, :with_questions
       @user = create :user
     end
     let :call do
@@ -18,7 +16,7 @@ describe ApplicationTemplate do
                user: @user
       end
       it 'returns false' do
-        expect(call).to eql false
+        expect(call).to be false
       end
     end
     context 'no pre-existing draft' do
@@ -66,12 +64,12 @@ describe ApplicationTemplate do
       @application_template.draft_belonging_to? @user
     end
     it 'returns false if a draft does not exist for the user in question' do
-      expect(call).to eql false
+      expect(call).to be false
     end
     it 'returns true if a draft does exist for the user in question' do
       create :application_draft, user: @user,
                                  application_template: @application_template
-      expect(call).to eql true
+      expect(call).to be true
     end
   end
 end

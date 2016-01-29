@@ -57,32 +57,34 @@ describe Question do
 
     describe 'date?' do
       it 'returns true if data type is date' do
-        expect(@date.date?).to eql true
+        expect(@date).to be_date
       end
       it 'returns false if data type is not date' do
-        expect(@explanation.date?).to eql false
+        expect(@explanation).not_to be_date
       end
     end
 
     describe 'explanation?' do
       it 'returns true if data type is explanation' do
-        expect(@explanation.explanation?).to eql true
+        expect(@explanation).to be_explanation
       end
       it 'returns false if data type is not explanation' do
-        expect(@heading.explanation?).to eql false
+        expect(@heading).not_to be_explanation
       end
     end
 
     describe 'heading?' do
       it 'returns true if data type is heading' do
-        expect(@heading.heading?).to eql true
+        expect(@heading).to be_heading
       end
       it 'returns false if data type is not heading' do
-        expect(@date.heading?).to eql false
+        expect(@date).not_to be_heading
       end
     end
   end
 
+  # I prefer not to write `to be takes_placeholder`
+  # rubocop:disable UmtsCustomCops/PredicateMethodMatcher
   describe 'takes_placeholder?' do
     before :each do
       @draft = create :application_draft
@@ -91,14 +93,14 @@ describe Question do
       %w(date text).each do |data_type|
         question = create :question, application_draft: @draft,
                                      data_type: data_type
-        expect(question.takes_placeholder?).to eql true
+        expect(question.takes_placeholder?).to be true
       end
     end
     it 'returns false for explanation, heading, number, or yes/no' do
       %w(explanation heading number yes/no).each do |data_type|
         question = create :question, application_draft: @draft,
                                      data_type: data_type
-        expect(question.takes_placeholder?).to eql false
+        expect(question.takes_placeholder?).to be false
       end
     end
   end

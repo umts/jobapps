@@ -33,8 +33,7 @@ class ApplicationDraftsController < ApplicationController
   end
 
   def update
-    draft_params = params.require(:draft).permit!
-    @draft.update draft_params.except(:questions_attributes)
+    draft_params = params.require(:draft).permit :questions_attributes
     @draft.update_questions draft_params[:questions_attributes]
     @draft.reload # since questions have been updated
     case params.require :commit

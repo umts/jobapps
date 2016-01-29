@@ -13,7 +13,6 @@ gem 'jquery-ui-rails'
 gem 'mysql'
 gem 'rails', '~> 4.2'
 gem 'redcarpet'
-gem 'rubocop'
 gem 'sass-rails'
 gem 'snappconfig'
 gem 'uglifier'
@@ -42,7 +41,10 @@ group :development, :test do
   gem 'rack_session_access'
   gem 'rspec-html-matchers'
   gem 'rspec-rails'
+  gem 'rubocop'
   gem 'simplecov'
   gem 'spring', require: false
   gem 'timecop'
+  gem 'umts-custom-cops', require: false
+  gem 'umts-custom-matchers'
 end

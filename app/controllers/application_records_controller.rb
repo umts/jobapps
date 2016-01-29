@@ -74,7 +74,9 @@ class ApplicationRecordsController < ApplicationController
   private
 
   def create_user
-    user_attributes = params.require(:user).permit!
+    user_attributes = params.require(:user).permit(:first_name,
+                                                   :last_name,
+                                                   :email)
     user_attributes.merge! spire: session[:spire], staff: false
     session[:user_id] = User.create(user_attributes).id
     set_current_user
