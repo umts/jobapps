@@ -48,7 +48,7 @@ describe 'editing positions' do
     end
     it 'renders a negative flash message' do
       save
-      expect(page).to have_selector '#errors', text: 'Name can\'t be blank'
+      expect(page).to have_selector '#errors', text: "Name can't be blank"
     end
   end
 end
