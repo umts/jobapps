@@ -9,6 +9,8 @@ Rails.application.routes.draw do
       post :toggle_active
     end
   end
+  get '/applications/:id',    to: 'application_templates#show', defaults: { id_path: true }
+  get '/applications/:department/:position', to: 'application_templates#show', defaults: { id_path: false }
 
   resources :application_drafts, as: :drafts, except: [:create, :index] do
     member do
