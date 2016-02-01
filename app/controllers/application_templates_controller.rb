@@ -27,16 +27,24 @@ class ApplicationTemplatesController < ApplicationController
   private
 
   def find_template
-    unless params[:specific_path]
-      params.require :id
-      @template = ApplicationTemplate.find params[:id]
-    else
+    if params[:specific_path]
       params.require :department
       params.require :position
-      #I'm sure there's a more succinct way to do this with a command other than .find that returns AR::RNF if nothing is found
-      @template = ApplicationTemplate.find do |apptem| 
-        apptem.department.name == params[:department] && apptem.position.name == params[:position]
-      end || raise(ActiveRecord::RecordNotFound)
+      find_template_by_path
+    else
+      params.require :id
+      find_template_by_id
+    end
+  end
+
+  def find_template_by_id
+    @template = ApplicationTemplate.find params[:id]
+  end
+
+  def find_template_by_path
+    @template = ApplicationTemplate.find do |apptem|
+      apptem.department.name.casecmp(params[:department]) &&
+      apptem.position.name.casecmp(params[:position])
     end
   end
 end

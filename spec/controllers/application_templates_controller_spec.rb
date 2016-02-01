@@ -89,23 +89,61 @@ describe ApplicationTemplatesController do
 
   describe 'GET #show' do
     before :each do
-      @template = create :application_template
+      department = create :department, name: 'Bus'
+      position = create :position, name: 'Operator', department: department
+      @template = create :application_template, position: position
     end
-    let :submit do
-      get :show, id: @template.id
-    end
-    context 'no user' do
-      it 'allows access' do
-        when_current_user_is nil
-        submit
-        expect(response).not_to have_http_status :unauthorized
+    context 'using id route' do
+      let :submit do
+        get :show, id: @template.id
+      end
+      context 'no user' do
+        it 'allows access' do
+          when_current_user_is nil
+          submit
+          expect(response).not_to have_http_status :unauthorized
+        end
+      end
+      context 'student' do
+        it 'allows access' do
+          when_current_user_is :student
+          submit
+          expect(response).not_to have_http_status :unauthorized
+        end
+      end
+      context 'staff' do
+        it 'allows access' do
+          when_current_user_is :staff
+          submit
+          expect(response).not_to have_http_status :unauthorized
+        end
       end
     end
-    context 'student' do
-      it 'allows access' do
-        when_current_user_is :student
-        submit
-        expect(response).not_to have_http_status :unauthorized
+
+    context 'using specific route' do
+      let :submit do
+        get :show, department: 'Bus', position: 'Operator', specific_path: true
+      end
+      context 'no user' do
+        it 'allows access' do
+          when_current_user_is nil
+          submit
+          expect(response).not_to have_http_status :unauthorized
+        end
+      end
+      context 'student' do
+        it 'allows access' do
+          when_current_user_is :student
+          submit
+          expect(response).not_to have_http_status :unauthorized
+        end
+      end
+      context 'staff' do
+        it 'allows access' do
+          when_current_user_is :staff
+          submit
+          expect(response).not_to have_http_status :unauthorized
+        end
       end
     end
   end
