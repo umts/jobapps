@@ -27,7 +27,7 @@ class ApplicationTemplatesController < ApplicationController
   private
 
   def find_template
-    if params[:id_path]
+    unless params[:specific_path]
       params.require :id
       @template = ApplicationTemplate.find params[:id]
     else
