@@ -25,8 +25,8 @@ describe 'creating users' do
         .to change { User.count }.by 1
     end
     it 'has a flash message' do
+      expect_flash_message(:user_create)
       click_on 'Save changes'
-      expect(page).to have_selector '#message', text: 'User has been created.'
     end
   end
 
