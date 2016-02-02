@@ -28,9 +28,8 @@ describe 'editing departments' do
     end
 
     it 'gives a flash message' do
+      expect_flash_message(:department_update)
       click_on 'Save changes'
-      expect(page).to have_selector '#message',
-                                    text: 'Department has been updated.'
     end
   end
 

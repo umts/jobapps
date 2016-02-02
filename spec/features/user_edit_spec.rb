@@ -29,8 +29,8 @@ describe 'edit users' do
     end
 
     it 'gives a flash message' do
+      expect_flash_message(:user_update)
       click_on 'Save changes'
-      expect(page).to have_selector '#message', text: 'User has been updated.'
     end
   end
 
