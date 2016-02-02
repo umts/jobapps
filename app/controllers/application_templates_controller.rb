@@ -27,24 +27,11 @@ class ApplicationTemplatesController < ApplicationController
   private
 
   def find_template
-    if params[:specific_path]
-      params.require :department
-      params.require :position
-      find_template_by_path
-    else
-      params.require :id
-      find_template_by_id
-    end
-  end
-
-  def find_template_by_id
-    @template = ApplicationTemplate.find params[:id]
-  end
-
-  def find_template_by_path
+    params.require :department
+    params.require :position
     @template = ApplicationTemplate.find do |apptem|
-      apptem.department.name.casecmp(params[:department]) &&
-      apptem.position.name.casecmp(params[:position])
-    end
+      apptem.department.name.casecmp(params[:department]).zero? &&
+      apptem.position.name.casecmp(params[:position]).zero?
+    end || raise(ActiveRecord::RecordNotFound)
   end
 end

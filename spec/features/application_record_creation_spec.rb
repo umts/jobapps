@@ -4,7 +4,14 @@ describe 'submitting application records' do
   # we need to create a question in this application template,
   # otherwise there is nothing to fill out and so the student will be
   # told to go away
-  let!(:application_template) { create :application_template, :with_questions }
+  before :each do
+    dept = create(:department)
+    position = create(:position, department: dept)
+    @application_template =
+      create :application_template,
+             :with_questions,
+             position: position
+  end
   context 'student has been authenticated and has a user object' do
     let(:student) do
       create :user, :student,
@@ -14,7 +21,10 @@ describe 'submitting application records' do
     end
     before :each do
       when_current_user_is student, integration: true
-      visit application_template_path(application_template)
+      visit application_show_path(
+        position: @application_template.position.name,
+        department: @application_template.department.name
+      )
     end
     it 'automatically fills in the user fields' do
       expect(find_field('First name').value).to eql student.first_name
@@ -27,9 +37,12 @@ describe 'submitting application records' do
     before :each do
       when_current_user_is nil, integration: true
       page.set_rack_session spire: spire
-      visit application_template_path(application_template)
+      visit application_show_path(
+        position: @application_template.position.name,
+        department: @application_template.department.name
+      )
     end
-    it 'creates a user object based on how the user fields are filled in' do
+    it 'creates a user object based on how the user fields are filled in' do #
       user_attributes = { first_name: 'John',
                           last_name: 'Smith',
                           email: 'johnsmith@umass.edu',

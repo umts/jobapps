@@ -17,7 +17,10 @@ describe 'dashboard/_application_templates.haml' do
     end
     it 'contains a link to view the application template' do
       render
-      action_path = application_template_path @template
+      action_path = application_show_path(
+        department: @department.name,
+        position: @position.name
+      )
       expect(rendered).to have_tag 'a', with: { href: action_path }
     end
     context 'there are no existing drafts for that application' do
