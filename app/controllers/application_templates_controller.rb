@@ -27,11 +27,8 @@ class ApplicationTemplatesController < ApplicationController
   private
 
   def find_template
-    params.require :department
-    params.require :position
-    @template = ApplicationTemplate.find do |apptem|
-      apptem.department.name.casecmp(params[:department]).zero? &&
-      apptem.position.name.casecmp(params[:position]).zero?
-    end || raise(ActiveRecord::RecordNotFound)
+    dept      = Department.by_name params.require(:department)
+    position  = Position.by_name_and_department params.require(:position), dept
+    @template = position.application_template
   end
 end

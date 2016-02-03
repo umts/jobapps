@@ -10,7 +10,8 @@
             %ul
               - if @templates.key? position
                 - template = @templates[position].first
-                %li= template_link('View application', department, position)
+                %li= link_to 'View application',
+                    application_show_path(department.name, position.name)
                 %li
                   - if template.draft_belonging_to? @current_user
                     - draft = template.draft_belonging_to @current_user
