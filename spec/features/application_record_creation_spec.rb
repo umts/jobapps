@@ -5,11 +5,8 @@ describe 'submitting application records' do
   # otherwise there is nothing to fill out and so the student will be
   # told to go away
   let!(:application_template) do
-    dept = create(:department)
-    position = create(:position, department: dept)
     create :application_template,
-           :with_questions,
-           position: position
+           :with_questions
   end
   context 'student has been authenticated and has a user object' do
     let(:student) do
