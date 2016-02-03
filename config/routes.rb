@@ -31,8 +31,6 @@ Rails.application.routes.draw do
     end
   end
 
-  get '/bus', to: 'application_templates#bus', as: :bus_application
-
   get '/dashboard/main',    to: 'dashboard#main',    as: :main_dashboard
   get '/dashboard/staff',   to: 'dashboard#staff',   as: :staff_dashboard
   get '/dashboard/student', to: 'dashboard#student', as: :student_dashboard

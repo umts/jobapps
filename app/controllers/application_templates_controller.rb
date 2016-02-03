@@ -1,13 +1,6 @@
 class ApplicationTemplatesController < ApplicationController
-  skip_before_action :access_control, only: [:bus, :show]
-  before_action :find_template, except: [:bus, :new]
-
-  def bus
-    department = Department.find_by name: 'Bus'
-    position = Position.find_by department: department, name: 'Operator'
-    @template = ApplicationTemplate.find_by position: position
-    render 'show'
-  end
+  skip_before_action :access_control, only: :show
+  before_action :find_template, except: :new
 
   def new
     position = Position.find(params.require :position_id)
@@ -20,7 +13,7 @@ class ApplicationTemplatesController < ApplicationController
   end
 
   def toggle_active
-    @template.toggle!(:active)
+    @template.toggle! :active
     redirect_to :back
   end
 
