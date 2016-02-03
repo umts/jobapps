@@ -15,7 +15,7 @@
  *= require_self
  *= require jquery-ui.min
  *= require jquery.datetimepicker
- *= require sumoselect
+ *= require multiple-select
  */
 
 body{

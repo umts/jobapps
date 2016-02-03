@@ -59,28 +59,54 @@ describe ApplicationRecordsController do
       @end_date = Time.zone.today
       @department = create :department
     end
-    let :submit do
-      get :csv_export,
-          start_date: @start_date.strftime('%m/%d/%Y'),
-          end_date: @end_date.strftime('%m/%d/%Y'),
-          department_ids: @department.id
+    context 'submitting with the department ID param' do
+      let :submit do
+        get :csv_export,
+            start_date: @start_date.strftime('%m/%d/%Y'),
+            end_date: @end_date.strftime('%m/%d/%Y'),
+            department_ids: @department.id
+      end
+      it 'calls AR#in_department with the correct parameters' do
+        expect(ApplicationRecord).to receive(:in_department)
+          .with(@department.id.to_s)
+          .and_return ApplicationRecord.none
+        # Needs to return something, because we must call
+        # other methods on what it returns later.
+        submit
+      end
+      it 'calls AR#between with the correct parameters' do
+        expect(ApplicationRecord).to receive(:between)
+          .with @start_date, @end_date
+        submit
+      end
+      it 'assigns the correct records to the instance variable' do
+        expect(ApplicationRecord).to receive(:between).and_return 'whatever'
+        submit
+        expect(assigns.fetch :records).to eql 'whatever'
+      end
     end
-    it 'calls AR#in_department with the correct parameters' do
-      expect(ApplicationRecord).to receive(:in_department)
-        .with(@department.id.to_s)
-        .and_return ApplicationRecord.none
-      # Needs to return something, because we must call
-      # other methods on what it returns later.
-      submit
-    end
-    it 'calls AR#between with the correct parameters' do
-      expect(ApplicationRecord).to receive(:between).with @start_date, @end_date
-      submit
-    end
-    it 'assigns the correct records to the instance variable' do
-      expect(ApplicationRecord).to receive(:between).and_return 'whatever'
-      submit
-      expect(assigns.fetch :records).to eql 'whatever'
+    context 'submitting without the department ID param' do
+      let :submit do
+        get :csv_export,
+            start_date: @start_date.strftime('%m/%d/%Y'),
+            end_date: @end_date.strftime('%m/%d/%Y')
+      end
+      it 'calls AR#in_department with all department IDs' do
+        expect(ApplicationRecord).to receive(:in_department)
+          .with(Department.all.pluck(:id)).and_return ApplicationRecord.none
+        # must return something - another method is called on the results
+        submit
+      end
+      it 'calls AR#between with the correct parameters' do
+        expect(ApplicationRecord).to receive(:between)
+          .with @start_date, @end_date
+        submit
+      end
+      it 'assigns the correct records to the instance variable' do
+        expect(ApplicationRecord).to receive(:between).and_return 'whatever'
+        submit
+        expect(assigns.fetch :records).to eql 'whatever'
+      end
     end
   end
 
@@ -89,25 +115,48 @@ describe ApplicationRecordsController do
       when_current_user_is :staff
       @start_date = 1.week.ago.to_date
       @end_date = 1.week.since.to_date
-      @departments = create(:department).id
+      @department = create :department
     end
-    let :submit do
-      get :eeo_data,
-          eeo_start_date: @start_date.strftime('%m/%d/%Y'),
-          eeo_end_date: @end_date.strftime('%m/%d/%Y'),
-          department_ids: @departments
+    context 'submitting with the department ID param' do
+      let :submit do
+        get :eeo_data,
+            eeo_start_date: @start_date.strftime('%m/%d/%Y'),
+            eeo_end_date: @end_date.strftime('%m/%d/%Y'),
+            department_ids: @department.id
+      end
+      it 'calls AR#eeo_data with the correct parameters' do
+        expect(ApplicationRecord).to receive(:eeo_data)
+          .with(@start_date, @end_date, @department.id.to_s)
+        # to_s because params are a string
+        submit
+      end
+      it 'assigns the correct records to the instance variable' do
+        record = ApplicationRecord.none
+        expect(ApplicationRecord).to receive(:eeo_data).and_return record
+        submit
+        expect(assigns.fetch :records).to eql record
+      end
     end
-    it 'calls AR#eeo_data with the correct parameters' do
-      expect(ApplicationRecord).to receive(:eeo_data)
-        .with(@start_date, @end_date, @departments.to_s)
-      # to_s because it gets passed as a string in params
-      submit
-    end
-    it 'assigns the correct records to the instance variable' do
-      record = ApplicationRecord.none
-      expect(ApplicationRecord).to receive(:eeo_data).and_return record
-      submit
-      expect(assigns.fetch :records).to eql record
+    context 'submitting without the department ID param' do
+      let :submit do
+        get :eeo_data,
+            eeo_start_date: @start_date.strftime('%m/%d/%Y'),
+            eeo_end_date: @end_date.strftime('%m/%d/%Y')
+      end
+      # the third argument in this case is not from the params,
+      # it is a given array
+      it 'calls AR#eeo_data with the correct parameters' do
+        expect(ApplicationRecord).to receive(:eeo_data)
+          .with(@start_date, @end_date, Department.all.pluck(:id))
+          .and_return ApplicationRecord.none
+        submit
+      end
+      it 'assigns the correct records to the instance variable' do
+        record = ApplicationRecord.none
+        expect(ApplicationRecord).to receive(:eeo_data).and_return record
+        submit
+        expect(assigns.fetch :records).to eql record
+      end
     end
   end
 
@@ -116,30 +165,55 @@ describe ApplicationRecordsController do
       when_current_user_is :staff
       @start_date = 1.week.ago.to_date
       @end_date = Time.zone.today
-      @departments = create(:department).id
+      @department = create :department
     end
-    let :submit do
-      get :past_applications,
-          records_start_date: @start_date.strftime('%m/%d/%Y'),
-          records_end_date: @end_date.strftime('%m/%d/%Y'),
-          department_ids: @departments
+    context 'submitting with the department ID param' do
+      let :submit do
+        get :past_applications,
+            records_start_date: @start_date.strftime('%m/%d/%Y'),
+            records_end_date: @end_date.strftime('%m/%d/%Y'),
+            department_ids: @department.id
+      end
+      it 'calls AR#between with the correct parameters' do
+        expect(ApplicationRecord).to receive(:between)
+          .with @start_date, @end_date
+        submit
+      end
+      it 'calls AR#in_department with the correct parameters' do
+        expect(ApplicationRecord).to receive(:in_department)
+          .with(@department.id.to_s)
+          .and_return ApplicationRecord.none
+        #  needs to return something - other methods are called on the results
+        submit
+      end
+      it 'assigns the correct records to the instance variable' do
+        expect(ApplicationRecord).to receive(:between).and_return 'whatever'
+        submit
+        expect(assigns.fetch :records).to eql 'whatever'
+      end
     end
-    it 'calls AR#between with the correct parameters' do
-      expect(ApplicationRecord).to receive(:between).with @start_date, @end_date
-      submit
-    end
-    it 'calls AR#in_department with the correct parameters' do
-      expect(ApplicationRecord).to receive(:in_department)
-        .with(@departments.to_s)
-        .and_return ApplicationRecord.none
-      # needs to return something, because we need to call
-      # other methods on what it returns later.
-      submit
-    end
-    it 'assigns the correct records to the instance variable' do
-      expect(ApplicationRecord).to receive(:between).and_return 'whatever'
-      submit
-      expect(assigns.fetch :records).to eql 'whatever'
+    context 'submitting without the department ID param' do
+      let :submit do
+        get :past_applications,
+            records_start_date: @start_date.strftime('%m/%d/%Y'),
+            records_end_date: @end_date.strftime('%m/%d/%Y')
+      end
+      it 'calls AR#between with the correct parameters' do
+        expect(ApplicationRecord).to receive(:between)
+          .with @start_date, @end_date
+        submit
+      end
+      it 'calls AR#in_department with all department IDs' do
+        # must return something, as a method is called on the results
+        expect(ApplicationRecord).to receive(:in_department)
+          .with(Department.all.pluck(:id)).and_return ApplicationRecord.none
+        submit
+      end
+      it 'assigns the correct records to the instance variable' do
+        expect(ApplicationRecord).to receive(:between).and_return 'whatever'
+        submit
+        expect(assigns.fetch :records).to eql 'whatever'
+      end
     end
   end
 
