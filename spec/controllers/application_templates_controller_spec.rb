@@ -1,57 +1,6 @@
 require 'rails_helper'
 
 describe ApplicationTemplatesController do
-  describe 'GET #bus' do
-    before :each do
-      when_current_user_is nil
-      department = create :department, name: 'Bus'
-      position = create :position, department: department, name: 'Operator'
-      @template = create :application_template, position: position
-    end
-    let :submit do
-      get :bus
-    end
-    context 'no user' do
-      before :each do
-        when_current_user_is nil
-      end
-      it 'assigns the correct template to the template instance variable' do
-        submit
-        expect(assigns.fetch :template).to eql @template
-      end
-      it 'renders the show template' do
-        submit
-        expect(response).to render_template 'show'
-      end
-    end
-    context 'student' do
-      before :each do
-        when_current_user_is :student
-      end
-      it 'assigns the correct template to the template instance variable' do
-        submit
-        expect(assigns.fetch :template).to eql @template
-      end
-      it 'renders the show template' do
-        submit
-        expect(response).to render_template 'show'
-      end
-    end
-    context 'staff' do
-      before :each do
-        when_current_user_is :staff
-      end
-      it 'assigns the correct template to the template instance variable' do
-        submit
-        expect(assigns.fetch :template).to eql @template
-      end
-      it 'renders the show template' do
-        submit
-        expect(response).to render_template 'show'
-      end
-    end
-  end
-
   describe 'GET #new' do
     context 'staff' do
       before :each do
@@ -89,33 +38,49 @@ describe ApplicationTemplatesController do
 
   describe 'GET #show' do
     before :each do
-      @template = create :application_template
+      department = create :department, name: 'Bus'
+      position = create :position, name: 'Operator', department: department
+      @template = create :application_template, position: position
     end
-    let :submit do
-      get :show, id: @template.id
-    end
-    context 'no user' do
-      it 'allows access' do
-        when_current_user_is nil
-        submit
-        expect(response).not_to have_http_status :unauthorized
+    context 'using specific route' do
+      let :submit do
+        get :show, department: 'Bus', position: 'Operator', specific_path: true
       end
-    end
-    context 'student' do
-      it 'allows access' do
-        when_current_user_is :student
-        submit
-        expect(response).not_to have_http_status :unauthorized
+      context 'no user' do
+        it 'allows access' do
+          when_current_user_is nil
+          submit
+          expect(response).not_to have_http_status :unauthorized
+        end
+      end
+      context 'student' do
+        it 'allows access' do
+          when_current_user_is :student
+          submit
+          expect(response).not_to have_http_status :unauthorized
+        end
+      end
+      context 'staff' do
+        it 'allows access' do
+          when_current_user_is :staff
+          submit
+          expect(response).not_to have_http_status :unauthorized
+        end
       end
     end
   end
 
   describe 'POST #toggle_active' do
     before :each do
-      @template = create :application_template
+      department = create :department, name: 'Bus'
+      position = create :position, department: department, name: 'Operator'
+      @template = create :application_template, position: position
     end
     let :submit do
-      post :toggle_active, id: @template.id
+      post :toggle_active,
+           id: @template.id,
+           position: @template.position.name,
+           department: @template.department.name
     end
     context 'student' do
       it 'does not allow access' do
@@ -130,18 +95,12 @@ describe ApplicationTemplatesController do
         request.env['HTTP_REFERER'] = 'http://test.host/redirect'
       end
       context 'button to activate application template has been pressed' do
-        let :submit do
-          post :toggle_active, id: @template.id
-        end
         it 'marks the application as active' do
           @template.update active: false
           expect { submit }.to change { @template.reload.active? }
         end
       end
       context 'button to deactivate application template has been pressed' do
-        let :submit do
-          post :toggle_active, id: @template.id
-        end
         it 'marks the application as inactive' do
           @template.update active: true
           expect { submit }.to change { @template.reload.active? }
