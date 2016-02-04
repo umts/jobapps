@@ -4,7 +4,7 @@
     text-align: center;
   }
 
-  .heading{
+  .header{
     background:  #ece0e0;
     font-size:   20px;
     font-weight: bold;
@@ -25,15 +25,18 @@
   .field{
     margin: 1em;
     .label{
-      display: inline-block;
+      white-space: normal !important;
       margin-right:   1em;
-      text-align:     right;
+      text-align:     right !important;
       vertical-align: middle;
-      width:          20em;
+      width:          30%;
       color:          black;
     }
     input[type='number']{
       width: 3em;
+    }
+    input:not([type='radio']) {
+      width: 90%;
     }
     select{
       border: 1px solid gray;

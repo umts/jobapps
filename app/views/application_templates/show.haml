@@ -25,46 +25,53 @@
     = form_tag controller: :application_records, action: :create do
       = fields_for :user do |u|
         .field
-          .heading Please complete the following personal information.
+          .header Please complete the following personal information.
           .explanation You will be able to log in and review your application.
         - [:first_name, :last_name, :email].each do |field|
           .field
-            .label= u.label field
-            = u.text_field field, size: 50, required: true,
-              value: @current_user.try(field)
-            %span.ast *
+            .row
+              .col-md-6
+                .label= u.label field
+              .col-md-6
+                = u.text_field field, size: 50, required: true,
+                  value: @current_user.try(field)
+                %span.ast *
       = fields_for :data do |r|
         - @template.questions.each do |question|
-          .field.form-group
+          .field
             - if question.explanation?
               .explanation= render_markdown question.prompt
             - elsif question.heading?
-              %h3.heading= question.prompt
+              %h3.header
+                = question.prompt
             - else
-              .label= r.label question.prompt, question.prompt
-              - case question.data_type
-              - when 'text', 'date'
-                = r.text_field question.unique_name,
-                  required: question.required?,
-                  class: ('datepicker' if question.date?), size: 50
-              - when 'number'
-                = r.number_field question.unique_name,
-                  required: question.required?
-              - when 'yes/no'
-                Yes
-                = r.radio_button question.unique_name, 'Yes',
-                  required: question.required?
-                No
-                = r.radio_button question.unique_name, 'No',
-                  required: question.required?
-              - if question.required?
-                %span.ast *
+              .form-group.row
+                .col-md-6.text-right
+                  .label= r.label question.prompt, question.prompt
+                .col-md-6
+                  - case question.data_type
+                  - when 'text', 'date'
+                    = r.text_field question.unique_name,
+                      required: question.required?,
+                      class: ('datepicker' if question.date?), size: 50
+                  - when 'number'
+                    = r.number_field question.unique_name,
+                      required: question.required?
+                  - when 'yes/no'
+                    Yes
+                    = r.radio_button question.unique_name, 'Yes',
+                      required: question.required?
+                    No
+                    = r.radio_button question.unique_name, 'No',
+                      required: question.required?
+                  - if question.required?
+                    %span.ast *
             = r.hidden_field question.unique_prompt_name,
               value: question.prompt
             = r.hidden_field question.unique_data_type_name,
               value: question.data_type
       = hidden_field_tag :position_id, @template.position_id
-      .heading Voluntary Equal Employment Opportunity Information
+      .header Voluntary Equal Employment Opportunity Information
       .explanation
         The University of Massachusetts and the Pioneer Valley
         Transit Authority are equal opportunity employers. To help
