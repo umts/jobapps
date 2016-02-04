@@ -20,45 +20,46 @@
           toggle_active_application_template_url(@draft.application_template)
 %h1.title Editing #{@draft.position.name_and_department}
 #flex_wrapper
-  .form_column
-    = form_for @draft, as: :draft, url: draft_path(@draft) do |f|
-      .header_row
-        .field_attribute_header1
-          Prompt
-        .field_attribute
-          Response type
-        .field_attribute
-          Required?
-      .fields_column
-        = f.fields_for :questions do |g|
-          - question = g.object
-          - if question.new_record?
-            .centered Add new question...
-          .field_row
-            = g.hidden_field :number
-            .field_attribute_1
-              = g.text_area :prompt, required: !question.new_record?,
-                size: '35x4'
-            .field_attribute
-              = g.select :data_type, Question::DATA_TYPES,
-              include_blank: 'Select a data type...',
-              required: !question.new_record?
-            .field_attribute
-              = g.check_box :required
-      .actions
-        = f.submit 'Save changes and continue editing'
-        = f.submit 'Preview changes'
-  .button_column
-    - @draft.questions.each do |question|
-      - unless question.new_record?
-        .button_row
-          - unless @draft.questions.index(question).zero?
-            = button_to 'Move up',
-              move_question_draft_path(@draft, number: question.number,
-                                               direction: :up)
-          - unless question == @draft.questions.not_new.last
-            = button_to 'Move down',
-              move_question_draft_path(@draft, number: question.number,
-                                               direction: :down)
-          = button_to 'Remove question',
-            remove_question_draft_path(@draft, number: question.number)
+  .row
+    .form_column.col-sm-9
+      = form_for @draft, as: :draft, url: draft_path(@draft) do |f|
+        .header_row
+          .field_attribute_header1
+            Prompt
+          .field_attribute
+            Response type
+          .field_attribute
+            Required?
+        .fields_column
+          = f.fields_for :questions do |g|
+            - question = g.object
+            - if question.new_record?
+              .centered Add new question...
+            .field_row
+              = g.hidden_field :number
+              .field_attribute_1.col-sm-6
+                = g.text_area :prompt, required: !question.new_record?,
+                  size: '35x4'
+              .field_attribute.col-sm-3
+                = g.select :data_type, Question::DATA_TYPES,
+                include_blank: 'Select a data type...',
+                required: !question.new_record?
+              .field_attribute_2.col-sm-3
+                = g.check_box :required
+        .actions
+          = f.submit 'Save changes and continue editing'
+          = f.submit 'Preview changes'
+    .button_column.col-sm-3
+      - @draft.questions.each do |question|
+        - unless question.new_record?
+          .button_row
+            - unless @draft.questions.index(question).zero?
+              = button_to 'Move up',
+                move_question_draft_path(@draft, number: question.number,
+                                                 direction: :up)
+            - unless question == @draft.questions.not_new.last
+              = button_to 'Move down',
+                move_question_draft_path(@draft, number: question.number,
+                                                 direction: :down)
+            = button_to 'Remove question',
+              remove_question_draft_path(@draft, number: question.number)
