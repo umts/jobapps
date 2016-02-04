@@ -49,7 +49,22 @@ describe ApplicationRecordsController do
         expect(response).to redirect_to student_dashboard_path
       end
     end
-    # No reason for staff to use this page
+    context 'staff' do
+      before(:each) { when_current_user_is :staff }
+      it 'creates an application record as specified' do
+        expect { submit }
+          .to change { ApplicationRecord.count }
+          .by 1
+      end
+      it 'shows the application_receipt message' do
+        expect_flash_message :application_receipt
+        submit
+      end
+      it 'redirects to the student dashboard' do
+        submit
+        expect(response).to redirect_to student_dashboard_path
+      end
+    end
   end
 
   describe 'GET #csv_export' do
