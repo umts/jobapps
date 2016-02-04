@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'bundler', '>= 1.8.4'
 gem 'coffee-rails'
 gem 'factory_girl_rails'
 gem 'haml'
@@ -16,6 +17,10 @@ gem 'redcarpet'
 gem 'sass-rails'
 gem 'snappconfig'
 gem 'uglifier'
+
+source 'https://rails-assets.org' do
+  gem 'rails-assets-bootstrap'
+end
 
 group :assets do
   gem 'twitter-bootstrap-rails'
