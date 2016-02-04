@@ -27,7 +27,7 @@ describe 'deleting a position' do
     expect(page.current_url).to eql staff_dashboard_url
   end
   it 'renders a positive flash message' do
+    expect_flash_message(:position_destroy)
     delete
-    expect(page).to have_selector '#message', text: 'Position has been deleted.'
   end
 end

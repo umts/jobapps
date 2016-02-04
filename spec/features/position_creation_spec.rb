@@ -28,9 +28,8 @@ describe 'creating new positions' do
       expect(page.current_url).to eql staff_dashboard_url
     end
     it 'renders a flash message' do
+      expect_flash_message(:position_create)
       click_on 'Save changes'
-      expect(page).to have_selector '#message',
-                                    text: 'Position has been created.'
     end
   end
 
