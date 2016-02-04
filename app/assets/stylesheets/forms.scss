@@ -25,11 +25,12 @@
   .field{
     margin: 1em;
     .label{
-      display:        inline-block;
+      display: inline-block;
       margin-right:   1em;
       text-align:     right;
-      vertical-align: top;
+      vertical-align: middle;
       width:          20em;
+      color:          black;
     }
     input[type='number']{
       width: 3em;

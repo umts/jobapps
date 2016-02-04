@@ -17,6 +17,10 @@ gem 'sass-rails'
 gem 'snappconfig'
 gem 'uglifier'
 
+group :assets do
+  gem 'twitter-bootstrap-rails'
+end
+
 group :production do
   gem 'exception_notification'
 end
