@@ -11,7 +11,7 @@
               - if @templates.key? position
                 - template = @templates[position].first
                 %li= link_to 'View application',
-                    application_template_path(template)
+                    application_show_path(department.name, position.name)
                 %li
                   - if template.draft_belonging_to? @current_user
                     - draft = template.draft_belonging_to @current_user

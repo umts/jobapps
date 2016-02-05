@@ -10,6 +10,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get '/applications/:department/:position', to: 'application_templates#show', as: :application_show
+
   resources :application_drafts, as: :drafts, except: [:create, :index] do
     member do
       post :move_question
@@ -28,8 +30,6 @@ Rails.application.routes.draw do
       post :review
     end
   end
-
-  get '/bus', to: 'application_templates#bus', as: :bus_application
 
   get '/dashboard/main',    to: 'dashboard#main',    as: :main_dashboard
   get '/dashboard/staff',   to: 'dashboard#staff',   as: :staff_dashboard

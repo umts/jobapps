@@ -22,7 +22,5 @@ describe 'deleting users' do
   it 'gives a flash message' do
     expect_flash_message(:department_destroy)
     click_on "Remove #{dept.name}"
-    #expect(page).to have_selector '#message',
-     #                             text: 'Department has been deleted.'
   end
 end
