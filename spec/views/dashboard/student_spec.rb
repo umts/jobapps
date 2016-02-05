@@ -22,10 +22,10 @@ describe 'dashboard/student.haml' do
   context 'interview is not present' do
     before :each do
       assign :interviews, nil
-      department = create :department
+      @department = create :department
       @position = create :position
       # hash mapping positions to departments
-      assign :positions, Hash[department, Array(@position)]
+      assign :positions, Hash[@department, Array(@position)]
     end
     context 'student has already submitted an application' do
       before :each do
@@ -89,7 +89,7 @@ describe 'dashboard/student.haml' do
                                          position: @position,
                                          active: true
           render
-          action_path = application_template_path @application_template
+          action_path = application_show_path @department.name, @position.name
           expect(rendered).to have_tag 'a', with: { href: action_path }
         end
       end
