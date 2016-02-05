@@ -212,7 +212,8 @@ describe ApplicationDraftsController do
   describe 'POST #update' do
     before :each do
       @draft = create :application_draft
-      @draft_changes = { questions_attributes: 'some_attributes' }
+      @question_attrs = { a_key: 'a_value' }
+      @draft_changes = { questions_attributes: @question_attrs }
       @commit = 'Save changes and continue editing'
     end
     let :submit do
@@ -237,13 +238,14 @@ describe ApplicationDraftsController do
         # on an incorrect data structure
         expect_any_instance_of(ApplicationDraft)
           .to receive(:update_questions)
-          .with 'some_attributes'
+          .with @question_attrs.stringify_keys
       end
       it 'assigns the correct draft variable' do
         submit
         expect(assigns.fetch :draft).to eql @draft
       end
       it 'updates the draft with the changes given' do
+        # mocked above
         submit
       end
       context 'saving changes' do
