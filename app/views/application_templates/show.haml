@@ -45,7 +45,8 @@
               - case question.data_type
               - when 'long-text'
                 = r.text_area question.unique_name,
-                  required: question.required?
+                  required: question.required?,
+                  size: '50x5'
               - when 'text', 'date'
                 = r.text_field question.unique_name,
                   required: question.required?,
