@@ -1,9 +1,9 @@
 .dashboard_partial
   .row
     - @departments.each do |department|
-      .col-md-2
-        .title_header= department.name
-      .col-md-10.application_block
+      .col-md-3
+        .title_header{class: "fs-#{header_font_size(department.name)}"}= department.name
+      .col-md-9.application_block
         - department.positions.each do |position|
           .pending_applications_position= position.name
           %ul
