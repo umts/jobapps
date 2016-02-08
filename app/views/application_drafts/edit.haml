@@ -49,7 +49,7 @@
         .actions
           = f.submit 'Save changes and continue editing'
           = f.submit 'Preview changes'
-    .button_column.col-sm-3
+    .button_column.col-sm-3 
       - @draft.questions.each do |question|
         - unless question.new_record?
           .button_row
