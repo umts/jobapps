@@ -1,4 +1,4 @@
-@for $i from 1 through 36 {
+@for $i from 1 through 48 {
   .fs-#{$i} {
     font-size: #{$i}px !important;
   }
@@ -12,19 +12,19 @@
   z-index: 1000;
   overflow: visible;
   position: relative;
+  padding-left: 10px;
   li {
     margin: .25em;
   }
-  .title_header_container {
-    display: flex;
-    justify-content: flex-end;
-    align-self: center;
-    .title_header {
-      margin: 5px 0 5px 5px;
-      text-align: right;
-      font-size: 24px;
-      font-weight: bold;
-    }  
+  .title_header {
+    width: 60%;
+    margin: 5px 0px 5px 15px;
+    font-size: 24px;
+    font-weight: bold;
+    border-bottom: 1px dotted black;
+  }  
+  .pending_applications_position {
+    margin-left: 15px;
   }
 }
 
@@ -37,7 +37,6 @@
 }
 
 .application_block {
-  border-left: 1px dotted black;
   margin-bottom: 20px;
 }
 
