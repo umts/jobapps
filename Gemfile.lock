@@ -94,6 +94,8 @@ GEM
       railties (>= 3.0.0)
     ffi (1.9.10)
     formatador (0.2.5)
+    friendly_id (5.1.0)
+      activerecord (>= 4.0.0)
     fuubar (2.0.0)
       rspec (~> 3.0)
       ruby-progressbar (~> 1.4)
@@ -315,6 +317,7 @@ DEPENDENCIES
   coffee-rails
   exception_notification
   factory_girl_rails
+  friendly_id (~> 5.1.0)
   fuubar
   guard-rspec
   haml

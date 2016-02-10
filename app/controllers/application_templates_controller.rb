@@ -20,8 +20,6 @@ class ApplicationTemplatesController < ApplicationController
   private
 
   def find_template
-    dept      = Department.by_name params.require(:department)
-    position  = Position.by_name_and_department params.require(:position), dept
-    @template = position.application_template
+    @template = ApplicationTemplate.friendly.find(params[:id])
   end
 end

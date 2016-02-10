@@ -8,10 +8,6 @@ class Position < ActiveRecord::Base
             :name,
             presence: true
 
-  scope :by_name_and_department, lambda { |name, dept|
-    dept.positions.find_by 'lower(name) = ?', name.downcase
-  }
-
   default_scope { order :name }
 
   def name_and_department
