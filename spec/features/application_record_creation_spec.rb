@@ -10,10 +10,7 @@ describe 'submitting application records' do
   end
   context 'student has been authenticated and has a user object' do
     let(:student) do
-      create :user, :student,
-             first_name: 'John',
-             last_name: 'Smith',
-             email: 'johnsmith@umass.edu'
+      create :user, :student
     end
     before :each do
       when_current_user_is student, integration: true
