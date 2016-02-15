@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'reviewing application templates' do
-  let(:application){ create :application_template }
+  let(:application){ create :application_template, :with_questions }
   let(:user){ create :user, :staff }
   before :each do
     when_current_user_is user, integration: true
@@ -33,15 +33,7 @@ describe 'reviewing application templates' do
   it 'uses the slug attribute of the application template as the url slug' do
     expect(page.current_url).to include application.slug
   end
-  context 'the application template has questions' do
-    let(:application){ create :application_template, :with_questions }
-    it 'shows any questions the application has' do
-      expect(page).to have_text application.questions.first.prompt
-    end
+  it 'shows any questions the application has' do
+    expect(page).to have_text application.questions.first.prompt
   end
-  # add contexts for student
-  # contains a form to submit the application
-  # for staff, contains disabled submit button
-  # does not downcase capitalized question prompts?
-  # if application is marked as inactive, doesn't show?
 end
