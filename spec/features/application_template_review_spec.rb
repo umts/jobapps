@@ -39,4 +39,9 @@ describe 'reviewing application templates' do
       expect(page).to have_text application.questions.first.prompt
     end
   end
+  # add contexts for student
+  # contains a form to submit the application
+  # for staff, contains disabled submit button
+  # does not downcase capitalized question prompts?
+  # if application is marked as inactive, doesn't show?
 end

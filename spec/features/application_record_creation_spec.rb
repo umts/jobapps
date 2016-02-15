@@ -14,10 +14,7 @@ describe 'submitting application records' do
     end
     before :each do
       when_current_user_is student, integration: true
-      visit application_show_path(
-        position: application_template.position.name,
-        department: application_template.department.name
-      )
+      visit application_path(application_template)
     end
     it 'automatically fills in the user fields' do
       expect(find_field('First name').value).to eql student.first_name
@@ -30,10 +27,7 @@ describe 'submitting application records' do
     before :each do
       when_current_user_is nil, integration: true
       page.set_rack_session spire: spire
-      visit application_show_path(
-        position: application_template.position.name,
-        department: application_template.department.name
-      )
+      visit application_path(application_template)
     end
     it 'creates a user object based on how the user fields are filled in' do #
       user_attributes = { first_name: 'John',
