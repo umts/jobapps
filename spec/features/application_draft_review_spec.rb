@@ -1,16 +1,16 @@
 require 'rails_helper'
 
 describe 'previewing an application draft' do
-  let!(:template){ create :application_template }
-  let!(:draft){ create :application_draft, application_template: template }
-  let!(:question){ create :question, application_draft: draft }
+  let!(:template) { create :application_template }
+  let!(:draft) { create :application_draft, application_template: template }
+  let!(:question) { create :question, application_draft: draft }
   context 'on draft preview page' do
     before :each do
       when_current_user_is :staff, integration: true
       visit draft_url(draft)
     end
     it 'has text explaining that this is a preview' do
-      assert_text("This is a preview of your changes")
+      assert_text('This is a preview of your changes')
     end
     it 'has a button to continue editing' do
       click_button('Continue editing')

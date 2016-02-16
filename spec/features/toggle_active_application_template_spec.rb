@@ -1,17 +1,17 @@
 require 'rails_helper'
 
 describe 'toggling the active attribute of application templates' do
-  let(:application){ create :application_template }
-  let(:draft){ create :application_draft, application_template: application }
+  let(:application) { create :application_template }
+  let(:draft) { create :application_draft, application_template: application }
   before :each do
     when_current_user_is :staff, integration: true
-  end 
+  end
   context 'on application template page' do
     before :each do
       visit application_path(application)
     end
     context 'application is inactive' do
-      let(:application){ create :application_template, active: false }
+      let(:application) { create :application_template, active: false }
       it 'has a button to activate the application' do
         expect(page).to have_button 'Activate application'
         click_button 'Activate application'
@@ -23,7 +23,7 @@ describe 'toggling the active attribute of application templates' do
       end
     end
     context 'application is active' do
-      let(:application){ create :application_template, active: true }
+      let(:application) { create :application_template, active: true }
       it 'has a button to deactivate the application' do
         expect(page).to have_button 'Deactivate application'
         click_button 'Deactivate application'
@@ -40,7 +40,7 @@ describe 'toggling the active attribute of application templates' do
       visit edit_draft_path(draft)
     end
     context 'application is inactive' do
-      let(:application){ create :application_template, active: false }
+      let(:application) { create :application_template, active: false }
       it 'has a button to activate the application' do
         expect(page).to have_button 'Activate application'
         click_button 'Activate application'
@@ -52,7 +52,7 @@ describe 'toggling the active attribute of application templates' do
       end
     end
     context 'application is active' do
-      let(:application){ create :application_template, active: true }
+      let(:application) { create :application_template, active: true }
       it 'has a button to deactivate the application' do
         expect(page).to have_button 'Deactivate application'
         click_button 'Deactivate application'

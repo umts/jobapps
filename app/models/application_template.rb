@@ -36,7 +36,6 @@ class ApplicationTemplate < ActiveRecord::Base
 
   def department_and_position
     [department.name.parameterize,
-      position.name.parameterize].join("-")
+     position.name.parameterize].join('-')
   end
-  
 end
