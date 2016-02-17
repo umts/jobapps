@@ -1,5 +1,7 @@
 require 'rails_helper'
-
+#TODO: Delete this fucking file? I added questions in another spec
+#file because I didn't see this one before, and I think it's better
+#there but who knows
 describe 'adding questions' do
   let(:draft) { create :application_draft }
   before :each do
