@@ -48,13 +48,18 @@ describe 'editing application draft' do
   end # of moving questions context
   it 'allows selection of the data type of each question' do
     all('select').each do |field|
-      expect(field[:name]).to include 'data_type'
+      page.has_select?(field[:name], options: Question::DATA_TYPES)
     end
   end
   it 'has a checkbox to determine whether the question is required' do
-    all('checkbox').each do |field|
-      expect(field[:name]).to include 'required'
+    boxes = all("form[action='#{draft_path(draft)}'] input[type=checkbox]")
+    .select do |box|
+      box[:name].include? 'required'
     end
+    expect(boxes.count).to eql draft.questions.count + 1
+    # there is a checkbox to determine whether the new
+    # question is required or not, thus there will be one
+    # more checkbox than there are existing questions
   end
   it 'has a field to create a new question' do
     expect(all('textarea').count).to be 4
@@ -70,7 +75,8 @@ describe 'editing application draft' do
     it 'will add new questions to the draft' do
       # draft starts with 3 questions
       expect(draft.questions.count).to be 3
-      # fill in the prompt of the new question
+      # fill in the prompt of the new question by finding
+      # the last one on the page by its name
       fill_in(all('textarea').last[:name], with: 'Stuff')
       # select a data type for the new question
       select 'text', from: all('select').last[:name]

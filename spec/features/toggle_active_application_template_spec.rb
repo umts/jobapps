@@ -13,7 +13,6 @@ describe 'toggling the active attribute of application templates' do
     context 'application is inactive' do
       let(:application) { create :application_template, active: false }
       it 'has a button to activate the application' do
-        expect(page).to have_button 'Activate application'
         click_button 'Activate application'
         expect(page).to have_button 'Deactivate application'
       end
@@ -25,7 +24,6 @@ describe 'toggling the active attribute of application templates' do
     context 'application is active' do
       let(:application) { create :application_template, active: true }
       it 'has a button to deactivate the application' do
-        expect(page).to have_button 'Deactivate application'
         click_button 'Deactivate application'
         expect(page).to have_button 'Activate application'
       end
@@ -42,7 +40,6 @@ describe 'toggling the active attribute of application templates' do
     context 'application is inactive' do
       let(:application) { create :application_template, active: false }
       it 'has a button to activate the application' do
-        expect(page).to have_button 'Activate application'
         click_button 'Activate application'
         expect(page).to have_button 'Deactivate application'
       end
@@ -54,7 +51,6 @@ describe 'toggling the active attribute of application templates' do
     context 'application is active' do
       let(:application) { create :application_template, active: true }
       it 'has a button to deactivate the application' do
-        expect(page).to have_button 'Deactivate application'
         click_button 'Deactivate application'
         expect(page).to have_button 'Activate application'
       end
