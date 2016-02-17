@@ -16,9 +16,9 @@ class ApplicationTemplatesController < ApplicationController
     @template.toggle! :active
     if @template.active
       show_message :active_application,
-                   default: 'The application is now active'
+                   default: 'The application is now active.'
     else show_message :inactive_application,
-                      default: 'The application is now inactive'
+                      default: 'The application is now inactive.'
     end
     redirect_to :back
   end
