@@ -53,7 +53,7 @@ describe 'editing application draft' do
   end
   it 'has a checkbox to determine whether the question is required' do
     boxes = all("form[action='#{draft_path(draft)}'] input[type=checkbox]")
-    .select do |box|
+            .select do |box|
       box[:name].include? 'required'
     end
     expect(boxes.count).to eql draft.questions.count + 1
