@@ -34,10 +34,10 @@ on_application_denial:
 # Unless otherwise marked, these messages are shown only to staff members.
 
 messages:
-  active_application: 'The application is now active'
-    # message to display if the application has been activated
-  inactive_application: 'The application is now inactive'
-    # message to display if the application has been deactivated
+  # message to display if the application has been activated
+  active_application: 'The application is now active.'
+  # message to display if the application has been deactivated
+  inactive_application: 'The application is now inactive.'
   # shown to students when they submit an application
   application_receipt:  'Your application has been submitted. Thank you!'
   application_review:   'Application has been marked as reviewed.'
