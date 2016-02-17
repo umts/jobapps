@@ -10,4 +10,7 @@ describe 'exportig a csv' do
     fill_in 'records_end_date', with: end_date #button
     click_button 'List Applications' #button for csv export
   end
+  it 'does a thing' do
+    
+  end
 end
