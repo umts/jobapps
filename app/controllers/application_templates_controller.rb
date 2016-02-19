@@ -14,14 +14,18 @@ class ApplicationTemplatesController < ApplicationController
 
   def toggle_active
     @template.toggle! :active
+    if @template.active
+      show_message :active_application,
+                   default: 'The application is now active.'
+    else show_message :inactive_application,
+                      default: 'The application is now inactive.'
+    end
     redirect_to :back
   end
 
   private
 
   def find_template
-    dept      = Department.by_name params.require(:department)
-    position  = Position.by_name_and_department params.require(:position), dept
-    @template = position.application_template
+    @template = ApplicationTemplate.friendly.find(params[:id])
   end
 end

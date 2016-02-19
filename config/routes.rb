@@ -4,13 +4,11 @@ Rails.application.routes.draw do
   else root 'dashboard#main'
   end
 
-  resources :application_templates, only: [:new, :show] do
+  resources :application_templates, as: :applications, path: :applications, only: [:new, :show] do
     member do
       post :toggle_active
     end
   end
-
-  get '/applications/:department/:position', to: 'application_templates#show', as: :application_show
 
   resources :application_drafts, as: :drafts, except: [:create, :index] do
     member do

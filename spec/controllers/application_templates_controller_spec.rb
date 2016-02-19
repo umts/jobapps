@@ -44,7 +44,7 @@ describe ApplicationTemplatesController do
     end
     context 'using specific route' do
       let :submit do
-        get :show, department: 'Bus', position: 'Operator', specific_path: true
+        get :show, id: @template.slug
       end
       context 'no user' do
         it 'allows access' do

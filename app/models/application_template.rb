@@ -1,4 +1,7 @@
 class ApplicationTemplate < ActiveRecord::Base
+  extend FriendlyId
+  friendly_id :department_and_position, use: :slugged
+
   has_many :questions, dependent: :destroy
   has_many :drafts, class_name: ApplicationDraft,
                     foreign_key: :application_template_id,
@@ -29,5 +32,10 @@ class ApplicationTemplate < ActiveRecord::Base
 
   def draft_belonging_to?(user)
     draft_belonging_to(user).present?
+  end
+
+  def department_and_position
+    [department.name.parameterize,
+     position.name.parameterize].join('-')
   end
 end
