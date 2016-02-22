@@ -8,7 +8,7 @@ class Question < ActiveRecord::Base
                   date
                   heading
                   explanation
-                  long-text)
+                  long-text).freeze
 
   validate :belongs_to_application_template_or_draft?
 

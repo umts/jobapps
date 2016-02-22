@@ -12,12 +12,11 @@ engines:
     config:
       languages:
       - ruby
-  eslint:
-    enabled: true
   fixme:
     enabled: true
   rubocop:
     enabled: true
+    config: .rubocop-no-umts-cops.yml
 ratings:
   paths:
   - Gemfile.lock
@@ -27,6 +26,7 @@ ratings:
   - "**.css"
 exclude_paths:
 - bin/**/*
+- coverage/**/*
 - config/**/*
 - db/**/*
 - spec/**/*

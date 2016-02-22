@@ -58,7 +58,7 @@ class ApplicationDraft < ActiveRecord::Base
       if question.present?
         question.update question_attributes
       else
-        question_attributes.merge! application_draft_id: id
+        question_attributes[:application_draft_id] = id
         Question.create question_attributes
       end
     end
