@@ -16,7 +16,7 @@ describe 'filling out an application' do
       expect(page.current_url).to eql student_dashboard_url
     end
 
-    it "renders the application receipt flash message"  do
+    it 'renders the application receipt flash message' do
       expect_flash_message(:application_receipt)
       click_on('Submit application')
     end
