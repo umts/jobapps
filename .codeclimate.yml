@@ -26,6 +26,7 @@ ratings:
   - "**.css"
 exclude_paths:
 - bin/**/*
+- coverage/**/*
 - config/**/*
 - db/**/*
 - spec/**/*
