@@ -23,33 +23,31 @@ describe 'viewing table of past applications' do
     expect(page.current_url).to include past_applications_application_records_url
   end
   it 'lists the proper name of applicants' do
-    assert_text "#{record.user.last_name}, #{record.user.first_name}"
+    expect page.has_text? "#{record.user.last_name}, #{record.user.first_name}"
   end
   it 'displays the formatted creation date of the application records' do
-    #TODO: change asserts to expects
-    assert_text format_date_time record.created_at
+    expect page.has_text? format_date_time record.created_at
   end
   it 'displays a table of application records' do
-    page.has_table?('data_table')
+    expect page.has_table? 'data_table'
   end
   it 'displays the staff note of the applications' do
-    assert_text record.staff_note
+    expect page.has_text? record.staff_note
   end
   it 'provides a UNIX timestamp by which to sort the records' do
-    # use expectations
-    has_css? 'data-order' => record.created_at.to_i
+    expect page.has_css? 'data-order' => record.created_at.to_i
   end
   it 'displays the date any interviews are scheduled' do
-    assert_text format_date_time record.interview.scheduled
+    expect page.has_text? format_date_time record.interview.scheduled
   end
   it 'displays the date any interviews were completed' do
-    assert_text "Completed #{format_date_time record_with_completed_interview
+    expect page.has_text? "Completed #{format_date_time record_with_completed_interview
     .interview.scheduled}"
   end
   it 'displays text that the interview has not been scheduled' do
-    assert_text 'not scheduled'
+    expect page.has_text? 'not scheduled'
   end
   it 'displays any interview notes' do
-    assert_text record.interview.interview_note
+    expect page.has_text? record.interview.interview_note
   end
 end
