@@ -18,6 +18,7 @@ engines:
     enabled: true
   rubocop:
     enabled: true
+    config: .rubocop-no-umts-cops.yml
 ratings:
   paths:
   - Gemfile.lock
