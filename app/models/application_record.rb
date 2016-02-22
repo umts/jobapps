@@ -32,10 +32,10 @@ class ApplicationRecord < ActiveRecord::Base
                        'Hispanic',
                        'Asian or Pacific Islander',
                        'American Indian or Alaskan Native',
-                       'Mixed ethnicity']
+                       'Mixed ethnicity'].freeze
 
   GENDER_OPTIONS = %w(Male
-                      Female)
+                      Female).freeze
 
   def add_data_types
     data.each do |array|
@@ -65,7 +65,7 @@ class ApplicationRecord < ActiveRecord::Base
 
   def self.gender_eeo_data(start_date, end_date, department_ids)
     gender_records = between(start_date, end_date).with_gender
-                     .in_department(department_ids)
+                                                  .in_department(department_ids)
     all_genders = GENDER_OPTIONS | gender_records.pluck(:gender)
     all_genders.map do |option|
       [option, gender_records.where(gender: option).count]

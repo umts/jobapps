@@ -1,0 +1,43 @@
+Rails:
+  Enabled: true
+
+AllCops:
+  TargetRubyVersion: 2.3
+  Exclude:
+    - 'bin/**/*'
+    - 'config/**/*'
+    - 'db/**/*'
+    - 'vendor/**/*'
+
+# Relax complexity testing to codeclimate standards (roughly).
+Metrics/AbcSize:
+  Max: 20
+Metrics/MethodLength:
+  Max: 20
+
+# Don't worry about documentation for now.
+# In particular, this fails for things like
+# controller files, which seems unnecessary.
+Style/Documentation:
+  Enabled: false
+
+# Don't tell me not to write Hash.new. I wrote it
+# because I want it.
+Style/EmptyLiteral:
+  Enabled: false
+
+# I just don't understand this one, frankly.
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/GuardClause:
+  MinBodyLength: 10
+
+# I think this cop disagrees with nested calls
+# which are perfectly clear.
+Style/NestedParenthesizedCalls:
+  Enabled: false
+
+# Don't prefer fail to raise.
+Style/SignalException:
+  Enabled: false
