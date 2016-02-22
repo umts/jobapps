@@ -1,17 +1,15 @@
 require 'rails_helper'
 
-describe 'viewing past applications' do
+describe 'viewing table of past applications' do
   let(:start_date){ 1.week.ago.strftime('%m/%d/%Y') }
   let(:end_date){ 1.week.since.strftime('%m/%d/%Y') }
-  Timecop.freeze Time.zone.today do
-    let!(:record) { create :application_record }
-    let!(:record_with_completed_interview) { create :application_record }
-    let!(:interview) { create :interview, application_record: record }
-    let!(:completed_interview) { create :interview,
-      application_record: record_with_completed_interview,
-      completed: true }
-    let!(:record_without_interview) { create :application_record }
-  end
+  let!(:record) { create :application_record }
+  let!(:record_with_completed_interview) { create :application_record }
+  let!(:interview) { create :interview, application_record: record }
+  let!(:completed_interview) { create :interview,
+    application_record: record_with_completed_interview,
+    completed: true }
+  let!(:record_without_interview) { create :application_record }
   before :each do
     when_current_user_is :staff, integration: true
     visit staff_dashboard_url
@@ -35,6 +33,7 @@ describe 'viewing past applications' do
     assert_text record.staff_note
   end
   it 'provides a UNIX timestamp by which to sort the records' do
+    # use expectations
     has_css? 'data-order' => record.created_at.to_i
   end
   it 'displays the date any interviews are scheduled' do
@@ -43,6 +42,7 @@ describe 'viewing past applications' do
   it 'displays the date any interviews were completed' do
     assert_text "Completed #{record_with_completed_interview
     .interview.scheduled.strftime '%A, %B %e, %Y - %l:%M %P'}"
+    # include method, top of file
   end
   it 'displays text that the interview has not been scheduled' do
     assert_text 'not scheduled'
