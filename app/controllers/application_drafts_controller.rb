@@ -56,6 +56,6 @@ class ApplicationDraftsController < ApplicationController
 
   def find_draft
     @draft = ApplicationDraft.includes(:questions)
-             .find(params.require :id)
+                             .find(params.require :id)
   end
 end
