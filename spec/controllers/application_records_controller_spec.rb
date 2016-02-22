@@ -40,14 +40,6 @@ describe ApplicationRecordsController do
           .to change { ApplicationRecord.count }
           .by 1
       end
-      it 'shows the application_receipt message' do
-        expect_flash_message :application_receipt
-        submit
-      end
-      it 'redirects to the student dashboard' do
-        submit
-        expect(response).to redirect_to student_dashboard_path
-      end
     end
     context 'staff' do
       before(:each) { when_current_user_is :staff }
