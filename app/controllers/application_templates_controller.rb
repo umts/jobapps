@@ -22,11 +22,11 @@ class ApplicationTemplatesController < ApplicationController
     end
     redirect_to :back
   end
-  
+
   def toggle_eeo_enabled
     @template.toggle! :eeo_enabled
     msg = 'You have enabled EEO data requests on your application.'
-    if !@template.eeo_enabled 
+    unless @template.eeo_enabled
       msg = 'You have disabled EEO data requests on your application.'
     end
     show_message :eeo_enabled, default: msg

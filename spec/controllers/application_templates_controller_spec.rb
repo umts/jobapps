@@ -117,55 +117,55 @@ describe ApplicationTemplatesController do
       department = create :department, name: 'Bus'
       position = create :position, department: department, name: 'Operator'
       @template = create :application_template, position: position
-    end #end before each
+    end # end before each
     let :submit do
       post :toggle_eeo_enabled,
            id: @template.id,
            position: @template.position.name,
            department: @template.department.name
-    end #end let
+    end # end let
     context 'student' do
       it 'does not allow access' do
         when_current_user_is :student
         submit
         expect(response).to have_http_status :unauthorized
       end
-    end #end context student
+    end # end context student
     context 'staff' do
       before :each do
         when_current_user_is :staff
         request.env['HTTP_REFERER'] = 'http://test.host/redirect'
       end
-      it 'changes eeo_enabled when called' do 
+      it 'changes eeo_enabled when called' do
         expect { submit }.to change { @template.reload.eeo_enabled }
       end
-      #begin subcontext
+      # begin subcontext
       context 'eeo is disabled' do
         before :each do
-          #First, disable EEO
+          # First, disable EEO
           @template.update eeo_enabled: false
         end
         it 'enables eeo' do
           submit
-          expect(@template.reload.eeo_enabled?).to eql true
+          expect(@template.reload.eeo_enabled).to be true
         end
-      end #end subcontext eeo is disabled
-      #begin subcontext
+      end # end subcontext eeo is disabled
+      # begin subcontext
       context 'eeo is enabled' do
         before :each do
-          #First, enable EEO
+          # First, enable EEO
           @template.update eeo_enabled: true
         end
         it 'disbles EEO' do
           submit
-          expect(@template.reload.eeo_enabled?).to eql false
+          expect(@template.reload.eeo_enabled).to be false
         end
-      end #end subcontext eeo is enabled
+      end # end subcontext eeo is enabled
       # return to context staff for one last test
       it 'redirects back' do
         submit
         expect(response).to redirect_to :back
       end
-    end #end context staff
-  end #end describe POST #toggle_eeo_enabled
+    end # end context staff
+  end # end describe POST #toggle_eeo_enabled
 end
