@@ -47,23 +47,24 @@
                 required: question.required?
             - if question.required?
               %span.ast *
-      .heading Voluntary Equal Employment Opportunity Information
-      .explanation
-        The University of Massachusetts and the Pioneer Valley
-        Transit Authority are equal opportunity employers. To help
-        us ensure that we are complying with EEO policies, please supply
-        the information requested below.
-      .field
-        .label
-          Please select the ethnic group with which you most closely identify:
-        = select_tag :ethnicity,
-          options_for_select(ApplicationRecord::ETHNICITY_OPTIONS),
-          include_blank: 'Prefer not to answer'
-      .field
-        .label Please select the gender with which you most closely identify:
-        = select_tag :gender,
-          options_for_select(ApplicationRecord::GENDER_OPTIONS),
-          include_blank: 'Prefer not to answer'
+      - if @draft.application_template.eeo_enabled
+        .heading Voluntary Equal Employment Opportunity Information
+        .explanation
+          The University of Massachusetts and the Pioneer Valley
+          Transit Authority are equal opportunity employers. To help
+          us ensure that we are complying with EEO policies, please supply
+          the information requested below.
+        .field
+          .label
+            Please select the ethnic group with which you most closely identify:
+          = select_tag :ethnicity,
+            options_for_select(ApplicationRecord::ETHNICITY_OPTIONS),
+            include_blank: 'Prefer not to answer'
+        .field
+          .label Please select the gender with which you most closely identify:
+          = select_tag :gender,
+            options_for_select(ApplicationRecord::GENDER_OPTIONS),
+            include_blank: 'Prefer not to answer'
     .actions= submit_tag 'Submit application', disabled: true
 
 .form
