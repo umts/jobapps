@@ -29,7 +29,7 @@ class ApplicationTemplatesController < ApplicationController
     if !@template.eeo_enabled 
       msg = 'You have disabled EEO data requests on your application.'
     end
-    show_message :active_application, default: msg
+    show_message :eeo_enabled, default: msg
     redirect_to :back
   end
 
