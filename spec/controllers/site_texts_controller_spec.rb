@@ -7,7 +7,7 @@ describe SiteTextsController do
     end
     context 'GET' do
       let :submit do
-        get :edit, id: @site_text.name
+        get :edit, id: @site_text.id
       end
       context 'student' do
         it 'does not allow access' do
@@ -32,7 +32,7 @@ describe SiteTextsController do
         @input = 'input'
       end
       let :submit do
-        get :edit, id: @site_text.name, preview_input: @input
+        get :edit, id: @site_text.id, preview_input: @input
       end
       context 'student' do
         it 'does not allow access' do
@@ -59,7 +59,7 @@ describe SiteTextsController do
       @changes = { text: 'new text' }
     end
     let :submit do
-      put :update, id: @site_text.name, site_text: @changes
+      put :update, id: @site_text.id, site_text: @changes
     end
     context 'student' do
       it 'does not allow access' do
@@ -140,24 +140,6 @@ describe SiteTextsController do
         @user = create :user, :staff
         when_current_user_is @user
       end
-      it 'sends IT an email' do
-        mail = ActionMailer::MessageDelivery.new(JobappsMailer,
-                                                 :site_text_request)
-        expect(JobappsMailer)
-          .to receive(:site_text_request)
-          .with(@user, @location, @description)
-          .and_return mail
-        expect(mail).to receive(:deliver_now).and_return true
-        submit
-      end
-      it 'displays the site_text_request message' do
-        expect_flash_message :site_text_request
-        submit
-      end
-      it 'redirects to staff dashboard' do
-        submit
-        expect(response).to redirect_to staff_dashboard_path
-      end
     end
   end
 
@@ -178,7 +160,7 @@ describe SiteTextsController do
         @site_text = create :site_text
       end
       let :submit do
-        get :show, id: @site_text.name
+        get :show, id: @site_text.id
       end
       context 'staff' do
         before :each do

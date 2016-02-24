@@ -6,7 +6,7 @@ class SiteText < ActiveRecord::Base
   validates :name, uniqueness: true
 
   def site_text_name
-    site_text.name.parameterize
+    name.parameterize
   end
 
 end
