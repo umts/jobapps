@@ -1,4 +1,5 @@
 class SiteTextsController < ApplicationController
+
   before_action :find_site_text, except: :request_new
 
   # Accepts GET and POST - the latter shows a preview
@@ -36,7 +37,7 @@ class SiteTextsController < ApplicationController
   private
 
   def find_site_text
-    @site_text = SiteText.find(params.require :id)
+    @site_text = SiteText.friendly.find(params[:id])
     raise ActiveRecord::RecordNotFound if @site_text.nil?
   end
 

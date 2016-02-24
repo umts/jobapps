@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160209223913) do
+ActiveRecord::Schema.define(version: 20160224194730) do
 
   create_table "application_drafts", force: :cascade do |t|
     t.integer  "application_template_id", limit: 4
@@ -82,6 +82,7 @@ ActiveRecord::Schema.define(version: 20160209223913) do
     t.text     "text",       limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "slug",       limit: 255
   end
 
   create_table "users", force: :cascade do |t|
