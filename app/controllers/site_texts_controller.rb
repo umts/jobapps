@@ -1,5 +1,4 @@
 class SiteTextsController < ApplicationController
-
   before_action :find_site_text, except: :request_new
 
   # Accepts GET and POST - the latter shows a preview
