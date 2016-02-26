@@ -8,5 +8,4 @@ class SiteText < ActiveRecord::Base
   def site_text_name
     name.parameterize
   end
-
 end
