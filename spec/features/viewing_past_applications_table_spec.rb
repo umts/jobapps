@@ -2,15 +2,17 @@ require 'rails_helper'
 include DateAndTimeMethods
 
 describe 'viewing table of past applications' do
-  let(:start_date){ 1.week.ago.strftime('%m/%d/%Y') }
+  let(:start_date) { 1.week.ago.strftime('%m/%d/%Y') }
   # datepicker requires m/d/Y format
-  let(:end_date){ 1.week.since.strftime('%m/%d/%Y') }
+  let(:end_date) { 1.week.since.strftime('%m/%d/%Y') }
   let!(:record) { create :application_record }
   let!(:record_with_completed_interview) { create :application_record }
   let!(:interview) { create :interview, application_record: record }
-  let!(:completed_interview) { create :interview,
-    application_record: record_with_completed_interview,
-    completed: true }
+  let!(:completed_interview) do
+    create :interview,
+           application_record: record_with_completed_interview,
+           completed: true
+  end
   let!(:record_without_interview) { create :application_record }
   before :each do
     when_current_user_is :staff, integration: true
@@ -20,7 +22,8 @@ describe 'viewing table of past applications' do
     click_button 'List Applications'
   end
   it 'goes to the past applications page' do
-    expect(page.current_url).to include past_applications_application_records_url
+    expect(page.current_url)
+      .to include past_applications_application_records_url
   end
   it 'lists the proper name of applicants' do
     expect page.has_text? "#{record.user.last_name}, #{record.user.first_name}"
@@ -41,8 +44,8 @@ describe 'viewing table of past applications' do
     expect page.has_text? format_date_time record.interview.scheduled
   end
   it 'displays the date any interviews were completed' do
-    expect page.has_text? "Completed #{format_date_time record_with_completed_interview
-    .interview.scheduled}"
+    time = format_date_time record_with_completed_interview.interview.scheduled
+    expect page.has_text? "Completed #{time}"
   end
   it 'displays text that the interview has not been scheduled' do
     expect page.has_text? 'not scheduled'

@@ -8,7 +8,7 @@ describe 'creating new drafts' do
   end
   context 'clicking save changes and continue editing' do
     it 'creates a new draft' do
-      expect(ApplicationDraft.count).to eql 0
+      expect(ApplicationDraft.count).to be 0
       expect { click_link 'Edit application' }
         .to change { ApplicationDraft.count }.by 1
     end
