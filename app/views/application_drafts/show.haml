@@ -47,7 +47,7 @@
                 required: question.required?
             - if question.required?
               %span.ast *
-      - if @draft.application_template.eeo_enabled
+      - if @draft.application_template.eeo_enabled?
         .heading Voluntary Equal Employment Opportunity Information
         .explanation
           The University of Massachusetts and the Pioneer Valley
