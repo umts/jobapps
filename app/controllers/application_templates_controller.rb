@@ -23,6 +23,18 @@ class ApplicationTemplatesController < ApplicationController
     redirect_to :back
   end
 
+  def toggle_eeo_enabled
+    @template.toggle! :eeo_enabled
+    if @template.eeo_enabled
+      show_message :eeo_enabled,
+                   default: 'EEO data requests enabled on this application.'
+    else
+      show_message :eeo_disabled,
+                   default: 'EEO data requests disabled on this application.'
+    end
+    redirect_to :back
+  end
+
   private
 
   def find_template

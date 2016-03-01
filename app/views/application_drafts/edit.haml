@@ -3,6 +3,21 @@
   - if @site_text.present?
     For a quick tutorial, please click
     = link_to 'here.', site_text_url(@site_text.name)
+    
+- if @draft.application_template.eeo_enabled?
+  .note_item
+    This application requests equal employment opportunity (EEO) data from applicants.
+    Click below to disable these requests.
+    .actions
+      = button_to 'Deactivate EEO',
+        toggle_eeo_enabled_application_url(@draft.application_template)
+- else
+  .note_item
+    This application doesn't request equal employment opportunity (EEO) data from applicants.
+    Click below to enable these requests.
+    .actions
+      = button_to 'Activate EEO',
+        toggle_eeo_enabled_application_url(@draft.application_template)
 
 - if @draft.application_template.active?
   .note_item
