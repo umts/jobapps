@@ -25,8 +25,10 @@ describe 'edit site text or request new' do
     end
     it 'allows user to change the site text' do
       fill_in 'site_text[text]', with: 'Bananas'
+      expect_flash_message :site_text_update
       click_button 'Update text'
       expect(site_text.reload.text).to eql 'Bananas'
+      expect(page.current_url).to eql staff_dashboard_url
     end
   end
   context 'requesting new site text' do
