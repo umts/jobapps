@@ -44,17 +44,17 @@ describe 'viewing job applications individually' do
       expect page.has_text? 'Application has been marked as reviewed'
     end
     it 'provides a means to reschedule the interview' do
-      scheduled_time = format_date_time reviewed_record.interview.scheduled
-      location = reviewed_record.interview.location
-      user = reviewed_record.user.proper_name
-      click_link "#{scheduled_time} at #{location}: #{user}",
-                 href: application_record_path(reviewed_record)
+      click_link reviewed_record.interview.information(include_name: true)
       expect page.has_text? "Interview is scheduled for:
         #{format_date_time interview.scheduled}"
-      fill_in 'scheduled', with: 1.week.since
-      click_button 'Reschedule interview'
-      expect(page.current_url).to eql staff_dashboard_url
-      expect page.has_text? 'Interview has been rescheduled'
+        Timecop.freeze do
+          fill_in 'scheduled', with: 1.week.since
+          click_button 'Reschedule interview'
+          expect(interview.reload.scheduled.to_datetime)
+            .to be_within(1.second).of(1.week.since.to_datetime)
+        end
+        expect(page.current_url).to eql staff_dashboard_url
+        expect page.has_text? 'Interview has been rescheduled'
     end
     it 'provides a means to mark interview complete and candidate hired' do
       click_link reviewed_record.user.proper_name.to_s,
