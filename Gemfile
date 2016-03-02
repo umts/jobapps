@@ -5,6 +5,7 @@ gem 'factory_girl_rails'
 gem 'haml'
 gem 'haml-lint'
 gem 'haml-rails'
+gem 'friendly_id', '~> 5.1.0'
 gem 'jquery-datatables-rails'
 gem 'jquery-datetimepicker-rails'
 gem 'jquery-rails'
@@ -17,6 +18,9 @@ gem 'sass-rails'
 gem 'snappconfig'
 gem 'uglifier'
 
+source 'https://rails-assets.org' do
+  gem 'rails-assets-wenzhixin--multiple-select'
+end
 group :production do
   gem 'exception_notification'
 end

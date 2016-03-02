@@ -17,11 +17,8 @@ describe 'dashboard/_application_templates.haml' do
     end
     it 'contains a link to view the application template' do
       render
-      action_path = application_show_path(
-        department: @department.name,
-        position: @position.name
-      )
-      expect(rendered).to have_tag 'a', with: { href: action_path }
+      expect(rendered).to have_tag 'a',
+                                   with: { href: application_path(@template) }
     end
     context 'there are no existing drafts for that application' do
       it 'contains a link to edit the application' do
@@ -55,7 +52,7 @@ describe 'dashboard/_application_templates.haml' do
     end
     it 'contains a link to create an application' do
       render
-      action_path = new_application_template_path(position_id: @position.id)
+      action_path = new_application_path(position_id: @position.id)
       expect(rendered).to have_tag 'a', with: { href: action_path }
     end
   end

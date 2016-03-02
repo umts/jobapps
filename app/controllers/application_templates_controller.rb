@@ -1,13 +1,6 @@
 class ApplicationTemplatesController < ApplicationController
-  skip_before_action :access_control, only: [:bus, :show]
-  before_action :find_template, except: [:bus, :new]
-
-  def bus
-    department = Department.find_by name: 'Bus'
-    position = Position.find_by department: department, name: 'Operator'
-    @template = ApplicationTemplate.find_by position: position
-    render 'show'
-  end
+  skip_before_action :access_control, only: :show
+  before_action :find_template, except: :new
 
   def new
     position = Position.find(params.require :position_id)
@@ -20,15 +13,31 @@ class ApplicationTemplatesController < ApplicationController
   end
 
   def toggle_active
-    @template.toggle!(:active)
+    @template.toggle! :active
+    if @template.active
+      show_message :active_application,
+                   default: 'The application is now active.'
+    else show_message :inactive_application,
+                      default: 'The application is now inactive.'
+    end
+    redirect_to :back
+  end
+
+  def toggle_eeo_enabled
+    @template.toggle! :eeo_enabled
+    if @template.eeo_enabled
+      show_message :eeo_enabled,
+                   default: 'EEO data requests enabled on this application.'
+    else
+      show_message :eeo_disabled,
+                   default: 'EEO data requests disabled on this application.'
+    end
     redirect_to :back
   end
 
   private
 
   def find_template
-    dept      = Department.by_name params.require(:department)
-    position  = Position.by_name_and_department params.require(:position), dept
-    @template = position.application_template
+    @template = ApplicationTemplate.friendly.find(params[:id])
   end
 end

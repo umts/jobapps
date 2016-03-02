@@ -33,8 +33,9 @@ class ApplicationDraftsController < ApplicationController
   end
 
   def update
-    draft_params = params.require(:draft).permit :questions_attributes
-    @draft.update_questions draft_params[:questions_attributes]
+    draft_params = params.require(:draft)
+    question_params = draft_params.require(:questions_attributes).permit!
+    @draft.update_questions question_params
     @draft.reload # since questions have been updated
     case params.require :commit
     when 'Save changes and continue editing'
@@ -55,6 +56,6 @@ class ApplicationDraftsController < ApplicationController
 
   def find_draft
     @draft = ApplicationDraft.includes(:questions)
-             .find(params.require :id)
+                             .find(params.require :id)
   end
 end

@@ -22,19 +22,17 @@ class ApplicationRecordsController < ApplicationController
   def csv_export
     start_date = parse_american_date(params.require :start_date)
     end_date = parse_american_date(params.require :end_date)
-    params.require :department_ids
-    @records = ApplicationRecord.in_department(params[:department_ids])
-               .between(start_date, end_date)
+    @records = ApplicationRecord.in_department(given_or_all_department_ids)
+                                .between(start_date, end_date)
     render 'csv_export.csv.erb', layout: false
   end
 
   def eeo_data
     start_date = parse_american_date(params.require :eeo_start_date)
     end_date = parse_american_date(params.require :eeo_end_date)
-    params.require :department_ids
     @records = ApplicationRecord.eeo_data(start_date,
                                           end_date,
-                                          params[:department_ids])
+                                          given_or_all_department_ids)
   end
 
   def past_applications
@@ -42,9 +40,8 @@ class ApplicationRecordsController < ApplicationController
     # instead of just start_date
     start_date = parse_american_date(params.require :records_start_date)
     end_date = parse_american_date(params.require :records_end_date)
-    params.require :department_ids
-    @records = ApplicationRecord.in_department(params[:department_ids])
-               .between(start_date, end_date)
+    @records = ApplicationRecord.in_department(given_or_all_department_ids)
+                                .between(start_date, end_date)
   end
 
   def review
@@ -77,7 +74,8 @@ class ApplicationRecordsController < ApplicationController
     user_attributes = params.require(:user).permit(:first_name,
                                                    :last_name,
                                                    :email)
-    user_attributes.merge! spire: session[:spire], staff: false
+    user_attributes[:spire] = session[:spire]
+    user_attributes[:staff] = false
     session[:user_id] = User.create(user_attributes).id
     set_current_user
   end
@@ -85,5 +83,9 @@ class ApplicationRecordsController < ApplicationController
   def find_record
     params.require :id
     @record = ApplicationRecord.find params[:id]
+  end
+
+  def given_or_all_department_ids
+    params[:department_ids] || Department.pluck(:id)
   end
 end

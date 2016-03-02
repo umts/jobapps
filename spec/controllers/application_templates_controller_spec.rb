@@ -1,57 +1,6 @@
 require 'rails_helper'
 
 describe ApplicationTemplatesController do
-  describe 'GET #bus' do
-    before :each do
-      when_current_user_is nil
-      department = create :department, name: 'Bus'
-      position = create :position, department: department, name: 'Operator'
-      @template = create :application_template, position: position
-    end
-    let :submit do
-      get :bus
-    end
-    context 'no user' do
-      before :each do
-        when_current_user_is nil
-      end
-      it 'assigns the correct template to the template instance variable' do
-        submit
-        expect(assigns.fetch :template).to eql @template
-      end
-      it 'renders the show template' do
-        submit
-        expect(response).to render_template 'show'
-      end
-    end
-    context 'student' do
-      before :each do
-        when_current_user_is :student
-      end
-      it 'assigns the correct template to the template instance variable' do
-        submit
-        expect(assigns.fetch :template).to eql @template
-      end
-      it 'renders the show template' do
-        submit
-        expect(response).to render_template 'show'
-      end
-    end
-    context 'staff' do
-      before :each do
-        when_current_user_is :staff
-      end
-      it 'assigns the correct template to the template instance variable' do
-        submit
-        expect(assigns.fetch :template).to eql @template
-      end
-      it 'renders the show template' do
-        submit
-        expect(response).to render_template 'show'
-      end
-    end
-  end
-
   describe 'GET #new' do
     context 'staff' do
       before :each do
@@ -95,7 +44,7 @@ describe ApplicationTemplatesController do
     end
     context 'using specific route' do
       let :submit do
-        get :show, department: 'Bus', position: 'Operator', specific_path: true
+        get :show, id: @template.slug
       end
       context 'no user' do
         it 'allows access' do
@@ -157,6 +106,62 @@ describe ApplicationTemplatesController do
           expect { submit }.to change { @template.reload.active? }
         end
       end
+      it 'redirects back' do
+        submit
+        expect(response).to redirect_to :back
+      end
+    end
+  end
+  describe 'POST #toggle_eeo_enabled' do
+    before :each do
+      department = create :department, name: 'Bus'
+      position = create :position, department: department, name: 'Operator'
+      @template = create :application_template, position: position
+    end
+    let :submit do
+      post :toggle_eeo_enabled,
+           id: @template.id,
+           position: @template.position.name,
+           department: @template.department.name
+    end
+    context 'student' do
+      it 'does not allow access' do
+        when_current_user_is :student
+        submit
+        expect(response).to have_http_status :unauthorized
+      end
+    end
+    context 'staff' do
+      before :each do
+        when_current_user_is :staff
+        request.env['HTTP_REFERER'] = 'http://test.host/redirect'
+      end
+      it 'changes eeo_enabled when called' do
+        expect { submit }.to change { @template.reload.eeo_enabled }
+      end
+
+      context 'eeo is disabled' do
+        before :each do
+          # First, disable EEO
+          @template.update eeo_enabled: false
+        end
+        it 'enables eeo' do
+          submit
+          expect(@template.reload.eeo_enabled).to be true
+        end
+      end
+
+      context 'eeo is enabled' do
+        before :each do
+          # First, enable EEO
+          @template.update eeo_enabled: true
+        end
+        it 'disbles EEO' do
+          submit
+          expect(@template.reload.eeo_enabled).to be false
+        end
+      end
+
       it 'redirects back' do
         submit
         expect(response).to redirect_to :back

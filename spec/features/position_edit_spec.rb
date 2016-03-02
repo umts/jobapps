@@ -27,9 +27,8 @@ describe 'editing positions' do
       expect(page.current_url).to eql staff_dashboard_url
     end
     it 'renders a positive flash message' do
+      expect_flash_message(:position_update)
       save
-      expect(page).to have_selector '#message',
-                                    text: 'Position has been updated'
     end
   end
 

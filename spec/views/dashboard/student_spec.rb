@@ -22,10 +22,10 @@ describe 'dashboard/student.haml' do
   context 'interview is not present' do
     before :each do
       assign :interviews, nil
-      department = create :department
+      @department = create :department
       @position = create :position
       # hash mapping positions to departments
-      assign :positions, Hash[department, Array(@position)]
+      assign :positions, Hash[@department, Array(@position)]
     end
     context 'student has already submitted an application' do
       before :each do
@@ -85,31 +85,34 @@ describe 'dashboard/student.haml' do
       end
       context 'applications are present for position' do
         it 'lists links to submit application for positions' do
-          @application_template = create :application_template,
-                                         position: @position,
-                                         active: true
+          application = create :application_template,
+                               position: @position,
+                               active: true
+          action_path = application_path(application)
           render
-          action_path = application_template_path @application_template
-          expect(rendered).to have_tag 'a', with: { href: action_path }
+          expect(rendered).to have_tag 'a',
+                                       with: { href: action_path }
         end
       end
       context 'no applications are present for position' do
         it 'does not list links to submit application for position' do
-          template = create :application_template,
-                            active: true
+          application = create :application_template,
+                               active: true
+          action_path = application_path(application)
           render
-          action_path = application_template_path template
-          expect(rendered).not_to have_tag 'a', with: { href: action_path }
+          expect(rendered).not_to have_tag 'a',
+                                           with: { href: action_path }
         end
       end
       context 'applications for the position are inactive' do
         it 'does not list the link to submit application for position' do
-          template = create :application_template,
-                            position: @position,
-                            active: false
-          action_path = application_template_path template
+          application = create :application_template,
+                               position: @position,
+                               active: false
+          action_path = application_path(application)
           render
-          expect(rendered).not_to have_tag 'a', with: { href: action_path }
+          expect(rendered).not_to have_tag 'a',
+                                           with: { href: action_path }
         end
       end
     end
