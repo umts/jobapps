@@ -44,6 +44,8 @@ messages:
   department_create:    'Department has been created.'
   department_destroy:   'Department has been deleted.'
   department_update:    'Department has been updated.'
+  eeo_enabled:          'EEO data requests enabled on this application.'
+  eeo_disabled:         'EEO data requests disabled on this application.'
   interview_complete:   'Interview marked as completed.'
   interview_reschedule: 'Interview has been rescheduled.'
   position_create:      'Position has been created.'

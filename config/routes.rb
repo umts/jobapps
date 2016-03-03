@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :application_templates, as: :applications, path: :applications, only: [:new, :show] do
     member do
       post :toggle_active
+      post :toggle_eeo_enabled
     end
   end
 
