@@ -12,7 +12,7 @@ describe 'viewing the dashboard as a student' do
         visit student_dashboard_url
       end
       it 'displays the date, time, and location of any interviews' do
-        expect page.has_text? interview.information
+        expect(page).to have_text interview.information
       end
       it 'contains a link to review the application' do
         click_link 'Review your application',
@@ -50,17 +50,46 @@ describe 'viewing the dashboard as a student' do
                      href: application_record_path(pending_application)
           expect(page.current_url)
             .to eql application_record_url(pending_application)
-          expect page.has_text? 'Your application is pending'
-          expect page.has_text? 'You will be notified'
-          expect page.has_text? 'when your application has been reviewed'
+          expect(page).to have_text 'Your application is pending'
+          expect(page).to have_text 'You will be notified'
+          expect(page).to have_text 'when your application has been reviewed'
         end
-        it 'contains a link to review the denied application' do
-          click_link 'Review your application',
-                     href: application_record_path(denied_application)
-          expect(page.current_url)
-            .to eql application_record_url(denied_application)
-          expect page.has_text? 'Your application has been denied. Reason: No'
-          # reason is the staff note.
+        context 'configured value provide reason is set to false' do
+          before :each do
+            allow_any_instance_of(ApplicationConfiguration)
+              .to receive :configured_value
+            allow_any_instance_of(ApplicationConfiguration)
+              .to receive(:configured_value)
+              .with([:on_application_denial, :provide_reason], anything)
+              .and_return false
+          end
+          it 'has link to see denied app, without text of denial reason' do
+            click_link 'Review your application',
+                       href: application_record_path(denied_application)
+            expect(page.current_url)
+              .to eql application_record_url(denied_application)
+            expect(page).to have_text 'Your application has been denied.'
+            expect(page).not_to have_text 'Reason: No'
+          end
+        end
+        context 'configured value provide reason is set to true' do
+          before :each do
+            allow_any_instance_of(ApplicationConfiguration)
+              .to receive :configured_value
+            allow_any_instance_of(ApplicationConfiguration)
+              .to receive(:configured_value)
+              .with([:on_application_denial, :provide_reason], anything)
+              .and_return true
+          end
+          it 'has link to see the denied app, with text of denial reason' do
+            click_link 'Review your application',
+                       href: application_record_path(denied_application)
+            expect(page.current_url)
+              .to eql application_record_url(denied_application)
+            expect(page)
+              .to have_text 'Your application has been denied. Reason: No'
+            # reason is the staff note.
+          end
         end
       end # of configured value true
       context 'configured value notify of application denial reason is false' do
@@ -77,7 +106,7 @@ describe 'viewing the dashboard as a student' do
                      href: application_record_path(pending_application)
           expect(page.current_url)
             .to eql application_record_url(pending_application)
-          expect page.has_text? 'Your application is pending'
+          expect(page).to have_text 'Your application is pending'
         end
         it 'does not contain a link to review denied applications' do
           action_path = application_record_path(denied_application)
@@ -101,14 +130,14 @@ describe 'viewing the dashboard as a student' do
       visit student_dashboard_url
     end
     it 'shows we are not hiring for positions without applications' do
-      expect page.has_text? 'We are not currently hiring for the position,'
-      expect page.has_text? position_without_application.name.to_s
-      expect page.has_text? 'Please check back.'
+      expect(page).to have_text 'We are not currently hiring for the position,'
+      expect(page).to have_text position_without_application.name.to_s
+      expect(page).to have_text 'Please check back.'
     end
     it 'shows we are not hiring for applications marked as inactive' do
-      expect page.has_text? 'We are not currently hiring for the position,'
-      expect page.has_text? inactive_application.position.name.to_s
-      expect page.has_text? 'Please check back.'
+      expect(page).to have_text 'We are not currently hiring for the position,'
+      expect(page).to have_text inactive_application.position.name.to_s
+      expect(page).to have_text 'Please check back.'
     end
     it 'shows links to submit an application for the active application' do
       click_link "Submit application for #{active_application.position.name}"

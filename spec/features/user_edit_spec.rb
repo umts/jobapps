@@ -9,7 +9,7 @@ describe 'edit staff users' do
       visit staff_dashboard_url
     end
     it 'directs to the correct page' do
-      click_link user.proper_name.to_s, href: edit_user_path(user)
+      click_link user.proper_name, href: edit_user_path(user)
       expect(page.current_url).to eql edit_user_url(user)
     end
   end
@@ -25,15 +25,15 @@ describe 'edit staff users' do
       # staff attribute is hidden field, and don't want to change last name
       before :each do
         within 'form.edit_user' do
-          fill_in_fields_for User, attributes: attributes
-            .merge(first_name: 'Bananas')
+          fill_in_fields_for User,
+                             attributes: attributes.merge(first_name: 'Bananas')
         end
       end
 
       it 'only changes the given attributes' do
         click_on 'Save changes'
-        expect(user.reload.attributes.symbolize_keys)
-          .to include first_name: 'Bananas', last_name: 'Smith'
+        expect(user.reload)
+          .to have_attributes first_name: 'Bananas', last_name: 'Smith'
       end
 
       it 'redirects you to the staff dashboard' do
