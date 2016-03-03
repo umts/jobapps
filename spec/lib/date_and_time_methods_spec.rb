@@ -18,7 +18,7 @@ describe DateAndTimeMethods do
     context 'no format given' do
       it 'renders the default format' do
         expect(format_date_time @datetime)
-          .to eql @datetime.strftime('%A, %B %d, %Y - %l:%M %P')
+          .to eql @datetime.strftime('%A, %B %e, %Y - %l:%M %P').squish
       end
     end
   end

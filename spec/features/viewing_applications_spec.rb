@@ -22,8 +22,7 @@ describe 'viewing job applications individually' do
     let!(:reviewed_record) { create :application_record, reviewed: true }
     let!(:interview) do
       create :interview,
-             application_record: reviewed_record,
-             scheduled: Time.zone.today
+             application_record: reviewed_record
     end
     before :each do
       when_current_user_is :staff, integration: true
