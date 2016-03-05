@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       post :toggle_eeo_enabled
     end
   end
+  get '/applications/it/programmer', to: 'application_templates#show', id: 'it-programmer'
 
   resources :application_drafts, as: :drafts, except: [:create, :index] do
     member do
