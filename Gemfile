@@ -3,7 +3,6 @@ source 'https://rubygems.org'
 gem 'coffee-rails'
 gem 'factory_girl_rails'
 gem 'haml'
-gem 'haml-lint'
 gem 'haml-rails'
 gem 'friendly_id', '~> 5.1.0'
 gem 'jquery-datatables-rails'
@@ -40,6 +39,7 @@ group :development, :test do
   gem 'codeclimate-test-reporter'
   gem 'fuubar', require: false
   gem 'guard-rspec', require: false
+  gem 'haml_lint'
   gem 'mocha'
   gem 'pry-byebug'
   gem 'rack_session_access'

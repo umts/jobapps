@@ -36,8 +36,7 @@ class SiteTextsController < ApplicationController
   private
 
   def find_site_text
-    params.require :id
-    @site_text = SiteText.find_by(name: params[:id])
+    @site_text = SiteText.friendly.find(params[:id])
     raise ActiveRecord::RecordNotFound if @site_text.nil?
   end
 
