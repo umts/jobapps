@@ -3,7 +3,7 @@ include ConfigurableMessages
 
 describe ConfigurableMessages do
   describe 'show_message' do
-    let(:call) { show_message :cool_message, default: "I'm cool" } 
+    let(:call) { show_message :cool_message, default: "I'm cool" }
     before :each do
       expect_any_instance_of(ApplicationConfiguration)
         .to receive(:configured_value)

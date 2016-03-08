@@ -6,7 +6,7 @@ module ApplicationConfiguration
   # hash containing a default value in the case where one is not
   # configured.
   def configured_value(config_path, options = {})
-    value = CONFIG.dig *config_path
+    value = CONFIG.dig(*config_path)
     if value.present? then value
     elsif options[:default].present? then options[:default]
     else
