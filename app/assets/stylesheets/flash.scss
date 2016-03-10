@@ -1,0 +1,21 @@
+#message, #errors{
+  margin-top: .25em;
+  border-radius: 5px;
+  margin: 1em; 
+  width: 95%;
+  padding: .25em;
+  margin: auto;
+  margin-top: .25em;
+  text-align: center;
+}
+#message{
+  background-color: lightgreen;
+  border: 2px solid #003a5b;
+}
+#errors{
+  border: 2px solid #8D201E;
+  background-color: #FFBABA;
+  ul { 
+    list-style-type: none;
+  }
+}
