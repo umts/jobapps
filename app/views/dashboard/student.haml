@@ -25,5 +25,6 @@
           application_path(position.application_template)
       - else
         %li
-          We are not currently hiring for the position,
-          #{position.name}. Please check back.
+          = configured_value([:deactivated_application,
+            department.to_key, position.to_key],
+            default: "Applications are currently unavailable for #{position.name}")
