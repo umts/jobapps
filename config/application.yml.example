@@ -6,6 +6,16 @@
 # This value will populate landing pages, page titles, and email templates.
 organization_name: 'UMass Transit'
 
+deactivated_application:
+# This is the text shown to applicants when the application is inactive.
+# Follow the template like so. Make sure all names are underscored and
+# lowercased.
+  special_transportation:
+    van_driver: 'We are not currently hiring van drivers'
+  bus:
+    operator: 'We are not currently hiring bus drivers'
+    cleaner: 'We do not currently need any bus cleaners'
+
 email:
   # This value determines where site emails will be sent from (e.g. noreply).
   default_from: 'transit-it@admin.umass.edu'
