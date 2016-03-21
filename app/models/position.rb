@@ -13,4 +13,8 @@ class Position < ActiveRecord::Base
   def name_and_department
     "#{name} (#{department.name})"
   end
+
+  def to_key
+    name.underscore.gsub(' ','_').to_sym
+  end
 end

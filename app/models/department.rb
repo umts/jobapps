@@ -5,4 +5,8 @@ class Department < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
 
   default_scope { order :name }
+
+  def to_key
+    name.underscore.gsub(' ','_').to_sym
+  end
 end
