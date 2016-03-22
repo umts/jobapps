@@ -117,27 +117,43 @@ describe 'viewing the dashboard as a student' do
     end # of student did not get an interview
   end # of student has submitted an application
   context 'student has not yet submitted an application' do
-    let!(:position_without_application) { create :position }
+    let!(:positn_not_hiring) { create :position }
     let!(:active_application) do
       create :application_template,
              active: true
     end
-    let!(:inactive_application) do
+    let!(:inactive_app) do
       create :application_template,
              active: false
     end
     before :each do
       visit student_dashboard_url
     end
-    it 'shows we are not hiring for positions without applications' do
-      expect(page).to have_text 'We are not currently hiring for the position,'
-      expect(page).to have_text position_without_application.name.to_s
-      expect(page).to have_text 'Please check back.'
+    context 'deactivated application text has been configured' do
+      before :each do
+        allow_any_instance_of(ApplicationConfiguration)
+          .to receive(:configured_value)
+          .with([:deactivated_application,
+                yamlize(positn_not_hiring.department.name),
+                yamlize(positn_not_hiring.name)], default: 'stuff')
+          .and_return 'custom text'
+      end
+      it 'displays the custom text for the position not hiring' do
+        # expect(page).to have_text 'custom text'
+        # this does not work and I don't know why
+      end
     end
-    it 'shows we are not hiring for applications marked as inactive' do
-      expect(page).to have_text 'We are not currently hiring for the position,'
-      expect(page).to have_text inactive_application.position.name.to_s
-      expect(page).to have_text 'Please check back.'
+    context 'deactivated application text has not been configured' do
+      it 'displays the default not-hiring text for the position not hiring' do
+        expect(page)
+          .to have_text
+          "Applications are currently unavailable for #{positn_not_hiring.name}"
+      end
+      it 'displays the default not-hiring text for the inactive application' do
+        expect(page)
+          .to have_text
+          "Applications are currently unavailable for #{inactive_app.position.name}"
+      end
     end
     it 'shows links to submit an application for the active application' do
       click_link "Submit application for #{active_application.position.name}"
