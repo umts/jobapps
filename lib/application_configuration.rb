@@ -20,4 +20,8 @@ module ApplicationConfiguration
             and default not specified."
     end
   end
+
+  def yamlize(string)
+    string.underscore.gsub(' ','_').to_sym
+  end
 end
