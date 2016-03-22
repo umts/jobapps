@@ -13,5 +13,4 @@ class Position < ActiveRecord::Base
   def name_and_department
     "#{name} (#{department.name})"
   end
-
 end

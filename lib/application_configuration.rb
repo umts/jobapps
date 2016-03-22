@@ -17,6 +17,6 @@ module ApplicationConfiguration
   end
 
   def yamlize(string)
-    string.underscore.gsub(' ','_').to_sym
+    string.underscore.tr(' ', '_').to_sym
   end
 end

@@ -134,8 +134,8 @@ describe 'viewing the dashboard as a student' do
         allow_any_instance_of(ApplicationConfiguration)
           .to receive(:configured_value)
           .with([:deactivated_application,
-                yamlize(positn_not_hiring.department.name),
-                yamlize(positn_not_hiring.name)], default: 'stuff')
+                 yamlize(positn_not_hiring.department.name),
+                 yamlize(positn_not_hiring.name)], default: 'stuff')
           .and_return 'custom text'
       end
       it 'displays the custom text for the position not hiring' do
@@ -147,12 +147,12 @@ describe 'viewing the dashboard as a student' do
       it 'displays the default not-hiring text for the position not hiring' do
         expect(page)
           .to have_text
-          "Applications are currently unavailable for #{positn_not_hiring.name}"
+        "Applications are currently unavailable for #{positn_not_hiring.name}"
       end
       it 'displays the default not-hiring text for the inactive application' do
         expect(page)
           .to have_text
-          "Applications are currently unavailable for #{inactive_app.position.name}"
+        "currently unavailable for #{inactive_app.position.name}"
       end
     end
     it 'shows links to submit an application for the active application' do
