@@ -6,14 +6,9 @@ module ApplicationConfiguration
   # hash containing a default value in the case where one is not
   # configured.
   def configured_value(config_path, options = {})
-    value = CONFIG
-    config_path.each do |key|
-      value = value[key]
-    end
-    if value.present?
-      value
-    elsif options[:default].present?
-      options[:default]
+    value = CONFIG.dig(*config_path)
+    if value.present? then value
+    elsif options[:default].present? then options[:default]
     else
       raise ArgumentError,
             "Configuration behavior #{config_path} not configured
