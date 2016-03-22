@@ -6,7 +6,4 @@ class Department < ActiveRecord::Base
 
   default_scope { order :name }
 
-  def to_key
-    name.underscore.gsub(' ','_').to_sym
-  end
 end
