@@ -26,5 +26,5 @@
       - else
         %li
           = configured_value([:deactivated_application,
-            department.to_key, position.to_key],
+            yamlize(department.name), yamlize(position.name)],
             default: "Applications are currently unavailable for #{position.name}")
