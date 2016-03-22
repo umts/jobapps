@@ -3,31 +3,19 @@ include ConfigurableMessages
 
 describe ConfigurableMessages do
   describe 'show_message' do
+    let(:call) { show_message :cool_message, default: "I'm cool" }
     before :each do
-      # Replace actual config with these messages
-      messages = { present_message: 'present value' }
-      # Stub it out to return these messages
-      expect(CONFIG).to receive(:[]).with(:messages).and_return messages
+      expect_any_instance_of(ApplicationConfiguration)
+        .to receive(:configured_value)
+        .with([:messages, :cool_message], default: "I'm cool")
+        .and_return 'a retrieved value'
     end
-    context 'message present in configuration,' do
-      it 'stores specified message in flash' do
-        show_message :present_message
-        expect(flash[:message]).to eql 'present value'
-      end
+    it 'calls ApplicationConfiguration#configured_value as expected' do
+      call
     end
-    context 'message not present in configuration,' do
-      context 'default specified,' do
-        it 'stores given default message in flash' do
-          show_message :missing_message, default: 'default value'
-          expect(flash[:message]).to eql 'default value'
-        end
-      end
-      context 'default not specified,' do
-        it 'raises an ArgumentError' do
-          expect { show_message :missing_message }
-            .to raise_error(ArgumentError)
-        end
-      end
+    it 'stores the returned value in the flash' do
+      call
+      expect(flash[:message]).to eql 'a retrieved value'
     end
   end
 end

@@ -5,7 +5,7 @@ describe ApplicationConfiguration do
   describe 'configured_value' do
     context 'value present in configuration' do
       before :each do
-        expect(CONFIG).to receive(:[]).with(:present_key).and_return true
+        expect(CONFIG).to receive(:dig).with(:present_key).and_return true
       end
       it 'returns the value' do
         expect(configured_value [:present_key]).to be true
@@ -13,7 +13,7 @@ describe ApplicationConfiguration do
     end
     context 'value not present in configuration' do
       before :each do
-        expect(CONFIG).to receive(:[]).with(:missing_key).and_return Hash.new
+        expect(CONFIG).to receive(:dig).with(:missing_key).and_return Hash.new
       end
       context 'default specified' do
         it 'returns the default' do
