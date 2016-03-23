@@ -130,17 +130,18 @@ describe 'viewing the dashboard as a student' do
       visit student_dashboard_url
     end
     context 'deactivated application text has been configured' do
-      before :each do
+      it 'displays the custom text for the position not hiring' do
         allow_any_instance_of(ApplicationConfiguration)
+          .to receive(:configured_value)
+        expect_any_instance_of(ApplicationConfiguration)
           .to receive(:configured_value)
           .with([:deactivated_application,
                  yamlize(positn_not_hiring.department.name),
-                 yamlize(positn_not_hiring.name)], default: 'stuff')
+                 yamlize(positn_not_hiring.name)],
+                anything)
           .and_return 'custom text'
-      end
-      it 'displays the custom text for the position not hiring' do
-        # expect(page).to have_text 'custom text'
-        # this does not work and I don't know why
+        visit current_url
+        expect(page).to have_text 'custom text'
       end
     end
     context 'deactivated application text has not been configured' do
