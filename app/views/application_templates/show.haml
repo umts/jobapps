@@ -41,6 +41,10 @@
           - else
             .label= r.label question.prompt, question.prompt
             - case question.data_type
+            - when 'phone-number'
+              = r.text_field question.unique_name,
+                required: question.required?,
+                class: 'phone', size: 20, placeholder: '(XXX) XXX-XXXX'
             - when 'long-text'
               = r.text_area question.unique_name,
                 required: question.required?,
