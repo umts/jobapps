@@ -25,5 +25,4 @@
           application_path(position.application_template)
       - else
         %li
-          We are not currently hiring for the position,
-          #{position.name}. Please check back.
+          = position.configured_not_hiring_text
