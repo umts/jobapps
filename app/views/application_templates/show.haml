@@ -45,10 +45,16 @@
               = r.text_area question.unique_name,
                 required: question.required?,
                 size: '50x5'
-            - when 'text', 'date'
+            - when 'text'
               = r.text_field question.unique_name,
                 required: question.required?,
-                class: ('datepicker' if question.date?), size: 50
+                size: 50
+            - when 'date'
+              = r.text_field question.unique_name,
+                required: question.required?,
+                class: 'datepicker',
+                placeholder: 'Click here to select date...',
+                size: 40
             - when 'number'
               = r.number_field question.unique_name,
                 required: question.required?
