@@ -14,74 +14,78 @@
       = button_to 'Activate application',
           toggle_active_application_url(@template)
 
-.form
-  %h1.title Application for #{@template.position.name_and_department}
-  %strong
-    Fields marked with an asterisk (
-    %span.ast *
-    ) are required.
-  = form_tag controller: :application_records, action: :create do
-    = fields_for :user do |u|
-      .field
-        .heading Please complete the following personal information.
-        .explanation You will be able to log in and review your application.
-      - [:first_name, :last_name, :email].each do |field|
+- if @template.active?
+  .form
+    %h1.title Application for #{@template.position.name_and_department}
+    %strong
+      Fields marked with an asterisk (
+      %span.ast *
+      ) are required.
+    = form_tag controller: :application_records, action: :create do
+      = fields_for :user do |u|
         .field
-          .label= u.label field
-          = u.text_field field, size: 50, required: true,
-            value: @current_user.try(field)
-          %span.ast *
-    = fields_for :data do |r|
-      - @template.questions.each do |question|
+          .heading Please complete the following personal information.
+          .explanation You will be able to log in and review your application.
+        - [:first_name, :last_name, :email].each do |field|
+          .field
+            .label= u.label field
+            = u.text_field field, size: 50, required: true,
+              value: @current_user.try(field)
+            %span.ast *
+      = fields_for :data do |r|
+        - @template.questions.each do |question|
+          .field
+            - if question.explanation?
+              .explanation= render_markdown question.prompt
+            - elsif question.heading?
+              %h3.heading= question.prompt
+            - else
+              .label= r.label question.prompt, question.prompt
+              - case question.data_type
+              - when 'long-text'
+                = r.text_area question.unique_name,
+                  required: question.required?,
+                  size: '50x5'
+              - when 'text', 'date'
+                = r.text_field question.unique_name,
+                  required: question.required?,
+                  class: ('datepicker' if question.date?), size: 50
+              - when 'number'
+                = r.number_field question.unique_name,
+                  required: question.required?
+              - when 'yes/no'
+                Yes
+                = r.radio_button question.unique_name, 'Yes',
+                  required: question.required?
+                No
+                = r.radio_button question.unique_name, 'No',
+                  required: question.required?
+              - if question.required?
+                %span.ast *
+            = r.hidden_field question.unique_prompt_name,
+              value: question.prompt
+            = r.hidden_field question.unique_data_type_name,
+              value: question.data_type
+      = hidden_field_tag :position_id, @template.position_id
+      - if @template.eeo_enabled?
+        .heading Voluntary Equal Employment Opportunity Information
+        .explanation
+          The University of Massachusetts and the Pioneer Valley
+          Transit Authority are equal opportunity employers. To help
+          us insure that we are complying with EEO policies, please supply
+          the information requested below.
         .field
-          - if question.explanation?
-            .explanation= render_markdown question.prompt
-          - elsif question.heading?
-            %h3.heading= question.prompt
-          - else
-            .label= r.label question.prompt, question.prompt
-            - case question.data_type
-            - when 'long-text'
-              = r.text_area question.unique_name,
-                required: question.required?,
-                size: '50x5'
-            - when 'text', 'date'
-              = r.text_field question.unique_name,
-                required: question.required?,
-                class: ('datepicker' if question.date?), size: 50
-            - when 'number'
-              = r.number_field question.unique_name,
-                required: question.required?
-            - when 'yes/no'
-              Yes
-              = r.radio_button question.unique_name, 'Yes',
-                required: question.required?
-              No
-              = r.radio_button question.unique_name, 'No',
-                required: question.required?
-            - if question.required?
-              %span.ast *
-          = r.hidden_field question.unique_prompt_name,
-            value: question.prompt
-          = r.hidden_field question.unique_data_type_name,
-            value: question.data_type
-    = hidden_field_tag :position_id, @template.position_id
-    - if @template.eeo_enabled?
-      .heading Voluntary Equal Employment Opportunity Information
-      .explanation
-        The University of Massachusetts and the Pioneer Valley
-        Transit Authority are equal opportunity employers. To help
-        us insure that we are complying with EEO policies, please supply
-        the information requested below.
-      .field
-        .label
-          Please select the ethnic group with which you most closely identify:
-        = select_tag :ethnicity,
-          options_for_select(ApplicationRecord::ETHNICITY_OPTIONS),
-          include_blank: 'Prefer not to answer'
-      .field
-        .label Please select the gender with which you most closely identify:
-        = select_tag :gender,
-          options_for_select(ApplicationRecord::GENDER_OPTIONS),
-          include_blank: 'Prefer not to answer'
-    .actions= submit_tag 'Submit application' unless @current_user.try :staff?
+          .label
+            Please select the ethnic group with which you most closely identify:
+          = select_tag :ethnicity,
+            options_for_select(ApplicationRecord::ETHNICITY_OPTIONS),
+            include_blank: 'Prefer not to answer'
+        .field
+          .label Please select the gender with which you most closely identify:
+          = select_tag :gender,
+            options_for_select(ApplicationRecord::GENDER_OPTIONS),
+            include_blank: 'Prefer not to answer'
+      .actions= submit_tag 'Submit application' unless @current_user.try :staff?
+
+- else
+  .note_item This application is currently unavailable. Please check back.
