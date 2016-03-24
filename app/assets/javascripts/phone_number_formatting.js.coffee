@@ -14,15 +14,16 @@ $(document).ready ->
         phone.val phone.val() + '-'
 
       # Allow numeric, tab, backspace, delete keys only
-      key == 8 or key == 9 or key == 46 or key >= 48 and key <= 57 or key >= 96 and key <= 185
+      key == 8 or key == 9 or key == 46 or key >= 48 and
+      key <= 57 or key >= 96 and key <= 185
     
   ).bind('focus click', ->
     phone = $(this)
     if phone.val().length == 0
       phone.val '('
     else
-      val = phone.val();
-      phone.val('').val val 
+      val = phone.val()
+      phone.val('').val val
       # ensure cursor remains at end
     return
 
@@ -32,3 +33,5 @@ $(document).ready ->
       phone.val ''
     return
   return
+
+# based off a JSfiddle by mykisscool
