@@ -117,48 +117,66 @@ describe 'viewing the dashboard as a student' do
     end # of student did not get an interview
   end # of student has submitted an application
   context 'student has not yet submitted an application' do
-    let!(:positn_not_hiring) { create :position }
-    let!(:active_application) do
-      create :application_template,
-             active: true
-    end
-    let!(:inactive_app) do
-      create :application_template,
-             active: false
-    end
     before :each do
       visit student_dashboard_url
     end
-    context 'deactivated application text has been configured' do
-      it 'displays the custom text for the position not hiring' do
-        allow_any_instance_of(ApplicationConfiguration)
-          .to receive(:configured_value)
-        expect_any_instance_of(ApplicationConfiguration)
-          .to receive(:configured_value)
-          .with([:deactivated_application,
-                 yamlize(positn_not_hiring.department.name),
-                 yamlize(positn_not_hiring.name)],
-                anything)
-          .and_return 'custom text'
+    context 'position exists, but applications have not been created' do
+      let!(:positn_not_hiring) { create :position }
+      context 'deactivated application text has been configured' do
+        it 'displays the custom text for the position not hiring' do
+          allow_any_instance_of(Position)
+            .to receive(:configured_not_hiring_text)
+          expect_any_instance_of(Position)
+            .to receive(:configured_not_hiring_text)
+            .and_return 'custom text'
+          visit current_url
+          expect(page).to have_text 'custom text'
+        end
+      end
+      context 'deactivated application text has not been configured' do
+        it 'displays the default not-hiring text' do
+          expect(page)
+            .to have_text
+          "Applications are currently unavailable for #{positn_not_hiring.name}"
+        end
+      end
+    end
+    context 'applications have been created for a position, but are inactive' do
+      let!(:inactive_app) do
+        create :application_template,
+               active: false
+      end
+      context 'deactivated application text has been configured' do
+        it 'displays the custom text for the position not hiring' do
+          allow_any_instance_of(Position)
+            .to receive(:configured_not_hiring_text)
+          expect_any_instance_of(Position)
+            .to receive(:configured_not_hiring_text)
+            .and_return 'custom text'
+          visit current_url
+          expect(page).to have_text 'custom text'
+        end
+      end
+      context 'deactivated application text has not been configured' do
+        it 'displays the default not-hiring text' do
+          expect(page)
+            .to have_text
+          "We are not currently hiring for #{inactive_app.position.name}"
+        end
+      end
+    end
+    context 'applications are active for that position' do
+      let!(:active_application) do
+        create :application_template,
+               active: true
+      end
+      it 'shows links to submit the application' do
         visit current_url
-        expect(page).to have_text 'custom text'
+        # page must be reloaded, as we first visited the page before this
+        # application was created
+        click_link "Submit application for #{active_application.position.name}"
+        expect(page.current_url).to eql application_url(active_application)
       end
     end
-    context 'deactivated application text has not been configured' do
-      it 'displays the default not-hiring text for the position not hiring' do
-        expect(page)
-          .to have_text
-        "Applications are currently unavailable for #{positn_not_hiring.name}"
-      end
-      it 'displays the default not-hiring text for the inactive application' do
-        expect(page)
-          .to have_text
-        "currently unavailable for #{inactive_app.position.name}"
-      end
-    end
-    it 'shows links to submit an application for the active application' do
-      click_link "Submit application for #{active_application.position.name}"
-      expect(page.current_url).to eql application_url(active_application)
-    end
-  end
+  end # of student has not yet submitted an application
 end

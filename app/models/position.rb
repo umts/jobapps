@@ -1,3 +1,5 @@
+include ApplicationConfiguration
+
 class Position < ActiveRecord::Base
   belongs_to :department
   has_one :application_template, dependent: :destroy
@@ -20,8 +22,7 @@ class Position < ActiveRecord::Base
 
   def configured_not_hiring_text
     configured_value([:deactivated_application,
-                     yamlize(department.name), yamlize(name)],
+                      yamlize(department.name), yamlize(name)],
                      default: default_not_hiring_text)
   end
-
 end
