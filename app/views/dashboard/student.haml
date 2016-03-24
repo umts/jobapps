@@ -25,6 +25,4 @@
           application_path(position.application_template)
       - else
         %li
-          = configured_value([:deactivated_application,
-            yamlize(department.name), yamlize(position.name)],
-            default: "Applications are currently unavailable for #{position.name}")
+          = position.configured_not_hiring_text
