@@ -31,10 +31,16 @@
             - case question.data_type
             - when 'long-text'
               = r.text_area question.prompt, required: question.required?
-            - when 'text', 'date'
+            - when 'text'
               = r.text_field question.prompt,
                 required: question.required?,
-                class: ('datepicker' if question.date?), size: 50
+                size: 50
+            - when 'date'
+              = r.text_field question.prompt,
+                required: question.required?,
+                class: 'datepicker',
+                placeholder: 'Click here to select date...',
+                size: 40
             - when 'number'
               = r.number_field question.prompt,
                 required: question.required?
