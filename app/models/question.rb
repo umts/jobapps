@@ -8,7 +8,8 @@ class Question < ActiveRecord::Base
                   date
                   heading
                   explanation
-                  long-text).freeze
+                  long-text
+                  phone-number).freeze
 
   validate :belongs_to_application_template_or_draft?
 
