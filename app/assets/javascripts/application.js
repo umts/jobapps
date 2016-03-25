@@ -16,4 +16,5 @@
 //= require jquery-ui.min
 //= require jquery.datetimepicker
 //= require multiple-select
+//= require jquery.maskedinput
 //= require_tree .
