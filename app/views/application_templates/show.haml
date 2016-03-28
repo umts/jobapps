@@ -42,6 +42,9 @@
             - else
               .label= r.label question.prompt, question.prompt
               - case question.data_type
+              - when 'phone-number'
+                = r.text_field question.prompt, required: question.required?,
+                  class: 'phone', size: 20, placeholder: '(XXX) XXX-XXXX'
               - when 'long-text'
                 = r.text_area question.unique_name,
                   required: question.required?,
@@ -92,6 +95,5 @@
             options_for_select(ApplicationRecord::GENDER_OPTIONS),
             include_blank: 'Prefer not to answer'
       .actions= submit_tag 'Submit application' unless @current_user.try :staff?
-
 - else
   .note_item This application is currently unavailable. Please check back.

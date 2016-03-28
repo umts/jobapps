@@ -14,6 +14,12 @@ engines:
       - ruby
   fixme:
     enabled: true
+    config:
+      strings:
+        - TODO
+        - HACK
+        - BUG
+        - FIXME 
   rubocop:
     enabled: true
     config: .rubocop-no-umts-cops.yml
@@ -31,3 +37,4 @@ exclude_paths:
 - db/**/*
 - spec/**/*
 - vendor/**/*
+- .codeclimate.yml
