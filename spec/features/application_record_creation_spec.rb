@@ -1,9 +1,6 @@
 require 'rails_helper'
 
 describe 'submitting application records' do
-  # we need to create a question in this application template,
-  # otherwise there is nothing to fill out and so the student will be
-  # told to go away
   let!(:application_template) do
     create :application_template,
            :with_questions
@@ -20,6 +17,15 @@ describe 'submitting application records' do
       expect(find_field('First name').value).to eql student.first_name
       expect(find_field('Last name').value).to eql student.last_name
       expect(find_field('Email').value).to eql student.email
+    end
+    context 'application template has been marked as inactive' do
+      before :each do
+        application_template.update active: false
+      end
+      it 'shows text explaining that the application is unavailable' do
+        expect page.has_text?
+        'This application is currently unavailable. Please check back.'
+      end
     end
   end
   context 'student has been authenticated but has no user object' do
@@ -39,6 +45,15 @@ describe 'submitting application records' do
       expect { click_on 'Submit application' }
         .to change { User.count }.by 1
       expect(User.last).to have_attributes user_attributes
+    end
+    context 'application template has been marked as inactive' do
+      before :each do
+        application_template.update active: false
+      end
+      it 'shows text explaining that the application is unavailable' do
+        expect page.has_text?
+        'This application is currently unavailable. Please check back.'
+      end
     end
   end
 end
