@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'bundler', '>= 1.8.4'
 gem 'coffee-rails'
 gem 'factory_girl_rails'
 gem 'haml'
@@ -20,7 +21,13 @@ gem 'uglifier'
 source 'https://rails-assets.org' do
   gem 'rails-assets-wenzhixin--multiple-select'
   gem 'rails-assets-jquery.maskedinput'
+  gem 'rails-assets-bootstrap'
 end
+
+group :assets do
+  gem 'twitter-bootstrap-rails'
+end
+
 group :production do
   gem 'exception_notification'
 end

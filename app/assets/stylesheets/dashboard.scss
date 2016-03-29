@@ -1,9 +1,44 @@
+@for $i from 1 through 48 {
+  .fs-#{$i} {
+    font-size: #{$i}px !important;
+  }
+}
+
 .dashboard_partial{
   border: 2px solid #003a5b;
-  background-color: #eee;
+  background-color: rgba(220, 220, 220, 0.5);
   border-radius: 5px;
-  margin-bottom: .25em;
+  margin-bottom: 40px;
+  z-index: 1000;
+  overflow: visible;
+  position: relative;
+  padding-left: 10px;
   li {
     margin: .25em;
   }
+  .partial_block {
+    margin-bottom: 20px;
+  }
+  .title_header {
+    width: 60%;
+    margin: 5px 0px 5px 15px;
+    font-size: 24px;
+    font-weight: bold;
+    border-bottom: 1px dotted black;
+  }  
+  .position_label {
+    margin-left: 15px;
+    font-weight: bold;
+    font-size: 16px;
+  }
 }
+
+.dashboard_heading {
+  font-size: 24px;
+  font-weight: bold;
+  float: right;
+  margin-bottom: 0px;
+  margin-top: -30px;
+  margin-right: 5px;
+}
+
