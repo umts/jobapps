@@ -19,12 +19,13 @@ describe 'submitting application records' do
       expect(find_field('Email').value).to eql student.email
     end
     context 'application template has been marked as inactive' do
-      before :each do
-        application_template.update active: false
-      end
       it 'shows text explaining that the application is unavailable' do
-        expect page.has_text?
-        'This application is currently unavailable. Please check back.'
+        application_template.update active: false
+        visit current_url
+        # must reload the page for changes to template to take effect
+        expect(page)
+        .to have_text('This application is currently unavailable.
+                      Please check back')
       end
     end
   end
@@ -47,12 +48,13 @@ describe 'submitting application records' do
       expect(User.last).to have_attributes user_attributes
     end
     context 'application template has been marked as inactive' do
-      before :each do
-        application_template.update active: false
-      end
       it 'shows text explaining that the application is unavailable' do
-        expect page.has_text?
-        'This application is currently unavailable. Please check back.'
+        application_template.update active: false
+        visit current_url
+        # must reload the page for changes to template to take effect
+        expect(page)
+        .to have_text('This application is currently unavailable.
+                      Please check back')
       end
     end
   end
