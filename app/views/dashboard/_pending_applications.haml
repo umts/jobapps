@@ -1,15 +1,12 @@
 .dashboard_partial
-  %ul
-    - @departments.each do |department|
-      %li
-        %h3= department.name
-      %ul
-        - department.positions.each do |position|
-          %li
-            = position.name
-            %ul
-              - if @pending_records.key? position
-                - @pending_records[position].each do |record|
-                  %li= link_to record.user.proper_name, record
-              - else
-                No pending applications
+  - @departments.each do |department|
+    .title_header.fs-26= department.name
+    .application_block
+      - department.positions.each do |position|
+        .pending_applications_position= position.name
+        %ul
+          - if @pending_records.key? position
+            - @pending_records[position].each do |record|
+              %li= link_to record.user.proper_name, record
+          - else
+            No pending applications
