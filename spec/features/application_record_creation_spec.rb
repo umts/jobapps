@@ -24,7 +24,7 @@ describe 'submitting application records' do
         visit current_url
         # must reload the page for changes to template to take effect
         expect(page)
-        .to have_text('This application is currently unavailable.
+          .to have_text('This application is currently unavailable.
                       Please check back')
       end
     end
@@ -53,7 +53,7 @@ describe 'submitting application records' do
         visit current_url
         # must reload the page for changes to template to take effect
         expect(page)
-        .to have_text('This application is currently unavailable.
+          .to have_text('This application is currently unavailable.
                       Please check back')
       end
     end
