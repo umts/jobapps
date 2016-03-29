@@ -1,9 +1,9 @@
 .dashboard_partial
   - @departments.each do |department|
     .title_header.fs-26= department.name
-    .application_block
+    .partial_block
       - department.positions.each do |position|
-        .pending_applications_position= position.name
+        .position_label= position.name
         %ul
           - if @pending_records.key? position
             - @pending_records[position].each do |record|
