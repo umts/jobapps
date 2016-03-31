@@ -7,11 +7,9 @@ class SubscriptionsController < ApplicationController
   end
 
   def destroy
-    params.require :id
-    @subscription = Subscription.find params[:id]
+    @subscription = Subscription.find params.require[:id]
     @subscription.destroy
     redirect_to :back
-    #TODO: show flash message (you have been unsubscribed)
   end
 
   private
