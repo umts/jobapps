@@ -7,6 +7,4 @@ class Subscription < ActiveRecord::Base
   validates :email,
             :user_id,
             :position_id, presence: true
-
-  
 end
