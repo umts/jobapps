@@ -2,7 +2,7 @@ class SubscriptionsController < ApplicationController
 
   def create
     @subscription = Subscription.new subscription_parameters
-    @subscription.save!
+    @subscription.save
     redirect_to :back
   end
 
