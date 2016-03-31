@@ -33,4 +33,12 @@ class JobappsMailer < ActionMailer::Base
     mail to: configured_value([:email, :site_contact_email]),
          subject: "Site text request from #{user.full_name}"
   end
+
+  def subscribe_to_position(subscription, position, user)
+    @subscription = subscription
+    @position = position
+    @user = user
+    mail to: @subscription.email,
+      subject: "New application for #{position.name}"
+  end
 end
