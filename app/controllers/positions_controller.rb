@@ -17,7 +17,7 @@ class PositionsController < ApplicationController
   end
 
   def edit
-    @subscription = Subscription.find_by(user_id: @current_user.id)
+    @subscriptions = Subscription.where(user_id: @current_user.id)
   end
 
   def new
