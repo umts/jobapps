@@ -5,15 +5,17 @@
 = button_to "Remove #{@position.name_and_department}",
   @position, method: :delete
 %p Subscribe to email notifications about this position?
-Enter email:
 = form_for :subscription,
   url: {controller: :subscriptions, action: :create} do |f|
-  .field
-    = f.label :email
-    = f.text_field :email, value: @subscription.try(:email), required: true
-    = f.hidden_field :position_id, value: @position.id
-    = f.hidden_field :user_id, value: @current_user.id
-  .field
-    = f.submit 'Subscribe'
-- if @subscription
-  = button_to 'Remove subscription', @subscription, method: :delete
+  = f.label :email
+  = f.text_field :email
+  = f.hidden_field :position_id, value: @position.id
+  = f.hidden_field :user_id, value: @current_user.id
+  = f.submit 'Subscribe'
+- if @subscriptions
+  %ul.subscriptions
+    Current subscribed emails:
+    - @subscriptions.each do |subscription|
+      .subscription_email
+        %li=subscription.email
+        = button_to 'Remove', subscription, method: :delete

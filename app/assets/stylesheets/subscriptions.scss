@@ -1,3 +1,12 @@
-// Place all the styles related to the Subscriptions controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+.subscriptions {
+  margin-left: -2em;
+  margin-top: 1em;
+  .subscription_email{
+    padding: .5em; 
+    li {
+      float: left;
+      list-style-type: none;
+      margin-right: 1em;
+    }
+  }
+} 
