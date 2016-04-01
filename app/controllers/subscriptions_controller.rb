@@ -7,7 +7,7 @@ class SubscriptionsController < ApplicationController
   end
 
   def destroy
-    @subscription = Subscription.find params.require[:id]
+    @subscription = Subscription.find params.require :id
     @subscription.destroy
     redirect_to :back
   end
