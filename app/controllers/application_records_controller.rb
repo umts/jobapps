@@ -17,11 +17,6 @@ class ApplicationRecordsController < ApplicationController
     show_message :application_receipt,
                  default: 'Your application has been submitted. Thank you!'
     redirect_to student_dashboard_path
-    subscription = Subscription.find_by(position_id: params[:position_id)
-    position = Position.find(params[:position_id])
-    user = @current_user
-    JobappsMailer.subscribe_to_position(subscription, position, user)
-    .deliver_now
   end
 
   def csv_export
