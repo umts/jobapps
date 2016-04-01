@@ -5,6 +5,6 @@ class Subscription < ActiveRecord::Base
   validates :position_id, uniqueness: { scope: :email }
 
   validates :email,
-            :user_id,
-            :position_id, presence: true
+            :user,
+            :position, presence: true
 end
