@@ -5,6 +5,7 @@
 = button_to "Remove #{@position.name_and_department}",
   @position, method: :delete
 %p Subscribe to email notifications about this position?
+%p You will be notified when someone fills out an application.
 = form_for :subscription,
   url: {controller: :subscriptions, action: :create} do |f|
   = f.label :email
@@ -14,7 +15,7 @@
   = f.submit 'Subscribe'
 - if @subscriptions
   %ul.subscriptions
-    Current subscribed emails:
+    Your current subscribed emails:
     - @subscriptions.each do |subscription|
       .subscription_email
         %li=subscription.email

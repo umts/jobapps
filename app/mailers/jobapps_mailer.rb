@@ -34,11 +34,9 @@ class JobappsMailer < ActionMailer::Base
          subject: "Site text request from #{user.full_name}"
   end
 
-  def subscribe_to_position(subscription, position, user)
-    @subscription = subscription
+  def application_notification(subscription, position)
     @position = position
-    @user = user
-    mail to: @subscription.email,
+    mail to: subscription.email,
       subject: "New application for #{position.name}"
   end
 end
