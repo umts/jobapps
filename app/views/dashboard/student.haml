@@ -20,9 +20,19 @@
         - should_show = application.pending? || should_show_denied_applications?
       - if app_submitted && should_show
         %li= link_to "Review your application for #{position.name}", application
-      - elsif position.application_template.try(:active?)
-        %li= link_to "Submit application for #{position.name}",
-          application_path(position.application_template)
+      - if position.application_template.try(:active?)
+        - if app_submitted
+          - if should_allow_resubmission?
+            -if application.reviewed
+              %li= link_to "Resubmit application for #{position.name}",
+                application_path(position.application_template)
+            - else
+              Your application has been reviewed yet.
+          - else
+            You are not allowed to resubmit this application.
+        -else
+          %li= link_to "Submit application for #{position.name}",
+            application_path(position.application_template)
       - else
         %li
           = position.configured_not_hiring_text

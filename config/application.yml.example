@@ -35,7 +35,12 @@ on_application_denial:
   # For instance, you may wish to provide feedback on steps applicants
   # could take in order to become eligible for the position in the future.
   notify_of_reason: true
-
+  # Whether or not an applicant will be allowed to resubmit an application
+  # to a declined application
+  allow_resubmission: true
+  # Whether or not the applicant will be allowed to refill in new applications
+  # with data from past ones.
+  fill_form_with_old: true
 
 # MESSAGE KEYS
 # Many site messages which are shown to your users are configurable -

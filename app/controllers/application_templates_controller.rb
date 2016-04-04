@@ -10,6 +10,12 @@ class ApplicationTemplatesController < ApplicationController
   end
 
   def show
+    @old_applications = @current_user.try(:old_applications,
+                                          @template.position_id)
+    @old_data = {}
+    if params[:load_id]
+      @old_data = ApplicationRecord.find(params[:load_id]).try :questions_hash || nil
+    end
   end
 
   def toggle_active

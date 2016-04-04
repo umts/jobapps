@@ -30,4 +30,8 @@ class User < ActiveRecord::Base
   def student?
     !staff?
   end
+
+  def old_applications(position_id)
+    application_records.where(position_id: position_id)
+  end
 end

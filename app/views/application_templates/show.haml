@@ -14,13 +14,27 @@
       = button_to 'Activate application',
           toggle_active_application_url(@template)
 
-- if @current_user.try(:staff?) || @template.active?
+- if @template.active?
   .form
     %h1.title Application for #{@template.position.name_and_department}
     %strong
       Fields marked with an asterisk (
       %span.ast *
       ) are required.
+    - if should_allow_form_refilling? && @old_applications.present?
+      .row#old_application_block
+        .col-md-8.col-md-offset-2#subtitle
+          You have some old applications you can take responses from!
+        %table.col-md-8.col-md-offset-2
+          %tr
+            %th
+              Submitted
+          - @old_applications.each do |app|
+            %tr
+              %td
+                = format_date_time app.created_at
+              %td.load_column
+                = link_to 'Load reponses', url_for(params.merge(:load_id => app.id))
     = form_tag controller: :application_records, action: :create do
       = fields_for :user do |u|
         .field
@@ -28,53 +42,69 @@
           .explanation You will be able to log in and review your application.
         - [:first_name, :last_name, :email].each do |field|
           .field
-            .label= u.label field
-            = u.text_field field, size: 50, required: true,
-              value: @current_user.try(field)
-            %span.ast *
+            .row
+              .col-md-6
+                .label= u.label field
+              .col-md-6
+                = u.text_field field, size: 50, required: true,
+                  value: @current_user.try(field)
+                %span.ast *
       = fields_for :data do |r|
         - @template.questions.each do |question|
           .field
             - if question.explanation?
               .explanation= render_markdown question.prompt
             - elsif question.heading?
-              %h3.heading= question.prompt
+              %h3.heading
+                = question.prompt
             - else
-              .label= r.label question.prompt, question.prompt
-              - case question.data_type
-              - when 'phone-number'
-                = r.text_field question.prompt, required: question.required?,
-                  class: 'phone', size: 20, placeholder: '(XXX) XXX-XXXX'
-              - when 'long-text'
-                = r.text_area question.unique_name,
-                  required: question.required?,
-                  size: '50x5'
-              - when 'text'
-                = r.text_field question.unique_name,
-                  required: question.required?,
-                  size: 50
-              - when 'date'
-                = r.text_field question.unique_name,
-                  required: question.required?,
-                  class: 'datepicker',
-                  placeholder: 'Click here to select date...',
-                  size: 40
-              - when 'number'
-                = r.number_field question.unique_name,
-                  required: question.required?
-              - when 'yes/no'
-                Yes
-                = r.radio_button question.unique_name, 'Yes',
-                  required: question.required?
-                No
-                = r.radio_button question.unique_name, 'No',
-                  required: question.required?
-              - if question.required?
-                %span.ast *
+              .form-group.row
+                .col-md-6.text-right
+                  .label= r.label question.prompt, question.prompt
+                .col-md-6
+                  - case question.data_type
+                  - when 'phone-number'
+                    = r.text_field question.prompt, required: question.required?,
+                      class: 'phone', size: 20, placeholder: '(XXX) XXX-XXXX',
+                      value: @old_data[question.id] || ""
+                  - when 'long-text'
+                    = r.text_area question.unique_name,
+                      required: question.required?,
+                      size: '50x5',
+                      value: @old_data[question.id] || ""
+                  - when 'text'
+                    = r.text_field question.unique_name,
+                      required: question.required?,
+                      size: 50,
+                      value: @old_data[question.id] || ""
+                  - when 'date'
+                    = r.text_field question.unique_name,
+                      required: question.required?,
+                      class: 'datepicker',
+                      placeholder: 'Click here to select date...',
+                      size: 40,
+                      value: @old_data[question.id] || ""
+                  - when 'number'
+                    = r.number_field question.unique_name,
+                      required: question.required?,
+                      value: (@old_data[question.id] || "").to_i
+                  - when 'yes/no'
+                    Yes
+                    = r.radio_button question.unique_name, 'Yes',
+                      required: question.required?,
+                      checked: @old_data[question.id] == 'Yes'
+                    No
+                    = r.radio_button question.unique_name, 'No',
+                      required: question.required?,
+                      checked: @old_data[question.id] == 'No'
+                  - if question.required?
+                    %span.ast *
             = r.hidden_field question.unique_prompt_name,
               value: question.prompt
             = r.hidden_field question.unique_data_type_name,
               value: question.data_type
+            = r.hidden_field question.id,
+              value: "#{question.id}-#{question.number}"
       = hidden_field_tag :position_id, @template.position_id
       - if @template.eeo_enabled?
         .heading Voluntary Equal Employment Opportunity Information
