@@ -31,7 +31,7 @@ class User < ActiveRecord::Base
     !staff?
   end
 
-  def old_applications(position_id)
-    application_records.where(position_id: position_id)
+  def old_applications(position)
+    application_records.where(position_id: position.id)
   end
 end
