@@ -14,7 +14,8 @@ class ApplicationTemplatesController < ApplicationController
                                           @template)
     @old_data = {}
     if params[:load_id]
-      @old_data = ApplicationRecord.find(params[:load_id]).try :questions_hash || {}
+      @old_data = ApplicationRecord.find(params[:load_id])
+                                   .try :questions_hash || {}
     end
   end
 

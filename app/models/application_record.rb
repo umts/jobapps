@@ -58,13 +58,11 @@ class ApplicationRecord < ActiveRecord::Base
       # So the desired indices are 3 and 1 for a
       # Question_ID -> Response hash
 
-      qid_index, response_index = 3, 1
+      qid_index = 3
+      response_index = 1
       [array4[qid_index], array4[response_index]]
-    end.select do |array2| # New sub-arrays of two elements
-      # Make sure no element is nil (i.e. no response)
-
-      array2.all?
-    end.to_h # Cast it to a hash for easy referencing in the view
+    end
+        .select(&:all?).to_h
   end
 
   def deny_with(staff_note)
