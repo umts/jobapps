@@ -38,8 +38,9 @@ on_application_denial:
   # Whether or not an applicant will be allowed to resubmit an application
   # to a declined application
   allow_resubmission: true
-  # Whether or not the applicant will be allowed to refill in new applications
-  # with data from past ones.
+  # Whether or not an applicant will be allowed to resubmit an application for
+  # a particular position when they have previously had an application for that
+  # position denied
   fill_form_with_old: true
 
 # MESSAGE KEYS
