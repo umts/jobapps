@@ -56,7 +56,7 @@ class ApplicationRecord < ActiveRecord::Base
       # The four element sub-arrays use the format
       # [prompt, response, data_type, question_id]
       # So the desired indices are 3 and 1 for a
-      # Question_ID -> Response hash
+      # question_id -> response hash
 
       qid_index = 3
       response_index = 1
