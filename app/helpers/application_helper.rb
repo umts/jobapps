@@ -9,8 +9,9 @@ module ApplicationHelper
   def parse_application_data(data)
     questions = []
     data.each do |k, v|
-      match_data = k.match(/^(prompt|response|data_type)?_?(\d+)$/) ||
-                   v.match(/^(\d+)\-(\d+)$/)
+      match_data = v.match(/^(\d+)\-(\d+)$/) ||
+                   k.match(/^(prompt|response|data_type)_(\d+)$/)
+
       next unless match_data.present?
 
       input_type, number = match_data.captures

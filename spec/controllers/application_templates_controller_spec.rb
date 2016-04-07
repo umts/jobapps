@@ -41,11 +41,14 @@ describe ApplicationTemplatesController do
       department = create :department, name: 'Bus'
       position = create :position, name: 'Operator', department: department
       @template = create :application_template, position: position
+      @record = create :application_record,
+                       data: [['a question', 'an answer', 'data type', 1]]
     end
     context 'using specific route' do
       let :submit do
         get :show, id: @template.slug
       end
+
       context 'no user' do
         it 'allows access' do
           when_current_user_is nil
