@@ -49,6 +49,17 @@ describe ApplicationTemplatesController do
         get :show, id: @template.slug
       end
 
+      let :submit_with_load_id do
+        get :show, id: @template.slug, load_id: @record.id
+      end
+
+      context 'with a record to preload from' do
+        it 'gets the correct question hash' do
+          when_current_user_is :student
+          submit_with_load_id
+          expect(assigns(:old_data)).to eq(@record.questions_hash)
+        end
+      end
       context 'no user' do
         it 'allows access' do
           when_current_user_is nil
