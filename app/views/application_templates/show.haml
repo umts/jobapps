@@ -17,6 +17,10 @@
 - if @current_user.try(:staff?) || @template.active?
   .form
     %h1.title Application for #{@template.position.name_and_department}
+    -if @template.reply_to.present? && @current_user.staff?
+      %div
+        Reply-to address:
+        = @template.reply_to
     %strong
       Fields marked with an asterisk (
       %span.ast *

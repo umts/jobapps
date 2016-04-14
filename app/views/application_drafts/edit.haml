@@ -60,6 +60,11 @@
               required: !question.new_record?
             .field_attribute
               = g.check_box :required
+      .field_row
+        .field_attribute_header1
+          Reply-to address:  
+        .field_attribute
+          =f.text_area :reply_to
       .actions
         = f.submit 'Save changes and continue editing'
         = f.submit 'Preview changes'

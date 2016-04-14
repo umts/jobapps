@@ -4,6 +4,10 @@
 
 .form
   %h1.title Application for #{@draft.position.name_and_department}
+  - if @draft.reply_to.present?
+    %div
+      Reply-to address:
+      = @draft.reply_to
   %strong
     Fields marked with an asterisk (
     %span.ast *
