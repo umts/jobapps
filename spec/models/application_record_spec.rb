@@ -104,6 +104,21 @@ describe ApplicationRecord do
     end
   end
 
+  describe 'interview_count' do
+    before :each do
+      create :application_record, id: 1
+      create :application_record, id: 2
+      create :interview, application_record_id: 1
+      @collection = ApplicationRecord.where(id: 1)
+    end
+    let :call do
+      @collection.interview_count
+    end
+    it 'counts the interviews associated with the collection' do
+      expect(call).to be 1
+    end
+  end
+
   describe 'deny_with' do
     before :each do
       @record = create :application_record
@@ -165,6 +180,7 @@ describe ApplicationRecord do
   end
 
   describe 'self.gender_eeo_data' do
+    # There are no interviews, all interview counts are 0
     before :each do
       @start_date = 1.week.ago
       @end_date = 1.week.since
@@ -189,30 +205,37 @@ describe ApplicationRecord do
         .and_return(relation)
       call
     end
-    it 'counts records within the correct date range' do
+    it 'calls AR#interview_count to count interviews' do
+      relation = ApplicationRecord.all
+      expect(ApplicationRecord).to receive(:interview_count)
+        .and_return(relation).at_least(:once)
+      call
+    end
+    it 'counts records and their interviews within the correct date range' do
       create :application_record, position: @position,
                                   gender: 'Female'
       Timecop.freeze 2.weeks.ago do
         create :application_record, position: @position,
                                     gender: 'Female'
       end
-      expect(call).to contain_exactly ['Female', 1]
+      expect(call).to contain_exactly ['Female', 1, 0]
     end
-    it 'counts only records with a gender attribute' do
+    it 'counts only records and their interviews with a gender attribute' do
       create :application_record, position: @position,
                                   gender: nil
       create :application_record, position: @position,
                                   gender: ''
-      expect(call).to contain_exactly ['Female', 0]
+      expect(call).to contain_exactly ['Female', 0, 0]
     end
-    it 'counts records whose gender is not one of the gender_options' do
+    it 'counts records/interviews whose gender is not of the gender_options' do
       create :application_record, position: @position,
                                   gender: 'Male'
-      expect(call).to contain_exactly ['Female', 0], ['Male', 1]
+      expect(call).to contain_exactly ['Female', 0, 0], ['Male', 1, 0]
     end
   end
 
   describe 'self.eeo_data' do
+    # there are no interviews, interview counts are 0
     before :each do
       @department = create :department
       @position = create :position, department: @department
@@ -222,6 +245,12 @@ describe ApplicationRecord do
     end
     let :call do
       ApplicationRecord.eeo_data @start_date, @end_date, @department.id
+    end
+    it 'calls AR#interview_count to count interviews' do
+      relation = ApplicationRecord.all
+      expect(ApplicationRecord).to receive(:interview_count)
+        .and_return(relation).at_least(:once)
+      call
     end
     it 'calls AR#between to gather application records' do
       relation = ApplicationRecord.all
@@ -259,12 +288,12 @@ describe ApplicationRecord do
       end
       expect(call[:all].count).to be 1
     end
-    it 'counts records containing ethnicities not from ethnicity_options' do
+    it 'counts records/interviews with ethnicity not from ethnicity_options' do
       create :application_record, position: @position,
                                   ethnicity: 'Betazoid',
                                   gender: 'Male'
-      expect(call[:ethnicities]).to contain_exactly ['Betazoid', 1],
-                                                    ['Klingon', 0]
+      expect(call[:ethnicities]).to contain_exactly ['Betazoid', 1, 0],
+                                                    ['Klingon', 0, 0]
     end
     it 'calls AR#gender_eeo_data to assign values to genders key in hash' do
       expect(ApplicationRecord).to receive(:gender_eeo_data)
@@ -273,30 +302,30 @@ describe ApplicationRecord do
       call
       expect(call[:genders]).to eql 'something'
     end
-    it 'puts all genders and the counts thereof in the hash' do
+    it 'puts all genders, counts, and interview counts in the hash' do
       create :application_record, position: @position,
                                   gender: 'Female'
-      expect(call[:genders]).to contain_exactly ['Male', 0], ['Female', 1]
+      expect(call[:genders]).to contain_exactly ['Male', 0, 0], ['Female', 1, 0]
     end
-    it 'puts counts of all male members of every ethnicity in the hash' do
+    it 'returns counts/interview counts of males of every ethnicity' do
       create :application_record, position: @position,
                                   ethnicity: 'Klingon',
                                   gender: 'Male'
       create :application_record, position: @position,
                                   ethnicity: 'Betazoid',
                                   gender: 'Female'
-      expect(call[:male_ethnicities]).to contain_exactly ['Betazoid', 0],
-                                                         ['Klingon', 1]
+      expect(call[:male_ethnicities]).to contain_exactly ['Betazoid', 0, 0],
+                                                         ['Klingon', 1, 0]
     end
-    it 'puts counts of all female members of every ethnicity in the hash' do
+    it 'returns counts/interview counts of females of every ethnicity' do
       create :application_record, position: @position,
                                   ethnicity: 'Klingon',
                                   gender: 'Male'
       create :application_record, position: @position,
                                   ethnicity: 'Betazoid',
                                   gender: 'Female'
-      expect(call[:female_ethnicities]).to contain_exactly ['Betazoid', 1],
-                                                           ['Klingon', 0]
+      expect(call[:female_ethnicities]).to contain_exactly ['Betazoid', 1, 0],
+                                                           ['Klingon', 0, 0]
     end
   end
 end

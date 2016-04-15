@@ -22,8 +22,10 @@ class ApplicationRecord < ActiveRecord::Base
           joins(:position)
             .where(positions: { department_id: department_ids })
         }
-  scope :interview_count, -> { joins(:interview)
-    .where(interviews: { application_record_id: ids }).count}
+  scope :interview_count, lambda {
+    joins(:interview)
+      .where(interviews: { application_record_id: ids }).count
+  }
   scope :newest_first, -> { order 'created_at desc' }
   scope :pending, -> { where reviewed: false }
   scope :with_gender, -> { where.not gender: [nil, ''] }
@@ -75,6 +77,7 @@ class ApplicationRecord < ActiveRecord::Base
     end
   end
 
+  # rubocop:disable Metrics/AbcSize
   def self.eeo_data(start_date, end_date, department_ids)
     records = {}
     records[:all] = between(start_date, end_date).in_department(department_ids)
@@ -86,13 +89,16 @@ class ApplicationRecord < ActiveRecord::Base
     end
     records[:genders] = gender_eeo_data(start_date, end_date, department_ids)
     records[:male_ethnicities] = all_ethnicities.map do |ethnicity|
-      specific_records = ethnicity_records.where ethnicity: ethnicity, gender: 'Male'
+      specific_records = ethnicity_records
+                         .where ethnicity: ethnicity, gender: 'Male'
       [ethnicity, specific_records.count, specific_records.interview_count]
     end
     records[:female_ethnicities] = all_ethnicities.map do |ethnicity|
-      specific_records = ethnicity_records.where ethnicity: ethnicity, gender: 'Female'
+      specific_records = ethnicity_records
+                         .where ethnicity: ethnicity, gender: 'Female'
       [ethnicity, specific_records.count, specific_records.interview_count]
     end
     records
   end
+  # rubocop:enable Metrics/AbcSize
 end
