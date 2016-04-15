@@ -2,13 +2,14 @@
 = text 'welcome'
  
 - if @interviews.present?
+  %h2 Interviews
   - @interviews.each do |interview|
     .interview_explain_text
-      Your #{interview.application_record.department.name} interview
+      %li Your #{interview.application_record.department.name} interview
       has been scheduled for #{interview.information}.
     .interview_review_link
       = link_to 'Review your application', interview.application_record
-
+%h2 Available Applications
 Please select the application which you would like to submit.
 - @positions.each do |department, positions|
   %h3= department.name
