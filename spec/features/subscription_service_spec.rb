@@ -18,15 +18,33 @@ describe 'Subscriptions' do
     let(:subscription) do
       create :subscription,
         user: user_1,
-        email: 'subscriber@email.com',
         position: position
     end
+    let(:other_position) { create :position }
     before :each do
       when_current_user_is user_2, integration: true
       visit edit_position_path(position)
     end
-    it 'does not display subscription belonging to other user' do
+    it 'does not display subscription belonging to another user' do
       expect(page).not_to have_text subscription.email
+    end
+    it 'only displays emails that have been subscribed to this position' do
+      visit edit_position_path(other_position)
+      expect(page).not_to have_text subscription.email
+    end
+  end
+  context 'Deleting a subscription' do
+    let(:user) { create :user, :staff }
+    let(:subscription) do
+      create :subscription, user: user, position: position
+    end
+    before :each do
+      when_current_user_is user, integration: true
+      visit edit_position_path(position)
+    end
+    it 'Removes the email from the page when remove is clicked' do
+     click_button 'Remove'
+     expect(page).not_to have_text subscription.email
     end
   end
 end
