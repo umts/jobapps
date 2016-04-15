@@ -1,5 +1,23 @@
 %h1 UMass Transit Job Applications
 = text 'welcome'
+ 
+Please select the application which you would like to submit.
+- @positions.each do |department, positions|
+  %h3= department.name
+  - positions.each do |position|
+    - app_submitted = @application_records.try(:keys).try(:include?, position)
+    - if app_submitted
+      // most recent application, if more than one
+      - application = @application_records[position].last
+      - should_show = application.pending? || should_show_denied_applications?
+    - if app_submitted && should_show
+      %li= link_to "Review your application for #{position.name}", application
+    - elsif position.application_template.try(:active?)
+      %li= link_to "Submit application for #{position.name}",
+        application_path(position.application_template)
+    - else
+      %li
+        = position.configured_not_hiring_text
 
 - if @interviews.present?
   - @interviews.each do |interview|
@@ -8,21 +26,3 @@
       has been scheduled for #{interview.information}.
     .interview_review_link
       = link_to 'Review your application', interview.application_record
-- else
-  Please select the application which you would like to submit.
-  - @positions.each do |department, positions|
-    %h3= department.name
-    - positions.each do |position|
-      - app_submitted = @application_records.try(:keys).try(:include?, position)
-      - if app_submitted
-        // most recent application, if more than one
-        - application = @application_records[position].last
-        - should_show = application.pending? || should_show_denied_applications?
-      - if app_submitted && should_show
-        %li= link_to "Review your application for #{position.name}", application
-      - elsif position.application_template.try(:active?)
-        %li= link_to "Submit application for #{position.name}",
-          application_path(position.application_template)
-      - else
-        %li
-          = position.configured_not_hiring_text
