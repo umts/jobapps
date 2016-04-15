@@ -15,8 +15,6 @@ class ApplicationRecord < ActiveRecord::Base
             presence: true
   validates :reviewed, inclusion: { in: [true, false] }
 
-  scope :pending, -> { where reviewed: false }
-  scope :newest_first, -> { order 'created_at desc' }
   scope :between,
         -> (start_date, end_date) { where created_at: start_date..end_date }
   scope :in_department,
@@ -24,6 +22,10 @@ class ApplicationRecord < ActiveRecord::Base
           joins(:position)
             .where(positions: { department_id: department_ids })
         }
+  scope :interview_count, -> { joins(:interview)
+    .where(interviews: { application_record_id: ids }).count}
+  scope :newest_first, -> { order 'created_at desc' }
+  scope :pending, -> { where reviewed: false }
   scope :with_gender, -> { where.not gender: [nil, ''] }
   scope :with_ethnicity, -> { where.not ethnicity: [nil, ''] }
 
@@ -68,7 +70,8 @@ class ApplicationRecord < ActiveRecord::Base
                                                   .in_department(department_ids)
     all_genders = GENDER_OPTIONS | gender_records.pluck(:gender)
     all_genders.map do |option|
-      [option, gender_records.where(gender: option).count]
+      specific_records = gender_records.where(gender: option)
+      [option, specific_records.count, specific_records.interview_count]
     end
   end
 
@@ -78,16 +81,17 @@ class ApplicationRecord < ActiveRecord::Base
     ethnicity_records = records[:all].with_ethnicity
     all_ethnicities = ETHNICITY_OPTIONS | ethnicity_records.pluck(:ethnicity)
     records[:ethnicities] = all_ethnicities.map do |option|
-      [option, ethnicity_records.where(ethnicity: option).count]
+      specific_records = ethnicity_records.where ethnicity: option
+      [option, specific_records.count, specific_records.interview_count]
     end
     records[:genders] = gender_eeo_data(start_date, end_date, department_ids)
     records[:male_ethnicities] = all_ethnicities.map do |ethnicity|
-      [ethnicity, ethnicity_records.where(ethnicity: ethnicity,
-                                          gender: 'Male').count]
+      specific_records = ethnicity_records.where ethnicity: ethnicity, gender: 'Male'
+      [ethnicity, specific_records.count, specific_records.interview_count]
     end
     records[:female_ethnicities] = all_ethnicities.map do |ethnicity|
-      [ethnicity, ethnicity_records.where(ethnicity: ethnicity,
-                                          gender: 'Female').count]
+      specific_records = ethnicity_records.where ethnicity: ethnicity, gender: 'Female'
+      [ethnicity, specific_records.count, specific_records.interview_count]
     end
     records
   end
