@@ -9,7 +9,7 @@ class JobappsMailer < ActionMailer::Base
     @application_record = application_record
     @user = application_record.user
     position = application_record.position
-    reply_to = position.application_template.reply_to
+    reply_to = position.application_template.email
     mail to: @user.email,
          subject: 'Application Denial',
          reply_to: reply_to
@@ -19,7 +19,7 @@ class JobappsMailer < ActionMailer::Base
     @interview = interview
     @user = interview.user
     position = interview.application_record.position
-    reply_to = position.application_template.reply_to
+    reply_to = position.application_template.email
     mail to: @user.email,
          subject: 'Interview Confirmation',
          reply_to: reply_to
@@ -29,7 +29,7 @@ class JobappsMailer < ActionMailer::Base
     @interview = interview
     @user = interview.user
     position = interview.application_record.position
-    reply_to = position.application_template.reply_to
+    reply_to = position.application_template.email
     mail to: @user.email,
          subject: 'Interview Rescheduled',
          reply_to: reply_to

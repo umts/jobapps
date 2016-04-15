@@ -16,7 +16,6 @@ class ApplicationDraftsController < ApplicationController
     template = ApplicationTemplate.find(params.require :application_template_id)
     @draft = template.create_draft(@current_user) ||
              template.draft_belonging_to(@current_user)
-    binding.pry
     redirect_to edit_draft_path(@draft)
   end
 
@@ -36,7 +35,7 @@ class ApplicationDraftsController < ApplicationController
   def update
     draft_params = params.require(:draft)
     question_params = draft_params.require(:questions_attributes).permit!
-    @draft.update(reply_to: draft_params[:reply_to])
+    @draft.update(email: draft_params[:email])
     @draft.update_questions question_params
     @draft.reload # since questions have been updated
     case params.require :commit

@@ -10,7 +10,7 @@ describe JobappsMailer do
     before :each do
       position = create :position
       @template = create :application_template, 
-        position: position, reply_to: 'steve@sharklazers.com'
+        position: position
       @application_record = create :application_record, staff_note: 'note',
         position: position
       @user = @application_record.user
@@ -28,8 +28,7 @@ describe JobappsMailer do
       expect(output.subject).to eql 'Application Denial'
     end
     it 'has the correct reply-to' do
-      binding.pry
-      expect(output.reply_to).to eql 'steve@sharklazers.com'
+      expect(output.reply_to).to eql Array(@template.email)
     end
     context 'notify_of_reason is set to true' do
       before :each do
@@ -69,7 +68,7 @@ describe JobappsMailer do
     before :each do
       position = create :position
       @template = create :application_template, 
-        position: position, reply_to: 'steve@sharklazers.com'
+        position: position
       application_record = create :application_record, staff_note: 'note',
         position: position
       @interview = create :interview, application_record: application_record
@@ -92,7 +91,7 @@ describe JobappsMailer do
       expect(output.body.encoded).to include @interview.scheduled.to_s
     end
     it 'has the correct reply-to address' do
-      expect(output.reply_to).to eql Array(@template.reply_to)
+      expect(output.reply_to).to eql Array(@template.email)
     end
   end
 
@@ -100,7 +99,7 @@ describe JobappsMailer do
     before :each do
       position = create :position
       @template = create :application_template, 
-        position: position, reply_to: 'steve@sharklazers.com'
+        position: position
       application_record = create :application_record, staff_note: 'note',
         position: position
       @interview = create :interview, application_record: application_record
@@ -122,7 +121,7 @@ describe JobappsMailer do
       expect(output.body.encoded).to include @interview.scheduled.to_s
     end
     it 'has the correct reply-to address' do
-      expect(output.reply_to).to eql Array(@template.reply_to)
+      expect(output.reply_to).to eql Array(@template.email)
     end
   end
 
