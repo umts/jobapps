@@ -51,6 +51,20 @@ class ApplicationRecord < ActiveRecord::Base
     self
   end
 
+  def questions_hash
+    data.map do |array4| # Sub-arrays of four elements
+      # The four element sub-arrays use the format
+      # [prompt, response, data_type, question_id]
+      # So the desired indices are 3 and 1 for a
+      # question_id -> response hash
+
+      qid_index = 3
+      response_index = 1
+      [array4[qid_index], array4[response_index]]
+    end
+        .select(&:all?).to_h
+  end
+
   def deny_with(staff_note)
     update staff_note: staff_note
     if configured_value [:on_application_denial, :notify_applicant],
