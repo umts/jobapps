@@ -106,10 +106,10 @@ describe ApplicationRecord do
 
   describe 'interview_count' do
     before :each do
-      create :application_record, id: 1
-      create :application_record, id: 2
-      create :interview, application_record_id: 1
-      @collection = ApplicationRecord.where(id: 1)
+      record_1 = create :application_record
+      record_2 = create :application_record
+      create :interview, application_record: record_1
+      @collection = ApplicationRecord.where(id: record_1.id)
     end
     let :call do
       @collection.interview_count
