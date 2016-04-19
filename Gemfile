@@ -20,7 +20,13 @@ gem 'uglifier'
 source 'https://rails-assets.org' do
   gem 'rails-assets-wenzhixin--multiple-select'
   gem 'rails-assets-jquery.maskedinput'
+  gem 'rails-assets-bootstrap'
 end
+
+group :assets do
+  gem 'twitter-bootstrap-rails'
+end
+
 group :production do
   gem 'exception_notification'
 end
