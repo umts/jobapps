@@ -109,7 +109,7 @@ describe ApplicationRecord do
       record_1 = create :application_record
       record_2 = create :application_record
       create :interview, application_record: record_1
-      @collection = ApplicationRecord.where(id: record_1.id)
+      @collection = ApplicationRecord.all
     end
     let :call do
       @collection.interview_count
