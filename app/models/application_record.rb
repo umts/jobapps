@@ -67,9 +67,8 @@ class ApplicationRecord < ActiveRecord::Base
     !reviewed
   end
 
-  def self.gender_eeo_data(start_date, end_date, department_ids)
-    gender_records = between(start_date, end_date).with_gender
-                                                  .in_department(department_ids)
+  def self.gender_eeo_data(records)
+    gender_records = records.with_gender
     all_genders = GENDER_OPTIONS | gender_records.pluck(:gender)
     all_genders.map do |option|
       specific_records = gender_records.where(gender: option)
@@ -77,31 +76,32 @@ class ApplicationRecord < ActiveRecord::Base
     end
   end
 
-  # rubocop:disable Metrics/AbcSize
-  def self.eeo_data(start_date, end_date, department_ids)
-    records = { male_ethnicities: [], female_ethnicities: [] }
-    records[:all] = between(start_date, end_date).in_department(department_ids)
-    ethnicity_records = records[:all].with_ethnicity
-    all_ethnicities = ETHNICITY_OPTIONS | ethnicity_records.pluck(:ethnicity)
-    records[:ethnicities] = all_ethnicities.map do |option|
-      specific_records = ethnicity_records.where ethnicity: option
-      [option, specific_records.count, specific_records.interview_count]
-    end
-    records[:genders] = gender_eeo_data(start_date, end_date, department_ids)
-    all_ethnicities.map do |ethnicity|
-      combined_records = ethnicity_records.with_gender
-                                          .where(ethnicity: ethnicity)
-      male_records = combined_records.where ethnicity: ethnicity, gender: 'Male'
-      records[:male_ethnicities] << [ethnicity,
-                                     male_records.count,
-                                     male_records.interview_count]
-      female_records = combined_records.where ethnicity: ethnicity,
-                                              gender: 'Female'
-      records[:female_ethnicities] << [ethnicity,
-                                       female_records.count,
-                                       female_records.interview_count]
-    end
+  def self.eeo_data(start_date, end_date, dept_ids)
+    records = {}
+    records[:all] = between(start_date, end_date).in_department(dept_ids)
+    records[:ethnicities] = ethnicity_eeo_data(records[:all])
+    records[:genders] = gender_eeo_data(records[:all])
+    records[:male_ethnicities] = combined_eeo_data(records[:all], 'Male')
+    records[:female_ethnicities] = combined_eeo_data(records[:all], 'Female')
     records
   end
-  # rubocop:enable Metrics/AbcSize
+
+  def self.ethnicity_eeo_data(records)
+    ethnicity_records = records.with_ethnicity
+    all_ethnicities = ETHNICITY_OPTIONS | ethnicity_records.pluck(:ethnicity)
+    all_ethnicities.map do |ethnicity|
+      specific_records = ethnicity_records.where ethnicity: ethnicity
+      [ethnicity, specific_records.count, interview_count]
+    end
+  end
+
+  def self.combined_eeo_data(records, gender)
+    combined_records = records.with_gender.with_ethnicity
+    all_ethnicities = ETHNICITY_OPTIONS | combined_records.pluck(:ethnicity)
+    all_ethnicities.map do |ethnicity|
+      specific_records = combined_records.where(ethnicity: ethnicity,
+                                                gender: gender)
+      [ethnicity, specific_records.count, specific_records.interview_count]
+    end
+  end
 end
