@@ -22,7 +22,7 @@ describe 'viewing table of past applications' do
     click_button 'List Applications'
   end
 
-  it_behaves_like 'a data page', ['data_table']
+  it_behaves_like 'a data page', %w(data_table)
 
   it 'goes to the past applications page' do
     expect(page.current_url)
