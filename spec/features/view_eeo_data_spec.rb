@@ -23,6 +23,11 @@ describe 'viewing eeo data page' do
     fill_in 'eeo_end_date', with: end_date
     click_button 'List EEO data'
   end
+
+  it_behaves_like 'a data page', %w(data_table
+                                    ethnicity_table combined_male_table
+                                    gender_table combined_female_table)
+
   it 'goes to the past applications page' do
     expect(page.current_url)
       .to include eeo_data_application_records_url
@@ -56,12 +61,5 @@ describe 'viewing eeo data page' do
 
   it 'displays the formatted creation date of the application records' do
     expect(page).to have_text format_date_time record_with_eeo_data.created_at
-  end
-  it 'displays all of the proper tables' do
-    expect page.has_table? 'data_table'
-    expect page.has_table? 'ethnicity_table'
-    expect page.has_table? 'gender_table'
-    expect page.has_table? 'combined_male_table'
-    expect page.has_table? 'combined_female_table'
   end
 end
