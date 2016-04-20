@@ -13,6 +13,7 @@
         #links
           = link_to 'Logout', destroy_session_path
           = link_to 'Dashboard', staff_dashboard_path if @current_user.staff?
+          = link_to 'Dashboard', student_dashboard_path if @current_user.student?
         #current_user_name= @current_user.full_name
     #transportation_banner
       = image_tag 'trans-header-large.png'
