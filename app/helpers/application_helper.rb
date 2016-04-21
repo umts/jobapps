@@ -56,4 +56,17 @@ module ApplicationHelper
     text = SiteText.where(name: name).first.try :text
     render_markdown text if text.present?
   end
+
+  def dashboard_path
+    # Just incase this method is called when a current user does not exist
+    # return the safe method of a link destination that does not move the
+    # page
+    return '#' unless @current_user
+
+    if @current_user.staff?
+      staff_dashboard_path
+    else
+      student_dashboard_path
+    end
+  end
 end
