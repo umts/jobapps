@@ -98,7 +98,7 @@ class ApplicationRecord < ActiveRecord::Base
     records[:all] = between(start_date, end_date).in_department(dept_ids)
     records[:ethnicities] = ethnicity_eeo_data(records[:all])
     records[:genders] = gender_eeo_data(records[:all])
-    records[:combo_ethnicities] = combined_eeo_data(records[:all])
+    records[:combined_data] = combined_eeo_data(records[:all])
     records
   end
 
