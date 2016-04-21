@@ -66,7 +66,7 @@ class ApplicationRecord < ActiveRecord::Base
   def pending?
     !reviewed
   end
-  
+
   def self.combined_eeo_data(records)
     combined_records = records.with_gender.with_ethnicity
     sub_hash = {}
@@ -77,7 +77,9 @@ class ApplicationRecord < ActiveRecord::Base
       all_ethnicities.map do |ethnicity|
         specific_records = combined_records.where(ethnicity: ethnicity,
                                                   gender: gender)
-        sub_array << [ethnicity, specific_records.count, specific_records.interview_count]
+        sub_array << [ethnicity,
+                      specific_records.count,
+                      specific_records.interview_count]
         sub_hash.store(:"#{gender}", sub_array)
       end
     end
