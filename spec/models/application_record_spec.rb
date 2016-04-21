@@ -67,6 +67,44 @@ describe ApplicationRecord do
     end
   end
 
+  describe 'question_hash' do
+    include ApplicationHelper
+    before :each do
+      @data = {}
+      (0..4).each do |num|
+        %w(prompt response data_type).each do |type|
+          @data["#{type}_#{num}"] = "#{num}-#{type}"
+        end
+        @data[num.to_s] = "#{num}-#{num}"
+      end
+      @data_arr = parse_application_data(@data)
+                  .select { |sub| !sub.nil? && sub.all? }
+      @record = create :application_record, data: @data_arr
+      @hash = @record.questions_hash
+    end
+
+    it 'does not return nothing when given data' do
+      expect(@hash.length).not_to be_zero
+    end
+
+    it 'generates the correct amount of data' do
+      expect(@hash.length).to be(5)
+    end
+
+    it 'contains the correct keys and values' do
+      @record.data.each do |_, value, _, index|
+        expect(@hash.keys).to include(index)
+        expect(@hash.values).to include(value)
+      end
+    end
+
+    it 'maps to the correct values' do
+      @record.data.each do |_, value, _, index|
+        expect(@hash[index]).to be(value)
+      end
+    end
+  end
+
   describe 'between' do
     before :each do
       Timecop.freeze 1.week.ago do

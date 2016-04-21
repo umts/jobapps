@@ -9,7 +9,7 @@ by:
   .data_row
     %h3.prompt_item Question
     %h3.response_item Response
-  - @record.data.each do |prompt, response, data_type|
+  - @record.data.each do |prompt, response, data_type, question_id|
     - if data_type == 'heading'
       .data_row
         .heading_item= prompt.upcase
@@ -119,7 +119,7 @@ by:
       = @interview.information
     - else
       Your application has been denied.
-      - if configured_value([:on_application_denial, :provide_reason],
+      - if configured_value([:on_application_denial, :notify_of_reason],
         default: true)
         Reason:
         = @record.staff_note
