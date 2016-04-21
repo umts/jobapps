@@ -24,9 +24,10 @@ describe 'viewing eeo data page' do
     click_button 'List EEO data'
   end
 
-  it_behaves_like 'a data page', %w(data_table
-                                    ethnicity_table combined_male_table
-                                    gender_table combined_female_table)
+  it_behaves_like 'a data page',
+                  table_ids: %w(main_data_table
+                                ethnicity_table combined_male_table
+                                gender_table combined_female_table)
 
   it 'goes to the past applications page' do
     expect(page.current_url)

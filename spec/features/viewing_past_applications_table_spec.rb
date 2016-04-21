@@ -22,12 +22,13 @@ describe 'viewing table of past applications' do
     click_button 'List Applications'
   end
 
-  it_behaves_like 'a data page', %w(data_table)
+  it_behaves_like 'a data page', table_ids: %w(main_data_table)
 
   it 'goes to the past applications page' do
     expect(page.current_url)
       .to include past_applications_application_records_url
   end
+
   it 'lists the proper name of applicants' do
     expect(page)
       .to have_text "#{record.user.last_name}, #{record.user.first_name}"

@@ -1,7 +1,7 @@
-shared_examples 'a data page' do |tables|
+shared_examples 'a data page' do |table_ids:|
   it 'contains all requires tables' do
-    tables.each do |table_name|
-      expect page.has_table? table_name
+    table_ids.each do |table_id|
+      expect(page).to have_table table_id
     end
   end
 end
