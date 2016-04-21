@@ -13,7 +13,7 @@ module ApplicationConfiguration
     # a query will yield false (as a configured value), so we cannot
     # use standard .present? or .blank?. We also cannot use .empty?
     # because TrueClass and FalseClass do not support it
-    if value != {} && value != nil then value
+    if value != {} && !value.nil? then value
     elsif options[:default].present? then options[:default]
     else
       raise ArgumentError,
