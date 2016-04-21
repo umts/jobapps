@@ -15,7 +15,7 @@ RSpec.configure do |config|
   end
   config.include FactoryGirl::Syntax::Methods
   config.include UmtsCustomMatchers
-  Dir['./spec/support/**/*_shared_example.rb'].sort.each { |f| require f }
+  Dir['./spec/support/**/*_shared_example.rb'].each { |f| require f }
 end
 
 # controller spec helper methods
