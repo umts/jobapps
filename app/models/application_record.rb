@@ -9,10 +9,7 @@ class ApplicationRecord < ActiveRecord::Base
   serialize :data, Array
 
   # validate ethnicity and gender in constants but allow blank
-  validates :position,
-            :data,
-            :user,
-            presence: true
+  validates :position, :data, :user, presence: true
   validates :reviewed, inclusion: { in: [true, false] }
 
   scope :between,
@@ -65,8 +62,7 @@ class ApplicationRecord < ActiveRecord::Base
       qid_index = 3
       response_index = 1
       [array4[qid_index], array4[response_index]]
-    end
-        .select(&:all?).to_h
+    end.select(&:all?).to_h
   end
 
   def deny_with(staff_note)
@@ -89,11 +85,9 @@ class ApplicationRecord < ActiveRecord::Base
     all_genders.map do |gender|
       sub_array = []
       all_ethnicities.map do |ethnicity|
-        specific_records = combined_records.where(ethnicity: ethnicity,
-                                                  gender: gender)
-        sub_array << [ethnicity,
-                      specific_records.count,
-                      specific_records.interview_count]
+        records = combined_records.where(ethnicity: ethnicity,
+                                         gender: gender)
+        sub_array << [ethnicity, records.count, records.interview_count]
         sub_hash.store(:"#{gender}", sub_array)
       end
     end

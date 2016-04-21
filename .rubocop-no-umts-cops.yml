@@ -12,10 +12,6 @@ AllCops:
 # Relax complexity testing to codeclimate standards (roughly).
 Metrics/AbcSize:
   Max: 20
-# You can't tell me that my methods are too long, then complain
-# about the file length when I break the method into more methods.
-Metrics/LineLength:
-  Max: 150 
 Metrics/MethodLength:
   Max: 20
 
