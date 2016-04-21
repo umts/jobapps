@@ -107,7 +107,7 @@ describe ApplicationRecord do
   describe 'interview_count' do
     before :each do
       record_1 = create :application_record
-      record_2 = create :application_record
+      create :application_record
       create :interview, application_record: record_1
       @collection = ApplicationRecord.all
     end
@@ -196,14 +196,28 @@ describe ApplicationRecord do
     it 'counts only records and interviews with both ethnicity and gender' do
       create :application_record, ethnicity: nil, gender: nil
       create :application_record, ethnicity: '', gender: ''
-      expect(call).to include {[Other: ['Klingon', 0, 0]]}
+      expect(call).to eql(Other: [['Klingon', 0, 0]])
     end
-    it 'counts records/interviews whose ethnicity is not of the options' do
+    it 'counts records/interviews whose ethnicity is not one of the options' do
+      create :application_record, ethnicity: 'Romulan', gender: 'Other'
+      expect(call).to eql(Other: [['Klingon', 0, 0],
+                                  ['Romulan', 1, 0]])
+    end
+    it 'counts records/interviews whose gender is not one of the options' do
+      create :application_record, ethnicity: 'Klingon', gender: 'Male'
+      expect(call).to eql(Other: [['Klingon', 0, 0]],
+                          Male: [['Klingon', 1, 0]])
+    end
+    it 'counts records/interviews where gender and ethnicity not in options' do
       create :application_record, ethnicity: 'Romulan', gender: 'Male'
-      expect(call).to contain_exactly ['Klingon', 0, 0], ['Romulan', 1, 0]
+      expect(call).to eql(Other: [['Klingon', 0, 0], ['Romulan', 0, 0]],
+                          Male: [['Klingon', 0, 0], ['Romulan', 1, 0]])
+    end
+    it 'returns a hash' do
+      expect(call).to be_a Hash
     end
   end
-  
+
   describe 'self.ethnicity_eeo_data' do
     # There are no interviews, all interview counts are 0
     before :each do
@@ -221,7 +235,7 @@ describe ApplicationRecord do
     it 'counts only records and their interviews with an ethnicity attribute' do
       create :application_record, ethnicity: nil
       create :application_record, ethnicity: ''
-      expect(call).to contain_exactly ['Female', 0, 0]
+      expect(call).to contain_exactly ['Klingon', 0, 0]
     end
     it 'counts records/interviews whose ethnicity is not of the options' do
       create :application_record, ethnicity: 'Romulan', gender: 'Male'
@@ -297,8 +311,8 @@ describe ApplicationRecord do
     end
     it 'calls AR#combined_eeo_data to populate hash with combo numbers' do
       expect(ApplicationRecord).to receive(:combined_eeo_data)
-        .with(@relation, kind_of(String))
-        .and_return('combo values').at_least(:twice)
+        .with(@relation)
+        .and_return('combo values')
       call
       expect(call[:combined_data]).to eql 'combo values'
     end
