@@ -66,6 +66,23 @@ class ApplicationRecord < ActiveRecord::Base
   def pending?
     !reviewed
   end
+  
+  def self.combined_eeo_data(records)
+    combined_records = records.with_gender.with_ethnicity
+    sub_hash = {}
+    all_ethnicities = ETHNICITY_OPTIONS | combined_records.pluck(:ethnicity)
+    all_genders = GENDER_OPTIONS | combined_records.pluck(:gender)
+    all_genders.map do |gender|
+      sub_array = []
+      all_ethnicities.map do |ethnicity|
+        specific_records = combined_records.where(ethnicity: ethnicity,
+                                                  gender: gender)
+        sub_array << [ethnicity, specific_records.count, specific_records.interview_count]
+        sub_hash.store(:"#{gender}", sub_array)
+      end
+    end
+    sub_hash
+  end
 
   def self.gender_eeo_data(records)
     gender_records = records.with_gender
@@ -81,8 +98,7 @@ class ApplicationRecord < ActiveRecord::Base
     records[:all] = between(start_date, end_date).in_department(dept_ids)
     records[:ethnicities] = ethnicity_eeo_data(records[:all])
     records[:genders] = gender_eeo_data(records[:all])
-    records[:male_ethnicities] = combined_eeo_data(records[:all], 'Male')
-    records[:female_ethnicities] = combined_eeo_data(records[:all], 'Female')
+    records[:combo_ethnicities] = combined_eeo_data(records[:all])
     records
   end
 
@@ -91,16 +107,6 @@ class ApplicationRecord < ActiveRecord::Base
     all_ethnicities = ETHNICITY_OPTIONS | ethnicity_records.pluck(:ethnicity)
     all_ethnicities.map do |ethnicity|
       specific_records = ethnicity_records.where ethnicity: ethnicity
-      [ethnicity, specific_records.count, interview_count]
-    end
-  end
-
-  def self.combined_eeo_data(records, gender)
-    combined_records = records.with_gender.with_ethnicity
-    all_ethnicities = ETHNICITY_OPTIONS | combined_records.pluck(:ethnicity)
-    all_ethnicities.map do |ethnicity|
-      specific_records = combined_records.where(ethnicity: ethnicity,
-                                                gender: gender)
       [ethnicity, specific_records.count, specific_records.interview_count]
     end
   end
