@@ -97,9 +97,9 @@ class ApplicationRecord < ActiveRecord::Base
   def self.gender_eeo_data(records)
     gender_records = records.with_gender
     all_genders = GENDER_OPTIONS | gender_records.pluck(:gender)
-    all_genders.map do |option|
-      specific_records = gender_records.where(gender: option)
-      [option, specific_records.count, specific_records.interview_count]
+    all_genders.map do |gender|
+      specific_records = gender_records.where gender: gender
+      [gender, specific_records.count, specific_records.interview_count]
     end
   end
 
