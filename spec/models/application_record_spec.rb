@@ -179,153 +179,131 @@ describe ApplicationRecord do
     end
   end
 
+  describe 'self.combined_eeo_data' do
+    before :each do
+      @records = ApplicationRecord.all
+      stub_const 'ApplicationRecord::ETHNICITY_OPTIONS', ['Klingon']
+      stub_const 'ApplicationRecord::GENDER_OPTIONS', ['Other']
+    end
+    let :call do
+      ApplicationRecord.combined_eeo_data @records
+    end
+    it 'calls AR#interview_count to count interviews' do
+      expect(ApplicationRecord).to receive(:interview_count)
+        .at_least(:once)
+      call
+    end
+    it 'counts only records and interviews with both ethnicity and gender' do
+      create :application_record, ethnicity: nil, gender: nil
+      create :application_record, ethnicity: '', gender: ''
+      expect(call).to include {[Other: ['Klingon', 0, 0]]}
+    end
+    it 'counts records/interviews whose ethnicity is not of the options' do
+      create :application_record, ethnicity: 'Romulan', gender: 'Male'
+      expect(call).to contain_exactly ['Klingon', 0, 0], ['Romulan', 1, 0]
+    end
+  end
+  
+  describe 'self.ethnicity_eeo_data' do
+    # There are no interviews, all interview counts are 0
+    before :each do
+      @records = ApplicationRecord.all
+      stub_const 'ApplicationRecord::ETHNICITY_OPTIONS', ['Klingon']
+    end
+    let :call do
+      ApplicationRecord.ethnicity_eeo_data @records
+    end
+    it 'calls AR#interview_count to count interviews' do
+      expect(ApplicationRecord).to receive(:interview_count)
+        .at_least(:once)
+      call
+    end
+    it 'counts only records and their interviews with an ethnicity attribute' do
+      create :application_record, ethnicity: nil
+      create :application_record, ethnicity: ''
+      expect(call).to contain_exactly ['Female', 0, 0]
+    end
+    it 'counts records/interviews whose ethnicity is not of the options' do
+      create :application_record, ethnicity: 'Romulan', gender: 'Male'
+      expect(call).to contain_exactly ['Klingon', 0, 0], ['Romulan', 1, 0]
+    end
+  end
+
   describe 'self.gender_eeo_data' do
     # There are no interviews, all interview counts are 0
     before :each do
-      @start_date = 1.week.ago
-      @end_date = 1.week.since
-      @department = create :department
-      @position = create :position, department: @department
+      @records = ApplicationRecord.all
       stub_const 'ApplicationRecord::GENDER_OPTIONS', ['Female']
     end
     let :call do
-      ApplicationRecord.gender_eeo_data @start_date, @end_date, @department.id
-    end
-    it 'calls AR#between to gather application records' do
-      relation = ApplicationRecord.all
-      expect(ApplicationRecord).to receive(:between)
-        .with(@start_date, @end_date)
-        .and_return(relation)
-      call
-    end
-    it 'calls AR#in_department to filter application records' do
-      relation = ApplicationRecord.all
-      expect(ApplicationRecord).to receive(:in_department)
-        .with(@department.id)
-        .and_return(relation)
-      call
+      ApplicationRecord.gender_eeo_data @records
     end
     it 'calls AR#interview_count to count interviews' do
-      relation = ApplicationRecord.all
       expect(ApplicationRecord).to receive(:interview_count)
-        .and_return(relation).at_least(:once)
+        .at_least(:once)
       call
     end
-    it 'counts records and their interviews within the correct date range' do
-      create :application_record, position: @position,
-                                  gender: 'Female'
-      Timecop.freeze 2.weeks.ago do
-        create :application_record, position: @position,
-                                    gender: 'Female'
-      end
-      expect(call).to contain_exactly ['Female', 1, 0]
-    end
     it 'counts only records and their interviews with a gender attribute' do
-      create :application_record, position: @position,
-                                  gender: nil
-      create :application_record, position: @position,
-                                  gender: ''
+      create :application_record, gender: nil
+      create :application_record, gender: ''
       expect(call).to contain_exactly ['Female', 0, 0]
     end
     it 'counts records/interviews whose gender is not of the gender_options' do
-      create :application_record, position: @position,
-                                  gender: 'Male'
+      create :application_record, gender: 'Male'
       expect(call).to contain_exactly ['Female', 0, 0], ['Male', 1, 0]
     end
   end
 
   describe 'self.eeo_data' do
-    # there are no interviews, interview counts are 0
+    # all this method does is call other methods and put the values returned
+    # in a hash.
     before :each do
       @department = create :department
-      @position = create :position, department: @department
       @start_date = 1.week.ago
       @end_date = 1.week.since
-      stub_const 'ApplicationRecord::ETHNICITY_OPTIONS', ['Klingon']
+      @relation = ApplicationRecord.between(@start_date, @end_date)
+                                   .in_department(@department.id)
     end
     let :call do
       ApplicationRecord.eeo_data @start_date, @end_date, @department.id
     end
-    it 'calls AR#interview_count to count interviews' do
-      relation = ApplicationRecord.all
-      expect(ApplicationRecord).to receive(:interview_count)
-        .and_return(relation).at_least(:once)
-      call
-    end
     it 'calls AR#between to gather application records' do
-      relation = ApplicationRecord.all
       expect(ApplicationRecord).to receive(:between)
         .with(@start_date, @end_date)
-        .and_return(relation).at_least(:once)
-      # needs to return an ActiveRecord relation, because
-      # we need to call something on it later. Also,
-      # the method :between is called more than once,
-      # hence the at_least(:once).
+        .and_return(@relation)
+      # returns an ActiveRecord relation
       call
     end
     it 'calls AR#in_department to filter application records' do
-      relation = ApplicationRecord.all
       expect(ApplicationRecord).to receive(:in_department)
         .with(@department.id)
-        .and_return(relation).at_least(:once)
-      # needs to return an activerecord relation, because
-      # we need to use the object it returns later. Also
-      # the method :in_department is called more than
-      # once, hence the at_least(:once).
+        .and_return(@relation)
+      # returns an ActiveRecord relation
       call
     end
-    it 'returns a hash' do
-      expect(call).to be_a Hash
-    end
-    it 'assigns records to the hash within the correct date range' do
-      create :application_record, position: @position,
-                                  ethnicity: 'Klingon',
-                                  gender: 'Female'
-      Timecop.freeze 2.weeks.ago do
-        create :application_record, position: @position,
-                                    ethnicity: 'Klingon',
-                                    gender: 'Female'
-      end
-      expect(call[:all].count).to be 1
-    end
-    it 'counts records/interviews with ethnicity not from ethnicity_options' do
-      create :application_record, position: @position,
-                                  ethnicity: 'Betazoid',
-                                  gender: 'Male'
-      expect(call[:ethnicities]).to contain_exactly ['Betazoid', 1, 0],
-                                                    ['Klingon', 0, 0]
+    it 'calls AR#ethnicity_eeo_data to populate hash with ethnicity numbers' do
+      expect(ApplicationRecord).to receive(:ethnicity_eeo_data)
+        .with(@relation)
+        .and_return('some values')
+      call
+      expect(call[:ethnicities]).to eql 'some values'
     end
     it 'calls AR#gender_eeo_data to assign values to genders key in hash' do
       expect(ApplicationRecord).to receive(:gender_eeo_data)
-        .with(@start_date, @end_date, @department.id)
+        .with(@relation)
         .and_return('something')
       call
       expect(call[:genders]).to eql 'something'
     end
-    it 'puts all genders, counts, and interview counts in the hash' do
-      create :application_record, position: @position,
-                                  gender: 'Female'
-      expect(call[:genders]).to contain_exactly ['Male', 0, 0], ['Female', 1, 0]
+    it 'calls AR#combined_eeo_data to populate hash with combo numbers' do
+      expect(ApplicationRecord).to receive(:combined_eeo_data)
+        .with(@relation, kind_of(String))
+        .and_return('combo values').at_least(:twice)
+      call
+      expect(call[:combined_data]).to eql 'combo values'
     end
-    it 'returns counts/interview counts of males of every ethnicity' do
-      create :application_record, position: @position,
-                                  ethnicity: 'Klingon',
-                                  gender: 'Male'
-      create :application_record, position: @position,
-                                  ethnicity: 'Betazoid',
-                                  gender: 'Female'
-      expect(call[:male_ethnicities]).to contain_exactly ['Betazoid', 0, 0],
-                                                         ['Klingon', 1, 0]
-    end
-    it 'returns counts/interview counts of females of every ethnicity' do
-      create :application_record, position: @position,
-                                  ethnicity: 'Klingon',
-                                  gender: 'Male'
-      create :application_record, position: @position,
-                                  ethnicity: 'Betazoid',
-                                  gender: 'Female'
-      expect(call[:female_ethnicities]).to contain_exactly ['Betazoid', 1, 0],
-                                                           ['Klingon', 0, 0]
+    it 'returns a hash' do
+      expect(call).to be_a Hash
     end
   end
 end
