@@ -62,9 +62,9 @@ describe 'editing application draft' do
     # more checkbox than there are existing questions
   end
   it 'has a field to create a new question' do
-    expect(all('textarea').count).to be 4
+    expect(all('.field_attribute_1 textarea').count).to be 4
     # there are 3 existing questions, the 4th textarea field is for a new one
-    expect(all('textarea').last.value).to be_empty
+    expect(all('.field_attribute_1 textarea').last.value).to be_empty
     # and it should contain no existing text
   end
   it 'has a button to bring the user to a preview draft page' do

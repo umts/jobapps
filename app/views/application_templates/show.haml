@@ -17,7 +17,7 @@
 - if @current_user.try(:staff?) || @template.active?
   .form
     %h1.title Application for #{@template.position.name_and_department}
-    -if @template.email.present? && @current_user.staff?
+    -if @template.email.present? && @current_user.try(:staff?)
       %div
         Reply-to email:
         = @template.email

@@ -9,7 +9,8 @@ class JobappsMailer < ActionMailer::Base
     @application_record = application_record
     @user = application_record.user
     position = application_record.position
-    reply_to = position.application_template.email
+    reply_to = position.application_template.present? ?
+      position.application_template.email : ''
     mail to: @user.email,
          subject: 'Application Denial',
          reply_to: reply_to
