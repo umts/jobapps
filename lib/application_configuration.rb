@@ -8,7 +8,7 @@ module ApplicationConfiguration
   def configured_value(config_path, options = {})
     value = CONFIG.dig(*config_path)
     # dig returns nil when key not found
-    if !value.nil? then value
+    if value.present? then value
     elsif options[:default].present? then options[:default]
     else
       raise ArgumentError,
