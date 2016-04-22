@@ -77,7 +77,7 @@ describe 'editing application draft' do
       expect(draft.questions.count).to be 3
       # fill in the prompt of the new question by finding
       # the last one on the page by its name
-      fill_in(all('textarea').last[:name], with: 'Stuff')
+      fill_in(all('.field_attribute_1 textarea').last[:name], with: 'Stuff')
       # select a data type for the new question
       select 'text', from: all('select').last[:name]
       click_button('Save changes and continue editing')
