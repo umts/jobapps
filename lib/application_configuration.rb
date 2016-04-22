@@ -7,13 +7,10 @@ module ApplicationConfiguration
   # configured.
   def configured_value(config_path, options = {})
     value = CONFIG.dig(*config_path)
-
-    # This is a peculiar situation because value will return {}
-    # on failed queries. However, it is entirely possible that
-    # a query will yield false (as a configured value), so we cannot
-    # use standard .present? or .blank?. We also cannot use .empty?
-    # because TrueClass and FalseClass do not support it
-    if value != {} then value
+    # dig returns nil when key not found
+    # but, it is possible that a query will yeild false
+    # as a configured value, so we cannot use .present?
+    if !value.nil? then value
     elsif options[:default].present? then options[:default]
     else
       raise ArgumentError,
