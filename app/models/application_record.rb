@@ -79,19 +79,19 @@ class ApplicationRecord < ActiveRecord::Base
 
   def self.combined_eeo_data(records)
     combined_records = records.with_gender.with_ethnicity
-    sub_hash = {}
+    grouped_by_gender = {}
     all_ethnicities = ETHNICITY_OPTIONS | combined_records.pluck(:ethnicity)
     all_genders = GENDER_OPTIONS | combined_records.pluck(:gender)
     all_genders.map do |gender|
-      sub_array = []
+      ethnicity_specs = []
       all_ethnicities.map do |ethnicity|
         records = combined_records.where(ethnicity: ethnicity,
                                          gender: gender)
-        sub_array << [ethnicity, records.count, records.interview_count]
-        sub_hash.store(:"#{gender}", sub_array)
+        ethnicity_specs << [ethnicity, records.count, records.interview_count]
+        grouped_by_gender[gender] = ethnicity_specs
       end
     end
-    sub_hash
+    grouped_by_gender
   end
 
   def self.gender_eeo_data(records)
