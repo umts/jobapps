@@ -234,22 +234,22 @@ describe ApplicationRecord do
     it 'counts only records and interviews with both ethnicity and gender' do
       create :application_record, ethnicity: nil, gender: nil
       create :application_record, ethnicity: '', gender: ''
-      expect(call).to eql(Other: [['Klingon', 0, 0]])
+      expect(call).to eql('Other' => [['Klingon', 0, 0]])
     end
     it 'counts records/interviews whose ethnicity is not one of the options' do
       create :application_record, ethnicity: 'Romulan', gender: 'Other'
-      expect(call).to eql(Other: [['Klingon', 0, 0],
-                                  ['Romulan', 1, 0]])
+      expect(call).to eql('Other' => [['Klingon', 0, 0],
+                                      ['Romulan', 1, 0]])
     end
     it 'counts records/interviews whose gender is not one of the options' do
       create :application_record, ethnicity: 'Klingon', gender: 'Male'
-      expect(call).to eql(Other: [['Klingon', 0, 0]],
-                          Male: [['Klingon', 1, 0]])
+      expect(call).to eql('Other' => [['Klingon', 0, 0]],
+                          'Male' => [['Klingon', 1, 0]])
     end
     it 'counts records/interviews where gender and ethnicity not in options' do
       create :application_record, ethnicity: 'Romulan', gender: 'Male'
-      expect(call).to eql(Other: [['Klingon', 0, 0], ['Romulan', 0, 0]],
-                          Male: [['Klingon', 0, 0], ['Romulan', 1, 0]])
+      expect(call).to eql('Other' => [['Klingon', 0, 0], ['Romulan', 0, 0]],
+                          'Male' => [['Klingon', 0, 0], ['Romulan', 1, 0]])
     end
     it 'returns a hash' do
       expect(call).to be_a Hash
