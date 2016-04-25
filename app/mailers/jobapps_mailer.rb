@@ -8,9 +8,11 @@ class JobappsMailer < ActionMailer::Base
   def application_denial(application_record)
     @application_record = application_record
     @user = application_record.user
-    position = application_record.position
-    reply_to = position.application_template.present? ?
-      position.application_template.email : ''
+    if application_record.application_template.present?
+      reply_to = application_record.application_template.email
+    else
+      reply_to = ''
+    end
     mail to: @user.email,
          subject: 'Application Denial',
          reply_to: reply_to
@@ -19,8 +21,7 @@ class JobappsMailer < ActionMailer::Base
   def interview_confirmation(interview)
     @interview = interview
     @user = interview.user
-    position = interview.application_record.position
-    reply_to = position.application_template.email
+    reply_to = interview.application_template.email
     mail to: @user.email,
          subject: 'Interview Confirmation',
          reply_to: reply_to
@@ -29,8 +30,7 @@ class JobappsMailer < ActionMailer::Base
   def interview_reschedule(interview)
     @interview = interview
     @user = interview.user
-    position = interview.application_record.position
-    reply_to = position.application_template.email
+    reply_to = interview.application_template.email
     mail to: @user.email,
          subject: 'Interview Rescheduled',
          reply_to: reply_to

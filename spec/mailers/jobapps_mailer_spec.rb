@@ -10,7 +10,7 @@ describe JobappsMailer do
     before :each do
       position = create :position
       @template = create :application_template, 
-        position: position
+        position: position, email: 'steve@sharklazers.com'
       @application_record = create :application_record, staff_note: 'note',
         position: position
       @user = @application_record.user
@@ -68,7 +68,7 @@ describe JobappsMailer do
     before :each do
       position = create :position
       @template = create :application_template, 
-        position: position
+        position: position, email: 'steve@sharklazers.com'
       application_record = create :application_record, staff_note: 'note',
         position: position
       @interview = create :interview, application_record: application_record
@@ -98,8 +98,8 @@ describe JobappsMailer do
   describe 'interview reschedule' do
     before :each do
       position = create :position
-      @template = create :application_template, 
-        position: position
+      @template = create :application_template,
+        position: position, email: 'steve@sharklazers.com'
       application_record = create :application_record, staff_note: 'note',
         position: position
       @interview = create :interview, application_record: application_record

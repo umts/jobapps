@@ -2,7 +2,6 @@ FactoryGirl.define do
   factory :application_template do
     position
     active true
-    email 'steve@sharklazers.com'
   end
 
   trait :with_questions do
