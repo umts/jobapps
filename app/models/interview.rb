@@ -35,14 +35,6 @@ class Interview < ActiveRecord::Base
   def pending?
     !completed
   end
-  
-  def position
-    application_record.position
-  end
-
-  def application_template
-    position.application_template
-  end
 
   private
 

@@ -105,8 +105,4 @@ class ApplicationRecord < ActiveRecord::Base
     end
     records
   end
-
-  def application_template
-    position.application_template
-  end
 end
