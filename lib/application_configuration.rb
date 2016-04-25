@@ -8,7 +8,7 @@ module ApplicationConfiguration
   def configured_value(config_path, options = {})
     value = CONFIG.dig(*config_path)
     # dig returns nil when key not found
-    # but, it is possible that a query will yeild false
+    # but, it is possible that a query will yield false
     # as a configured value, so we cannot use .present?
     if !value.nil? then value
     elsif options[:default].present? then options[:default]
