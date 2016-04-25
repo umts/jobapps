@@ -9,11 +9,11 @@ class JobappsMailer < ActionMailer::Base
     @application_record = application_record
     @user = application_record.user
     template = application_record.position.application_template
-    if template.present?
-      reply_to = template.email
-    else
-      reply_to = ''
-    end
+    reply_to = if template
+                 template.email
+               else
+                 ''
+               end
     mail to: @user.email,
          subject: 'Application Denial',
          reply_to: reply_to
