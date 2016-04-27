@@ -1,7 +1,7 @@
 require 'rails_helper'
-describe 'Subscriptions' do
+describe 'subscriptions' do
   let(:position) { create :position }
-  context 'Subscribing to positions' do
+  context 'subscribing to positions' do
     before :each do
       when_current_user_is :staff, integration: true
       visit edit_position_path(position)
@@ -12,7 +12,7 @@ describe 'Subscriptions' do
       expect(page).to have_text('jobapps@transit.com')
     end
   end
-  context 'Displaying existing subscriptions' do
+  context 'displaying existing subscriptions' do
     let(:user_1) { create :user, :staff }
     let(:user_2) { create :user, :staff }
     let(:subscription) do
@@ -33,7 +33,7 @@ describe 'Subscriptions' do
       expect(page).not_to have_text subscription.email
     end
   end
-  context 'Deleting a subscription' do
+  context 'deleting a subscription' do
     let(:user) { create :user, :staff }
     let(:subscription) do
       create :subscription, user: user, position: position
@@ -42,7 +42,7 @@ describe 'Subscriptions' do
       when_current_user_is user, integration: true
       visit edit_position_path(position)
     end
-    it 'Removes the email from the page when remove is clicked' do
+    it 'removes the email from the page when remove is clicked' do
      click_button 'Remove'
      expect(page).not_to have_text subscription.email
     end
