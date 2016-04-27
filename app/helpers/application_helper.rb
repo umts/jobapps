@@ -58,14 +58,10 @@ module ApplicationHelper
   end
 
   def dashboard_path
-    # Just incase this method is called when a current user does not exist
-    # return the safe method of a link destination that does not move the
-    # page
-    return '#' unless @current_user
-
-    if @current_user.staff?
+    if @current_user.try :staff?
       staff_dashboard_path
     else
+      # We still want anonymous logins to redirect to student dashboard
       student_dashboard_path
     end
   end
