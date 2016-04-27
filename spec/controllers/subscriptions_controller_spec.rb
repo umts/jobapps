@@ -11,5 +11,4 @@ describe SubscriptionsController do
       end
     end
   end
-
 end
