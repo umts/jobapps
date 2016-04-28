@@ -22,7 +22,12 @@ class JobappsMailer < ActionMailer::Base
   def interview_confirmation(interview)
     @interview = interview
     @user = interview.user
-    reply_to = interview.application_record.position.application_template.email
+    template = interview.application_record.position.application_template
+    reply_to = if template
+                 template.email
+               else
+                 ''
+               end
     mail to: @user.email,
          subject: 'Interview Confirmation',
          reply_to: reply_to
@@ -31,7 +36,12 @@ class JobappsMailer < ActionMailer::Base
   def interview_reschedule(interview)
     @interview = interview
     @user = interview.user
-    reply_to = interview.application_record.position.application_template.email
+    template = interview.application_record.position.application_template
+    reply_to = if template
+                 template.email
+               else
+                 ''
+               end
     mail to: @user.email,
          subject: 'Interview Rescheduled',
          reply_to: reply_to
