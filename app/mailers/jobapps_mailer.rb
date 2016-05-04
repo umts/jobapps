@@ -9,11 +9,7 @@ class JobappsMailer < ActionMailer::Base
     @application_record = application_record
     @user = application_record.user
     template = application_record.position.application_template
-    reply_to = if template
-                 template.email
-               else
-                 ''
-               end
+    reply_to = template.try :email
     mail to: @user.email,
          subject: 'Application Denial',
          reply_to: reply_to
@@ -23,11 +19,7 @@ class JobappsMailer < ActionMailer::Base
     @interview = interview
     @user = interview.user
     template = interview.application_record.position.application_template
-    reply_to = if template
-                 template.email
-               else
-                 ''
-               end
+    reply_to = template.try :email
     mail to: @user.email,
          subject: 'Interview Confirmation',
          reply_to: reply_to
@@ -37,11 +29,7 @@ class JobappsMailer < ActionMailer::Base
     @interview = interview
     @user = interview.user
     template = interview.application_record.position.application_template
-    reply_to = if template
-                 template.email
-               else
-                 ''
-               end
+    reply_to = template.try :email
     mail to: @user.email,
          subject: 'Interview Rescheduled',
          reply_to: reply_to
