@@ -56,4 +56,13 @@ module ApplicationHelper
     text = SiteText.where(name: name).first.try :text
     render_markdown text if text.present?
   end
+
+  def dashboard_path
+    if @current_user.try :staff?
+      staff_dashboard_path
+    else
+      # We still want anonymous logins to redirect to student dashboard
+      student_dashboard_path
+    end
+  end
 end
