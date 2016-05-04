@@ -21,19 +21,20 @@ describe 'viewing table of past applications' do
     fill_in 'records_end_date', with: end_date
     click_button 'List Applications'
   end
+
+  it_behaves_like 'a data page', table_ids: %w(main_data_table)
+
   it 'goes to the past applications page' do
     expect(page.current_url)
       .to include past_applications_application_records_url
   end
+
   it 'lists the proper name of applicants' do
     expect(page)
       .to have_text "#{record.user.last_name}, #{record.user.first_name}"
   end
   it 'displays the formatted creation date of the application records' do
     expect(page).to have_text format_date_time record.created_at
-  end
-  it 'displays a table of application records' do
-    expect page.has_table? 'data_table'
   end
   it 'displays the staff note of the applications' do
     expect(page).to have_text record.staff_note

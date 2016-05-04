@@ -1,19 +1,12 @@
-%table#eeo_table
-  %thead
-    %tr
-      %th Females by ethnicity
-      %th Total Applicants
-  - @records[:female_ethnicities].each do |ethnicity, count|
-    %tr
-      %td= ethnicity
-      %td= count
-
-%table#eeo_table
-  %thead
-    %tr
-      %th Males by ethnicity
-      %th Total Applicants
-  - @records[:male_ethnicities].each do |ethnicity, count|
-    %tr
-      %td= ethnicity
-      %td= count
+- @records[:combined_data].each do |key, value|
+  %table#eeo_table
+    %thead
+      %tr
+        %th= "#{key} by Ethnicity"
+        %th Total Applicants
+        %th Total Interviews
+    - value.each do |ethnicity, count, interview_count|
+      %tr
+        %td= ethnicity
+        %td= count
+        %td= interview_count

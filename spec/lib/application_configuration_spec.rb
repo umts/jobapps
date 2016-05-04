@@ -13,7 +13,7 @@ describe ApplicationConfiguration do
     end
     context 'value not present in configuration' do
       before :each do
-        expect(CONFIG).to receive(:dig).with(:missing_key).and_return nil
+        expect(CONFIG).to receive(:dig).with(:missing_key).and_return Hash.new
       end
       context 'default specified' do
         it 'returns the default' do

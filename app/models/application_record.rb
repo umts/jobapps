@@ -9,14 +9,9 @@ class ApplicationRecord < ActiveRecord::Base
   serialize :data, Array
 
   # validate ethnicity and gender in constants but allow blank
-  validates :position,
-            :data,
-            :user,
-            presence: true
+  validates :position, :data, :user, presence: true
   validates :reviewed, inclusion: { in: [true, false] }
 
-  scope :pending, -> { where reviewed: false }
-  scope :newest_first, -> { order 'created_at desc' }
   scope :between,
         -> (start_date, end_date) { where created_at: start_date..end_date }
   scope :in_department,
@@ -24,6 +19,12 @@ class ApplicationRecord < ActiveRecord::Base
           joins(:position)
             .where(positions: { department_id: department_ids })
         }
+  scope :interview_count, lambda {
+    joins(:interview)
+      .where(interviews: { application_record_id: ids }).count
+  }
+  scope :newest_first, -> { order 'created_at desc' }
+  scope :pending, -> { where reviewed: false }
   scope :with_gender, -> { where.not gender: [nil, ''] }
   scope :with_ethnicity, -> { where.not ethnicity: [nil, ''] }
 
@@ -61,8 +62,7 @@ class ApplicationRecord < ActiveRecord::Base
       qid_index = 3
       response_index = 1
       [array4[qid_index], array4[response_index]]
-    end
-        .select(&:all?).to_h
+    end.select(&:all?).to_h
   end
 
   def deny_with(staff_note)
@@ -77,32 +77,47 @@ class ApplicationRecord < ActiveRecord::Base
     !reviewed
   end
 
-  def self.gender_eeo_data(start_date, end_date, department_ids)
-    gender_records = between(start_date, end_date).with_gender
-                                                  .in_department(department_ids)
+  def self.combined_eeo_data(records)
+    combined_records = records.with_gender.with_ethnicity
+    grouped_by_gender = {}
+    all_ethnicities = ETHNICITY_OPTIONS | combined_records.pluck(:ethnicity)
+    all_genders = GENDER_OPTIONS | combined_records.pluck(:gender)
+    all_genders.map do |gender|
+      ethnicity_specs = []
+      all_ethnicities.map do |ethnicity|
+        records = combined_records.where(ethnicity: ethnicity,
+                                         gender: gender)
+        ethnicity_specs << [ethnicity, records.count, records.interview_count]
+        grouped_by_gender[gender] = ethnicity_specs
+      end
+    end
+    grouped_by_gender
+  end
+
+  def self.gender_eeo_data(records)
+    gender_records = records.with_gender
     all_genders = GENDER_OPTIONS | gender_records.pluck(:gender)
-    all_genders.map do |option|
-      [option, gender_records.where(gender: option).count]
+    all_genders.map do |gender|
+      specific_records = gender_records.where gender: gender
+      [gender, specific_records.count, specific_records.interview_count]
     end
   end
 
-  def self.eeo_data(start_date, end_date, department_ids)
+  def self.eeo_data(start_date, end_date, dept_ids)
     records = {}
-    records[:all] = between(start_date, end_date).in_department(department_ids)
-    ethnicity_records = records[:all].with_ethnicity
-    all_ethnicities = ETHNICITY_OPTIONS | ethnicity_records.pluck(:ethnicity)
-    records[:ethnicities] = all_ethnicities.map do |option|
-      [option, ethnicity_records.where(ethnicity: option).count]
-    end
-    records[:genders] = gender_eeo_data(start_date, end_date, department_ids)
-    records[:male_ethnicities] = all_ethnicities.map do |ethnicity|
-      [ethnicity, ethnicity_records.where(ethnicity: ethnicity,
-                                          gender: 'Male').count]
-    end
-    records[:female_ethnicities] = all_ethnicities.map do |ethnicity|
-      [ethnicity, ethnicity_records.where(ethnicity: ethnicity,
-                                          gender: 'Female').count]
-    end
+    records[:all] = between(start_date, end_date).in_department(dept_ids)
+    records[:ethnicities] = ethnicity_eeo_data(records[:all])
+    records[:genders] = gender_eeo_data(records[:all])
+    records[:combined_data] = combined_eeo_data(records[:all])
     records
+  end
+
+  def self.ethnicity_eeo_data(records)
+    ethnicity_records = records.with_ethnicity
+    all_ethnicities = ETHNICITY_OPTIONS | ethnicity_records.pluck(:ethnicity)
+    all_ethnicities.map do |ethnicity|
+      specific_records = ethnicity_records.where ethnicity: ethnicity
+      [ethnicity, specific_records.count, specific_records.interview_count]
+    end
   end
 end
