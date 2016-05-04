@@ -11,7 +11,11 @@ module ApplicationConfiguration
     # because CONFIG is a special, different kind of hash
     # but, it is possible that a query will yield false
     # as a configured value, so we cannot use .present?
-    if value != {} then value
+    #
+    # CONFIG.dig with a missing top-level key returns {}
+    # but with a missing lower-level key within a top-level key that does exist,
+    # returns nil
+    if !value.nil? && value != {} then value
     elsif options.key? :default then options[:default]
     else
       raise ArgumentError,
