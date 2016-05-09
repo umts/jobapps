@@ -11,7 +11,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160329203210) do
+ActiveRecord::Schema.define(version: 20160415162549) do
+
   create_table "application_drafts", force: :cascade do |t|
     t.integer  "application_template_id", limit: 4
     t.datetime "created_at"
@@ -36,8 +37,7 @@ ActiveRecord::Schema.define(version: 20160329203210) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "position_id", limit: 4
-    t.boolean  "visible",                 default: true
-    t.boolean  "active",                  default: true
+    t.boolean  "active"
     t.string   "slug",        limit: 255
     t.boolean  "eeo_enabled",             default: true
     t.string   "email",       limit: 255
