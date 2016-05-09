@@ -35,7 +35,7 @@ describe 'subscriptions' do
   end
   context 'deleting a subscription' do
     let(:user) { create :user, :staff }
-    let(:subscription) do
+    let!(:subscription) do
       create :subscription, user: user, position: position
     end
     before :each do
@@ -43,8 +43,8 @@ describe 'subscriptions' do
       visit edit_position_path(position)
     end
     it 'removes the email from the page when remove is clicked' do
-     click_button 'Remove'
-     expect(page).not_to have_text subscription.email
+      click_button 'Remove'
+      expect(page).not_to have_text subscription.email
     end
   end
 end
