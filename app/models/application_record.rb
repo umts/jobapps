@@ -28,8 +28,6 @@ class ApplicationRecord < ActiveRecord::Base
   scope :with_gender, -> { where.not gender: [nil, ''] }
   scope :with_ethnicity, -> { where.not ethnicity: [nil, ''] }
 
-  after_create :email_subscribers
-
   ETHNICITY_OPTIONS = ['White (Not of Hispanic origin)',
                        'Black (Not of Hispanic origin)',
                        'Hispanic',
@@ -39,12 +37,6 @@ class ApplicationRecord < ActiveRecord::Base
 
   GENDER_OPTIONS = %w(Male
                       Female).freeze
-
-  def email_subscribers
-    position.subscriptions.each do |sub|
-      JobappsMailer.application_notification(sub, position).deliver_now
-    end
-  end
 
   def add_data_types
     data.each do |array|
@@ -58,6 +50,12 @@ class ApplicationRecord < ActiveRecord::Base
   def add_response_data(prompt, response)
     update(data: data << [prompt, response])
     self
+  end
+
+  def email_subscribers(applicant:)
+    position.subscriptions.each do |sub|
+      JobappsMailer.application_notification(sub, position, applicant).deliver_now
+    end
   end
 
   def questions_hash
