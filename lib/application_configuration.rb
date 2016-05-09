@@ -7,8 +7,16 @@ module ApplicationConfiguration
   # configured.
   def configured_value(config_path, options = {})
     value = CONFIG.dig(*config_path)
-    if value.present? then value
-    elsif options[:default].present? then options[:default]
+    # dig returns {} when key not found
+    # because CONFIG is a special, different kind of hash
+    # but, it is possible that a query will yield false
+    # as a configured value, so we cannot use .present?
+    #
+    # CONFIG.dig with a missing top-level key returns {}
+    # but with a missing lower-level key within a top-level key that does exist,
+    # returns nil
+    if !value.nil? && value != {} then value
+    elsif options.key? :default then options[:default]
     else
       raise ArgumentError,
             "Configuration behavior #{config_path} not configured

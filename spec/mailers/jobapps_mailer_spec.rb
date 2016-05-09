@@ -8,7 +8,11 @@ describe JobappsMailer do
 
   describe 'application denial' do
     before :each do
-      @application_record = create :application_record, staff_note: 'note'
+      position = create :position
+      @template = create :application_template, 
+        position: position, email: 'steve@sharklazers.com'
+      @application_record = create :application_record, staff_note: 'note',
+        position: position
       @user = @application_record.user
     end
     let :output do
@@ -22,6 +26,9 @@ describe JobappsMailer do
     end
     it 'has a subject of application denial' do
       expect(output.subject).to eql 'Application Denial'
+    end
+    it 'has the correct reply-to' do
+      expect(output.reply_to).to eql Array(@template.email)
     end
     context 'notify_of_reason is set to true' do
       before :each do
@@ -59,8 +66,14 @@ describe JobappsMailer do
 
   describe 'interview_confirmation' do
     before :each do
-      @interview = create :interview
+      position = create :position
+      @template = create :application_template, 
+        position: position, email: 'steve@sharklazers.com'
+      application_record = create :application_record, staff_note: 'note',
+        position: position
+      @interview = create :interview, application_record: application_record
       @user = @interview.user
+
     end
     let :output do
       JobappsMailer.interview_confirmation @interview
@@ -77,11 +90,19 @@ describe JobappsMailer do
     it 'includes the date and time of the interview' do
       expect(output.body.encoded).to include @interview.scheduled.to_s
     end
+    it 'has the correct reply-to address' do
+      expect(output.reply_to).to eql Array(@template.email)
+    end
   end
 
   describe 'interview reschedule' do
     before :each do
-      @interview = create :interview
+      position = create :position
+      @template = create :application_template,
+        position: position, email: 'steve@sharklazers.com'
+      application_record = create :application_record, staff_note: 'note',
+        position: position
+      @interview = create :interview, application_record: application_record
       @user = @interview.user
     end
     let :output do
@@ -98,6 +119,9 @@ describe JobappsMailer do
     end
     it 'includes the date and time of the interview' do
       expect(output.body.encoded).to include @interview.scheduled.to_s
+    end
+    it 'has the correct reply-to address' do
+      expect(output.reply_to).to eql Array(@template.email)
     end
   end
 

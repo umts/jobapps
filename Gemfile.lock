@@ -205,6 +205,8 @@ GEM
       railties (= 4.2.6)
       sprockets-rails
     rails-assets-jquery (2.2.2)
+    rails-assets-jquery.maskedinput (1.4.1)
+      rails-assets-jquery (>= 1.8.3)
     rails-assets-wenzhixin--multiple-select (1.2.1)
       rails-assets-jquery (>= 1.7.0)
     rails-deprecated_sanitizer (1.0.3)
@@ -336,6 +338,7 @@ DEPENDENCIES
   pry-byebug
   rack_session_access
   rails (~> 4.2)
+  rails-assets-jquery.maskedinput!
   rails-assets-wenzhixin--multiple-select!
   redcarpet
   rspec-html-matchers

@@ -8,22 +8,31 @@ class JobappsMailer < ActionMailer::Base
   def application_denial(application_record)
     @application_record = application_record
     @user = application_record.user
+    template = application_record.position.application_template
+    reply_to = template.try :email
     mail to: @user.email,
-         subject: 'Application Denial'
+         subject: 'Application Denial',
+         reply_to: reply_to
   end
 
   def interview_confirmation(interview)
     @interview = interview
     @user = interview.user
+    template = interview.application_record.position.application_template
+    reply_to = template.try :email
     mail to: @user.email,
-         subject: 'Interview Confirmation'
+         subject: 'Interview Confirmation',
+         reply_to: reply_to
   end
 
   def interview_reschedule(interview)
     @interview = interview
     @user = interview.user
+    template = interview.application_record.position.application_template
+    reply_to = template.try :email
     mail to: @user.email,
-         subject: 'Interview Rescheduled'
+         subject: 'Interview Rescheduled',
+         reply_to: reply_to
   end
 
   def site_text_request(user, location, description)

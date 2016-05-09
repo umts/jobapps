@@ -21,6 +21,11 @@ describe 'reviewing application templates' do
     it 'tells the user that the application is inactive' do
       expect(page).to have_text 'application is currently not available'
     end
+    it 'still displays the application' do
+      application.questions.each do |q|
+        expect(page).to have_text q.prompt
+      end
+    end
   end
   it 'does not contain a submit button for the form' do
     expect(page).not_to have_button('Submit application')
