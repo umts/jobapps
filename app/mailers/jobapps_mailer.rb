@@ -15,6 +15,12 @@ class JobappsMailer < ActionMailer::Base
          reply_to: reply_to
   end
 
+  def application_notification(subscription, position)
+    @position = position
+    mail to: subscription.email,
+      subject: "New application for #{position.name}"
+  end
+
   def interview_confirmation(interview)
     @interview = interview
     @user = interview.user
@@ -41,11 +47,5 @@ class JobappsMailer < ActionMailer::Base
     @description = description
     mail to: configured_value([:email, :site_contact_email]),
          subject: "Site text request from #{user.full_name}"
-  end
-
-  def application_notification(subscription, position)
-    @position = position
-    mail to: subscription.email,
-      subject: "New application for #{position.name}"
   end
 end
