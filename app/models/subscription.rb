@@ -2,7 +2,7 @@ class Subscription < ActiveRecord::Base
   belongs_to :user
   belongs_to :position
 
-  validates :position_id, uniqueness: { scope: :email }
+  validates :position, uniqueness: { scope: :email }
 
   validates :email,
             :user,

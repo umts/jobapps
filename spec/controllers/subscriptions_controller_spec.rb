@@ -4,7 +4,7 @@ describe SubscriptionsController do
   describe 'POST #create' do
     context 'user' do
       let(:submit) { post :create }
-      it 'should deny the request' do
+      it 'does not allow access' do
         when_current_user_is :student
         submit
         expect(response).to have_http_status :unauthorized

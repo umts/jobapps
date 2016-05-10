@@ -54,7 +54,8 @@ describe ApplicationRecordsController do
           .by 1
       end
       it 'emails the subscribers to the position of the application record' do
-        expect_any_instance_of(ApplicationRecord).to receive(:email_subscribers)
+        expect_any_instance_of(ApplicationRecord)
+          .to receive(:email_subscribers)
           .with(applicant: user)
         submit
       end
