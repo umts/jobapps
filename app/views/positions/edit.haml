@@ -13,10 +13,11 @@
   = f.hidden_field :position_id, value: @position.id
   = f.hidden_field :user_id, value: @current_user.id
   = f.submit 'Subscribe'
-- if @subscriptions
+- if @subscriptions.present?
+  %p Your currently subscribed emails:
   %ul.subscriptions
-    Your currently subscribed emails:
     - @subscriptions.each do |subscription|
-      .subscription_email
-        %li=subscription.email
-        = button_to 'Remove', subscription, method: :delete
+      %li.subscription_email=subscription.email
+      = button_to 'Remove', subscription, method: :delete
+- else
+  %p You are not currently subscribed.
