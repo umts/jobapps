@@ -92,7 +92,7 @@ class ApplicationRecord < ActiveRecord::Base
     all_genders.map do |gender|
       ethnicity_specs = []
       all_ethnicities.map do |ethnicity|
-        records = combined_records.where(ethnicity: ethnicity, gender: gender)
+        records = combined_records.where ethnicity: ethnicity, gender: gender
         ethnicity_specs << [ethnicity, records.count, records.interview_count]
         grouped_by_gender[gender] = ethnicity_specs
       end

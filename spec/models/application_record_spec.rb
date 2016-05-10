@@ -71,7 +71,7 @@ describe ApplicationRecord do
     let(:record) { create :application_record }
     let!(:subscription) { create :subscription, position: record.position }
     let :call do
-      record.email_subscribers(applicant: record.user)
+      record.email_subscribers applicant: record.user
     end
     it 'sends a notification to all subscribers when application is created' do
       mail = ActionMailer::MessageDelivery.new(JobappsMailer,

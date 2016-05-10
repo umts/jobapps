@@ -42,7 +42,7 @@ describe ApplicationRecordsController do
       it 'emails the subscribers to the position of the application record' do
         expect_any_instance_of(ApplicationRecord)
           .to receive(:email_subscribers)
-          .with(applicant: user)
+          .with applicant: user
         submit
       end
     end
@@ -57,7 +57,7 @@ describe ApplicationRecordsController do
       it 'emails the subscribers to the position of the application record' do
         expect_any_instance_of(ApplicationRecord)
           .to receive(:email_subscribers)
-          .with(applicant: user)
+          .with applicant: user
         submit
       end
       it 'shows the application_receipt message' do
