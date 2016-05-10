@@ -67,6 +67,26 @@ describe ApplicationRecord do
     end
   end
 
+  describe 'email_subscribers' do
+    let(:record) { create :application_record }
+    let!(:subscription) { create :subscription, position: record.position }
+    let :call do
+      record.email_subscribers(applicant: record.user)
+    end
+    it 'sends a notification to all subscribers when application is created' do
+      mail = ActionMailer::MessageDelivery.new(JobappsMailer,
+                                               :application_notification)
+      record.position.subscriptions.each do |subscription|
+        expect(JobappsMailer)
+          .to receive(:application_notification)
+          .with(subscription, record.position, record.user)
+          .and_return mail
+        expect(mail).to receive(:deliver_now).and_return true
+        call
+      end
+    end
+  end
+
   describe 'question_hash' do
     include ApplicationHelper
     before :each do
