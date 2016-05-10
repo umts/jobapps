@@ -1,7 +1,8 @@
 include ApplicationConfiguration
 
 class ApplicationRecord < ActiveRecord::Base
-  belongs_to :user, :position
+  belongs_to :user
+  belongs_to :position
   delegate :department, to: :position
   has_one :interview, dependent: :destroy
 
