@@ -32,21 +32,32 @@ describe ApplicationRecordsController do
       end
     end
     context 'student' do
-      before :each do
-        when_current_user_is :student
-      end
+      let!(:user) { create :user, :student }
+      before(:each) { when_current_user_is user }
       it 'creates an application record as specified' do
         expect { submit }
           .to change { ApplicationRecord.count }
           .by 1
+      end
+      it 'emails the subscribers to the position of the application record' do
+        expect_any_instance_of(ApplicationRecord).to receive(:email_subscribers)
+          .with(applicant: user)
+        submit
       end
     end
     context 'staff' do
-      before(:each) { when_current_user_is :staff }
+      let!(:user) { create :user, :staff }
+      before(:each) { when_current_user_is user }
       it 'creates an application record as specified' do
         expect { submit }
           .to change { ApplicationRecord.count }
           .by 1
+      end
+      it 'emails the subscribers to the position of the application record' do
+        expect_any_instance_of(ApplicationRecord)
+          .to receive(:email_subscribers)
+          .with(applicant: user)
+        submit
       end
       it 'shows the application_receipt message' do
         expect_flash_message :application_receipt
