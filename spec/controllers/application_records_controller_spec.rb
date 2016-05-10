@@ -1,6 +1,13 @@
 require 'rails_helper'
 
 describe ApplicationRecordsController do
+  it_behaves_like 'an access-controlled resource', routes: [
+    [:get,  :csv_export],
+    [:get,  :eeo_data],
+    [:get,  :past_applications],
+    [:post, :review, id: 0]
+  ]
+
   describe 'POST #create' do
     before :each do
       @position = create :position

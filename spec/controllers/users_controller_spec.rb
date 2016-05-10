@@ -1,19 +1,20 @@
 require 'rails_helper'
 
 describe UsersController do
+  it_behaves_like 'an access-controlled resource', routes: [
+    [:post,   :create],
+    [:delete, :destroy, id: 0],
+    [:get,    :edit,    id: 0],
+    [:get,    :new],
+    [:put,    :update,  id: 0]
+  ]
+
   describe 'POST #create' do
     before :each do
       @user = attributes_for :user
     end
     let :submit do
       post :create, user: @user
-    end
-    context 'student' do
-      it 'does not allow access' do
-        when_current_user_is :student
-        submit
-        expect(response).to have_http_status :unauthorized
-      end
     end
   end
 
