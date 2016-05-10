@@ -9,10 +9,10 @@ describe JobappsMailer do
   describe 'application denial' do
     before :each do
       position = create :position
-      @template = create :application_template, 
-        position: position, email: 'steve@sharklazers.com'
+      @template = create :application_template,
+                         position: position, email: 'steve@sharklazers.com'
       @application_record = create :application_record, staff_note: 'note',
-        position: position
+                                                        position: position
       @user = @application_record.user
     end
     let :output do
@@ -64,16 +64,36 @@ describe JobappsMailer do
     end
   end
 
+  describe 'application_notification' do
+    let(:position) { create :position }
+    let(:subscription) { create :subscription, position: position }
+    let(:applicant) { create :user, :student }
+    let :output do
+      JobappsMailer.application_notification subscription, position, applicant
+    end
+    it 'emails from the configured value' do
+      expect(output.from).to eql Array(@from)
+    end
+    it 'emails to the subscriber email' do
+      expect(output.to).to eql Array(subscription.email)
+    end
+    it 'has a subject notifying the subscriber of the message purpose' do
+      expect(output.subject).to eql "New application for #{position.name}"
+    end
+    it 'includes the position name and the name of the applicant' do
+      expect(output.body).to include position.name, applicant.full_name
+    end
+  end
+
   describe 'interview_confirmation' do
     before :each do
       position = create :position
-      @template = create :application_template, 
-        position: position, email: 'steve@sharklazers.com'
+      @template = create :application_template,
+                         position: position, email: 'steve@sharklazers.com'
       application_record = create :application_record, staff_note: 'note',
-        position: position
+                                                       position: position
       @interview = create :interview, application_record: application_record
       @user = @interview.user
-
     end
     let :output do
       JobappsMailer.interview_confirmation @interview
@@ -99,9 +119,9 @@ describe JobappsMailer do
     before :each do
       position = create :position
       @template = create :application_template,
-        position: position, email: 'steve@sharklazers.com'
+                         position: position, email: 'steve@sharklazers.com'
       application_record = create :application_record, staff_note: 'note',
-        position: position
+                                                       position: position
       @interview = create :interview, application_record: application_record
       @user = @interview.user
     end

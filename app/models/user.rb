@@ -1,6 +1,8 @@
 class User < ActiveRecord::Base
   has_many :interviews, dependent: :destroy
   has_many :application_records, dependent: :destroy
+  has_many :subscriptions
+  has_many :positions, through: :subscriptions
 
   validates :email,
             :first_name,
