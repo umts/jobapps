@@ -17,8 +17,8 @@ describe 'subscriptions' do
     let(:user_2) { create :user, :staff }
     let(:subscription) do
       create :subscription,
-        user: user_1,
-        position: position
+             user: user_1,
+             position: position
     end
     let(:other_position) { create :position }
     before :each do

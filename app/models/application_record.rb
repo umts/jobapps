@@ -1,8 +1,7 @@
 include ApplicationConfiguration
 
 class ApplicationRecord < ActiveRecord::Base
-  belongs_to :user
-  belongs_to :position
+  belongs_to :user, :position
   delegate :department, to: :position
   has_one :interview, dependent: :destroy
 
@@ -54,7 +53,8 @@ class ApplicationRecord < ActiveRecord::Base
 
   def email_subscribers(applicant:)
     position.subscriptions.each do |sub|
-      JobappsMailer.application_notification(sub, position, applicant).deliver_now
+      JobappsMailer.application_notification(sub, position, applicant)
+                   .deliver_now
     end
   end
 
@@ -91,8 +91,7 @@ class ApplicationRecord < ActiveRecord::Base
     all_genders.map do |gender|
       ethnicity_specs = []
       all_ethnicities.map do |ethnicity|
-        records = combined_records.where(ethnicity: ethnicity,
-                                         gender: gender)
+        records = combined_records.where(ethnicity: ethnicity, gender: gender)
         ethnicity_specs << [ethnicity, records.count, records.interview_count]
         grouped_by_gender[gender] = ethnicity_specs
       end

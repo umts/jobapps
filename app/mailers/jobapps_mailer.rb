@@ -19,7 +19,7 @@ class JobappsMailer < ActionMailer::Base
     @position = position
     @applicant = applicant
     mail to: subscription.email,
-      subject: "New application for #{position.name}"
+         subject: "New application for #{position.name}"
   end
 
   def interview_confirmation(interview)

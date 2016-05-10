@@ -18,7 +18,7 @@ class PositionsController < ApplicationController
 
   def edit
     @subscriptions = Subscription.where(user_id: @current_user.id,
-                                       position_id: @position.id)
+                                        position_id: @position.id)
   end
 
   def new

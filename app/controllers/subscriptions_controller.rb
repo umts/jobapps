@@ -1,5 +1,4 @@
 class SubscriptionsController < ApplicationController
-
   def create
     @subscription = Subscription.new subscription_parameters
     @subscription.save

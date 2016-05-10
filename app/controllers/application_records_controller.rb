@@ -14,7 +14,7 @@ class ApplicationRecordsController < ApplicationController
                               .merge(data: data,
                                      user: @current_user,
                                      reviewed: false))
-    record.email_subscribers applicant: @current_user 
+    record.email_subscribers applicant: @current_user
     show_message :application_receipt,
                  default: 'Your application has been submitted. Thank you!'
     redirect_to student_dashboard_path
