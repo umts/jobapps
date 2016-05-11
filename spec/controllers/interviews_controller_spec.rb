@@ -1,19 +1,17 @@
 require 'rails_helper'
 
 describe InterviewsController do
+  it_behaves_like 'an access-controlled resource', routes: [
+    [:post, :complete, :member],
+    [:post, :reschedule, :member],
+    [:get,  :show, :member]
+  ]
   describe 'POST #complete' do
     before :each do
       @interview = create :interview, completed: false
     end
     let :submit do
       post :complete, id: @interview.id
-    end
-    context 'student' do
-      it 'does not allow access' do
-        when_current_user_is :student
-        submit
-        expect(response).to have_http_status :unauthorized
-      end
     end
     context 'staff' do
       before :each do
@@ -88,13 +86,6 @@ describe InterviewsController do
            location: @location,
            scheduled: @scheduled.strftime('%Y/%m/%d %H:%M')
     end
-    context 'student' do
-      it 'does not allow access' do
-        when_current_user_is :student
-        submit
-        expect(response).to have_http_status :unauthorized
-      end
-    end
     context 'staff' do
       before :each do
         when_current_user_is :staff
@@ -133,13 +124,6 @@ describe InterviewsController do
     end
     let :submit do
       get :show, id: @interview.id, format: :ics
-    end
-    context 'student' do
-      it 'does not allow access' do
-        when_current_user_is :student
-        submit
-        expect(response).to have_http_status :unauthorized
-      end
     end
     context 'staff' do
       before :each do

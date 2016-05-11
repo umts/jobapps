@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 describe DashboardController do
+  it_behaves_like 'an access-controlled resource', routes: [
+    [:get, :staff, :collection]
+  ]
   describe 'GET #main' do
     context 'as staff' do
       it 'redirects to staff dashboard' do
@@ -32,12 +35,6 @@ describe DashboardController do
     context 'student' do
       before :each do
         when_current_user_is :student
-      end
-      context 'HTML request' do
-        it 'does not allow access' do
-          submit
-          expect(response).to have_http_status :unauthorized
-        end
       end
       context 'XHR request' do
         it 'does not allow access' do
