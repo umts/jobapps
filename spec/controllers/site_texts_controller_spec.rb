@@ -1,6 +1,13 @@
 require 'rails_helper'
 
 describe SiteTextsController do
+  it_behaves_like 'an access-controlled resource', routes: [
+    [:get,  :edit, :member],
+    [:put,  :update, :member],
+    [:get,  :request_new, :collection],
+    [:post, :request_new, :collection],
+    [:get,  :show, :member]
+  ]
   describe '#edit methods' do
     before :each do
       @site_text = create :site_text
@@ -8,13 +15,6 @@ describe SiteTextsController do
     context 'GET' do
       let :submit do
         get :edit, id: @site_text.id
-      end
-      context 'student' do
-        it 'does not allow access' do
-          when_current_user_is :student
-          submit
-          expect(response).to have_http_status :unauthorized
-        end
       end
       context 'staff' do
         before :each do
@@ -33,13 +33,6 @@ describe SiteTextsController do
       end
       let :submit do
         get :edit, id: @site_text.id, preview_input: @input
-      end
-      context 'student' do
-        it 'does not allow access' do
-          when_current_user_is :student
-          submit
-          expect(response).to have_http_status :unauthorized
-        end
       end
       context 'staff' do
         before :each do
@@ -60,13 +53,6 @@ describe SiteTextsController do
     end
     let :submit do
       put :update, id: @site_text.id, site_text: @changes
-    end
-    context 'student' do
-      it 'does not allow access' do
-        when_current_user_is :student
-        submit
-        expect(response).to have_http_status :unauthorized
-      end
     end
     context 'staff' do
       before :each do
@@ -102,13 +88,6 @@ describe SiteTextsController do
     let :submit do
       get :request_new
     end
-    context 'student' do
-      it 'does not allow access' do
-        when_current_user_is :student
-        submit
-        expect(response).to have_http_status :unauthorized
-      end
-    end
     context 'staff' do
       before :each do
         when_current_user_is :staff
@@ -127,13 +106,6 @@ describe SiteTextsController do
     end
     let :submit do
       post :request_new, location: @location, description: @description
-    end
-    context 'student' do
-      it 'does not allow access' do
-        when_current_user_is :student
-        submit
-        expect(response).to have_http_status :unauthorized
-      end
     end
     context 'staff' do
       before :each do
@@ -173,15 +145,6 @@ describe SiteTextsController do
         it 'renders the show page' do
           submit
           expect(response).to render_template 'show'
-        end
-      end
-      context 'student' do
-        before :each do
-          when_current_user_is :student
-        end
-        it 'does not allow access' do
-          submit
-          expect(response).to have_http_status :unauthorized
         end
       end
     end

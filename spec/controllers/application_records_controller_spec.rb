@@ -1,6 +1,13 @@
 require 'rails_helper'
 
 describe ApplicationRecordsController do
+  it_behaves_like 'an access-controlled resource', routes: [
+    [:get,  :csv_export, :collection],
+    [:get,  :eeo_data, :collection],
+    [:get,  :past_applications, :collection],
+    [:post, :review, :member]
+  ]
+
   describe 'POST #create' do
     before :each do
       @position = create :position
@@ -244,13 +251,6 @@ describe ApplicationRecordsController do
     end
     # Didn't define a let block since the action takes different
     # parameters under different circumstances
-    context 'student' do
-      it 'does not allow access' do
-        when_current_user_is :student
-        post :review, id: @record.id
-        expect(response).to have_http_status :unauthorized
-      end
-    end
     context 'staff' do
       before :each do
         when_current_user_is :staff
