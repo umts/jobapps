@@ -34,6 +34,7 @@ body{
 .main_content{
   background-color: #fafafa;
   margin: 0 auto;
+  border: 1px solid black;
   max-width: 60em;
   min-width: 50em;
   padding: 0 1em;
