@@ -2,10 +2,10 @@ require 'rails_helper'
 
 describe ApplicationRecordsController do
   it_behaves_like 'an access-controlled resource', routes: [
-    [:get,  :csv_export, :collection],
-    [:get,  :eeo_data, :collection],
+    [:get,  :csv_export,        :collection],
+    [:get,  :eeo_data,          :collection],
     [:get,  :past_applications, :collection],
-    [:post, :review, :member]
+    [:post, :review,            :member]
   ]
 
   describe 'POST #create' do

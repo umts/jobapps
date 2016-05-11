@@ -2,12 +2,12 @@ require 'rails_helper'
 
 describe ApplicationDraftsController do
   it_behaves_like 'an access-controlled resource', routes: [
-    [:delete, :destroy, :member],
-    [:get,    :edit, :member],
-    [:get,    :new, :collection],
-    [:post, :move_question, :member],
+    [:delete, :destroy,       :member],
+    [:get,    :edit,          :member],
+    [:get,    :new,           :collection],
+    [:post, :move_question,   :member],
     [:post, :remove_question, :member],
-    [:post, :update, :member],
+    [:post, :update,          :member],
     [:post, :update_application_template, :member]
   ]
   describe 'DELETE #destroy' do

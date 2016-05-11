@@ -2,9 +2,9 @@ require 'rails_helper'
 
 describe InterviewsController do
   it_behaves_like 'an access-controlled resource', routes: [
-    [:post, :complete, :member],
+    [:post, :complete,   :member],
     [:post, :reschedule, :member],
-    [:get,  :show, :member]
+    [:get,  :show,       :member]
   ]
   describe 'POST #complete' do
     before :each do
