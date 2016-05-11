@@ -45,6 +45,7 @@ Rails.application.routes.draw do
   end
 
   resources :positions, except: [:index, :show]
+  resources :subscriptions
   
   # sessions
   unless Rails.env.production?
