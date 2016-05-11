@@ -4,9 +4,9 @@ describe SiteTextsController do
   it_behaves_like 'an access-controlled resource', routes: [
     [:get,  :edit, :member],
     [:put,  :update, :member],
-    [:get,  :request_new,    :collection],
+    [:get,  :request_new, :collection],
     [:post, :request_new, :collection],
-    [:get,  :show,  :member]
+    [:get,  :show, :member]
   ]
   describe '#edit methods' do
     before :each do

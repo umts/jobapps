@@ -6,6 +6,6 @@ describe UsersController do
     [:delete, :destroy, :member],
     [:get,    :edit,    :member],
     [:get,    :new, :collection],
-    [:put,    :update,  :member]
+    [:put,    :update, :member]
   ]
 end
