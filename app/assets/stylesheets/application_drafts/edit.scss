@@ -23,13 +23,12 @@ html {
 
 #flex_wrapper{
   display: flex;
+  padding-bottom: 20px;
   .form_column{
     flex:3;
-    //list-style-type:none;
     .header_row{
       padding: .5em;
       display: flex;
-      height: 2em;
       .field_attribute{
         flex: 1;
       }
@@ -41,12 +40,15 @@ html {
       display: flex;
       flex-direction: column;
       .field_row{
-        height: 5em;
+        height: 7em;
         display: flex;
         border-bottom: 1px solid black;
         .field_attribute_1{
           padding: .5em;
           flex: 3;
+        }
+        .field_attribute_2{
+          padding-left: 50px;
         }
         .field_attribute{
           padding: .5 em;
@@ -59,10 +61,10 @@ html {
     margin-top: 2em; //height of header row
     display: flex;
     flex-direction: column;
+    align-items: center;
     .button_row{
       padding: .5em;
-      border-bottom: 1px solid black;
-      height: 5em;
+      height: 7em;
     }
   }
   .email_row *{

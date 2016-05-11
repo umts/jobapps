@@ -59,7 +59,8 @@
             - if question.explanation?
               .explanation= render_markdown question.prompt
             - elsif question.heading?
-              %h3.heading= question.prompt
+              %h3.heading
+                = question.prompt
             - else
               .form-group.row
                 .col-md-6.text-right
