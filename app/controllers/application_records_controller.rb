@@ -1,3 +1,4 @@
+require 'prawn'
 class ApplicationRecordsController < ApplicationController
   skip_before_action :access_control, only: [:create, :show]
   before_action :find_record, except: [:create,
@@ -64,8 +65,18 @@ class ApplicationRecordsController < ApplicationController
   end
 
   def show
-    deny_access if @current_user.student? && @current_user != @record.user
+    deny_access && return if @current_user.student? &&
+                             @current_user != @record.user
     @interview = @record.interview
+    respond_to do |format|
+      format.html
+      format.pdf do
+        pdf = PrintRecordPdf.new(@record)
+        send_data pdf.render, filename: "#{@record.user.full_name}.pdf",
+                              type: 'application/pdf',
+                              disposition: :inline
+      end
+    end
   end
 
   private
