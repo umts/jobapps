@@ -35,6 +35,10 @@ Style/FrozenStringLiteralComment:
 Style/GuardClause:
   MinBodyLength: 10
 
+# I think multiline block chains are beautiful.
+Style/MultilineBlockChain:
+  Enabled: false
+
 # I think this cop disagrees with nested calls
 # which are perfectly clear.
 Style/NestedParenthesizedCalls:

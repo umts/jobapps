@@ -354,6 +354,10 @@ describe ApplicationRecordsController do
         submit
         expect(assigns.keys).to include 'record', 'interview'
       end
+      it 'generates a pdf by calling prawn' do
+        get :show, id: @record.id, format: :pdf
+        expect(response.headers['Content-Type']).to eql 'application/pdf'
+      end
     end
   end
 end

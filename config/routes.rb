@@ -28,6 +28,7 @@ Rails.application.routes.draw do
     end
     member do
       post :review
+      get  :print
     end
   end
 
