@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 describe ApplicationTemplatesController do
+  it_behaves_like 'an access-controlled resource', routes: [
+    [:get, :new,                 :collection],
+    [:post, :toggle_active,      :member],
+    [:post, :toggle_eeo_enabled, :member]
+  ]
   describe 'GET #new' do
     context 'staff' do
       before :each do
@@ -96,13 +101,6 @@ describe ApplicationTemplatesController do
            position: @template.position.name,
            department: @template.department.name
     end
-    context 'student' do
-      it 'does not allow access' do
-        when_current_user_is :student
-        submit
-        expect(response).to have_http_status :unauthorized
-      end
-    end
     context 'staff' do
       before :each do
         when_current_user_is :staff
@@ -137,13 +135,6 @@ describe ApplicationTemplatesController do
            id: @template.id,
            position: @template.position.name,
            department: @template.department.name
-    end
-    context 'student' do
-      it 'does not allow access' do
-        when_current_user_is :student
-        submit
-        expect(response).to have_http_status :unauthorized
-      end
     end
     context 'staff' do
       before :each do

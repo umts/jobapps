@@ -20,14 +20,6 @@ end
 
 # controller spec helper methods
 
-# attributes_for but including foreign key associations
-# adapted from https://github.com/thoughtbot/factory_girl/issues/359#issuecomment-21418209
-def attributes_with_foreign_keys_for(*args)
-  build(*args).attributes.delete_if do |k, _v|
-    %w(id created_at updated_at).include? k
-  end
-end
-
 # Expects that the controller action called after this is invoked
 # will call show_message with the symbol given, and a hash
 # containing a default.
