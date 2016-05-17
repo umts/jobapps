@@ -61,7 +61,7 @@ class ApplicationRecord < ActiveRecord::Base
 
   def questions_hash
     data.map do |prompt, response, _data_type, _question_id|
-      Array(prompt, response)
+      [prompt, response]
     end.select(&:all?).to_h
   end
 
