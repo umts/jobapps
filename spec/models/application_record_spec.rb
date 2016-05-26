@@ -88,40 +88,12 @@ describe ApplicationRecord do
   end
 
   describe 'question_hash' do
-    include ApplicationHelper
-    before :each do
-      @data = {}
-      (0..4).each do |num|
-        %w(prompt response data_type).each do |type|
-          @data["#{type}_#{num}"] = "#{num}-#{type}"
-        end
-        @data[num.to_s] = "#{num}-#{num}"
-      end
-      @data_arr = parse_application_data(@data)
-                  .select { |sub| !sub.nil? && sub.all? }
-      @record = create :application_record, data: @data_arr
-      @hash = @record.questions_hash
+    let :record do
+      create :application_record,
+             data: [['What is your name?', 'Luke Starkiller', 'text', 316]]
     end
-
-    it 'does not return nothing when given data' do
-      expect(@hash.length).not_to be_zero
-    end
-
-    it 'generates the correct amount of data' do
-      expect(@hash.length).to be(5)
-    end
-
-    it 'contains the correct keys and values' do
-      @record.data.each do |_, value, _, index|
-        expect(@hash.keys).to include(index)
-        expect(@hash.values).to include(value)
-      end
-    end
-
-    it 'maps to the correct values' do
-      @record.data.each do |_, value, _, index|
-        expect(@hash[index]).to be(value)
-      end
+    it 'maps question IDs to responses' do
+      expect(record.questions_hash).to eql 316 => 'Luke Starkiller'
     end
   end
 
