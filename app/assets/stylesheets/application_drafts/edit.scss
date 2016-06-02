@@ -63,12 +63,16 @@ html {
     flex-direction: column;
     align-items: center;
     .button_row{
+      display:flex;
+      flex-direction: column;
       padding: .5em;
       height: 7em;
+      .btn {
+        text-align: left;
+      }
     }
   }
   .email_row *{
-    width:100%;
     margin: 1em;
   }
 }
