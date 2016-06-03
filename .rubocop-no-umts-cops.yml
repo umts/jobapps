@@ -14,6 +14,8 @@ Metrics/AbcSize:
   Max: 20
 Metrics/MethodLength:
   Max: 20
+Metrics/ClassLength:
+  Max: 150
 
 # Don't worry about documentation for now.
 # In particular, this fails for things like
@@ -32,6 +34,10 @@ Style/FrozenStringLiteralComment:
 
 Style/GuardClause:
   MinBodyLength: 10
+
+# I think multiline block chains are beautiful.
+Style/MultilineBlockChain:
+  Enabled: false
 
 # I think this cop disagrees with nested calls
 # which are perfectly clear.

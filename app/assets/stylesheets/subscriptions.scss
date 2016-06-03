@@ -1,0 +1,12 @@
+.subscriptions {
+  margin-left: -2em;
+  margin-top: 1em;
+  .subscription_email{
+    padding: .5em; 
+    li {
+      float: left;
+      list-style-type: none;
+      margin-right: 1em;
+    }
+  }
+} 

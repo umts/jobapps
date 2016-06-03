@@ -4,8 +4,8 @@ include DateAndTimeMethods
 describe 'viewing job applications individually' do
   context 'there are no pending applications or interviews' do
     let!(:position) { create :position }
-    # There must be a position for which exist no applications or
-    # interviews.
+    # There must be a position for which there exist
+    # neither applications nor interviews.
     before :each do
       when_current_user_is :staff, integration: true
       visit staff_dashboard_url

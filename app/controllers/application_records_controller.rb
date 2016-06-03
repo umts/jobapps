@@ -10,10 +10,10 @@ class ApplicationRecordsController < ApplicationController
     create_user if @current_user.blank?
     data = parse_application_data(params.require :data)
     params.require :position_id
-    ApplicationRecord.create(params.permit(:position_id, :ethnicity, :gender)
-                             .merge(data: data,
-                                    user: @current_user,
-                                    reviewed: false))
+    record = ApplicationRecord.create(record_params.merge(data: data,
+                                                          user: @current_user,
+                                                          reviewed: false))
+    record.email_subscribers applicant: @current_user
     show_message :application_receipt,
                  default: 'Your application has been submitted. Thank you!'
     redirect_to student_dashboard_path
@@ -64,8 +64,18 @@ class ApplicationRecordsController < ApplicationController
   end
 
   def show
-    deny_access if @current_user.student? && @current_user != @record.user
+    deny_access && return if @current_user.student? &&
+                             @current_user != @record.user
     @interview = @record.interview
+    respond_to do |format|
+      format.html
+      format.pdf do
+        pdf = PrintRecordPdf.new(@record)
+        send_data pdf.render, filename: "#{@record.user.full_name}.pdf",
+                              type: 'application/pdf',
+                              disposition: :inline
+      end
+    end
   end
 
   private
@@ -87,5 +97,9 @@ class ApplicationRecordsController < ApplicationController
 
   def given_or_all_department_ids
     params[:department_ids] || Department.pluck(:id)
+  end
+
+  def record_params
+    params.permit(:position_id, :ethnicity, :gender)
   end
 end

@@ -1,6 +1,13 @@
 require 'rails_helper'
 
 describe ApplicationRecordsController do
+  it_behaves_like 'an access-controlled resource', routes: [
+    [:get,  :csv_export,        :collection],
+    [:get,  :eeo_data,          :collection],
+    [:get,  :past_applications, :collection],
+    [:post, :review,            :member]
+  ]
+
   describe 'POST #create' do
     before :each do
       @position = create :position
@@ -32,21 +39,33 @@ describe ApplicationRecordsController do
       end
     end
     context 'student' do
-      before :each do
-        when_current_user_is :student
-      end
+      let!(:user) { create :user, :student }
+      before(:each) { when_current_user_is user }
       it 'creates an application record as specified' do
         expect { submit }
           .to change { ApplicationRecord.count }
           .by 1
+      end
+      it 'emails the subscribers to the position of the application record' do
+        expect_any_instance_of(ApplicationRecord)
+          .to receive(:email_subscribers)
+          .with applicant: user
+        submit
       end
     end
     context 'staff' do
-      before(:each) { when_current_user_is :staff }
+      let!(:user) { create :user, :staff }
+      before(:each) { when_current_user_is user }
       it 'creates an application record as specified' do
         expect { submit }
           .to change { ApplicationRecord.count }
           .by 1
+      end
+      it 'emails the subscribers to the position of the application record' do
+        expect_any_instance_of(ApplicationRecord)
+          .to receive(:email_subscribers)
+          .with applicant: user
+        submit
       end
       it 'shows the application_receipt message' do
         expect_flash_message :application_receipt
@@ -232,13 +251,6 @@ describe ApplicationRecordsController do
     end
     # Didn't define a let block since the action takes different
     # parameters under different circumstances
-    context 'student' do
-      it 'does not allow access' do
-        when_current_user_is :student
-        post :review, id: @record.id
-        expect(response).to have_http_status :unauthorized
-      end
-    end
     context 'staff' do
       before :each do
         when_current_user_is :staff
@@ -341,6 +353,10 @@ describe ApplicationRecordsController do
       it 'assigns the correct variables' do
         submit
         expect(assigns.keys).to include 'record', 'interview'
+      end
+      it 'generates a pdf by calling prawn' do
+        get :show, id: @record.id, format: :pdf
+        expect(response.headers['Content-Type']).to eql 'application/pdf'
       end
     end
   end

@@ -1,23 +1,21 @@
 require 'rails_helper'
 
 describe ApplicationDraftsController do
+  it_behaves_like 'an access-controlled resource', routes: [
+    [:delete, :destroy,       :member],
+    [:get,    :edit,          :member],
+    [:get,    :new,           :collection],
+    [:post, :move_question,   :member],
+    [:post, :remove_question, :member],
+    [:post, :update,          :member],
+    [:post, :update_application_template, :member]
+  ]
   describe 'DELETE #destroy' do
     before :each do
       @draft = create :application_draft
     end
     let :submit do
       delete :destroy, id: @draft.id
-    end
-    context 'student' do
-      before :each do
-        when_current_user_is :student
-      end
-      it 'does not allow access' do
-        expect_any_instance_of(ApplicationDraft)
-          .not_to receive :destroy
-        submit
-        expect(response).to have_http_status :unauthorized
-      end
     end
     context 'staff' do
       before :each do
@@ -50,15 +48,6 @@ describe ApplicationDraftsController do
     let :submit do
       get :edit, id: @draft.id
     end
-    context 'student' do
-      before :each do
-        when_current_user_is :student
-      end
-      it 'does not allow access' do
-        submit
-        expect(response).to have_http_status :unauthorized
-      end
-    end
     context 'staff' do
       before :each do
         when_current_user_is :staff
@@ -85,17 +74,6 @@ describe ApplicationDraftsController do
     end
     let :submit do
       get :new, application_template_id: @template.id
-    end
-    context 'student' do
-      before :each do
-        when_current_user_is :student
-      end
-      it 'does not allow access' do
-        expect_any_instance_of(ApplicationTemplate)
-          .not_to receive :create_draft
-        submit
-        expect(response).to have_http_status :unauthorized
-      end
     end
     context 'staff' do
       before :each do
@@ -137,17 +115,6 @@ describe ApplicationDraftsController do
            number: @question.number,
            direction: @direction
     end
-    context 'student' do
-      before :each do
-        when_current_user_is :student
-      end
-      it 'does not allow access' do
-        expect_any_instance_of(ApplicationDraft)
-          .not_to receive(:move_question)
-        submit
-        expect(response).to have_http_status :unauthorized
-      end
-    end
     context 'staff' do
       before :each do
         when_current_user_is :staff
@@ -176,17 +143,6 @@ describe ApplicationDraftsController do
     end
     let :submit do
       post :remove_question, id: @draft.id, number: @question.number
-    end
-    context 'student' do
-      before :each do
-        when_current_user_is :student
-      end
-      it 'does not allow access' do
-        expect_any_instance_of(ApplicationDraft)
-          .not_to receive :remove_question
-        submit
-        expect(response).to have_http_status :unauthorized
-      end
     end
     context 'staff' do
       before :each do
@@ -218,17 +174,6 @@ describe ApplicationDraftsController do
     end
     let :submit do
       post :update, id: @draft, draft: @draft_changes, commit: @commit
-    end
-    context 'student' do
-      before :each do
-        when_current_user_is :student
-      end
-      it 'does not allow access' do
-        expect_any_instance_of(ApplicationDraft)
-          .not_to receive :update_questions
-        submit
-        expect(response).to have_http_status :unauthorized
-      end
     end
     context 'staff' do
       before :each do
@@ -270,17 +215,6 @@ describe ApplicationDraftsController do
     end
     let :submit do
       post :update_application_template, id: @draft.id
-    end
-    context 'not staff' do
-      before :each do
-        when_current_user_is :student
-      end
-      it 'does not allow access' do
-        expect_any_instance_of(ApplicationDraft)
-          .not_to receive :update_application_template!
-        submit
-        expect(response).to have_http_status :unauthorized
-      end
     end
     context 'staff' do
       before :each do

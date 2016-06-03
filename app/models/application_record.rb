@@ -52,16 +52,16 @@ class ApplicationRecord < ActiveRecord::Base
     self
   end
 
-  def questions_hash
-    data.map do |array4| # Sub-arrays of four elements
-      # The four element sub-arrays use the format
-      # [prompt, response, data_type, question_id]
-      # So the desired indices are 3 and 1 for a
-      # question_id -> response hash
+  def email_subscribers(applicant:)
+    position.subscriptions.each do |sub|
+      JobappsMailer.application_notification(sub, position, applicant)
+                   .deliver_now
+    end
+  end
 
-      qid_index = 3
-      response_index = 1
-      [array4[qid_index], array4[response_index]]
+  def questions_hash
+    data.map do |_prompt, response, _data_type, question_id|
+      [question_id, response]
     end.select(&:all?).to_h
   end
 
@@ -85,8 +85,7 @@ class ApplicationRecord < ActiveRecord::Base
     all_genders.map do |gender|
       ethnicity_specs = []
       all_ethnicities.map do |ethnicity|
-        records = combined_records.where(ethnicity: ethnicity,
-                                         gender: gender)
+        records = combined_records.where ethnicity: ethnicity, gender: gender
         ethnicity_specs << [ethnicity, records.count, records.interview_count]
         grouped_by_gender[gender] = ethnicity_specs
       end

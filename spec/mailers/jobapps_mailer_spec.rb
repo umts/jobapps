@@ -8,7 +8,11 @@ describe JobappsMailer do
 
   describe 'application denial' do
     before :each do
-      @application_record = create :application_record, staff_note: 'note'
+      position = create :position
+      @template = create :application_template,
+                         position: position, email: 'steve@sharklazers.com'
+      @application_record = create :application_record, staff_note: 'note',
+                                                        position: position
       @user = @application_record.user
     end
     let :output do
@@ -22,6 +26,9 @@ describe JobappsMailer do
     end
     it 'has a subject of application denial' do
       expect(output.subject).to eql 'Application Denial'
+    end
+    it 'has the correct reply-to' do
+      expect(output.reply_to).to eql Array(@template.email)
     end
     context 'notify_of_reason is set to true' do
       before :each do
@@ -57,9 +64,35 @@ describe JobappsMailer do
     end
   end
 
+  describe 'application_notification' do
+    let(:position) { create :position }
+    let(:subscription) { create :subscription, position: position }
+    let(:applicant) { create :user, :student }
+    let :output do
+      JobappsMailer.application_notification subscription, position, applicant
+    end
+    it 'emails from the configured value' do
+      expect(output.from).to eql Array(@from)
+    end
+    it 'emails to the subscriber email' do
+      expect(output.to).to eql Array(subscription.email)
+    end
+    it 'has a subject notifying the subscriber of the message purpose' do
+      expect(output.subject).to eql "New application for #{position.name}"
+    end
+    it 'includes the position name and the name of the applicant' do
+      expect(output.body).to include position.name, applicant.full_name
+    end
+  end
+
   describe 'interview_confirmation' do
     before :each do
-      @interview = create :interview
+      position = create :position
+      @template = create :application_template,
+                         position: position, email: 'steve@sharklazers.com'
+      application_record = create :application_record, staff_note: 'note',
+                                                       position: position
+      @interview = create :interview, application_record: application_record
       @user = @interview.user
     end
     let :output do
@@ -77,11 +110,19 @@ describe JobappsMailer do
     it 'includes the date and time of the interview' do
       expect(output.body.encoded).to include @interview.scheduled.to_s
     end
+    it 'has the correct reply-to address' do
+      expect(output.reply_to).to eql Array(@template.email)
+    end
   end
 
   describe 'interview reschedule' do
     before :each do
-      @interview = create :interview
+      position = create :position
+      @template = create :application_template,
+                         position: position, email: 'steve@sharklazers.com'
+      application_record = create :application_record, staff_note: 'note',
+                                                       position: position
+      @interview = create :interview, application_record: application_record
       @user = @interview.user
     end
     let :output do
@@ -98,6 +139,9 @@ describe JobappsMailer do
     end
     it 'includes the date and time of the interview' do
       expect(output.body.encoded).to include @interview.scheduled.to_s
+    end
+    it 'has the correct reply-to address' do
+      expect(output.reply_to).to eql Array(@template.email)
     end
   end
 

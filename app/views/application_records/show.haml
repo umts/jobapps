@@ -4,6 +4,7 @@ submitted
 = format_date_time @record.created_at
 by:
 = @record.user.name_and_email
+= button_to 'Print this page', application_record_path(@record, format: :pdf), method: :get
 
 .data_container
   .data_row

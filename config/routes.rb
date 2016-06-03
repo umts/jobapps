@@ -28,6 +28,7 @@ Rails.application.routes.draw do
     end
     member do
       post :review
+      get  :print
     end
   end
 
@@ -45,6 +46,7 @@ Rails.application.routes.draw do
   end
 
   resources :positions, except: [:index, :show]
+  resources :subscriptions
   
   # sessions
   unless Rails.env.production?
