@@ -64,7 +64,7 @@
         .field_attribute_header1
           Reply-to email: 
         .field_attribute
-          =f.text_area :email
+          =f.text_field :email, size: 50
       .actions
         = f.submit 'Save changes and continue editing'
         = f.submit 'Preview changes'
@@ -73,12 +73,12 @@
       - unless question.new_record?
         .button_row
           - unless @draft.questions.index(question).zero?
-            = button_to 'Move up',
+            .btn= button_to 'Move up',
               move_question_draft_path(@draft, number: question.number,
                                                direction: :up)
           - unless question == @draft.questions.not_new.last
-            = button_to 'Move down',
+            .btn= button_to 'Move down',
               move_question_draft_path(@draft, number: question.number,
                                                direction: :down)
-          = button_to 'Remove question',
+          .btn= button_to 'Remove question',
             remove_question_draft_path(@draft, number: question.number)

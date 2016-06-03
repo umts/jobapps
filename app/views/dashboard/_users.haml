@@ -1,11 +1,10 @@
 .dashboard_partial
-  %ul
-    %li
-      %h3 Add staff
-      %ul
-        %li= link_to 'Add new staff member', new_user_path
-    %li
-      %h3 Edit/remove staff
-      %ul
-        - @staff.each do |user|
-          %li= link_to user.proper_name, edit_user_path(user)
+  .partial_block
+    .title_header.fs-22 Add staff
+    %ul
+      %li= link_to 'Add new staff member', new_user_path
+  .partial_block
+    .title_header.fs-22 Edit/remove staff
+    %ul
+      - @staff.each do |user|
+        %li= link_to user.proper_name, edit_user_path(user)

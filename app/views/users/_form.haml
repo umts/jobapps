@@ -1,17 +1,17 @@
 = form_for user,
   url: { controller: :users, action: action, id: user.id } do |f|
-  .field
-    = f.label :first_name
+  .form-group.row
+    .col-md-2= f.label :first_name
     = f.text_field :first_name, required: true
-  .field
-    = f.label :last_name
+  .form-group.row
+    .col-md-2= f.label :last_name
     = f.text_field :last_name, required: true
-  .field
-    = f.label :email
+  .form-group.row
+    .col-md-2= f.label :email
     = f.text_field :email, required: true
-  .field
-    = f.label :spire
+  .form-group.row
+    .col-md-2= f.label :spire
     = f.text_field :spire, required: true
   .action
     = f.hidden_field :staff, value: true
-    = f.submit 'Save changes'
+    .btn= f.submit 'Save changes'
