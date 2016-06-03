@@ -88,6 +88,14 @@ ActiveRecord::Schema.define(version: 20160415162549) do
     t.string   "slug",       limit: 255
   end
 
+  create_table "subscriptions", force: :cascade do |t|
+    t.integer  "user_id",     limit: 4
+    t.integer  "position_id", limit: 4
+    t.string   "email",       limit: 255
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "first_name", limit: 255
     t.string   "last_name",  limit: 255
