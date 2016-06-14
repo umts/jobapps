@@ -25,14 +25,20 @@
   .field{
     margin: 1em;
     .label{
-      display:        inline-block;
+      white-space: normal !important;
       margin-right:   1em;
-      text-align:     right;
-      vertical-align: top;
-      width:          20em;
+      text-align:     left !important;
+      vertical-align: middle;
+      width:          30%;
+      color:          black;
+      font-size: 100%;
+      line-height: 1.25;
     }
     input[type='number']{
       width: 3em;
+    }
+    input:not([type='radio']) {
+      width: 90%;
     }
     select{
       border: 1px solid gray;
