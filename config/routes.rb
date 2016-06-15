@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     member do
       post :toggle_active
       post :toggle_eeo_enabled
+      post :toggle_unavailability_enabled
     end
   end
   get '/applications/it/programmer', to: 'application_templates#show', id: 'it-programmer'
@@ -47,7 +48,7 @@ Rails.application.routes.draw do
 
   resources :positions, except: [:index, :show]
   resources :subscriptions
-  
+
   # sessions
   unless Rails.env.production?
     get  'sessions/dev_login', to: 'sessions#dev_login', as: :dev_login
@@ -67,5 +68,5 @@ Rails.application.routes.draw do
   end
 
   resources :users, except: [:index, :show]
-  
+
 end
