@@ -27,7 +27,8 @@ describe 'edit staff users' do
         before :each do
           within 'form.edit_user' do
             fill_in_fields_for User,
-                               attributes: attributes.merge(first_name: 'Bananas')
+                               attributes: attributes
+                                 .merge(first_name: 'Bananas')
           end
         end
 
@@ -76,34 +77,19 @@ describe 'edit staff users' do
       end
     end
   end
-  context 'with staff privilege' do 
-    let!(:user) { create :user, staff: true, last_name: 'Smith' }
-
-    context 'clicking from dashboard' do
-      before :each do 
-        when_current_user_is :staff, integration: true
-        visit staff_dashboard_url
-      end
-      it 'does not have link to page' do 
-        expect(page).not_to have_link "#{user.last_name}, #{user.first_name}"
-      end
+  context 'with staff privilege' do
+    before :each do
+      when_current_user_is :staff, integration: true
     end
-    context 'on edit user page' do 
-      before :each do 
-        when_current_user_is :staff, integration: true
-        visit edit_user_url(user)
-      end
-      let!(:attributes) { attributes_for(:user).except :staff, :last_name }
-      it 'does not change user' do 
-        within 'form.edit_user' do
-            fill_in_fields_for User,
-                               attributes: attributes.merge(first_name: 'Bananas')
-        end
-        click_on 'Save changes'
-        expect(page).to have_text 'You do not have permission to access this page.'
-        expect(user.reload.attributes.symbolize_keys)
-            .to include first_name: user.first_name, last_name: user.last_name
-      end
+    let!(:user) { create :user, staff: true, last_name: 'Smith' }
+    it 'does not have link to page' do
+      visit staff_dashboard_url
+      expect(page).not_to have_link "#{user.last_name}, #{user.first_name}"
+    end
+    it 'does not give access' do
+      visit edit_user_url(user)
+      expected = 'You do not have permission to access this page.'
+      expect(page).to have_text expected
     end
   end
 end

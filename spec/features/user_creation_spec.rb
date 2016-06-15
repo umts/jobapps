@@ -58,35 +58,18 @@ describe 'creating a staff member' do
       end
     end
   end
-  context 'with staff privilege' do 
-  before :each do 
-    when_current_user_is :staff, integration: true
-  end
-  context "clicking from dashboard" do 
-    it 'does not go to user creation page' do 
+  context 'with staff privilege' do
+    before :each do
+      when_current_user_is :staff, integration: true
+    end
+    it 'does not have link for user creation page' do
       visit staff_dashboard_url
       expect(page).not_to have_link 'Add new staff member'
     end
-  end
-  context 'on user creation page' do 
-    before :each do 
+    it 'does not give access' do
       visit new_user_url
-    end
-    let!(:user_fields) { attributes_for(:user).except :staff }
-    # staff attribute is a hidden field in the form
-    # so no need to fill it in
-    context 'with required fields filled in' do 
-      before :each do 
-        within 'form.new_user' do
-          fill_in_fields_for User, attributes: user_fields
-        end
-      end
-      it 'does not create a user' do
-        expect { click_on 'Save changes' }
-          .not_to change { User.count }
-        expect(page).to have_text 'You do not have permission to access this page.'
-      end
+      expected = 'You do not have permission to access this page.'
+      expect(page).to have_text expected
     end
   end
-end
 end

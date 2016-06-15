@@ -26,28 +26,17 @@ describe 'deleting users' do
   end
 end
 
-context 'with staff privilege' do 
-  before :each do 
+context 'with staff privilege' do
+  before :each do
     when_current_user_is :staff, integration: true
     @user = create :user
   end
-  context 'from dashboard' do 
-    before :each do 
-      visit staff_dashboard_url
-    end
-    it 'does not have the link' do 
-      expect(page).not_to have_link "#{@user.last_name}, #{@user.first_name}"
-    end
+  it 'does not have the link' do
+    visit staff_dashboard_url
+    expect(page).not_to have_link "#{@user.last_name}, #{@user.first_name}"
   end
-  context 'from edit page' do 
-    before :each do 
-      visit edit_user_path(@user)
-    end
-    it 'does not delete the user in question' do 
-      expect { click_on "Remove #{@user.full_name}" }
-        .not_to change { User.count }
-      expect(page).to have_text 'You do not have permission to access this page.'
-      expect(User.all).to include @user
-    end
+  it 'does not give access' do
+    visit edit_user_path(@user)
+    expect(page).to have_text 'You do not have permission to access this page.'
   end
 end
