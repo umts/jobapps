@@ -42,6 +42,18 @@ class ApplicationTemplatesController < ApplicationController
     redirect_to :back
   end
 
+  def toggle_unavailability_enabled
+    @template.toggle! :unavailability_enabled
+    if @template.unavailability_enabled
+      show_message :unavailability_enabled,
+                    default: 'Unavailability requests enabled on this application.'
+    else
+      show_message :unavailability_disabled,
+                    default: 'Unavailability requests disabled on this application.'
+    end
+    redirect_to :back
+  end
+
   private
 
   def find_template
