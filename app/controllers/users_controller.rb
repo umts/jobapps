@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :find_user, only: [:destroy, :edit, :update]
-  before_action :correct_user?
+  before_action :admin?
 
   def create
     @user = User.new user_parameters
@@ -49,7 +49,7 @@ class UsersController < ApplicationController
                                  :staff
   end
 
-  def correct_user?
+  def admin?
     deny_access && return unless @current_user.admin?
   end
 end

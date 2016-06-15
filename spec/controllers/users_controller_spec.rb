@@ -12,33 +12,31 @@ describe UsersController do
     context 'creating a user as staff' do
       it 'does not create the user' do
         when_current_user_is :staff
-        attrs = { first_name: 'Foo', last_name: 'Bar',
-                  email: 'foobar@example.com', spire: '29901087',
-                  staff: true }
+        attrs = FactoryGirl.build :user
         post :create, user: attrs
-        expect(response.status).to be 401
-        expect(response.body.length).not_to be 0
+        expect(response).to have_http_status :unauthorized
+        expect(response.body).not_to be_empty
       end
     end
   end
-  describe 'DELETE #destroy' do 
+  describe 'DELETE #destroy' do
     context 'destroying a user as staff' do
       it 'does not destroy the user' do
         when_current_user_is :staff
         user = create :user, :staff
         delete :destroy, id: user
-        expect(response.body)
+        expect(response).to have_http_status :unauthorized
         expect(User.all).to include user
       end
     end
   end
-  describe 'PATCH #update' do 
-    context 'updating a user as staff' do 
-      it 'does not update the user' do 
+  describe 'PUT #update' do
+    context 'updating a user as staff' do
+      it 'does not update the user' do
         when_current_user_is :staff
         user = create :user, first_name: 'Dave',
-                      last_name: 'Smith', staff: true,
-                      email: 'dave@example.com', spire: '123454678'
+                             last_name: 'Smith', staff: true,
+                             email: 'dave@example.com', spire: '123454678'
         attrs = { first_name: 'Foo', email: 'foobar@example.com' }
         patch :update, id: user, user: attrs
         user.reload
