@@ -111,6 +111,20 @@
             = r.hidden_field question.id,
               value: "#{question.id}-#{question.number}"
       = hidden_field_tag :position_id, @template.position_id
+
+      -if @draft.application_template.unavailability_enabled?
+        .heading Unavailability
+        .explanation
+          Please fill out your weekly unavailability for this semester via this calendar. This is
+          used to determine if you have enough available time to commit to this position.
+          Check off times that you are
+          %strong NOT
+          available to work.
+          Note that you can click and drag to check or uncheck a range of boxes.
+        %br
+        =render partial: "application_drafts/unavailabilities_calendar"
+
+
       - if @template.eeo_enabled?
         .heading Voluntary Equal Employment Opportunity Information
         .explanation
