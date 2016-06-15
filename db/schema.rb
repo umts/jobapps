@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160615153336) do
+ActiveRecord::Schema.define(version: 20160615163009) do
 
   create_table "application_drafts", force: :cascade do |t|
     t.integer  "application_template_id", limit: 4
@@ -95,6 +95,19 @@ ActiveRecord::Schema.define(version: 20160615153336) do
     t.string   "email",       limit: 255
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
+  end
+
+  create_table "unavailabilities", force: :cascade do |t|
+    t.string   "sunday",                limit: 255
+    t.string   "monday",                limit: 255
+    t.string   "tuesday",               limit: 255
+    t.string   "wednesday",             limit: 255
+    t.string   "thursday",              limit: 255
+    t.string   "friday",                limit: 255
+    t.string   "saturday",              limit: 255
+    t.integer  "application_record_id", limit: 4
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
   end
 
   create_table "users", force: :cascade do |t|
