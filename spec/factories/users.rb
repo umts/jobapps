@@ -12,5 +12,9 @@ FactoryGirl.define do
     trait :student do
       staff false
     end
+    trait :admin do 
+      admin true
+      staff true
+    end
   end
 end
