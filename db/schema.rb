@@ -41,7 +41,6 @@ ActiveRecord::Schema.define(version: 20160415162549) do
     t.string   "slug",        limit: 255
     t.boolean  "eeo_enabled",             default: true
     t.string   "email",       limit: 255
-    t.boolean  "unavailability_enabled"   default: true
   end
 
   create_table "departments", force: :cascade do |t|
