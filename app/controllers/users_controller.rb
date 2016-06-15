@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_action :find_user, only: [:destroy, :edit, :update]
 
   def create
+    deny_access and return unless @current_user.admin?
     @user = User.new user_parameters
     if @user.save
       show_message :user_create,
@@ -12,6 +13,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    deny_access and return unless @current_user.admin?
     @user.destroy
     show_message :user_destroy,
                  default: 'User has been removed.'
@@ -25,6 +27,7 @@ class UsersController < ApplicationController
   end
 
   def update
+    deny_access and return unless @current_user.admin?
     if @user.update user_parameters
       show_message :user_update,
                    default: 'User has been updated.'
