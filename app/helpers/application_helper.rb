@@ -39,6 +39,16 @@ module ApplicationHelper
     questions
   end
 
+  def parse_unavailability(params)
+    attrs = Hash.new{ |k, v| k[v] = [] }
+    params.select{ |day_and_time, value| value == '1' }
+          .keys.each do |day_and_time|
+            day, time = day_and_time.split '_'
+            attrs[day.to_sym] << time
+          end
+    attrs
+  end
+
   def render_markdown(text)
     renderer = Redcarpet::Render::HTML
     markdown = Redcarpet::Markdown.new renderer

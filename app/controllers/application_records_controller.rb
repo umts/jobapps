@@ -15,6 +15,10 @@ class ApplicationRecordsController < ApplicationController
                                                           user: @current_user,
                                                           reviewed: false))
     record.email_subscribers applicant: @current_user
+    unavail_params = parse_unavailability(params.require :unavailability)
+                       .merge application_record: record
+    Unavailability.create unavail_params
+    binding.pry
     show_message :application_receipt,
                  default: 'Your application has been submitted. Thank you!'
     redirect_to student_dashboard_path
