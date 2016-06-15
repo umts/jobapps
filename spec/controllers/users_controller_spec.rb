@@ -34,10 +34,8 @@ describe UsersController do
     context 'updating a user as staff' do
       it 'does not update the user' do
         when_current_user_is :staff
-        user = create :user, first_name: 'Dave',
-                             last_name: 'Smith', staff: true,
-                             email: 'dave@example.com', spire: '123454678'
-        attrs = { first_name: 'Foo', email: 'foobar@example.com' }
+        user = create :user
+        attrs = FactoryGirl.build :user
         patch :update, id: user, user: attrs
         user.reload
         expect(user.first_name).to eql 'Dave'

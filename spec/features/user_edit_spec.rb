@@ -81,10 +81,10 @@ describe 'edit staff users' do
     before :each do
       when_current_user_is :staff, integration: true
     end
-    let!(:user) { create :user, staff: true, last_name: 'Smith' }
+    let!(:user) { create :user }
     it 'does not have link to page' do
       visit staff_dashboard_url
-      expect(page).not_to have_link "#{user.last_name}, #{user.first_name}"
+      expect(page).not_to have_link user.proper_name
     end
     it 'does not give access' do
       visit edit_user_url(user)
