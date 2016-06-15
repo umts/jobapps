@@ -7,7 +7,7 @@
     .dow_row
       .day.col_1= dow
       -ApplicationDraft::HOURS.each do |hour|
-        .hours_checkbox= check_box_tag 'unavailable_'+dow+'_'+hour
+        .hours_checkbox= check_box_tag dow+'_'+hour
 
 :javascript
   var mousedownOn = {
