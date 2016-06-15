@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'edit staff users' do
   context 'with admin privilege' do
-    let!(:user) { create :user, staff: true, last_name: 'Smith' }
+    let!(:user) { create :user, staff: true }
 
     context 'clicking from dashboard' do
       before :each do
@@ -34,8 +34,10 @@ describe 'edit staff users' do
 
         it 'only changes the given attributes' do
           click_on 'Save changes'
+          initial_last_name = user.last_name
           expect(user.reload)
-            .to have_attributes first_name: 'Bananas', last_name: 'Smith'
+            .to have_attributes first_name: 'Bananas',
+                                last_name: initial_last_name
         end
 
         it 'redirects you to the staff dashboard' do
