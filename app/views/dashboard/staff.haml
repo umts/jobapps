@@ -6,8 +6,9 @@
 = render partial: 'pending_interviews'
 .dashboard_heading Application forms
 = render partial: 'application_templates'
-.dashboard_heading Staff members
-= render partial: 'users'
+- if @current_user.admin?
+  .dashboard_heading Staff members
+  = render partial: 'users'
 .dashboard_heading Configurable site text
 = render partial: 'site_texts'
 .dashboard_heading Past applications / interviews
