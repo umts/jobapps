@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160415162549) do
+ActiveRecord::Schema.define(version: 20160615140545) do
 
   create_table "application_drafts", force: :cascade do |t|
     t.integer  "application_template_id", limit: 4
@@ -104,6 +104,7 @@ ActiveRecord::Schema.define(version: 20160415162549) do
     t.datetime "updated_at"
     t.boolean  "staff"
     t.string   "email",      limit: 255
+    t.boolean  "admin"
   end
 
 end
