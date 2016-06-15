@@ -35,11 +35,11 @@ describe UsersController do
       it 'does not update the user' do
         when_current_user_is :staff
         user = create :user
+        initial_user = user
         attrs = FactoryGirl.build :user
         patch :update, id: user, user: attrs
         user.reload
-        expect(user.first_name).to eql 'Dave'
-        expect(user.email).to eql 'dave@example.com'
+        expect(user).to eq initial_user
       end
     end
   end
