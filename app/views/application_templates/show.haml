@@ -112,7 +112,7 @@
               value: "#{question.id}-#{question.number}"
       = hidden_field_tag :position_id, @template.position_id
 
-      -if @draft.application_template.unavailability_enabled?
+      -if @template.unavailability_enabled?
         .heading Unavailability
         .explanation
           Please fill out your weekly unavailability for this semester via this calendar. This is
@@ -122,7 +122,9 @@
           available to work.
           Note that you can click and drag to check or uncheck a range of boxes.
         %br
-        =render partial: "application_drafts/unavailabilities_calendar"
+        = fields_for :unavailability do |u|
+          =render partial: "application_drafts/unavailabilities_calendar",
+                locals: { form: u }
 
 
       - if @template.eeo_enabled?
