@@ -1,0 +1,41 @@
+.calendar
+  .hours_row
+    .hours.col_1
+    -ApplicationDraft::HOURS.each do |hour|
+      .hours= hour
+  -ApplicationDraft::DAYS.each do |dow|
+    .dow_row
+      .day.col_1= dow
+      -ApplicationDraft::HOURS.each do |hour|
+        .hours_checkbox= check_box_tag 'unavailable_'+dow+'_'+hour
+
+:javascript
+  var mousedownOn = {
+    id: '',
+    checkState: false
+  };
+
+  $(document).mouseup(function() {
+    mousedownOn.id = '';
+  });
+
+  $('input[type="checkbox"]')
+      .mousedown(function() {
+        var $this = $(this);
+        mousedownOn.id = $this.attr('id');
+        mousedownOn.checkState = $this.prop('checked');
+        $this.prop('checked',!$this.prop('checked'));
+    })
+    .mouseenter(function() {
+        var $this = $(this);
+
+        if (mousedownOn.id != '' && mousedownOn.id != $this.attr('id')){
+            $this.prop('checked',!mousedownOn.checkState);
+        }
+    })
+    .click(function(e) {
+        e.preventDefault();
+        return false;
+    });
+
+//javascript source comes from http://jsfiddle.net/ebStc/7/
