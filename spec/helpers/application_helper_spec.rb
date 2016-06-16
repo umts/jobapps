@@ -41,8 +41,8 @@ describe ApplicationHelper do
 
   describe 'parse_unavailability' do
     let :input do
-      { 'sunday_7AM' => '0', 'sunday_8AM' => '0', 'tuesday_11AM' => '1', 'tuesday_12AM' => '1',
-        'wednesday_6PM' => '1', 'friday_4PM' => '1', 'friday_5PM' => '0'}
+      { 'sunday_7AM' => '0', 'sunday_8AM' => '0', 'tuesday_11AM' => '1',
+        'tuesday_12AM' => '1', 'friday_4PM' => '1', 'friday_5PM' => '0' }
     end
     let(:output) { parse_unavailability input }
     it 'does not select days that have no unavailabilities' do
