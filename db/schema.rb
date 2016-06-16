@@ -118,6 +118,7 @@ ActiveRecord::Schema.define(version: 20160615163009) do
     t.datetime "updated_at"
     t.boolean  "staff"
     t.string   "email",      limit: 255
+    t.boolean  "admin"
   end
 
 end
