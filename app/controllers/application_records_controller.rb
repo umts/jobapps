@@ -11,6 +11,7 @@ class ApplicationRecordsController < ApplicationController
     create_user if @current_user.blank?
     data = parse_application_data(params.require :data)
     params.require :position_id
+    binding.pry
     record = ApplicationRecord.create(record_params.merge(data: data,
                                                           user: @current_user,
                                                           reviewed: false))
