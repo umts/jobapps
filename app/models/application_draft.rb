@@ -8,8 +8,8 @@ class ApplicationDraft < ActiveRecord::Base
   validates :application_template, uniqueness: { scope: :user_id }
   validates :application_template, :user, presence: true
 
-  HOURS = ['7AM','8AM','9AM','10AM', '11AM', '12PM', '1PM','2PM','3PM','4PM','5PM','6PM','7PM','8PM']
-  DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+  HOURS = %w(7AM 8AM 9AM 10AM 11AM 12PM 1PM 2PM 3PM 4PM 5PM 6PM 7PM 8PM).freeze
+  DAYS = %w(Sunday Monday Tuesday Wednesday Thursday Friday Saturday).freeze
 
   def move_question(question_number, direction)
     transaction do

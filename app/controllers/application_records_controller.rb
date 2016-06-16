@@ -16,7 +16,7 @@ class ApplicationRecordsController < ApplicationController
                                                           reviewed: false))
     record.email_subscribers applicant: @current_user
 
-    if params[:unavailability_enabled] == "true"
+    if params[:unavailability_enabled] == 'true'
       unavail_params = parse_unavailability(params.require :unavailability)
                        .merge application_record: record
       Unavailability.create unavail_params

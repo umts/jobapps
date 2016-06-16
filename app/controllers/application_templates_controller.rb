@@ -46,10 +46,12 @@ class ApplicationTemplatesController < ApplicationController
     @template.toggle! :unavailability_enabled
     if @template.unavailability_enabled
       show_message :unavailability_enabled,
-                    default: 'Unavailability requests enabled on this application.'
+                   default: 'Unavailability requests enabled on
+                            this application.'
     else
       show_message :unavailability_disabled,
-                    default: 'Unavailability requests disabled on this application.'
+                   default: 'Unavailability requests disabled on
+                            this application.'
     end
     redirect_to :back
   end
