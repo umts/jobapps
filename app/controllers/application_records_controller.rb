@@ -16,11 +16,8 @@ class ApplicationRecordsController < ApplicationController
                                                           reviewed: false))
     record.email_subscribers applicant: @current_user
 
-    if params[:unavailability_enabled] == 'true'
-      unavail_params = parse_unavailability(params.require :unavailability)
-                       .merge application_record: record
-      Unavailability.create unavail_params
-    end
+    create_unavailability(record) if params[:unavailability_enabled] == 'true'
+
     show_message :application_receipt,
                  default: 'Your application has been submitted. Thank you!'
     redirect_to student_dashboard_path
@@ -96,6 +93,12 @@ class ApplicationRecordsController < ApplicationController
     user_attributes[:staff] = false
     session[:user_id] = User.create(user_attributes).id
     set_current_user
+  end
+
+  def create_unavailability(record)
+    unavail_params = parse_unavailability(params.require :unavailability)
+                     .merge application_record: record
+    Unavailability.create unavail_params
   end
 
   def find_record
