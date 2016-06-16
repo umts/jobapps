@@ -149,6 +149,7 @@
             include_blank: 'Prefer not to answer'
 
       =hidden_field_tag :unavailability_enabled, @template.unavailability_enabled
+      
       .actions= submit_tag 'Submit application' unless @current_user.try :staff?
 - else
   .note_item This application is currently unavailable. Please check back.
