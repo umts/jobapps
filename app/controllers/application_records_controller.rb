@@ -15,7 +15,6 @@ class ApplicationRecordsController < ApplicationController
                                                           user: @current_user,
                                                           reviewed: false))
     record.email_subscribers applicant: @current_user
-    binding.pry
 
     if params[:unavailability_enabled] == "true"
       unavail_params = parse_unavailability(params.require :unavailability)
