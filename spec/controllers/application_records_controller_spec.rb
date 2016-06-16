@@ -17,13 +17,21 @@ describe ApplicationRecordsController do
                 'prompt_2' => 'Another question',
                 'response_3' => '',
                 'prompt_3' => 'This thing' }
+      @unavailability = { 'sunday_7AM' => '0',
+                          'sunday_8AM' => '0',
+                          'tuesday_11AM' => '1',
+                          'tuesday_12AM' => '1',
+                          'friday_4PM' => '1',
+                          'friday_5PM' => '0' }
 
       @user = Hash.new
     end
     let :submit do
       post :create, position_id: @position.id,
                     data: @data,
-                    user: @user
+                    user: @user,
+                    unavailability: @unavailability,
+                    unavailability_enabled: 'true'
     end
     context 'current user is nil' do
       it 'creates a user' do
@@ -44,6 +52,11 @@ describe ApplicationRecordsController do
       it 'creates an application record as specified' do
         expect { submit }
           .to change { ApplicationRecord.count }
+          .by 1
+      end
+      it 'creates an unavailability as specified' do
+        expect { submit }
+          .to change { Unavailability.count }
           .by 1
       end
       it 'emails the subscribers to the position of the application record' do
