@@ -22,6 +22,10 @@ by:
         .prompt_item= prompt
         .response_item= response
 
+=fields_for :unavailability do |u|
+  =render partial: "unavailabilities_calendar_immutable", locals: { unavailability: @record.unavailability }
+%p *NOTE: Grey = Unavailable
+
 - if @current_user.staff?
   - if @record.pending?
     %h3 Review application

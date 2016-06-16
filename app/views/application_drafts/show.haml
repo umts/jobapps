@@ -71,7 +71,8 @@
           available to work.
           Note that you can click and drag to check or uncheck a range of boxes.
         %br
-        =render partial: "unavailabilities_calendar"
+        =fields_for :unavailability do |u|
+          =render partial: "unavailabilities_calendar", locals: { form: u }
 
 
       - if @draft.application_template.eeo_enabled?
