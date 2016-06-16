@@ -173,4 +173,54 @@ describe ApplicationTemplatesController do
       end
     end
   end
+
+  describe 'POST #toggle_unavailability_enabled' do
+    before :each do
+      department = create :department, name: 'Bus'
+      position = create :position, department: department, name: 'Operator'
+      @template = create :application_template, position: position
+    end
+    let :submit do
+      post :toggle_unavailability_enabled,
+           id: @template.id,
+           position: @template.position.name,
+           department: @template.department.name
+    end
+    context 'staff' do
+      before :each do
+        when_current_user_is :staff
+        request.env['HTTP_REFERER'] = 'http://test.host/redirect'
+      end
+      it 'changes unavailability_enabled when called' do
+        expect { submit }.to change { @template.reload.unavailability_enabled }
+      end
+
+      context 'unavailability is disabled' do
+        before :each do
+          # First, disable EEO
+          @template.update unavailability_enabled: false
+        end
+        it 'enables unavailability' do
+          submit
+          expect(@template.reload.unavailability_enabled).to be true
+        end
+      end
+
+      context 'unavailability is enabled' do
+        before :each do
+          # First, enable EEO
+          @template.update unavailability_enabled: true
+        end
+        it 'disbles unavailability' do
+          submit
+          expect(@template.reload.unavailability_enabled).to be false
+        end
+      end
+
+      it 'redirects back' do
+        submit
+        expect(response).to redirect_to :back
+      end
+    end
+  end
 end
