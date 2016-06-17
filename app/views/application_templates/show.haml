@@ -111,6 +111,21 @@
             = r.hidden_field question.id,
               value: "#{question.id}-#{question.number}"
       = hidden_field_tag :position_id, @template.position_id
+
+      - if @template.unavailability_enabled?
+        .heading Unavailability
+        .explanation
+          Please fill out your weekly unavailability for this semester via this calendar. This is
+          used to determine if you have enough available time to commit to this position.
+          Check off times when you are
+          %strong not
+          available to work.
+          Note that you can click and drag to check or uncheck a range of boxes.
+        %br
+        = fields_for :unavailability do |u|
+          =render partial: "application_drafts/unavailabilities_calendar",
+                locals: { form: u }
+
       - if @template.eeo_enabled?
         .heading Voluntary Equal Employment Opportunity Information
         .explanation
@@ -131,6 +146,7 @@
           = select_tag :gender,
             options_for_select(ApplicationRecord::GENDER_OPTIONS),
             include_blank: 'Prefer not to answer'
+
       .actions= submit_tag 'Submit application' unless @current_user.try :staff?
 - else
   .note_item This application is currently unavailable. Please check back.
