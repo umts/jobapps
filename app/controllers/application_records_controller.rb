@@ -16,7 +16,7 @@ class ApplicationRecordsController < ApplicationController
                                                           reviewed: false))
     record.email_subscribers applicant: @current_user
 
-    if record.position.application_template.unavailability_enabled
+    if record.position.application_template.unavailability_enabled?
       create_unavailability(record)
     end
 
