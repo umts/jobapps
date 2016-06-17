@@ -26,7 +26,7 @@ by:
   %strong Unavailability
   =fields_for :unavailability do |u|
     =render partial: "unavailabilities_calendar_immutable", locals: { unavailability: @record.unavailability }
-  %p *NOTE: Grey = Unavailable
+  %p *Grey boxes indicate that applicant is unavailable
 
 - if @current_user.staff?
   - if @record.pending?
