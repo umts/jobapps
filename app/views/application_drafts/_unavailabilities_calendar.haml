@@ -1,41 +1,11 @@
-.calendar
-  .hours_row
-    .hours.col_1
+%table.calendar
+  %tbody
+  %tr.hours_row
+    %td.col_1
     -Unavailability::HOURS.each do |hour|
-      .hours= hour
+      %td.hours= hour
   -Date::DAYNAMES.each do |dow|
-    .dow_row
-      .day.col_1= dow
+    %tr.dow_row
+      %td.day.col_1= dow
       -Unavailability::HOURS.each do |hour|
-        .hours_checkbox= form.check_box dow.downcase + '_' + hour
-
-:javascript
-  var mousedownOn = {
-    id: '',
-    checkState: false
-  };
-
-  $(document).mouseup(function() {
-    mousedownOn.id = '';
-  });
-
-  $('input[type="checkbox"]')
-      .mousedown(function() {
-        var $this = $(this);
-        mousedownOn.id = $this.attr('id');
-        mousedownOn.checkState = $this.prop('checked');
-        $this.prop('checked',!$this.prop('checked'));
-    })
-    .mouseenter(function() {
-        var $this = $(this);
-
-        if (mousedownOn.id != '' && mousedownOn.id != $this.attr('id')){
-            $this.prop('checked',!mousedownOn.checkState);
-        }
-    })
-    .click(function(e) {
-        e.preventDefault();
-        return false;
-    });
-
-//javascript source comes from http://jsfiddle.net/ebStc/7/
+        %td.hours_checkbox= form.check_box dow.downcase + '_' + hour

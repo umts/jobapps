@@ -189,7 +189,6 @@ describe ApplicationTemplatesController do
     context 'staff' do
       before :each do
         when_current_user_is :staff
-        request.env['HTTP_REFERER'] = 'http://test.host/redirect'
       end
       it 'changes unavailability_enabled when called' do
         expect { submit }.to change { @template.reload.unavailability_enabled }
@@ -209,15 +208,14 @@ describe ApplicationTemplatesController do
         before :each do
           @template.update unavailability_enabled: true
         end
-        it 'disbles unavailability' do
+        it 'disables unavailability' do
           submit
           expect(@template.reload.unavailability_enabled).to be false
         end
       end
 
       it 'redirects back' do
-        submit
-        expect(response).to redirect_to :back
+        expect { submit }.to redirect_back
       end
     end
   end

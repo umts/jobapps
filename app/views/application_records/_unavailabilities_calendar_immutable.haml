@@ -1,13 +1,14 @@
-.calendar
-  .hours_row
-    .hours.col_1
-    -Unavailability::HOURS.each do |hour|
-      .hours= hour
-  -Date::DAYNAMES.each do |dow|
-    .dow_row
-      .day.col_1= dow
+%table.calendar
+  %tbody
+    %tr.hours_row
+      %td.col_1
       -Unavailability::HOURS.each do |hour|
-        -if unavailability[dow.downcase.to_sym].include?(hour)
-          .hours_checkbox.checked_off
-        -else
-          .hours_checkbox
+        %td.hours= hour
+    -Date::DAYNAMES.each do |dow|
+      %tr.dow_row
+        %td.day.col_1= dow
+        -Unavailability::HOURS.each do |hour|
+          -if unavailability[dow.downcase.to_sym].include?(hour)
+            %td.hours_checkbox.checked_off
+          -else
+            %td.hours_checkbox
