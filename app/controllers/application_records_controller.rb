@@ -16,7 +16,9 @@ class ApplicationRecordsController < ApplicationController
                                                           reviewed: false))
     record.email_subscribers applicant: @current_user
 
-    create_unavailability(record) if record.position.application_template.unavailability_enabled
+    if record.position.application_template.unavailability_enabled
+      create_unavailability(record)
+    end
 
     show_message :application_receipt,
                  default: 'Your application has been submitted. Thank you!'
