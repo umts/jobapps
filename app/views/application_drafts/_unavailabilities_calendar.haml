@@ -3,7 +3,7 @@
     .hours.col_1
     -Unavailability::HOURS.each do |hour|
       .hours= hour
-  -Unavailability::DAYS.each do |dow|
+  -Date::DAYNAMES.each do |dow|
     .dow_row
       .day.col_1= dow
       -Unavailability::HOURS.each do |hour|

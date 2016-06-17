@@ -197,7 +197,6 @@ describe ApplicationTemplatesController do
 
       context 'unavailability is disabled' do
         before :each do
-          # First, disable EEO
           @template.update unavailability_enabled: false
         end
         it 'enables unavailability' do
@@ -208,7 +207,6 @@ describe ApplicationTemplatesController do
 
       context 'unavailability is enabled' do
         before :each do
-          # First, enable EEO
           @template.update unavailability_enabled: true
         end
         it 'disbles unavailability' do

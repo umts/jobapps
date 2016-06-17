@@ -1,23 +1,8 @@
 .calendar{
   position: center;
 }
-.hours{
-  height: 20px;
-  width: 50px;
-  border-right: 1px solid #a0a0a0;
-  float: left;
-  text-align: center;
-  font-size: 10px;
-  padding-top: 3px
-}
-.hours_row{
-  height: 21px;
-  border-top: 1px solid #a0a0a0;
-  border-bottom: 1px solid #a0a0a0;
-  border-left: 1px solid #a0a0a0;
-  display: flex;
-  justify-content: center;
-  background-color: #cce5ff;
+.checked_off{
+  background-color: #b3b3b3;
 }
 .col_1{
   width: 90px;
@@ -36,6 +21,15 @@
   display: flex;
   justify-content: center;
 }
+.hours{
+  height: 20px;
+  width: 50px;
+  border-right: 1px solid #a0a0a0;
+  float: left;
+  text-align: center;
+  font-size: 10px;
+  padding-top: 3px
+}
 .hours_checkbox{
   height: 20px;
   width: 50px;
@@ -44,7 +38,12 @@
   display: flex;
   justify-content: center;
 }
-
-.checked_off{
-  background-color: #b3b3b3
+.hours_row{
+  height: 21px;
+  border-top: 1px solid #a0a0a0;
+  border-bottom: 1px solid #a0a0a0;
+  border-left: 1px solid #a0a0a0;
+  display: flex;
+  justify-content: center;
+  background-color: #cce5ff;
 }

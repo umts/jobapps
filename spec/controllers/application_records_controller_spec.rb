@@ -54,7 +54,7 @@ describe ApplicationRecordsController do
           .to change { ApplicationRecord.count }
           .by 1
       end
-      it 'creates an unavailability as specified' do
+      it 'creates an unavailability' do
         expect { submit }
           .to change { Unavailability.count }
           .by 1
