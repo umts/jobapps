@@ -1,9 +1,10 @@
 %table.calendar
-  %tbody
+  %thead
     %tr.hours_row
-      %td.col_1
+      %th.col_1
       -Unavailability::HOURS.each do |hour|
-        %td.hours= hour
+        %th.hours= hour
+  %tbody
     -Date::DAYNAMES.each do |dow|
       %tr.dow_row
         %td.day.col_1= dow
