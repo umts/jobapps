@@ -73,7 +73,6 @@ class ApplicationRecordsController < ApplicationController
     deny_access && return if @current_user.student? &&
                              @current_user != @record.user
     @interview = @record.interview
-    @unavailability_enabled = params[:unavailability_enabled]
     respond_to do |format|
       format.html
       format.pdf do

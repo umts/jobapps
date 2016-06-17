@@ -32,7 +32,7 @@ class ApplicationTemplatesController < ApplicationController
 
   def toggle_eeo_enabled
     @template.toggle! :eeo_enabled
-    if @template.eeo_enabled
+    if @template.eeo_enabled?
       show_message :eeo_enabled,
                    default: 'EEO data requests enabled on this application.'
     else
@@ -44,7 +44,7 @@ class ApplicationTemplatesController < ApplicationController
 
   def toggle_unavailability_enabled
     @template.toggle! :unavailability_enabled
-    if @template.unavailability_enabled
+    if @template.unavailability_enabled?
       show_message :unavailability_enabled,
                    default: 'Unavailability requests enabled on
                             this application.'
