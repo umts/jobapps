@@ -19,7 +19,7 @@
       = button_to 'Activate EEO',
         toggle_eeo_enabled_application_url(@draft.application_template)
 
--if @draft.application_template.unavailability_enabled?
+- if @draft.application_template.unavailability_enabled?
   .note_item
     This application requests unavailability from applicants.
     Click below to disable this feature.
