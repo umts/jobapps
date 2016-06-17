@@ -11,6 +11,7 @@ describe ApplicationRecordsController do
   describe 'POST #create' do
     before :each do
       @position = create :position
+      create :application_template, position: @position, unavailability_enabled: true
       @data = { 'response_1' => 'No',
                 'prompt_1' => 'Do you like cats',
                 'response_2' => '10/07/2015',
@@ -30,8 +31,7 @@ describe ApplicationRecordsController do
       post :create, position_id: @position.id,
                     data: @data,
                     user: @user,
-                    unavailability: @unavailability,
-                    unavailability_enabled: 'true'
+                    unavailability: @unavailability
     end
     context 'current user is nil' do
       it 'creates a user' do
