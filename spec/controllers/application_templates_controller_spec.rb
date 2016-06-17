@@ -176,8 +176,8 @@ describe ApplicationTemplatesController do
 
   describe 'POST #toggle_unavailability_enabled' do
     before :each do
-      department = create :department, name: 'Bus'
-      position = create :position, department: department, name: 'Operator'
+      department = create :department
+      position = create :position, department: department
       @template = create :application_template, position: position
     end
     let :submit do
