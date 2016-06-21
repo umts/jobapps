@@ -5,6 +5,7 @@ class ApplicationRecord < ActiveRecord::Base
   belongs_to :position
   delegate :department, to: :position
   has_one :interview, dependent: :destroy
+  has_one :unavailability
 
   serialize :data, Array
 

@@ -1,3 +1,4 @@
+require 'prawn'
 class ApplicationRecordsController < ApplicationController
   skip_before_action :access_control, only: [:create, :show]
   before_action :find_record, except: [:create,
@@ -14,6 +15,11 @@ class ApplicationRecordsController < ApplicationController
                                                           user: @current_user,
                                                           reviewed: false))
     record.email_subscribers applicant: @current_user
+
+    if record.position.application_template.unavailability_enabled?
+      create_unavailability(record)
+    end
+
     show_message :application_receipt,
                  default: 'Your application has been submitted. Thank you!'
     redirect_to student_dashboard_path
@@ -88,6 +94,12 @@ class ApplicationRecordsController < ApplicationController
     user_attributes[:staff] = false
     session[:user_id] = User.create(user_attributes).id
     set_current_user
+  end
+
+  def create_unavailability(record)
+    unavail_params = parse_unavailability(params.require :unavailability)
+                     .merge application_record: record
+    Unavailability.create unavail_params
   end
 
   def find_record

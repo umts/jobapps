@@ -1,0 +1,15 @@
+%table.calendar
+  %thead
+    %tr.hours_row
+      %th.col_1
+      -Unavailability::HOURS.each do |hour|
+        %th.hours= hour
+  %tbody
+    -Date::DAYNAMES.each do |dow|
+      %tr.dow_row
+        %td.day.col_1= dow
+        -Unavailability::HOURS.each do |hour|
+          -if unavailability[dow.downcase.to_sym].include?(hour)
+            %td.hours_checkbox.checked_off
+          -else
+            %td.hours_checkbox

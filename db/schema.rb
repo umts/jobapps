@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160415162549) do
+ActiveRecord::Schema.define(version: 20160615163009) do
 
   create_table "application_drafts", force: :cascade do |t|
     t.integer  "application_template_id", limit: 4
@@ -36,11 +36,12 @@ ActiveRecord::Schema.define(version: 20160415162549) do
   create_table "application_templates", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "position_id", limit: 4
+    t.integer  "position_id",            limit: 4
     t.boolean  "active"
-    t.string   "slug",        limit: 255
-    t.boolean  "eeo_enabled",             default: true
-    t.string   "email",       limit: 255
+    t.string   "slug",                   limit: 255
+    t.boolean  "eeo_enabled",                        default: true
+    t.string   "email",                  limit: 255
+    t.boolean  "unavailability_enabled"
   end
 
   create_table "departments", force: :cascade do |t|
@@ -96,6 +97,19 @@ ActiveRecord::Schema.define(version: 20160415162549) do
     t.datetime "updated_at",              null: false
   end
 
+  create_table "unavailabilities", force: :cascade do |t|
+    t.string   "sunday",                limit: 255
+    t.string   "monday",                limit: 255
+    t.string   "tuesday",               limit: 255
+    t.string   "wednesday",             limit: 255
+    t.string   "thursday",              limit: 255
+    t.string   "friday",                limit: 255
+    t.string   "saturday",              limit: 255
+    t.integer  "application_record_id", limit: 4
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "first_name", limit: 255
     t.string   "last_name",  limit: 255
@@ -104,6 +118,7 @@ ActiveRecord::Schema.define(version: 20160415162549) do
     t.datetime "updated_at"
     t.boolean  "staff"
     t.string   "email",      limit: 255
+    t.boolean  "admin"
   end
 
 end

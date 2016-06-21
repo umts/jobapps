@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :find_user, only: [:destroy, :edit, :update]
+  before_action :allow_only_admin
 
   def create
     @user = User.new user_parameters
@@ -47,4 +48,10 @@ class UsersController < ApplicationController
                                  :spire,
                                  :staff
   end
+
+  # rubocop:disable Style/AndOr
+  def allow_only_admin
+    deny_access and return unless @current_user.admin?
+  end
+  # rubocop:enable Style/AndOr
 end

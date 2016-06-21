@@ -1,0 +1,37 @@
+.calendar{
+  border-collapse: collapse;
+}
+.checked_off{
+  background-color: #b3b3b3;
+}
+.col_1{
+  border: 1px solid #a0a0a0;
+  width: 90px;
+}
+.day{
+  font-size: 12px;
+  padding-left: 3px;
+}
+.dow_row{
+  height: 21px;
+  background: #ece0e0;
+}
+.hours{
+  height: 20px;
+  width: 50px;
+  border: 1px solid #a0a0a0;
+  text-align: center;
+  font-size: 10px;
+  padding-top: 3px
+}
+.hours_checkbox{
+  height: 20px;
+  width: 50px;
+  border: 1px solid #a0a0a0;
+  text-align: center;
+}
+.hours_row{
+  height: 21px;
+  justify-content: center;
+  background-color: #cce5ff;
+}

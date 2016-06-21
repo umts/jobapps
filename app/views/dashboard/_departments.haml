@@ -1,13 +1,14 @@
 .dashboard_partial
-  %ul
-    - @departments.each do |department|
+  - @departments.each do |department|
+    .title_header.fs-26= department.name
+    %ul
       %li
-        %h3= department.name
         = link_to 'Change department name', edit_department_path(department)
-        %ul
-          - department.positions.each do |position|
-            %li= link_to "Edit #{position.name} position",
-              edit_position_path(position)
-    %h3 Add new
+      %ul
+        - department.positions.each do |position|
+          %li= link_to "Edit #{position.name} position",
+            edit_position_path(position)
+  .title_header.fs-26 Add new
+  %ul
     %li.note_item= link_to 'Add new position', new_position_path
     %li.note_item= link_to 'Add new department', new_department_path
