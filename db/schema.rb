@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160615163009) do
+ActiveRecord::Schema.define(version: 20160703170621) do
 
   create_table "application_drafts", force: :cascade do |t|
     t.integer  "application_template_id", limit: 4
@@ -68,6 +68,7 @@ ActiveRecord::Schema.define(version: 20160615163009) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "default_interview_location", limit: 255
+    t.string   "not_hiring_text",            limit: 255
   end
 
   create_table "questions", force: :cascade do |t|
