@@ -17,6 +17,6 @@
       = f.label 'Text to display to students when not hiring'
       = f.text_area :not_hiring_text,
         class: 'form-control',
-        placeholder: 'Default: We are not currently hiring for this position'
+        placeholder: position.not_hiring_text || Position::NOT_HIRING
     .actions
       = f.submit 'Save changes'
