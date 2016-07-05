@@ -14,12 +14,10 @@ class Position < ActiveRecord::Base
 
   default_scope { order :name }
 
+  NOT_HIRING = "We are not currently hiring for #{name}. Please check back."
+
   def name_and_department
     "#{name} (#{department.name})"
-  end
-
-  def default_not_hiring_text
-    "We are not currently hiring for #{name}. Please check back."
   end
 
   def configured_not_hiring_text
