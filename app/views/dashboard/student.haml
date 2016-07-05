@@ -36,4 +36,4 @@ Please select the application which you would like to submit.
           application_path(position.application_template)
     - else
       %li
-        = position.configured_not_hiring_text
+        = position.not_hiring_text || Position::NOT_HIRING
