@@ -19,10 +19,4 @@ class Position < ActiveRecord::Base
   def name_and_department
     "#{name} (#{department.name})"
   end
-
-  def configured_not_hiring_text
-    configured_value([:deactivated_application,
-                      yamlize(department.name), yamlize(name)],
-                     default: default_not_hiring_text)
-  end
 end
