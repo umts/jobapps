@@ -2,7 +2,7 @@
 
 = render 'form', position: @position, action: :update
 
-= button_to "Remove #{@position.name_and_department}",
+.actions= button_to "Remove #{@position.name_and_department}",
   @position, method: :delete
 %h2 Subscribe to email notifications
 %p You will be notified when someone fills out an application.
@@ -15,9 +15,12 @@
   = f.submit 'Subscribe'
 - if @subscriptions.present?
   %p Your currently subscribed emails:
-  %ul.subscriptions
-    - @subscriptions.each do |subscription|
-      %li.subscription_email=subscription.email
-      = button_to 'Remove', subscription, method: :delete
+  .subscriptions
+    %ul.list-group
+      - @subscriptions.each do |subscription|
+        %li.list-group-item
+          =subscription.email
+          =button_to subscription_path(subscription), {method: :delete, class: 'btn btn-default'} do
+            %i.glyphicon.glyphicon-remove-circle
 - else
   %p You are not currently subscribed.
