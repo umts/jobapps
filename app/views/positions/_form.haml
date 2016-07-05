@@ -14,10 +14,9 @@
       = f.text_field :default_interview_location,
         required: false, class: 'form-control'
     .form-group
-      = f.label :not_hiring_text
-      %em This text will be displayed on the student dashboard
-      %em instead of the link to the application
+      = f.label 'Text to display to students when not hiring'
       = f.text_area :not_hiring_text,
-        class: 'form-control'
+        class: 'form-control',
+        placeholder: 'Default: We are not currently hiring for this position'
     .actions
       = f.submit 'Save changes'
