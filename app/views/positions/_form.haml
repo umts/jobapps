@@ -14,7 +14,7 @@
       = f.text_field :default_interview_location,
         required: false, class: 'form-control'
     .form-group
-      = f.label 'Text to display to students when not hiring'
+      = f.label 'Text to display to students when application is inactive'
       = f.text_area :not_hiring_text,
         class: 'form-control',
         placeholder: position.not_hiring_text || Position::NOT_HIRING
