@@ -15,6 +15,7 @@ class Position < ActiveRecord::Base
   default_scope { order :name }
 
   NOT_HIRING = "We are not currently hiring for #{name}. Please check back."
+               .freeze
 
   def name_and_department
     "#{name} (#{department.name})"

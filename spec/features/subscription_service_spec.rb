@@ -44,8 +44,8 @@ describe 'subscriptions' do
     end
     it 'removes the email from the page when remove is clicked' do
       form = within('.subscriptions') do
-               find('form.button_to')
-             end
+        find('form.button_to')
+      end
       within(form) { find('button').click }
       expect(page).not_to have_text subscription.email
     end
