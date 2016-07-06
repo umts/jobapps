@@ -124,7 +124,7 @@ describe 'viewing the dashboard as a student' do
     context 'position exists, but applications have not been created' do
       context 'user has changed the not hiring text' do
         it 'displays the custom text for the position not hiring' do
-          position_not_hiring.update_attributes(not_hiring_text: 'custom text')
+          position_not_hiring.update(not_hiring_text: 'custom text')
           visit current_url
           expect(page).to have_text 'custom text'
         end
@@ -145,7 +145,7 @@ describe 'viewing the dashboard as a student' do
       end
       context 'deactivated application text has been edited' do
         it 'displays the custom text for the position not hiring' do
-          position_not_hiring.update_attributes(not_hiring_text: 'custom text')
+          position_not_hiring.update(not_hiring_text: 'custom text')
           visit current_url
           expect(page).to have_text 'custom text'
         end
