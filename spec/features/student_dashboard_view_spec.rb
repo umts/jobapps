@@ -130,9 +130,10 @@ describe 'viewing the dashboard as a student' do
         end
       end
       context 'user has not edited the not hiring text' do
-        it 'displays the constant not-hiring text' do
+        it 'displays a boiler-plate not-hiring text' do
           visit current_url
-          expect(page).to have_text Position::NOT_HIRING
+          expect(page)
+            .to have_text "not currently hiring for #{position_not_hiring.name}"
         end
       end
     end
@@ -152,7 +153,8 @@ describe 'viewing the dashboard as a student' do
       context 'deactivated application text has not been edited' do
         it 'displays the default not-hiring text' do
           visit current_url
-          expect(page).to have_text Position::NOT_HIRING
+          expect(page)
+            .to have_text "not currently hiring for #{position_not_hiring.name}"
         end
       end
     end

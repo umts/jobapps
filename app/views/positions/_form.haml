@@ -16,6 +16,6 @@
     = f.label 'Text to display to students when application is inactive'
     = f.text_area :not_hiring_text,
       class: 'form-control',
-      placeholder: position.not_hiring_text || Position::NOT_HIRING
+      placeholder: position.not_hiring
   .actions
     = f.submit 'Save changes'
