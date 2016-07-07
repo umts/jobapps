@@ -23,7 +23,7 @@ class PrintRecordPdf < Prawn::Document
   end
 
   def text_content
-    [[@record.user.full_name, format_date_time(@record.created_at)]]
+    [[format_date_time(@record.created_at)], [@record.user.full_name, @record.user.email, ]]
   end
 
   def table_content(page_width, column_width)
