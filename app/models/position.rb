@@ -20,6 +20,6 @@ class Position < ActiveRecord::Base
 
   def not_hiring
     not_hiring_text ||
-      "We are not currently hiring for #{name}. Please check back."
+      "We are not currently hiring for #{name}."
   end
 end
