@@ -43,9 +43,7 @@ describe 'subscriptions' do
       visit edit_position_path(position)
     end
     it 'removes the email from the page when remove is clicked' do
-      form = within('.subscriptions') do
-        find('form.button_to')
-      end
+      form = within('.subscriptions') { find('form.button_to') }
       within(form) { find('button').click }
       expect(page).not_to have_text subscription.email
     end
