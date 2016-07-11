@@ -149,4 +149,4 @@
 
       .actions= submit_tag 'Submit application' unless @current_user.try :staff?
 - else
-  .note_item This application is currently unavailable. Please check back.
+  .note_item= @template.position.not_hiring_text

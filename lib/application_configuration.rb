@@ -23,8 +23,4 @@ module ApplicationConfiguration
             and default not specified."
     end
   end
-
-  def yamlize(string)
-    string.underscore.tr(' ', '_').to_sym
-  end
 end

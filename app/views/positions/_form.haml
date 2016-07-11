@@ -1,14 +1,21 @@
 = form_for position,
   url: { controller: :positions, action: action, id: position.id } do |f|
-  .field
-    = f.label :department_id
-    = f.select :department_id,
-      options_from_collection_for_select(Department.all, :id, :name)
-  .field
+  .row
+    .form-group.col-md-4
+      = f.label :department_id
+      = f.collection_select :department_id, Department.all, :id, :name,
+        {}, {class: 'form-control'}
+  .form-group
     = f.label :name
-    = f.text_field :name, required: true
-  .field
+    = f.text_field :name, required: true, class: 'form-control'
+  .form-group
     = f.label :default_interview_location
-    = f.text_field :default_interview_location, required: false
-  .action
+    = f.text_field :default_interview_location,
+      required: false, class: 'form-control'
+  .form-group
+    = f.label 'Text to display to students when application is inactive'
+    = f.text_area :not_hiring_text,
+      class: 'form-control',
+      placeholder: position.not_hiring
+  .actions
     = f.submit 'Save changes'
