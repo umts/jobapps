@@ -149,4 +149,4 @@
 
       .actions= submit_tag 'Submit application' unless @current_user.try :staff?
 - else
-  .note_item=@template.position.not_hiring_text
+  .note_item= @template.position.not_hiring_text
