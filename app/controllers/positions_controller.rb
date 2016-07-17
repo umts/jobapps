@@ -42,6 +42,7 @@ class PositionsController < ApplicationController
   def position_parameters
     params.require(:position).permit :default_interview_location,
                                      :department_id,
-                                     :name
+                                     :name,
+                                     :not_hiring_text
   end
 end
