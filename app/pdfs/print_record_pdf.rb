@@ -30,7 +30,7 @@ class PrintRecordPdf < Prawn::Document
 
   def table_content(content_width, column_width)
     bounding_box([5, cursor - 5], width: content_width) do
-      table data_rows do
+      table @record.data_rows do
         style row(0), size: 20, font_style: :bold
         cells.padding = 12
         self.header = true
@@ -40,14 +40,4 @@ class PrintRecordPdf < Prawn::Document
     end
   end
 
-  def data_rows
-    header = [%w(Question Response)]
-    # deletes rows of type header/explanation
-    questions = @record.data.delete_if do |_prompt, _response, data_type, _id|
-      %w(heading explanation).include? data_type
-    end.map do |prompt, response, _data_type, _id|
-      [prompt, response]
-    end
-    header + questions
-  end
 end
