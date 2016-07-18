@@ -31,7 +31,7 @@ class PrintRecordPdf < Prawn::Document
   def table_content(content_width, column_width)
     bounding_box([5, cursor - 5], width: content_width) do
       table @record.data_rows do
-        style row(0), size: 20, font_style: :bold
+        style row(0), size: 20
         cells.padding = 12
         self.header = true
         self.column_widths = [column_width, column_width]
@@ -39,5 +39,4 @@ class PrintRecordPdf < Prawn::Document
       end
     end
   end
-
 end
