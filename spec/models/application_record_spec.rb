@@ -67,6 +67,21 @@ describe ApplicationRecord do
     end
   end
 
+  describe 'data_rows' do
+    let :call do
+      @record.data_rows
+    end
+    before :each do
+      @record = create :application_record,
+                       data: [['a question', 'an answer']]
+    end
+    it 'returns an array containing a header, then prompts and responses' do
+      expect(call).to eql [['Question', 'Response'],['a question', 'an answer']]
+    end
+    # returns array of arrays like so:
+    # [[Question, Response],[prompt, response],[prompt, response]]
+  end
+
   describe 'email_subscribers' do
     let(:record) { create :application_record }
     let!(:subscription) { create :subscription, position: record.position }
