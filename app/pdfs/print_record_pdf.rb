@@ -9,7 +9,6 @@ class PrintRecordPdf < Prawn::Document
       rounded_rectangle [0, bounds.height], bounds.width, bounds.height, 5
     end
     content_width = bounds.width - 10
-    content_height = bounds.height - 10
     column_width = content_width / 2
     header_content(content_width)
     table_content(content_width, column_width)
@@ -20,7 +19,7 @@ class PrintRecordPdf < Prawn::Document
     name = @record.user.full_name
     email = @record.user.email
     bounding_box([5, cursor], width: content_width) do
-      font "Helvetica"
+      font 'Helvetica'
       move_down 20
       text "#{@record.position.name} Application Record", size: 24
       text "submitted #{date} by #{name}, #{email}"
