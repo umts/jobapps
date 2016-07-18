@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   before_action :set_current_user
   before_action :redirect_unauthenticated
   before_action :access_control
-  befroe_action :primary_account
+  before_action :primary_account
   layout 'application'
 
   private
@@ -69,7 +69,7 @@ class ApplicationController < ActionController::Base
   def primary_account
     if request.env['UMAPrimaryAccount'] != request.env['uid']
       render file: 'sessions/unauthorized_subsidiary',
-            status: :unauthorized
+            status: :unauthorized,
             layout: false
     end
   end
