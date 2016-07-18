@@ -76,7 +76,7 @@ describe ApplicationRecord do
                        data: [['a question', 'an answer']]
     end
     it 'returns an array containing a header, then prompts and responses' do
-      expect(call).to eql [['Question', 'Response'],['a question', 'an answer']]
+      expect(call).to eql [%w(Question Response), ['a question', 'an answer']]
     end
     # returns array of arrays like so:
     # [[Question, Response],[prompt, response],[prompt, response]]
