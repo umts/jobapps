@@ -1,15 +1,16 @@
-%h1 Application Record
+%h1.h2="#{@record.position.name} Application Record"
 
 submitted
 = format_date_time @record.created_at
 by:
 = @record.user.name_and_email
-= button_to 'Print this page', application_record_path(@record, format: :pdf), method: :get
+= button_to 'Print this page',
+  application_record_path(@record, format: :pdf), method: :get
 
 .data_container
   .data_row
-    %h3.prompt_item Question
-    %h3.response_item Response
+    %h2.h3.prompt_item Question
+    %h2.h3.response_item Response
   - @record.data.each do |prompt, response, data_type, question_id|
     - if data_type == 'heading'
       .data_row
@@ -25,7 +26,8 @@ by:
 -if @record.unavailability.present?
   %strong Unavailability
   =fields_for :unavailability do |u|
-    =render partial: "unavailabilities_calendar_staff", locals: { unavailability: @record.unavailability }
+    =render partial: "unavailabilities_calendar_staff",
+      locals: { unavailability: @record.unavailability }
   %p Grey boxes indicate that applicant is unavailable
 
 - if @current_user.staff?
