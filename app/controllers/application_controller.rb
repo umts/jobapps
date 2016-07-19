@@ -68,9 +68,9 @@ class ApplicationController < ActionController::Base
 
   def check_primary_account
     if request.env['UMAPrimaryAccount'] != request.env['uid']
-      @UMAPrimaryAccount = request.env['UMAPrimaryAccount']
+      @primary_account = request.env['UMAPrimaryAccount']
       @uid = request.env['uid']
-      render file: 'sessions/unauthenticated_subsidiary',
+      render 'sessions/unauthenticated_subsidiary',
              status: :unauthorized,
              layout: false
     end
