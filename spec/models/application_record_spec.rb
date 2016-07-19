@@ -12,6 +12,11 @@ describe ApplicationRecord do
     it 'returns array with header, prompts and responses, no data_type or ID' do
       expect(call).to eql [%w(Question Response), ['a question', 'an answer']]
     end
+    it 'removes questions of data type heading or explanation' do
+      @record.data << ['a heading', nil, 'heading', 6]
+      @record.data << ['an explanation', nil, 'explanation', 7]
+      expect(call).to eql [%w(Question Response), ['a question', 'an answer']]
+    end
   end
 
   describe 'email_subscribers' do
