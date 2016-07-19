@@ -1,69 +1,21 @@
 require 'rails_helper'
 
 describe ApplicationRecord do
-  describe 'add_data_types' do
+  describe 'data_rows' do
     before :each do
       @record = create :application_record,
-                       data: [['a question', 'an answer']]
+                       data: [['a question', 'an answer', 'text', 5]]
     end
-    context 'there exists a question that matches the given prompt' do
-      it 'gives the data_type the value of the question data_type' do
-        create :question,
-               data_type: 'yes/no',
-               prompt: 'a question',
-               application_template: (create :application_template)
-        @record.add_data_types
-        expect(@record.data).to eql [['a question', 'an answer', 'yes/no']]
-      end
+    let :call do
+      @record.data_rows
     end
-    context 'there is no question that matches the given prompt' do
-      it 'gives the data_type a text value' do
-        @record.add_data_types
-        expect(@record.data).to eql [['a question', 'an answer', 'text']]
-      end
+    it 'returns array with header, prompts and responses, no data_type or ID' do
+      expect(call).to eql [%w(Question Response), ['a question', 'an answer']]
     end
-  end
-  describe 'add_response_data' do
-    context 'application record with no existing response data' do
-      before :each do
-        # The header content doesn't matter, it only matters that they're there.
-        headers = %w(x y z)
-        @question = 'a question'
-        @answer = 'an answer'
-        fields = ['1', @question, @answer]
-        CSV::Row.new(headers, fields)
-        # Need to have an existing (saved) but invalid record,
-        # so we save with blank response data without validating
-        @record = build :application_record, data: nil
-        @record.save validate: false
-      end
-      let :call do
-        @record.add_response_data(@question, @answer)
-      end
-      it 'makes the changes to the correct application record' do
-        expect(call.data).to eql [[@question, @answer]]
-      end
-    end
-    context 'application record with existing response data' do
-      before :each do
-        @existing_question = 'existing question'
-        @existing_answer = 'existing answer'
-        # The header content doesn't matter, it only matters that they're there.
-        headers = %w(x y z)
-        @new_question = 'new question'
-        @new_answer = 'new answer'
-        fields = ['1', @new_question, @new_answer]
-        CSV::Row.new(headers, fields)
-        @record = create :application_record, data: [[@existing_question,
-                                                      @existing_answer]]
-      end
-      let :call do
-        @record.add_response_data(@new_question, @new_answer)
-      end
-      it 'appends the changes to the existing response data' do
-        expect(call.data).to eql [[@existing_question, @existing_answer],
-                                  [@new_question, @new_answer]]
-      end
+    it 'removes questions of data type heading or explanation' do
+      @record.data << ['a heading', nil, 'heading', 6]
+      @record.data << ['an explanation', nil, 'explanation', 7]
+      expect(call).to eql [%w(Question Response), ['a question', 'an answer']]
     end
   end
 

@@ -39,18 +39,15 @@ class ApplicationRecord < ActiveRecord::Base
   GENDER_OPTIONS = %w(Male
                       Female).freeze
 
-  def add_data_types
-    data.each do |array|
-      question = Question.find_by(prompt: array.first)
-      data_type = question.try(:data_type) || 'text'
-      array << data_type
+  def data_rows
+    header = [%w(Question Response)]
+    # deletes rows of type header/explanation
+    questions = data.delete_if do |_prompt, _response, data_type, _id|
+      %w(heading explanation).include? data_type
+    end.map do |prompt, response, _data_type, _id|
+      [prompt, response]
     end
-    save
-  end
-
-  def add_response_data(prompt, response)
-    update(data: data << [prompt, response])
-    self
+    header + questions
   end
 
   def email_subscribers(applicant:)
