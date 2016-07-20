@@ -121,27 +121,26 @@ describe DashboardController do
   end
 
   describe 'Check Primary Account' do
-    let(:admin) { create :user, :admin }
-    let(:student) { create :user, :student }
     context 'login as subsidiary account' do
       it 'renders unauthenticated subsidiary haml' do
-        when_current_user_is student
-        request.env['uid'] = student.id
-        request.env['UMAPrimaryAccount'] = admin.id
+        when_current_user_is :student
+        admin = create :user, :admin
+        request.env.merge!({ 'uid' => session[:user_id], 
+                              'UMAPrimaryAccount' => admin.id })
         get :main
         expect(response)
           .to render_template 'sessions/unauthenticated_subsidiary'
-        expect(response).not_to redirect_to '/dashboard/student'
+        expect(response).not_to redirect_to student_dashboard_path
         expect(response).to have_http_status :unauthorized
       end
     end
     context 'login as primary account' do
       it 'goes to dashboard' do
-        when_current_user_is student
-        request.env['uid'] = student.id
-        request.env['UMAPrimaryAccount'] = student.id
+        when_current_user_is :student
+        request.env.merge!({ 'uid' => session[:user_id], 
+                            'UMAPrimaryAccount' => session[:user_id]})
         get :main
-        expect(response).to redirect_to '/dashboard/student'
+        expect(response).to redirect_to student_dashboard_path
       end
     end
   end
