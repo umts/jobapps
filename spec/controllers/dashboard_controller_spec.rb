@@ -125,8 +125,8 @@ describe DashboardController do
       it 'renders unauthenticated subsidiary haml' do
         when_current_user_is :student
         admin = create :user, :admin
-        request.env.merge! 'uid' => session[:user_id], 
-                              'UMAPrimaryAccount' => admin.id
+        request.env.merge! 'uid' => session[:user_id],
+                           'UMAPrimaryAccount' => admin.id
         get :main
         expect(response)
           .to render_template 'sessions/unauthenticated_subsidiary'
@@ -137,8 +137,8 @@ describe DashboardController do
     context 'login as primary account' do
       it 'goes to dashboard' do
         when_current_user_is :student
-        request.env.merge! 'uid' => session[:user_id], 
-                            'UMAPrimaryAccount' => session[:user_id]
+        request.env.merge! 'uid' => session[:user_id],
+                           'UMAPrimaryAccount' => session[:user_id]
         get :main
         expect(response).to redirect_to student_dashboard_path
       end
