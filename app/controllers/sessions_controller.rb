@@ -1,7 +1,8 @@
 class SessionsController < ApplicationController
   # layout without_logout
   layout false
-  skip_before_action :access_control, :redirect_unauthenticated
+  skip_before_action :access_control, :redirect_unauthenticated,
+                     :check_primary_account
 
   def destroy
     session.clear

@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
   before_action :set_current_user
   before_action :redirect_unauthenticated
   before_action :access_control
+  before_action :check_primary_account
   layout 'application'
 
   private
@@ -64,4 +65,14 @@ class ApplicationController < ActionController::Base
     redirect_to :back and return
   end
   # rubocop:enable Style/AndOr
+
+  def check_primary_account
+    if request.env['UMAPrimaryAccount'] != request.env['uid']
+      @primary_account = request.env['UMAPrimaryAccount']
+      @uid = request.env['uid']
+      render 'sessions/unauthenticated_subsidiary',
+             status: :unauthorized,
+             layout: false
+    end
+  end
 end
