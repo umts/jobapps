@@ -5,8 +5,10 @@ class PrintRecordPdf < Prawn::Document
   def initialize(record)
     super()
     @record = record
-    stroke do
-      rounded_rectangle [0, bounds.height], bounds.width, bounds.height, 5
+    repeat(:all) do
+      stroke do
+        rounded_rectangle [0, bounds.height], bounds.width, bounds.height, 5
+      end
     end
     content_width = bounds.width - 10
     column_width = content_width / 2
