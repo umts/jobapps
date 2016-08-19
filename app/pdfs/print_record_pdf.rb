@@ -45,8 +45,10 @@ class PrintRecordPdf < Prawn::Document
   end
 
   def unavailability_calendar
-      table @record.unavailability_rows do
-        style row(0), size: 10
-      end
+    text "Applicant Unavailability", size: 24, align: :center
+    table @record.unavailability_rows, position: :center do
+      style row(0), size: 10
+      padding = 12
+    end
   end
 end
