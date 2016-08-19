@@ -12,6 +12,8 @@ class PrintRecordPdf < Prawn::Document
     column_width = content_width / 2
     header_content(content_width)
     table_content(content_width, column_width)
+    move_down 50
+    unavailability_calendar
   end
 
   def header_content(content_width)
@@ -38,5 +40,11 @@ class PrintRecordPdf < Prawn::Document
         self.cell_style = { borders: [:bottom], border_width: 0.5 }
       end
     end
+  end
+
+  def unavailability_calendar
+      table @record.unavailability_rows do
+        style row(0), size: 10
+      end
   end
 end

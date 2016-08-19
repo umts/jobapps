@@ -50,6 +50,16 @@ class ApplicationRecord < ActiveRecord::Base
     header + questions
   end
 
+  def unavailability_rows
+    header = [%w(7AM 8AM 9AM 10AM 11AM 12PM 1PM 2PM 3PM 4PM 5PM 6PM 7PM 8PM)]
+    header[0].unshift("      ")
+    days = Array.new(7) { Array.new(15, "") }
+    Date::DAYNAMES.each_with_index do |dow, index|
+      days[index][0] = dow
+    end
+    header + days
+  end
+
   def email_subscribers(applicant:)
     position.subscriptions.each do |sub|
       JobappsMailer.application_notification(sub, position, applicant)
