@@ -5,11 +5,7 @@ class PrintRecordPdf < Prawn::Document
   def initialize(record)
     super()
     @record = record
-    repeat(:all) do
-      stroke do
-        rounded_rectangle [0, bounds.height], bounds.width, bounds.height, 5
-      end
-    end
+    page_border
     content_width = bounds.width - 10
     column_width = content_width / 2
     header_content(content_width)
@@ -31,6 +27,14 @@ class PrintRecordPdf < Prawn::Document
       text "submitted #{date} by #{name}, #{email}"
       move_down 5
       move_down 10
+    end
+  end
+
+  def page_border
+    repeat(:all) do
+      stroke do
+        rounded_rectangle [0, bounds.height], bounds.width, bounds.height, 5
+      end
     end
   end
 

@@ -21,35 +21,16 @@ describe ApplicationRecord do
 
   describe 'unavailability_rows' do
     before :each do
-      @unavail = create :unavailability,
-                        sunday: [],
-                        monday: %w(10AM 11AM 12PM),
-                        tuesday: %w(11AM 12PM 1PM 2PM 3PM 4PM 5PM),
-                        wednesday: %w(10AM 11AM 12PM),
-                        thursday: %w(11AM 12PM 1PM 2PM 3PM 4PM 5PM),
-                        friday: %w(10AM 11AM 12PM),
-                        saturday: []
-      @record = create :application_record, unavailability: @unavail
+      @record = create :application_record, :with_unavailability
     end
     let :call do
-      @record.unavailability_rows
+      @record.unavailability.grid
     end
-    it 'has the row of times' do
-      @header = %w(7AM 8AM 9AM 10AM 11AM 12PM 1PM 2PM 3PM 4PM 5PM 6PM 7PM 8PM)
-      @header.unshift('      ')
-      expect(call[0]).to eql @header
+    it 'gives false for available times' do
+      expect(call[0][0]).to be false
     end
-    context 'makes a table based on unavailability' do
-      it 'has a blank row for no unavailability' do
-        row = ['Sunday', '', '', '', '', '', '', '',
-               '', '', '', '', '', '', '']
-        expect(call[1]).to eql row
-      end
-      it 'puts unavailable times in the table' do
-        row = ['Monday', '', '', '', ' ', ' ', ' ', '',
-               '', '', '', '', '', '', '']
-        expect(call[2]).to eql row
-      end
+    it 'gives true for unavailable times' do
+      expect(call[1][3]).to be true
     end
   end
 
