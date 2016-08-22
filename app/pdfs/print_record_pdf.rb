@@ -14,7 +14,7 @@ class PrintRecordPdf < Prawn::Document
     column_width = content_width / 2
     header_content(content_width)
     table_content(content_width, column_width)
-    if @record.unavailability
+    if @record.unavailability.present?
       start_new_page
       unavailability_calendar
     end
