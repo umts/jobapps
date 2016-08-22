@@ -16,7 +16,7 @@ class PrintRecordPdf < Prawn::Document
     table_content(content_width, column_width)
     if @record.unavailability.present?
       start_new_page
-      unavailability_calendar
+      unavailability_calendar(@record.unavailability)
     end
   end
 
@@ -46,13 +46,23 @@ class PrintRecordPdf < Prawn::Document
     end
   end
 
-  def unavailability_calendar
+  def unavailability_rows
+    headers = Unavailability::HOURS.dup.unshift nil
+    rows = Date::DAYNAMES.map do |name|
+      ([nil] * Unavailability::HOURS.count).unshift name
+    end
+    rows.unshift headers
+  end
+
+  def unavailability_calendar(unavailability)
     move_down 10
     text 'Applicant Unavailability', size: 24, align: :center
-    table @record.unavailability_rows, position: :center do
+    table unavailability_rows, position: :center do
       style row(0), size: 10
       cells.style do |cell|
-        cell.background_color = 'b0b0b0' if cell.content == ' '
+        if unavailability.grid[cell.row - 1][cell.column - 1]
+          cell.background_color = 'b0b0b0'
+        end
       end
     end
   end

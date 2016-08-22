@@ -6,4 +6,13 @@ class Unavailability < ActiveRecord::Base
   # this will serialize the columns of the unavailability model
   # so that they accept strings in the form of arrays
   Date::DAYNAMES.map(&:downcase).map(&:to_sym).each { |d| serialize d, Array }
+
+  def grid
+    Date::DAYNAMES.map do |name|
+      daily_hours = send(name.downcase)
+      HOURS.map do |hour|
+        daily_hours.include? hour
+      end
+    end
+  end
 end
