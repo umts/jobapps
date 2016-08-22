@@ -34,7 +34,7 @@ describe ApplicationRecord do
       @record.unavailability_rows
     end
     it 'has the row of times' do
-      @header = %w(       7AM 8AM 9AM 10AM 11AM 12PM 1PM 2PM 3PM 4PM 5PM 6PM 7PM 8PM)
+      @header = %w(7AM 8AM 9AM 10AM 11AM 12PM 1PM 2PM 3PM 4PM 5PM 6PM 7PM 8PM)
       @header.unshift("      ")
       expect(call[0]).to eql @header
     end
@@ -44,7 +44,7 @@ describe ApplicationRecord do
         expect(call[1]).to eql row
       end
       it 'puts unavailable times in the table' do
-        row = ["Monday","","","","X","X","X","","","","","","","",""]
+        row = ["Monday","","",""," "," "," ","","","","","","","",""]
         expect(call[2]).to eql row
       end
     end

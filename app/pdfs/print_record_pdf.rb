@@ -14,8 +14,8 @@ class PrintRecordPdf < Prawn::Document
     column_width = content_width / 2
     header_content(content_width)
     table_content(content_width, column_width)
-    start_new_page
     if @record.unavailability
+      start_new_page
       unavailability_calendar
     end
   end
@@ -47,10 +47,13 @@ class PrintRecordPdf < Prawn::Document
   end
 
   def unavailability_calendar
+    move_down 10
     text "Applicant Unavailability", size: 24, align: :center
     table @record.unavailability_rows, position: :center do
       style row(0), size: 10
-      padding = 12
+      cells.style do |cell|
+        cell.background_color = 'b0b0b0' if cell.content == ' '
+      end
     end
   end
 end
