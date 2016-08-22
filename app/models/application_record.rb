@@ -52,12 +52,14 @@ class ApplicationRecord < ActiveRecord::Base
 
   def unavailability_rows
     header = [%w(7AM 8AM 9AM 10AM 11AM 12PM 1PM 2PM 3PM 4PM 5PM 6PM 7PM 8PM)]
-    header[0].unshift("      ")
-    days = Array.new(7) { Array.new(15, "") }
+    header[0].unshift('      ')
+    days = Array.new(7) { Array.new(15, '') }
     header[0].each_with_index do |time, time_index|
       Date::DAYNAMES.each_with_index do |dow, day_index|
-        days[day_index][time_index] = dow if time_index == 0
-        days[day_index][time_index] = ' ' if unavailability[dow.downcase.to_sym].include?(time)
+        days[day_index][time_index] = dow if t_index == 0
+        if unavailability[dow.downcase.to_sym].include?(time)
+          days[day_index][time_index] = ' '
+        end
       end
     end
     header + days

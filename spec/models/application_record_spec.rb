@@ -21,13 +21,14 @@ describe ApplicationRecord do
 
   describe 'unavailability_rows' do
     before :each do
-      @unavail = create :unavailability, sunday: [],
-              monday: ["10AM", "11AM", "12PM"],
-              tuesday: ["11AM", "12PM", "1PM", "2PM", "3PM", "4PM", "5PM"],
-              wednesday: ["10AM", "11AM", "12PM"],
-              thursday: ["11AM", "12PM", "1PM", "2PM", "3PM", "4PM", "5PM"],
-              friday: ["10AM", "11AM", "12PM"],
-              saturday: []
+      @unavail = create :unavailability,
+                        sunday: [],
+                        monday: %w(10AM 11AM 12PM),
+                        tuesday: %w(11AM 12PM 1PM 2PM 3PM 4PM 5PM),
+                        wednesday: %w(10AM 11AM 12PM),
+                        thursday: %w(11AM 12PM 1PM 2PM 3PM 4PM 5PM),
+                        friday: %w(10AM 11AM 12PM),
+                        saturday: []
       @record = create :application_record, unavailability: @unavail
     end
     let :call do
@@ -35,16 +36,18 @@ describe ApplicationRecord do
     end
     it 'has the row of times' do
       @header = %w(7AM 8AM 9AM 10AM 11AM 12PM 1PM 2PM 3PM 4PM 5PM 6PM 7PM 8PM)
-      @header.unshift("      ")
+      @header.unshift('      ')
       expect(call[0]).to eql @header
     end
     context 'makes a table based on unavailability' do
       it 'has a blank row for no unavailability' do
-        row = ["Sunday","","","","","","","","","","","","","",""]
+        row = ['Sunday', '', '', '', '', '', '', '',
+               '', '', '', '', '', '', '']
         expect(call[1]).to eql row
       end
       it 'puts unavailable times in the table' do
-        row = ["Monday","","",""," "," "," ","","","","","","","",""]
+        row = ['Monday', '', '', '', ' ', ' ', ' ', '',
+               '', '', '', '', '', '', '']
         expect(call[2]).to eql row
       end
     end
