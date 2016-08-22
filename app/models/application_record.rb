@@ -56,7 +56,7 @@ class ApplicationRecord < ActiveRecord::Base
     days = Array.new(7) { Array.new(15, '') }
     header[0].each_with_index do |time, time_index|
       Date::DAYNAMES.each_with_index do |dow, day_index|
-        days[day_index][time_index] = dow if t_index == 0
+        days[day_index][time_index] = dow if time_index == 0
         if unavailability[dow.downcase.to_sym].include?(time)
           days[day_index][time_index] = ' '
         end
