@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'generating a pdf to print an application record' do
-  let(:record) { create :application_record }
+  let(:record) { create :application_record, :with_unavailability}
   before :each do
     when_current_user_is :staff, integration: true
     visit application_record_path(record)
