@@ -14,8 +14,10 @@ class PrintRecordPdf < Prawn::Document
     column_width = content_width / 2
     header_content(content_width)
     table_content(content_width, column_width)
-    move_down 50
-    unavailability_calendar
+    start_new_page
+    if @record.unavailability
+      unavailability_calendar
+    end
   end
 
   def header_content(content_width)
