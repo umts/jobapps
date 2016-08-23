@@ -7,6 +7,13 @@ class Unavailability < ActiveRecord::Base
   # so that they accept strings in the form of arrays
   Date::DAYNAMES.map(&:downcase).map(&:to_sym).each { |d| serialize d, Array }
 
+  # the grid method returns a data structure
+  # which represents the unavailability as a 2d array
+  # of booleans, i.e, if Sunday has unavailable times
+  # at 7AM and 8AM, then grid[0][0] and grid[0][1]
+  # will be true, and grid[0][2...14] will be false,
+  # because the applicant is available during those times.
+
   def grid
     Date::DAYNAMES.map do |name|
       daily_hours = send(name.downcase)

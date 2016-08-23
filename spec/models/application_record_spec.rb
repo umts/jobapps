@@ -20,12 +20,17 @@ describe ApplicationRecord do
   end
 
   describe 'unavailability_rows' do
-    before :each do
-      @record = create :application_record, :with_unavailability
+    let :unavail do
+      create :unavailability, sunday: [],
+                              monday: %w(10AM 11AM 12PM),
+                              tuesday: %w(11AM 12PM 1PM 2PM 3PM 4PM 5PM),
+                              wednesday: %w(10AM 11AM 12PM),
+                              thursday: %w(11AM 12PM 1PM 2PM 3PM 4PM 5PM),
+                              friday: %w(10AM 11AM 12PM),
+                              saturday: []
     end
-    let :call do
-      @record.unavailability.grid
-    end
+    let(:record) { create :application_record, unavailability: unavail }
+    let(:call) { record.unavailability.grid }
     it 'gives false for available times' do
       expect(call[0][0]).to be false
     end

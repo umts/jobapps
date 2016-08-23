@@ -4,26 +4,25 @@ include DateAndTimeMethods
 class PrintRecordPdf < Prawn::Document
   def initialize(record)
     super()
-    @record = record
     page_border
     content_width = bounds.width - 10
     column_width = content_width / 2
-    header_content(content_width)
-    table_content(content_width, column_width)
-    if @record.unavailability.present?
+    header_content(content_width, record)
+    table_content(content_width, column_width, record)
+    if record.unavailability.present?
       start_new_page
-      unavailability_calendar(@record.unavailability)
+      unavailability_calendar(record.unavailability)
     end
   end
 
-  def header_content(content_width)
-    date = format_date_time(@record.created_at)
-    name = @record.user.full_name
-    email = @record.user.email
+  def header_content(content_width, record)
+    date = format_date_time(record.created_at)
+    name = record.user.full_name
+    email = record.user.email
     bounding_box([5, cursor], width: content_width) do
       font 'Helvetica'
       move_down 20
-      text "#{@record.position.name} Application Record", size: 24
+      text "#{record.position.name} Application Record", size: 24
       text "submitted #{date} by #{name}, #{email}"
       move_down 5
       move_down 10
@@ -38,9 +37,9 @@ class PrintRecordPdf < Prawn::Document
     end
   end
 
-  def table_content(content_width, column_width)
+  def table_content(content_width, column_width, record)
     bounding_box([5, cursor - 5], width: content_width) do
-      table @record.data_rows do
+      table record.data_rows do
         style row(0), size: 20
         cells.padding = 12
         self.header = true
