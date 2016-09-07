@@ -13,7 +13,7 @@ class DashboardController < ApplicationController
   def staff
     @departments = Department.includes :positions
     @pending_interviews = Interview.pending.group_by(&:position)
-    @pending_records = ApplicationRecord.pending.newest_first
+    @pending_records = ApplicationRecord.where(saved_for_later: false).pending.newest_first
                                         .group_by(&:position)
     @site_texts = SiteText.order :name
     @staff = User.staff

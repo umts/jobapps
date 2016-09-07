@@ -1,0 +1,18 @@
+%table.data_table.display#main_data_table
+  %thead
+    %tr
+      %th Date Submitted
+      %th Name
+      %th Note
+      %th Date To Review
+  %tbody
+    - @saved.each do |record|
+      %tr
+        %td{ data: { order: record.created_at.to_i } }
+          = format_date_time record.created_at
+        %td
+          = link_to(record.user.proper_name, application_record_path(record.id))
+        %td
+          = record.note_for_later
+        %td
+          = record.date_for_later

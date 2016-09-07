@@ -4,7 +4,8 @@ class ApplicationRecordsController < ApplicationController
   before_action :find_record, except: [:create,
                                        :csv_export,
                                        :eeo_data,
-                                       :past_applications]
+                                       :past_applications,
+                                       :saved_applications]
   include ApplicationHelper
 
   def create
@@ -50,6 +51,10 @@ class ApplicationRecordsController < ApplicationController
                                 .between(start_date, end_date)
   end
 
+  def saved_applications
+    @saved = ApplicationRecord.where(saved_for_later: true)
+  end
+
   def review
     if params.require(:accepted) == 'true'
       interview_parameters = params.require(:interview)
@@ -66,12 +71,14 @@ class ApplicationRecordsController < ApplicationController
     show_message :application_review,
                  default: 'Application has been marked as reviewed.'
     @record.update reviewed: true
+    @record.update saved_for_later: false
     redirect_to staff_dashboard_path
   end
 
   def save_for_later
     @record.update saved_for_later: true
     @record.update note_for_later: params[:note_for_later]
+    @record.update date_for_later: params[:date_for_later]
     redirect_to staff_dashboard_path
   end
 
