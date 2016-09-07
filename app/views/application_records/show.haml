@@ -66,15 +66,19 @@ by:
                          value: @record.position.default_interview_location
       .note_item= submit_tag 'Review application and schedule interview'
     - if !@record.saved_for_later
-      %h3 Save For Later
+      %h3 Save application for later review
       = form_tag controller: :application_records,
         action: :save_for_later,
         id: @record.id do
         .field.note_item
-          Optional Note?
+          Note
           = text_area_tag :note_for_later
-          Optional Date to Review?
+        .field.note_item
+          Select a date for later review
           = text_field_tag :date_for_later, '', class: 'datepicker'
+        .note_item
+          If a date is selected, the application will move back onto the
+          dashboard at that time.
           .note_item
           = submit_tag 'Save for later'
 
