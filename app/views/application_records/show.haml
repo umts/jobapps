@@ -65,15 +65,19 @@ by:
                          required: true,
                          value: @record.position.default_interview_location
       .note_item= submit_tag 'Review application and schedule interview'
-    %h3 Save For Later
-    = form_tag controller: :application_records,
-      action: :save_for_later,
-      id: @record.id do
-      .field.note_item
-        Optional Note?
-        = text_area_tag :note_for_later
-      .note_item
-        = submit_tag 'Save for later'
+    - if !@record.saved_for_later
+      %h3 Save For Later
+      = form_tag controller: :application_records,
+        action: :save_for_later,
+        id: @record.id do
+        .field.note_item
+          Optional Note?
+          = text_area_tag :note_for_later
+          Optional Date to Review?
+          = text_field_tag :date_for_later, '', class: 'datepicker'
+          .note_item
+          = submit_tag 'Save for later'
+
   - else
     .note_item
       Application reviewed on:
