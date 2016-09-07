@@ -69,6 +69,12 @@ class ApplicationRecordsController < ApplicationController
     redirect_to staff_dashboard_path
   end
 
+  def save_for_later
+    @record.update saved_for_later: true
+    @record.update note_for_later: params[:note_for_later]
+    redirect_to staff_dashboard_path
+  end
+
   def show
     deny_access && return if @current_user.student? &&
                              @current_user != @record.user
