@@ -82,9 +82,11 @@ by:
           .note_item
           = submit_tag 'Save for later'
     - if @record.saved_for_later
+      Note:
+      .note_item= @record.note_for_later
       = button_to 'Move back to dashboard',
         unsave_for_later_application_record_url(@record)
-      this button will delete your note
+      this action will delete your note
 
   - else
     .note_item
