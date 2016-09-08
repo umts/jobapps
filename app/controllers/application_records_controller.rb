@@ -76,9 +76,10 @@ class ApplicationRecordsController < ApplicationController
   end
 
   def save_for_later
-    @record.update saved_for_later: true
-    @record.update note_for_later: params[:note_for_later]
-    @record.update date_for_later: params[:date_for_later]
+    date = Date.strptime(params[:date_for_later], '%m/%d/%Y')
+    @record.update_attributes(saved_for_later: true,
+                              note_for_later: params[:note_for_later],
+                              date_for_later: date)
     redirect_to staff_dashboard_path
   end
 
