@@ -89,7 +89,6 @@ class ApplicationRecordsController < ApplicationController
 
   def unsave_for_later
     @record.update_attributes(saved_for_later: false,
-                              note_for_later: nil,
                               date_for_later: nil)
     flash[:message] = 'Application moved back to dashboard.'
     redirect_to staff_dashboard_path
