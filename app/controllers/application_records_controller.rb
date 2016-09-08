@@ -76,11 +76,23 @@ class ApplicationRecordsController < ApplicationController
   end
 
   def save_for_later
-    date = Date.strptime(params[:date_for_later], '%m/%d/%Y')
+    date = if params[:date_for_later].present?
+             Date.strptime(params[:date_for_later], '%m/%d/%Y')
+           else ''
+           end
     @record.update_attributes(saved_for_later: true,
                               note_for_later: params[:note_for_later],
                               date_for_later: date)
     redirect_to staff_dashboard_path
+    flash[:message] = 'Application saved for later'
+  end
+
+  def unsave_for_later
+    @record.update_attributes(saved_for_later: false,
+                              note_for_later: nil,
+                              date_for_later: nil)
+    redirect_to staff_dashboard_path
+    flash[:message] = 'Application moved back to dashboard'
   end
 
   def show

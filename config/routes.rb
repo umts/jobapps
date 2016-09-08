@@ -30,6 +30,7 @@ Rails.application.routes.draw do
     member do
       post :review
       post :save_for_later
+      post :unsave_for_later
       get  :print
     end
   end
