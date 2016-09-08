@@ -83,16 +83,16 @@ class ApplicationRecordsController < ApplicationController
     @record.update_attributes(saved_for_later: true,
                               note_for_later: params[:note_for_later],
                               date_for_later: date)
+    flash[:message] = 'Application saved for later.'
     redirect_to staff_dashboard_path
-    flash[:message] = 'Application saved for later'
   end
 
   def unsave_for_later
     @record.update_attributes(saved_for_later: false,
                               note_for_later: nil,
                               date_for_later: nil)
+    flash[:message] = 'Application moved back to dashboard.'
     redirect_to staff_dashboard_path
-    flash[:message] = 'Application moved back to dashboard'
   end
 
   def show
