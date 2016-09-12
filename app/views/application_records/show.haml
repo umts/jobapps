@@ -71,13 +71,11 @@ by:
     - if !@record.saved_for_later
       %h3 Save application for later review
       = form_tag controller: :application_records,
-        action: :save_for_later,
+        action: :save_or_unsave,
         id: @record.id do
         .field.note_item
           Note
           = text_area_tag :note_for_later
-        - if @record.note_for_later.present?
-          filling in this field will replace your existing note.
         .field.note_item
           Select a date for later review
           = text_field_tag :date_for_later, '', class: 'datepicker'
@@ -88,7 +86,7 @@ by:
           = submit_tag 'Save for later'
     - if @record.saved_for_later
       .note_item= button_to 'Move back to dashboard',
-        unsave_for_later_application_record_url(@record)
+        save_or_unsave_application_record_url(@record)
 
   - else
     .note_item
