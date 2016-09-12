@@ -75,6 +75,18 @@ class ApplicationRecord < ActiveRecord::Base
     !reviewed
   end
 
+  def unsave
+    update_attributes(saved_for_later: false,
+                      date_for_later: nil)
+  end
+
+  def self.move_records_to_pending
+    records = where('date_for_later <= ?', Date.today.end_of_day)
+    records.each do |record|
+      record.unsave
+    end
+  end
+
   def self.combined_eeo_data(records)
     combined_records = records.with_gender.with_ethnicity
     grouped_by_gender = {}
