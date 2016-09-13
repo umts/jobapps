@@ -77,6 +77,9 @@ describe ApplicationRecord do
       Timecop.freeze 1.month.since do
         @too_future_record = create :application_record
       end
+      Timecop.freeze 1.week.since do
+        @almost_too_future_record = create :application_record
+      end
       @just_right_record = create :application_record
       @start_date = Time.zone.today
       @end_date = 1.week.since
@@ -85,7 +88,7 @@ describe ApplicationRecord do
       ApplicationRecord.between @start_date, @end_date
     end
     it 'gives the application records between the given dates' do
-      expect(call).to include @just_right_record
+      expect(call).to include @just_right_record, @almost_too_future_record
       expect(call).not_to include @too_future_record, @too_past_record
     end
   end

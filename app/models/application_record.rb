@@ -14,7 +14,9 @@ class ApplicationRecord < ActiveRecord::Base
   validates :reviewed, inclusion: { in: [true, false] }
 
   scope :between,
-        -> (start_date, end_date) { where created_at: start_date..end_date }
+        lambda { |start_date, end_date|
+          where created_at: start_date..end_date.end_of_day
+        }
   scope :in_department,
         lambda { |department_ids|
           joins(:position)
