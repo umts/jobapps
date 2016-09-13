@@ -18,3 +18,5 @@
 # end
 
 # Learn more: http://github.com/javan/whenever
+# Set job to run every 1 minutes at first to test this?
+
