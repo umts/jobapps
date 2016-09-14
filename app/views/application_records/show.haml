@@ -73,15 +73,23 @@ by:
       = form_tag controller: :application_records,
         action: :save_or_unsave,
         id: @record.id do
-        .field.note_item
+        %p
           Note
           = text_area_tag :note_for_later
-        .field.note_item
+        %p
+          Email note to applicant:
+          =check_box_tag :mail_to_applicant
+        %p
+          %em
+            This note will be listed as the reason their application was
+            saved for review at a later date.
+        %p
           Select a date for later review
           = text_field_tag :date_for_later, '', class: 'datepicker'
-        .note_item
-          If a date is selected, the application will move back onto the
-          dashboard at that time.
+        %p
+          %em
+            If a date is selected, the application will move back onto the
+            dashboard at that time.
           .note_item
           = submit_tag 'Save for later'
     - if @record.saved_for_later
