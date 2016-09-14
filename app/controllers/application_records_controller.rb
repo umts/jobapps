@@ -87,6 +87,9 @@ class ApplicationRecordsController < ApplicationController
       @record.update_attributes(saved_for_later: true,
                                 note_for_later: params[:note_for_later],
                                 date_for_later: date)
+      if params[:mail_to_applicant] == '1'
+        JobappsMailer.send_note_for_later(@record).deliver_now
+      end
       flash[:message] = 'Application saved for later.'
     end
     redirect_to staff_dashboard_path
