@@ -24,7 +24,6 @@ Rails.application.routes.draw do
     collection do
       get :csv_export
       get :past_applications
-      get :saved_applications
       get :eeo_data
     end
     member do
@@ -47,7 +46,12 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :positions, except: [:index, :show]
+  resources :positions, except: [:index, :show] do
+    member do
+      get :saved_applications
+    end
+  end
+
   resources :subscriptions
 
   # sessions
