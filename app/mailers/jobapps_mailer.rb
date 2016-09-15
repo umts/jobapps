@@ -46,9 +46,10 @@ class JobappsMailer < ActionMailer::Base
     template = application_record.position.application_template
     @user = application_record.user
     @record = application_record
+    reply_to = template.try :email
     mail to: application_record.user.email,
          subject: 'Your application has been saved for later review',
-         reply_to: template.try :email
+         reply_to: reply_to
   end
 
   def site_text_request(user, location, description)
