@@ -51,10 +51,6 @@ class ApplicationRecordsController < ApplicationController
                                 .between(start_date, end_date)
   end
 
-  def saved_applications
-    @saved = ApplicationRecord.where(saved_for_later: true)
-  end
-
   def review
     if params.require(:accepted) == 'true'
       interview_parameters = params.require(:interview)

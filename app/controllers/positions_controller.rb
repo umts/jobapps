@@ -1,5 +1,5 @@
 class PositionsController < ApplicationController
-  before_action :find_position, only: [:destroy, :edit, :update]
+  before_action :find_position, only: [:destroy, :edit, :update, :saved_applications]
 
   def create
     @position = Position.new position_parameters
@@ -14,6 +14,10 @@ class PositionsController < ApplicationController
     @position.destroy
     show_message :position_destroy, default: 'Position has been deleted.'
     redirect_to staff_dashboard_path
+  end
+
+  def saved_applications
+    @saved = ApplicationRecord.where(saved_for_later: true, position: @position)
   end
 
   def edit
