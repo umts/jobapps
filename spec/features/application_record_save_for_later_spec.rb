@@ -57,16 +57,16 @@ describe 'saving or unsaving applications' do
   end
   context 'adding a note for later' do
     let!(:record) { create :application_record, reviewed: false }
-    it 'displays the note on the saved_for_later page' do
+    before :each do
       visit application_record_url(record)
-      alick_button 'Save for later'
+      page.fill_in 'note_for_later', with: 'This is my note'
+      click_button 'Save for later'
+    end
+    it 'displays the note on the saved_for_later page' do
       visit saved_applications_position_url(record.position)
       expect(page).to have_text 'This is my note'
     end
     it 'displays the note on the application record page' do
-      visit application_record_url(record)
-      page.fill_in 'note_for_later', with: 'This is my note'
-      click_button 'Save for later'
       visit application_record_url(record)
       expect(page).to have_text 'This is my note'
     end
