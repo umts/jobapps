@@ -181,6 +181,51 @@ describe ApplicationRecord do
     end
   end
 
+  describe 'unsave' do
+    let(:record) do
+      create :application_record,
+        saved_for_later: true,
+        date_for_later: Date.today
+    end
+    let :call do
+      record.unsave
+    end
+    it 'updates saved_for_later attribute to false' do
+      call
+      expect(record.saved_for_later).to be_falsey
+    end
+    it 'udpates the date_for_later attribute to be nil' do
+      call
+      expect(record.date_for_later).to be_nil
+    end
+  end
+
+  describe 'move_records_to_pending' do
+    let(:call) { ApplicationRecord.move_records_to_pending }
+    context 'there are expired records' do
+      let!(:expired_saved_record) do
+        create :application_record,
+          saved_for_later: true,
+          date_for_later: Date.yesterday
+      end
+      it 'calls unsave on expired records' do
+        expect_any_instance_of(ApplicationRecord).to receive(:unsave)
+        call
+      end
+    end
+    context 'there are no expired records' do
+      let!(:future_saved_record) do
+        create :application_record,
+          saved_for_later: true,
+          date_for_later: Date.tomorrow
+      end
+      it 'does not call unsave on any records' do
+        expect_any_instance_of(ApplicationRecord).not_to receive(:unsave)
+        call
+      end
+    end
+  end
+
   describe 'self.combined_eeo_data' do
     before :each do
       @records = ApplicationRecord.all
