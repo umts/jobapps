@@ -75,16 +75,21 @@ class ApplicationRecord < ActiveRecord::Base
     !reviewed
   end
 
+  def save_for_later(date = nil, note = nil, mail = false)
+    update_attributes(saved_for_later: true,
+                      date_for_later: date,
+                      note_for_later: note)
+    JobappsMailer.send_note_for_later(self).deliver_now if mail
+  end
+
   def unsave
     update_attributes(saved_for_later: false,
                       date_for_later: nil)
   end
 
   def self.move_records_to_pending
-    records = where('date_for_later <= ?', Date.today)
-    records.each do |record|
-      record.unsave
-    end
+    records = where('date_for_later <= ?', Time.zone.today)
+    records.each(&:unsave)
   end
 
   def self.combined_eeo_data(records)
