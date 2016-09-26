@@ -71,21 +71,16 @@ class ApplicationRecordsController < ApplicationController
     redirect_to staff_dashboard_path
   end
 
-  def save_or_unsave
+  def toggle_saved_for_later
     if @record.saved_for_later
       @record.unsave
       flash[:message] = 'Application moved back to dashboard.'
     else
       date = if params[:date_for_later].present?
                Date.strptime(params[:date_for_later], '%m/%d/%Y')
-             else ''
              end
-      @record.update_attributes(saved_for_later: true,
-                                note_for_later: params[:note_for_later],
-                                date_for_later: date)
-      if params[:mail_to_applicant] == '1'
-        JobappsMailer.send_note_for_later(@record).deliver_now
-      end
+      mail = true if params[:mail_to_applicant] == '1'
+      @record.save_for_later(date, params[:note_for_later], mail)
       flash[:message] = 'Application saved for later.'
     end
     redirect_to staff_dashboard_path
