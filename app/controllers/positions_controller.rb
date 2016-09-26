@@ -1,5 +1,8 @@
 class PositionsController < ApplicationController
-  before_action :find_position, only: [:destroy, :edit, :update, :saved_applications]
+  before_action :find_position, only: [:destroy,
+                                       :edit,
+                                       :update,
+                                       :saved_applications]
 
   def create
     @position = Position.new position_parameters
