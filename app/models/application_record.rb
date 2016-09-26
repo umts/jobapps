@@ -81,7 +81,7 @@ class ApplicationRecord < ActiveRecord::Base
   end
 
   def self.move_records_to_pending
-    records = where('date_for_later <= ?', Date.today.end_of_day)
+    records = where('date_for_later <= ?', Date.today)
     records.each do |record|
       record.unsave
     end
