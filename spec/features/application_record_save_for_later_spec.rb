@@ -16,14 +16,14 @@ describe 'saving or unsaving applications' do
       expect(page.current_url)
         .to eq saved_applications_position_url(record.position)
       expect(page).to have_link record.user.proper_name,
-        href: application_record_path(record)
+                                href: application_record_path(record)
     end
     it 'redirects to the dashboard' do
       expect(page.current_url).to eq staff_dashboard_url
     end
     it 'moves the application record off the dashboard' do
       expect(page).not_to have_link record.user.proper_name,
-        href: application_record_path(record)
+                                    href: application_record_path(record)
     end
     it 'puts a notice in the flash' do
       expect(page).to have_text 'Application saved for later.'
@@ -32,8 +32,8 @@ describe 'saving or unsaving applications' do
   context 'moving the application record back to the dashboard' do
     let!(:record) do
       create :application_record,
-        reviewed: false,
-        saved_for_later: true
+             reviewed: false,
+             saved_for_later: true
     end
     before :each do
       visit application_record_url(record)
@@ -51,16 +51,22 @@ describe 'saving or unsaving applications' do
       expect(page).to have_text 'Application moved back to dashboard'
     end
   end
-  context 'setting a date for moving the record back to dashboard' do
-    it 'moves the record back to the dashboard when the date is reached'
-    it 'displays the date on the saved_for_later page'
-  end
-  context 'adding a note for later' do
+  context 'adding a note and date for later' do
     let!(:record) { create :application_record, reviewed: false }
     before :each do
       visit application_record_url(record)
       page.fill_in 'note_for_later', with: 'This is my note'
+      page.fill_in 'date_for_later', with: '09/21/2016'
       click_button 'Save for later'
+      record.reload
+    end
+    it 'displays the date on the saved_for_later page' do
+      visit saved_applications_position_url(record.position)
+      expect(page).to have_text format_date record.date_for_later
+    end
+    it 'displays the date on the application record page' do
+      visit saved_applications_position_url(record.position)
+      expect(page).to have_text format_date record.date_for_later
     end
     it 'displays the note on the saved_for_later page' do
       visit saved_applications_position_url(record.position)

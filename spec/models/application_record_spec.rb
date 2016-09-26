@@ -181,11 +181,41 @@ describe ApplicationRecord do
     end
   end
 
+  describe 'save_for_later' do
+    let :record do
+      create :application_record,
+             saved_for_later: false
+    end
+    it 'updates the saved for later attribute to true' do
+      record.save_for_later
+      expect(record.saved_for_later).to be_truthy
+    end
+    context 'mail to applicant desired' do
+      let(:mail) do
+        ActionMailer::MessageDelivery.new(JobappsMailer, :send_note_for_later)
+      end
+      it 'calls the mailer method' do
+        expect(JobappsMailer)
+          .to receive(:send_note_for_later)
+          .with(record)
+          .and_return mail
+        expect(mail).to receive(:deliver_now).and_return true
+        record.save_for_later(nil, nil, true)
+      end
+    end
+    context 'mail to applicant not desired' do
+      it 'does not call the mailer method' do
+        expect(JobappsMailer).not_to receive(:send_note_for_later)
+        record.save_for_later(nil, nil, false)
+      end
+    end
+  end
+
   describe 'unsave' do
     let(:record) do
       create :application_record,
-        saved_for_later: true,
-        date_for_later: Date.today
+             saved_for_later: true,
+             date_for_later: Time.zone.today
     end
     let :call do
       record.unsave
@@ -205,8 +235,8 @@ describe ApplicationRecord do
     context 'there are expired records' do
       let!(:expired_saved_record) do
         create :application_record,
-          saved_for_later: true,
-          date_for_later: Date.yesterday
+               saved_for_later: true,
+               date_for_later: Date.yesterday
       end
       it 'calls unsave on expired records' do
         expect_any_instance_of(ApplicationRecord).to receive(:unsave)
@@ -216,8 +246,8 @@ describe ApplicationRecord do
     context 'there are no expired records' do
       let!(:future_saved_record) do
         create :application_record,
-          saved_for_later: true,
-          date_for_later: Date.tomorrow
+               saved_for_later: true,
+               date_for_later: Date.tomorrow
       end
       it 'does not call unsave on any records' do
         expect_any_instance_of(ApplicationRecord).not_to receive(:unsave)

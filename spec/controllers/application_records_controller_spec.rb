@@ -2,11 +2,11 @@ require 'rails_helper'
 
 describe ApplicationRecordsController do
   it_behaves_like 'an access-controlled resource', routes: [
-    [:get,  :csv_export,         :collection],
-    [:get,  :eeo_data,           :collection],
-    [:get,  :past_applications,  :collection],
-    [:post, :review,             :member],
-    [:post, :save_or_unsave,     :member]
+    [:get,  :csv_export,                 :collection],
+    [:get,  :eeo_data,                   :collection],
+    [:get,  :past_applications,          :collection],
+    [:post, :review,                     :member],
+    [:post, :toggle_saved_for_later,     :member]
   ]
 
   describe 'POST #create' do
@@ -319,6 +319,28 @@ describe ApplicationRecordsController do
           submit
           expect(response).to redirect_to staff_dashboard_path
         end
+      end
+    end
+  end
+
+  describe 'POST #toggle_saved_for_later' do
+    before :each do
+      when_current_user_is :staff
+    end
+    context 'record not saved for later' do
+      let!(:record) { create :application_record, saved_for_later: false }
+      let(:submit) { post :toggle_saved_for_later, id: record.id }
+      it 'calls record.save_for_later' do
+        expect_any_instance_of(ApplicationRecord).to receive(:save_for_later)
+        submit
+      end
+    end
+    context 'record previously saved for later' do
+      let!(:record) { create :application_record, saved_for_later: true }
+      let(:submit) { post :toggle_saved_for_later, id: record.id }
+      it 'calls record.unsave' do
+        expect_any_instance_of(ApplicationRecord).to receive(:unsave)
+        submit
       end
     end
   end

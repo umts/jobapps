@@ -148,13 +148,13 @@ describe JobappsMailer do
   describe 'send_note_for_later' do
     let(:record) do
       create :application_record,
-        saved_for_later: true,
-        note_for_later: 'We need you to grow up a little'
+             saved_for_later: true,
+             note_for_later: 'We need you to grow up a little'
     end
     let!(:template) do
       create :application_template,
-        position: record.position,
-        email: 'steve@sharklazers.com'
+             position: record.position,
+             email: 'steve@sharklazers.com'
     end
     let :output do
       JobappsMailer.send_note_for_later record
