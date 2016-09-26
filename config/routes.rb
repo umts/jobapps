@@ -28,7 +28,7 @@ Rails.application.routes.draw do
     end
     member do
       post :review
-      post :save_or_unsave
+      post :toggle_saved_for_later
       get  :print
     end
   end
