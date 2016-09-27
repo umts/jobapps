@@ -4,8 +4,7 @@ class ApplicationRecordsController < ApplicationController
   before_action :find_record, except: [:create,
                                        :csv_export,
                                        :eeo_data,
-                                       :past_applications,
-                                       :saved_applications]
+                                       :past_applications]
   include ApplicationHelper
 
   def create
