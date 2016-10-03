@@ -233,8 +233,8 @@ describe ApplicationRecord do
     end
   end
 
-  describe 'move_records_to_pending' do
-    let(:call) { ApplicationRecord.move_records_to_pending }
+  describe 'move_to_dashboard' do
+    let(:call) { ApplicationRecord.move_to_dashboard }
     context 'there are expired records' do
       let!(:expired_saved_record) do
         create :application_record,

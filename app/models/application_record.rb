@@ -89,7 +89,7 @@ class ApplicationRecord < ActiveRecord::Base
                       date_for_later: nil)
   end
 
-  def self.move_records_to_pending
+  def self.move_to_dashboard
     records = where('date_for_later <= ?', Time.zone.today)
     records.each(&:move_to_dashboard)
   end

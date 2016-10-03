@@ -1,4 +1,3 @@
 every :day do
-  runner 'ApplicationRecord.move_records_to_pending'
+  runner 'ApplicationRecord.move_to_dashboard'
 end
-
