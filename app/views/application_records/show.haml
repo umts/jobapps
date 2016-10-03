@@ -6,7 +6,7 @@ by:
 = @record.user.name_and_email
 = button_to 'Print this page',
   application_record_path(@record, format: :pdf), method: :get
-- if !@record.saved_for_later && @record.note_for_later.present?
+- if !@record.saved_for_later? && @record.note_for_later.present?
   %em
     This application had previously been saved for later review. Your note:
   =@record.note_for_later
@@ -69,7 +69,7 @@ by:
                          required: true,
                          value: @record.position.default_interview_location
       .note_item= submit_tag 'Review application and schedule interview'
-    - if !@record.saved_for_later
+    - if !@record.saved_for_later?
       %h3 Save application for later review
       = form_tag controller: :application_records,
         action: :toggle_saved_for_later,
@@ -93,7 +93,7 @@ by:
             dashboard at that time.
           .note_item
           = submit_tag 'Save for later'
-    - if @record.saved_for_later
+    - if @record.saved_for_later?
       - if @record.note_for_later.present?
         Note:
         .note_item= @record.note_for_later
