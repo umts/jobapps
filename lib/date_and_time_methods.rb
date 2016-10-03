@@ -8,7 +8,7 @@ module DateAndTimeMethods
   end
 
   def format_date(date)
-    date.strftime '%A, %B, %e, %Y'
+    date.strftime '%A, %B %e, %Y'
   end
 
   def parse_american_date(date)
