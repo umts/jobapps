@@ -9,6 +9,7 @@ describe 'saving or unsaving applications' do
     before :each do
       visit staff_dashboard_url
       click_link record.user.proper_name, href: application_record_path(record)
+      page.fill_in 'note_for_later', with: 'This is required'
       click_button 'Save for later'
     end
     it 'moves the application record to the saved applications page' do
@@ -33,7 +34,8 @@ describe 'saving or unsaving applications' do
     let!(:record) do
       create :application_record,
              reviewed: false,
-             saved_for_later: true
+             saved_for_later: true,
+             note_for_later: 'this is required'
     end
     before :each do
       visit application_record_url(record)

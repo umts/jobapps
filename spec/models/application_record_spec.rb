@@ -218,7 +218,8 @@ describe ApplicationRecord do
     let(:record) do
       create :application_record,
              saved_for_later: true,
-             date_for_later: Time.zone.today
+             date_for_later: Time.zone.today,
+             note_for_later: 'super required'
     end
     let :call do
       record.move_to_dashboard
@@ -239,7 +240,8 @@ describe ApplicationRecord do
       let!(:expired_saved_record) do
         create :application_record,
                saved_for_later: true,
-               date_for_later: Date.yesterday
+               date_for_later: Date.yesterday,
+               note_for_later: 'this is required'
       end
       it 'calls move_to_dashboard on expired records' do
         expect_any_instance_of(ApplicationRecord).to receive(:move_to_dashboard)
@@ -250,7 +252,8 @@ describe ApplicationRecord do
       let!(:future_saved_record) do
         create :application_record,
                saved_for_later: true,
-               date_for_later: Date.tomorrow
+               date_for_later: Date.tomorrow,
+               note_for_later: 'SO required'
       end
       it 'does not call move_to_dashboard on any records' do
         expect_any_instance_of(ApplicationRecord).not_to receive(:move_to_dashboard)
