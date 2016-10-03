@@ -39,7 +39,7 @@ describe UsersController do
         attrs = FactoryGirl.build :user
         patch :update, id: user, user: attrs
         user.reload
-        expect(user).to eq initial_user
+        expect(user).to eql initial_user
       end
     end
   end

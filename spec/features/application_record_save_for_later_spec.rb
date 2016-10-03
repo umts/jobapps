@@ -14,12 +14,12 @@ describe 'saving or unsaving applications' do
     it 'moves the application record to the saved applications page' do
       click_link "View saved applications for #{record.position.name}"
       expect(page.current_url)
-        .to eq saved_applications_position_url(record.position)
+        .to eql saved_applications_position_url(record.position)
       expect(page).to have_link record.user.proper_name,
                                 href: application_record_path(record)
     end
     it 'redirects to the dashboard' do
-      expect(page.current_url).to eq staff_dashboard_url
+      expect(page.current_url).to eql staff_dashboard_url
     end
     it 'moves the application record off the dashboard' do
       expect(page).not_to have_link record.user.proper_name,
@@ -44,7 +44,7 @@ describe 'saving or unsaving applications' do
     end
     it 'redirects to the dashboard' do
       click_button 'Move back to dashboard'
-      expect(page.current_url).to eq staff_dashboard_url
+      expect(page.current_url).to eql staff_dashboard_url
     end
     it 'puts a notice in the flash' do
       click_button 'Move back to dashboard'
