@@ -203,13 +203,13 @@ describe ApplicationRecord do
           .with(record)
           .and_return mail
         expect(mail).to receive(:deliver_now).and_return true
-        record.save_for_later(nil, nil, true)
+        record.save_for_later(mail: true)
       end
     end
     context 'mail to applicant not desired' do
       it 'does not call the mailer method' do
         expect(JobappsMailer).not_to receive(:send_note_for_later)
-        record.save_for_later(nil, nil, false)
+        record.save_for_later(mail: false)
       end
     end
   end
