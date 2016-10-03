@@ -15,4 +15,4 @@
         %td
           = record.note_for_later
         %td
-          = format_date record.date_for_later if record.date_for_later
+          = format_date record.date_for_later if record.date_for_later.present?
