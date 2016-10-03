@@ -12,6 +12,7 @@ class ApplicationRecord < ActiveRecord::Base
   # validate ethnicity and gender in constants but allow blank
   validates :position, :data, :user, presence: true
   validates :reviewed, inclusion: { in: [true, false] }
+  validates :note_for_later, presence: true, if: :saved_for_later
 
   scope :between,
         lambda { |start_date, end_date|

@@ -85,7 +85,7 @@ by:
         id: @record.id do
         %p
           Note
-          = text_area_tag :note_for_later
+          = text_area_tag :note_for_later, '', required: true
         %p
           Email note to applicant:
           =check_box_tag :mail_to_applicant
