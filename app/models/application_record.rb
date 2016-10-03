@@ -77,7 +77,7 @@ class ApplicationRecord < ActiveRecord::Base
     !reviewed
   end
 
-  def save_for_later(date = nil, note = nil, mail = false)
+  def save_for_later(date: nil, note: nil, mail: false)
     update_attributes(saved_for_later: true,
                       date_for_later: date,
                       note_for_later: note)

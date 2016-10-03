@@ -79,7 +79,9 @@ class ApplicationRecordsController < ApplicationController
                Date.strptime(params[:date_for_later], '%m/%d/%Y')
              end
       mail = true if params[:mail_to_applicant] == '1'
-      @record.save_for_later(date, params[:note_for_later], mail)
+      @record.save_for_later(date: date,
+                             note: params[:note_for_later],
+                             mail: mail)
       flash[:message] = 'Application saved for later.'
     end
     redirect_to staff_dashboard_path
