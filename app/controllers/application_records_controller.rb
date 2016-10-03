@@ -72,7 +72,7 @@ class ApplicationRecordsController < ApplicationController
 
   def toggle_saved_for_later
     if @record.saved_for_later
-      @record.unsave
+      @record.move_to_dashboard
       flash[:message] = 'Application moved back to dashboard.'
     else
       date = if params[:date_for_later].present?

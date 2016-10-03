@@ -214,14 +214,14 @@ describe ApplicationRecord do
     end
   end
 
-  describe 'unsave' do
+  describe 'move_to_dashboard' do
     let(:record) do
       create :application_record,
              saved_for_later: true,
              date_for_later: Time.zone.today
     end
     let :call do
-      record.unsave
+      record.move_to_dashboard
     end
     it 'updates saved_for_later attribute to false' do
       call
@@ -241,8 +241,8 @@ describe ApplicationRecord do
                saved_for_later: true,
                date_for_later: Date.yesterday
       end
-      it 'calls unsave on expired records' do
-        expect_any_instance_of(ApplicationRecord).to receive(:unsave)
+      it 'calls move_to_dashboard on expired records' do
+        expect_any_instance_of(ApplicationRecord).to receive(:move_to_dashboard)
         call
       end
     end
@@ -252,8 +252,8 @@ describe ApplicationRecord do
                saved_for_later: true,
                date_for_later: Date.tomorrow
       end
-      it 'does not call unsave on any records' do
-        expect_any_instance_of(ApplicationRecord).not_to receive(:unsave)
+      it 'does not call move_to_dashboard on any records' do
+        expect_any_instance_of(ApplicationRecord).not_to receive(:move_to_dashboard)
         call
       end
     end

@@ -338,8 +338,8 @@ describe ApplicationRecordsController do
     context 'record previously saved for later' do
       let!(:record) { create :application_record, saved_for_later: true }
       let(:submit) { post :toggle_saved_for_later, id: record.id }
-      it 'calls record.unsave' do
-        expect_any_instance_of(ApplicationRecord).to receive(:unsave)
+      it 'calls record.move_to_dashboard' do
+        expect_any_instance_of(ApplicationRecord).to receive(:move_to_dashboard)
         submit
       end
     end
