@@ -6,6 +6,10 @@ by:
 = @record.user.name_and_email
 = button_to 'Print this page',
   application_record_path(@record, format: :pdf), method: :get
+- if !@record.saved_for_later && @record.note_for_later.present?
+  %em
+    This application had previously been saved for later review. Your note:
+  =@record.note_for_later
 
 .data_container
   .data_row
