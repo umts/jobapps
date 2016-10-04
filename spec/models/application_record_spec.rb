@@ -184,6 +184,84 @@ describe ApplicationRecord do
     end
   end
 
+  describe 'save_for_later' do
+    let :record do
+      create :application_record,
+             saved_for_later: false
+    end
+    it 'updates the saved for later attribute to true' do
+      record.save_for_later
+      expect(record.saved_for_later).to be_truthy
+    end
+    context 'mail to applicant desired' do
+      let :mail do
+        ActionMailer::MessageDelivery.new(JobappsMailer, :send_note_for_later)
+      end
+      it 'calls the mailer method' do
+        expect(JobappsMailer)
+          .to receive(:send_note_for_later)
+          .with(record)
+          .and_return mail
+        expect(mail).to receive(:deliver_now).and_return true
+        record.save_for_later(mail: true)
+      end
+    end
+    context 'mail to applicant not desired' do
+      it 'does not call the mailer method' do
+        expect(JobappsMailer).not_to receive(:send_note_for_later)
+        record.save_for_later(mail: false)
+      end
+    end
+  end
+
+  describe 'move_to_dashboard' do
+    let :record do
+      create :application_record,
+             saved_for_later: true,
+             date_for_later: Time.zone.today,
+             note_for_later: 'super required'
+    end
+    let :call do
+      record.move_to_dashboard
+    end
+    it 'updates saved_for_later attribute to false' do
+      call
+      expect(record.saved_for_later).to be_falsey
+    end
+    it 'udpates the date_for_later attribute to be nil' do
+      call
+      expect(record.date_for_later).to be_nil
+    end
+  end
+
+  describe 'move_to_dashboard' do
+    let(:call) { ApplicationRecord.move_to_dashboard }
+    context 'there are expired records' do
+      let!(:expired_saved_record) do
+        create :application_record,
+               saved_for_later: true,
+               date_for_later: Date.yesterday,
+               note_for_later: 'this is required'
+      end
+      it 'calls move_to_dashboard on expired records' do
+        expect_any_instance_of(ApplicationRecord).to receive(:move_to_dashboard)
+        call
+      end
+    end
+    context 'there are no expired records' do
+      let!(:future_saved_record) do
+        create :application_record,
+               saved_for_later: true,
+               date_for_later: Date.tomorrow,
+               note_for_later: 'SO required'
+      end
+      it 'does not call move_to_dashboard on any records' do
+        expect_any_instance_of(ApplicationRecord).not_to receive(:move_to_dashboard)
+        call
+      end
+    end
+  end
+
   describe 'self.combined_eeo_data' do
     before :each do
       @records = ApplicationRecord.all

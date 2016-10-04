@@ -12,6 +12,7 @@ class ApplicationRecord < ActiveRecord::Base
   # validate ethnicity and gender in constants but allow blank
   validates :position, :data, :user, presence: true
   validates :reviewed, inclusion: { in: [true, false] }
+  validates :note_for_later, presence: true, if: :saved_for_later
 
   scope :between,
         lambda { |start_date, end_date|
@@ -75,6 +76,23 @@ class ApplicationRecord < ActiveRecord::Base
 
   def pending?
     !reviewed
+  end
+
+  def save_for_later(date: nil, note: nil, mail: false)
+    update_attributes(saved_for_later: true,
+                      date_for_later: date,
+                      note_for_later: note)
+    JobappsMailer.send_note_for_later(self).deliver_now if mail
+  end
+
+  def move_to_dashboard
+    update_attributes(saved_for_later: false,
+                      date_for_later: nil)
+  end
+
+  def self.move_to_dashboard
+    records = where('date_for_later <= ?', Time.zone.today)
+    records.each(&:move_to_dashboard)
   end
 
   def self.combined_eeo_data(records)

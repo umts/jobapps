@@ -10,3 +10,5 @@
               %li= link_to record.user.proper_name, record
           - else
             No pending applications
+        = link_to 'View saved applications for ' + position.name,
+          saved_applications_position_path(position)
