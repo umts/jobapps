@@ -55,28 +55,40 @@ describe 'saving or unsaving applications' do
   end
   context 'adding a note and date for later' do
     let!(:record) { create :application_record, reviewed: false }
-    before :each do
+    it 'saves all the relevant attributes' do
       visit application_record_url(record)
       page.fill_in 'note_for_later', with: 'This is my note'
-      page.fill_in 'date_for_later', with: '09/21/2016'
+      page.fill_in 'date_for_later', with: Time.zone.today.strftime('%m/%d/%Y')
       click_button 'Save for later'
       record.reload
+      expect(record.note_for_later).to eql 'This is my note'
+      expect(record.date_for_later).to eql Time.zone.today
+      expect(record.saved_for_later).to be true
     end
-    it 'displays the date on the saved_for_later page' do
-      visit saved_applications_position_url(record.position)
-      expect(page).to have_text format_date record.date_for_later
-    end
-    it 'displays the date on the application record page' do
-      visit saved_applications_position_url(record.position)
-      expect(page).to have_text format_date record.date_for_later
-    end
-    it 'displays the note on the saved_for_later page' do
-      visit saved_applications_position_url(record.position)
-      expect(page).to have_text 'This is my note'
-    end
-    it 'displays the note on the application record page' do
-      visit application_record_url(record)
-      expect(page).to have_text 'This is my note'
+    context 'application_record has been saved for later' do
+      let :saved_record do
+        create :application_record,
+          reviewed: false,
+          note_for_later: 'This is my note',
+          date_for_later: Time.zone.today,
+          saved_for_later: true
+      end
+      it 'displays the date on the saved_for_later page' do
+        visit saved_applications_position_url(saved_record.position)
+        expect(page).to have_text format_date saved_record.date_for_later
+      end
+      it 'displays the date on the application record page' do
+        visit saved_applications_position_url(saved_record.position)
+        expect(page).to have_text format_date saved_record.date_for_later
+      end
+      it 'displays the note on the saved_for_later page' do
+        visit saved_applications_position_url(saved_record.position)
+        expect(page).to have_text 'This is my note'
+      end
+      it 'displays the note on the application record page' do
+        visit application_record_url(saved_record)
+        expect(page).to have_text 'This is my note'
+      end
     end
   end
 end
