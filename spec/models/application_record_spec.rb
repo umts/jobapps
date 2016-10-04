@@ -194,7 +194,7 @@ describe ApplicationRecord do
       expect(record.saved_for_later).to be_truthy
     end
     context 'mail to applicant desired' do
-      let(:mail) do
+      let :mail do
         ActionMailer::MessageDelivery.new(JobappsMailer, :send_note_for_later)
       end
       it 'calls the mailer method' do
@@ -215,7 +215,7 @@ describe ApplicationRecord do
   end
 
   describe 'move_to_dashboard' do
-    let(:record) do
+    let :record do
       create :application_record,
              saved_for_later: true,
              date_for_later: Time.zone.today,

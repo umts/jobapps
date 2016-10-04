@@ -146,12 +146,12 @@ describe JobappsMailer do
   end
 
   describe 'send_note_for_later' do
-    let(:record) do
+    let :record do
       create :application_record,
              saved_for_later: true,
              note_for_later: 'We need you to grow up a little'
     end
-    let!(:template) do
+    let! :template do
       create :application_template,
              position: record.position,
              email: 'steve@sharklazers.com'
@@ -167,7 +167,7 @@ describe JobappsMailer do
     end
     it 'has the correct reply-to address' do
       expect(output.reply_to)
-        .to eql Array(record.position.application_template.email)
+        .to eql Array(template.email)
     end
     it 'has the correct subject' do
       expect(output.subject)

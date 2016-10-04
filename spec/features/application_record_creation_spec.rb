@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 describe 'submitting application records' do
-  let!(:application_template) do
+  let! :application_template do
     create :application_template,
            :with_questions
   end
   context 'student has been authenticated and has a user object' do
-    let(:student) do
+    let :student do
       create :user, :student
     end
     before :each do
