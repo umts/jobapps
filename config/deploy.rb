@@ -1,8 +1,6 @@
 # config valid only for current version of Capistrano
 lock '3.5.0'
-require 'whenever/capistrano'
 
-set :whenever_command, 'bundle exec whenever'
 set :application, 'jobapps'
 set :repo_url, 'git@github.com:umts/jobapps.git'
 set :branch, :master
