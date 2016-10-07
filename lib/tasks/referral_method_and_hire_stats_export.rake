@@ -20,7 +20,7 @@ namespace :referral_method_and_hire_stats do
         row << ar.user.full_name
         row << REFERRAL_METHODS.select do |rm|
           ar.data.find do |prompt, response, _data_type, _id|
-            prompt == rm && response.downcase == 'yes'
+            prompt == rm && response.try(:downcase) == 'yes'
           end.present?
         end.try(:join, ', ') || 'None given'
         row << ar.interview.present?
