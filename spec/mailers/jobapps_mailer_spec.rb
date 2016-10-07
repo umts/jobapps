@@ -145,6 +145,39 @@ describe JobappsMailer do
     end
   end
 
+  describe 'send_note_for_later' do
+    let :record do
+      create :application_record,
+             saved_for_later: true,
+             note_for_later: 'We need you to grow up a little'
+    end
+    let! :template do
+      create :application_template,
+             position: record.position,
+             email: 'steve@sharklazers.com'
+    end
+    let :output do
+      JobappsMailer.send_note_for_later record
+    end
+    it 'emails from the configured value' do
+      expect(output.from).to eql Array(@from)
+    end
+    it 'emails to the applicant' do
+      expect(output.to).to eql Array(record.user.email)
+    end
+    it 'has the correct reply-to address' do
+      expect(output.reply_to)
+        .to eql Array(template.email)
+    end
+    it 'has the correct subject' do
+      expect(output.subject)
+        .to eql 'Your application has been saved for later review'
+    end
+    it 'includes the note for later in the body' do
+      expect(output.body.encoded).to include record.note_for_later
+    end
+  end
+
   describe 'site_text_request' do
     before :each do
       @user = create :user

@@ -18,6 +18,7 @@ gem 'redcarpet'
 gem 'sass-rails'
 gem 'snappconfig'
 gem 'uglifier'
+gem 'whenever', require: false
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-wenzhixin--multiple-select'

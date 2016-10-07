@@ -19,6 +19,26 @@ describe ApplicationRecord do
     end
   end
 
+  describe 'unavailability_rows' do
+    let :unavail do
+      create :unavailability, sunday: [],
+                              monday: %w(10AM 11AM 12PM),
+                              tuesday: %w(11AM 12PM 1PM 2PM 3PM 4PM 5PM),
+                              wednesday: %w(10AM 11AM 12PM),
+                              thursday: %w(11AM 12PM 1PM 2PM 3PM 4PM 5PM),
+                              friday: %w(10AM 11AM 12PM),
+                              saturday: []
+    end
+    let(:record) { create :application_record, unavailability: unavail }
+    let(:call) { record.unavailability.grid }
+    it 'gives false for available times' do
+      expect(call[0][0]).to be false
+    end
+    it 'gives true for unavailable times' do
+      expect(call[1][3]).to be true
+    end
+  end
+
   describe 'email_subscribers' do
     let(:record) { create :application_record }
     let!(:subscription) { create :subscription, position: record.position }
@@ -57,6 +77,9 @@ describe ApplicationRecord do
       Timecop.freeze 1.month.since do
         @too_future_record = create :application_record
       end
+      Timecop.freeze 1.week.since do
+        @almost_too_future_record = create :application_record
+      end
       @just_right_record = create :application_record
       @start_date = Time.zone.today
       @end_date = 1.week.since
@@ -65,7 +88,7 @@ describe ApplicationRecord do
       ApplicationRecord.between @start_date, @end_date
     end
     it 'gives the application records between the given dates' do
-      expect(call).to include @just_right_record
+      expect(call).to include @just_right_record, @almost_too_future_record
       expect(call).not_to include @too_future_record, @too_past_record
     end
   end
@@ -158,6 +181,84 @@ describe ApplicationRecord do
     it 'returns false if record has been reviewed' do
       record = create :application_record, reviewed: true
       expect(record).not_to be_pending
+    end
+  end
+
+  describe 'save_for_later' do
+    let :record do
+      create :application_record,
+             saved_for_later: false
+    end
+    it 'updates the saved for later attribute to true' do
+      record.save_for_later
+      expect(record.saved_for_later).to be_truthy
+    end
+    context 'mail to applicant desired' do
+      let :mail do
+        ActionMailer::MessageDelivery.new(JobappsMailer, :send_note_for_later)
+      end
+      it 'calls the mailer method' do
+        expect(JobappsMailer)
+          .to receive(:send_note_for_later)
+          .with(record)
+          .and_return mail
+        expect(mail).to receive(:deliver_now).and_return true
+        record.save_for_later(mail: true)
+      end
+    end
+    context 'mail to applicant not desired' do
+      it 'does not call the mailer method' do
+        expect(JobappsMailer).not_to receive(:send_note_for_later)
+        record.save_for_later(mail: false)
+      end
+    end
+  end
+
+  describe 'move_to_dashboard' do
+    let :record do
+      create :application_record,
+             saved_for_later: true,
+             date_for_later: Time.zone.today,
+             note_for_later: 'super required'
+    end
+    let :call do
+      record.move_to_dashboard
+    end
+    it 'updates saved_for_later attribute to false' do
+      call
+      expect(record.saved_for_later).to be_falsey
+    end
+    it 'udpates the date_for_later attribute to be nil' do
+      call
+      expect(record.date_for_later).to be_nil
+    end
+  end
+
+  describe 'move_to_dashboard' do
+    let(:call) { ApplicationRecord.move_to_dashboard }
+    context 'there are expired records' do
+      let!(:expired_saved_record) do
+        create :application_record,
+               saved_for_later: true,
+               date_for_later: Date.yesterday,
+               note_for_later: 'this is required'
+      end
+      it 'calls move_to_dashboard on expired records' do
+        expect_any_instance_of(ApplicationRecord).to receive(:move_to_dashboard)
+        call
+      end
+    end
+    context 'there are no expired records' do
+      let!(:future_saved_record) do
+        create :application_record,
+               saved_for_later: true,
+               date_for_later: Date.tomorrow,
+               note_for_later: 'SO required'
+      end
+      it 'does not call move_to_dashboard on any records' do
+        expect_any_instance_of(ApplicationRecord).not_to receive(:move_to_dashboard)
+        call
+      end
     end
   end
 

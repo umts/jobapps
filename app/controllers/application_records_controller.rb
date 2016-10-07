@@ -66,6 +66,24 @@ class ApplicationRecordsController < ApplicationController
     show_message :application_review,
                  default: 'Application has been marked as reviewed.'
     @record.update reviewed: true
+    @record.update saved_for_later: false
+    redirect_to staff_dashboard_path
+  end
+
+  def toggle_saved_for_later
+    if @record.saved_for_later?
+      @record.move_to_dashboard
+      flash[:message] = 'Application moved back to dashboard.'
+    else
+      date = if params[:date_for_later].present?
+               Date.strptime(params[:date_for_later], '%m/%d/%Y')
+             end
+      mail = true if params[:mail_to_applicant] == '1'
+      @record.save_for_later(date: date,
+                             note: params[:note_for_later],
+                             mail: mail)
+      flash[:message] = 'Application saved for later.'
+    end
     redirect_to staff_dashboard_path
   end
 

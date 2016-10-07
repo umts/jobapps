@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160812192447) do
+ActiveRecord::Schema.define(version: 20160908152707) do
 
   create_table "application_drafts", force: :cascade do |t|
     t.integer  "application_template_id", limit: 4
@@ -22,15 +22,18 @@ ActiveRecord::Schema.define(version: 20160812192447) do
   end
 
   create_table "application_records", force: :cascade do |t|
-    t.text     "data",        limit: 65535
+    t.text     "data",            limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_id",     limit: 4
+    t.integer  "user_id",         limit: 4
     t.boolean  "reviewed"
-    t.integer  "position_id", limit: 4
-    t.text     "staff_note",  limit: 65535
-    t.string   "ethnicity",   limit: 255
-    t.string   "gender",      limit: 255
+    t.integer  "position_id",     limit: 4
+    t.text     "staff_note",      limit: 65535
+    t.string   "ethnicity",       limit: 255
+    t.string   "gender",          limit: 255
+    t.boolean  "saved_for_later",               default: false
+    t.text     "note_for_later",  limit: 65535
+    t.date     "date_for_later"
   end
 
   create_table "application_templates", force: :cascade do |t|

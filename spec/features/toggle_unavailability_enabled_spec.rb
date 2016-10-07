@@ -11,7 +11,7 @@ describe 'toggle the unavailability_enabled attribute of templates' do
       visit edit_draft_path(draft)
     end
     context 'unavailability is disabled' do
-      let(:application) do
+      let :application do
         create :application_template, unavailability_enabled: false
       end
       it 'has a button to enable unavailability' do
@@ -24,7 +24,7 @@ describe 'toggle the unavailability_enabled attribute of templates' do
       end
     end
     context 'unavailability is enabled' do
-      let(:application) do
+      let :application do
         create :application_template, unavailability_enabled: true
       end
       it 'has a button to disable unavailability' do

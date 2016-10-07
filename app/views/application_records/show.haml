@@ -6,6 +6,10 @@ by:
 = @record.user.name_and_email
 = button_to 'Print this page',
   application_record_path(@record, format: :pdf), method: :get
+- if !@record.saved_for_later? && @record.note_for_later.present?
+  %em
+    This application had previously been saved for later review. Your note:
+  =@record.note_for_later
 
 .data_container
   .data_row
@@ -65,6 +69,39 @@ by:
                          required: true,
                          value: @record.position.default_interview_location
       .note_item= submit_tag 'Review application and schedule interview'
+    - if @record.saved_for_later?
+      - if @record.note_for_later.present?
+        Note:
+        .note_item= @record.note_for_later
+      - if @record.date_for_later.present?
+        Date to review:
+        .note_item= format_date @record.date_for_later
+      .note_item= button_to 'Move back to dashboard',
+        toggle_saved_for_later_application_record_url(@record)
+    - else
+      %h3 Save application for later review
+      = form_tag controller: :application_records,
+        action: :toggle_saved_for_later,
+        id: @record.id do
+        %p
+          Note
+          = text_area_tag :note_for_later, '', required: true
+        %p
+          Email note to applicant:
+          =check_box_tag :mail_to_applicant
+        %p
+          %em
+            This note will be listed as the reason their application was
+            saved for review at a later date.
+        %p
+          Select a date for later review
+          = text_field_tag :date_for_later, '', class: 'datepicker'
+        %p
+          %em
+            If a date is selected, the application will move back onto the
+            dashboard at that time.
+          .note_item
+          = submit_tag 'Save for later'
   - else
     .note_item
       Application reviewed on:

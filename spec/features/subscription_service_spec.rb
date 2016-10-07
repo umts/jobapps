@@ -35,7 +35,7 @@ describe 'subscriptions' do
   end
   context 'deleting a subscription' do
     let(:user) { create :user, :staff }
-    let!(:subscription) do
+    let! :subscription do
       create :subscription, user: user, position: position
     end
     before :each do

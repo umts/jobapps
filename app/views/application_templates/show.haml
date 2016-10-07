@@ -68,7 +68,7 @@
                 .col-md-6
                   - case question.data_type
                   - when 'phone-number'
-                    = r.text_field question.prompt, required: question.required?,
+                    = r.text_field question.unique_name, required: question.required?,
                       class: 'phone', size: 20, placeholder: '(XXX) XXX-XXXX',
                       value: @old_data[question.id] || ""
                   - when 'long-text'

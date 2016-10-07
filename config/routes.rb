@@ -28,6 +28,7 @@ Rails.application.routes.draw do
     end
     member do
       post :review
+      post :toggle_saved_for_later
       get  :print
     end
   end
@@ -45,7 +46,12 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :positions, except: [:index, :show]
+  resources :positions, except: [:index, :show] do
+    member do
+      get :saved_applications
+    end
+  end
+
   resources :subscriptions
 
   # sessions
