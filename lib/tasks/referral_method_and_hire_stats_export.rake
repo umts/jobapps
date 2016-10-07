@@ -18,11 +18,11 @@ namespace :referral_method_and_hire_stats do
         row = []
         row << ar.created_at.to_date.to_s
         row << ar.user.full_name
-        row << REFERRAL_METHODS.find do |rm|
+        row << REFERRAL_METHODS.select do |rm|
           ar.data.find do |prompt, response, _data_type, _id|
             prompt == rm && response == 'Yes'
-          end.try(:first) || 'None given' # Grab the response
-        end
+          end.present?
+        end.try(:join, ', ') || 'None given'
         row << ar.interview.present?
         row << (ar.interview.present? && ar.interview.hired?)
         csv << row
