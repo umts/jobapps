@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
             presence: true
   validates :staff, inclusion: { in: [true, false],
                                  message: 'must be true or false' }
-  validates :spire, uniqueness: true, format: {with: /@umass\.edu\z/}
+  validates :spire, uniqueness: true, format: {with: /\d{8}@umass\.edu/}
 
   default_scope { order :last_name, :first_name }
   scope :staff,    -> { where staff: true }
