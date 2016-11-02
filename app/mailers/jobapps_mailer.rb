@@ -59,4 +59,11 @@ class JobappsMailer < ActionMailer::Base
     mail to: configured_value([:email, :site_contact_email]),
          subject: "Site text request from #{user.full_name}"
   end
+
+  def saved_application_notification(subscription, position, applicant)
+    @position = position
+    @applicant = applicant
+    mail to: subscription.email,
+         subject: "Saved application for #{position.name}"
+  end
 end
