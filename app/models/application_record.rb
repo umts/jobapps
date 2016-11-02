@@ -92,7 +92,12 @@ class ApplicationRecord < ActiveRecord::Base
 
   def self.move_to_dashboard
     records = where('date_for_later <= ?', Time.zone.today)
-    records.each(&:move_to_dashboard)
+    records.each do |record|
+      record.move_to_dashboard
+      record.position.subscriptions.each do |sub|
+        JobappsMailer.saved_application_notification(sub, sub.position, user)
+      end
+    end
   end
 
   def self.combined_eeo_data(records)
