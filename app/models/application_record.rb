@@ -95,7 +95,7 @@ class ApplicationRecord < ActiveRecord::Base
     records.each do |record|
       record.move_to_dashboard
       record.position.subscriptions.each do |sub|
-        JobappsMailer.saved_application_notification(sub, sub.position, user)
+        JobappsMailer.saved_application_notification(sub, sub.position, record.user)
       end
     end
   end
