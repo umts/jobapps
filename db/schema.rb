@@ -40,7 +40,6 @@ ActiveRecord::Schema.define(version: 20160908152707) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "position_id",            limit: 4
-    t.boolean  "visible",                            default: true
     t.boolean  "active",                             default: true
     t.string   "slug",                   limit: 255
     t.boolean  "eeo_enabled",                        default: true
