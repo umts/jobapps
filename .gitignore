@@ -27,3 +27,5 @@ coverage/assets/*
 coverage/.resultset.*
 
 Guardfile
+
+.byebug_history
