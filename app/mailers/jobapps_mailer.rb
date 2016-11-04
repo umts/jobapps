@@ -66,4 +66,7 @@ class JobappsMailer < ActionMailer::Base
     mail to: subscription.email,
          subject: "Saved application for #{position.name}"
   end
+
+  def saved_applications_notification(info, email)
+  end
 end
