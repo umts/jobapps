@@ -92,12 +92,17 @@ class ApplicationRecord < ActiveRecord::Base
 
   def self.move_to_dashboard
     records = where('date_for_later <= ?', Time.zone.today)
+    emails = {}
     records.each do |record|
-      record.move_to_dashboard
-      record.position.subscriptions.each do |sub|
-        JobappsMailer.saved_application_notification(sub, sub.position,
-                                                     record.user)
+      query = { notification: true }
+      record.position.subscriptions.where(query).each do |sub|
+        if emails["#{sub.email}"]["#{sub.position}"].present?
+          emails["#{sub.email}"]["#{sub.position}"].push(record.user)
+        else
+          emails["#{sub.email}"]["#{sub.position}"] = [record.user]
+        end
       end
+      record.move_to_dashboard
     end
   end
 
