@@ -1,5 +1,6 @@
 Hello,
 
-An application which you had saved for later has been reactivated and is now visible on the dashboard
+An application has been reactivated:
 Position: <%= @position.name %>.
-Applicant: <%= @applicant.full_name %>.
+Applicant: <%= @record.user.full_name %>.
+Date Applied: <%= @record.created_at.to_s %>.
