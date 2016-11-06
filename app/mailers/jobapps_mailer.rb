@@ -64,12 +64,12 @@ class JobappsMailer < ActionMailer::Base
     @position = position
     @record = record
     mail to: subscription.email,
-         subject: "Saved application for #{position.name} moved back to dashboard"
+         subject: 'Saved application moved back to dashboard'
   end
 
   def saved_applications_notification(info, email)
     @info = info
     mail to: email,
-          subject: "Saved applications moved back to dashboard"
+         subject: 'Saved applications moved back to dashboard'
   end
 end
