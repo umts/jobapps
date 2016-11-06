@@ -3,4 +3,4 @@ Hello,
 An application has been reactivated:
 Position: <%= @position.name %>.
 Applicant: <%= @record.user.full_name %>.
-Date Applied: <%= @record.created_at.to_s %>.
+Date Applied: <%= @record.created_at.strftime('%m/%d/%Y %H:%M') %>.
