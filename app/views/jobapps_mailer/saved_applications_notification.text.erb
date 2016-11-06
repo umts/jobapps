@@ -1,0 +1,9 @@
+Hello,
+
+The following applications have been reactivated:
+<%= @info.each_key do |position|%>
+  Position: <%= position %>
+  <%= @info[position].each do |record|%>
+    Applicant: <%= record.user.full_name %>
+  <%= end %>
+<%= end %>
