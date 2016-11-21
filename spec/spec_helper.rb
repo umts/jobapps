@@ -1,4 +1,3 @@
-require 'codeclimate-test-reporter'
 require 'factory_girl_rails'
 require 'simplecov'
 require 'umts-custom-matchers'
