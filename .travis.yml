@@ -8,6 +8,7 @@ before_script:
 script:
   - bundle exec rake db:reset
   - bundle exec rspec
+  - bundle exec codeclimate-test-reporter
 notifications:
   email:
     on_success: never
