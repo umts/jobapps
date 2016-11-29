@@ -94,9 +94,7 @@ class ApplicationRecord < ActiveRecord::Base
     records = where('date_for_later <= ?', Time.zone.today)
     if records.count == 1
       record = records.first
-      record.position.subscriptions.notification.each do |sub|
-        JobappsMailer.saved_application_notification(sub, sub.position, record)
-      end
+      JobappsMailer.saved_application_notification(record)
       record.move_to_dashboard
     elsif records.count > 1
       notification_emails(records)
@@ -149,9 +147,7 @@ class ApplicationRecord < ActiveRecord::Base
   def notification_emails(records)
     emails = {}
     records.each do |record|
-      record.position.subscriptions.notification.each do |sub|
-        emails = build_email_hash(emails, sub, record)
-      end
+      emails = build_email_hash(emails, record)
       record.move_to_dashboard
     end
     send_emails(emails)
@@ -165,11 +161,11 @@ class ApplicationRecord < ActiveRecord::Base
     end
   end
 
-  def build_email_hash(emails, sub, record)
-    if emails[sub.email][sub.position.name].present?
-      emails[sub.email][sub.position.name].push(record)
+  def build_email_hash(emails, record)
+    if emails[record.email_to_notify][record.position.name].present?
+      emails[record.email_to_notify][record.position.name].push(record)
     else
-      emails[sub.email][sub.position.name] = [record]
+      emails[record.email_to_notify][record.position.name] = [record]
     end
     emails
   end

@@ -60,10 +60,10 @@ class JobappsMailer < ActionMailer::Base
          subject: "Site text request from #{user.full_name}"
   end
 
-  def saved_application_notification(subscription, position, record)
-    @position = position
+  def saved_application_notification(record)
+    @position = record.position
     @record = record
-    mail to: subscription.email,
+    mail to: record.email_to_notify,
          subject: 'Saved application moved back to dashboard'
   end
 
