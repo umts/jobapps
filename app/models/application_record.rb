@@ -150,18 +150,27 @@ class ApplicationRecord < ActiveRecord::Base
     emails = {}
     records.each do |record|
       record.position.subscriptions.notification.each do |sub|
-        if emails[sub.email][sub.position.name].present?
-          emails[sub.email][sub.position.name].push(record)
-        else
-          emails[sub.email][sub.position.name] = [record]
-        end
+        emails = build_email_hash(emails, sub, record)
       end
       record.move_to_dashboard
     end
+    send_emails(emails)
+  end
+
+  def send_emails(emails)
     if emails.present?
       emails.each_key do |email|
         JobappsMailer.saved_applications_notification(emails[email], email)
       end
     end
+  end
+
+  def build_email_hash(emails, sub, record)
+    if emails[sub.email][sub.position.name].present?
+      emails[sub.email][sub.position.name].push(record)
+    else
+      emails[sub.email][sub.position.name] = [record]
+    end
+    emails
   end
 end
