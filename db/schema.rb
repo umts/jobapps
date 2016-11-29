@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161103211806) do
+ActiveRecord::Schema.define(version: 20161129201750) do
 
   create_table "application_drafts", force: :cascade do |t|
     t.integer  "application_template_id", limit: 4
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 20161103211806) do
     t.boolean  "saved_for_later",               default: false
     t.text     "note_for_later",  limit: 65535
     t.date     "date_for_later"
+    t.string   "email_to_notify", limit: 255
   end
 
   create_table "application_templates", force: :cascade do |t|
@@ -94,12 +95,11 @@ ActiveRecord::Schema.define(version: 20161103211806) do
   end
 
   create_table "subscriptions", force: :cascade do |t|
-    t.integer  "user_id",      limit: 4
-    t.integer  "position_id",  limit: 4
-    t.string   "email",        limit: 255
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.boolean  "notification"
+    t.integer  "user_id",     limit: 4
+    t.integer  "position_id", limit: 4
+    t.string   "email",       limit: 255
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   create_table "unavailabilities", force: :cascade do |t|
