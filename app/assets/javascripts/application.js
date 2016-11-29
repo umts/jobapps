@@ -19,3 +19,11 @@
 //= require multiple-select
 //= require jquery.maskedinput
 //= require_tree .
+$(function(){
+  $('form').on('change', '#date_for_later', function(){
+    if(this.value.length > 0){
+      $('#notification').removeClass('hidden');
+    }
+    else $('#notification').addClass('hidden');
+  });
+});

@@ -103,7 +103,7 @@ by:
         %p#notification.hidden
           %em
             Get notified when this happens: 
-          = text_field_tag :email_to_notify
+          = text_field_tag :email_to_notify, '', placeholder: 'email'
           .note_item
           = submit_tag 'Save for later'
   - else
