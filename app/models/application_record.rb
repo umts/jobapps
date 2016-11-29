@@ -78,10 +78,11 @@ class ApplicationRecord < ActiveRecord::Base
     !reviewed
   end
 
-  def save_for_later(date: nil, note: nil, mail: false)
+  def save_for_later(date: nil, note: nil, mail: false, email: nil)
     update_attributes(saved_for_later: true,
                       date_for_later: date,
-                      note_for_later: note)
+                      note_for_later: note,
+                      email_to_notify: email)
     JobappsMailer.send_note_for_later(self).deliver_now if mail
   end
 
