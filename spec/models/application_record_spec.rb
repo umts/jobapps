@@ -245,7 +245,8 @@ describe ApplicationRecord do
                email_to_notify: 'foo@example.com'
       end
       it 'calls move_to_dashboard on expired records' do
-        expect_any_instance_of(ApplicationRecord).to receive(:move_to_dashboard)
+        expect_any_instance_of(ApplicationRecord)
+          .to receive(:move_to_dashboard)
         expect(JobappsMailer).to receive(:saved_application_notification)
         call
       end
@@ -259,7 +260,8 @@ describe ApplicationRecord do
                email_to_notify: 'foo@example.com'
       end
       it 'does not call move_to_dashboard on any records' do
-        expect_any_instance_of(ApplicationRecord).not_to receive(:move_to_dashboard)
+        expect_any_instance_of(ApplicationRecord)
+          .not_to receive(:move_to_dashboard)
         expect(JobappsMailer).not_to receive(:saved_application_notification)
         call
       end

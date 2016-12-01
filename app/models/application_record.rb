@@ -94,7 +94,8 @@ class ApplicationRecord < ActiveRecord::Base
   def self.move_to_dashboard
     records = where('date_for_later <= ?', Time.zone.today)
     records.each(&:move_to_dashboard)
-    email_records = records.where("email_to_notify is NOT NULL and email_to_notify != ''")
+    email_records = records
+      .where("email_to_notify is NOT NULL and email_to_notify != ''")
     if email_records.count == 1
       record = records.first
       JobappsMailer.saved_application_notification(record)
