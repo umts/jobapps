@@ -146,7 +146,7 @@ class ApplicationRecord < ActiveRecord::Base
   end
 
   def notification_emails(records)
-    emails = Hash.new {|h,k| h[k] = {} }
+    emails = Hash.new { |h, k| h[k] = {} }
     records.each do |record|
       emails = build_email_hash(emails, record)
       record.move_to_dashboard
