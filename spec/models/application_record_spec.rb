@@ -241,10 +241,12 @@ describe ApplicationRecord do
         create :application_record,
                saved_for_later: true,
                date_for_later: Date.yesterday,
-               note_for_later: 'this is required'
+               note_for_later: 'this is required',
+               email_to_notify: 'foo@example.com'
       end
       it 'calls move_to_dashboard on expired records' do
         expect_any_instance_of(ApplicationRecord).to receive(:move_to_dashboard)
+        expect(JobappsMailer).to receive(:saved_application_notification)
         call
       end
     end
@@ -253,10 +255,12 @@ describe ApplicationRecord do
         create :application_record,
                saved_for_later: true,
                date_for_later: Date.tomorrow,
-               note_for_later: 'SO required'
+               note_for_later: 'SO required',
+               email_to_notify: 'foo@example.com'
       end
       it 'does not call move_to_dashboard on any records' do
         expect_any_instance_of(ApplicationRecord).not_to receive(:move_to_dashboard)
+        expect(JobappsMailer).not_to receive(:saved_application_notification)
         call
       end
     end
