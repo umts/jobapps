@@ -210,4 +210,34 @@ describe JobappsMailer do
       expect(output.body.encoded).to include @user.email
     end
   end
+
+  describe 'saved_application_notification' do 
+    before :each do 
+      @record = create :application_record, email_to_notify: 'foo@example.com'
+    end
+
+    let :output do 
+      JobappsMailer.saved_application_notification @record
+    end
+
+    it 'emails to the email_to_notify value' do 
+      expect(output.to).to eql Array('foo@example.com')
+    end
+
+    it 'has a subject that includes the words Saved application' do 
+      expect(output.subject).to include 'Saved application'
+    end
+
+    it 'includes the position name' do 
+      expect(output.body.encoded).to include @record.position.name
+    end
+
+    it "includes the applicant's full name" do 
+      expect(output.body.encoded).to include @record.user.full_name
+    end
+
+    it 'includes the date applied' do 
+      expect(output.body.encoded).to include @record.created_at.strftime('%m/%d/%Y %H:%M')
+    end
+  end
 end
