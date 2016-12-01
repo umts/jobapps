@@ -75,13 +75,10 @@ class ApplicationRecordsController < ApplicationController
       @record.move_to_dashboard
       flash[:message] = 'Application moved back to dashboard.'
     else
-      date = if params[:date_for_later].present?
-               Date.strptime(params[:date_for_later], '%m/%d/%Y')
-             end
-      mail = true if params[:mail_to_applicant] == '1'
-      @record.save_for_later(date: date,
+      parameters = modify_params
+      @record.save_for_later(date: parameters[:date],
                              note: params[:note_for_later],
-                             mail: mail,
+                             mail: parameters[:mail],
                              email: params[:email_to_notify])
       flash[:message] = 'Application saved for later.'
     end
@@ -132,5 +129,14 @@ class ApplicationRecordsController < ApplicationController
 
   def record_params
     params.permit(:position_id, :ethnicity, :gender)
+  end
+
+  def modify_params
+    parameters = {}
+    parameters[:date] = if params[:date_for_later].present?
+                          Date.strptime(params[:date_for_later], '%m/%d/%Y')
+                        end
+    parameters[:mail] = true if params[:mail_to_applicant] == '1'
+    parameters
   end
 end

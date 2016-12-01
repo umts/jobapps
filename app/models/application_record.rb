@@ -97,7 +97,7 @@ class ApplicationRecord < ActiveRecord::Base
       record = records.first
       JobappsMailer.saved_application_notification(record)
       record.move_to_dashboard
-    elsif records.count > 1
+    elsif records.many?
       notification_emails(records)
     end
   end
