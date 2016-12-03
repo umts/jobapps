@@ -1,9 +1,7 @@
-require 'codeclimate-test-reporter'
 require 'factory_girl_rails'
 require 'simplecov'
 require 'umts-custom-matchers'
 
-CodeClimate::TestReporter.start if ENV['CI']
 SimpleCov.start 'rails' do
   refuse_coverage_drop
 end

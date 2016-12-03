@@ -46,7 +46,7 @@ group :development, :test do
   gem 'better_errors', require: false
   gem 'binding_of_caller', require: false
   gem 'capybara'
-  gem 'codeclimate-test-reporter'
+  gem 'codeclimate-test-reporter', '~> 1.0'
   gem 'fuubar', require: false
   gem 'guard-rspec', require: false
   gem 'haml_lint'
