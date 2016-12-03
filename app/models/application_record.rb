@@ -93,18 +93,16 @@ class ApplicationRecord < ActiveRecord::Base
 
   def self.move_to_dashboard
     records = where('date_for_later <= ?', Time.zone.today)
-    if records.present?
-      email_records = where('date_for_later <= ?', Time.zone.today)
-                      .where("email_to_notify is NOT NULL and
-                              email_to_notify != ''")
-      if email_records.count == 1
-        record = records.first
-        JobappsMailer.saved_application_notification(record)
-      elsif email_records.many?
-        notification_emails(email_records)
-      end
-      records.each(&:move_to_dashboard)
+    email_records = where('date_for_later <= ?', Time.zone.today)
+                    .where("email_to_notify is NOT NULL and
+                            email_to_notify != ''")
+    if email_records.count == 1
+      record = records.first
+      JobappsMailer.saved_application_notification(record)
+    elsif email_records.many?
+      notification_emails(email_records)
     end
+    records.each(&:move_to_dashboard)
   end
 
   def self.combined_eeo_data(records)
