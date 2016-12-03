@@ -93,14 +93,17 @@ class ApplicationRecord < ActiveRecord::Base
 
   def self.move_to_dashboard
     records = where('date_for_later <= ?', Time.zone.today)
-    records.each(&:move_to_dashboard)
-    email_records = records
-      .where("email_to_notify is NOT NULL and email_to_notify != ''")
-    if email_records.count == 1
-      record = records.first
-      JobappsMailer.saved_application_notification(record)
-    elsif records.many?
-      notification_emails(email_records)
+    if records.present?
+      email_records = where('date_for_later <= ?', Time.zone.today)
+                      .where("email_to_notify is NOT NULL and
+                              email_to_notify != ''")
+      if email_records.count == 1
+        record = records.first
+        JobappsMailer.saved_application_notification(record)
+      elsif email_records.many?
+        notification_emails(email_records)
+      end
+      records.each(&:move_to_dashboard)
     end
   end
 
@@ -147,7 +150,7 @@ class ApplicationRecord < ActiveRecord::Base
     end
   end
 
-  def notification_emails(records)
+  def self.notification_emails(records)
     emails = Hash.new { |h, k| h[k] = {} }
     records.each do |record|
       emails = build_email_hash(emails, record)
@@ -155,7 +158,7 @@ class ApplicationRecord < ActiveRecord::Base
     send_emails(emails)
   end
 
-  def send_emails(emails)
+  def self.send_emails(emails)
     if emails.present?
       emails.each_key do |email|
         JobappsMailer.saved_applications_notification(emails[email], email)
@@ -163,7 +166,7 @@ class ApplicationRecord < ActiveRecord::Base
     end
   end
 
-  def build_email_hash(emails, record)
+  def self.build_email_hash(emails, record)
     if emails[record.email_to_notify][record.position.name].present?
       emails[record.email_to_notify][record.position.name].push(record)
     else

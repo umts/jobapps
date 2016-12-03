@@ -236,7 +236,7 @@ describe ApplicationRecord do
 
   describe 'move_to_dashboard' do
     let(:call) { ApplicationRecord.move_to_dashboard }
-    context 'there are expired records' do
+    context 'there is a expired record' do
       let!(:expired_saved_record) do
         create :application_record,
                saved_for_later: true,
@@ -244,10 +244,30 @@ describe ApplicationRecord do
                note_for_later: 'this is required',
                email_to_notify: 'foo@example.com'
       end
-      it 'calls move_to_dashboard on expired records' do
+      it 'calls move_to_dashboard on expired record' do
         expect_any_instance_of(ApplicationRecord)
           .to receive(:move_to_dashboard)
         expect(JobappsMailer).to receive(:saved_application_notification)
+        call
+      end
+    end
+    context 'there are many expired records' do
+      let!(:expired_saved_record1) do
+        create :application_record,
+               saved_for_later: true,
+               date_for_later: Date.yesterday,
+               note_for_later: 'this is required',
+               email_to_notify: 'foo@example.com'
+      end
+      let!(:expired_saved_record2) do
+        create :application_record,
+               saved_for_later: true,
+               date_for_later: Date.yesterday,
+               note_for_later: 'this is required',
+               email_to_notify: 'foo@example.com'
+      end
+      it 'calls move_to_dashboard on expired records' do
+        expect(JobappsMailer).to receive(:saved_applications_notification)
         call
       end
     end
