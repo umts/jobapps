@@ -133,10 +133,10 @@ class ApplicationRecordsController < ApplicationController
 
   def modify_params
     parameters = {}
-    parameters[:date] = if params[:date_for_later].present?
-                          Date.strptime(params[:date_for_later], '%m/%d/%Y')
-                        end
-    parameters[:mail] = true if params[:mail_to_applicant] == '1'
+    if params[:date_for_later].present?
+      parameters[:date] = Date.strptime(params[:date_for_later], '%m/%d/%Y')
+    end
+    parameters[:mail] = params[:mail_to_applicant] == '1'
     parameters
   end
 end
