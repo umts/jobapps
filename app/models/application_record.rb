@@ -78,10 +78,11 @@ class ApplicationRecord < ActiveRecord::Base
     !reviewed
   end
 
-  def save_for_later(date: nil, note: nil, mail: false)
+  def save_for_later(date: nil, note: nil, mail: false, email: nil)
     update_attributes(saved_for_later: true,
                       date_for_later: date,
-                      note_for_later: note)
+                      note_for_later: note,
+                      email_to_notify: email)
     JobappsMailer.send_note_for_later(self).deliver_now if mail
   end
 
@@ -92,6 +93,14 @@ class ApplicationRecord < ActiveRecord::Base
 
   def self.move_to_dashboard
     records = where('date_for_later <= ?', Time.zone.today)
+    email_records = where('date_for_later <= ?', Time.zone.today)
+                    .where.not(email_to_notify: [nil, ''])
+    if email_records.one?
+      record = records.first
+      JobappsMailer.saved_application_notification(record)
+    elsif email_records.many?
+      notification_emails(email_records)
+    end
     records.each(&:move_to_dashboard)
   end
 
@@ -136,5 +145,30 @@ class ApplicationRecord < ActiveRecord::Base
       specific_records = ethnicity_records.where ethnicity: ethnicity
       [ethnicity, specific_records.count, specific_records.interview_count]
     end
+  end
+
+  def self.notification_emails(records)
+    emails = Hash.new { |h, k| h[k] = {} }
+    records.each do |record|
+      emails = fill_email_hash(emails, record)
+    end
+    send_emails(emails)
+  end
+
+  def self.send_emails(emails)
+    if emails.present?
+      emails.each_key do |email|
+        JobappsMailer.saved_applications_notification(emails[email], email)
+      end
+    end
+  end
+
+  def self.fill_email_hash(emails, record)
+    if emails[record.email_to_notify][record.position.name].present?
+      emails[record.email_to_notify][record.position.name].push(record)
+    else
+      emails[record.email_to_notify][record.position.name] = [record]
+    end
+    emails
   end
 end

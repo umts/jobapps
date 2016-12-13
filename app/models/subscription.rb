@@ -7,4 +7,6 @@ class Subscription < ActiveRecord::Base
   validates :email,
             :user,
             :position, presence: true
+
+  scope :notification, -> { where(notification: true) }
 end
