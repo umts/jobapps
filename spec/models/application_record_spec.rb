@@ -236,7 +236,7 @@ describe ApplicationRecord do
 
   describe 'move_to_dashboard' do
     let(:call) { ApplicationRecord.move_to_dashboard }
-    context 'there is a expired record' do
+    context 'there is an expired record' do
       let!(:expired_saved_record) do
         create :application_record,
                saved_for_later: true,
@@ -252,14 +252,14 @@ describe ApplicationRecord do
       end
     end
     context 'there are many expired records' do
-      let!(:expired_saved_record1) do
+      let!(:expired_saved_record_1) do
         create :application_record,
                saved_for_later: true,
                date_for_later: Date.yesterday,
                note_for_later: 'this is required',
                email_to_notify: 'foo@example.com'
       end
-      let!(:expired_saved_record2) do
+      let!(:expired_saved_record_2) do
         create :application_record,
                saved_for_later: true,
                date_for_later: Date.yesterday,
