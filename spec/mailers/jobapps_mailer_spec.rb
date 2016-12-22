@@ -238,33 +238,34 @@ describe JobappsMailer do
 
   describe 'saved_applications_notification' do
     before :each do
-      record_1 = create :application_record
-      record_2 = create :application_record
-      @info = { 'Bus' => [record_1, record_2] }
+      @position = create :position
+      @record_1 = create :application_record, position: @position
+      @record_2 = create :application_record, position: @position
       @email = 'foo@example.com'
     end
     let :output do
-      JobappsMailer.saved_applications_notification @info, @email
+      info = { @position => [@record_1, @record_2] }
+      JobappsMailer.saved_applications_notification info, @email
     end
     it 'emails from default configured value' do
-      expect(output.to).to eql Array(@email)
+      expect(output.to).to contain_exactly @email
     end
     it 'has a subject that includes the words Saved applications' do
       expect(output.subject).to include 'Saved applications'
     end
     it 'includes the position names' do
-      expect(output.body.encoded).to include @info['Bus'].first.position.name
-      expect(output.body.encoded).to include @info['Bus'].last.position.name
+      expect(output.body.encoded).to include @position.name
     end
     it "includes the applicants' full name" do
-      expect(output.body.encoded).to include @info['Bus'].first.user.full_name
-      expect(output.body.encoded).to include @info['Bus'].last.user.full_name
+      expect(output.body.encoded).to include @record_1.user.full_name
+      expect(output.body.encoded).to include @record_2.user.full_name
     end
     it 'includes the dates applied' do
+      format = '%A, %B %e, %Y - %l:%M %P'
       expect(output.body.encoded)
-        .to include @info['Bus'].first.created_at.strftime('%m/%d/%Y %H:%M')
+        .to include @record_1.created_at.strftime(format).squish
       expect(output.body.encoded)
-        .to include @info['Bus'].last.created_at.strftime('%m/%d/%Y %H:%M')
+        .to include @record_2.created_at.strftime(format).squish
     end
   end
 end
