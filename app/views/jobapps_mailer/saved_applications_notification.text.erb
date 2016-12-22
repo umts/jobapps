@@ -1,10 +1,10 @@
 Hello,
 
 The following applications have been reactivated:
-<% @info.each_key do |position| %>
-  Position: <%= position %>
-  <% @info[position].each do |record| %>
+<% @records.each_pair do |position, records| %>
+  Position: <%= position.name %>
+  <% records.each do |record| %>
     Applicant: <%= record.user.full_name %>,
-    Applied on: <%= record.created_at.strftime('%m/%d/%Y %H:%M') %>
+    Applied on: <%= format_date_time record.created_at %>
   <% end %>
 <% end %>

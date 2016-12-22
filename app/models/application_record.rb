@@ -99,7 +99,7 @@ class ApplicationRecord < ActiveRecord::Base
       record = records.first
       JobappsMailer.saved_application_notification(record)
     elsif email_records.many?
-      notification_emails(email_records)
+      send_notification_emails! email_records
     end
     records.each(&:move_to_dashboard)
   end
@@ -147,28 +147,11 @@ class ApplicationRecord < ActiveRecord::Base
     end
   end
 
-  def self.notification_emails(records)
-    emails = Hash.new { |h, k| h[k] = {} }
-    records.each do |record|
-      emails = fill_email_hash(emails, record)
+  def self.send_notification_emails!(records)
+    records_by_email = records.includes(:position).group_by(&:email_to_notify)
+    records_by_email.each_pair do |address, ars|
+      records_by_position = ars.group_by(&:position)
+      JobappsMailer.saved_applications_notification records, address
     end
-    send_emails(emails)
-  end
-
-  def self.send_emails(emails)
-    if emails.present?
-      emails.each_key do |email|
-        JobappsMailer.saved_applications_notification(emails[email], email)
-      end
-    end
-  end
-
-  def self.fill_email_hash(emails, record)
-    if emails[record.email_to_notify][record.position.name].present?
-      emails[record.email_to_notify][record.position.name].push(record)
-    else
-      emails[record.email_to_notify][record.position.name] = [record]
-    end
-    emails
   end
 end
