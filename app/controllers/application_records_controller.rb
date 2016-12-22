@@ -75,7 +75,7 @@ class ApplicationRecordsController < ApplicationController
       @record.move_to_dashboard
       flash[:message] = 'Application moved back to dashboard.'
     else
-      parameters = modify_params
+      parameters = save_for_later_params
       @record.save_for_later(date: parameters[:date],
                              note: params[:note_for_later],
                              mail: parameters[:mail],
@@ -131,7 +131,7 @@ class ApplicationRecordsController < ApplicationController
     params.permit(:position_id, :ethnicity, :gender)
   end
 
-  def modify_params
+  def save_for_later_params
     parameters = {}
     if params[:date_for_later].present?
       parameters[:date] = Date.strptime(params[:date_for_later], '%m/%d/%Y')
