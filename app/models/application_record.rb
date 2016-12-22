@@ -151,7 +151,7 @@ class ApplicationRecord < ActiveRecord::Base
     records_by_email = records.includes(:position).group_by(&:email_to_notify)
     records_by_email.each_pair do |address, ars|
       records_by_position = ars.group_by(&:position)
-      JobappsMailer.saved_applications_notification records, address
+      JobappsMailer.saved_applications_notification records_by_position, address
     end
   end
 end
