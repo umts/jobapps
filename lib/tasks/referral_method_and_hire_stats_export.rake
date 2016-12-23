@@ -1,10 +1,12 @@
-# Example invocation: RAILS_ENV=production bundle exec rake referral_method_and_hire_stats:bus ~/export.csv
+# Example invocation:
+# RAILS_ENV=production bundle exec rake \
+# referral_method_and_hire_stats:bus ~/export.csv
 # will generate a CSV file at ~/export.csv
 REFERRAL_METHODS = [
   'Advertisement inside bus', 'Bus destination sign',
   'Poster in bus stop shelter', 'Poster in Campus Center',
   'Resource fair / orientation', 'Referred by employee'
-]
+].freeze
 
 namespace :referral_method_and_hire_stats do
   task bus: :environment do

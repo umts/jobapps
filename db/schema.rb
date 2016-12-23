@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160908152707) do
+ActiveRecord::Schema.define(version: 20161129201750) do
 
   create_table "application_drafts", force: :cascade do |t|
     t.integer  "application_template_id", limit: 4
@@ -34,14 +34,14 @@ ActiveRecord::Schema.define(version: 20160908152707) do
     t.boolean  "saved_for_later",               default: false
     t.text     "note_for_later",  limit: 65535
     t.date     "date_for_later"
+    t.string   "email_to_notify", limit: 255
   end
 
   create_table "application_templates", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "position_id",            limit: 4
-    t.boolean  "visible",                            default: true
-    t.boolean  "active",                             default: true
+    t.boolean  "active"
     t.string   "slug",                   limit: 255
     t.boolean  "eeo_enabled",                        default: true
     t.string   "email",                  limit: 255

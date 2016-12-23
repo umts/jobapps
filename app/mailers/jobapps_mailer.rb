@@ -59,4 +59,16 @@ class JobappsMailer < ActionMailer::Base
     mail to: configured_value([:email, :site_contact_email]),
          subject: "Site text request from #{user.full_name}"
   end
+
+  def saved_application_notification(record)
+    @record = record
+    mail to: record.email_to_notify,
+         subject: 'Saved application moved back to dashboard'
+  end
+
+  def saved_applications_notification(records, email)
+    @records = records
+    mail to: email,
+         subject: 'Saved applications moved back to dashboard'
+  end
 end
