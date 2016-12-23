@@ -1,6 +1,7 @@
 Hello,
 
-An application has been reactivated:
+An application which you had saved for later has been moved back to the dashboard as scheduled. It is now ready for your review.
+
 Position: <%= @record.position.name %>.
 Applicant: <%= @record.user.full_name %>.
-Applied on: <%= @record.created_at.strftime('%m/%d/%Y %H:%M') %>.
+Applied on: <%= format_date_time @record.created_at %>.

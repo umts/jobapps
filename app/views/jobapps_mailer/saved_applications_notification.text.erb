@@ -1,10 +1,15 @@
 Hello,
 
-The following applications have been reactivated:
+The following applications which you had saved for later have been moved back to the dashboard and are now ready for your review:
+
 <% @records.each_pair do |position, records| %>
-  Position: <%= position.name %>
-  <% records.each do |record| %>
-    Applicant: <%= record.user.full_name %>,
-    Applied on: <%= format_date_time record.created_at %>
-  <% end %>
+Position: <%= position.name %>
+<% records.each do |record| %>
+  Applicant: <%= record.user.full_name %>,
+  Applied on: <%= format_date_time record.created_at %>
+  <%- if @record.note_for_later.present? %>
+  Note: <%= @record.note_for_later %>
+  <%- end %>
+
+<% end %>
 <% end %>
