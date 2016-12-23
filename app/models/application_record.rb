@@ -149,8 +149,8 @@ class ApplicationRecord < ActiveRecord::Base
 
   def self.send_notification_emails!(records)
     records_by_email = records.includes(:position).group_by(&:email_to_notify)
-    records_by_email.each_pair do |address, ars|
-      records_by_position = ars.group_by(&:position)
+    records_by_email.each_pair do |address, email_records|
+      records_by_position = email_records.group_by(&:position)
       JobappsMailer.saved_applications_notification records_by_position, address
     end
   end
