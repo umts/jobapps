@@ -7,8 +7,8 @@ Position: <%= position.name %>
 <% records.each do |record| %>
   Applicant: <%= record.user.full_name %>,
   Applied on: <%= format_date_time record.created_at %>
-  <%- if @record.note_for_later.present? %>
-  Note: <%= @record.note_for_later %>
+  <%- if record.note_for_later.present? %>
+  Note: <%= record.note_for_later %>
   <%- end %>
 
 <% end %>

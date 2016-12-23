@@ -5,3 +5,6 @@ An application which you had saved for later has been moved back to the dashboar
 Position: <%= @record.position.name %>.
 Applicant: <%= @record.user.full_name %>.
 Applied on: <%= format_date_time @record.created_at %>.
+<%- if @record.note_for_later.present? %>
+Note: <%= @record.note_for_later %>
+<%- end %>

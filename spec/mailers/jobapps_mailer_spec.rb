@@ -231,15 +231,21 @@ describe JobappsMailer do
       expect(output.body.encoded).to include @record.user.full_name
     end
     it 'includes the date applied' do
-      expect(output.body.encoded)
-        .to include @record.created_at.strftime('%m/%d/%Y %H:%M')
+      format = '%A, %B %e, %Y - %l:%M %P'
+      expect(output.body.encoded).to include
+        @record.created_at.strftime(format).squish
+    end
+    it 'includes the note for later if it exists' do
+      @record.update note_for_later: 'This note is for later.'
+      expect(output.body.encoded).to include @record.note_for_later
     end
   end
 
   describe 'saved_applications_notification' do
     before :each do
       @position = create :position
-      @record_1 = create :application_record, position: @position
+      @record_1 = create :application_record, position: @position,
+                         note_for_later: 'This note is for later.'
       @record_2 = create :application_record, position: @position
       @email = 'foo@example.com'
     end
@@ -266,6 +272,9 @@ describe JobappsMailer do
         .to include @record_1.created_at.strftime(format).squish
       expect(output.body.encoded)
         .to include @record_2.created_at.strftime(format).squish
+    end
+    it 'includes any notes for later' do
+      expect(output.body.encoded).to include @record_1.note_for_later
     end
   end
 end
