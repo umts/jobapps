@@ -210,4 +210,71 @@ describe JobappsMailer do
       expect(output.body.encoded).to include @user.email
     end
   end
+
+  describe 'saved_application_notification' do
+    before :each do
+      @record = create :application_record, email_to_notify: 'foo@example.com'
+    end
+    let :output do
+      JobappsMailer.saved_application_notification @record
+    end
+    it 'emails to the email_to_notify value' do
+      expect(output.to).to eql Array('foo@example.com')
+    end
+    it 'has a subject that includes the words Saved application' do
+      expect(output.subject).to include 'Saved application'
+    end
+    it 'includes the position name' do
+      expect(output.body.encoded).to include @record.position.name
+    end
+    it "includes the applicant's full name" do
+      expect(output.body.encoded).to include @record.user.full_name
+    end
+    it 'includes the date applied' do
+      format = '%A, %B %e, %Y - %l:%M %P'
+      expect(output.body.encoded).to include
+        @record.created_at.strftime(format).squish
+    end
+    it 'includes the note for later if it exists' do
+      @record.update note_for_later: 'This note is for later.'
+      expect(output.body.encoded).to include @record.note_for_later
+    end
+  end
+
+  describe 'saved_applications_notification' do
+    before :each do
+      @position = create :position
+      @record_1 = create :application_record, position: @position,
+                         note_for_later: 'This note is for later.'
+      @record_2 = create :application_record, position: @position
+      @email = 'foo@example.com'
+    end
+    let :output do
+      info = { @position => [@record_1, @record_2] }
+      JobappsMailer.saved_applications_notification info, @email
+    end
+    it 'emails from default configured value' do
+      expect(output.to).to contain_exactly @email
+    end
+    it 'has a subject that includes the words Saved applications' do
+      expect(output.subject).to include 'Saved applications'
+    end
+    it 'includes the position names' do
+      expect(output.body.encoded).to include @position.name
+    end
+    it "includes the applicants' full name" do
+      expect(output.body.encoded).to include @record_1.user.full_name
+      expect(output.body.encoded).to include @record_2.user.full_name
+    end
+    it 'includes the dates applied' do
+      format = '%A, %B %e, %Y - %l:%M %P'
+      expect(output.body.encoded)
+        .to include @record_1.created_at.strftime(format).squish
+      expect(output.body.encoded)
+        .to include @record_2.created_at.strftime(format).squish
+    end
+    it 'includes any notes for later' do
+      expect(output.body.encoded).to include @record_1.note_for_later
+    end
+  end
 end

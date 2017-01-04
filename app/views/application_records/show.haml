@@ -100,6 +100,10 @@ by:
           %em
             If a date is selected, the application will move back onto the
             dashboard at that time.
+        %p#notification.hidden
+          %em
+            Get notified when this happens: 
+          = text_field_tag :email_to_notify, '', placeholder: 'person@example.com'
           .note_item
           = submit_tag 'Save for later'
   - else

@@ -68,10 +68,10 @@ describe 'saving or unsaving applications' do
     context 'application_record has been saved for later' do
       let :saved_record do
         create :application_record,
-          reviewed: false,
-          note_for_later: 'This is my note',
-          date_for_later: Time.zone.today,
-          saved_for_later: true
+               reviewed: false,
+               note_for_later: 'This is my note',
+               date_for_later: Time.zone.today,
+               saved_for_later: true
       end
       it 'displays the date on the saved_for_later page' do
         visit saved_applications_position_url(saved_record.position)
