@@ -23,6 +23,10 @@ class ApplicationRecord < ActiveRecord::Base
           joins(:position)
             .where(positions: { department_id: department_ids })
         }
+  scope :hired_count, lambda {
+    joins(:interview)
+      .where(interviews: { application_record_id: ids, hired: true }).count
+  }
   scope :interview_count, lambda {
     joins(:interview)
       .where(interviews: { application_record_id: ids }).count
