@@ -12,10 +12,13 @@
           = format_date_time record.created_at
         %td= record.ethnicity
         %td= record.gender
-        - if record.interview.hired
-          %td yes
-        - else
-          %td no
+        %td
+          - unless record.interview.nil?
+            - if record.interview.hired?
+              Yes
+            - else
+              No -
+              = record.interview.interview_note
 
 %h3 Totals:
 = render partial: 'ethnicity_totals'
