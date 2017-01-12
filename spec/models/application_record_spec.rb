@@ -109,6 +109,22 @@ describe ApplicationRecord do
     end
   end
 
+  describe 'hired_count' do
+    before :each do
+      record_1 = create :application_record
+      record_2 = create :application_record
+      create :interview, application_record: record_2, hired: false
+      create :interview, application_record: record_1, hired: true
+      @collection = ApplicationRecord.all
+    end
+    let :call do
+      @collection.hired_count
+    end
+    it 'counts the number of interviews where the applicant was hired' do
+      expect(call).to be 1
+    end
+  end
+
   describe 'interview_count' do
     before :each do
       record_1 = create :application_record
