@@ -117,7 +117,10 @@ class ApplicationRecord < ActiveRecord::Base
       ethnicity_specs = []
       all_ethnicities.map do |ethnicity|
         records = combined_records.where ethnicity: ethnicity, gender: gender
-        ethnicity_specs << [ethnicity, records.count, records.interview_count]
+        count = records.count
+        interviewed = records.interview_count
+        hired = records.hired_count
+        ethnicity_specs << [ethnicity, count, interviewed, hired]
         grouped_by_gender[gender] = ethnicity_specs
       end
     end
@@ -129,7 +132,10 @@ class ApplicationRecord < ActiveRecord::Base
     all_genders = GENDER_OPTIONS | gender_records.pluck(:gender)
     all_genders.map do |gender|
       specific_records = gender_records.where gender: gender
-      [gender, specific_records.count, specific_records.interview_count]
+      count = specific_records.count
+      interviewed = specific_records.interview_count
+      hired = specific_records.hired_count
+      [gender, count, interviewed, hired]
     end
   end
 
@@ -147,7 +153,10 @@ class ApplicationRecord < ActiveRecord::Base
     all_ethnicities = ETHNICITY_OPTIONS | ethnicity_records.pluck(:ethnicity)
     all_ethnicities.map do |ethnicity|
       specific_records = ethnicity_records.where ethnicity: ethnicity
-      [ethnicity, specific_records.count, specific_records.interview_count]
+      count = specific_records.count
+      interviewed = specific_records.interview_count
+      hired = specific_records.hired_count
+      [ethnicity, count, interviewed, hired]
     end
   end
 
