@@ -109,7 +109,7 @@ describe ApplicationRecord do
     end
   end
 
-  describe 'hired_count' do
+  describe 'hire_count' do
     before :each do
       record_1 = create :application_record
       record_2 = create :application_record
@@ -118,7 +118,7 @@ describe ApplicationRecord do
       @collection = ApplicationRecord.all
     end
     let :call do
-      @collection.hired_count
+      @collection.hire_count
     end
     it 'counts the number of interviews where the applicant was hired' do
       expect(call).to be 1
@@ -318,8 +318,8 @@ describe ApplicationRecord do
         .at_least(:once)
       call
     end
-    it 'calls AR#hired_count to count hirees' do
-      expect(ApplicationRecord).to receive(:hired_count)
+    it 'calls AR#hire_count to count hirees' do
+      expect(ApplicationRecord).to receive(:hire_count)
         .at_least(:once)
       call
     end
@@ -364,8 +364,8 @@ describe ApplicationRecord do
         .at_least(:once)
       call
     end
-    it 'calls AR#hired_count to count hirees' do
-      expect(ApplicationRecord).to receive(:hired_count)
+    it 'calls AR#hire_count to count hirees' do
+      expect(ApplicationRecord).to receive(:hire_count)
         .at_least(:once)
       call
     end
@@ -394,8 +394,8 @@ describe ApplicationRecord do
         .at_least(:once)
       call
     end
-    it 'calls AR#hired_count to count hirees' do
-      expect(ApplicationRecord).to receive(:hired_count)
+    it 'calls AR#hire_count to count hirees' do
+      expect(ApplicationRecord).to receive(:hire_count)
         .at_least(:once)
       call
     end

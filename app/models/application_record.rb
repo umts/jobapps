@@ -23,7 +23,7 @@ class ApplicationRecord < ActiveRecord::Base
           joins(:position)
             .where(positions: { department_id: department_ids })
         }
-  scope :hired_count, lambda {
+  scope :hire_count, lambda {
     joins(:interview)
       .where(interviews: { application_record_id: ids, hired: true }).count
   }
@@ -119,7 +119,7 @@ class ApplicationRecord < ActiveRecord::Base
         records = combined_records.where ethnicity: ethnicity, gender: gender
         count = records.count
         interviewed = records.interview_count
-        hired = records.hired_count
+        hired = records.hire_count
         ethnicity_specs << [ethnicity, count, interviewed, hired]
         grouped_by_gender[gender] = ethnicity_specs
       end
@@ -134,7 +134,7 @@ class ApplicationRecord < ActiveRecord::Base
       specific_records = gender_records.where gender: gender
       count = specific_records.count
       interviewed = specific_records.interview_count
-      hired = specific_records.hired_count
+      hired = specific_records.hire_count
       [gender, count, interviewed, hired]
     end
   end
@@ -155,7 +155,7 @@ class ApplicationRecord < ActiveRecord::Base
       specific_records = ethnicity_records.where ethnicity: ethnicity
       count = specific_records.count
       interviewed = specific_records.interview_count
-      hired = specific_records.hired_count
+      hired = specific_records.hire_count
       [ethnicity, count, interviewed, hired]
     end
   end
