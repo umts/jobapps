@@ -115,10 +115,9 @@ describe ApplicationRecord do
       record_2 = create :application_record
       create :interview, application_record: record_2, hired: false
       create :interview, application_record: record_1, hired: true
-      @collection = ApplicationRecord.all
     end
     let :call do
-      @collection.hire_count
+      ApplicationRecord.hire_count
     end
     it 'counts the number of interviews where the applicant was hired' do
       expect(call).to be 1
@@ -130,10 +129,9 @@ describe ApplicationRecord do
       record_1 = create :application_record
       create :application_record
       create :interview, application_record: record_1
-      @collection = ApplicationRecord.all
     end
     let :call do
-      @collection.interview_count
+      ApplicationRecord.interview_count
     end
     it 'counts the interviews associated with the collection' do
       expect(call).to be 1
