@@ -24,9 +24,9 @@
         %td
           = record.staff_note
         %td
-          - unless record.interview.nil?
+          - if record.interview.present?
             - if record.interview.hired?
               Yes
             - else
-              No -
+              No:
               = record.interview.interview_note

@@ -5,8 +5,10 @@
         %th= "#{key} by Ethnicity"
         %th Total Applicants
         %th Total Interviews
-    - value.each do |ethnicity, count, interview_count|
+        %th Total Hired
+    - value.each do |ethnicity, count, interview_count, hire_count|
       %tr
         %td= ethnicity
         %td= count
         %td= interview_count
+        %td= hire_count
