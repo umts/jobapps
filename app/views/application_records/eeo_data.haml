@@ -13,7 +13,7 @@
         %td= record.ethnicity
         %td= record.gender
         %td
-          - unless record.interview.nil?
+          - if record.interview.present?
             - if record.interview.hired?
               Yes
             - else
