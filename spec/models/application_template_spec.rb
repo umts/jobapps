@@ -3,7 +3,7 @@ require 'rails_helper'
 describe ApplicationTemplate do
   describe 'create_draft' do
     before :each do
-      @application_template = create :application_template, :with_questions
+      @application_template = create :application_template, :with_questions, email: "something@example.com"
       @user = create :user
     end
     let :call do
@@ -28,6 +28,9 @@ describe ApplicationTemplate do
       end
       it 'sets the user of the draft to the user argument' do
         expect(call.user). to eql @user
+      end
+      it 'sets the email of the draft to be same as template email' do
+        expect(call.email). to eql @application_template.email
       end
       it 'sets the application template of the draft to the current one' do
         expect(call.application_template).to eql @application_template

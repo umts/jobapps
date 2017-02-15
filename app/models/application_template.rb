@@ -16,7 +16,12 @@ class ApplicationTemplate < ActiveRecord::Base
 
   def create_draft(user)
     return false if draft_belonging_to?(user)
-    draft = ApplicationDraft.create user: user, application_template: self
+    draft = ApplicationDraft.create user: user ,application_template: self
+    draft_att = draft.attributes.keys
+    template_att = self.attributes.keys
+    common = (template_att & draft_att) - ["id", "created_at", "updated_at"]
+    common_att = self.attributes.slice(*common)
+    draft.update_attributes (common_att)
     questions.each do |question|
       new_question = question.dup
       new_question.assign_attributes application_template: nil,
