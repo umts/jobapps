@@ -3,7 +3,9 @@ require 'rails_helper'
 describe ApplicationTemplate do
   describe 'create_draft' do
     before :each do
-      @application_template = create :application_template, :with_questions, email: "something@example.com"
+      @application_template = create :application_template,
+                                     :with_questions,
+                                     email: 'something@example.com'
       @user = create :user
     end
     let :call do
