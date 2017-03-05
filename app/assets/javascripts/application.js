@@ -12,9 +12,9 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require dataTables/jquery.dataTables
 //= require bootstrap
-//= require jquery.dataTables.min
-//= require jquery-ui.min
+//= require jquery-ui
 //= require jquery.datetimepicker
 //= require multiple-select
 //= require jquery.maskedinput
