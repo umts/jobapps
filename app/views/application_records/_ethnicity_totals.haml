@@ -4,8 +4,10 @@
     %th Ethnicity
     %th Total Applicants
     %th Total Interviews
-  - @records[:ethnicities].each do |ethnicity, count, interview_count|
+    %th Total Hired
+  - @records[:ethnicities].each do |ethnicity, count, interview_count, hired|
     %tr
       %td= ethnicity
       %td= count
       %td= interview_count
+      %td= hired

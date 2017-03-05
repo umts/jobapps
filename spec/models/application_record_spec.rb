@@ -109,15 +109,29 @@ describe ApplicationRecord do
     end
   end
 
+  describe 'hire_count' do
+    before :each do
+      record_1 = create :application_record
+      record_2 = create :application_record
+      create :interview, application_record: record_2, hired: false
+      create :interview, application_record: record_1, hired: true
+    end
+    let :call do
+      ApplicationRecord.hire_count
+    end
+    it 'counts the number of interviews where the applicant was hired' do
+      expect(call).to be 1
+    end
+  end
+
   describe 'interview_count' do
     before :each do
       record_1 = create :application_record
       create :application_record
       create :interview, application_record: record_1
-      @collection = ApplicationRecord.all
     end
     let :call do
-      @collection.interview_count
+      ApplicationRecord.interview_count
     end
     it 'counts the interviews associated with the collection' do
       expect(call).to be 1
@@ -302,25 +316,32 @@ describe ApplicationRecord do
         .at_least(:once)
       call
     end
+    it 'calls AR#hire_count to count hirees' do
+      expect(ApplicationRecord).to receive(:hire_count)
+        .at_least(:once)
+      call
+    end
     it 'counts only records and interviews with both ethnicity and gender' do
       create :application_record, ethnicity: nil, gender: nil
       create :application_record, ethnicity: '', gender: ''
-      expect(call).to eql('Other' => [['Klingon', 0, 0]])
+      expect(call).to eql('Other' => [['Klingon', 0, 0, 0]])
     end
     it 'counts records/interviews whose ethnicity is not one of the options' do
       create :application_record, ethnicity: 'Romulan', gender: 'Other'
-      expect(call).to eql('Other' => [['Klingon', 0, 0],
-                                      ['Romulan', 1, 0]])
+      expect(call).to eql('Other' => [['Klingon', 0, 0, 0],
+                                      ['Romulan', 1, 0, 0]])
     end
     it 'counts records/interviews whose gender is not one of the options' do
       create :application_record, ethnicity: 'Klingon', gender: 'Male'
-      expect(call).to eql('Other' => [['Klingon', 0, 0]],
-                          'Male' => [['Klingon', 1, 0]])
+      expect(call).to eql('Other' => [['Klingon', 0, 0, 0]],
+                          'Male' => [['Klingon', 1, 0, 0]])
     end
     it 'counts records/interviews where gender and ethnicity not in options' do
       create :application_record, ethnicity: 'Romulan', gender: 'Male'
-      expect(call).to eql('Other' => [['Klingon', 0, 0], ['Romulan', 0, 0]],
-                          'Male' => [['Klingon', 0, 0], ['Romulan', 1, 0]])
+      expect(call).to eql('Other' => [['Klingon', 0, 0, 0],
+                                      ['Romulan', 0, 0, 0]],
+                          'Male' => [['Klingon', 0, 0, 0],
+                                     ['Romulan', 1, 0, 0]])
     end
     it 'returns a hash' do
       expect(call).to be_a Hash
@@ -341,14 +362,19 @@ describe ApplicationRecord do
         .at_least(:once)
       call
     end
+    it 'calls AR#hire_count to count hirees' do
+      expect(ApplicationRecord).to receive(:hire_count)
+        .at_least(:once)
+      call
+    end
     it 'counts only records and their interviews with an ethnicity attribute' do
       create :application_record, ethnicity: nil
       create :application_record, ethnicity: ''
-      expect(call).to contain_exactly ['Klingon', 0, 0]
+      expect(call).to contain_exactly ['Klingon', 0, 0, 0]
     end
     it 'counts records/interviews whose ethnicity is not of the options' do
       create :application_record, ethnicity: 'Romulan', gender: 'Male'
-      expect(call).to contain_exactly ['Klingon', 0, 0], ['Romulan', 1, 0]
+      expect(call).to contain_exactly ['Klingon', 0, 0, 0], ['Romulan', 1, 0, 0]
     end
   end
 
@@ -366,14 +392,19 @@ describe ApplicationRecord do
         .at_least(:once)
       call
     end
+    it 'calls AR#hire_count to count hirees' do
+      expect(ApplicationRecord).to receive(:hire_count)
+        .at_least(:once)
+      call
+    end
     it 'counts only records and their interviews with a gender attribute' do
       create :application_record, gender: nil
       create :application_record, gender: ''
-      expect(call).to contain_exactly ['Female', 0, 0]
+      expect(call).to contain_exactly ['Female', 0, 0, 0]
     end
     it 'counts records/interviews whose gender is not of the gender_options' do
       create :application_record, gender: 'Male'
-      expect(call).to contain_exactly ['Female', 0, 0], ['Male', 1, 0]
+      expect(call).to contain_exactly ['Female', 0, 0, 0], ['Male', 1, 0, 0]
     end
   end
 
