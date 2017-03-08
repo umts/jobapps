@@ -5,19 +5,19 @@
   %h2 Interviews
   - @interviews.each do |interview|
     .interview_explain_text
-      %li Your #{interview.application_record.department.name} interview
+      %li Your #{interview.filed_application.department.name} interview
       has been scheduled for #{interview.information}.
     .interview_review_link
-      = link_to 'Review your application', interview.application_record
+      = link_to 'Review your application', interview.filed_application
 %h2 Available Applications
 Please select the application which you would like to submit.
 - @positions.each do |department, positions|
   %h3= department.name
   - positions.each do |position|
-    - app_submitted = @application_records.try(:keys).try(:include?, position)
+    - app_submitted = @filed_applications.try(:keys).try(:include?, position)
     - if app_submitted
       // most recent application, if more than one
-      - application = @application_records[position].last
+      - application = @filed_applications[position].last
       - should_show = application.pending? || should_show_denied_applications?
     - if app_submitted && should_show
       %li= link_to "Review your application for #{position.name}", application

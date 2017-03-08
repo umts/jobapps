@@ -20,7 +20,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :application_records, only: [:create, :show] do
+  resources :filed_applications, only: [:create, :show] do
     collection do
       get :csv_export
       get :past_applications

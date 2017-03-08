@@ -46,7 +46,7 @@ describe ApplicationTemplatesController do
       department = create :department, name: 'Bus'
       position = create :position, name: 'Operator', department: department
       @template = create :application_template, position: position
-      @record = create :application_record,
+      @record = create :filed_application,
                        data: [['a question', 'an answer', 'data type', 1]]
     end
     context 'using specific route' do

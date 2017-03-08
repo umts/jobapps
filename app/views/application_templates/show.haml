@@ -39,7 +39,7 @@
                 = format_date_time app.created_at
               %td.load_column
                 = link_to 'Load reponses', application_path(@template, load_id: app.id)
-    = form_tag controller: :application_records, action: :create do
+    = form_tag controller: :filed_applications, action: :create do
       = fields_for :user do |u|
         .field
           .heading Please complete the following personal information.
@@ -138,13 +138,13 @@
             Please select the ethnic group with which you most closely identify:
         .field
           = select_tag :ethnicity,
-            options_for_select(ApplicationRecord::ETHNICITY_OPTIONS),
+            options_for_select(FiledApplication::ETHNICITY_OPTIONS),
             include_blank: 'Prefer not to answer'
         .field
           .label Please select the gender with which you most closely identify:
         .field
           = select_tag :gender,
-            options_for_select(ApplicationRecord::GENDER_OPTIONS),
+            options_for_select(FiledApplication::GENDER_OPTIONS),
             include_blank: 'Prefer not to answer'
 
       .actions= submit_tag 'Submit application' unless @current_user.try :staff?

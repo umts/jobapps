@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161129201750) do
+ActiveRecord::Schema.define(version: 20170308030732) do
 
   create_table "application_drafts", force: :cascade do |t|
     t.integer  "application_template_id", limit: 4
@@ -19,22 +19,6 @@ ActiveRecord::Schema.define(version: 20161129201750) do
     t.datetime "updated_at"
     t.integer  "user_id",                 limit: 4
     t.string   "email",                   limit: 255
-  end
-
-  create_table "application_records", force: :cascade do |t|
-    t.text     "data",            limit: 65535
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "user_id",         limit: 4
-    t.boolean  "reviewed"
-    t.integer  "position_id",     limit: 4
-    t.text     "staff_note",      limit: 65535
-    t.string   "ethnicity",       limit: 255
-    t.string   "gender",          limit: 255
-    t.boolean  "saved_for_later",               default: false
-    t.text     "note_for_later",  limit: 65535
-    t.date     "date_for_later"
-    t.string   "email_to_notify", limit: 255
   end
 
   create_table "application_templates", force: :cascade do |t|
@@ -55,16 +39,32 @@ ActiveRecord::Schema.define(version: 20161129201750) do
     t.datetime "updated_at"
   end
 
+  create_table "filed_applications", force: :cascade do |t|
+    t.text     "data",            limit: 65535
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id",         limit: 4
+    t.boolean  "reviewed"
+    t.integer  "position_id",     limit: 4
+    t.text     "staff_note",      limit: 65535
+    t.string   "ethnicity",       limit: 255
+    t.string   "gender",          limit: 255
+    t.boolean  "saved_for_later",               default: false
+    t.text     "note_for_later",  limit: 65535
+    t.date     "date_for_later"
+    t.string   "email_to_notify", limit: 255
+  end
+
   create_table "interviews", force: :cascade do |t|
     t.boolean  "hired"
     t.datetime "scheduled"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_id",               limit: 4
-    t.integer  "application_record_id", limit: 4
+    t.integer  "user_id",              limit: 4
+    t.integer  "filed_application_id", limit: 4
     t.boolean  "completed"
-    t.string   "location",              limit: 255
-    t.text     "interview_note",        limit: 65535
+    t.string   "location",             limit: 255
+    t.text     "interview_note",       limit: 65535
   end
 
   create_table "positions", force: :cascade do |t|
@@ -104,16 +104,16 @@ ActiveRecord::Schema.define(version: 20161129201750) do
   end
 
   create_table "unavailabilities", force: :cascade do |t|
-    t.string   "sunday",                limit: 255
-    t.string   "monday",                limit: 255
-    t.string   "tuesday",               limit: 255
-    t.string   "wednesday",             limit: 255
-    t.string   "thursday",              limit: 255
-    t.string   "friday",                limit: 255
-    t.string   "saturday",              limit: 255
-    t.integer  "application_record_id", limit: 4
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.string   "sunday",               limit: 255
+    t.string   "monday",               limit: 255
+    t.string   "tuesday",              limit: 255
+    t.string   "wednesday",            limit: 255
+    t.string   "thursday",             limit: 255
+    t.string   "friday",               limit: 255
+    t.string   "saturday",             limit: 255
+    t.integer  "filed_application_id", limit: 4
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
   end
 
   create_table "users", force: :cascade do |t|

@@ -113,7 +113,7 @@ describe DashboardController do
       end
       it 'assigns the required instance variables' do
         submit
-        expect(assigns.keys).to include(*%w(application_records
+        expect(assigns.keys).to include(*%w(filed_applications
                                             interviews
                                             positions))
       end

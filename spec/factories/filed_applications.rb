@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :application_record do
+  factory :filed_application do
     user
     position
     data [%w('prompt_1' 'Do you like cats'), %w('response_1 No')]
@@ -7,8 +7,8 @@ FactoryGirl.define do
   end
 
   trait :with_unavailability do
-    after :create do |record|
-      create :unavailability, application_record: record
+    after :create do |application|
+      create :unavailability, filed_application: application
     end
   end
 end

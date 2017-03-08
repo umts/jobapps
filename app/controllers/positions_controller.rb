@@ -20,7 +20,7 @@ class PositionsController < ApplicationController
   end
 
   def saved_applications
-    @saved = ApplicationRecord.where(saved_for_later: true, position: @position)
+    @saved = FiledApplication.where(saved_for_later: true, position: @position)
   end
 
   def edit

@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :interview do
-    application_record
+    filed_application
     user
     completed false
     hired false

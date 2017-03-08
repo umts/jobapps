@@ -2,15 +2,15 @@ class Interview < ActiveRecord::Base
   include DateAndTimeMethods
 
   belongs_to :user
-  belongs_to :application_record
+  belongs_to :filed_application
   delegate :department,
            :position,
-           to: :application_record
+           to: :filed_application
 
   validates :completed,
             :hired,
             inclusion: { in: [true, false], message: 'must be true or false' }
-  validates :application_record,
+  validates :filed_application,
             :location,
             :scheduled,
             :user,

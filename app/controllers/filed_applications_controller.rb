@@ -1,5 +1,5 @@
 require 'prawn'
-class ApplicationRecordsController < ApplicationController
+class FiledApplicationsController < ApplicationController
   skip_before_action :access_control, only: [:create, :show]
   before_action :find_record, except: [:create,
                                        :csv_export,
@@ -11,7 +11,7 @@ class ApplicationRecordsController < ApplicationController
     create_user if @current_user.blank?
     data = parse_application_data(params.require :data)
     params.require :position_id
-    record = ApplicationRecord.create(record_params.merge(data: data,
+    record = FiledApplication.create(record_params.merge(data: data,
                                                           user: @current_user,
                                                           reviewed: false))
     record.email_subscribers applicant: @current_user
@@ -28,7 +28,7 @@ class ApplicationRecordsController < ApplicationController
   def csv_export
     start_date = parse_american_date(params.require :start_date)
     end_date = parse_american_date(params.require :end_date)
-    @records = ApplicationRecord.in_department(given_or_all_department_ids)
+    @records = FiledApplication.in_department(given_or_all_department_ids)
                                 .between(start_date, end_date)
     render 'csv_export.csv.erb', layout: false
   end
@@ -36,7 +36,7 @@ class ApplicationRecordsController < ApplicationController
   def eeo_data
     start_date = parse_american_date(params.require :eeo_start_date)
     end_date = parse_american_date(params.require :eeo_end_date)
-    @records = ApplicationRecord.eeo_data(start_date,
+    @records = FiledApplication.eeo_data(start_date,
                                           end_date,
                                           given_or_all_department_ids)
   end
@@ -46,7 +46,7 @@ class ApplicationRecordsController < ApplicationController
     # instead of just start_date
     start_date = parse_american_date(params.require :records_start_date)
     end_date = parse_american_date(params.require :records_end_date)
-    @records = ApplicationRecord.in_department(given_or_all_department_ids)
+    @records = FiledApplication.in_department(given_or_all_department_ids)
                                 .between(start_date, end_date)
   end
 
@@ -58,7 +58,7 @@ class ApplicationRecordsController < ApplicationController
       interview_parameters = interview_parameters.symbolize_keys
       interview_parameters.merge! completed: false,
                                   hired: false,
-                                  application_record: @record,
+                                  filed_application: @record,
                                   user: @record.user
       Interview.create! interview_parameters
     else @record.deny_with params.require(:staff_note)
@@ -114,13 +114,13 @@ class ApplicationRecordsController < ApplicationController
 
   def create_unavailability(record)
     unavail_params = parse_unavailability(params.require :unavailability)
-                     .merge application_record: record
+                     .merge filed_application: record
     Unavailability.create unavail_params
   end
 
   def find_record
     params.require :id
-    @record = ApplicationRecord.find params[:id]
+    @record = FiledApplication.find params[:id]
   end
 
   def given_or_all_department_ids

@@ -11,12 +11,12 @@ describe JobappsMailer do
       position = create :position
       @template = create :application_template,
                          position: position, email: 'steve@sharklazers.com'
-      @application_record = create :application_record, staff_note: 'note',
+      @filed_application = create :filed_application, staff_note: 'note',
                                                         position: position
-      @user = @application_record.user
+      @user = @filed_application.user
     end
     let :output do
-      JobappsMailer.application_denial @application_record
+      JobappsMailer.application_denial @filed_application
     end
     it 'emails from the configured value' do
       expect(output.from).to eql Array(@from)
@@ -43,7 +43,7 @@ describe JobappsMailer do
       end
       it 'includes a reason for application denial' do
         expect(output.body.encoded)
-          .to include @application_record.staff_note
+          .to include @filed_application.staff_note
       end
     end
     context 'notify_of_reason is set to false' do
@@ -59,7 +59,7 @@ describe JobappsMailer do
       end
       it 'does not include a reason for application denial' do
         expect(output.body.encoded)
-          .not_to include @application_record.staff_note
+          .not_to include @filed_application.staff_note
       end
     end
   end
@@ -90,9 +90,9 @@ describe JobappsMailer do
       position = create :position
       @template = create :application_template,
                          position: position, email: 'steve@sharklazers.com'
-      application_record = create :application_record, staff_note: 'note',
+      filed_application = create :filed_application, staff_note: 'note',
                                                        position: position
-      @interview = create :interview, application_record: application_record
+      @interview = create :interview, filed_application: filed_application
       @user = @interview.user
     end
     let :output do
@@ -120,9 +120,9 @@ describe JobappsMailer do
       position = create :position
       @template = create :application_template,
                          position: position, email: 'steve@sharklazers.com'
-      application_record = create :application_record, staff_note: 'note',
+      filed_application = create :filed_application, staff_note: 'note',
                                                        position: position
-      @interview = create :interview, application_record: application_record
+      @interview = create :interview, filed_application: filed_application
       @user = @interview.user
     end
     let :output do
@@ -147,7 +147,7 @@ describe JobappsMailer do
 
   describe 'send_note_for_later' do
     let :record do
-      create :application_record,
+      create :filed_application,
              saved_for_later: true,
              note_for_later: 'We need you to grow up a little'
     end
@@ -213,7 +213,7 @@ describe JobappsMailer do
 
   describe 'saved_application_notification' do
     before :each do
-      @record = create :application_record, email_to_notify: 'foo@example.com'
+      @record = create :filed_application, email_to_notify: 'foo@example.com'
     end
     let :output do
       JobappsMailer.saved_application_notification @record
@@ -244,10 +244,10 @@ describe JobappsMailer do
   describe 'saved_applications_notification' do
     before :each do
       @position = create :position
-      @record_1 = create :application_record,
+      @record_1 = create :filed_application,
                          position: @position,
                          note_for_later: 'This note is for later.'
-      @record_2 = create :application_record, position: @position
+      @record_2 = create :filed_application, position: @position
       @email = 'foo@example.com'
     end
     let :output do

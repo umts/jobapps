@@ -5,7 +5,7 @@ submitted
 by:
 = @record.user.name_and_email
 = button_to 'Print this page',
-  application_record_path(@record, format: :pdf), method: :get
+  filed_application_path(@record, format: :pdf), method: :get
 - if !@record.saved_for_later? && @record.note_for_later.present?
   %em
     This application had previously been saved for later review. Your note:
@@ -37,7 +37,7 @@ by:
 - if @current_user.staff?
   - if @record.pending?
     %h3 Review application
-    = form_tag controller: :application_records,
+    = form_tag controller: :filed_applications,
       action: :review,
       id: @record.id,
       accepted: false do
@@ -52,7 +52,7 @@ by:
           These notes will not be provided to the applicant.
       .note_item
         = submit_tag 'Review application without scheduling interview'
-    = form_tag controller: :application_records,
+    = form_tag controller: :filed_applications,
       action: :review,
       id: @record.id,
       accepted: true do
@@ -77,10 +77,10 @@ by:
         Date to review:
         .note_item= format_date @record.date_for_later
       .note_item= button_to 'Move back to dashboard',
-        toggle_saved_for_later_application_record_url(@record)
+        toggle_saved_for_later_filed_application_url(@record)
     - else
       %h3 Save application for later review
-      = form_tag controller: :application_records,
+      = form_tag controller: :filed_applications,
         action: :toggle_saved_for_later,
         id: @record.id do
         %p
