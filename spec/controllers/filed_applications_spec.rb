@@ -216,7 +216,7 @@ describe FiledApplicationsController do
     context 'submitting with the department ID param' do
       let :submit do
         get :past_applications, params: {
-            eecords_start_date: @start_date.strftime('%m/%d/%Y'),
+            records_start_date: @start_date.strftime('%m/%d/%Y'),
             records_end_date: @end_date.strftime('%m/%d/%Y'),
             department_ids: @department.id
         }
@@ -360,7 +360,7 @@ describe FiledApplicationsController do
 
   describe 'GET #show' do
     before :each do
-      @record = create :filed_application, params: { user: (create :user, :student) }
+      @record = create :filed_application,user: (create :user, :student)
     end
     let :submit do
       get :show, params: { id: @record.id }
