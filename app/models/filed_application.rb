@@ -1,6 +1,6 @@
 include ApplicationConfiguration
 
-class FiledApplication < ActiveRecord::Base
+class FiledApplication < ApplicationRecord
   belongs_to :user
   belongs_to :position
   delegate :department, to: :position

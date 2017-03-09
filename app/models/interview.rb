@@ -1,4 +1,4 @@
-class Interview < ActiveRecord::Base
+class Interview < ApplicationRecord
   include DateAndTimeMethods
 
   belongs_to :user

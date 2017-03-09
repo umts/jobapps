@@ -1,4 +1,4 @@
-class Department < ActiveRecord::Base
+class Department < ApplicationRecord
   has_many :positions, dependent: :destroy
   has_many :application_templates, through: :positions
   has_many :filed_applications, through: :positions

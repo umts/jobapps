@@ -1,6 +1,6 @@
 include ApplicationConfiguration
 
-class Position < ActiveRecord::Base
+class Position < ApplicationRecord
   belongs_to :department
   has_one :application_template, dependent: :destroy
   has_many :filed_applications, dependent: :destroy

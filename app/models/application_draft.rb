@@ -1,4 +1,4 @@
-class ApplicationDraft < ActiveRecord::Base
+class ApplicationDraft < ApplicationRecord
   has_many :questions, dependent: :destroy
   accepts_nested_attributes_for :questions
   belongs_to :application_template

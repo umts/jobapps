@@ -1,4 +1,4 @@
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   has_many :interviews, dependent: :destroy
   has_many :filed_applications, dependent: :destroy
   has_many :subscriptions
