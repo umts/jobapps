@@ -173,7 +173,11 @@ describe ApplicationDraftsController do
       @commit = 'Save changes and continue editing'
     end
     let :submit do
-      post :update, params: { id: @draft, draft: @draft_changes, commit: @commit }
+      post :update, params: {
+        id: @draft,
+        draft: @draft_changes,
+        commit: @commit
+      }
     end
     context 'staff' do
       before :each do

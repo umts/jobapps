@@ -105,7 +105,10 @@ describe SiteTextsController do
       @description = 'requested description'
     end
     let :submit do
-      post :request_new, params: { location: @location, description: @description }
+      post :request_new, params: {
+        location: @location,
+        description: @description
+      }
     end
     context 'staff' do
       before :each do

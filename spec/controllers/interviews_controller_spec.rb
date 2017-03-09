@@ -33,7 +33,7 @@ describe InterviewsController do
       context 'not hired button is pressed' do
         let :submit do
           post :complete, params: { id: @interview.id,
-                          interview_note: 'note' }
+                                    interview_note: 'note' }
         end
         it 'marks the interview as complete' do
           submit
@@ -82,9 +82,9 @@ describe InterviewsController do
     end
     let :submit do
       post :reschedule, params: {
-           id: @interview.id,
-           location: @location,
-           scheduled: @scheduled.strftime('%Y/%m/%d %H:%M')
+        id: @interview.id,
+        location: @location,
+        scheduled: @scheduled.strftime('%Y/%m/%d %H:%M')
       }
     end
     context 'staff' do

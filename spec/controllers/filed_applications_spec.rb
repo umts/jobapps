@@ -31,9 +31,9 @@ describe FiledApplicationsController do
     end
     let :submit do
       post :create, params: { position_id: @position.id,
-                    data: @data,
-                    user: @user,
-                    unavailability: @unavailability
+                              data: @data,
+                              user: @user,
+                              unavailability: @unavailability
       }
     end
     context 'current user is nil' do
@@ -104,9 +104,9 @@ describe FiledApplicationsController do
     context 'submitting with the department ID param' do
       let :submit do
         get :csv_export, params: {
-            start_date: @start_date.strftime('%m/%d/%Y'),
-            end_date: @end_date.strftime('%m/%d/%Y'),
-            department_ids: @department.id
+          start_date: @start_date.strftime('%m/%d/%Y'),
+          end_date: @end_date.strftime('%m/%d/%Y'),
+          department_ids: @department.id
         }
       end
       it 'calls AR#in_department with the correct parameters' do
@@ -131,8 +131,8 @@ describe FiledApplicationsController do
     context 'submitting without the department ID param' do
       let :submit do
         get :csv_export, params: {
-            start_date: @start_date.strftime('%m/%d/%Y'),
-            end_date: @end_date.strftime('%m/%d/%Y')
+          start_date: @start_date.strftime('%m/%d/%Y'),
+          end_date: @end_date.strftime('%m/%d/%Y')
         }
       end
       it 'calls AR#in_department with all department IDs' do
@@ -164,9 +164,9 @@ describe FiledApplicationsController do
     context 'submitting with the department ID param' do
       let :submit do
         get :eeo_data, params: {
-            eeo_start_date: @start_date.strftime('%m/%d/%Y'),
-            eeo_end_date: @end_date.strftime('%m/%d/%Y'),
-            department_ids: @department.id
+          eeo_start_date: @start_date.strftime('%m/%d/%Y'),
+          eeo_end_date: @end_date.strftime('%m/%d/%Y'),
+          department_ids: @department.id
         }
       end
       it 'calls AR#eeo_data with the correct parameters' do
@@ -185,8 +185,8 @@ describe FiledApplicationsController do
     context 'submitting without the department ID param' do
       let :submit do
         get :eeo_data, params: {
-            eeo_start_date: @start_date.strftime('%m/%d/%Y'),
-            eeo_end_date: @end_date.strftime('%m/%d/%Y')
+          eeo_start_date: @start_date.strftime('%m/%d/%Y'),
+          eeo_end_date: @end_date.strftime('%m/%d/%Y')
         }
       end
       # the third argument in this case is not from the params,
@@ -216,9 +216,9 @@ describe FiledApplicationsController do
     context 'submitting with the department ID param' do
       let :submit do
         get :past_applications, params: {
-            records_start_date: @start_date.strftime('%m/%d/%Y'),
-            records_end_date: @end_date.strftime('%m/%d/%Y'),
-            department_ids: @department.id
+          records_start_date: @start_date.strftime('%m/%d/%Y'),
+          records_end_date: @end_date.strftime('%m/%d/%Y'),
+          department_ids: @department.id
         }
       end
       it 'calls AR#between with the correct parameters' do
@@ -242,8 +242,8 @@ describe FiledApplicationsController do
     context 'submitting without the department ID param' do
       let :submit do
         get :past_applications, params: {
-            records_start_date: @start_date.strftime('%m/%d/%Y'),
-            records_end_date: @end_date.strftime('%m/%d/%Y')
+          records_start_date: @start_date.strftime('%m/%d/%Y'),
+          records_end_date: @end_date.strftime('%m/%d/%Y')
         }
       end
       it 'calls AR#between with the correct parameters' do
@@ -280,9 +280,9 @@ describe FiledApplicationsController do
       context 'record accepted' do
         let :submit do
           post :review, params: {
-               id: @record.id,
-               accepted: 'true',
-               interview: @interview
+            id: @record.id,
+            accepted: 'true',
+            interview: @interview
           }
         end
         it 'creates an interview as given' do
@@ -305,9 +305,9 @@ describe FiledApplicationsController do
         end
         let :submit do
           post :review, params: {
-               id: @record.id,
-               accepted: 'false',
-               staff_note: @staff_note
+            id: @record.id,
+            accepted: 'false',
+            staff_note: @staff_note
           }
         end
         it 'updates record with staff note given' do
@@ -360,7 +360,7 @@ describe FiledApplicationsController do
 
   describe 'GET #show' do
     before :each do
-      @record = create :filed_application,user: (create :user, :student)
+      @record = create :filed_application, user: (create :user, :student)
     end
     let :submit do
       get :show, params: { id: @record.id }

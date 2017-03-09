@@ -97,7 +97,7 @@ describe FiledApplication do
     before :each do
       @department = create :department
       position = create :position, department: @department
-      @good_record = create :filed_application,  position: position
+      @good_record = create :filed_application, position: position
       @bad_record = create :filed_application, position: create(:position)
     end
     let :call do
@@ -416,7 +416,7 @@ describe FiledApplication do
       @start_date = 1.week.ago
       @end_date = 1.week.since
       @relation = FiledApplication.between(@start_date, @end_date)
-                                   .in_department(@department.id)
+                                  .in_department(@department.id)
     end
     let :call do
       FiledApplication.eeo_data @start_date, @end_date, @department.id

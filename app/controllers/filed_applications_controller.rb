@@ -12,8 +12,8 @@ class FiledApplicationsController < ApplicationController
     data = parse_application_data(params.require :data)
     params.require :position_id
     record = FiledApplication.create(record_params.merge(data: data,
-                                                          user: @current_user,
-                                                          reviewed: false))
+                                                         user: @current_user,
+                                                         reviewed: false))
     record.email_subscribers applicant: @current_user
 
     if record.position.application_template.unavailability_enabled?
@@ -29,7 +29,7 @@ class FiledApplicationsController < ApplicationController
     start_date = parse_american_date(params.require :start_date)
     end_date = parse_american_date(params.require :end_date)
     @records = FiledApplication.in_department(given_or_all_department_ids)
-                                .between(start_date, end_date)
+                               .between(start_date, end_date)
     render 'csv_export.csv.erb', layout: false
   end
 
@@ -37,8 +37,8 @@ class FiledApplicationsController < ApplicationController
     start_date = parse_american_date(params.require :eeo_start_date)
     end_date = parse_american_date(params.require :eeo_end_date)
     @records = FiledApplication.eeo_data(start_date,
-                                          end_date,
-                                          given_or_all_department_ids)
+                                         end_date,
+                                         given_or_all_department_ids)
   end
 
   def past_applications
@@ -47,7 +47,7 @@ class FiledApplicationsController < ApplicationController
     start_date = parse_american_date(params.require :records_start_date)
     end_date = parse_american_date(params.require :records_end_date)
     @records = FiledApplication.in_department(given_or_all_department_ids)
-                                .between(start_date, end_date)
+                               .between(start_date, end_date)
   end
 
   def review

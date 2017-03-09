@@ -97,9 +97,9 @@ describe ApplicationTemplatesController do
     end
     let :submit do
       post :toggle_active, params: {
-           id: @template.id,
-           position: @template.position.name,
-           department: @template.department.name
+        id: @template.id,
+        position: @template.position.name,
+        department: @template.department.name
       }
     end
     context 'staff' do
@@ -133,9 +133,9 @@ describe ApplicationTemplatesController do
     end
     let :submit do
       post :toggle_eeo_enabled, params: {
-           id: @template.id,
-           position: @template.position.name,
-           department: @template.department.name
+        id: @template.id,
+        position: @template.position.name,
+        department: @template.department.name
       }
     end
     context 'staff' do
@@ -184,9 +184,9 @@ describe ApplicationTemplatesController do
     end
     let :submit do
       post :toggle_unavailability_enabled, params: {
-           id: @template.id,
-           position: @template.position.name,
-           department: @template.department.name
+        id: @template.id,
+        position: @template.position.name,
+        department: @template.department.name
       }
     end
     context 'staff' do
