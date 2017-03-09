@@ -30,10 +30,11 @@ describe FiledApplicationsController do
       @user = Hash.new
     end
     let :submit do
-      post :create, position_id: @position.id,
+      post :create, params: { position_id: @position.id,
                     data: @data,
                     user: @user,
                     unavailability: @unavailability
+      }
     end
     context 'current user is nil' do
       it 'creates a user' do
@@ -102,10 +103,11 @@ describe FiledApplicationsController do
     end
     context 'submitting with the department ID param' do
       let :submit do
-        get :csv_export,
+        get :csv_export, params: {
             start_date: @start_date.strftime('%m/%d/%Y'),
             end_date: @end_date.strftime('%m/%d/%Y'),
             department_ids: @department.id
+        }
       end
       it 'calls AR#in_department with the correct parameters' do
         expect(FiledApplication).to receive(:in_department)
@@ -128,9 +130,10 @@ describe FiledApplicationsController do
     end
     context 'submitting without the department ID param' do
       let :submit do
-        get :csv_export,
+        get :csv_export, params: {
             start_date: @start_date.strftime('%m/%d/%Y'),
             end_date: @end_date.strftime('%m/%d/%Y')
+        }
       end
       it 'calls AR#in_department with all department IDs' do
         expect(FiledApplication).to receive(:in_department)
@@ -160,10 +163,11 @@ describe FiledApplicationsController do
     end
     context 'submitting with the department ID param' do
       let :submit do
-        get :eeo_data,
+        get :eeo_data, params: {
             eeo_start_date: @start_date.strftime('%m/%d/%Y'),
             eeo_end_date: @end_date.strftime('%m/%d/%Y'),
             department_ids: @department.id
+        }
       end
       it 'calls AR#eeo_data with the correct parameters' do
         expect(FiledApplication).to receive(:eeo_data)
@@ -180,9 +184,10 @@ describe FiledApplicationsController do
     end
     context 'submitting without the department ID param' do
       let :submit do
-        get :eeo_data,
+        get :eeo_data, params: {
             eeo_start_date: @start_date.strftime('%m/%d/%Y'),
             eeo_end_date: @end_date.strftime('%m/%d/%Y')
+        }
       end
       # the third argument in this case is not from the params,
       # it is a given array
@@ -210,10 +215,11 @@ describe FiledApplicationsController do
     end
     context 'submitting with the department ID param' do
       let :submit do
-        get :past_applications,
-            records_start_date: @start_date.strftime('%m/%d/%Y'),
+        get :past_applications, params: {
+            eecords_start_date: @start_date.strftime('%m/%d/%Y'),
             records_end_date: @end_date.strftime('%m/%d/%Y'),
             department_ids: @department.id
+        }
       end
       it 'calls AR#between with the correct parameters' do
         expect(FiledApplication).to receive(:between)
@@ -235,9 +241,10 @@ describe FiledApplicationsController do
     end
     context 'submitting without the department ID param' do
       let :submit do
-        get :past_applications,
+        get :past_applications, params: {
             records_start_date: @start_date.strftime('%m/%d/%Y'),
             records_end_date: @end_date.strftime('%m/%d/%Y')
+        }
       end
       it 'calls AR#between with the correct parameters' do
         expect(FiledApplication).to receive(:between)
@@ -272,10 +279,11 @@ describe FiledApplicationsController do
       end
       context 'record accepted' do
         let :submit do
-          post :review,
+          post :review, params: {
                id: @record.id,
                accepted: 'true',
                interview: @interview
+          }
         end
         it 'creates an interview as given' do
           expect { submit }
@@ -296,10 +304,11 @@ describe FiledApplicationsController do
           @staff_note = 'because I said so'
         end
         let :submit do
-          post :review,
+          post :review, params: {
                id: @record.id,
                accepted: 'false',
                staff_note: @staff_note
+          }
         end
         it 'updates record with staff note given' do
           expect_any_instance_of(FiledApplication)
@@ -329,7 +338,7 @@ describe FiledApplicationsController do
     end
     context 'record not saved for later' do
       let!(:record) { create :filed_application, saved_for_later: false }
-      let(:submit) { post :toggle_saved_for_later, id: record.id }
+      let(:submit) { post :toggle_saved_for_later, params: { id: record.id } }
       it 'calls record.save_for_later' do
         expect_any_instance_of(FiledApplication).to receive(:save_for_later)
         submit
@@ -341,7 +350,7 @@ describe FiledApplicationsController do
                saved_for_later: true,
                note_for_later: 'this needs to be here'
       end
-      let(:submit) { post :toggle_saved_for_later, id: record.id }
+      let(:submit) { post :toggle_saved_for_later, params: { id: record.id } }
       it 'calls record.move_to_dashboard' do
         expect_any_instance_of(FiledApplication).to receive(:move_to_dashboard)
         submit
@@ -351,10 +360,10 @@ describe FiledApplicationsController do
 
   describe 'GET #show' do
     before :each do
-      @record = create :filed_application, user: (create :user, :student)
+      @record = create :filed_application, params: { user: (create :user, :student) }
     end
     let :submit do
-      get :show, id: @record.id
+      get :show, params: { id: @record.id }
     end
     context 'applicant student' do
       before :each do
@@ -396,7 +405,7 @@ describe FiledApplicationsController do
         expect(assigns.keys).to include 'record', 'interview'
       end
       it 'generates a pdf by calling prawn' do
-        get :show, id: @record.id, format: :pdf
+        get :show, params: { id: @record.id, format: :pdf }
         expect(response.headers['Content-Type']).to eql 'application/pdf'
       end
     end

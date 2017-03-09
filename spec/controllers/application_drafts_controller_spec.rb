@@ -15,7 +15,7 @@ describe ApplicationDraftsController do
       @draft = create :application_draft
     end
     let :submit do
-      delete :destroy, id: @draft.id
+      delete :destroy, params: { id: @draft.id }
     end
     context 'staff' do
       before :each do
@@ -46,7 +46,7 @@ describe ApplicationDraftsController do
       @draft = create :application_draft
     end
     let :submit do
-      get :edit, id: @draft.id
+      get :edit, params: { id: @draft.id }
     end
     context 'staff' do
       before :each do
@@ -73,7 +73,7 @@ describe ApplicationDraftsController do
       @template = create :application_template
     end
     let :submit do
-      get :new, application_template_id: @template.id
+      get :new, params: { application_template_id: @template.id }
     end
     context 'staff' do
       before :each do
@@ -110,10 +110,10 @@ describe ApplicationDraftsController do
       @direction = :up
     end
     let :submit do
-      post :move_question,
-           id: @draft.id,
-           number: @question.number,
-           direction: @direction
+      post :move_question, params: { id: @draft.id,
+                                     number: @question.number,
+                                     direction: @direction
+      }
     end
     context 'staff' do
       before :each do
@@ -142,7 +142,7 @@ describe ApplicationDraftsController do
       @question = create :question, application_draft: @draft
     end
     let :submit do
-      post :remove_question, id: @draft.id, number: @question.number
+      post :remove_question, params: { id: @draft.id, number: @question.number }
     end
     context 'staff' do
       before :each do
@@ -173,7 +173,7 @@ describe ApplicationDraftsController do
       @commit = 'Save changes and continue editing'
     end
     let :submit do
-      post :update, id: @draft, draft: @draft_changes, commit: @commit
+      post :update, params: { id: @draft, draft: @draft_changes, commit: @commit }
     end
     context 'staff' do
       before :each do
@@ -214,7 +214,7 @@ describe ApplicationDraftsController do
       @draft = create :application_draft
     end
     let :submit do
-      post :update_application_template, id: @draft.id
+      post :update_application_template, params: { id: @draft.id }
     end
     context 'staff' do
       before :each do

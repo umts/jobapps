@@ -14,7 +14,7 @@ describe ApplicationTemplatesController do
         @position = create :position
       end
       let :submit do
-        get :new, position_id: @position.id
+        get :new, params: { position_id: @position.id }
       end
       it 'creates an application template for that position' do
         expect(@position.application_template).to be_nil
@@ -51,11 +51,11 @@ describe ApplicationTemplatesController do
     end
     context 'using specific route' do
       let :submit do
-        get :show, id: @template.slug
+        get :show, params: { id: @template.slug }
       end
 
       let :submit_with_load_id do
-        get :show, id: @template.slug, load_id: @record.id
+        get :show, params: { id: @template.slug, load_id: @record.id }
       end
 
       context 'with a record to preload from' do
@@ -96,10 +96,11 @@ describe ApplicationTemplatesController do
       @template = create :application_template, position: position
     end
     let :submit do
-      post :toggle_active,
+      post :toggle_active, params: {
            id: @template.id,
            position: @template.position.name,
            department: @template.department.name
+      }
     end
     context 'staff' do
       before :each do
@@ -131,10 +132,11 @@ describe ApplicationTemplatesController do
       @template = create :application_template, position: position
     end
     let :submit do
-      post :toggle_eeo_enabled,
+      post :toggle_eeo_enabled, params: {
            id: @template.id,
            position: @template.position.name,
            department: @template.department.name
+      }
     end
     context 'staff' do
       before :each do
@@ -181,10 +183,11 @@ describe ApplicationTemplatesController do
       @template = create :application_template, position: position
     end
     let :submit do
-      post :toggle_unavailability_enabled,
+      post :toggle_unavailability_enabled, params: {
            id: @template.id,
            position: @template.position.name,
            department: @template.department.name
+      }
     end
     context 'staff' do
       before :each do

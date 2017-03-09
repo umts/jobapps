@@ -14,7 +14,7 @@ describe SiteTextsController do
     end
     context 'GET' do
       let :submit do
-        get :edit, id: @site_text.id
+        get :edit, params: { id: @site_text.id }
       end
       context 'staff' do
         before :each do
@@ -32,7 +32,7 @@ describe SiteTextsController do
         @input = 'input'
       end
       let :submit do
-        get :edit, id: @site_text.id, preview_input: @input
+        get :edit, params: { id: @site_text.id, preview_input: @input }
       end
       context 'staff' do
         before :each do
@@ -52,7 +52,7 @@ describe SiteTextsController do
       @changes = { text: 'new text' }
     end
     let :submit do
-      put :update, id: @site_text.id, site_text: @changes
+      put :update, params: { id: @site_text.id, site_text: @changes }
     end
     context 'staff' do
       before :each do
@@ -105,7 +105,7 @@ describe SiteTextsController do
       @description = 'requested description'
     end
     let :submit do
-      post :request_new, location: @location, description: @description
+      post :request_new, params: { location: @location, description: @description }
     end
     context 'staff' do
       before :each do
@@ -121,7 +121,7 @@ describe SiteTextsController do
         when_current_user_is :staff
       end
       let :submit do
-        get :show, id: 'not a name of anything'
+        get :show, params: { id: 'not a name of anything' }
       end
       it 'raises RecordNotFound exception' do
         expect { submit }.to raise_error ActiveRecord::RecordNotFound
@@ -132,7 +132,7 @@ describe SiteTextsController do
         @site_text = create :site_text
       end
       let :submit do
-        get :show, id: @site_text.id
+        get :show, params: { id: @site_text.id }
       end
       context 'staff' do
         before :each do

@@ -67,7 +67,7 @@ describe SessionsController do
       @user = create :user
     end
     let :submit do
-      post :dev_login, user_id: @user.id
+      post :dev_login, params: { user_id: @user.id }
     end
     it 'creates a session for the user specified' do
       submit
@@ -75,7 +75,7 @@ describe SessionsController do
     end
     context 'SPIRE submitted' do
       it 'creates a session with that SPIRE' do
-        post :dev_login, spire: '12345678'
+        post :dev_login, params: { spire: '12345678' }
         expect(session[:spire]).to eql '12345678'
       end
     end
