@@ -19,7 +19,7 @@ describe InterviewsController do
       end
       context 'hired button is pressed' do
         let :submit do
-          post :complete, params: { id: @interview.id, hired: true }
+          post :complete, params: { id: @interview.id, hired: 'anything' }
         end
         it 'marks interview as complete' do
           submit
@@ -32,7 +32,7 @@ describe InterviewsController do
       end
       context 'not hired button is pressed' do
         let :submit do
-          post :complete, params: { id: @interview.id, hired: false,
+          post :complete, params: { id: @interview.id,
                           interview_note: 'note' }
         end
         it 'marks the interview as complete' do
