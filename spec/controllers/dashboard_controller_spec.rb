@@ -38,7 +38,7 @@ describe DashboardController do
       end
       context 'XHR request' do
         it 'does not allow access' do
-          xhr :get, :staff
+          get :staff, xhr: true
           expect(response).to have_http_status :unauthorized
           expect(response.body).to be_blank
         end
