@@ -121,7 +121,7 @@ describe ApplicationTemplatesController do
       end
       it 'redirects back' do
         submit
-        expect(response).to redirect_to :back
+        expect(response).to redirect_to 'http://test.host/redirect'
       end
     end
   end
@@ -171,7 +171,7 @@ describe ApplicationTemplatesController do
 
       it 'redirects back' do
         submit
-        expect(response).to redirect_to :back
+        expect(response).to redirect_to 'http://test.host/redirect'
       end
     end
   end
@@ -219,7 +219,8 @@ describe ApplicationTemplatesController do
       end
 
       it 'redirects back' do
-        expect { submit }.to redirect_back
+        submit
+        expect(response).to redirect_to 'http://test.host/redirect'
       end
     end
   end
