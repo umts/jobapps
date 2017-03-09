@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
 
   def deny_access
     if request.xhr?
-      render nothing: true, status: :unauthorized
+      head :unauthorized
     else
       render file: 'public/401.html',
              status: :unauthorized,
