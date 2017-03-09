@@ -27,7 +27,7 @@ class ApplicationTemplatesController < ApplicationController
     else show_message :inactive_application,
                       default: 'The application is now inactive.'
     end
-    redirect_to :back
+    redirect_back fallback_location: main_dashboard_path
   end
 
   def toggle_eeo_enabled
@@ -39,7 +39,7 @@ class ApplicationTemplatesController < ApplicationController
       show_message :eeo_disabled,
                    default: 'EEO data requests disabled on this application.'
     end
-    redirect_to :back
+    redirect_back fallback_location: main_dashboard_path
   end
 
   def toggle_unavailability_enabled
@@ -53,7 +53,7 @@ class ApplicationTemplatesController < ApplicationController
                    default: 'Unavailability requests disabled on
                             this application.'
     end
-    redirect_to :back
+    redirect_back fallback_location: main_dashboard_path
   end
 
   private
