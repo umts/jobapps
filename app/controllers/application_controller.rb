@@ -62,7 +62,7 @@ class ApplicationController < ActionController::Base
   # rubocop:disable Style/AndOr
   def show_errors(object)
     flash[:errors] = object.errors.full_messages
-    redirect_to :back and return
+    redirect_back(fallback_location: 'public/404.html') and return
   end
   # rubocop:enable Style/AndOr
 
