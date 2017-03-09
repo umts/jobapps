@@ -53,9 +53,9 @@ class FiledApplicationsController < ApplicationController
   def review
     if params.require(:accepted) == 'true'
       interview_parameters = params.require(:interview)
+                                   .permit(:location, :scheduled)
       interview_parameters.require :location
       interview_parameters.require :scheduled
-      interview_parameters = interview_parameters.symbolize_keys
       interview_parameters.merge! completed: false,
                                   hired: false,
                                   filed_application: @record,
