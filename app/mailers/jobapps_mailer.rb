@@ -5,10 +5,10 @@ class JobappsMailer < ActionMailer::Base
   # for some reason the configured_value method doesn't work here
   default from: CONFIG[:email][:default_from]
 
-  def application_denial(filed_application)
-    @filed_application = filed_application
-    @user = @filed_application.user
-    template = @filed_application.position.application_template
+  def application_denial(application_submission)
+    @application_submission = application_submission
+    @user = @application_submission.user
+    template = @application_submission.position.application_template
     reply_to = template.try :email
     mail to: @user.email,
          subject: 'Application Denial',
@@ -25,7 +25,7 @@ class JobappsMailer < ActionMailer::Base
   def interview_confirmation(interview)
     @interview = interview
     @user = interview.user
-    template = interview.filed_application.position.application_template
+    template = interview.application_submission.position.application_template
     reply_to = template.try :email
     mail to: @user.email,
          subject: 'Interview Confirmation',
@@ -35,17 +35,17 @@ class JobappsMailer < ActionMailer::Base
   def interview_reschedule(interview)
     @interview = interview
     @user = interview.user
-    template = interview.filed_application.position.application_template
+    template = interview.application_submission.position.application_template
     reply_to = template.try :email
     mail to: @user.email,
          subject: 'Interview Rescheduled',
          reply_to: reply_to
   end
 
-  def send_note_for_later(filed_application)
-    template = filed_application.position.application_template
-    @user = filed_application.user
-    @record = filed_application
+  def send_note_for_later(application_submission)
+    template = application_submission.position.application_template
+    @user = application_submission.user
+    @record = application_submission
     reply_to = template.try :email
     mail to: @user.email,
          subject: 'Your application has been saved for later review',

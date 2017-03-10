@@ -8,6 +8,6 @@
           - if @pending_interviews.key? position
             - @pending_interviews[position].each do |interview|
               %li= link_to interview.information(include_name: true),
-                interview.filed_application
+                interview.application_submission
           - else
             No pending interviews

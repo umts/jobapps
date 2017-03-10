@@ -16,7 +16,7 @@ describe 'interviews/interview.ics.erb' do
     expect(lines.fetch 'DTSTART')
       .to eql format_date_time @interview.scheduled, format: :iCal
     expect(lines.fetch 'DESCRIPTION')
-      .to eql filed_application_url(@interview.filed_application)
+      .to eql application_submission_url(@interview.application_submission)
     expect(lines.fetch 'SUMMARY').to eql @interview.calendar_title
     expect(lines.fetch 'UID')
       .to eql "INTERVIEW#{@interview.id}@UMASS_TRANSIT//JOBAPPS"

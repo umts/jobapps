@@ -1,5 +1,5 @@
 FactoryGirl.define do
   factory :unavailability do
-    filed_application
+    application_submission
   end
 end

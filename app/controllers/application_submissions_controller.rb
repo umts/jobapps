@@ -1,5 +1,5 @@
 require 'prawn'
-class FiledApplicationsController < ApplicationController
+class ApplicationSubmissionsController < ApplicationController
   skip_before_action :access_control, only: [:create, :show]
   before_action :find_record, except: [:create,
                                        :csv_export,
@@ -11,7 +11,7 @@ class FiledApplicationsController < ApplicationController
     create_user if @current_user.blank?
     data = parse_application_data(params.require :data)
     params.require :position_id
-    record = FiledApplication.create(record_params.merge(data: data,
+    record = ApplicationSubmission.create(record_params.merge(data: data,
                                                          user: @current_user,
                                                          reviewed: false))
     record.email_subscribers applicant: @current_user
@@ -28,7 +28,7 @@ class FiledApplicationsController < ApplicationController
   def csv_export
     start_date = parse_american_date(params.require :start_date)
     end_date = parse_american_date(params.require :end_date)
-    @records = FiledApplication.in_department(given_or_all_department_ids)
+    @records = ApplicationSubmission.in_department(given_or_all_department_ids)
                                .between(start_date, end_date)
     render 'csv_export.csv.erb', layout: false
   end
@@ -36,7 +36,7 @@ class FiledApplicationsController < ApplicationController
   def eeo_data
     start_date = parse_american_date(params.require :eeo_start_date)
     end_date = parse_american_date(params.require :eeo_end_date)
-    @records = FiledApplication.eeo_data(start_date,
+    @records = ApplicationSubmission.eeo_data(start_date,
                                          end_date,
                                          given_or_all_department_ids)
   end
@@ -46,7 +46,7 @@ class FiledApplicationsController < ApplicationController
     # instead of just start_date
     start_date = parse_american_date(params.require :records_start_date)
     end_date = parse_american_date(params.require :records_end_date)
-    @records = FiledApplication.in_department(given_or_all_department_ids)
+    @records = ApplicationSubmission.in_department(given_or_all_department_ids)
                                .between(start_date, end_date)
   end
 
@@ -120,7 +120,7 @@ class FiledApplicationsController < ApplicationController
 
   def find_record
     params.require :id
-    @record = FiledApplication.find params[:id]
+    @record = ApplicationSubmission.find params[:id]
   end
 
   def given_or_all_department_ids

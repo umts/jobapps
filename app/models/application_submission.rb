@@ -1,6 +1,6 @@
 include ApplicationConfiguration
 
-class FiledApplication < ApplicationRecord
+class ApplicationSubmission < ApplicationRecord
   belongs_to :user
   belongs_to :position
   delegate :department, to: :position
@@ -25,11 +25,11 @@ class FiledApplication < ApplicationRecord
         }
   scope :hire_count, lambda {
     joins(:interview)
-      .where(interviews: { filed_application_id: ids, hired: true }).count
+      .where(interviews: { application_submission_id: ids, hired: true }).count
   }
   scope :interview_count, lambda {
     joins(:interview)
-      .where(interviews: { filed_application_id: ids }).count
+      .where(interviews: { application_submission_id: ids }).count
   }
   scope :newest_first, -> { order 'created_at desc' }
   scope :pending, -> { where reviewed: false }

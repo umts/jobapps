@@ -1,6 +1,6 @@
 class User < ApplicationRecord
   has_many :interviews, dependent: :destroy
-  has_many :filed_applications, dependent: :destroy
+  has_many :application_submissions, dependent: :destroy
   has_many :subscriptions
   has_many :positions, through: :subscriptions
 
@@ -34,6 +34,6 @@ class User < ApplicationRecord
   end
 
   def old_applications(position)
-    filed_applications.where(position_id: position.id)
+    application_submissions.where(position_id: position.id)
   end
 end

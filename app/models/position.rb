@@ -3,8 +3,8 @@ include ApplicationConfiguration
 class Position < ApplicationRecord
   belongs_to :department
   has_one :application_template, dependent: :destroy
-  has_many :filed_applications, dependent: :destroy
-  has_many :interviews, through: :filed_applications
+  has_many :application_submissions, dependent: :destroy
+  has_many :interviews, through: :application_submissions
   has_many :subscriptions, dependent: :destroy
   has_many :users, through: :subscriptions
 

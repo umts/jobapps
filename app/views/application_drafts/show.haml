@@ -12,7 +12,7 @@
     Fields marked with an asterisk (
     %span.ast *
     ) are required.
-  = form_tag controller: :filed_applications, action: :create do
+  = form_tag controller: :application_submissions, action: :create do
     = fields_for :user do |u|
       .field
         .heading Please complete the following personal information.
@@ -85,12 +85,12 @@
           .label
             Please select the ethnic group with which you most closely identify:
           = select_tag :ethnicity,
-            options_for_select(FiledApplication::ETHNICITY_OPTIONS),
+            options_for_select(ApplicationSubmission::ETHNICITY_OPTIONS),
             include_blank: 'Prefer not to answer'
         .field
           .label Please select the gender with which you most closely identify:
           = select_tag :gender,
-            options_for_select(FiledApplication::GENDER_OPTIONS),
+            options_for_select(ApplicationSubmission::GENDER_OPTIONS),
             include_blank: 'Prefer not to answer'
     .actions= submit_tag 'Submit application', disabled: true
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe FiledApplicationsController do
+describe ApplicationSubmissionsController do
   it_behaves_like 'an access-controlled resource', routes: [
     [:get,  :csv_export,                 :collection],
     [:get,  :eeo_data,                   :collection],
@@ -54,7 +54,7 @@ describe FiledApplicationsController do
       before(:each) { when_current_user_is user }
       it 'creates an application record as specified' do
         expect { submit }
-          .to change { FiledApplication.count }
+          .to change { ApplicationSubmission.count }
           .by 1
       end
       it 'creates an unavailability' do
@@ -63,7 +63,7 @@ describe FiledApplicationsController do
           .by 1
       end
       it 'emails the subscribers to the position of the application record' do
-        expect_any_instance_of(FiledApplication)
+        expect_any_instance_of(ApplicationSubmission)
           .to receive(:email_subscribers)
           .with applicant: user
         submit
@@ -74,11 +74,11 @@ describe FiledApplicationsController do
       before(:each) { when_current_user_is user }
       it 'creates an application record as specified' do
         expect { submit }
-          .to change { FiledApplication.count }
+          .to change { ApplicationSubmission.count }
           .by 1
       end
       it 'emails the subscribers to the position of the application record' do
-        expect_any_instance_of(FiledApplication)
+        expect_any_instance_of(ApplicationSubmission)
           .to receive(:email_subscribers)
           .with applicant: user
         submit
@@ -110,20 +110,20 @@ describe FiledApplicationsController do
         }
       end
       it 'calls AR#in_department with the correct parameters' do
-        expect(FiledApplication).to receive(:in_department)
+        expect(ApplicationSubmission).to receive(:in_department)
           .with(@department.id.to_s)
-          .and_return FiledApplication.none
+          .and_return ApplicationSubmission.none
         # Needs to return something, because we must call
         # other methods on what it returns later.
         submit
       end
       it 'calls AR#between with the correct parameters' do
-        expect(FiledApplication).to receive(:between)
+        expect(ApplicationSubmission).to receive(:between)
           .with @start_date, @end_date
         submit
       end
       it 'assigns the correct records to the instance variable' do
-        expect(FiledApplication).to receive(:between).and_return 'whatever'
+        expect(ApplicationSubmission).to receive(:between).and_return 'whatever'
         submit
         expect(assigns.fetch :records).to eql 'whatever'
       end
@@ -136,18 +136,18 @@ describe FiledApplicationsController do
         }
       end
       it 'calls AR#in_department with all department IDs' do
-        expect(FiledApplication).to receive(:in_department)
-          .with(Department.all.pluck(:id)).and_return FiledApplication.none
+        expect(ApplicationSubmission).to receive(:in_department)
+          .with(Department.all.pluck(:id)).and_return ApplicationSubmission.none
         # must return something - another method is called on the results
         submit
       end
       it 'calls AR#between with the correct parameters' do
-        expect(FiledApplication).to receive(:between)
+        expect(ApplicationSubmission).to receive(:between)
           .with @start_date, @end_date
         submit
       end
       it 'assigns the correct records to the instance variable' do
-        expect(FiledApplication).to receive(:between).and_return 'whatever'
+        expect(ApplicationSubmission).to receive(:between).and_return 'whatever'
         submit
         expect(assigns.fetch :records).to eql 'whatever'
       end
@@ -170,14 +170,14 @@ describe FiledApplicationsController do
         }
       end
       it 'calls AR#eeo_data with the correct parameters' do
-        expect(FiledApplication).to receive(:eeo_data)
+        expect(ApplicationSubmission).to receive(:eeo_data)
           .with(@start_date, @end_date, @department.id.to_s)
         # to_s because params are a string
         submit
       end
       it 'assigns the correct records to the instance variable' do
-        record = FiledApplication.none
-        expect(FiledApplication).to receive(:eeo_data).and_return record
+        record = ApplicationSubmission.none
+        expect(ApplicationSubmission).to receive(:eeo_data).and_return record
         submit
         expect(assigns.fetch :records).to eql record
       end
@@ -192,14 +192,14 @@ describe FiledApplicationsController do
       # the third argument in this case is not from the params,
       # it is a given array
       it 'calls AR#eeo_data with the correct parameters' do
-        expect(FiledApplication).to receive(:eeo_data)
+        expect(ApplicationSubmission).to receive(:eeo_data)
           .with(@start_date, @end_date, Department.all.pluck(:id))
-          .and_return FiledApplication.none
+          .and_return ApplicationSubmission.none
         submit
       end
       it 'assigns the correct records to the instance variable' do
-        record = FiledApplication.none
-        expect(FiledApplication).to receive(:eeo_data).and_return record
+        record = ApplicationSubmission.none
+        expect(ApplicationSubmission).to receive(:eeo_data).and_return record
         submit
         expect(assigns.fetch :records).to eql record
       end
@@ -222,19 +222,19 @@ describe FiledApplicationsController do
         }
       end
       it 'calls AR#between with the correct parameters' do
-        expect(FiledApplication).to receive(:between)
+        expect(ApplicationSubmission).to receive(:between)
           .with @start_date, @end_date
         submit
       end
       it 'calls AR#in_department with the correct parameters' do
-        expect(FiledApplication).to receive(:in_department)
+        expect(ApplicationSubmission).to receive(:in_department)
           .with(@department.id.to_s)
-          .and_return FiledApplication.none
+          .and_return ApplicationSubmission.none
         #  needs to return something - other methods are called on the results
         submit
       end
       it 'assigns the correct records to the instance variable' do
-        expect(FiledApplication).to receive(:between).and_return 'whatever'
+        expect(ApplicationSubmission).to receive(:between).and_return 'whatever'
         submit
         expect(assigns.fetch :records).to eql 'whatever'
       end
@@ -247,18 +247,18 @@ describe FiledApplicationsController do
         }
       end
       it 'calls AR#between with the correct parameters' do
-        expect(FiledApplication).to receive(:between)
+        expect(ApplicationSubmission).to receive(:between)
           .with @start_date, @end_date
         submit
       end
       it 'calls AR#in_department with all department IDs' do
         # must return something, as a method is called on the results
-        expect(FiledApplication).to receive(:in_department)
-          .with(Department.all.pluck(:id)).and_return FiledApplication.none
+        expect(ApplicationSubmission).to receive(:in_department)
+          .with(Department.all.pluck(:id)).and_return ApplicationSubmission.none
         submit
       end
       it 'assigns the correct records to the instance variable' do
-        expect(FiledApplication).to receive(:between).and_return 'whatever'
+        expect(ApplicationSubmission).to receive(:between).and_return 'whatever'
         submit
         expect(assigns.fetch :records).to eql 'whatever'
       end
@@ -267,7 +267,7 @@ describe FiledApplicationsController do
 
   describe 'POST #review' do
     before :each do
-      @record = create :filed_application
+      @record = create :application_submission
       @interview = { location: 'somewhere',
                      scheduled: 1.day.since.strftime('%Y/%m/%d %H:%M') }
     end
@@ -311,7 +311,7 @@ describe FiledApplicationsController do
           }
         end
         it 'updates record with staff note given' do
-          expect_any_instance_of(FiledApplication)
+          expect_any_instance_of(ApplicationSubmission)
             .to receive(:deny_with)
             .with @staff_note
           submit
@@ -337,22 +337,22 @@ describe FiledApplicationsController do
       when_current_user_is :staff
     end
     context 'record not saved for later' do
-      let!(:record) { create :filed_application, saved_for_later: false }
+      let!(:record) { create :application_submission, saved_for_later: false }
       let(:submit) { post :toggle_saved_for_later, params: { id: record.id } }
       it 'calls record.save_for_later' do
-        expect_any_instance_of(FiledApplication).to receive(:save_for_later)
+        expect_any_instance_of(ApplicationSubmission).to receive(:save_for_later)
         submit
       end
     end
     context 'record previously saved for later' do
       let!(:record) do
-        create :filed_application,
+        create :application_submission,
                saved_for_later: true,
                note_for_later: 'this needs to be here'
       end
       let(:submit) { post :toggle_saved_for_later, params: { id: record.id } }
       it 'calls record.move_to_dashboard' do
-        expect_any_instance_of(FiledApplication).to receive(:move_to_dashboard)
+        expect_any_instance_of(ApplicationSubmission).to receive(:move_to_dashboard)
         submit
       end
     end
@@ -360,7 +360,7 @@ describe FiledApplicationsController do
 
   describe 'GET #show' do
     before :each do
-      @record = create :filed_application, user: (create :user, :student)
+      @record = create :application_submission, user: (create :user, :student)
     end
     let :submit do
       get :show, params: { id: @record.id }
@@ -383,7 +383,7 @@ describe FiledApplicationsController do
       before :each do
         student_1 = create :user, :student
         student_2 = create :user, :student
-        @record = create :filed_application, user: student_1
+        @record = create :application_submission, user: student_1
         when_current_user_is student_2
       end
       it 'does not allow access' do

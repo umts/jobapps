@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,119 +10,119 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170308030732) do
+ActiveRecord::Schema.define(version: 20170310152338) do
 
-  create_table "application_drafts", force: :cascade do |t|
-    t.integer  "application_template_id", limit: 4
+  create_table "application_drafts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+    t.integer  "application_template_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_id",                 limit: 4
-    t.string   "email",                   limit: 255
+    t.integer  "user_id"
+    t.string   "email"
   end
 
-  create_table "application_templates", force: :cascade do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "position_id",            limit: 4
-    t.boolean  "visible",                            default: true
-    t.boolean  "active",                             default: true
-    t.string   "slug",                   limit: 255
-    t.boolean  "eeo_enabled",                        default: true
-    t.string   "email",                  limit: 255
-    t.boolean  "unavailability_enabled"
-  end
-
-  create_table "departments", force: :cascade do |t|
-    t.string   "name",       limit: 255
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "filed_applications", force: :cascade do |t|
+  create_table "application_submissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.text     "data",            limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_id",         limit: 4
+    t.integer  "user_id"
     t.boolean  "reviewed"
-    t.integer  "position_id",     limit: 4
+    t.integer  "position_id"
     t.text     "staff_note",      limit: 65535
-    t.string   "ethnicity",       limit: 255
-    t.string   "gender",          limit: 255
+    t.string   "ethnicity"
+    t.string   "gender"
     t.boolean  "saved_for_later",               default: false
     t.text     "note_for_later",  limit: 65535
     t.date     "date_for_later"
-    t.string   "email_to_notify", limit: 255
+    t.string   "email_to_notify"
   end
 
-  create_table "interviews", force: :cascade do |t|
+  create_table "application_templates", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "position_id"
+    t.boolean  "visible",                default: true
+    t.boolean  "active",                 default: true
+    t.string   "slug"
+    t.boolean  "eeo_enabled",            default: true
+    t.string   "email"
+    t.boolean  "unavailability_enabled"
+  end
+
+  create_table "departments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "interviews", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.boolean  "hired"
     t.datetime "scheduled"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_id",              limit: 4
-    t.integer  "filed_application_id", limit: 4
+    t.integer  "user_id"
+    t.integer  "application_submission_id"
     t.boolean  "completed"
-    t.string   "location",             limit: 255
-    t.text     "interview_note",       limit: 65535
+    t.string   "location"
+    t.text     "interview_note",            limit: 65535
   end
 
-  create_table "positions", force: :cascade do |t|
-    t.integer  "department_id",              limit: 4
-    t.string   "name",                       limit: 255
+  create_table "positions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+    t.integer  "department_id"
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "default_interview_location", limit: 255
-    t.string   "not_hiring_text",            limit: 255
+    t.string   "default_interview_location"
+    t.string   "not_hiring_text"
   end
 
-  create_table "questions", force: :cascade do |t|
+  create_table "questions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.text     "prompt",                  limit: 65535
-    t.string   "data_type",               limit: 255
+    t.string   "data_type"
     t.boolean  "required"
-    t.integer  "number",                  limit: 4
+    t.integer  "number"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "application_template_id", limit: 4
-    t.integer  "application_draft_id",    limit: 4
+    t.integer  "application_template_id"
+    t.integer  "application_draft_id"
   end
 
-  create_table "site_texts", force: :cascade do |t|
-    t.string   "name",       limit: 255
+  create_table "site_texts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+    t.string   "name"
     t.text     "text",       limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "slug",       limit: 255
+    t.string   "slug"
   end
 
-  create_table "subscriptions", force: :cascade do |t|
-    t.integer  "user_id",     limit: 4
-    t.integer  "position_id", limit: 4
-    t.string   "email",       limit: 255
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+  create_table "subscriptions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+    t.integer  "user_id"
+    t.integer  "position_id"
+    t.string   "email"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
-  create_table "unavailabilities", force: :cascade do |t|
-    t.string   "sunday",               limit: 255
-    t.string   "monday",               limit: 255
-    t.string   "tuesday",              limit: 255
-    t.string   "wednesday",            limit: 255
-    t.string   "thursday",             limit: 255
-    t.string   "friday",               limit: 255
-    t.string   "saturday",             limit: 255
-    t.integer  "filed_application_id", limit: 4
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+  create_table "unavailabilities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+    t.string   "sunday"
+    t.string   "monday"
+    t.string   "tuesday"
+    t.string   "wednesday"
+    t.string   "thursday"
+    t.string   "friday"
+    t.string   "saturday"
+    t.integer  "application_submission_id"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
-  create_table "users", force: :cascade do |t|
-    t.string   "first_name", limit: 255
-    t.string   "last_name",  limit: 255
-    t.string   "spire",      limit: 255
+  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "spire"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "staff"
-    t.string   "email",      limit: 255
+    t.string   "email"
     t.boolean  "admin"
   end
 
