@@ -58,7 +58,7 @@ class ApplicationSubmissionsController < ApplicationController
       interview_parameters.require :scheduled
       interview_parameters.merge! completed: false,
                                   hired: false,
-                                  filed_application: @record,
+                                  application_submission: @record,
                                   user: @record.user
       Interview.create! interview_parameters
     else @record.deny_with params.require(:staff_note)
@@ -114,7 +114,7 @@ class ApplicationSubmissionsController < ApplicationController
 
   def create_unavailability(record)
     unavail_params = parse_unavailability(params.require :unavailability)
-                     .merge filed_application: record
+                     .merge application_submission: record
     Unavailability.create unavail_params
   end
 

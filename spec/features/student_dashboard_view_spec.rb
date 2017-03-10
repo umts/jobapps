@@ -16,9 +16,9 @@ describe 'viewing the dashboard as a student' do
       end
       it 'contains a link to review the application' do
         click_link 'Review your application',
-                   href: application_submission_path(interview.filed_application)
+                   href: application_submission_path(interview.application_submission)
         expect(page.current_url)
-          .to eql application_submission_url(interview.filed_application)
+          .to eql application_submission_url(interview.application_submission)
       end
     end # of student got an interview
     context 'student did not get an interview' do

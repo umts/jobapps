@@ -11,7 +11,7 @@ describe JobappsMailer do
       position = create :position
       @template = create :application_template,
                          position: position, email: 'steve@sharklazers.com'
-      @application_submission = create :filed_application, staff_note: 'note',
+      @application_submission = create :application_submission, staff_note: 'note',
                                                       position: position
       @user = @application_submission.user
     end
@@ -90,9 +90,9 @@ describe JobappsMailer do
       position = create :position
       @template = create :application_template,
                          position: position, email: 'steve@sharklazers.com'
-      application_submission = create :filed_application, staff_note: 'note',
+      application_submission = create :application_submission, staff_note: 'note',
                                                      position: position
-      @interview = create :interview, application_submission: filed_application
+      @interview = create :interview, application_submission: application_submission
       @user = @interview.user
     end
     let :output do
@@ -120,9 +120,9 @@ describe JobappsMailer do
       position = create :position
       @template = create :application_template,
                          position: position, email: 'steve@sharklazers.com'
-      application_submission = create :filed_application, staff_note: 'note',
+      application_submission = create :application_submission, staff_note: 'note',
                                                      position: position
-      @interview = create :interview, application_submission: filed_application
+      @interview = create :interview, application_submission: application_submission
       @user = @interview.user
     end
     let :output do

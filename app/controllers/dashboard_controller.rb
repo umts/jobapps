@@ -23,7 +23,7 @@ class DashboardController < ApplicationController
 
   def student
     if @current_user.present?
-      @filed_applications = @current_user.filed_applications
+      @application_submissions = @current_user.application_submissions
                                          .group_by(&:position)
       @interviews = @current_user.interviews
     end
