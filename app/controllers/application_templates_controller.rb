@@ -15,7 +15,7 @@ class ApplicationTemplatesController < ApplicationController
     @old_data = {}
     if params[:load_id]
       @old_data = ApplicationSubmission.find(params[:load_id])
-                                  .try :questions_hash || {}
+                                       .try :questions_hash || {}
     end
   end
 

@@ -15,8 +15,9 @@ describe 'viewing the dashboard as a student' do
         expect(page).to have_text interview.information
       end
       it 'contains a link to review the application' do
+        path = application_submission_path(interview.application_submission)
         click_link 'Review your application',
-                   href: application_submission_path(interview.application_submission)
+                   href: path
         expect(page.current_url)
           .to eql application_submission_url(interview.application_submission)
       end

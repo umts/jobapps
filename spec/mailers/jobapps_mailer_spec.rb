@@ -11,8 +11,9 @@ describe JobappsMailer do
       position = create :position
       @template = create :application_template,
                          position: position, email: 'steve@sharklazers.com'
-      @application_submission = create :application_submission, staff_note: 'note',
-                                                      position: position
+      @application_submission = create :application_submission,
+                                       staff_note: 'note',
+                                       position: position
       @user = @application_submission.user
     end
     let :output do
@@ -90,9 +91,11 @@ describe JobappsMailer do
       position = create :position
       @template = create :application_template,
                          position: position, email: 'steve@sharklazers.com'
-      application_submission = create :application_submission, staff_note: 'note',
-                                                     position: position
-      @interview = create :interview, application_submission: application_submission
+      application_submission = create :application_submission,
+                                      staff_note: 'note',
+                                      position: position
+      @interview = create :interview,
+                          application_submission: application_submission
       @user = @interview.user
     end
     let :output do
@@ -119,10 +122,13 @@ describe JobappsMailer do
     before :each do
       position = create :position
       @template = create :application_template,
-                         position: position, email: 'steve@sharklazers.com'
-      application_submission = create :application_submission, staff_note: 'note',
-                                                     position: position
-      @interview = create :interview, application_submission: application_submission
+                         position: position,
+                         email: 'steve@sharklazers.com'
+      application_submission = create :application_submission,
+                                      staff_note: 'note',
+                                      position: position
+      @interview = create :interview,
+                          application_submission: application_submission
       @user = @interview.user
     end
     let :output do
@@ -213,7 +219,8 @@ describe JobappsMailer do
 
   describe 'saved_application_notification' do
     before :each do
-      @record = create :application_submission, email_to_notify: 'foo@example.com'
+      @record = create :application_submission,
+                       email_to_notify: 'foo@example.com'
     end
     let :output do
       JobappsMailer.saved_application_notification @record

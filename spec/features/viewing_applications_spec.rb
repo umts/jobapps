@@ -63,8 +63,9 @@ describe 'viewing job applications individually' do
                  href: application_submission_path(reviewed_record)
       click_button 'Candidate hired'
       expect(page).to have_text 'Interview marked as completed'
+      path = application_submission_path(reviewed_record)
       expect page.has_no_link? reviewed_record.user.proper_name,
-                               href: application_submission_path(reviewed_record)
+                               href: path
     end
     it 'provides a means to mark interview complete and candidate not hired' do
       click_link reviewed_record.user.proper_name,
@@ -72,8 +73,9 @@ describe 'viewing job applications individually' do
       fill_in 'interview_note', with: 'reason for rejection'
       click_button 'Candidate not hired'
       expect(page).to have_text 'Interview marked as completed'
+      path = application_submission_path(reviewed_record)
       expect page.has_no_link? reviewed_record.user.proper_name,
-                               href: application_submission_path(reviewed_record)
+                               href: path
     end
   end
 end

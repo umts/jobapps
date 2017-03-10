@@ -416,7 +416,7 @@ describe ApplicationSubmission do
       @start_date = 1.week.ago
       @end_date = 1.week.since
       @relation = ApplicationSubmission.between(@start_date, @end_date)
-                                  .in_department(@department.id)
+                                       .in_department(@department.id)
     end
     let :call do
       ApplicationSubmission.eeo_data @start_date, @end_date, @department.id

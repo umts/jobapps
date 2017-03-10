@@ -340,7 +340,8 @@ describe ApplicationSubmissionsController do
       let!(:record) { create :application_submission, saved_for_later: false }
       let(:submit) { post :toggle_saved_for_later, params: { id: record.id } }
       it 'calls record.save_for_later' do
-        expect_any_instance_of(ApplicationSubmission).to receive(:save_for_later)
+        expect_any_instance_of(ApplicationSubmission)
+          .to receive(:save_for_later)
         submit
       end
     end
@@ -352,7 +353,8 @@ describe ApplicationSubmissionsController do
       end
       let(:submit) { post :toggle_saved_for_later, params: { id: record.id } }
       it 'calls record.move_to_dashboard' do
-        expect_any_instance_of(ApplicationSubmission).to receive(:move_to_dashboard)
+        expect_any_instance_of(ApplicationSubmission)
+          .to receive(:move_to_dashboard)
         submit
       end
     end

@@ -9,6 +9,7 @@ describe 'generating a pdf to print an application record' do
   end
   it 'generates a pdf of the application record for printing' do
     click_button 'Print this page'
-    expect(page.current_url).to eql application_submission_url(record, format: :pdf)
+    url = application_submission_url(record, format: :pdf)
+    expect(page.current_url).to eql url
   end
 end

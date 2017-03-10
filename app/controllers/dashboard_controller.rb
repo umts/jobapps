@@ -14,8 +14,8 @@ class DashboardController < ApplicationController
     @departments = Department.includes :positions
     @pending_interviews = Interview.pending.group_by(&:position)
     @pending_records = ApplicationSubmission.where(saved_for_later: false)
-                                       .pending.newest_first
-                                       .group_by(&:position)
+                                            .pending.newest_first
+                                            .group_by(&:position)
     @site_texts = SiteText.order :name
     @staff = User.staff
     @templates = ApplicationTemplate.all.group_by(&:position)
@@ -24,7 +24,7 @@ class DashboardController < ApplicationController
   def student
     if @current_user.present?
       @application_submissions = @current_user.application_submissions
-                                         .group_by(&:position)
+                                              .group_by(&:position)
       @interviews = @current_user.interviews
     end
   end

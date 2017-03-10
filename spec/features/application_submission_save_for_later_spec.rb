@@ -8,7 +8,8 @@ describe 'saving or unsaving applications' do
     let!(:record) { create :application_submission, reviewed: false }
     before :each do
       visit staff_dashboard_url
-      click_link record.user.proper_name, href: application_submission_path(record)
+      click_link record.user.proper_name,
+                 href: application_submission_path(record)
       page.fill_in 'note_for_later', with: 'This is required'
       click_button 'Save for later'
     end
