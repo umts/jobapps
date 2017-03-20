@@ -2,13 +2,13 @@ class SubscriptionsController < ApplicationController
   def create
     @subscription = Subscription.new subscription_parameters
     @subscription.save
-    redirect_back fallback_location: main_dashboard_path
+    redirect_back fallback_location: edit_position_path(@subscription.position)
   end
 
   def destroy
     @subscription = Subscription.find params.require :id
     @subscription.destroy
-    redirect_back fallback_location: main_dashboard_path
+    redirect_back fallback_location: edit_position_path(@subscription.position)
   end
 
   private
