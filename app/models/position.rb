@@ -18,10 +18,6 @@ class Position < ActiveRecord::Base
     "#{name} (#{department.name})"
   end
 
-  def saved_applications
-    ApplicationRecord.where(saved_for_later: true, position: self)
-  end
-
   def not_hiring
     not_hiring_text ||
       "We are not currently hiring for #{name}."
