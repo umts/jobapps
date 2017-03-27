@@ -4,6 +4,7 @@
       %th Date Submitted
       %th Ethnicity
       %th Gender
+      %th Hired?
   %tbody
     - @records[:all].each do |record|
       %tr
@@ -11,6 +12,14 @@
           = format_date_time record.created_at
         %td= record.ethnicity
         %td= record.gender
+        %td
+          - if record.interview.present?
+            - if record.interview.hired?
+              Yes
+            - else
+              No:
+              = record.interview.interview_note
+
 %h3 Totals:
 = render partial: 'ethnicity_totals'
 = render partial: 'gender_totals'

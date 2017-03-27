@@ -109,15 +109,29 @@ describe ApplicationRecord do
     end
   end
 
+  describe 'hire_count' do
+    before :each do
+      record_1 = create :application_record
+      record_2 = create :application_record
+      create :interview, application_record: record_2, hired: false
+      create :interview, application_record: record_1, hired: true
+    end
+    let :call do
+      ApplicationRecord.hire_count
+    end
+    it 'counts the number of interviews where the applicant was hired' do
+      expect(call).to be 1
+    end
+  end
+
   describe 'interview_count' do
     before :each do
       record_1 = create :application_record
       create :application_record
       create :interview, application_record: record_1
-      @collection = ApplicationRecord.all
     end
     let :call do
-      @collection.interview_count
+      ApplicationRecord.interview_count
     end
     it 'counts the interviews associated with the collection' do
       expect(call).to be 1
@@ -236,15 +250,38 @@ describe ApplicationRecord do
 
   describe 'move_to_dashboard' do
     let(:call) { ApplicationRecord.move_to_dashboard }
-    context 'there are expired records' do
+    context 'there is an expired record' do
       let!(:expired_saved_record) do
         create :application_record,
                saved_for_later: true,
                date_for_later: Date.yesterday,
-               note_for_later: 'this is required'
+               note_for_later: 'this is required',
+               email_to_notify: 'foo@example.com'
+      end
+      it 'calls move_to_dashboard on expired record' do
+        expect_any_instance_of(ApplicationRecord)
+          .to receive(:move_to_dashboard)
+        expect(JobappsMailer).to receive(:saved_application_notification)
+        call
+      end
+    end
+    context 'there are many expired records' do
+      let!(:expired_saved_record_1) do
+        create :application_record,
+               saved_for_later: true,
+               date_for_later: Date.yesterday,
+               note_for_later: 'this is required',
+               email_to_notify: 'foo@example.com'
+      end
+      let!(:expired_saved_record_2) do
+        create :application_record,
+               saved_for_later: true,
+               date_for_later: Date.yesterday,
+               note_for_later: 'this is required',
+               email_to_notify: 'foo@example.com'
       end
       it 'calls move_to_dashboard on expired records' do
-        expect_any_instance_of(ApplicationRecord).to receive(:move_to_dashboard)
+        expect(JobappsMailer).to receive(:saved_applications_notification)
         call
       end
     end
@@ -253,10 +290,13 @@ describe ApplicationRecord do
         create :application_record,
                saved_for_later: true,
                date_for_later: Date.tomorrow,
-               note_for_later: 'SO required'
+               note_for_later: 'SO required',
+               email_to_notify: 'foo@example.com'
       end
       it 'does not call move_to_dashboard on any records' do
-        expect_any_instance_of(ApplicationRecord).not_to receive(:move_to_dashboard)
+        expect_any_instance_of(ApplicationRecord)
+          .not_to receive(:move_to_dashboard)
+        expect(JobappsMailer).not_to receive(:saved_application_notification)
         call
       end
     end
@@ -276,25 +316,32 @@ describe ApplicationRecord do
         .at_least(:once)
       call
     end
+    it 'calls AR#hire_count to count hirees' do
+      expect(ApplicationRecord).to receive(:hire_count)
+        .at_least(:once)
+      call
+    end
     it 'counts only records and interviews with both ethnicity and gender' do
       create :application_record, ethnicity: nil, gender: nil
       create :application_record, ethnicity: '', gender: ''
-      expect(call).to eql('Other' => [['Klingon', 0, 0]])
+      expect(call).to eql('Other' => [['Klingon', 0, 0, 0]])
     end
     it 'counts records/interviews whose ethnicity is not one of the options' do
       create :application_record, ethnicity: 'Romulan', gender: 'Other'
-      expect(call).to eql('Other' => [['Klingon', 0, 0],
-                                      ['Romulan', 1, 0]])
+      expect(call).to eql('Other' => [['Klingon', 0, 0, 0],
+                                      ['Romulan', 1, 0, 0]])
     end
     it 'counts records/interviews whose gender is not one of the options' do
       create :application_record, ethnicity: 'Klingon', gender: 'Male'
-      expect(call).to eql('Other' => [['Klingon', 0, 0]],
-                          'Male' => [['Klingon', 1, 0]])
+      expect(call).to eql('Other' => [['Klingon', 0, 0, 0]],
+                          'Male' => [['Klingon', 1, 0, 0]])
     end
     it 'counts records/interviews where gender and ethnicity not in options' do
       create :application_record, ethnicity: 'Romulan', gender: 'Male'
-      expect(call).to eql('Other' => [['Klingon', 0, 0], ['Romulan', 0, 0]],
-                          'Male' => [['Klingon', 0, 0], ['Romulan', 1, 0]])
+      expect(call).to eql('Other' => [['Klingon', 0, 0, 0],
+                                      ['Romulan', 0, 0, 0]],
+                          'Male' => [['Klingon', 0, 0, 0],
+                                     ['Romulan', 1, 0, 0]])
     end
     it 'returns a hash' do
       expect(call).to be_a Hash
@@ -315,14 +362,19 @@ describe ApplicationRecord do
         .at_least(:once)
       call
     end
+    it 'calls AR#hire_count to count hirees' do
+      expect(ApplicationRecord).to receive(:hire_count)
+        .at_least(:once)
+      call
+    end
     it 'counts only records and their interviews with an ethnicity attribute' do
       create :application_record, ethnicity: nil
       create :application_record, ethnicity: ''
-      expect(call).to contain_exactly ['Klingon', 0, 0]
+      expect(call).to contain_exactly ['Klingon', 0, 0, 0]
     end
     it 'counts records/interviews whose ethnicity is not of the options' do
       create :application_record, ethnicity: 'Romulan', gender: 'Male'
-      expect(call).to contain_exactly ['Klingon', 0, 0], ['Romulan', 1, 0]
+      expect(call).to contain_exactly ['Klingon', 0, 0, 0], ['Romulan', 1, 0, 0]
     end
   end
 
@@ -340,14 +392,19 @@ describe ApplicationRecord do
         .at_least(:once)
       call
     end
+    it 'calls AR#hire_count to count hirees' do
+      expect(ApplicationRecord).to receive(:hire_count)
+        .at_least(:once)
+      call
+    end
     it 'counts only records and their interviews with a gender attribute' do
       create :application_record, gender: nil
       create :application_record, gender: ''
-      expect(call).to contain_exactly ['Female', 0, 0]
+      expect(call).to contain_exactly ['Female', 0, 0, 0]
     end
     it 'counts records/interviews whose gender is not of the gender_options' do
       create :application_record, gender: 'Male'
-      expect(call).to contain_exactly ['Female', 0, 0], ['Male', 1, 0]
+      expect(call).to contain_exactly ['Female', 0, 0, 0], ['Male', 1, 0, 0]
     end
   end
 

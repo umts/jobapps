@@ -338,8 +338,8 @@ describe ApplicationRecordsController do
     context 'record previously saved for later' do
       let!(:record) do
         create :application_record,
-          saved_for_later: true,
-          note_for_later: 'this needs to be here'
+               saved_for_later: true,
+               note_for_later: 'this needs to be here'
       end
       let(:submit) { post :toggle_saved_for_later, id: record.id }
       it 'calls record.move_to_dashboard' do

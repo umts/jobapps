@@ -11,11 +11,11 @@
  * file per style scope.
  *
  *= require_tree .
+ *= require dataTables/jquery.dataTables
  *= require bootstrap
- *= require jquery.datatables.min
  *= require_self
- *= require jquery-ui.min
- *= require jquery.datetimepicker
+ *= require jquery-ui
+ *= require datetimepicker
  *= require multiple-select
  */
 

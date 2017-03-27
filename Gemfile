@@ -6,7 +6,6 @@ gem 'haml'
 gem 'haml-rails'
 gem 'friendly_id', '~> 5.1.0'
 gem 'jquery-datatables-rails'
-gem 'jquery-datetimepicker-rails'
 gem 'jquery-rails'
 gem 'jquery-timepicker-rails'
 gem 'jquery-ui-rails'
@@ -24,10 +23,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-wenzhixin--multiple-select'
   gem 'rails-assets-jquery.maskedinput'
   gem 'rails-assets-bootstrap'
-end
-
-group :assets do
-  gem 'twitter-bootstrap-rails'
+  gem 'rails-assets-datetimepicker'
 end
 
 group :production do
@@ -46,7 +42,7 @@ group :development, :test do
   gem 'better_errors', require: false
   gem 'binding_of_caller', require: false
   gem 'capybara'
-  gem 'codeclimate-test-reporter'
+  gem 'codeclimate-test-reporter', '~> 1.0'
   gem 'fuubar', require: false
   gem 'guard-rspec', require: false
   gem 'haml_lint'

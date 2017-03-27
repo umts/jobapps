@@ -23,6 +23,10 @@ class ApplicationRecord < ActiveRecord::Base
           joins(:position)
             .where(positions: { department_id: department_ids })
         }
+  scope :hire_count, lambda {
+    joins(:interview)
+      .where(interviews: { application_record_id: ids, hired: true }).count
+  }
   scope :interview_count, lambda {
     joins(:interview)
       .where(interviews: { application_record_id: ids }).count
@@ -78,10 +82,11 @@ class ApplicationRecord < ActiveRecord::Base
     !reviewed
   end
 
-  def save_for_later(date: nil, note: nil, mail: false)
+  def save_for_later(date: nil, note: nil, mail: false, email: nil)
     update_attributes(saved_for_later: true,
                       date_for_later: date,
-                      note_for_later: note)
+                      note_for_later: note,
+                      email_to_notify: email)
     JobappsMailer.send_note_for_later(self).deliver_now if mail
   end
 
@@ -92,6 +97,14 @@ class ApplicationRecord < ActiveRecord::Base
 
   def self.move_to_dashboard
     records = where('date_for_later <= ?', Time.zone.today)
+    email_records = where('date_for_later <= ?', Time.zone.today)
+                    .where.not(email_to_notify: [nil, ''])
+    if email_records.one?
+      record = records.first
+      JobappsMailer.saved_application_notification(record)
+    elsif email_records.many?
+      send_notification_emails! email_records
+    end
     records.each(&:move_to_dashboard)
   end
 
@@ -104,7 +117,10 @@ class ApplicationRecord < ActiveRecord::Base
       ethnicity_specs = []
       all_ethnicities.map do |ethnicity|
         records = combined_records.where ethnicity: ethnicity, gender: gender
-        ethnicity_specs << [ethnicity, records.count, records.interview_count]
+        count = records.count
+        interviewed = records.interview_count
+        hired = records.hire_count
+        ethnicity_specs << [ethnicity, count, interviewed, hired]
         grouped_by_gender[gender] = ethnicity_specs
       end
     end
@@ -116,7 +132,10 @@ class ApplicationRecord < ActiveRecord::Base
     all_genders = GENDER_OPTIONS | gender_records.pluck(:gender)
     all_genders.map do |gender|
       specific_records = gender_records.where gender: gender
-      [gender, specific_records.count, specific_records.interview_count]
+      count = specific_records.count
+      interviewed = specific_records.interview_count
+      hired = specific_records.hire_count
+      [gender, count, interviewed, hired]
     end
   end
 
@@ -134,7 +153,18 @@ class ApplicationRecord < ActiveRecord::Base
     all_ethnicities = ETHNICITY_OPTIONS | ethnicity_records.pluck(:ethnicity)
     all_ethnicities.map do |ethnicity|
       specific_records = ethnicity_records.where ethnicity: ethnicity
-      [ethnicity, specific_records.count, specific_records.interview_count]
+      count = specific_records.count
+      interviewed = specific_records.interview_count
+      hired = specific_records.hire_count
+      [ethnicity, count, interviewed, hired]
+    end
+  end
+
+  def self.send_notification_emails!(records)
+    records_by_email = records.includes(:position).group_by(&:email_to_notify)
+    records_by_email.each_pair do |address, email_records|
+      records_by_position = email_records.group_by(&:position)
+      JobappsMailer.saved_applications_notification records_by_position, address
     end
   end
 end
