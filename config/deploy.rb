@@ -9,6 +9,8 @@ set :log_level, :info
 set :scm, :git
 set :keep_releases, 5
 
+set :whenever_command, [:sudo, :bundle, :exec, :whenever]
+
 set :linked_files, fetch(:linked_files, []).push(
   'config/application.yml',
   'config/database.yml'
