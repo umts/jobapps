@@ -8,3 +8,5 @@
     %ul
       - @staff.each do |user|
         %li= link_to user.proper_name, edit_user_path(user)
+  .partial_block
+    = link_to 'Promote user to staff', promote_users_path
