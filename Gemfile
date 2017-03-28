@@ -24,6 +24,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-jquery.maskedinput'
   gem 'rails-assets-bootstrap'
   gem 'rails-assets-datetimepicker'
+  gem 'rails-assets-moment'
 end
 
 group :production do
