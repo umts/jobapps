@@ -34,6 +34,25 @@ class UsersController < ApplicationController
     end
   end
 
+  def promote
+    @users = User.where.not(staff: true).sort_by(&:proper_name)
+  end
+
+  def promote_save
+    users = User.where(id: params[:users])
+    users.each do |user|
+      user.update staff: true
+    end
+    if users.one?
+      show_message :user_update,
+                  default: 'User has been updated.'
+    elsif users.many?
+      show_message :user_update,
+                  default: 'Users have been updated.'
+    end
+    redirect_to promote_users_path
+  end
+
   private
 
   def find_user
