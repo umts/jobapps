@@ -10,9 +10,10 @@
               %li= link_to record.user.proper_name, record
           - else
             No pending applications
-        - if @saved_records[position].present?
-          - count = @saved_records[position].count
-          %ul= link_to "View saved applications for #{position.name} (#{count})",
-            saved_applications_position_path(position)
-        -else
-          %ul No saved applications
+        %ul
+          - if @saved_records[position].present?
+            - count = @saved_records[position].count
+            =link_to "View saved applications for #{position.name} (#{count})",
+              saved_applications_position_path(position)
+          -else
+            No saved applications
