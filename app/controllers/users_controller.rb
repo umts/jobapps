@@ -45,10 +45,10 @@ class UsersController < ApplicationController
     end
     if users.one?
       show_message :user_update,
-                  default: 'User has been updated.'
+                   default: 'User has been updated.'
     elsif users.many?
       show_message :user_update,
-                  default: 'Users have been updated.'
+                   default: 'Users have been updated.'
     end
     redirect_to promote_users_path
   end
