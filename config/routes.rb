@@ -72,6 +72,10 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :users, except: [:index, :show]
-
+  resources :users, except: [:index, :show] do 
+    collection do
+      get :promote
+      post :promote_save
+    end
+  end
 end
