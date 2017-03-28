@@ -15,7 +15,7 @@
  *= require bootstrap
  *= require_self
  *= require jquery-ui
- *= require jquery.datetimepicker.css
+ *= require datetimepicker
  *= require multiple-select
  */
 
