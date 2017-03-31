@@ -2,11 +2,9 @@
   .partial_block
     .title_header.fs-22 Add staff
     %ul
-      %li= link_to 'Add new staff member', new_user_path
+      %li= link_to 'Add new staff member', promote_users_path
   .partial_block
     .title_header.fs-22 Edit/remove staff
     %ul
       - @staff.each do |user|
         %li= link_to user.proper_name, edit_user_path(user)
-  .partial_block
-    = link_to 'Promote user to staff', promote_users_path
