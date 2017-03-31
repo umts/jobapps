@@ -1,17 +1,8 @@
 %h1 Promote User to Staff
 = form_tag promote_save_users_path, method: :post do |form|
-  %table.promote-table
-    %thead
-      %tr
-        %th= check_box_tag 'Select All', false, false, id: 'select-all', title: 'Select All'
-        %th Proper Name
-        %th Spire ID
-        %th Email
-    %tbody
-      - @users.each do |user|
-        %tr
-          %td= check_box_tag 'users[]', user.id, false, class: 'promote-select'
-          %td= user.proper_name
-          %td= user.spire
-          %td= user.email
+  %label Name:
+  = text_field @user, :user , data: {users: @users}, id: 'promote-search', placeholder: 'e.g. Jane Doe'
   = submit_tag 'Promote', id: 'promote'
+
+If the staff member is not on the list, add them 
+= link_to "here", new_user_path
