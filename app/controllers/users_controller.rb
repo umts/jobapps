@@ -46,7 +46,7 @@ class UsersController < ApplicationController
     user = User.find_by(spire: params[:user].split.last)
     user.update staff: true
     show_message :user_update,
-                default: 'User has been updated.'
+                 default: 'User has been updated.'
     redirect_to promote_users_path
   end
 
