@@ -35,21 +35,18 @@ class UsersController < ApplicationController
   end
 
   def promote
-    @users = User.where.not(staff: true).sort_by(&:proper_name)
+    users = User.where.not(staff: true)
+    @users = []
+    users.each do |user|
+      @users << "#{user.full_name} #{user.spire}"
+    end
   end
 
   def promote_save
-    users = User.where(id: params[:users])
-    users.each do |user|
-      user.update staff: true
-    end
-    if users.one?
-      show_message :user_update,
-                   default: 'User has been updated.'
-    elsif users.many?
-      show_message :user_update,
-                   default: 'Users have been updated.'
-    end
+    user = User.find_by(spire: params[:user].split.last)
+    user.update staff: true
+    show_message :user_update,
+                default: 'User has been updated.'
     redirect_to promote_users_path
   end
 
