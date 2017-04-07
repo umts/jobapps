@@ -44,7 +44,7 @@ class UsersController < ApplicationController
 
   def promote_save
     user = User.find_by(spire: params[:user].split.last)
-    user.update staff: true
+    user.update staff: true unless user.nil?
     show_message :user_update,
                  default: 'User has been updated.'
     redirect_to promote_users_path

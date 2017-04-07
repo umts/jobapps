@@ -1,5 +1,5 @@
 %h1 Promote User to Staff
-= form_tag promote_save_users_path, method: :post do |form|
+= form_tag promote_save_users_path, method: :put do |form|
   %label Name:
   = text_field @user, :user , data: {users: @users}, id: 'promote-search', placeholder: 'e.g. Jane Doe'
   = submit_tag 'Promote', id: 'promote'
