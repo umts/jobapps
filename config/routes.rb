@@ -75,7 +75,7 @@ Rails.application.routes.draw do
   resources :users, except: [:index, :show] do 
     collection do
       get :promote
-      post :promote_save
+      put :promote_save
     end
   end
 end
