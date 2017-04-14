@@ -37,7 +37,7 @@ class UsersController < ApplicationController
   def promote
     users = User.where.not(staff: true)
     @users = []
-    users.each do |user|
+    users.find_each do |user|
       @users << "#{user.full_name} #{user.spire}"
     end
   end
