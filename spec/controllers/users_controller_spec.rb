@@ -45,7 +45,7 @@ describe UsersController do
   end
   describe 'PUT #promote_save' do
     context 'promoting a user as staff' do
-      it 'does not promotes the user' do
+      it 'does not promote the user' do
         when_current_user_is :staff
         user = create :user
         put :promote_save, user: "#{user.full_name} #{user.spire}"

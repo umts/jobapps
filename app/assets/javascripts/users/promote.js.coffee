@@ -1,6 +1,3 @@
 $(document).ready ->
-  $ ->
-    users = $("#promote-search").data("users")
-    $("#promote-search").autocomplete source: users
-    return
+  $('#promote-search').autocomplete source: $('#promote-search').data('users')
   return
