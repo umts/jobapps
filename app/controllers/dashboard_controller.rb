@@ -16,6 +16,8 @@ class DashboardController < ApplicationController
     @pending_records = ApplicationRecord.where(saved_for_later: false)
                                         .pending.newest_first
                                         .group_by(&:position)
+    @saved_records = ApplicationRecord.where(saved_for_later: true)
+                                      .group_by(&:position)
     @site_texts = SiteText.order :name
     @staff = User.staff
     @templates = ApplicationTemplate.all.group_by(&:position)
