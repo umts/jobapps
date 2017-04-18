@@ -15,7 +15,8 @@
 //= require dataTables/jquery.dataTables
 //= require bootstrap
 //= require jquery-ui
-//= require datetimepicker
+//= require moment
+//= require jquery.datetimepicker.full.js
 //= require multiple-select
 //= require jquery.maskedinput
 //= require_tree .
