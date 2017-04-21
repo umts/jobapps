@@ -35,10 +35,10 @@ class UsersController < ApplicationController
   end
 
   def promote
-    users = User.where.not(staff: true)
-    @users = []
-    users.find_each do |user|
-      @users << "#{user.full_name} #{user.spire}"
+    @users = User.where.not(staff: true)
+                 .pluck(:first_name, :last_name, :spire)
+                 .map do |first_name, last_name, spire|
+      "#{first_name} #{last_name} #{spire}"
     end
   end
 
