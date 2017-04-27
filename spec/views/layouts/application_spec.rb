@@ -34,7 +34,7 @@ describe 'layouts/application.haml' do
   end
   context 'errors present in flash' do
     before :each do
-      flash[:errors] = %w(these are errors)
+      flash[:errors] = %w[these are errors]
     end
     it 'displays a list of errors' do
       render

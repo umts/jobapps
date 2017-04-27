@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :find_user, only: [:destroy, :edit, :update]
+  before_action :find_user, only: %i[destroy edit update]
   before_action :allow_only_admin
 
   def create
@@ -19,11 +19,9 @@ class UsersController < ApplicationController
     redirect_to staff_dashboard_path
   end
 
-  def edit
-  end
+  def edit; end
 
-  def new
-  end
+  def new; end
 
   def update
     if @user.update user_parameters

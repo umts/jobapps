@@ -2,9 +2,9 @@ require 'rails_helper'
 
 describe ApplicationTemplatesController do
   it_behaves_like 'an access-controlled resource', routes: [
-    [:get, :new,                 :collection],
-    [:post, :toggle_active,      :member],
-    [:post, :toggle_eeo_enabled, :member]
+    %i[get new collection],
+    %i[post toggle_active member],
+    %i[post toggle_eeo_enabled member]
   ]
   describe 'GET #new' do
     context 'staff' do

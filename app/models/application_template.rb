@@ -19,7 +19,7 @@ class ApplicationTemplate < ActiveRecord::Base
     draft = ApplicationDraft.create user: user, application_template: self
     draft_attributes = draft.attributes.keys
     template_attributes = attributes.keys
-    excluded = %w(id created_at updated_at)
+    excluded = %w[id created_at updated_at]
     common_attributes = (template_attributes & draft_attributes) - excluded
     common_attributes = attributes.slice(*common_attributes)
     draft.update_attributes common_attributes

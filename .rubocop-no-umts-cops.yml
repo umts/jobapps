@@ -2,20 +2,29 @@ Rails:
   Enabled: true
 
 AllCops:
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.4
   Exclude:
     - 'bin/**/*'
     - 'config/**/*'
     - 'db/**/*'
     - 'vendor/**/*'
 
+Lint/AmbiguousBlockAssociation:
+  Enabled: false
+
 # Relax complexity testing to codeclimate standards (roughly).
 Metrics/AbcSize:
   Max: 20
+# We should come back to this.
+Metrics/BlockSize:
+  Enabled: false
 Metrics/MethodLength:
   Max: 20
 Metrics/ClassLength:
   Max: 150
+
+Rails/HttpPositionalArguments:
+  Enabled: false
 
 # Don't worry about documentation for now.
 # In particular, this fails for things like
