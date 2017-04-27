@@ -172,7 +172,7 @@ GEM
     minitest (5.10.1)
     mocha (1.2.1)
       metaclass (~> 0.0.1)
-    mysql (2.9.1)
+    mysql2 (0.4.5)
     nenv (0.3.0)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
@@ -362,7 +362,7 @@ DEPENDENCIES
   jquery-timepicker-rails
   jquery-ui-rails
   mocha
-  mysql
+  mysql2
   prawn
   prawn-table
   pry-byebug

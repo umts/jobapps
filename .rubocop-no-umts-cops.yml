@@ -15,8 +15,8 @@ Lint/AmbiguousBlockAssociation:
 # Relax complexity testing to codeclimate standards (roughly).
 Metrics/AbcSize:
   Max: 20
-# We should come back to this.
-Metrics/BlockSize:
+# We should probably come back to this.
+Metrics/BlockLength:
   Enabled: false
 Metrics/MethodLength:
   Max: 20
