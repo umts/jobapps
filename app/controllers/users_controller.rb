@@ -32,6 +32,25 @@ class UsersController < ApplicationController
     end
   end
 
+  def promote
+    @users = User.where.not(staff: true)
+                 .pluck(:first_name, :last_name, :spire)
+                 .map do |first_name, last_name, spire|
+      "#{first_name} #{last_name} #{spire}"
+    end
+  end
+
+  def promote_save
+    user = User.find_by(spire: params[:user].split.last)
+    if user.nil?
+      redirect_to promote_users_path
+    elsif user.update(staff: true)
+      show_message :user_update,
+                   default: 'User has been updated.'
+      redirect_to promote_users_path
+    end
+  end
+
   private
 
   def find_user
