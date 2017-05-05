@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(version: 20170310152338) do
 
-  create_table "application_drafts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "application_drafts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "application_template_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 20170310152338) do
     t.string   "email"
   end
 
-  create_table "application_submissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "application_submissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.text     "data",            limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -36,25 +36,24 @@ ActiveRecord::Schema.define(version: 20170310152338) do
     t.string   "email_to_notify"
   end
 
-  create_table "application_templates", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "application_templates", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "visible",                default: true
+    t.integer  "position_id"
     t.boolean  "active",                 default: true
+    t.string   "slug"
     t.boolean  "eeo_enabled",            default: true
-    t.integer  "position_id",            limit: 4
-    t.string   "slug",                   limit: 255
-    t.string   "email",                  limit: 255
+    t.string   "email"
     t.boolean  "unavailability_enabled"
   end
 
-  create_table "departments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "departments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "interviews", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "interviews", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.boolean  "hired"
     t.datetime "scheduled"
     t.datetime "created_at"
@@ -66,7 +65,7 @@ ActiveRecord::Schema.define(version: 20170310152338) do
     t.text     "interview_note",            limit: 65535
   end
 
-  create_table "positions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "positions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "department_id"
     t.string   "name"
     t.datetime "created_at"
@@ -75,7 +74,7 @@ ActiveRecord::Schema.define(version: 20170310152338) do
     t.string   "not_hiring_text"
   end
 
-  create_table "questions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "questions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.text     "prompt",                  limit: 65535
     t.string   "data_type"
     t.boolean  "required"
@@ -86,7 +85,7 @@ ActiveRecord::Schema.define(version: 20170310152338) do
     t.integer  "application_draft_id"
   end
 
-  create_table "site_texts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "site_texts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.text     "text",       limit: 65535
     t.datetime "created_at"
@@ -94,7 +93,7 @@ ActiveRecord::Schema.define(version: 20170310152338) do
     t.string   "slug"
   end
 
-  create_table "subscriptions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "subscriptions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
     t.integer  "position_id"
     t.string   "email"
@@ -102,7 +101,7 @@ ActiveRecord::Schema.define(version: 20170310152338) do
     t.datetime "updated_at",  null: false
   end
 
-  create_table "unavailabilities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "unavailabilities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "sunday"
     t.string   "monday"
     t.string   "tuesday"
@@ -115,7 +114,7 @@ ActiveRecord::Schema.define(version: 20170310152338) do
     t.datetime "updated_at",                null: false
   end
 
-  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "first_name"
     t.string   "last_name"
     t.string   "spire"
