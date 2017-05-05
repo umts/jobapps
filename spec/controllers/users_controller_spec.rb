@@ -48,7 +48,7 @@ describe UsersController do
       it 'does not promote the user' do
         when_current_user_is :staff
         user = create :user
-        put :promote_save, params:{ user: "#{user.full_name} #{user.spire}" }
+        put :promote_save, params: { user: "#{user.full_name} #{user.spire}" }
         user.reload
         expect(user.staff).to be false
       end
