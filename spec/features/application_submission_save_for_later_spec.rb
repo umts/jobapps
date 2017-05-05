@@ -13,6 +13,11 @@ describe 'saving or unsaving applications' do
       page.fill_in 'note_for_later', with: 'This is required'
       click_button 'Save for later'
     end
+    it 'displays the number of saved applications in the link to their page' do
+      name = record.position.name
+      link = "View saved applications for #{name} (1)"
+      expect(page).to have_link link
+    end
     it 'moves the application record to the saved applications page' do
       click_link "View saved applications for #{record.position.name}"
       expect(page.current_url)
@@ -48,6 +53,10 @@ describe 'saving or unsaving applications' do
     it 'redirects to the dashboard' do
       click_button 'Move back to dashboard'
       expect(page.current_url).to eql staff_dashboard_url
+    end
+    it 'indicates there are no saved applications on the dashboard' do
+      click_button 'Move back to dashboard'
+      expect(page).to have_text 'No saved applications'
     end
     it 'puts a notice in the flash' do
       click_button 'Move back to dashboard'

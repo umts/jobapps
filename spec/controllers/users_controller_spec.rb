@@ -37,9 +37,20 @@ describe UsersController do
         user = create :user
         initial_user = user
         attrs = FactoryGirl.build :user
-        patch :update, params: { id: user, user: attrs }
+        put :update, params: { id: user, user: attrs }
         user.reload
         expect(user).to eql initial_user
+      end
+    end
+  end
+  describe 'PUT #promote_save' do
+    context 'promoting a user as staff' do
+      it 'does not promote the user' do
+        when_current_user_is :staff
+        user = create :user
+        put :promote_save, user: "#{user.full_name} #{user.spire}"
+        user.reload
+        expect(user.staff).to be false
       end
     end
   end

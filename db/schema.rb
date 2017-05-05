@@ -39,12 +39,12 @@ ActiveRecord::Schema.define(version: 20170310152338) do
   create_table "application_templates", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "position_id"
     t.boolean  "visible",                default: true
     t.boolean  "active",                 default: true
-    t.string   "slug"
     t.boolean  "eeo_enabled",            default: true
-    t.string   "email"
+    t.integer  "position_id",            limit: 4
+    t.string   "slug",                   limit: 255
+    t.string   "email",                  limit: 255
     t.boolean  "unavailability_enabled"
   end
 
