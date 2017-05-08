@@ -1,5 +1,5 @@
 class DashboardController < ApplicationController
-  skip_before_action :access_control, only: [:main, :student]
+  skip_before_action :access_control, only: %i[main student]
   before_action :positions, except: :main
 
   def main

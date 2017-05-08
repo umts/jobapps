@@ -2,14 +2,14 @@ source 'https://rubygems.org'
 
 gem 'coffee-rails'
 gem 'factory_girl_rails'
+gem 'friendly_id', '~> 5.1.0'
 gem 'haml'
 gem 'haml-rails'
-gem 'friendly_id', '~> 5.1.0'
 gem 'jquery-datatables-rails'
 gem 'jquery-rails'
 gem 'jquery-timepicker-rails'
 gem 'jquery-ui-rails'
-gem 'mysql'
+gem 'mysql2'
 gem 'prawn'
 gem 'prawn-table'
 gem 'rails', '~> 4.2'
@@ -20,11 +20,11 @@ gem 'uglifier'
 gem 'whenever', require: false
 
 source 'https://rails-assets.org' do
-  gem 'rails-assets-wenzhixin--multiple-select'
-  gem 'rails-assets-jquery.maskedinput'
   gem 'rails-assets-bootstrap'
   gem 'rails-assets-datetimepicker'
+  gem 'rails-assets-jquery.maskedinput'
   gem 'rails-assets-moment'
+  gem 'rails-assets-wenzhixin--multiple-select'
 end
 
 group :production do
@@ -33,10 +33,11 @@ end
 
 group :development do
   gem 'capistrano', require: false
-  gem 'capistrano-pending', require: false
   gem 'capistrano-bundler', require: false
-  gem 'capistrano-rails', require: false
   gem 'capistrano-passenger', require: false
+  gem 'capistrano-pending', require: false
+  gem 'capistrano-rails', require: false
+  gem 'rb-readline', require: false
 end
 
 group :development, :test do

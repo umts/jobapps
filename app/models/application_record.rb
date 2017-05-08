@@ -43,14 +43,14 @@ class ApplicationRecord < ActiveRecord::Base
                        'American Indian or Alaskan Native',
                        'Mixed ethnicity'].freeze
 
-  GENDER_OPTIONS = %w(Male
-                      Female).freeze
+  GENDER_OPTIONS = %w[Male
+                      Female].freeze
 
   def data_rows
-    header = [%w(Question Response)]
+    header = [%w[Question Response]]
     # deletes rows of type header/explanation
     questions = data.delete_if do |_prompt, _response, data_type, _id|
-      %w(heading explanation).include? data_type
+      %w[heading explanation].include? data_type
     end.map do |prompt, response, _data_type, _id|
       [prompt, response]
     end
@@ -72,7 +72,7 @@ class ApplicationRecord < ActiveRecord::Base
 
   def deny_with(staff_note)
     update staff_note: staff_note
-    if configured_value [:on_application_denial, :notify_applicant],
+    if configured_value %i[on_application_denial notify_applicant],
                         default: true
       JobappsMailer.application_denial(self).deliver_now
     end

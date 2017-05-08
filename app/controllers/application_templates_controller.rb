@@ -20,7 +20,10 @@ class ApplicationTemplatesController < ApplicationController
   end
 
   def toggle_active
+    # We know it does.
+    # rubocop:disable Rails/SkipsModelValidations
     @template.toggle! :active
+    # rubocop:enable Rails/SkipsModelValidations
     if @template.active
       show_message :active_application,
                    default: 'The application is now active.'
@@ -31,7 +34,10 @@ class ApplicationTemplatesController < ApplicationController
   end
 
   def toggle_eeo_enabled
+    # We know it does.
+    # rubocop:disable Rails/SkipsModelValidations
     @template.toggle! :eeo_enabled
+    # rubocop:enable Rails/SkipsModelValidations
     if @template.eeo_enabled?
       show_message :eeo_enabled,
                    default: 'EEO data requests enabled on this application.'
@@ -43,7 +49,10 @@ class ApplicationTemplatesController < ApplicationController
   end
 
   def toggle_unavailability_enabled
+    # We know it does.
+    # rubocop:disable Rails/SkipsModelValidations
     @template.toggle! :unavailability_enabled
+    # rubocop:enable Rails/SkipsModelValidations
     if @template.unavailability_enabled?
       show_message :unavailability_enabled,
                    default: 'Unavailability requests enabled on

@@ -46,8 +46,11 @@ class ApplicationDraft < ActiveRecord::Base
     application_template.update(attributes.except 'application_template_id',
                                                   'user_id', 'id')
     application_template.questions.delete_all
+    # We know it does.
+    # rubocop:disable Rails/SkipsModelValidations
     questions.update_all application_template_id: application_template.id,
                          application_draft_id: nil
+    # rubocop:enable Rails/SkipsModelValidations
     delete
   end
 

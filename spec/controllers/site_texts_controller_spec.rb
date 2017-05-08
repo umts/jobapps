@@ -2,11 +2,11 @@ require 'rails_helper'
 
 describe SiteTextsController do
   it_behaves_like 'an access-controlled resource', routes: [
-    [:get,  :edit,        :member],
-    [:put,  :update,      :member],
-    [:get,  :request_new, :collection],
-    [:post, :request_new, :collection],
-    [:get,  :show,        :member]
+    %i[get edit member],
+    %i[put update member],
+    %i[get request_new collection],
+    %i[post request_new collection],
+    %i[get show member]
   ]
   describe '#edit methods' do
     before :each do

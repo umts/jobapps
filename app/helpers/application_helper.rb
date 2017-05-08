@@ -16,7 +16,7 @@ module ApplicationHelper
   def parse_application_data(data)
     questions = []
     data.each do |key, value|
-      input_types = %w(prompt response data_type)
+      input_types = %w[prompt response data_type]
       input_type = input_types.find { |type| key.starts_with? type }
       if input_type.present?
         # the key might be "response_0" (for the first question)
@@ -52,20 +52,20 @@ module ApplicationHelper
   def render_markdown(text)
     renderer = Redcarpet::Render::HTML
     markdown = Redcarpet::Markdown.new renderer
-    markdown.render(text).html_safe
+    markdown.render(text)
   end
 
   def should_show_denied_applications?
-    configured_value [:on_application_denial, :notify_applicant], default: true
+    configured_value %i[on_application_denial notify_applicant], default: true
   end
 
   def should_allow_resubmission?
-    configured_value [:on_application_denial, :allow_resubmission],
+    configured_value %i[on_application_denial allow_resubmission],
                      default: true
   end
 
   def should_allow_form_refilling?
-    configured_value [:on_application_denial, :fill_form_with_old],
+    configured_value %i[on_application_denial fill_form_with_old],
                      default: true
   end
 

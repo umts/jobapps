@@ -3,7 +3,7 @@ include ApplicationConfiguration
 
 describe JobappsMailer do
   before :each do
-    @from = configured_value [:email, :default_from]
+    @from = configured_value %i[email default_from]
   end
 
   describe 'application denial' do
@@ -38,7 +38,7 @@ describe JobappsMailer do
         # Stub the invocation we expect
         allow_any_instance_of(ApplicationConfiguration)
           .to receive(:configured_value)
-          .with([:on_application_denial, :notify_of_reason], anything)
+          .with(%i[on_application_denial notify_of_reason], anything)
           .and_return true
       end
       it 'includes a reason for application denial' do
@@ -54,7 +54,7 @@ describe JobappsMailer do
         # Stub the invocation we expect
         allow_any_instance_of(ApplicationConfiguration)
           .to receive(:configured_value)
-          .with([:on_application_denial, :notify_of_reason], anything)
+          .with(%i[on_application_denial notify_of_reason], anything)
           .and_return false
       end
       it 'does not include a reason for application denial' do
@@ -192,7 +192,7 @@ describe JobappsMailer do
     end
     it 'emails to the site_text_request_email configured value' do
       expect(output.to)
-        .to eql Array(configured_value [:email, :site_contact_email])
+        .to eql Array(configured_value %i[email site_contact_email])
     end
     it 'has a subject that includes the words Site text request' do
       expect(output.subject).to include 'Site text request'
@@ -244,14 +244,14 @@ describe JobappsMailer do
   describe 'saved_applications_notification' do
     before :each do
       @position = create :position
-      @record_1 = create :application_record,
-                         position: @position,
-                         note_for_later: 'This note is for later.'
-      @record_2 = create :application_record, position: @position
+      @record1 = create :application_record,
+                        position: @position,
+                        note_for_later: 'This note is for later.'
+      @record2 = create :application_record, position: @position
       @email = 'foo@example.com'
     end
     let :output do
-      info = { @position => [@record_1, @record_2] }
+      info = { @position => [@record1, @record2] }
       JobappsMailer.saved_applications_notification info, @email
     end
     it 'emails from default configured value' do
@@ -264,18 +264,18 @@ describe JobappsMailer do
       expect(output.body.encoded).to include @position.name
     end
     it "includes the applicants' full name" do
-      expect(output.body.encoded).to include @record_1.user.full_name
-      expect(output.body.encoded).to include @record_2.user.full_name
+      expect(output.body.encoded).to include @record1.user.full_name
+      expect(output.body.encoded).to include @record2.user.full_name
     end
     it 'includes the dates applied' do
       format = '%A, %B %e, %Y - %l:%M %P'
       expect(output.body.encoded)
-        .to include @record_1.created_at.strftime(format).squish
+        .to include @record1.created_at.strftime(format).squish
       expect(output.body.encoded)
-        .to include @record_2.created_at.strftime(format).squish
+        .to include @record2.created_at.strftime(format).squish
     end
     it 'includes any notes for later' do
-      expect(output.body.encoded).to include @record_1.note_for_later
+      expect(output.body.encoded).to include @record1.note_for_later
     end
   end
 end

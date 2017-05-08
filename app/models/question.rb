@@ -2,14 +2,14 @@ class Question < ActiveRecord::Base
   belongs_to :application_template
   belongs_to :application_draft
 
-  DATA_TYPES = %w(text
+  DATA_TYPES = %w[text
                   number
                   yes/no
                   date
                   heading
                   explanation
                   long-text
-                  phone-number).freeze
+                  phone-number].freeze
 
   validate :belongs_to_application_template_or_draft?
 
@@ -42,7 +42,7 @@ class Question < ActiveRecord::Base
   end
 
   def takes_placeholder?
-    %w(text date).include? data_type
+    %w[text date].include? data_type
   end
 
   def unique_data_type_name
