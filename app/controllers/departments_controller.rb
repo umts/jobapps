@@ -1,5 +1,5 @@
 class DepartmentsController < ApplicationController
-  before_action :find_department, only: [:destroy, :edit, :update]
+  before_action :find_department, only: %i[destroy edit update]
 
   def create
     @department = Department.new department_parameters
@@ -18,11 +18,9 @@ class DepartmentsController < ApplicationController
     redirect_to staff_dashboard_path
   end
 
-  def edit
-  end
+  def edit; end
 
-  def new
-  end
+  def new; end
 
   def update
     if @department.update department_parameters

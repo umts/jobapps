@@ -43,7 +43,7 @@ describe 'viewing the dashboard as a student' do
             .to receive :configured_value
           allow_any_instance_of(ApplicationConfiguration)
             .to receive(:configured_value)
-            .with([:on_application_denial, :notify_applicant], anything)
+            .with(%i[on_application_denial notify_applicant], anything)
             .and_return true
         end
         it 'contains a link to review the pending application' do
@@ -61,7 +61,7 @@ describe 'viewing the dashboard as a student' do
               .to receive :configured_value
             allow_any_instance_of(ApplicationConfiguration)
               .to receive(:configured_value)
-              .with([:on_application_denial, :notify_of_reason], anything)
+              .with(%i[on_application_denial notify_of_reason], anything)
               .and_return false
           end
           it 'has link to see denied app, without text of denial reason' do
@@ -79,7 +79,7 @@ describe 'viewing the dashboard as a student' do
               .to receive :configured_value
             allow_any_instance_of(ApplicationConfiguration)
               .to receive(:configured_value)
-              .with([:on_application_denial, :notify_of_reason], anything)
+              .with(%i[on_application_denial notify_of_reason], anything)
               .and_return true
           end
           it 'has link to see the denied app, with text of denial reason' do
@@ -99,7 +99,7 @@ describe 'viewing the dashboard as a student' do
             .to receive :configured_value
           allow_any_instance_of(ApplicationConfiguration)
             .to receive(:configured_value)
-            .with([:on_application_denial, :notify_applicant], anything)
+            .with(%i[on_application_denial notify_applicant], anything)
             .and_return false
         end
         it 'contains a link to review pending applications' do

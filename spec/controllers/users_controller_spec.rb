@@ -2,11 +2,11 @@ require 'rails_helper'
 
 describe UsersController do
   it_behaves_like 'an access-controlled resource', routes: [
-    [:post,   :create,  :collection],
-    [:delete, :destroy, :member],
-    [:get,    :edit,    :member],
-    [:get,    :new,     :collection],
-    [:put,    :update,  :member]
+    %i[post create collection],
+    %i[delete destroy member],
+    %i[get edit member],
+    %i[get new collection],
+    %i[put update member]
   ]
   describe 'POST #create' do
     context 'creating a user as staff' do

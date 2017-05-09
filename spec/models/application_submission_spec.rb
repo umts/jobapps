@@ -10,23 +10,23 @@ describe ApplicationSubmission do
       @record.data_rows
     end
     it 'returns array with header, prompts and responses, no data_type or ID' do
-      expect(call).to eql [%w(Question Response), ['a question', 'an answer']]
+      expect(call).to eql [%w[Question Response], ['a question', 'an answer']]
     end
     it 'removes questions of data type heading or explanation' do
       @record.data << ['a heading', nil, 'heading', 6]
       @record.data << ['an explanation', nil, 'explanation', 7]
-      expect(call).to eql [%w(Question Response), ['a question', 'an answer']]
+      expect(call).to eql [%w[Question Response], ['a question', 'an answer']]
     end
   end
 
   describe 'unavailability_rows' do
     let :unavail do
       create :unavailability, sunday: [],
-                              monday: %w(10AM 11AM 12PM),
-                              tuesday: %w(11AM 12PM 1PM 2PM 3PM 4PM 5PM),
-                              wednesday: %w(10AM 11AM 12PM),
-                              thursday: %w(11AM 12PM 1PM 2PM 3PM 4PM 5PM),
-                              friday: %w(10AM 11AM 12PM),
+                              monday: %w[10AM 11AM 12PM],
+                              tuesday: %w[11AM 12PM 1PM 2PM 3PM 4PM 5PM],
+                              wednesday: %w[10AM 11AM 12PM],
+                              thursday: %w[11AM 12PM 1PM 2PM 3PM 4PM 5PM],
+                              friday: %w[10AM 11AM 12PM],
                               saturday: []
     end
     let(:record) { create :application_submission, unavailability: unavail }
@@ -111,10 +111,10 @@ describe ApplicationSubmission do
 
   describe 'hire_count' do
     before :each do
-      record_1 = create :application_submission
-      record_2 = create :application_submission
-      create :interview, application_submission: record_2, hired: false
-      create :interview, application_submission: record_1, hired: true
+      record1 = create :application_submission
+      record2 = create :application_submission
+      create :interview, application_submission: record2, hired: false
+      create :interview, application_submission: record1, hired: true
     end
     let :call do
       ApplicationSubmission.hire_count
@@ -126,9 +126,9 @@ describe ApplicationSubmission do
 
   describe 'interview_count' do
     before :each do
-      record_1 = create :application_submission
+      record1 = create :application_submission
       create :application_submission
-      create :interview, application_submission: record_1
+      create :interview, application_submission: record1
     end
     let :call do
       ApplicationSubmission.interview_count
@@ -156,7 +156,7 @@ describe ApplicationSubmission do
           .to receive :configured_value
         allow_any_instance_of(ApplicationConfiguration)
           .to receive(:configured_value)
-          .with([:on_application_denial, :notify_applicant], anything)
+          .with(%i[on_application_denial notify_applicant], anything)
           .and_return true
       end
       it 'sends application denial email' do
@@ -176,7 +176,7 @@ describe ApplicationSubmission do
           .to receive :configured_value
         allow_any_instance_of(ApplicationConfiguration)
           .to receive(:configured_value)
-          .with([:on_application_denial, :notify_applicant], anything)
+          .with(%i[on_application_denial notify_applicant], anything)
           .and_return false
       end
       it 'does not send application denial email' do

@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 FactoryGirl.define do
   factory :application_submission do
     user
     position
-    data [%w('prompt_1' 'Do you like cats'), %w('response_1 No')]
+    data [['prompt_1', 'Do you like cats'], %w[response_1 No]]
     reviewed false
   end
 

@@ -2,11 +2,11 @@ require 'rails_helper'
 
 describe ApplicationSubmissionsController do
   it_behaves_like 'an access-controlled resource', routes: [
-    [:get,  :csv_export,                 :collection],
-    [:get,  :eeo_data,                   :collection],
-    [:get,  :past_applications,          :collection],
-    [:post, :review,                     :member],
-    [:post, :toggle_saved_for_later,     :member]
+    %i[get csv_export collection],
+    %i[get eeo_data collection],
+    %i[get past_applications collection],
+    %i[post review member],
+    %i[post toggle_saved_for_later member]
   ]
 
   describe 'POST #create' do
@@ -383,10 +383,10 @@ describe ApplicationSubmissionsController do
     end
     context 'record belongs to another student' do
       before :each do
-        student_1 = create :user, :student
-        student_2 = create :user, :student
-        @record = create :application_submission, user: student_1
-        when_current_user_is student_2
+        student1 = create :user, :student
+        student2 = create :user, :student
+        @record = create :application_submission, user: student1
+        when_current_user_is student2
       end
       it 'does not allow access' do
         submit

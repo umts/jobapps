@@ -90,14 +90,14 @@ describe Question do
       @draft = create :application_draft
     end
     it 'returns true for date, or text' do
-      %w(date text).each do |data_type|
+      %w[date text].each do |data_type|
         question = create :question, application_draft: @draft,
                                      data_type: data_type
         expect(question.takes_placeholder?).to be true
       end
     end
     it 'returns false for explanation, heading, number, or yes/no' do
-      %w(explanation heading number yes/no).each do |data_type|
+      %w[explanation heading number yes/no].each do |data_type|
         question = create :question, application_draft: @draft,
                                      data_type: data_type
         expect(question.takes_placeholder?).to be false
