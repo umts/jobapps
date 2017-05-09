@@ -1,10 +1,10 @@
 require 'prawn'
 class ApplicationSubmissionsController < ApplicationController
-  skip_before_action :access_control, only: %i[create, show]
-  before_action :find_record, except: %i[create,
-                                       csv_export,
-                                       eeo_data,
-                                       past_applications]
+  skip_before_action :access_control, only: %i[create show]
+  before_action :find_record, except: %i[create
+                                         csv_export
+                                         eeo_data
+                                         past_applications]
   include ApplicationHelper
 
   def create
