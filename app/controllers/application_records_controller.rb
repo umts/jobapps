@@ -5,7 +5,6 @@ class ApplicationRecordsController < ApplicationController
                                          csv_export
                                          eeo_data
                                          past_applications]
-  include ApplicationHelper
 
   def create
     create_user if @current_user.blank?
