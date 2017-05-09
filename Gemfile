@@ -12,7 +12,7 @@ gem 'jquery-ui-rails'
 gem 'mysql2'
 gem 'prawn'
 gem 'prawn-table'
-gem 'rails', '~> 5.0', '>= 5.0.2'
+gem 'rails', '~> 5.1'
 gem 'rails-controller-testing'
 
 gem 'redcarpet'
