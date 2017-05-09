@@ -50,9 +50,15 @@ module ApplicationHelper
   end
 
   def render_markdown(text)
-    renderer = Redcarpet::Render::HTML
+    renderer = Redcarpet::Render::HTML.new(filter_html: true)
     markdown = Redcarpet::Markdown.new renderer
-    markdown.render(text)
+    # rubocop:disable OutputSafety
+    # This cop is to warn developers of the possible dangers of using html_safe
+    # because it will, by definition, allow injecting user-input into the DOM.
+    # However, the filter_html: true option above prevents users from entering
+    # in their own tags. Thus, ignore this cop, it has done its job.
+    markdown.render(text).html_safe
+    # rubocop:enable OutputSafety
   end
 
   def should_show_denied_applications?
