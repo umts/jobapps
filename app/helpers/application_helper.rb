@@ -52,7 +52,7 @@ module ApplicationHelper
   def render_markdown(text)
     renderer = Redcarpet::Render::HTML
     markdown = Redcarpet::Markdown.new renderer
-    markdown.render(text)
+    safe_join([markdown.render(text).html_safe])
   end
 
   def should_show_denied_applications?
