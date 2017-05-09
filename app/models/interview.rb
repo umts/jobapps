@@ -39,7 +39,7 @@ class Interview < ApplicationRecord
   private
 
   def resend_confirmation
-    if location_changed? || scheduled_changed?
+    if saved_change_to_location? || saved_change_to_scheduled?
       JobappsMailer.interview_reschedule self
     end
   end
