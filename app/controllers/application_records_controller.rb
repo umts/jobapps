@@ -1,5 +1,7 @@
 require 'prawn'
 class ApplicationRecordsController < ApplicationController
+  include ApplicationHelper
+
   skip_before_action :access_control, only: %i[create show]
   before_action :find_record, except: %i[create
                                          csv_export
