@@ -12,7 +12,7 @@
         %td{ data: { order: record.created_at.to_i } }
           = format_date_time record.created_at
         %td
-          = link_to(record.user.proper_name, application_record_path(record.id))
+          = link_to(record.user.proper_name, application_submission_path(record.id))
         %td
           - if record.interview.nil?
             not scheduled

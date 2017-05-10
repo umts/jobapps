@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :interview do
-    application_record
+    application_submission
     user
     completed false
     hired false

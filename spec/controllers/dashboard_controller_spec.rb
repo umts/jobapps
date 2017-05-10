@@ -38,7 +38,7 @@ describe DashboardController do
       end
       context 'XHR request' do
         it 'does not allow access' do
-          xhr :get, :staff
+          get :staff, xhr: true
           expect(response).to have_http_status :unauthorized
           expect(response.body).to be_blank
         end
@@ -110,7 +110,7 @@ describe DashboardController do
       end
       it 'assigns the required instance variables' do
         submit
-        expect(assigns.keys).to include('application_records',
+        expect(assigns.keys).to include('application_submissions',
                                         'interviews',
                                         'positions')
       end

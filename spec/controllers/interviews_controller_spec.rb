@@ -11,7 +11,7 @@ describe InterviewsController do
       @interview = create :interview, completed: false
     end
     let :submit do
-      post :complete, id: @interview.id
+      post :complete, params: { id: @interview.id }
     end
     context 'staff' do
       before :each do
@@ -19,7 +19,7 @@ describe InterviewsController do
       end
       context 'hired button is pressed' do
         let :submit do
-          post :complete, id: @interview.id, hired: true
+          post :complete, params: { id: @interview.id, hired: 'anything' }
         end
         it 'marks interview as complete' do
           submit
@@ -32,8 +32,8 @@ describe InterviewsController do
       end
       context 'not hired button is pressed' do
         let :submit do
-          post :complete, id: @interview.id, hired: false,
-                          interview_note: 'note'
+          post :complete, params: { id: @interview.id,
+                                    interview_note: 'note' }
         end
         it 'marks the interview as complete' do
           submit
@@ -81,10 +81,11 @@ describe InterviewsController do
       @scheduled = 1.day.since.beginning_of_day
     end
     let :submit do
-      post :reschedule,
-           id: @interview.id,
-           location: @location,
-           scheduled: @scheduled.strftime('%Y/%m/%d %H:%M')
+      post :reschedule, params: {
+        id: @interview.id,
+        location: @location,
+        scheduled: @scheduled.strftime('%Y/%m/%d %H:%M')
+      }
     end
     context 'staff' do
       before :each do
@@ -123,14 +124,14 @@ describe InterviewsController do
       @interview = create :interview
     end
     let :submit do
-      get :show, id: @interview.id, format: :ics
+      get :show, params: { id: @interview.id, format: :ics }
     end
     context 'staff' do
       before :each do
         when_current_user_is :staff
       end
       it 'does not respond to HTML if so requested' do
-        expect { get :show, id: @interview.id, format: :html }
+        expect { get :show, params: { id: @interview.id, format: :html } }
           .to raise_error ActionController::UnknownFormat
       end
       it 'renders an ICS file if so requested' do

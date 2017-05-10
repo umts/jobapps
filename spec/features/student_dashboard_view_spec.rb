@@ -15,20 +15,21 @@ describe 'viewing the dashboard as a student' do
         expect(page).to have_text interview.information
       end
       it 'contains a link to review the application' do
+        path = application_submission_path(interview.application_submission)
         click_link 'Review your application',
-                   href: application_record_path(interview.application_record)
+                   href: path
         expect(page.current_url)
-          .to eql application_record_url(interview.application_record)
+          .to eql application_submission_url(interview.application_submission)
       end
     end # of student got an interview
     context 'student did not get an interview' do
       let!(:pending_application) do
-        create :application_record,
+        create :application_submission,
                reviewed: false,
                user: student
       end
       let!(:denied_application) do
-        create :application_record,
+        create :application_submission,
                reviewed: true,
                user: student,
                staff_note: 'No'
@@ -47,9 +48,9 @@ describe 'viewing the dashboard as a student' do
         end
         it 'contains a link to review the pending application' do
           click_link 'Review your application',
-                     href: application_record_path(pending_application)
+                     href: application_submission_path(pending_application)
           expect(page.current_url)
-            .to eql application_record_url(pending_application)
+            .to eql application_submission_url(pending_application)
           expect(page).to have_text 'Your application is pending'
           expect(page).to have_text 'You will be notified'
           expect(page).to have_text 'when your application has been reviewed'
@@ -65,9 +66,9 @@ describe 'viewing the dashboard as a student' do
           end
           it 'has link to see denied app, without text of denial reason' do
             click_link 'Review your application',
-                       href: application_record_path(denied_application)
+                       href: application_submission_path(denied_application)
             expect(page.current_url)
-              .to eql application_record_url(denied_application)
+              .to eql application_submission_url(denied_application)
             expect(page).to have_text 'Your application has been denied.'
             expect(page).not_to have_text 'Reason: No'
           end
@@ -83,9 +84,9 @@ describe 'viewing the dashboard as a student' do
           end
           it 'has link to see the denied app, with text of denial reason' do
             click_link 'Review your application',
-                       href: application_record_path(denied_application)
+                       href: application_submission_path(denied_application)
             expect(page.current_url)
-              .to eql application_record_url(denied_application)
+              .to eql application_submission_url(denied_application)
             expect(page)
               .to have_text 'Your application has been denied. Reason: No'
             # reason is the staff note.
@@ -103,13 +104,13 @@ describe 'viewing the dashboard as a student' do
         end
         it 'contains a link to review pending applications' do
           click_link 'Review your application',
-                     href: application_record_path(pending_application)
+                     href: application_submission_path(pending_application)
           expect(page.current_url)
-            .to eql application_record_url(pending_application)
+            .to eql application_submission_url(pending_application)
           expect(page).to have_text 'Your application is pending'
         end
         it 'does not contain a link to review denied applications' do
-          action_path = application_record_path(denied_application)
+          action_path = application_submission_path(denied_application)
           expect page.has_no_link? 'Review your application',
                                    href: action_path
         end

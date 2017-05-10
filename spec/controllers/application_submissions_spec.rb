@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ApplicationRecordsController do
+describe ApplicationSubmissionsController do
   it_behaves_like 'an access-controlled resource', routes: [
     %i[get csv_export collection],
     %i[get eeo_data collection],
@@ -30,10 +30,11 @@ describe ApplicationRecordsController do
       @user = Hash.new
     end
     let :submit do
-      post :create, position_id: @position.id,
-                    data: @data,
-                    user: @user,
-                    unavailability: @unavailability
+      post :create, params: { position_id: @position.id,
+                              data: @data,
+                              user: @user,
+                              unavailability: @unavailability
+      }
     end
     context 'current user is nil' do
       it 'creates a user' do
@@ -53,7 +54,7 @@ describe ApplicationRecordsController do
       before(:each) { when_current_user_is user }
       it 'creates an application record as specified' do
         expect { submit }
-          .to change { ApplicationRecord.count }
+          .to change { ApplicationSubmission.count }
           .by 1
       end
       it 'creates an unavailability' do
@@ -62,7 +63,7 @@ describe ApplicationRecordsController do
           .by 1
       end
       it 'emails the subscribers to the position of the application record' do
-        expect_any_instance_of(ApplicationRecord)
+        expect_any_instance_of(ApplicationSubmission)
           .to receive(:email_subscribers)
           .with applicant: user
         submit
@@ -73,11 +74,11 @@ describe ApplicationRecordsController do
       before(:each) { when_current_user_is user }
       it 'creates an application record as specified' do
         expect { submit }
-          .to change { ApplicationRecord.count }
+          .to change { ApplicationSubmission.count }
           .by 1
       end
       it 'emails the subscribers to the position of the application record' do
-        expect_any_instance_of(ApplicationRecord)
+        expect_any_instance_of(ApplicationSubmission)
           .to receive(:email_subscribers)
           .with applicant: user
         submit
@@ -102,49 +103,51 @@ describe ApplicationRecordsController do
     end
     context 'submitting with the department ID param' do
       let :submit do
-        get :csv_export,
-            start_date: @start_date.strftime('%m/%d/%Y'),
-            end_date: @end_date.strftime('%m/%d/%Y'),
-            department_ids: @department.id
+        get :csv_export, params: {
+          start_date: @start_date.strftime('%m/%d/%Y'),
+          end_date: @end_date.strftime('%m/%d/%Y'),
+          department_ids: @department.id
+        }
       end
       it 'calls AR#in_department with the correct parameters' do
-        expect(ApplicationRecord).to receive(:in_department)
+        expect(ApplicationSubmission).to receive(:in_department)
           .with(@department.id.to_s)
-          .and_return ApplicationRecord.none
+          .and_return ApplicationSubmission.none
         # Needs to return something, because we must call
         # other methods on what it returns later.
         submit
       end
       it 'calls AR#between with the correct parameters' do
-        expect(ApplicationRecord).to receive(:between)
+        expect(ApplicationSubmission).to receive(:between)
           .with @start_date, @end_date
         submit
       end
       it 'assigns the correct records to the instance variable' do
-        expect(ApplicationRecord).to receive(:between).and_return 'whatever'
+        expect(ApplicationSubmission).to receive(:between).and_return 'whatever'
         submit
         expect(assigns.fetch :records).to eql 'whatever'
       end
     end
     context 'submitting without the department ID param' do
       let :submit do
-        get :csv_export,
-            start_date: @start_date.strftime('%m/%d/%Y'),
-            end_date: @end_date.strftime('%m/%d/%Y')
+        get :csv_export, params: {
+          start_date: @start_date.strftime('%m/%d/%Y'),
+          end_date: @end_date.strftime('%m/%d/%Y')
+        }
       end
       it 'calls AR#in_department with all department IDs' do
-        expect(ApplicationRecord).to receive(:in_department)
-          .with(Department.all.pluck(:id)).and_return ApplicationRecord.none
+        expect(ApplicationSubmission).to receive(:in_department)
+          .with(Department.all.pluck(:id)).and_return ApplicationSubmission.none
         # must return something - another method is called on the results
         submit
       end
       it 'calls AR#between with the correct parameters' do
-        expect(ApplicationRecord).to receive(:between)
+        expect(ApplicationSubmission).to receive(:between)
           .with @start_date, @end_date
         submit
       end
       it 'assigns the correct records to the instance variable' do
-        expect(ApplicationRecord).to receive(:between).and_return 'whatever'
+        expect(ApplicationSubmission).to receive(:between).and_return 'whatever'
         submit
         expect(assigns.fetch :records).to eql 'whatever'
       end
@@ -160,41 +163,43 @@ describe ApplicationRecordsController do
     end
     context 'submitting with the department ID param' do
       let :submit do
-        get :eeo_data,
-            eeo_start_date: @start_date.strftime('%m/%d/%Y'),
-            eeo_end_date: @end_date.strftime('%m/%d/%Y'),
-            department_ids: @department.id
+        get :eeo_data, params: {
+          eeo_start_date: @start_date.strftime('%m/%d/%Y'),
+          eeo_end_date: @end_date.strftime('%m/%d/%Y'),
+          department_ids: @department.id
+        }
       end
       it 'calls AR#eeo_data with the correct parameters' do
-        expect(ApplicationRecord).to receive(:eeo_data)
+        expect(ApplicationSubmission).to receive(:eeo_data)
           .with(@start_date, @end_date, @department.id.to_s)
         # to_s because params are a string
         submit
       end
       it 'assigns the correct records to the instance variable' do
-        record = ApplicationRecord.none
-        expect(ApplicationRecord).to receive(:eeo_data).and_return record
+        record = ApplicationSubmission.none
+        expect(ApplicationSubmission).to receive(:eeo_data).and_return record
         submit
         expect(assigns.fetch :records).to eql record
       end
     end
     context 'submitting without the department ID param' do
       let :submit do
-        get :eeo_data,
-            eeo_start_date: @start_date.strftime('%m/%d/%Y'),
-            eeo_end_date: @end_date.strftime('%m/%d/%Y')
+        get :eeo_data, params: {
+          eeo_start_date: @start_date.strftime('%m/%d/%Y'),
+          eeo_end_date: @end_date.strftime('%m/%d/%Y')
+        }
       end
       # the third argument in this case is not from the params,
       # it is a given array
       it 'calls AR#eeo_data with the correct parameters' do
-        expect(ApplicationRecord).to receive(:eeo_data)
+        expect(ApplicationSubmission).to receive(:eeo_data)
           .with(@start_date, @end_date, Department.all.pluck(:id))
-          .and_return ApplicationRecord.none
+          .and_return ApplicationSubmission.none
         submit
       end
       it 'assigns the correct records to the instance variable' do
-        record = ApplicationRecord.none
-        expect(ApplicationRecord).to receive(:eeo_data).and_return record
+        record = ApplicationSubmission.none
+        expect(ApplicationSubmission).to receive(:eeo_data).and_return record
         submit
         expect(assigns.fetch :records).to eql record
       end
@@ -210,48 +215,50 @@ describe ApplicationRecordsController do
     end
     context 'submitting with the department ID param' do
       let :submit do
-        get :past_applications,
-            records_start_date: @start_date.strftime('%m/%d/%Y'),
-            records_end_date: @end_date.strftime('%m/%d/%Y'),
-            department_ids: @department.id
+        get :past_applications, params: {
+          records_start_date: @start_date.strftime('%m/%d/%Y'),
+          records_end_date: @end_date.strftime('%m/%d/%Y'),
+          department_ids: @department.id
+        }
       end
       it 'calls AR#between with the correct parameters' do
-        expect(ApplicationRecord).to receive(:between)
+        expect(ApplicationSubmission).to receive(:between)
           .with @start_date, @end_date
         submit
       end
       it 'calls AR#in_department with the correct parameters' do
-        expect(ApplicationRecord).to receive(:in_department)
+        expect(ApplicationSubmission).to receive(:in_department)
           .with(@department.id.to_s)
-          .and_return ApplicationRecord.none
+          .and_return ApplicationSubmission.none
         #  needs to return something - other methods are called on the results
         submit
       end
       it 'assigns the correct records to the instance variable' do
-        expect(ApplicationRecord).to receive(:between).and_return 'whatever'
+        expect(ApplicationSubmission).to receive(:between).and_return 'whatever'
         submit
         expect(assigns.fetch :records).to eql 'whatever'
       end
     end
     context 'submitting without the department ID param' do
       let :submit do
-        get :past_applications,
-            records_start_date: @start_date.strftime('%m/%d/%Y'),
-            records_end_date: @end_date.strftime('%m/%d/%Y')
+        get :past_applications, params: {
+          records_start_date: @start_date.strftime('%m/%d/%Y'),
+          records_end_date: @end_date.strftime('%m/%d/%Y')
+        }
       end
       it 'calls AR#between with the correct parameters' do
-        expect(ApplicationRecord).to receive(:between)
+        expect(ApplicationSubmission).to receive(:between)
           .with @start_date, @end_date
         submit
       end
       it 'calls AR#in_department with all department IDs' do
         # must return something, as a method is called on the results
-        expect(ApplicationRecord).to receive(:in_department)
-          .with(Department.all.pluck(:id)).and_return ApplicationRecord.none
+        expect(ApplicationSubmission).to receive(:in_department)
+          .with(Department.all.pluck(:id)).and_return ApplicationSubmission.none
         submit
       end
       it 'assigns the correct records to the instance variable' do
-        expect(ApplicationRecord).to receive(:between).and_return 'whatever'
+        expect(ApplicationSubmission).to receive(:between).and_return 'whatever'
         submit
         expect(assigns.fetch :records).to eql 'whatever'
       end
@@ -260,7 +267,7 @@ describe ApplicationRecordsController do
 
   describe 'POST #review' do
     before :each do
-      @record = create :application_record
+      @record = create :application_submission
       @interview = { location: 'somewhere',
                      scheduled: 1.day.since.strftime('%Y/%m/%d %H:%M') }
     end
@@ -272,10 +279,11 @@ describe ApplicationRecordsController do
       end
       context 'record accepted' do
         let :submit do
-          post :review,
-               id: @record.id,
-               accepted: 'true',
-               interview: @interview
+          post :review, params: {
+            id: @record.id,
+            accepted: 'true',
+            interview: @interview
+          }
         end
         it 'creates an interview as given' do
           expect { submit }
@@ -296,13 +304,14 @@ describe ApplicationRecordsController do
           @staff_note = 'because I said so'
         end
         let :submit do
-          post :review,
-               id: @record.id,
-               accepted: 'false',
-               staff_note: @staff_note
+          post :review, params: {
+            id: @record.id,
+            accepted: 'false',
+            staff_note: @staff_note
+          }
         end
         it 'updates record with staff note given' do
-          expect_any_instance_of(ApplicationRecord)
+          expect_any_instance_of(ApplicationSubmission)
             .to receive(:deny_with)
             .with @staff_note
           submit
@@ -328,22 +337,24 @@ describe ApplicationRecordsController do
       when_current_user_is :staff
     end
     context 'record not saved for later' do
-      let!(:record) { create :application_record, saved_for_later: false }
-      let(:submit) { post :toggle_saved_for_later, id: record.id }
+      let!(:record) { create :application_submission, saved_for_later: false }
+      let(:submit) { post :toggle_saved_for_later, params: { id: record.id } }
       it 'calls record.save_for_later' do
-        expect_any_instance_of(ApplicationRecord).to receive(:save_for_later)
+        expect_any_instance_of(ApplicationSubmission)
+          .to receive(:save_for_later)
         submit
       end
     end
     context 'record previously saved for later' do
       let!(:record) do
-        create :application_record,
+        create :application_submission,
                saved_for_later: true,
                note_for_later: 'this needs to be here'
       end
-      let(:submit) { post :toggle_saved_for_later, id: record.id }
+      let(:submit) { post :toggle_saved_for_later, params: { id: record.id } }
       it 'calls record.move_to_dashboard' do
-        expect_any_instance_of(ApplicationRecord).to receive(:move_to_dashboard)
+        expect_any_instance_of(ApplicationSubmission)
+          .to receive(:move_to_dashboard)
         submit
       end
     end
@@ -351,10 +362,10 @@ describe ApplicationRecordsController do
 
   describe 'GET #show' do
     before :each do
-      @record = create :application_record, user: (create :user, :student)
+      @record = create :application_submission, user: (create :user, :student)
     end
     let :submit do
-      get :show, id: @record.id
+      get :show, params: { id: @record.id }
     end
     context 'applicant student' do
       before :each do
@@ -374,7 +385,7 @@ describe ApplicationRecordsController do
       before :each do
         student1 = create :user, :student
         student2 = create :user, :student
-        @record = create :application_record, user: student1
+        @record = create :application_submission, user: student1
         when_current_user_is student2
       end
       it 'does not allow access' do
@@ -396,7 +407,7 @@ describe ApplicationRecordsController do
         expect(assigns.keys).to include 'record', 'interview'
       end
       it 'generates a pdf by calling prawn' do
-        get :show, id: @record.id, format: :pdf
+        get :show, params: { id: @record.id, format: :pdf }
         expect(response.headers['Content-Type']).to eql 'application/pdf'
       end
     end

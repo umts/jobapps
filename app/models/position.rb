@@ -1,10 +1,10 @@
 include ApplicationConfiguration
 
-class Position < ActiveRecord::Base
+class Position < ApplicationRecord
   belongs_to :department
   has_one :application_template, dependent: :destroy
-  has_many :application_records, dependent: :destroy
-  has_many :interviews, through: :application_records
+  has_many :application_submissions, dependent: :destroy
+  has_many :interviews, through: :application_submissions
   has_many :subscriptions, dependent: :destroy
   has_many :users, through: :subscriptions
 

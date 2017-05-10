@@ -2,10 +2,11 @@ class InterviewsController < ApplicationController
   before_action :find
 
   def complete
+    params.permit(:hired, :interview_note)
     if @interview.update completed: true
       show_message :interview_complete,
                    default: 'Interview marked as completed.'
-      if params[:hired]
+      if params[:hired].present?
         @interview.update hired: true
       else
         @interview.update hired: false,

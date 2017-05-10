@@ -1,4 +1,4 @@
-class Question < ActiveRecord::Base
+class Question < ApplicationRecord
   belongs_to :application_template
   belongs_to :application_draft
 

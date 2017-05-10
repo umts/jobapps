@@ -13,7 +13,7 @@ describe UsersController do
       it 'does not create the user' do
         when_current_user_is :staff
         attrs = FactoryGirl.build :user
-        post :create, user: attrs
+        post :create, params: { user: attrs }
         expect(response).to have_http_status :unauthorized
         expect(response.body).not_to be_empty
       end
@@ -24,7 +24,7 @@ describe UsersController do
       it 'does not destroy the user' do
         when_current_user_is :staff
         user = create :user, :staff
-        delete :destroy, id: user
+        delete :destroy, params: { id: user }
         expect(response).to have_http_status :unauthorized
         expect(User.all).to include user
       end
@@ -37,7 +37,7 @@ describe UsersController do
         user = create :user
         initial_user = user
         attrs = FactoryGirl.build :user
-        put :update, id: user, user: attrs
+        put :update, params: { id: user, user: attrs }
         user.reload
         expect(user).to eql initial_user
       end
@@ -48,7 +48,7 @@ describe UsersController do
       it 'does not promote the user' do
         when_current_user_is :staff
         user = create :user
-        put :promote_save, user: "#{user.full_name} #{user.spire}"
+        put :promote_save, params: { user: "#{user.full_name} #{user.spire}" }
         user.reload
         expect(user.staff).to be false
       end

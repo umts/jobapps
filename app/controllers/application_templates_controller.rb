@@ -14,8 +14,8 @@ class ApplicationTemplatesController < ApplicationController
                                           @template)
     @old_data = {}
     if params[:load_id]
-      @old_data = ApplicationRecord.find(params[:load_id])
-                                   .try :questions_hash || {}
+      @old_data = ApplicationSubmission.find(params[:load_id])
+                                       .try :questions_hash || {}
     end
   end
 
@@ -30,7 +30,7 @@ class ApplicationTemplatesController < ApplicationController
     else show_message :inactive_application,
                       default: 'The application is now inactive.'
     end
-    redirect_to :back
+    redirect_back fallback_location: application_path(@template)
   end
 
   def toggle_eeo_enabled
@@ -45,7 +45,13 @@ class ApplicationTemplatesController < ApplicationController
       show_message :eeo_disabled,
                    default: 'EEO data requests disabled on this application.'
     end
-    redirect_to :back
+    if @template.draft_belonging_to? @current_user
+      draft = @template.draft_belonging_to @current_user
+      back_path = edit_draft_path(draft)
+    else
+      back_path = application_path(@template)
+    end
+    redirect_back fallback_location: back_path
   end
 
   def toggle_unavailability_enabled
@@ -62,7 +68,13 @@ class ApplicationTemplatesController < ApplicationController
                    default: 'Unavailability requests disabled on
                             this application.'
     end
-    redirect_to :back
+    if @template.draft_belonging_to? @current_user
+      draft = @template.draft_belonging_to @current_user
+      back_path = edit_draft_path(draft)
+    else
+      back_path = application_path(@template)
+    end
+    redirect_back fallback_location: back_path
   end
 
   private

@@ -5,10 +5,10 @@ class JobappsMailer < ActionMailer::Base
   # for some reason the configured_value method doesn't work here
   default from: CONFIG[:email][:default_from]
 
-  def application_denial(application_record)
-    @application_record = application_record
-    @user = application_record.user
-    template = application_record.position.application_template
+  def application_denial(application_submission)
+    @application_submission = application_submission
+    @user = @application_submission.user
+    template = @application_submission.position.application_template
     reply_to = template.try :email
     mail to: @user.email,
          subject: 'Application Denial',
@@ -25,7 +25,7 @@ class JobappsMailer < ActionMailer::Base
   def interview_confirmation(interview)
     @interview = interview
     @user = interview.user
-    template = interview.application_record.position.application_template
+    template = interview.application_submission.position.application_template
     reply_to = template.try :email
     mail to: @user.email,
          subject: 'Interview Confirmation',
@@ -35,17 +35,17 @@ class JobappsMailer < ActionMailer::Base
   def interview_reschedule(interview)
     @interview = interview
     @user = interview.user
-    template = interview.application_record.position.application_template
+    template = interview.application_submission.position.application_template
     reply_to = template.try :email
     mail to: @user.email,
          subject: 'Interview Rescheduled',
          reply_to: reply_to
   end
 
-  def send_note_for_later(application_record)
-    template = application_record.position.application_template
-    @user = application_record.user
-    @record = application_record
+  def send_note_for_later(application_submission)
+    template = application_submission.position.application_template
+    @user = application_submission.user
+    @record = application_submission
     reply_to = template.try :email
     mail to: @user.email,
          subject: 'Your application has been saved for later review',

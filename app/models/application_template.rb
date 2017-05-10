@@ -1,9 +1,9 @@
-class ApplicationTemplate < ActiveRecord::Base
+class ApplicationTemplate < ApplicationRecord
   extend FriendlyId
   friendly_id :department_and_position, use: :slugged
 
   has_many :questions, dependent: :destroy
-  has_many :drafts, class_name: ApplicationDraft,
+  has_many :drafts, class_name: 'ApplicationDraft',
                     foreign_key: :application_template_id,
                     dependent: :destroy
   accepts_nested_attributes_for :questions

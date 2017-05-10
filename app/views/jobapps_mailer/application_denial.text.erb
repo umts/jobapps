@@ -1,8 +1,8 @@
 Hello <%= @user.first_name %>,
 
 <% if configured_value [:on_application_denial, :notify_of_reason], default: true %>
-  Your application to the <%= @application_record.position.try(:name) %> position has been denied due to the following reason:
-  <%= @application_record.staff_note %>
+  Your application to the <%= @application_submission.position.try(:name) %> position has been denied due to the following reason:
+  <%= @application_submission.staff_note %>
 <% else %>
   Your application has been denied.
 <% end %>

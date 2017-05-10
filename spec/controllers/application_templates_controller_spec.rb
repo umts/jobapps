@@ -14,7 +14,7 @@ describe ApplicationTemplatesController do
         @position = create :position
       end
       let :submit do
-        get :new, position_id: @position.id
+        get :new, params: { position_id: @position.id }
       end
       it 'creates an application template for that position' do
         expect(@position.application_template).to be_nil
@@ -46,16 +46,16 @@ describe ApplicationTemplatesController do
       department = create :department, name: 'Bus'
       position = create :position, name: 'Operator', department: department
       @template = create :application_template, position: position
-      @record = create :application_record,
+      @record = create :application_submission,
                        data: [['a question', 'an answer', 'data type', 1]]
     end
     context 'using specific route' do
       let :submit do
-        get :show, id: @template.slug
+        get :show, params: { id: @template.slug }
       end
 
       let :submit_with_load_id do
-        get :show, id: @template.slug, load_id: @record.id
+        get :show, params: { id: @template.slug, load_id: @record.id }
       end
 
       context 'with a record to preload from' do
@@ -96,10 +96,11 @@ describe ApplicationTemplatesController do
       @template = create :application_template, position: position
     end
     let :submit do
-      post :toggle_active,
-           id: @template.id,
-           position: @template.position.name,
-           department: @template.department.name
+      post :toggle_active, params: {
+        id: @template.id,
+        position: @template.position.name,
+        department: @template.department.name
+      }
     end
     context 'staff' do
       before :each do
@@ -120,10 +121,11 @@ describe ApplicationTemplatesController do
       end
       it 'redirects back' do
         submit
-        expect(response).to redirect_to :back
+        expect(response).to redirect_to 'http://test.host/redirect'
       end
     end
   end
+
   describe 'POST #toggle_eeo_enabled' do
     before :each do
       department = create :department, name: 'Bus'
@@ -131,20 +133,21 @@ describe ApplicationTemplatesController do
       @template = create :application_template, position: position
     end
     let :submit do
-      post :toggle_eeo_enabled,
-           id: @template.id,
-           position: @template.position.name,
-           department: @template.department.name
+      post :toggle_eeo_enabled, params: {
+        id: @template.id,
+        position: @template.position.name,
+        department: @template.department.name
+      }
     end
     context 'staff' do
       before :each do
-        when_current_user_is :staff
+        @user = create :user, staff: true
+        when_current_user_is @user
         request.env['HTTP_REFERER'] = 'http://test.host/redirect'
       end
       it 'changes eeo_enabled when called' do
         expect { submit }.to change { @template.reload.eeo_enabled }
       end
-
       context 'eeo is disabled' do
         before :each do
           # First, disable EEO
@@ -155,7 +158,6 @@ describe ApplicationTemplatesController do
           expect(@template.reload.eeo_enabled).to be true
         end
       end
-
       context 'eeo is enabled' do
         before :each do
           # First, enable EEO
@@ -166,10 +168,27 @@ describe ApplicationTemplatesController do
           expect(@template.reload.eeo_enabled).to be false
         end
       end
-
+      context 'redirecting with no HTTP_REFERER' do
+        before :each do
+          request.env['HTTP_REFERER'] = nil
+        end
+        context 'draft belonging to current user' do
+          it 'redirects to the edit path' do
+            @template.create_draft @user
+            submit
+            expect(response).to redirect_to edit_draft_path(@template.draft_belonging_to @user)
+          end
+        end
+        context 'no draft belonging to current user' do
+          it 'redirects to the application path' do
+            submit
+            expect(response).to redirect_to application_path(@template)
+          end
+        end
+      end
       it 'redirects back' do
         submit
-        expect(response).to redirect_to :back
+        expect(response).to redirect_to 'http://test.host/redirect'
       end
     end
   end
@@ -181,20 +200,21 @@ describe ApplicationTemplatesController do
       @template = create :application_template, position: position
     end
     let :submit do
-      post :toggle_unavailability_enabled,
-           id: @template.id,
-           position: @template.position.name,
-           department: @template.department.name
+      post :toggle_unavailability_enabled, params: {
+        id: @template.id,
+        position: @template.position.name,
+        department: @template.department.name
+      }
     end
     context 'staff' do
       before :each do
-        when_current_user_is :staff
+        @user = create :user, staff: true
+        when_current_user_is @user
         request.env['HTTP_REFERER'] = 'http://test.host/redirect'
       end
       it 'changes unavailability_enabled when called' do
         expect { submit }.to change { @template.reload.unavailability_enabled }
       end
-
       context 'unavailability is disabled' do
         before :each do
           @template.update unavailability_enabled: false
@@ -204,7 +224,6 @@ describe ApplicationTemplatesController do
           expect(@template.reload.unavailability_enabled).to be true
         end
       end
-
       context 'unavailability is enabled' do
         before :each do
           @template.update unavailability_enabled: true
@@ -214,9 +233,27 @@ describe ApplicationTemplatesController do
           expect(@template.reload.unavailability_enabled).to be false
         end
       end
-
+      context 'redirecting with no HTTP_REFERER' do
+        before :each do
+          request.env['HTTP_REFERER'] = nil
+        end
+        context 'draft belonging to current user' do
+          it 'redirects to the edit path' do
+            @template.create_draft @user
+            submit
+            expect(response).to redirect_to edit_draft_path(@template.draft_belonging_to @user)
+          end
+        end
+        context 'no draft belonging to current user' do
+          it 'redirects to the application path' do
+            submit
+            expect(response).to redirect_to application_path(@template)
+          end
+        end
+      end
       it 'redirects back' do
-        expect { submit }.to redirect_back
+        submit
+        expect(response).to redirect_to 'http://test.host/redirect'
       end
     end
   end
