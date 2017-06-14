@@ -9,6 +9,9 @@ script:
   - bundle exec rake db:reset
   - bundle exec rspec
   - bundle exec codeclimate-test-reporter
+branches:
+  only:
+    - master
 notifications:
   email:
     on_success: never
