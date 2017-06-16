@@ -5,10 +5,11 @@ describe 'saving or unsaving applications' do
     when_current_user_is :staff, integration: true
   end
   context 'saving an application record for later' do
-    let!(:record) { create :application_record, reviewed: false }
+    let!(:record) { create :application_submission, reviewed: false }
     before :each do
       visit staff_dashboard_url
-      click_link record.user.proper_name, href: application_record_path(record)
+      click_link record.user.proper_name,
+                 href: application_submission_path(record)
       page.fill_in 'note_for_later', with: 'This is required'
       click_button 'Save for later'
     end
@@ -22,14 +23,14 @@ describe 'saving or unsaving applications' do
       expect(page.current_url)
         .to eql saved_applications_position_url(record.position)
       expect(page).to have_link record.user.proper_name,
-                                href: application_record_path(record)
+                                href: application_submission_path(record)
     end
     it 'redirects to the dashboard' do
       expect(page.current_url).to eql staff_dashboard_url
     end
     it 'moves the application record off the dashboard' do
       expect(page).not_to have_link record.user.proper_name,
-                                    href: application_record_path(record)
+                                    href: application_submission_path(record)
     end
     it 'puts a notice in the flash' do
       expect(page).to have_text 'Application saved for later.'
@@ -37,13 +38,13 @@ describe 'saving or unsaving applications' do
   end
   context 'moving the application record back to the dashboard' do
     let!(:record) do
-      create :application_record,
+      create :application_submission,
              reviewed: false,
              saved_for_later: true,
              note_for_later: 'this is required'
     end
     before :each do
-      visit application_record_url(record)
+      visit application_submission_url(record)
     end
     it 'moves the record back to the dashboard' do
       click_button 'Move back to dashboard'
@@ -63,9 +64,9 @@ describe 'saving or unsaving applications' do
     end
   end
   context 'adding a note and date for later' do
-    let!(:record) { create :application_record, reviewed: false }
+    let!(:record) { create :application_submission, reviewed: false }
     it 'saves all the relevant attributes' do
-      visit application_record_url(record)
+      visit application_submission_url(record)
       page.fill_in 'note_for_later', with: 'This is my note'
       page.fill_in 'date_for_later', with: Time.zone.today.strftime('%m/%d/%Y')
       click_button 'Save for later'
@@ -74,9 +75,9 @@ describe 'saving or unsaving applications' do
       expect(record.date_for_later).to eql Time.zone.today
       expect(record.saved_for_later).to be true
     end
-    context 'application_record has been saved for later' do
+    context 'application_submission has been saved for later' do
       let :saved_record do
-        create :application_record,
+        create :application_submission,
                reviewed: false,
                note_for_later: 'This is my note',
                date_for_later: Time.zone.today,
@@ -95,7 +96,7 @@ describe 'saving or unsaving applications' do
         expect(page).to have_text 'This is my note'
       end
       it 'displays the note on the application record page' do
-        visit application_record_url(saved_record)
+        visit application_submission_url(saved_record)
         expect(page).to have_text 'This is my note'
       end
     end

@@ -14,24 +14,30 @@ class ApplicationTemplatesController < ApplicationController
                                           @template)
     @old_data = {}
     if params[:load_id]
-      @old_data = ApplicationRecord.find(params[:load_id])
-                                   .try :questions_hash || {}
+      @old_data = ApplicationSubmission.find(params[:load_id])
+                                       .try :questions_hash || {}
     end
   end
 
   def toggle_active
+    # We know it does.
+    # rubocop:disable Rails/SkipsModelValidations
     @template.toggle! :active
+    # rubocop:enable Rails/SkipsModelValidations
     if @template.active
       show_message :active_application,
                    default: 'The application is now active.'
     else show_message :inactive_application,
                       default: 'The application is now inactive.'
     end
-    redirect_to :back
+    redirect_back fallback_location: application_path(@template)
   end
 
   def toggle_eeo_enabled
+    # We know it does.
+    # rubocop:disable Rails/SkipsModelValidations
     @template.toggle! :eeo_enabled
+    # rubocop:enable Rails/SkipsModelValidations
     if @template.eeo_enabled?
       show_message :eeo_enabled,
                    default: 'EEO data requests enabled on this application.'
@@ -39,11 +45,20 @@ class ApplicationTemplatesController < ApplicationController
       show_message :eeo_disabled,
                    default: 'EEO data requests disabled on this application.'
     end
-    redirect_to :back
+    if @template.draft_belonging_to? @current_user
+      draft = @template.draft_belonging_to @current_user
+      back_path = edit_draft_path(draft)
+    else
+      back_path = application_path(@template)
+    end
+    redirect_back fallback_location: back_path
   end
 
   def toggle_unavailability_enabled
+    # We know it does.
+    # rubocop:disable Rails/SkipsModelValidations
     @template.toggle! :unavailability_enabled
+    # rubocop:enable Rails/SkipsModelValidations
     if @template.unavailability_enabled?
       show_message :unavailability_enabled,
                    default: 'Unavailability requests enabled on
@@ -53,7 +68,13 @@ class ApplicationTemplatesController < ApplicationController
                    default: 'Unavailability requests disabled on
                             this application.'
     end
-    redirect_to :back
+    if @template.draft_belonging_to? @current_user
+      draft = @template.draft_belonging_to @current_user
+      back_path = edit_draft_path(draft)
+    else
+      back_path = application_path(@template)
+    end
+    redirect_back fallback_location: back_path
   end
 
   private

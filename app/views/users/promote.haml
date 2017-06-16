@@ -1,0 +1,8 @@
+%h1 Promote User to Staff
+= form_tag promote_save_users_path, method: :put do |form|
+  %label Name:
+  = text_field @user, :user , data: {users: @users}, id: 'promote-search', placeholder: 'e.g. Jane Doe'
+  = submit_tag 'Promote', id: 'promote'
+
+If the staff member is not on the list, add them 
+= link_to "here", new_user_path

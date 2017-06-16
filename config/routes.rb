@@ -20,7 +20,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :application_records, only: [:create, :show] do
+  resources :application_submissions, only: [:create, :show] do
     collection do
       get :csv_export
       get :past_applications
@@ -72,6 +72,10 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :users, except: [:index, :show]
-
+  resources :users, except: [:index, :show] do 
+    collection do
+      get :promote
+      put :promote_save
+    end
+  end
 end

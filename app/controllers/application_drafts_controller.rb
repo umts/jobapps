@@ -34,9 +34,10 @@ class ApplicationDraftsController < ApplicationController
 
   def update
     draft_params = params.require(:draft)
-    question_params = draft_params.require(:questions_attributes).permit!
+    question_attributes = draft_params.require(:questions_attributes)
+                                      .permit!.to_h
     @draft.update email: draft_params[:email]
-    @draft.update_questions question_params
+    @draft.update_questions question_attributes
     @draft.reload # since questions have been updated
     case params.require :commit
     when 'Save changes and continue editing'

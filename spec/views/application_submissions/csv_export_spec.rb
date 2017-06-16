@@ -1,7 +1,7 @@
 require 'rails_helper'
 include RSpecHtmlMatchers
 
-describe 'application_records/csv_export.csv.erb' do
+describe 'application_submissions/csv_export.csv.erb' do
   before :each do
     # this test does not simply create an application record, because
     # it is supposed to be able to be run when an actual application

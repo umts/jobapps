@@ -11,6 +11,7 @@ describe 'creating a staff member' do
       end
       it 'goes to the new user page' do
         click_on 'Add new staff member'
+        click_on 'here'
         expect(page.current_url).to eql new_user_url
       end
     end
