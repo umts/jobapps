@@ -1,4 +1,4 @@
-class SiteText < ActiveRecord::Base
+class SiteText < ApplicationRecord
   extend FriendlyId
   friendly_id :site_text_name, use: :slugged
 

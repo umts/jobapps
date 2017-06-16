@@ -1,16 +1,16 @@
-class Interview < ActiveRecord::Base
+class Interview < ApplicationRecord
   include DateAndTimeMethods
 
   belongs_to :user
-  belongs_to :application_record
+  belongs_to :application_submission
   delegate :department,
            :position,
-           to: :application_record
+           to: :application_submission
 
   validates :completed,
             :hired,
             inclusion: { in: [true, false], message: 'must be true or false' }
-  validates :application_record,
+  validates :application_submission,
             :location,
             :scheduled,
             :user,
@@ -39,7 +39,7 @@ class Interview < ActiveRecord::Base
   private
 
   def resend_confirmation
-    if location_changed? || scheduled_changed?
+    if saved_change_to_location? || saved_change_to_scheduled?
       JobappsMailer.interview_reschedule self
     end
   end

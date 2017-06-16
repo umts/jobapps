@@ -27,7 +27,7 @@ describe 'layouts/_footer.haml' do
     allow_any_instance_of(ApplicationConfiguration).to receive :configured_value
     expect_any_instance_of(ApplicationConfiguration)
       .to receive(:configured_value)
-      .with([:email, :site_contact_email])
+      .with(%i[email site_contact_email])
       .and_return site_contact_email
     render
     expect(rendered)

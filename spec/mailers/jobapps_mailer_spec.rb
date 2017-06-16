@@ -3,7 +3,7 @@ include ApplicationConfiguration
 
 describe JobappsMailer do
   before :each do
-    @from = configured_value [:email, :default_from]
+    @from = configured_value %i[email default_from]
   end
 
   describe 'application denial' do
@@ -11,12 +11,13 @@ describe JobappsMailer do
       position = create :position
       @template = create :application_template,
                          position: position, email: 'steve@sharklazers.com'
-      @application_record = create :application_record, staff_note: 'note',
-                                                        position: position
-      @user = @application_record.user
+      @application_submission = create :application_submission,
+                                       staff_note: 'note',
+                                       position: position
+      @user = @application_submission.user
     end
     let :output do
-      JobappsMailer.application_denial @application_record
+      JobappsMailer.application_denial @application_submission
     end
     it 'emails from the configured value' do
       expect(output.from).to eql Array(@from)
@@ -38,12 +39,12 @@ describe JobappsMailer do
         # Stub the invocation we expect
         allow_any_instance_of(ApplicationConfiguration)
           .to receive(:configured_value)
-          .with([:on_application_denial, :notify_of_reason], anything)
+          .with(%i[on_application_denial notify_of_reason], anything)
           .and_return true
       end
       it 'includes a reason for application denial' do
         expect(output.body.encoded)
-          .to include @application_record.staff_note
+          .to include @application_submission.staff_note
       end
     end
     context 'notify_of_reason is set to false' do
@@ -54,12 +55,12 @@ describe JobappsMailer do
         # Stub the invocation we expect
         allow_any_instance_of(ApplicationConfiguration)
           .to receive(:configured_value)
-          .with([:on_application_denial, :notify_of_reason], anything)
+          .with(%i[on_application_denial notify_of_reason], anything)
           .and_return false
       end
       it 'does not include a reason for application denial' do
         expect(output.body.encoded)
-          .not_to include @application_record.staff_note
+          .not_to include @application_submission.staff_note
       end
     end
   end
@@ -90,9 +91,11 @@ describe JobappsMailer do
       position = create :position
       @template = create :application_template,
                          position: position, email: 'steve@sharklazers.com'
-      application_record = create :application_record, staff_note: 'note',
-                                                       position: position
-      @interview = create :interview, application_record: application_record
+      application_submission = create :application_submission,
+                                      staff_note: 'note',
+                                      position: position
+      @interview = create :interview,
+                          application_submission: application_submission
       @user = @interview.user
     end
     let :output do
@@ -119,10 +122,13 @@ describe JobappsMailer do
     before :each do
       position = create :position
       @template = create :application_template,
-                         position: position, email: 'steve@sharklazers.com'
-      application_record = create :application_record, staff_note: 'note',
-                                                       position: position
-      @interview = create :interview, application_record: application_record
+                         position: position,
+                         email: 'steve@sharklazers.com'
+      application_submission = create :application_submission,
+                                      staff_note: 'note',
+                                      position: position
+      @interview = create :interview,
+                          application_submission: application_submission
       @user = @interview.user
     end
     let :output do
@@ -147,7 +153,7 @@ describe JobappsMailer do
 
   describe 'send_note_for_later' do
     let :record do
-      create :application_record,
+      create :application_submission,
              saved_for_later: true,
              note_for_later: 'We need you to grow up a little'
     end
@@ -192,7 +198,7 @@ describe JobappsMailer do
     end
     it 'emails to the site_text_request_email configured value' do
       expect(output.to)
-        .to eql Array(configured_value [:email, :site_contact_email])
+        .to eql Array(configured_value %i[email site_contact_email])
     end
     it 'has a subject that includes the words Site text request' do
       expect(output.subject).to include 'Site text request'
@@ -213,7 +219,8 @@ describe JobappsMailer do
 
   describe 'saved_application_notification' do
     before :each do
-      @record = create :application_record, email_to_notify: 'foo@example.com'
+      @record = create :application_submission,
+                       email_to_notify: 'foo@example.com'
     end
     let :output do
       JobappsMailer.saved_application_notification @record
@@ -244,14 +251,14 @@ describe JobappsMailer do
   describe 'saved_applications_notification' do
     before :each do
       @position = create :position
-      @record_1 = create :application_record,
+      @record1 = create :application_submission,
                          position: @position,
                          note_for_later: 'This note is for later.'
-      @record_2 = create :application_record, position: @position
+      @record2 = create :application_submission, position: @position
       @email = 'foo@example.com'
     end
     let :output do
-      info = { @position => [@record_1, @record_2] }
+      info = { @position => [@record1, @record2] }
       JobappsMailer.saved_applications_notification info, @email
     end
     it 'emails from default configured value' do
@@ -264,18 +271,18 @@ describe JobappsMailer do
       expect(output.body.encoded).to include @position.name
     end
     it "includes the applicants' full name" do
-      expect(output.body.encoded).to include @record_1.user.full_name
-      expect(output.body.encoded).to include @record_2.user.full_name
+      expect(output.body.encoded).to include @record1.user.full_name
+      expect(output.body.encoded).to include @record2.user.full_name
     end
     it 'includes the dates applied' do
       format = '%A, %B %e, %Y - %l:%M %P'
       expect(output.body.encoded)
-        .to include @record_1.created_at.strftime(format).squish
+        .to include @record1.created_at.strftime(format).squish
       expect(output.body.encoded)
-        .to include @record_2.created_at.strftime(format).squish
+        .to include @record2.created_at.strftime(format).squish
     end
     it 'includes any notes for later' do
-      expect(output.body.encoded).to include @record_1.note_for_later
+      expect(output.body.encoded).to include @record1.note_for_later
     end
   end
 end

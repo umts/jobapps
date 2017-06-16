@@ -8,7 +8,7 @@ describe ConfigurableMessages do
       before :each do
         expect_any_instance_of(ApplicationConfiguration)
           .to receive(:configured_value)
-          .with([:messages, :cool_message], default: "I'm cool")
+          .with(%i[messages cool_message], default: "I'm cool")
           .and_return 'a retrieved value'
       end
       it 'calls ApplicationConfiguration#configured_value as expected' do

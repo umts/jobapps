@@ -16,7 +16,7 @@ module ApplicationHelper
   def parse_application_data(data)
     questions = []
     data.each do |key, value|
-      input_types = %w(prompt response data_type)
+      input_types = %w[prompt response data_type]
       input_type = input_types.find { |type| key.starts_with? type }
       if input_type.present?
         # the key might be "response_0" (for the first question)
@@ -50,22 +50,28 @@ module ApplicationHelper
   end
 
   def render_markdown(text)
-    renderer = Redcarpet::Render::HTML
+    renderer = Redcarpet::Render::HTML.new(filter_html: true)
     markdown = Redcarpet::Markdown.new renderer
+    # rubocop:disable OutputSafety
+    # This cop is to warn developers of the possible dangers of using html_safe
+    # because it will, by definition, allow injecting user-input into the DOM.
+    # However, the filter_html: true option above prevents users from entering
+    # in their own tags. Thus, ignore this cop, it has done its job.
     markdown.render(text).html_safe
+    # rubocop:enable OutputSafety
   end
 
   def should_show_denied_applications?
-    configured_value [:on_application_denial, :notify_applicant], default: true
+    configured_value %i[on_application_denial notify_applicant], default: true
   end
 
   def should_allow_resubmission?
-    configured_value [:on_application_denial, :allow_resubmission],
+    configured_value %i[on_application_denial allow_resubmission],
                      default: true
   end
 
   def should_allow_form_refilling?
-    configured_value [:on_application_denial, :fill_form_with_old],
+    configured_value %i[on_application_denial fill_form_with_old],
                      default: true
   end
 

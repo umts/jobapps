@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe DashboardController do
   it_behaves_like 'an access-controlled resource', routes: [
-    [:get, :staff, :collection]
+    %i[get staff collection]
   ]
   describe 'GET #main' do
     context 'as staff' do
@@ -38,7 +38,7 @@ describe DashboardController do
       end
       context 'XHR request' do
         it 'does not allow access' do
-          xhr :get, :staff
+          get :staff, xhr: true
           expect(response).to have_http_status :unauthorized
           expect(response.body).to be_blank
         end
@@ -51,12 +51,9 @@ describe DashboardController do
         end
         it 'assigns the required instance variables' do
           submit
-          expect(assigns.keys).to include(*%w(departments
-                                              pending_interviews
-                                              pending_records
-                                              positions
-                                              site_texts
-                                              staff))
+          expect(assigns.keys).to include('departments', 'pending_interviews',
+                                          'pending_records', 'positions',
+                                          'site_texts', 'staff')
         end
       end
       context 'in the process of logging in' do
@@ -113,9 +110,9 @@ describe DashboardController do
       end
       it 'assigns the required instance variables' do
         submit
-        expect(assigns.keys).to include(*%w(application_records
-                                            interviews
-                                            positions))
+        expect(assigns.keys).to include('application_submissions',
+                                        'interviews',
+                                        'positions')
       end
     end
   end

@@ -15,7 +15,7 @@ namespace :referral_method_and_hire_stats do
       position = department.positions.find_by(name: 'Operator')
       records = position.application_records.includes(:interview)
       # headers
-      csv << %w(date applicant referral_method interviewed hired)
+      csv << %w[date applicant referral_method interviewed hired]
       records.newest_first.each do |ar|
         row = []
         row << ar.created_at.to_date.to_s

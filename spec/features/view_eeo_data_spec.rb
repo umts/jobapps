@@ -6,12 +6,12 @@ describe 'viewing eeo data page' do
   let(:start_date) { 1.week.ago.strftime('%m/%d/%Y') }
   let(:end_date) { 1.week.since.strftime('%m/%d/%Y') }
   let!(:record_with_eeo_data) do
-    create :application_record,
+    create :application_submission,
            ethnicity: 'White (Not of Hispanic origin)',
            gender: 'Male'
   end
   let!(:old_record_with_eeo_data) do
-    create :application_record,
+    create :application_submission,
            created_at: 2.weeks.ago,
            ethnicity: 'Black (Not of Hispanic origin)',
            gender: 'Female'
@@ -26,7 +26,7 @@ describe 'viewing eeo data page' do
 
   it 'goes to the past applications page' do
     expect(page.current_url)
-      .to include eeo_data_application_records_url
+      .to include eeo_data_application_submissions_url
   end
 
   it 'displays the ethnicity of valid applicant' do

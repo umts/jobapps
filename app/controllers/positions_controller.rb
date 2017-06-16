@@ -1,8 +1,8 @@
 class PositionsController < ApplicationController
-  before_action :find_position, only: [:destroy,
-                                       :edit,
-                                       :update,
-                                       :saved_applications]
+  before_action :find_position, only: %i[destroy
+                                         edit
+                                         update
+                                         saved_applications]
 
   def create
     @position = Position.new position_parameters
@@ -20,7 +20,7 @@ class PositionsController < ApplicationController
   end
 
   def saved_applications
-    @saved = @position.application_records.where(saved_for_later: true)
+    @saved = @position.application_submissions.where(saved_for_later: true)
   end
 
   def edit
@@ -28,8 +28,7 @@ class PositionsController < ApplicationController
                                         position: @position
   end
 
-  def new
-  end
+  def new; end
 
   def update
     if @position.update position_parameters

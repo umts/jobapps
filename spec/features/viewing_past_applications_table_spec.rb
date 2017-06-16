@@ -5,15 +5,15 @@ describe 'viewing table of past applications' do
   let(:start_date) { 1.week.ago.strftime('%m/%d/%Y') }
   # datepicker requires m/d/Y format
   let(:end_date) { 1.week.since.strftime('%m/%d/%Y') }
-  let!(:record) { create :application_record }
-  let!(:record_with_completed_interview) { create :application_record }
-  let!(:interview) { create :interview, application_record: record }
+  let!(:record) { create :application_submission }
+  let!(:record_with_completed_interview) { create :application_submission }
+  let!(:interview) { create :interview, application_submission: record }
   let!(:completed_interview) do
     create :interview,
-           application_record: record_with_completed_interview,
+           application_submission: record_with_completed_interview,
            completed: true
   end
-  let!(:record_without_interview) { create :application_record }
+  let!(:record_without_interview) { create :application_submission }
   before :each do
     when_current_user_is :staff, integration: true
     visit staff_dashboard_url
@@ -22,11 +22,11 @@ describe 'viewing table of past applications' do
     click_button 'List Applications'
   end
 
-  it_behaves_like 'a data page', table_ids: %w(main_data_table)
+  it_behaves_like 'a data page', table_ids: %w[main_data_table]
 
   it 'goes to the past applications page' do
     expect(page.current_url)
-      .to include past_applications_application_records_url
+      .to include past_applications_application_submissions_url
   end
 
   it 'lists the proper name of applicants' do
