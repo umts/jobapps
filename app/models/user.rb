@@ -38,6 +38,6 @@ class User < ApplicationRecord
   end
 
   def group
-    staff? ? 'staff' : 'student'
+    staff? ? :staff : :student
   end
 end
