@@ -47,9 +47,7 @@ class ApplicationController < ActionController::Base
 
   def set_current_user
     @current_user =
-      if session.key? :user_id
-        User.find_by id: session[:user_id]
-      elsif session.key? :spire
+      if session.key? :spire
         User.find_by spire: session[:spire]
       end
   end

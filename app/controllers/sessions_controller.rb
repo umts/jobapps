@@ -14,8 +14,7 @@ class SessionsController < ApplicationController
 
   def dev_login # route not defined in production
     if request.get?
-      @staff     = User.staff
-      @students  = User.students
+      @users = User.group_by(&:group)
       @new_spire = new_spire
     elsif request.post?
       find_user
