@@ -354,7 +354,7 @@ PLATFORMS
 DEPENDENCIES
   better_errors
   binding_of_caller
-  capistrano
+  capistrano (~> 3.8.0)
   capistrano-bundler
   capistrano-passenger
   capistrano-pending
@@ -403,4 +403,4 @@ DEPENDENCIES
   whenever
 
 BUNDLED WITH
-   1.13.7
+   1.15.1

@@ -34,7 +34,7 @@ group :production do
 end
 
 group :development do
-  gem 'capistrano', require: false
+  gem 'capistrano', '~> 3.8.0', require: false
   gem 'capistrano-bundler', require: false
   gem 'capistrano-passenger', require: false
   gem 'capistrano-pending', require: false
