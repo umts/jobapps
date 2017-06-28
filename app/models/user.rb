@@ -36,4 +36,8 @@ class User < ApplicationRecord
   def old_applications(position)
     application_submissions.where(position_id: position.id)
   end
+
+  def group
+    staff? ? :staff : :student
+  end
 end
