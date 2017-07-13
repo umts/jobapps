@@ -23,7 +23,7 @@ class SessionsController < ApplicationController
     end
   end
 
-  # Only shows if no user in databse AND no SPIRE provided from Shibboleth
+  # Only shows if no user in database AND no SPIRE provided from Shibboleth
   def unauthenticated; end
 
   private
