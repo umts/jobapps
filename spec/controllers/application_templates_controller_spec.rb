@@ -176,7 +176,9 @@ describe ApplicationTemplatesController do
           it 'redirects to the edit path' do
             @template.create_draft @user
             submit
-            expect(response).to redirect_to edit_draft_path(@template.draft_belonging_to @user)
+            expect(response).to redirect_to(
+              edit_draft_path(@template.draft_belonging_to @user)
+            )
           end
         end
         context 'no draft belonging to current user' do
@@ -241,7 +243,9 @@ describe ApplicationTemplatesController do
           it 'redirects to the edit path' do
             @template.create_draft @user
             submit
-            expect(response).to redirect_to edit_draft_path(@template.draft_belonging_to @user)
+            expect(response).to redirect_to(
+              edit_draft_path(@template.draft_belonging_to @user)
+            )
           end
         end
         context 'no draft belonging to current user' do
