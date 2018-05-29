@@ -1,4 +1,4 @@
-require 'factory_girl_rails'
+require 'factory_bot_rails'
 require 'simplecov'
 require 'umts-custom-matchers'
 
@@ -9,9 +9,9 @@ end
 RSpec.configure do |config|
   config.raise_errors_for_deprecations!
   config.before :all do
-    FactoryGirl.reload
+    FactoryBot.reload
   end
-  config.include FactoryGirl::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods
   config.include UmtsCustomMatchers
   Dir['./spec/support/**/*_shared_example.rb'].each { |f| require f }
 end
