@@ -112,8 +112,7 @@ describe ApplicationDraftsController do
     let :submit do
       post :move_question, params: { id: @draft.id,
                                      number: @question.number,
-                                     direction: @direction
-      }
+                                     direction: @direction }
     end
     context 'staff' do
       before :each do

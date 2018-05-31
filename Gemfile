@@ -12,7 +12,7 @@ gem 'jquery-ui-rails'
 gem 'mysql2'
 gem 'prawn'
 gem 'prawn-table'
-gem 'rails', '~> 5.1'
+gem 'rails', '~> 5.1.0'
 gem 'rails-controller-testing'
 
 gem 'redcarpet'
@@ -22,7 +22,7 @@ gem 'uglifier'
 gem 'whenever', require: false
 
 source 'https://rails-assets.org' do
-  gem 'rails-assets-bootstrap'
+  gem 'rails-assets-bootstrap', '~> 3.3'
   gem 'rails-assets-datetimepicker'
   gem 'rails-assets-jquery.maskedinput'
   gem 'rails-assets-moment'

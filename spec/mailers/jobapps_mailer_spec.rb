@@ -252,8 +252,8 @@ describe JobappsMailer do
     before :each do
       @position = create :position
       @record1 = create :application_submission,
-                         position: @position,
-                         note_for_later: 'This note is for later.'
+                        position: @position,
+                        note_for_later: 'This note is for later.'
       @record2 = create :application_submission, position: @position
       @email = 'foo@example.com'
     end
