@@ -1,11 +1,11 @@
-require 'factory_girl_rails'
+require 'factory_bot_rails'
 require 'csv'
 
 exit if Rails.env.test?
-FactoryGirl.create :user, first_name: 'David', last_name: 'Faulkenberry', staff: true, spire: '12345678@umass.edu', email: 'dfaulken@umass.edu', admin: true
+FactoryBot.create :user, first_name: 'David', last_name: 'Faulkenberry', staff: true, spire: '12345678@umass.edu', email: 'dfaulken@umass.edu', admin: true
 
-FactoryGirl.create :site_text, name: 'welcome', text: 'Welcome to the UMass Transit job application page.'
-markdown_text = FactoryGirl.create :site_text, name: 'markdown explanation'
+FactoryBot.create :site_text, name: 'welcome', text: 'Welcome to the UMass Transit job application page.'
+markdown_text = FactoryBot.create :site_text, name: 'markdown explanation'
 markdown_text.update text: <<MARKDOWN
 Configurable site text is interpreted and shown to end users using a protocol known as Markdown. This means that you can do some of your own text formatting. Here's how:
 
@@ -17,10 +17,10 @@ Configurable site text is interpreted and shown to end users using a protocol kn
 
 For additional information, we like to reference [this tutorial](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) (and if you're feeling particularly meta, feel free to check out [how we wrote a Markdown tutorial in Markdown](/site_texts/#{markdown_text.id}/edit)).
 MARKDOWN
-department = FactoryGirl.create :department, name: 'Bus'
-position = FactoryGirl.create :position, department: department, name: 'Operator'
+department = FactoryBot.create :department, name: 'Bus'
+position = FactoryBot.create :position, department: department, name: 'Operator'
 # create staff members?
-template = FactoryGirl.create :application_template, position: position
+template = FactoryBot.create :application_template, position: position
 ActiveRecord::Base.transaction do
   CSV.parse(<<QUESTIONS, headers: true, col_sep: ';').each do |row|
 number;data_type;prompt;required

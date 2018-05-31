@@ -97,10 +97,10 @@ GEM
       actionmailer (>= 4.0, < 6)
       activesupport (>= 4.0, < 6)
     execjs (2.7.0)
-    factory_girl (4.9.0)
+    factory_bot (4.10.0)
       activesupport (>= 3.0.0)
-    factory_girl_rails (4.9.0)
-      factory_girl (~> 4.9.0)
+    factory_bot_rails (4.10.0)
+      factory_bot (~> 4.10.0)
       railties (>= 3.0.0)
     ffi (1.9.23)
     formatador (0.2.5)
@@ -366,7 +366,7 @@ DEPENDENCIES
   codeclimate-test-reporter (~> 1.0)
   coffee-rails
   exception_notification
-  factory_girl_rails
+  factory_bot_rails
   friendly_id (~> 5.1.0)
   fuubar
   guard-rspec

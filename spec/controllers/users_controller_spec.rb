@@ -12,7 +12,7 @@ describe UsersController do
     context 'creating a user as staff' do
       it 'does not create the user' do
         when_current_user_is :staff
-        attrs = FactoryGirl.build :user
+        attrs = FactoryBot.build :user
         post :create, params: { user: attrs }
         expect(response).to have_http_status :unauthorized
         expect(response.body).not_to be_empty
@@ -36,7 +36,7 @@ describe UsersController do
         when_current_user_is :staff
         user = create :user
         initial_user = user
-        attrs = FactoryGirl.build :user
+        attrs = FactoryBot.build :user
         put :update, params: { id: user, user: attrs }
         user.reload
         expect(user).to eql initial_user
