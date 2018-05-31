@@ -47,8 +47,8 @@ describe 'viewing job applications individually' do
     end
     it 'provides a means to reschedule the interview' do
       click_link reviewed_record.interview.information(include_name: true)
-      expect(page).to have_text "Interview is scheduled for:
-        #{format_date_time interview.scheduled}"
+      expect(page).to have_text 'Interview is scheduled for: ' +
+                                format_date_time(interview.scheduled)
       Timecop.freeze do
         fill_in 'scheduled', with: 1.week.since
         click_button 'Reschedule interview'

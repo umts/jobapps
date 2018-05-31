@@ -33,8 +33,7 @@ describe ApplicationSubmissionsController do
       post :create, params: { position_id: @position.id,
                               data: @data,
                               user: @user,
-                              unavailability: @unavailability
-      }
+                              unavailability: @unavailability }
     end
     context 'current user is nil' do
       it 'creates a user' do
