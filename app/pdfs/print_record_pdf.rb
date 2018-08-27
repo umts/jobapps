@@ -5,8 +5,8 @@ class PrintRecordPdf < Prawn::Document
   def initialize(record)
     super()
     font_families.update(
-      "DejaVu Sans" => {
-        normal: "#{Rails.root}/app/assets/fonts/DejaVuSans.ttf"
+      'DejaVu Sans' => {
+        normal: Rails.root.join('app', 'assets', 'fonts', 'DejaVuSans.ttf')
       }
     )
     font 'DejaVu Sans'
@@ -49,7 +49,9 @@ class PrintRecordPdf < Prawn::Document
         cells.padding = 12
         self.header = true
         self.column_widths = [column_width, column_width]
-        self.cell_style = { borders: [:bottom], border_width: 0.5, font: "DejaVu Sans"}
+        self.cell_style = {
+          borders: [:bottom], border_width: 0.5, font: 'DejaVu Sans'
+        }
       end
     end
   end
