@@ -26,7 +26,6 @@ class PrintRecordPdf < Prawn::Document
     name = record.user.full_name
     email = record.user.email
     bounding_box([5, cursor], width: content_width) do
-      font 'Helvetica'
       move_down 20
       text "#{record.position.name} Application Record", size: 24
       text "submitted #{date} by #{name}, #{email}"
