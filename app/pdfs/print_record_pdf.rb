@@ -49,7 +49,7 @@ class PrintRecordPdf < Prawn::Document
         cells.padding = 12
         self.header = true
         self.column_widths = [column_width, column_width]
-        self.cell_style = { borders: [:bottom], border_width: 0.5 }
+        self.cell_style = { borders: [:bottom], border_width: 0.5, font: "DejaVu Sans"}
       end
     end
   end
