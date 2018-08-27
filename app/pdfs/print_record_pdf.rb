@@ -4,6 +4,12 @@ include DateAndTimeMethods
 class PrintRecordPdf < Prawn::Document
   def initialize(record)
     super()
+    font_families.update(
+      "DejaVu Sans" => {
+        normal: "#{Rails.root}/app/assets/fonts/DejaVuSans.ttf"
+      }
+    )
+    font 'DejaVu Sans'
     page_border
     content_width = bounds.width - 10
     column_width = content_width / 2
