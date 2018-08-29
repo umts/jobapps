@@ -4,6 +4,12 @@ include DateAndTimeMethods
 class PrintRecordPdf < Prawn::Document
   def initialize(record)
     super()
+    font_families.update(
+      'DejaVu Sans' => {
+        normal: Rails.root.join('app', 'assets', 'fonts', 'DejaVuSans.ttf')
+      }
+    ) # need a true-type font for all UTF-8 Characters
+    font 'DejaVu Sans'
     page_border
     content_width = bounds.width - 10
     column_width = content_width / 2
@@ -20,7 +26,6 @@ class PrintRecordPdf < Prawn::Document
     name = record.user.full_name
     email = record.user.email
     bounding_box([5, cursor], width: content_width) do
-      font 'Helvetica'
       move_down 20
       text "#{record.position.name} Application Record", size: 24
       text "submitted #{date} by #{name}, #{email}"
@@ -44,7 +49,9 @@ class PrintRecordPdf < Prawn::Document
         cells.padding = 12
         self.header = true
         self.column_widths = [column_width, column_width]
-        self.cell_style = { borders: [:bottom], border_width: 0.5 }
+        self.cell_style = {
+          borders: [:bottom], border_width: 0.5, font: 'DejaVu Sans'
+        }
       end
     end
   end
