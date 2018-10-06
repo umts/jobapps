@@ -43,7 +43,7 @@ by:
       accepted: false do
       .field.note_item
         Reason for rejection:
-        = text_area_tag :staff_note, '', required: true
+        = text_area_tag :staff_note, ''
       .text.note_item
         - if configured_value [:on_application_denial, :provide_reason],
                               default: true
