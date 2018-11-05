@@ -4,8 +4,8 @@ FactoryBot.define do
   factory :application_submission do
     user
     position
-    data [['prompt_1', 'Do you like cats'], %w[response_1 No]]
-    reviewed false
+    data { [['prompt_1', 'Do you like cats'], %w[response_1 No]] }
+    reviewed { false }
   end
 
   trait :with_unavailability do
