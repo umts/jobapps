@@ -40,7 +40,7 @@ describe 'viewing table of past applications' do
     expect(page).to have_text record.staff_note
   end
   it 'provides a UNIX timestamp by which to sort the records' do
-    expect page.has_css? 'data-order' => record.created_at.to_i
+    expect page.has_css? "*[data-order=#{record.created_at.to_i}]"
   end
   it 'displays the date any interviews are scheduled' do
     expect(page).to have_text format_date_time record.interview.scheduled

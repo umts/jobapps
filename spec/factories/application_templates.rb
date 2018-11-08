@@ -3,7 +3,7 @@
 FactoryBot.define do
   factory :application_template do
     position
-    active true
+    active { true }
   end
 
   trait :with_questions do

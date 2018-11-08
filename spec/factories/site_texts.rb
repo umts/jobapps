@@ -3,6 +3,6 @@
 FactoryBot.define do
   factory :site_text do
     sequence(:name) { |n| "Name #{n}" }
-    text 'text'
+    text { 'text' }
   end
 end

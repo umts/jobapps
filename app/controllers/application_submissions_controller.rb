@@ -63,7 +63,7 @@ class ApplicationSubmissionsController < ApplicationController
                                   application_submission: @record,
                                   user: @record.user
       Interview.create! interview_parameters
-    else @record.deny_with params.require(:staff_note)
+    else @record.deny_with params[:staff_note]
     end
     show_message :application_review,
                  default: 'Application has been marked as reviewed.'
