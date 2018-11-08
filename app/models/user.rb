@@ -9,7 +9,8 @@ class User < ApplicationRecord
             :last_name,
             :spire,
             presence: true
-  validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/ }
+  validates :email, 
+            format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/ }
   validates :staff, inclusion: { in: [true, false],
                                  message: 'must be true or false' }
   validates :spire, uniqueness: true, format: { with: /\A\d{8}@umass\.edu\z/ }
