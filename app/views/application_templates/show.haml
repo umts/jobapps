@@ -50,8 +50,12 @@
               .col-md-6
                 .label= u.label field
               .col-md-6
-                = u.text_field field, size: 50, required: true,
-                  value: @current_user.try(field)
+                - if field == :email
+                  = u.email_field field, size: 50, required: true,
+                      value: @current_user.try(field)
+                - else
+                  = u.text_field field, size: 50, required: true,
+                    value: @current_user.try(field)
                 %span.ast *
       = fields_for :data do |r|
         - @template.questions.each do |question|
