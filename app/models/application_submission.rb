@@ -73,7 +73,9 @@ class ApplicationSubmission < ApplicationRecord
     update staff_note: staff_note if staff_note
     if configured_value %i[on_application_denial notify_applicant],
                         default: true
-      JobappsMailer.application_denial(self).deliver_now
+      if self.staff_note.present?
+        JobappsMailer.application_denial(self).deliver_now
+      end
     end
   end
 
