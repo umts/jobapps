@@ -26,6 +26,16 @@
               required: !question.new_record?
             .field_attribute
               = g.check_box :required
+            .field_attribute
+              - unless question.new_record?
+                - unless @draft.questions.index(question).zero?
+                  = button_to 'Move up',
+                    move_question_draft_path(@draft, number: question.number, direction: :up)
+                - unless question == @draft.questions.not_new.last
+                  = button_to 'Move down',
+                    move_question_draft_path(@draft, number: question.number, direction: :down)
+                = button_to 'Remove question',
+                  remove_question_draft_path(@draft, number: question.number)
       .email_row
         .field_attribute_header1
           Reply-to email:
@@ -35,17 +45,3 @@
       .actions
         = f.submit 'Save changes and continue editing'
         = f.submit 'Preview changes'
-  .button_column
-    - @draft.questions.each do |question|
-      - unless question.new_record?
-        .button_row
-          - unless @draft.questions.index(question).zero?
-            .btn= button_to 'Move up',
-              move_question_draft_path(@draft, number: question.number,
-                                               direction: :up)
-          - unless question == @draft.questions.not_new.last
-            .btn= button_to 'Move down',
-              move_question_draft_path(@draft, number: question.number,
-                                               direction: :down)
-          .btn= button_to 'Remove question',
-            remove_question_draft_path(@draft, number: question.number)
