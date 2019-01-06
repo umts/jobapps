@@ -1,46 +1,39 @@
 = render 'action_items'
 %h1.title Editing #{@draft.position.name_and_department}
-#flex_wrapper
-  .form_column
-    = form_for @draft, as: :draft, url: draft_path(@draft) do |f|
-      .header_row
-        .field_attribute_header1
-          Prompt
-        .field_attribute
-          Response type
-        .field_attribute
-          Required?
-      .fields_column
-        = f.fields_for :questions do |g|
-          - question = g.object
-          - if question.new_record?
-            .centered Add new question...
-          .field_row
-            = g.hidden_field :number
-            .field_attribute_1
-              = g.text_area :prompt, required: !question.new_record?,
-                size: '35x4'
-            .field_attribute
-              = g.select :data_type, Question::DATA_TYPES,
-              include_blank: 'Select a data type...',
-              required: !question.new_record?
-            .field_attribute
-              = g.check_box :required
-            .field_attribute
-              - unless question.new_record?
-                - unless @draft.questions.index(question).zero?
-                  = button_to 'Move up',
-                    move_question_draft_path(@draft, number: question.number, direction: :up)
-                - unless question == @draft.questions.not_new.last
-                  = button_to 'Move down',
-                    move_question_draft_path(@draft, number: question.number, direction: :down)
-                = button_to 'Remove question',
-                  remove_question_draft_path(@draft, number: question.number)
-      .email_row
-        .field_attribute_header1
-          Reply-to email:
-        .field_attribute
-          =f.text_field :email, size: 50
-      .actions
-        = f.submit 'Save changes and continue editing'
-        = f.submit 'Preview changes'
+= form_for @draft, as: :draft, url: draft_path(@draft) do |f|
+  .field-row
+    .field-attribute
+      Prompt
+    .field-attribute
+      Response type
+    .field-attribute
+      Required?
+  = f.fields_for :questions do |g|
+    - question = g.object
+    - if question.new_record?
+      .centered Add new question...
+    .field-row
+      = g.hidden_field :number
+      .field-attribute
+        = g.text_area :prompt, required: !question.new_record?,
+          size: '35x4'
+      .field-attribute
+        = g.select :data_type, Question::DATA_TYPES,
+        include_blank: 'Select a data type...',
+        required: !question.new_record?
+      .field-attribute
+        = g.check_box :required
+      .field-attribute
+        - unless question.new_record?
+          - unless @draft.questions.index(question).zero?
+            = button_to 'Move up',
+              move_question_draft_path(@draft, number: question.number, direction: :up), class: 'btn btn-default'
+          - unless question == @draft.questions.not_new.last
+            = button_to 'Move down',
+              move_question_draft_path(@draft, number: question.number, direction: :down), class: 'btn btn-default'
+          = button_to 'Remove question',
+            remove_question_draft_path(@draft, number: question.number), class: 'btn btn-default'
+  Reply-to email:
+  =f.text_field :email, size: 50, class: 'form-control'
+  = f.submit 'Save changes and continue editing', class: 'btn btn-primary'
+  = f.submit 'Preview changes', class: 'btn btn-primary'
