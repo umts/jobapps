@@ -7,27 +7,39 @@ html {
 .title{
   text-align: center;
 }
-.actions{
+.centered{
   margin: 1em;
   text-align: center;
-  input{
-    background: lightgray;
-    border: 1px solid gray;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 16px;
-    padding: 0.5em 2em;
+}
+
+#flex-wrapper{
+  display: flex;
+}
+
+.field-row{
+  height: 7em;
+  display: flex;
+  margin: 1em;
+}
+.field-column{
+  flex: 3;
+}
+.header-row{
+  height: 3em;
+  display: flex;
+  .field-attribute{
+    text-align: right;
   }
 }
-.field-row{
+.button-row{
+  height: 7em;
+  margin: 1em;
+}
+.field-attribute{
+  flex: 1;
+  flex-direction: column;
   display: flex;
-  padding: .5em;
-  .field-attribute{
-    flex: 1;
-    flex-direction: column;
-    display: flex;
-    input[type='checkbox'] {
-      margin: 0px auto;
-    }
+  input[type='checkbox'] {
+    margin: 0px auto;
   }
 }

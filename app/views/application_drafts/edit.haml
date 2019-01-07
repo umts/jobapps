@@ -1,29 +1,39 @@
 = render 'action_items'
 %h1.title Editing #{@draft.position.name_and_department}
-= form_for @draft, as: :draft, url: draft_path(@draft) do |f|
-  .field-row
-    .field-attribute
-      Prompt
-    .field-attribute
-      Response type
-    .field-attribute
-      Required?
-  = f.fields_for :questions do |g|
-    - question = g.object
-    - if question.new_record?
-      .centered Add new question...
-    .field-row
-      = g.hidden_field :number
-      .field-attribute
-        = g.text_area :prompt, required: !question.new_record?,
-          size: '35x4'
-      .field-attribute
-        = g.select :data_type, Question::DATA_TYPES,
-        include_blank: 'Select a data type...',
-        required: !question.new_record?
-      .field-attribute
-        = g.check_box :required
-      .field-attribute
+#flex-wrapper
+  .field-column
+    = form_for @draft, as: :draft, url: draft_path(@draft) do |f|
+      .header-row
+        .field-attribute
+          Prompt
+        .field-attribute
+          Response type
+        .field-attribute
+          Required?
+      = f.fields_for :questions do |g|
+        - question = g.object
+        - if question.new_record?
+          .centered Add new question...
+        .field-row
+          = g.hidden_field :number
+          .field-attribute
+            = g.text_area :prompt, required: !question.new_record?,
+              size: '35x4'
+          .field-attribute
+            = g.select :data_type, Question::DATA_TYPES,
+            include_blank: 'Select a data type...',
+            required: !question.new_record?
+          .field-attribute
+            = g.check_box :required
+      Reply-to email:
+      =f.text_field :email, size: 50, class: 'form-control'
+      .note_item
+        = f.submit 'Save changes and continue editing', class: 'btn btn-primary'
+        = f.submit 'Preview changes', class: 'btn btn-primary'
+  .button-column
+    .header-row
+    - @draft.questions.each do |question|
+      .button-row
         - unless question.new_record?
           - unless @draft.questions.index(question).zero?
             = button_to 'Move up',
