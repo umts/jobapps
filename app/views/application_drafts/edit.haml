@@ -43,8 +43,3 @@
               move_question_draft_path(@draft, number: question.number, direction: :down), class: 'btn btn-default'
           = button_to 'Remove question',
             remove_question_draft_path(@draft, number: question.number), class: 'btn btn-default'
-  Reply-to email:
-  =f.text_field :email, size: 50, class: 'form-control'
-  .note_item
-    = f.submit 'Save changes and continue editing', class: 'btn btn-primary'
-    = f.submit 'Preview changes', class: 'btn btn-primary'
