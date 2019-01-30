@@ -1,4 +1,4 @@
-class AddAssociationColumns < ActiveRecord::Migration
+class AddAssociationColumns < ActiveRecord::Migration[4.2]
   def change
     add_column :interviews,          :user_id,                 :integer
     add_column :application_records, :user_id,                 :integer

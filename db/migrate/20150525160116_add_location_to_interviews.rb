@@ -1,4 +1,4 @@
-class AddLocationToInterviews < ActiveRecord::Migration
+class AddLocationToInterviews < ActiveRecord::Migration[4.2]
   def change
     add_column :interviews, :location, :string
   end

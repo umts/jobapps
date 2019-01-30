@@ -1,4 +1,4 @@
-class CreateUnavailabilities < ActiveRecord::Migration
+class CreateUnavailabilities < ActiveRecord::Migration[4.2]
   def change
     create_table :unavailabilities do |t|
       t.string :sunday
