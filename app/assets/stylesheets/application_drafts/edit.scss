@@ -27,8 +27,12 @@ html {
 .header-row{
   height: 3em;
   display: flex;
+  margin: 1em;
   .field-attribute{
-    text-align: right;
+    text-align: center;
+  }
+  .field-attribute.first{
+    flex: 2;
   }
 }
 .button-row{
