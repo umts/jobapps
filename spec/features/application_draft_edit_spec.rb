@@ -62,9 +62,9 @@ describe 'editing application draft' do
     # more checkbox than there are existing questions
   end
   it 'has a field to create a new question' do
-    expect(all('.field_attribute_1 textarea').count).to be 4
+    expect(all('.field-attribute textarea').count).to be 4
     # there are 3 existing questions, the 4th textarea field is for a new one
-    expect(all('.field_attribute_1 textarea').last.value).to be_empty
+    expect(all('.field-attribute textarea').last.value).to be_empty
     # and it should contain no existing text
   end
   it 'has a button to bring the user to a preview draft page' do
@@ -77,7 +77,7 @@ describe 'editing application draft' do
       expect(draft.questions.count).to be 3
       # fill in the prompt of the new question by finding
       # the last one on the page by its name
-      fill_in(all('.field_attribute_1 textarea').last[:name], with: 'Stuff')
+      fill_in(all('.field-attribute textarea').last[:name], with: 'Stuff')
       # select a data type for the new question
       select 'text', from: all('select').last[:name]
       click_button('Save changes and continue editing')

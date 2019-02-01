@@ -1,100 +1,45 @@
-.note_item
-  Note: The data type of 'explanation' supports markdown.
-  - if @site_text.present?
-    For a quick tutorial, please click
-    = link_to 'here.', site_text_url(@site_text)
-
-- if @draft.application_template.eeo_enabled?
-  .note_item
-    This application requests equal employment opportunity (EEO) data from applicants.
-    Click below to disable these requests.
-    .actions
-      = button_to 'Deactivate EEO',
-        toggle_eeo_enabled_application_url(@draft.application_template)
-- else
-  .note_item
-    This application doesn't request equal employment opportunity (EEO) data from applicants.
-    Click below to enable these requests.
-    .actions
-      = button_to 'Activate EEO',
-        toggle_eeo_enabled_application_url(@draft.application_template)
-
-- if @draft.application_template.unavailability_enabled?
-  .note_item
-    This application requests unavailability from applicants.
-    Click below to disable this feature.
-    .actions
-      = button_to 'Deactivate Unavailability',
-        toggle_unavailability_enabled_application_url(@draft.application_template)
-- else
-  .note_item
-    This application does not request unavailability from applicants.
-    Click below to enable this feature.
-    .actions
-      = button_to 'Activate Unavailability',
-        toggle_unavailability_enabled_application_url(@draft.application_template)
-
-- if @draft.application_template.active?
-  .note_item
-    This application is available to applicants. Not hiring currently?
-    Click below to deactivate the application.
-  .actions
-    = button_to 'Deactivate application',
-          toggle_active_application_url(@draft.application_template)
-- else
-  .note_item
-    This application is currently not available to applicants. Hiring
-    again? Click below to reactivate the application.
-  .actions
-    = button_to 'Activate application',
-          toggle_active_application_url(@draft.application_template)
+= render 'action_items'
 %h1.title Editing #{@draft.position.name_and_department}
-#flex_wrapper
-  .form_column
+#flex-wrapper
+  .field-column
     = form_for @draft, as: :draft, url: draft_path(@draft) do |f|
-      .header_row
-        .field_attribute_header1
+      .header-row
+        .field-attribute.first
           Prompt
-        .field_attribute
+        .field-attribute
           Response type
-        .field_attribute
+        .field-attribute
           Required?
-      .fields_column
-        = f.fields_for :questions do |g|
-          - question = g.object
-          - if question.new_record?
-            .centered Add new question...
-          .field_row
-            = g.hidden_field :number
-            .field_attribute_1
-              = g.text_area :prompt, required: !question.new_record?,
-                size: '35x4'
-            .field_attribute
-              = g.select :data_type, Question::DATA_TYPES,
-              include_blank: 'Select a data type...',
-              required: !question.new_record?
-            .field_attribute
-              = g.check_box :required
-      .email_row
-        .field_attribute_header1
-          Reply-to email:
-        .field_attribute
-          =f.text_field :email,
-            size: 50
+      = f.fields_for :questions do |g|
+        - question = g.object
+        - if question.new_record?
+          .centered Add new question...
+        .field-row
+          = g.hidden_field :number
+          .field-attribute
+            = g.text_area :prompt, required: !question.new_record?,
+              size: '35x4'
+          .field-attribute
+            = g.select :data_type, Question::DATA_TYPES,
+            include_blank: 'Select a data type...',
+            required: !question.new_record?
+          .field-attribute
+            = g.check_box :required
+      Reply-to email:
+      =f.text_field :email, size: 50, class: 'form-control'
       .actions
-        = f.submit 'Save changes and continue editing'
-        = f.submit 'Preview changes'
-  .button_column
+        = f.submit 'Save changes and continue editing', class: 'btn btn-primary'
+        = f.submit 'Preview changes', class: 'btn btn-primary'
+  .button-column
+    .header-row
     - @draft.questions.each do |question|
-      - unless question.new_record?
-        .button_row
+      .button-row
+        - unless question.new_record?
           - unless @draft.questions.index(question).zero?
-            .btn= button_to 'Move up',
-              move_question_draft_path(@draft, number: question.number,
-                                               direction: :up)
+            = button_to 'Move up',
+              move_question_draft_path(@draft, number: question.number, direction: :up), class: 'btn btn-default'
           - unless question == @draft.questions.not_new.last
-            .btn= button_to 'Move down',
-              move_question_draft_path(@draft, number: question.number,
-                                               direction: :down)
-          .btn= button_to 'Remove question',
-            remove_question_draft_path(@draft, number: question.number)
+            = button_to 'Move down',
+              move_question_draft_path(@draft, number: question.number, direction: :down), class: 'btn btn-default'
+          = button_to 'Remove question',
+            remove_question_draft_path(@draft, number: question.number), class: 'btn btn-default'

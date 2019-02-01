@@ -1,4 +1,4 @@
-class CreateInterviews < ActiveRecord::Migration
+class CreateInterviews < ActiveRecord::Migration[4.2]
   def change
     create_table :interviews do |t|
       t.boolean :hired

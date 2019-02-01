@@ -1,0 +1,56 @@
+.container
+  .note_item
+    Note: The data type of 'explanation' supports markdown.
+    - if @site_text.present?
+      For a quick tutorial, please click
+      = link_to 'here.', site_text_url(@site_text)
+  .row.note_item
+    - if @draft.application_template.eeo_enabled?
+      .col-md-6
+        This application requests equal employment opportunity (EEO) data from applicants.
+        Click here to disable these requests:
+      .col-md-6
+        = button_to 'Deactivate EEO',
+          toggle_eeo_enabled_application_url(@draft.application_template),
+          class: 'btn btn-default'
+    - else
+      .col-md-6
+        This application doesn't request equal employment opportunity (EEO) data from applicants.
+        Click here to enable these requests:
+      .col-md-6
+        = button_to 'Activate EEO',
+          toggle_eeo_enabled_application_url(@draft.application_template),
+          class: 'btn btn-default'
+  .row.note_item
+    - if @draft.application_template.unavailability_enabled?
+      .col-md-6
+        This application requests unavailability from applicants.
+        Click here to disable this feature:
+      .col-md-6
+        = button_to 'Deactivate Unavailability',
+          toggle_unavailability_enabled_application_url(@draft.application_template)
+    - else
+      .col-md-6
+        This application does not request unavailability from applicants.
+        Click here to enable this feature:
+      .col-md-6
+        = button_to 'Activate Unavailability',
+          toggle_unavailability_enabled_application_url(@draft.application_template),
+          class: 'btn btn-default'
+  .row.note_item
+    - if @draft.application_template.active?
+      .col-md-6
+        This application is available to applicants. Not hiring currently?
+        Click here to deactivate the application:
+      .col-md-6
+        = button_to 'Deactivate application',
+          toggle_active_application_url(@draft.application_template),
+          class: 'btn btn-default'
+    - else
+      .col-md-6
+        This application is currently not available to applicants. Hiring
+        again? Click here to reactivate the application:
+      .col-md-6
+        = button_to 'Activate application',
+          toggle_active_application_url(@draft.application_template),
+          class: 'btn btn-default'

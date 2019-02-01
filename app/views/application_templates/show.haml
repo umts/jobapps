@@ -1,18 +1,20 @@
 - if @current_user.try :staff?
-  - if @template.active?
-    .note_item
-      This application is available to applicants. Not hiring currently?
-      Click below to deactivate the application.
-    .actions
-      = button_to 'Deactivate application',
-          toggle_active_application_url(@template)
-  - else
-    .note_item
-      This application is currently not available to applicants. Hiring
-      again? Click below to reactivate the application.
-    .actions
-      = button_to 'Activate application',
-          toggle_active_application_url(@template)
+  .container
+    - if @template.active?
+      .row.note_item
+        .col-md-6
+          This application is available to applicants. Not hiring currently?
+          Click here to deactivate the application:
+        .cold-md-6
+          = button_to 'Deactivate application',
+              toggle_active_application_url(@template), class: 'btn btn-default'
+    - else
+      .row.note_item
+        This application is currently not available to applicants. Hiring
+        again? Click here to reactivate the application:
+        .cold-md-6
+          = button_to 'Activate application',
+              toggle_active_application_url(@template), class: 'btn btn-default'
 
 - if @current_user.try(:staff?) || @template.active?
   .form
@@ -151,6 +153,6 @@
             options_for_select(ApplicationSubmission::GENDER_OPTIONS),
             include_blank: 'Prefer not to answer'
 
-      .actions= submit_tag 'Submit application' unless @current_user.try :staff?
+      .centered= submit_tag 'Submit application', class: 'btn btn-primary' unless @current_user.try(:staff?)
 - else
   .note_item= @template.position.not_hiring_text
