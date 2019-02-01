@@ -158,15 +158,21 @@ describe ApplicationSubmission do
           .to receive(:configured_value)
           .with(%i[on_application_denial notify_applicant], anything)
           .and_return true
+        @mail = ActionMailer::MessageDelivery.new(JobappsMailer,
+                                                 :application_denial)
       end
       it 'sends application denial email' do
-        mail = ActionMailer::MessageDelivery.new(JobappsMailer,
-                                                 :application_denial)
         expect(JobappsMailer)
           .to receive(:application_denial)
           .with(@record)
-          .and_return mail
-        expect(mail).to receive(:deliver_now).and_return true
+          .and_return @mail
+        expect(@mail).to receive(:deliver_now).and_return true
+        call
+      end
+      it 'it does not send application denial email without staff note' do
+        @note = nil
+        expect(JobappsMailer).not_to receive(:application_denial)
+        expect(@mail).not_to receive(:deliver_now)
         call
       end
     end
