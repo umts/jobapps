@@ -159,7 +159,7 @@ describe ApplicationSubmission do
           .with(%i[on_application_denial notify_applicant], anything)
           .and_return true
         @mail = ActionMailer::MessageDelivery.new(JobappsMailer,
-                                                 :application_denial)
+                                                  :application_denial)
       end
       it 'sends application denial email' do
         expect(JobappsMailer)
