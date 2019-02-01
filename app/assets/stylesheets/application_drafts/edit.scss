@@ -4,77 +4,51 @@ html {
 * {
   box-sizing: inherit;
 }
+.actions{
+  margin: 1em;
+  display: flex;
+  justify-content: space-evenly;
+}
 .title{
   text-align: center;
 }
-
-.actions{
+.centered{
   margin: 1em;
   text-align: center;
-  input{
-    background: lightgray;
-    border: 1px solid gray;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 16px;
-    padding: 0.5em 2em;
-  }
 }
 
-#flex_wrapper{
+#flex-wrapper{
   display: flex;
-  padding-bottom: 20px;
-  .form_column{
-    flex:3;
-    .header_row{
-      padding: .5em;
-      display: flex;
-      .field_attribute{
-        flex: 1;
-        text-align: center;
-      }
-      .field_attribute_header1{
-        flex: 3;
-      }
-    }
-    .fields_column{
-      display: flex;
-      flex-direction: column;
-      .field_row{
-        height: 7em;
-        display: flex;
-        border-bottom: 1px solid black;
-        .field_attribute_1{
-          padding: .5em;
-          flex: 3;
-        }
-        .field_attribute_2{
-          padding-left: 50px;
-        }
-        .field_attribute{
-          padding: .5 em;
-          flex: 1;
-          text-align: center;
-        }
-      }
-    }
+}
+
+.field-row{
+  height: 7em;
+  display: flex;
+  margin: 1em;
+}
+.field-column{
+  flex: 3;
+}
+.header-row{
+  height: 3em;
+  display: flex;
+  margin: 1em;
+  .field-attribute{
+    text-align: center;
   }
-  .button_column{
-    margin-top: 2em; //height of header row
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    .button_row{
-      display:flex;
-      flex-direction: column;
-      padding: .5em;
-      height: 7em;
-      .btn {
-        text-align: left;
-      }
-    }
+  .field-attribute.first{
+    flex: 2;
   }
-  .email_row *{
-    margin: 1em;
+}
+.button-row{
+  height: 7em;
+  margin: 1em;
+}
+.field-attribute{
+  flex: 1;
+  flex-direction: column;
+  display: flex;
+  input[type='checkbox'] {
+    margin: 0px auto;
   }
 }
