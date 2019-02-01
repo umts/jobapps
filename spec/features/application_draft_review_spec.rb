@@ -13,7 +13,7 @@ describe 'previewing an application draft' do
       assert_text('This is a preview of your changes')
     end
     it 'has a button to continue editing' do
-      click_button('Continue editing')
+      click_link('Continue editing')
       expect(page.current_url).to eql edit_draft_url(draft)
     end
     it 'has a button to save the application' do
