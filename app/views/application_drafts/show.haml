@@ -92,9 +92,10 @@
           = select_tag :gender,
             options_for_select(ApplicationSubmission::GENDER_OPTIONS),
             include_blank: 'Prefer not to answer'
-    .centered= submit_tag 'Submit application', disabled: true, class: 'btn btn-primary'
-.field-row
-  = button_to 'Continue editing', edit_draft_path(@draft), method: :get, class: 'btn btn-primary'
+      .actions
+        = submit_tag 'Submit application', disabled: true, class: 'btn btn-primary'
+.actions
+  = link_to 'Continue editing', edit_draft_path(@draft), class: 'btn btn-primary'
   = button_to 'Discard changes', draft_path(@draft), method: :delete, class: 'btn btn-primary'
   = button_to 'Save application',
-    update_application_template_draft_path(@draft), class: 'btn btn-primary'
+      update_application_template_draft_path(@draft), class: 'btn btn-primary'
