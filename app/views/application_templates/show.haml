@@ -46,18 +46,29 @@
         .field
           .heading Please complete the following personal information.
           .explanation You will be able to log in and review your application.
-        - [:first_name, :last_name, :email].each do |field|
-          .field
+        .field
             .row
               .col-md-6
-                .label= u.label field
+                .label= u.label :first_name
               .col-md-6
-                - if field == :email
-                  = u.email_field field, size: 50, required: true,
-                      value: @current_user.try(field)
-                - else
-                  = u.text_field field, size: 50, required: true,
-                    value: @current_user.try(field)
+                = u.text_field :first_name, size: 50, required: true,
+                  value: @current_user.try(:first_name)
+                %span.ast *
+        .field
+            .row
+              .col-md-6
+                .label= u.label :last_name
+              .col-md-6
+                = u.text_field :last_name, size: 50, required: true,
+                  value: @current_user.try(:last_name)
+                %span.ast *
+        .field
+            .row
+              .col-md-6
+                .label= u.label :email
+              .col-md-6
+                = u.email_field field, size: 50, required: true,
+                    value: @current_user.try(:email)
                 %span.ast *
       = fields_for :data do |r|
         - @template.questions.each do |question|
