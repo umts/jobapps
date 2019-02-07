@@ -67,7 +67,7 @@
             .col-md-6
               .label= u.label :email
             .col-md-6
-              = u.email_field field, size: 50, required: true,
+              = u.email_field :email, size: 50, required: true,
                   value: @current_user.try(:email)
               %span.ast *
       = fields_for :data do |r|
