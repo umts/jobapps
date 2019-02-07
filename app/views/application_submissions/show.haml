@@ -6,11 +6,13 @@ by:
 = @record.user.name_and_email
 = button_to 'Print this page',
   application_submission_path(@record, format: :pdf), method: :get
+- if @record.rejected?
+  = button_to 'Re-review Applicant',
+    rejected_application_submission_path(@application_submission, id: @record.id)
 - if !@record.saved_for_later? && @record.note_for_later.present?
   %em
     This application had previously been saved for later review. Your note:
-  =@record.note_for_later
-
+  = @record.note_for_later
 .data_container
   .data_row
     %h2.prompt_item Question
@@ -102,7 +104,7 @@ by:
             dashboard at that time.
         %p#notification.hidden
           %em
-            Get notified when this happens: 
+            Get notified when this happens:
           = text_field_tag :email_to_notify, '', placeholder: 'person@example.com'
           .note_item
           = submit_tag 'Save for later'

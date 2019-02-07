@@ -168,4 +168,8 @@ class ApplicationSubmission < ApplicationRecord
       JobappsMailer.saved_applications_notification records_by_position, address
     end
   end
+
+  def rejected?
+    !saved_for_later? && reviewed? && !interview.present?
+  end
 end

@@ -102,6 +102,12 @@ class ApplicationSubmissionsController < ApplicationController
     end
   end
 
+  def rejected
+    @record.reviewed = false
+    @record.move_to_dashboard
+    redirect_to staff_dashboard_path
+  end
+
   private
 
   def create_user
