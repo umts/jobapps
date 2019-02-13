@@ -93,7 +93,8 @@ class ApplicationSubmission < ApplicationRecord
 
   def move_to_dashboard
     update_attributes(saved_for_later: false,
-                      date_for_later: nil)
+                      date_for_later: nil,
+                      reviewed: false)
   end
 
   def self.move_to_dashboard
@@ -170,6 +171,6 @@ class ApplicationSubmission < ApplicationRecord
   end
 
   def rejected?
-    !saved_for_later? && reviewed? && !interview.present?
+    reviewed? && interview.blank?
   end
 end
