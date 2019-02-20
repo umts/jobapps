@@ -102,8 +102,7 @@ class ApplicationSubmissionsController < ApplicationController
     end
   end
 
-  def reject
-    @record.reviewed = false
+  def unreject
     @record.move_to_dashboard
     redirect_to staff_dashboard_path
   end

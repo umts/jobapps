@@ -8,7 +8,7 @@ by:
   application_submission_path(@record, format: :pdf), method: :get
 - if @record.rejected?
   = button_to 'Re-review Applicant',
-    reject_application_submission_path(@application_submission, id: @record.id)
+    unreject_application_submission_path(@application_submission, id: @record.id)
 - if !@record.saved_for_later? && @record.note_for_later.present?
   %em
     This application had previously been saved for later review. Your note:

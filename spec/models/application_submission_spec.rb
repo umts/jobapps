@@ -466,4 +466,21 @@ describe ApplicationSubmission do
       expect(call).to be_a Hash
     end
   end
+
+  describe 'rejected?' do
+    let!(:application_sub1) { create :application_submission, reviewed: true, interview: nil }
+    let!(:interview) { create :interview, scheduled: Date.today }
+    let!(:application_sub2) { create :application_submission, reviewed: true, interview: interview }
+    context 'when reviewed and interview not scheduled' do
+      it 'returns true' do
+        expect(application_sub1.rejected?).to be true
+        expect(application_sub2.rejected?).to be false
+      end
+    end
+    context 'when reviewed and interview scheduled' do
+      it 'returns false' do
+        expect(application_sub2.rejected?).to be false
+      end
+    end
+  end
 end
