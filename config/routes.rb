@@ -28,6 +28,7 @@ Rails.application.routes.draw do
     end
     member do
       post :review
+      post :unreject
       post :toggle_saved_for_later
       get  :print
     end
@@ -72,7 +73,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :users, except: [:index, :show] do 
+  resources :users, except: [:index, :show] do
     collection do
       get :promote
       put :promote_save

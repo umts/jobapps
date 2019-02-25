@@ -411,4 +411,16 @@ describe ApplicationSubmissionsController do
       end
     end
   end
+
+  describe 'unreject' do
+    before :each do
+      when_current_user_is :staff
+    end
+    let!(:record) { create :application_submission, reviewed: 'true' }
+    let(:submit) { post :unreject, params: { id: record.id } }
+    it 'changes attribute reviewed to false' do
+      submit
+      expect(record.reload.reviewed).to be false
+    end
+  end
 end

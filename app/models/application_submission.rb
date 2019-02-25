@@ -93,7 +93,8 @@ class ApplicationSubmission < ApplicationRecord
 
   def move_to_dashboard
     update_attributes(saved_for_later: false,
-                      date_for_later: nil)
+                      date_for_later: nil,
+                      reviewed: false)
   end
 
   def self.move_to_dashboard
@@ -167,5 +168,9 @@ class ApplicationSubmission < ApplicationRecord
       records_by_position = email_records.group_by(&:position)
       JobappsMailer.saved_applications_notification records_by_position, address
     end
+  end
+
+  def rejected?
+    reviewed? && interview.blank?
   end
 end
