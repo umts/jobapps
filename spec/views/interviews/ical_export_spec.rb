@@ -1,5 +1,6 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
-include RSpecHtmlMatchers
 
 describe 'interviews/interview.ics.erb' do
   before :each do

@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
-include ApplicationConfiguration
 
 describe JobappsMailer do
+  let(:config) { ApplicationConfiguration }
   before :each do
-    @from = configured_value %i[email default_from]
+    @from = config.configured_value %i[email default_from]
   end
 
   describe 'application denial' do
@@ -198,7 +200,7 @@ describe JobappsMailer do
     end
     it 'emails to the site_text_request_email configured value' do
       expect(output.to)
-        .to eql Array(configured_value %i[email site_contact_email])
+        .to eql Array(config.configured_value %i[email site_contact_email])
     end
     it 'has a subject that includes the words Site text request' do
       expect(output.subject).to include 'Site text request'

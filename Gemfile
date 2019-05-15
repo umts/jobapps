@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
+ruby IO.read(File.expand_path('.ruby-version', __dir__)).strip
 
 gem 'coffee-rails'
 gem 'factory_bot_rails'
@@ -14,10 +17,10 @@ gem 'prawn'
 gem 'prawn-table'
 gem 'rails', '~> 5.1.0'
 gem 'rails-controller-testing'
-
 gem 'redcarpet'
 gem 'sass-rails'
 gem 'snappconfig'
+gem 'strscan'
 gem 'uglifier'
 gem 'whenever', require: false
 

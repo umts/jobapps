@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationDraft < ApplicationRecord
   has_many :questions, dependent: :destroy
   accepts_nested_attributes_for :questions
@@ -17,6 +19,7 @@ class ApplicationDraft < ApplicationRecord
                      end
       other_question = questions.find_by number: other_number
       return unless other_question
+
       # Move the specified field without validation, since before we move
       # the other field out of its place, it will be invalid.
       question.number = other_number
@@ -56,6 +59,7 @@ class ApplicationDraft < ApplicationRecord
 
   def update_questions(question_data)
     return if question_data.blank?
+
     question_data.each do |_index, question_attributes|
       question = questions.find_by number: question_attributes.fetch(:number)
       if question.present?

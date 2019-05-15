@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Generic date and time methods, included in ApplicationController by default.
 module DateAndTimeMethods
   def format_date_time(datetime, options = {})

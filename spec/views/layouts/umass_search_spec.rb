@@ -1,5 +1,6 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
-include RSpecHtmlMatchers
 
 describe 'layouts/_umass_search.haml' do
   it 'has the form it needs to have' do

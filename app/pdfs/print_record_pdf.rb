@@ -1,7 +1,10 @@
+# frozen_string_literal: true
+
 require 'prawn/table'
-include DateAndTimeMethods
 
 class PrintRecordPdf < Prawn::Document
+  include DateAndTimeMethods
+
   def initialize(record)
     super()
     font_families.update(
@@ -15,10 +18,10 @@ class PrintRecordPdf < Prawn::Document
     column_width = content_width / 2
     header_content(content_width, record)
     table_content(content_width, column_width, record)
-    if record.unavailability.present?
-      start_new_page
-      unavailability_calendar(record.unavailability)
-    end
+    return if record.unavailability.blank?
+
+    start_new_page
+    unavailability_calendar(record.unavailability)
   end
 
   def header_content(content_width, record)

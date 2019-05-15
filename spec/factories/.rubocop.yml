@@ -1,4 +1,0 @@
-# Don't enforce only one space between method and first argument
-# in factories directory.
-Style/SpaceBeforeFirstArg:
-  Enabled: false

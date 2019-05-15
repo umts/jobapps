@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SiteTextsController < ApplicationController
   before_action :find_site_text, except: :request_new
 

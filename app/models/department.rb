@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Department < ApplicationRecord
   has_many :positions, dependent: :destroy
   has_many :application_templates, through: :positions

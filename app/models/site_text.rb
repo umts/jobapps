@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SiteText < ApplicationRecord
   extend FriendlyId
   friendly_id :site_text_name, use: :slugged
