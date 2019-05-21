@@ -1,5 +1,6 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
-include DateAndTimeMethods
 
 describe 'viewing eeo data page' do
   # datepicker requires m/d/Y format

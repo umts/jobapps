@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 %w[setup deploy scm/git pending bundler rails passenger]
   .each { |r| require "capistrano/#{r}" }
 require 'whenever/capistrano'

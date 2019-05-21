@@ -1,11 +1,13 @@
-include ApplicationConfiguration
+# frozen_string_literal: true
 
 class ApplicationSubmission < ApplicationRecord
+  include ApplicationConfiguration
+
   belongs_to :user
   belongs_to :position
   delegate :department, to: :position
   has_one :interview, dependent: :destroy
-  has_one :unavailability
+  has_one :unavailability, dependent: :destroy
 
   serialize :data, Array
 
@@ -84,17 +86,17 @@ class ApplicationSubmission < ApplicationRecord
   end
 
   def save_for_later(date: nil, note: nil, mail: false, email: nil)
-    update_attributes(saved_for_later: true,
-                      date_for_later: date,
-                      note_for_later: note,
-                      email_to_notify: email)
+    update(saved_for_later: true,
+           date_for_later: date,
+           note_for_later: note,
+           email_to_notify: email)
     JobappsMailer.send_note_for_later(self).deliver_now if mail
   end
 
   def move_to_dashboard
-    update_attributes(saved_for_later: false,
-                      date_for_later: nil,
-                      reviewed: false)
+    update(saved_for_later: false,
+           date_for_later: nil,
+           reviewed: false)
   end
 
   def self.move_to_dashboard

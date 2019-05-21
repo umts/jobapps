@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Unavailability < ApplicationRecord
   belongs_to :application_submission
 

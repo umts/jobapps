@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationDraftsController < ApplicationController
   before_action :find_draft, except: :new
 

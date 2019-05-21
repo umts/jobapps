@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe ApplicationSubmissionsController do
@@ -27,7 +29,7 @@ describe ApplicationSubmissionsController do
                           'friday_4PM' => '1',
                           'friday_5PM' => '0' }
 
-      @user = Hash.new
+      @user = {}
     end
     let :submit do
       post :create, params: { position_id: @position.id,
@@ -40,8 +42,8 @@ describe ApplicationSubmissionsController do
         when_current_user_is nil
         @user = {
           first_name: 'FirstName',
-          last_name:  'LastName',
-          email:      'flastnam@umass.edu'
+          last_name: 'LastName',
+          email: 'flastnam@umass.edu'
         }
         expect { submit }
           .to change { User.count }

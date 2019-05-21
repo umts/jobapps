@@ -1,5 +1,6 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
-include RSpecHtmlMatchers
 
 describe 'layouts/_footer.haml' do
   # From the UMass Digital Brand Guide - "We live in a digital world."

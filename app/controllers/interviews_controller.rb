@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class InterviewsController < ApplicationController
   before_action :find
 

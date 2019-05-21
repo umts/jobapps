@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'submitting application records' do
@@ -35,7 +37,7 @@ describe 'submitting application records' do
       page.set_rack_session spire: spire
       visit application_path(application_template)
     end
-    it 'creates a user object based on how the user fields are filled in' do #
+    it 'creates a user object based on how the user fields are filled in' do
       user_attributes = { first_name: 'John',
                           last_name: 'Smith',
                           email: 'johnsmith@umass.edu',

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe ApplicationSubmission do
@@ -468,18 +470,22 @@ describe ApplicationSubmission do
   end
 
   describe 'rejected?' do
-    let!(:application_sub1) { create :application_submission, reviewed: true, interview: nil }
-    let!(:interview) { create :interview, scheduled: Date.today }
-    let!(:application_sub2) { create :application_submission, reviewed: true, interview: interview }
+    let!(:application_sub1) do
+      create :application_submission, reviewed: true, interview: nil
+    end
+    let!(:interview) { create :interview, scheduled: Time.zone.today }
+    let!(:application_sub2) do
+      create :application_submission, reviewed: true, interview: interview
+    end
     context 'when reviewed and interview not scheduled' do
       it 'returns true' do
-        expect(application_sub1.rejected?).to be true
-        expect(application_sub2.rejected?).to be false
+        expect(application_sub1).to be_rejected
+        expect(application_sub2).not_to be_rejected
       end
     end
     context 'when reviewed and interview scheduled' do
       it 'returns false' do
-        expect(application_sub2.rejected?).to be false
+        expect(application_sub2).not_to be_rejected
       end
     end
   end

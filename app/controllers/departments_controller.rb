@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DepartmentsController < ApplicationController
   before_action :find_department, only: %i[destroy edit update]
 

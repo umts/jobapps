@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Question < ApplicationRecord
   belongs_to :application_template
   belongs_to :application_draft
@@ -64,6 +66,7 @@ class Question < ApplicationRecord
     template = application_template
     draft = application_draft
     return if template.present? ^ draft.present?
+
     errors.add :base,
                'You must specify either an application template or a draft,
                  but not both'

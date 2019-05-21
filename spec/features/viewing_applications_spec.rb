@@ -1,5 +1,6 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
-include DateAndTimeMethods
 
 describe 'viewing job applications individually' do
   context 'there are no pending applications or interviews' do
