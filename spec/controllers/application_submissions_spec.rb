@@ -395,7 +395,7 @@ describe ApplicationSubmissionsController do
         expect(response).not_to render_template 'show'
       end
     end
-    context 'record does not belong in the directory' do
+    context 'no user' do
       before :each do
         when_current_user_is nil
       end
