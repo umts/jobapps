@@ -33,14 +33,14 @@ describe 'viewing job applications individually' do
       click_link unreviewed_record.user.proper_name,
                  href: application_submission_path(unreviewed_record)
       fill_in 'staff_note', with: 'note'
-      click_button 'Review application without scheduling interview'
+      click_button 'Decline'
       expect(page.current_url).to eql staff_dashboard_url
       expect(page).to have_text 'Application has been marked as reviewed'
     end
     it 'provides a means to reject the application without a staff note' do
       click_link unreviewed_record.user.proper_name,
                  href: application_submission_path(unreviewed_record)
-      click_button 'Review application without scheduling interview'
+      click_button 'Decline'
       expect(page.current_url).to eql staff_dashboard_url
       expect(page).to have_text 'Application has been marked as reviewed'
     end
@@ -49,7 +49,7 @@ describe 'viewing job applications individually' do
                  href: application_submission_path(unreviewed_record)
       fill_in 'interview[scheduled]', with: 1.week.since
       fill_in 'interview[location]', with: 'A Place'
-      click_button 'Review application and schedule interview'
+      click_button 'Approve'
       expect(page.current_url).to eql staff_dashboard_url
       expect(page).to have_text 'Application has been marked as reviewed'
     end

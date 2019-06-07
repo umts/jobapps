@@ -39,28 +39,35 @@ by:
 - if @current_user.staff?
   - if @record.pending?
     %h3 Review application
+    %h4 Deny Application
     = form_tag controller: :application_submissions,
       action: :review,
       id: @record.id,
       accepted: false do
       .field.note_item
+        %p
+        <b>
         Reason for rejection:
+        </b>
+        %p
         = text_area_tag :staff_note, ''
       .text.note_item
         - if configured_value [:on_application_denial, :provide_reason],
                               default: true
-          These notes will be provided to the applicant.
+          <i>
+          These notes will be provided to the applicant.</i>
         - else
           These notes will not be provided to the applicant.
       .note_item
-        = submit_tag 'Review application without scheduling interview'
+        = submit_tag 'Decline'
     = form_tag controller: :application_submissions,
       action: :review,
       id: @record.id,
       accepted: true do
+      %h4 Approve Application and Schedule Interview
       = fields_for :interview do |f|
         .field.note_item
-          = f.label :scheduled, 'Date and time of interview'
+          = f.label :scheduled, 'Date/time'
           = f.text_field :scheduled,
             class: 'datetimepicker',
             placeholder: 'Click here to select date/time...',
@@ -70,7 +77,7 @@ by:
           = f.text_field :location,
                          required: true,
                          value: @record.position.default_interview_location
-      .note_item= submit_tag 'Review application and schedule interview'
+      .note_item= submit_tag 'Approve'
     - if @record.saved_for_later?
       - if @record.note_for_later.present?
         Note:
@@ -85,20 +92,23 @@ by:
       = form_tag controller: :application_submissions,
         action: :toggle_saved_for_later,
         id: @record.id do
-        %p
-          Note
+        .field.note_item
+          %p
+          <b>Note: </b>
+          %p
           = text_area_tag :note_for_later, '', required: true
-        %p
+        %p.note_item
           Email note to applicant:
           =check_box_tag :mail_to_applicant
         %p
+        %p.note_item
           %em
             This note will be listed as the reason their application was
             saved for review at a later date.
-        %p
-          Select a date for later review
+        %p.note_item
+          <b>Select a date for later review</b>
           = text_field_tag :date_for_later, '', class: 'datepicker'
-        %p
+        %p.note_item
           %em
             If a date is selected, the application will move back onto the
             dashboard at that time.
@@ -106,8 +116,7 @@ by:
           %em
             Get notified when this happens:
           = text_field_tag :email_to_notify, '', placeholder: 'person@example.com'
-          .note_item
-          = submit_tag 'Save for later'
+          .note_item=submit_tag 'Save'
   - else
     .note_item
       Application reviewed on:
