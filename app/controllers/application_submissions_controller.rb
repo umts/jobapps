@@ -91,8 +91,8 @@ class ApplicationSubmissionsController < ApplicationController
 
   def show
     unless @current_user == @record.user || @current_user.try(:staff?)
-    deny_access and return
-    end
+  deny_access && return
+end
     @interview = @record.interview
     respond_to do |format|
       format.html
