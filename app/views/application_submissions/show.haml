@@ -54,12 +54,12 @@ by:
       .text.note_item
         - if configured_value [:on_application_denial, :provide_reason],
                               default: true
-          %em
-          These notes will be provided to the applicant.
+          <i>
+          These notes will be provided to the applicant.</i>
         - else
           These notes will not be provided to the applicant.
       .note_item
-        = submit_tag 'Submit'
+        = submit_tag 'Decline'
     = form_tag controller: :application_submissions,
       action: :review,
       id: @record.id,
@@ -77,7 +77,7 @@ by:
           = f.text_field :location,
                          required: true,
                          value: @record.position.default_interview_location
-      .note_item= submit_tag 'Submit'
+      .note_item= submit_tag 'Approve'
     - if @record.saved_for_later?
       - if @record.note_for_later.present?
         Note:
@@ -117,7 +117,7 @@ by:
           %em
             Get notified when this happens:
           = text_field_tag :email_to_notify, '', placeholder: 'person@example.com'
-          .note_item=submit_tag 'Submit'
+          .note_item=submit_tag 'Save'
   - else
     .note_item
       Application reviewed on:

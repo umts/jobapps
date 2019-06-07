@@ -13,7 +13,7 @@ describe 'saving or unsaving applications' do
       click_link record.user.proper_name,
                  href: application_submission_path(record)
       page.fill_in 'note_for_later', with: 'This is required'
-      click_button 'Save for later'
+      click_button 'Save'
     end
     it 'displays the number of saved applications in the link to their page' do
       name = record.position.name
@@ -71,7 +71,7 @@ describe 'saving or unsaving applications' do
       visit application_submission_url(record)
       page.fill_in 'note_for_later', with: 'This is my note'
       page.fill_in 'date_for_later', with: Time.zone.today.strftime('%m/%d/%Y')
-      click_button 'Save for later'
+      click_button 'Save'
       record.reload
       expect(record.note_for_later).to eql 'This is my note'
       expect(record.date_for_later).to eql Time.zone.today
