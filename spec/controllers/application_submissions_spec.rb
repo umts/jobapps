@@ -395,6 +395,16 @@ describe ApplicationSubmissionsController do
         expect(response).not_to render_template 'show'
       end
     end
+    context 'no user' do
+      before :each do
+        when_current_user_is nil
+      end
+      it 'does not allow access' do
+        submit
+        expect(response).to have_http_status :unauthorized
+        expect(response).not_to render_template 'show'
+      end
+    end
     context 'staff' do
       before :each do
         when_current_user_is :staff
