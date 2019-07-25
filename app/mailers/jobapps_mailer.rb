@@ -1,9 +1,14 @@
+# frozen_string_literal: true
+
 class JobappsMailer < ActionMailer::Base
   include ApplicationConfiguration
-  helper_method :configured_value
 
-  # for some reason the configured_value method doesn't work here
-  default from: CONFIG[:email][:default_from]
+  helper_method :configured_value
+  helper DateAndTimeMethods
+
+  default(
+    from: ApplicationConfiguration.configured_value(%i[email default_from])
+  )
 
   def application_denial(application_submission)
     @application_submission = application_submission

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe ApplicationHelper do
@@ -15,10 +17,10 @@ describe ApplicationHelper do
 
   describe 'parse_application_data' do
     let :input do
-      { 'prompt_0'    => 'What is your name?',
-        'response_0'  => 'Luke Starkiller',
+      { 'prompt_0' => 'What is your name?',
+        'response_0' => 'Luke Starkiller',
         'data_type_0' => 'text',
-        '316'         => '316-1' }
+        '316' => '316-1' }
     end
     let(:output) { parse_application_data input }
     let(:question_data) { output.first }

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Interview < ApplicationRecord
   include DateAndTimeMethods
 
@@ -39,9 +41,9 @@ class Interview < ApplicationRecord
   private
 
   def resend_confirmation
-    if saved_change_to_location? || saved_change_to_scheduled?
-      JobappsMailer.interview_reschedule self
-    end
+    return unless saved_change_to_location? || saved_change_to_scheduled?
+
+    JobappsMailer.interview_reschedule self
   end
 
   def send_confirmation

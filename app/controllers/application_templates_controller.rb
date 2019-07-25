@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationTemplatesController < ApplicationController
   skip_before_action :access_control, only: :show
   before_action :find_template, except: :new
@@ -13,10 +15,10 @@ class ApplicationTemplatesController < ApplicationController
     @old_applications = @current_user.try(:old_applications,
                                           @template)
     @old_data = {}
-    if params[:load_id]
-      @old_data = ApplicationSubmission.find(params[:load_id])
-                                       .try :questions_hash || {}
-    end
+    return unless params[:load_id]
+
+    @old_data = ApplicationSubmission.find(params[:load_id])
+                                     .try :questions_hash || {}
   end
 
   def toggle_active

@@ -2,7 +2,7 @@ Rails:
   Enabled: true
 
 AllCops:
-  TargetRubyVersion: 2.4
+  TargetRubyVersion: 2.6
   Exclude:
     - 'bin/**/*'
     - 'config/**/*'
@@ -15,16 +15,14 @@ Lint/AmbiguousBlockAssociation:
 # Relax complexity testing to codeclimate standards (roughly).
 Metrics/AbcSize:
   Max: 20
-# We should probably come back to this.
-Metrics/BlockLength:
-  Enabled: false
 Metrics/MethodLength:
   Max: 20
 Metrics/ClassLength:
-  Max: 150
+  Max: 160
 
-Rails/HttpPositionalArguments:
-  Enabled: false
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
 
 # Don't worry about documentation for now.
 # In particular, this fails for things like
@@ -32,27 +30,15 @@ Rails/HttpPositionalArguments:
 Style/Documentation:
   Enabled: false
 
-# Don't tell me not to write Hash.new. I wrote it
-# because I want it.
-Style/EmptyLiteral:
-  Enabled: false
-
-# I just don't understand this one, frankly.
-Style/FrozenStringLiteralComment:
-  Enabled: false
-
-Style/GuardClause:
-  MinBodyLength: 10
-
 # I think multiline block chains are beautiful.
 Style/MultilineBlockChain:
   Enabled: false
 
 # I think this cop disagrees with nested calls
-# which are perfectly clear.
+# that are perfectly clear.
 Style/NestedParenthesizedCalls:
   Enabled: false
 
-# Don't prefer fail to raise.
-Style/SignalException:
+# Module function isn't quite the same as extend self
+Style/ModuleFunction:
   Enabled: false

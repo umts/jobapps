@@ -1,5 +1,6 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
-include DateAndTimeMethods
 
 describe 'viewing table of past applications' do
   let(:start_date) { 1.week.ago.strftime('%m/%d/%Y') }

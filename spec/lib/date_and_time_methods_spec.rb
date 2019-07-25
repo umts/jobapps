@@ -1,5 +1,6 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
-include DateAndTimeMethods
 
 describe DateAndTimeMethods do
   before :each do

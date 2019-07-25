@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
   has_many :interviews, dependent: :destroy
   has_many :application_submissions, dependent: :destroy
-  has_many :subscriptions
+  has_many :subscriptions, dependent: :destroy
   has_many :positions, through: :subscriptions
 
   validates :email,
@@ -10,7 +12,7 @@ class User < ApplicationRecord
             :spire,
             presence: true
   validates :email,
-            format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/ }
+            format: { with: /\A([^@\s]+)@((?:[-a-zA-Z0-9]+\.)+[a-zA-Z]{2,})\Z/ }
   validates :staff, inclusion: { in: [true, false],
                                  message: 'must be true or false' }
   validates :spire, uniqueness: true, format: { with: /\A\d{8}@umass\.edu\z/ }

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DashboardController < ApplicationController
   skip_before_action :access_control, only: %i[main student]
   before_action :positions, except: :main
@@ -24,11 +26,11 @@ class DashboardController < ApplicationController
   end
 
   def student
-    if @current_user.present?
-      @application_submissions = @current_user.application_submissions
-                                              .group_by(&:position)
-      @interviews = @current_user.interviews
-    end
+    return if @current_user.blank?
+
+    @application_submissions = @current_user.application_submissions
+                                            .group_by(&:position)
+    @interviews = @current_user.interviews
   end
 
   private

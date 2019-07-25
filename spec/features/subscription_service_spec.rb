@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 describe 'subscriptions' do
   let(:position) { create :position }
@@ -9,7 +11,7 @@ describe 'subscriptions' do
     it 'displays the email address when subscribe is clicked' do
       fill_in 'Email', with: 'jobapps@transit.com'
       click_button 'Subscribe'
-      expect(page).to have_text'jobapps@transit.com'
+      expect(page).to have_text 'jobapps@transit.com'
     end
   end
   context 'displaying existing subscriptions' do

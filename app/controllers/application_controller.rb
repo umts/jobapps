@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::Base
   include ApplicationConfiguration
   include ConfigurableMessages
@@ -35,13 +37,13 @@ class ApplicationController < ActionController::Base
   # '... and return' is the correct behavior here, disable rubocop warning
   # rubocop:disable Style/AndOr
   def redirect_unauthenticated
-    unless @current_user.present? || session.key?(:spire)
-      logger.info 'Request:'
-      logger.info request.inspect
-      logger.info 'Session:'
-      logger.info session.inspect
-      redirect_to unauthenticated_session_path and return
-    end
+    return if @current_user.present? || session.key?(:spire)
+
+    logger.info 'Request:'
+    logger.info request.inspect
+    logger.info 'Session:'
+    logger.info session.inspect
+    redirect_to unauthenticated_session_path and return
   end
   # rubocop:enable Style/AndOr
 
@@ -67,12 +69,12 @@ class ApplicationController < ActionController::Base
   # rubocop:enable Style/AndOr
 
   def check_primary_account
-    if request.env['UMAPrimaryAccount'] != request.env['uid']
-      @primary_account = request.env['UMAPrimaryAccount']
-      @uid = request.env['uid']
-      render 'sessions/unauthenticated_subsidiary',
-             status: :unauthorized,
-             layout: false
-    end
+    return if request.env['UMAPrimaryAccount'] == request.env['uid']
+
+    @primary_account = request.env['UMAPrimaryAccount']
+    @uid = request.env['uid']
+    render 'sessions/unauthenticated_subsidiary',
+           status: :unauthorized,
+           layout: false
   end
 end

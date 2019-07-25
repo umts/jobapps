@@ -22,6 +22,7 @@ engines:
         - FIXME 
   rubocop:
     enabled: true
+    channel: rubocop-0-65
     config: .rubocop-no-umts-cops.yml
 ratings:
   paths:

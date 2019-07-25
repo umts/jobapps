@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Example invocation:
 # RAILS_ENV=production bundle exec rake \
 # referral_method_and_hire_stats:bus ~/export.csv

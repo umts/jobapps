@@ -1,10 +1,15 @@
-require 'rails_helper'
-include ConfigurableMessages
+# frozen_string_literal: true
 
-describe ConfigurableMessages do
+require 'rails_helper'
+
+class DummyController < ApplicationController
+  include ConfigurableMessages
+end
+
+describe DummyController do
   context 'valid calls' do
     describe 'show_message' do
-      let(:call) { show_message :cool_message, default: "I'm cool" }
+      let(:call) { subject.show_message :cool_message, default: "I'm cool" }
       before :each do
         expect_any_instance_of(ApplicationConfiguration)
           .to receive(:configured_value)
@@ -20,9 +25,12 @@ describe ConfigurableMessages do
       end
     end
   end
+
   context 'invalid calls' do
     let(:call) do
-      check_message_default(:user_create, default: 'not the actual default')
+      subject.send(
+        :check_message_default, :user_create, default: 'not the actual default'
+      )
     end
     it 'raises an error with invalid parameters' do
       expect { call }.to raise_error(ArgumentError)

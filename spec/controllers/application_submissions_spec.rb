@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe ApplicationSubmissionsController do
@@ -27,7 +29,7 @@ describe ApplicationSubmissionsController do
                           'friday_4PM' => '1',
                           'friday_5PM' => '0' }
 
-      @user = Hash.new
+      @user = {}
     end
     let :submit do
       post :create, params: { position_id: @position.id,
@@ -40,8 +42,8 @@ describe ApplicationSubmissionsController do
         when_current_user_is nil
         @user = {
           first_name: 'FirstName',
-          last_name:  'LastName',
-          email:      'flastnam@umass.edu'
+          last_name: 'LastName',
+          email: 'flastnam@umass.edu'
         }
         expect { submit }
           .to change { User.count }
@@ -393,6 +395,16 @@ describe ApplicationSubmissionsController do
         expect(response).not_to render_template 'show'
       end
     end
+    context 'no user' do
+      before :each do
+        when_current_user_is nil
+      end
+      it 'does not allow access' do
+        submit
+        expect(response).to have_http_status :unauthorized
+        expect(response).not_to render_template 'show'
+      end
+    end
     context 'staff' do
       before :each do
         when_current_user_is :staff
@@ -409,6 +421,18 @@ describe ApplicationSubmissionsController do
         get :show, params: { id: @record.id, format: :pdf }
         expect(response.headers['Content-Type']).to eql 'application/pdf'
       end
+    end
+  end
+
+  describe 'unreject' do
+    before :each do
+      when_current_user_is :staff
+    end
+    let!(:record) { create :application_submission, reviewed: 'true' }
+    let(:submit) { post :unreject, params: { id: record.id } }
+    it 'changes attribute reviewed to false' do
+      submit
+      expect(record.reload.reviewed).to be false
     end
   end
 end

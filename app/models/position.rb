@@ -1,6 +1,8 @@
-include ApplicationConfiguration
+# frozen_string_literal: true
 
 class Position < ApplicationRecord
+  include ApplicationConfiguration
+
   belongs_to :department
   has_one :application_template, dependent: :destroy
   has_many :application_submissions, dependent: :destroy

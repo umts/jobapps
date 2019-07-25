@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'prawn'
 class ApplicationSubmissionsController < ApplicationController
   include ApplicationHelper
@@ -88,8 +90,9 @@ class ApplicationSubmissionsController < ApplicationController
   end
 
   def show
-    deny_access && return if @current_user.student? &&
-                             @current_user != @record.user
+    unless @current_user == @record.user || @current_user.try(:staff?)
+      deny_access && return
+    end
     @interview = @record.interview
     respond_to do |format|
       format.html
@@ -100,6 +103,11 @@ class ApplicationSubmissionsController < ApplicationController
                               disposition: :inline
       end
     end
+  end
+
+  def unreject
+    @record.move_to_dashboard
+    redirect_to staff_dashboard_path
   end
 
   private

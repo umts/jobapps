@@ -30,5 +30,15 @@
 }
 
 .note_item{
-  margin: 1em;
+    textarea{
+        width: 50%;
+    }
+    
+    justify-content: right;
+    margin: 1em;
+    font-weight: normal;
+    
 }
+h4{
+    margin-left: 0.5em;
+    }
