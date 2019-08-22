@@ -124,8 +124,6 @@ ActiveRecord::Schema.define(version: 2019_08_20_153130) do
     t.string "email"
     t.boolean "admin"
     t.bigint "parent_id"
-    t.bigint "child_id"
-    t.index ["child_id"], name: "index_users_on_child_id"
     t.index ["parent_id"], name: "index_users_on_parent_id"
   end
 

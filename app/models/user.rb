@@ -4,12 +4,9 @@ class User < ApplicationRecord
   has_many :interviews, dependent: :destroy
   has_many :application_submissions, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
-  has_many :positions, through: :subscriptions
-  has_many :parents, class_name: "User", foreign_key: "parent_id"
-  has_many :children, class_name: "User", foreign_key: "child_id"
-  belongs_to :parent,class_name: "User"
-  belongs_to :child,class_name: "User"
-  
+  has_many :positions, through: :subscriptions 
+  has_many :children, class_name: 'User', foreign_key: 'parent_id'
+  belongs_to :parent, class_name: 'User'
 
   validates :email,
             :first_name,
