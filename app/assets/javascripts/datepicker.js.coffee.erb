@@ -1,15 +1,17 @@
 $(document).ready ->
-  $('.datepicker').datepicker
+  $('.datepicker').datetimepicker
+    timepicker: false
+    format: 'dddd, MMMM D, YYYY'
+    altFormat: 'DD, MM dd, yy'
     changeMonth: true
-    changeYear:  true
-    yearRange:   'c-20:c+5'
-    showOn: 'both'
-    buttonImage: "<%= asset_path 'calendar.gif' %>"
+    changeYear: true
+    yearRange: 'c-5:c+5'
 
   $('.datetimepicker').datetimepicker
     format: 'dddd, MMMM D, YYYY, h:mm a'
     formatTime: 'h:mm a'
     step:       15
+    defaultDate: null
 
   $.datetimepicker.setDateFormatter
     parseDate: (date, format) ->
@@ -17,4 +19,10 @@ $(document).ready ->
       if d.isValid() then d.toDate() else false
     formatDate: (date, format) ->
       moment(date).format format
-  return
+
+  $('.timepicker').datetimepicker
+    datepicker:false,
+    format:'h:mm A',
+    formatTime:'h:mm A',
+    step: 5
+return
