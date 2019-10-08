@@ -1,0 +1,18 @@
+%h4 Approve Application and Schedule Interview
+= form_with(model: @record, url: { action: :review }) do |form|
+  = form.hidden_field :accepted, value: 'true'
+  = fields_for :interview do |f|
+    .row
+      .form-group.col
+        = f.label :scheduled, 'Date/time'
+        = f.text_field :scheduled,
+          class: 'datetimepicker form-control',
+          placeholder: 'Click here to select date/time...',
+          size: 40, required: true
+      .form-group.col
+        = f.label :location
+        = f.text_field :location,
+                       required: true,
+                       value: @record.position.default_interview_location,
+                       class: 'form-control'
+    .row.form-group.col= f.submit 'Approve', class: 'btn btn-primary'
