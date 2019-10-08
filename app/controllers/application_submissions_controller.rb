@@ -75,16 +75,10 @@ class ApplicationSubmissionsController < ApplicationController
   end
 
   def toggle_saved_for_later
-    if @record.saved_for_later?
-      @record.move_to_dashboard
-      flash[:message] = 'Application moved back to dashboard.'
+    if @record.update save_for_later_params
+      flash[:message] = 'Application successfully updated'
     else
-      parameters = save_for_later_params
-      @record.save_for_later(date: parameters[:date],
-                             note: params[:note_for_later],
-                             mail: parameters[:mail],
-                             email: params[:email_to_notify])
-      flash[:message] = 'Application saved for later.'
+      flash[:errors] = @record.errors.full_messages
     end
     redirect_to staff_dashboard_path
   end
@@ -142,11 +136,14 @@ class ApplicationSubmissionsController < ApplicationController
   end
 
   def save_for_later_params
-    parameters = {}
-    if params[:date_for_later].present?
-      parameters[:date] = Date.strptime(params[:date_for_later], '%m/%d/%Y')
-    end
-    parameters[:mail] = params[:mail_to_applicant] == '1'
+    parameters = params.require(:application_submission).permit(
+      :note_for_later, :mail_to_applicant, :date_for_later, :email_to_notify
+    )
+    parameters[:saved_for_later] = if params[:commit] == 'Save for later'
+                                    true
+                                  else
+                                    false
+                                  end
     parameters
   end
 end

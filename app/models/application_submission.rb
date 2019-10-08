@@ -10,6 +10,7 @@ class ApplicationSubmission < ApplicationRecord
   has_one :unavailability, dependent: :destroy
 
   serialize :data, Array
+  attr_accessor :mail_to_applicant
 
   # validate ethnicity and gender in constants but allow blank
   validates :position, :data, :user, presence: true
@@ -37,6 +38,19 @@ class ApplicationSubmission < ApplicationRecord
   scope :pending, -> { where reviewed: false }
   scope :with_gender, -> { where.not gender: [nil, ''] }
   scope :with_ethnicity, -> { where.not ethnicity: [nil, ''] }
+
+  before_save do
+    if saved_for_later_changed?
+      if saved_for_later?
+        JobappsMailer.send_note_for_later(self).deliver_now if mail_to_applicant
+      else
+        assign_attributes(
+          date_for_later: nil,
+          reviewed: false
+        )
+      end
+    end
+  end
 
   ETHNICITY_OPTIONS = ['White (Not of Hispanic origin)',
                        'Black (Not of Hispanic origin)',
@@ -86,17 +100,13 @@ class ApplicationSubmission < ApplicationRecord
   end
 
   def save_for_later(date: nil, note: nil, mail: false, email: nil)
-    update(saved_for_later: true,
-           date_for_later: date,
-           note_for_later: note,
-           email_to_notify: email)
-    JobappsMailer.send_note_for_later(self).deliver_now if mail
-  end
-
-  def move_to_dashboard
-    update(saved_for_later: false,
-           date_for_later: nil,
-           reviewed: false)
+    if update(
+        saved_for_later: true,
+        date_for_later: date,
+        note_for_later: note,
+        email_to_notify: email
+    )
+    end
   end
 
   def self.move_to_dashboard
@@ -109,7 +119,7 @@ class ApplicationSubmission < ApplicationRecord
     elsif email_records.many?
       send_notification_emails! email_records
     end
-    records.each(&:move_to_dashboard)
+    records.update_all(saved_for_later: false)
   end
 
   def self.combined_eeo_data(records)
