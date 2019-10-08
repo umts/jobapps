@@ -29,7 +29,7 @@ Rails.application.routes.draw do
     member do
       post :review
       post :unreject
-      post :toggle_saved_for_later
+      patch :toggle_saved_for_later
       get  :print
     end
   end
