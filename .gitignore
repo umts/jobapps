@@ -27,3 +27,6 @@ coverage/assets/*
 coverage/.resultset.*
 
 Guardfile
+
+# Ignore JS packages
+/node_modules
