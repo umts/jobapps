@@ -15,7 +15,6 @@
 //= require dataTables/jquery.dataTables
 //= require bootstrap
 //= require jquery-ui
-//= require moment
 //= require jquery-datetimepicker/jquery.datetimepicker.js
 //= require moment/moment.js
 //= require multiple-select/dist/multiple-select.js
