@@ -12,7 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require bootstrap
 //= require jquery-ui
 //= require jquery-datetimepicker/jquery.datetimepicker.js
 //= require moment/moment.js
