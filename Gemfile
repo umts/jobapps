@@ -3,6 +3,7 @@
 source 'https://rubygems.org'
 ruby IO.read(File.expand_path('.ruby-version', __dir__)).strip
 
+gem 'bootstrap', '~> 4.0'
 gem 'coffee-rails'
 gem 'factory_bot_rails'
 gem 'friendly_id', '~> 5.1.0'
@@ -21,10 +22,6 @@ gem 'snappconfig'
 gem 'strscan'
 gem 'uglifier'
 gem 'whenever', require: false
-
-source 'https://rails-assets.org' do
-  gem 'rails-assets-bootstrap', '~> 3.3'
-end
 
 group :production do
   gem 'exception_notification'
