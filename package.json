@@ -4,5 +4,6 @@
     "jquery.maskedinput": "^1.4.1",
     "moment": "^2.24.0",
     "multiple-select": "^1.5.2"
+    "jquery": "^3.4.1"
   }
 }
