@@ -19,5 +19,5 @@
 //= require multiple-select/dist/multiple-select.js
 //= require jquery.maskedinput/src/jquery.maskedinput.js
 //= require datatables.net/js/jquery.dataTables.js
-//= require datatables.net-bs/js/dataTables.bootstrap.min.js
+//= require datatables.net-dt/js/dataTables.dataTables.min.js
 //= require_tree .

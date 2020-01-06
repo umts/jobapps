@@ -14,7 +14,7 @@
  *= require jquery-ui
  *= require jquery-datetimepicker/jquery.datetimepicker.css
  *= require multiple-select/dist/multiple-select.scss
- *= require datatables.net-bs/css/dataTables.bootstrap.min.css
+ *= require datatables.net-dt/css/jquery.dataTables.min.css
  *= require_tree .
  *= require_self
  */
