@@ -16,7 +16,7 @@
  *= require_self
  *= require jquery-ui
  *= require jquery-datetimepicker/jquery.datetimepicker.css
- *= require multiple-select
+ *= require multiple-select/dist/multiple-select.scss
  */
 
 body{

@@ -17,6 +17,7 @@
 //= require jquery-ui
 //= require moment
 //= require jquery-datetimepicker/jquery.datetimepicker.js
-//= require multiple-select
-//= require jquery.maskedinput
+//= require moment/moment.js
+//= require multiple-select/dist/multiple-select.js
+//= require jquery.maskedinput/src/jquery.maskedinput.js
 //= require_tree .

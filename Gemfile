@@ -26,9 +26,6 @@ gem 'whenever', require: false
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-bootstrap', '~> 3.3'
-  gem 'rails-assets-jquery.maskedinput'
-  gem 'rails-assets-moment'
-  gem 'rails-assets-wenzhixin--multiple-select'
 end
 
 group :production do
