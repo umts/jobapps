@@ -19,4 +19,5 @@
 //= require moment/moment.js
 //= require multiple-select/dist/multiple-select.js
 //= require jquery.maskedinput/src/jquery.maskedinput.js
+//= require datatables.net/js/jquery.dataTables.js
 //= require_tree .
