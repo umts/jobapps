@@ -26,7 +26,6 @@ gem 'whenever', require: false
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-bootstrap', '~> 3.3'
-  gem 'rails-assets-datetimepicker'
   gem 'rails-assets-jquery.maskedinput'
   gem 'rails-assets-moment'
   gem 'rails-assets-wenzhixin--multiple-select'
@@ -42,6 +41,7 @@ group :development do
   gem 'capistrano-passenger', require: false
   gem 'capistrano-pending', require: false
   gem 'capistrano-rails', require: false
+  gem 'capistrano-yarn', require: false
   gem 'rb-readline', require: false
 end
 

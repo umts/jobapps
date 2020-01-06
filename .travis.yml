@@ -6,6 +6,10 @@ before_script:
   - cp config/application.yml.example config/application.yml
   - cp config/database.yml.example config/database.yml
   - bundle exec rake db:reset
+install:
+  - bundle install
+  - npm i -g yarn
+  - yarn
 script:
   - bundle exec rspec
   - bundle exec codeclimate-test-reporter

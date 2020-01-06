@@ -16,7 +16,7 @@
 //= require bootstrap
 //= require jquery-ui
 //= require moment
-//= require jquery.datetimepicker.full.js
+//= require jquery-datetimepicker/jquery.datetimepicker.js
 //= require multiple-select
 //= require jquery.maskedinput
 //= require_tree .
