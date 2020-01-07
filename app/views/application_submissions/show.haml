@@ -102,9 +102,12 @@ by:
           %em
             This note will be listed as the reason their application was
             saved for review at a later date.
-        %p.note_item
-          <b>Select a date for later review</b>
-          = text_field_tag :date_for_later, '', class: 'datepicker'
+        .form-group
+          = label_tag :date_for_later, 'Select a date for later review'
+          .input-group
+            .input-group-prepend
+              %span.input-group-text.fa.fa-calendar
+            = text_field_tag :date_for_later, '', class: 'datepicker form-control'
         %p.note_item
           %em
             If a date is selected, the application will move back onto the
