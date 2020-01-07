@@ -5,29 +5,32 @@ submitted
 by:
 = @record.user.name_and_email
 = button_to 'Print this page',
-  application_submission_path(@record, format: :pdf), method: :get
+  application_submission_path(@record, format: :pdf),
+  method: :get,
+  class: 'btn btn-secondary'
 - if @record.rejected?
   = button_to 'Re-review Applicant',
     unreject_application_submission_path(@application_submission, id: @record.id)
 - if !@record.saved_for_later? && @record.note_for_later.present?
-  %em
-    This application had previously been saved for later review. Your note:
+  %em This application had previously been saved for later review. Your note:
   = @record.note_for_later
-.data_container
-  .data_row
-    %h2.prompt_item Question
-    %h2.response_item Response
-  - @record.data.each do |prompt, response, data_type, question_id|
-    - if data_type == 'heading'
-      .data_row
-        .heading_item= prompt.upcase
-    - elsif data_type == 'explanation'
-      .data_row
-        .explanation_item= render_markdown prompt
-    - else
-      .data_row
-        .prompt_item= prompt
-        .response_item= response
+%table.table.table-bordered
+  %thead
+    %tr
+      %th Questions
+      %th Responses
+  %tbody
+  - @record.data.each do |prompt, response, data_type, _question_id|
+    %tr
+      - if data_type == 'heading'
+        %td
+          %b=prompt.upcase
+      - elsif data_type == 'explanation'
+        %td
+          %em= render_markdown prompt
+      - else
+        %td=prompt
+      %td=response
 
 -if @record.unavailability.present?
   %strong Unavailability
