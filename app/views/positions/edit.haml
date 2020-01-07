@@ -21,6 +21,6 @@
         %li.list-group-item
           =subscription.email
           =button_to subscription_path(subscription), {method: :delete, class: 'btn btn-default'} do
-            %i.glyphicon.glyphicon-remove-circle
+            %i.fa.fa-times-circle
 - else
   %p You are not currently subscribed.

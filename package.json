@@ -2,6 +2,7 @@
   "dependencies": {
     "datatables.net": "^1.10.20",
     "datatables.net-dt": "^1.10.20",
+    "font-awesome": "^4.7.0",
     "jquery": "^3.4.1",
     "jquery-datetimepicker": "^2.5.21",
     "jquery.maskedinput": "^1.4.1",
