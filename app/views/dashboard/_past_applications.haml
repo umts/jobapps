@@ -1,17 +1,17 @@
 .dashboard_partial
-  .date_range
-    = form_tag past_applications_application_submissions_path, method: :get do
-      List applications for
-      .note_item
-        = select_tag :department_ids,
+  = form_tag past_applications_application_submissions_path,
+    method: :get, class: 'form-inline' do
+    %h5 List applications for
+    .form-group
+      = select_tag :department_ids,
         options_from_collection_for_select(@departments, :id, :name),
-        class: 'dept_select',
+        class: 'dept_select m-2',
         id: 'past-applications-dept-select',
         multiple: true
-      between
-      = text_field_tag :records_start_date, '', class: 'datepicker',
-        required: true
-      and
-      = text_field_tag :records_end_date, '', class: 'datepicker',
-        required: true
-      = submit_tag 'List Applications'
+      = label_tag :records_start_date, 'between'
+      = text_field_tag :records_start_date, '',
+        required: true, class: 'form-control datepicker m-2'
+      = label_tag :records_end_date, 'and'
+      = text_field_tag :records_end_date, '',
+        required: true, class: 'form-control datepicker m-2'
+      = submit_tag 'List Applications', class: 'btn btn-primary'
