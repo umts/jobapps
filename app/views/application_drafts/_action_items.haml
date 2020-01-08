@@ -27,7 +27,8 @@
         Click here to disable this feature:
       .col-md-6
         = button_to 'Deactivate Unavailability',
-          toggle_unavailability_enabled_application_url(@draft.application_template)
+          toggle_unavailability_enabled_application_url(@draft.application_template),
+          class: 'btn btn-secondary'
     - else
       .col-md-6
         This application does not request unavailability from applicants.
