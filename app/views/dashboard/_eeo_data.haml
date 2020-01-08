@@ -1,16 +1,20 @@
-= form_tag eeo_data_application_submissions_path,
-  method: :get, class: 'form-inline' do
-  %h5 List EEO data for
-  .form-group
-    = select_tag :department_ids,
-    options_from_collection_for_select(@departments, :id, :name),
-    class: 'dept_select m-2',
-    id: 'eeo-data-dept-select',
-    multiple: true
-  = label_tag :eeo_start_date, 'between'
-  = text_field_tag :eeo_start_date, '',
-    class: 'form-control datepicker m-2', required: true
-  = label_tag :eeo_end_date, 'and'
-  = text_field_tag :eeo_end_date, '',
-    class: 'form-control datepicker m-2', required: true
-  = submit_tag 'List EEO data', class: 'btn btn-primary'
+.container
+  = form_tag eeo_data_application_submissions_path, method: :get do
+    %h5 List EEO data for
+    .form-row
+      = select_tag :department_ids,
+      options_from_collection_for_select(@departments, :id, :name),
+      class: 'dept_select m-2',
+      id: 'eeo-data-dept-select',
+      multiple: true
+    .form-row
+      .form-group.col-md-6
+        = label_tag :eeo_start_date, 'start date'
+        = text_field_tag :eeo_start_date, '',
+          class: 'form-control datepicker m-2', required: true
+      .form-group.col-md-6
+        = label_tag :eeo_end_date, 'end date'
+        = text_field_tag :eeo_end_date, '',
+          class: 'form-control datepicker m-2', required: true
+    .form-row.mb-2
+      = submit_tag 'List EEO data', class: 'btn btn-primary'
