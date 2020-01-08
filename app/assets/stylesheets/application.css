@@ -10,13 +10,13 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require_tree .
- *= require dataTables/jquery.dataTables
  *= require bootstrap
- *= require_self
  *= require jquery-ui
  *= require jquery-datetimepicker/jquery.datetimepicker.css
- *= require multiple-select
+ *= require multiple-select/dist/multiple-select.scss
+ *= require datatables.net-dt/css/jquery.dataTables.min.css
+ *= require_tree .
+ *= require_self
  */
 
 body{

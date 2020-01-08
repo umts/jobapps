@@ -8,9 +8,7 @@ gem 'factory_bot_rails'
 gem 'friendly_id', '~> 5.1.0'
 gem 'haml'
 gem 'haml-rails'
-gem 'jquery-datatables-rails'
 gem 'jquery-rails'
-gem 'jquery-timepicker-rails'
 gem 'jquery-ui-rails'
 gem 'mysql2'
 gem 'prawn'
@@ -26,9 +24,6 @@ gem 'whenever', require: false
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-bootstrap', '~> 3.3'
-  gem 'rails-assets-jquery.maskedinput'
-  gem 'rails-assets-moment'
-  gem 'rails-assets-wenzhixin--multiple-select'
 end
 
 group :production do

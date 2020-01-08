@@ -12,11 +12,12 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require dataTables/jquery.dataTables
 //= require bootstrap
 //= require jquery-ui
-//= require moment
 //= require jquery-datetimepicker/jquery.datetimepicker.js
-//= require multiple-select
-//= require jquery.maskedinput
+//= require moment/moment.js
+//= require multiple-select/dist/multiple-select.js
+//= require jquery.maskedinput/src/jquery.maskedinput.js
+//= require datatables.net/js/jquery.dataTables.js
+//= require datatables.net-dt/js/dataTables.dataTables.min.js
 //= require_tree .
