@@ -1,10 +1,9 @@
-.container
-  .note_item
-    Note: The data type of 'explanation' supports markdown.
-    - if @site_text.present?
-      For a quick tutorial, please click
-      = link_to 'here.', site_text_url(@site_text)
-  .row.note_item
+%p Note: The data type of 'explanation' supports markdown.
+- if @site_text.present?
+  For a quick tutorial, please click
+  = link_to 'here.', site_text_url(@site_text)
+%p
+  .row.mb-2
     - if @draft.application_template.eeo_enabled?
       .col-md-6
         This application requests equal employment opportunity (EEO) data from applicants.
@@ -12,7 +11,7 @@
       .col-md-6
         = button_to 'Deactivate EEO',
           toggle_eeo_enabled_application_url(@draft.application_template),
-          class: 'btn btn-default'
+          class: 'btn btn-secondary'
     - else
       .col-md-6
         This application doesn't request equal employment opportunity (EEO) data from applicants.
@@ -20,8 +19,8 @@
       .col-md-6
         = button_to 'Activate EEO',
           toggle_eeo_enabled_application_url(@draft.application_template),
-          class: 'btn btn-default'
-  .row.note_item
+          class: 'btn btn-secondary'
+  .row.mb-2
     - if @draft.application_template.unavailability_enabled?
       .col-md-6
         This application requests unavailability from applicants.
@@ -36,8 +35,8 @@
       .col-md-6
         = button_to 'Activate Unavailability',
           toggle_unavailability_enabled_application_url(@draft.application_template),
-          class: 'btn btn-default'
-  .row.note_item
+          class: 'btn btn-secondary'
+  .row.mb-2
     - if @draft.application_template.active?
       .col-md-6
         This application is available to applicants. Not hiring currently?
@@ -45,7 +44,7 @@
       .col-md-6
         = button_to 'Deactivate application',
           toggle_active_application_url(@draft.application_template),
-          class: 'btn btn-default'
+          class: 'btn btn-secondary'
     - else
       .col-md-6
         This application is currently not available to applicants. Hiring
@@ -53,4 +52,4 @@
       .col-md-6
         = button_to 'Activate application',
           toggle_active_application_url(@draft.application_template),
-          class: 'btn btn-default'
+          class: 'btn btn-secondary'
