@@ -1,56 +1,53 @@
-#form_preview_message
-  This is a preview of your changes.
-  This form, as shown here, is not live.
+%i This is a preview of your changes. This form, as shown here, is not live.
 
-.form
-  %h1.title Application for #{@draft.position.name_and_department}
-  - if @draft.email.present?
-    %div
-      Reply-to email:
-      = @draft.email
-  %strong
+%h1 Application for #{@draft.position.name_and_department}
+- if @draft.email.present?
+  .row Reply-to email: #{@draft.email}
+%ul
+  %li 
     Fields marked with an asterisk (
     %span.ast *
     ) are required.
+  %li You will be able to log in and review your application.
+%form
   = form_tag controller: :application_submissions, action: :create do
     = fields_for :user do |u|
-      .field
-        .heading Please complete the following personal information.
-        .explanation You will be able to log in and review your application.
       - [:first_name, :last_name, :email].each do |field|
-        .field
-          .label= u.label field
-          = u.text_field field, size: 50, required: true,
+        .form-group
+          = u.label field
+          = u.text_field field, required: true, class: 'form-control',
             value: @current_user.try(field)
-          %span.ast *
     = fields_for :data do |r|
       - @draft.questions.each do |question|
-        .field
+        .form-group
           - if question.explanation?
             .explanation= render_markdown question.prompt
           - elsif question.heading?
-            %h3.heading= question.prompt
+            %h2.heading= question.prompt
           - else
-            .label= r.label question.prompt, question.prompt
+            = r.label question.prompt, question.prompt
             - case question.data_type
             - when 'phone-number'
               = r.text_field question.prompt, required: question.required?,
-                class: 'phone', size: 20, placeholder: '(XXX) XXX-XXXX'
+                class: 'form-control phone', size: 20, placeholder: '(XXX) XXX-XXXX'
             - when 'long-text'
-              = r.text_area question.prompt, required: question.required?
+              = r.text_area question.prompt,
+                required: question.required?,
+                class: 'form-control'
             - when 'text'
               = r.text_field question.prompt,
                 required: question.required?,
-                size: 50
+                class: 'form-control'
             - when 'date'
               = r.text_field question.prompt,
                 required: question.required?,
-                class: 'datepicker',
+                class: 'form-control datepicker',
                 placeholder: 'Click here to select date...',
                 size: 40
             - when 'number'
               = r.number_field question.prompt,
-                required: question.required?
+                required: question.required?,
+                class: 'form-control'
             - when 'yes/no'
               Yes
               = r.radio_button question.prompt, 'Yes',
@@ -73,27 +70,31 @@
           =render partial: "unavailabilities_calendar", locals: { form: u }
 
       - if @draft.application_template.eeo_enabled?
-        .heading Voluntary Equal Employment Opportunity Information
+        %h2.heading Voluntary Equal Employment Opportunity Information
         .explanation
           The University of Massachusetts and the Pioneer Valley
           Transit Authority are equal opportunity employers. To help
           us ensure that we are complying with EEO policies, please supply
           the information requested below.
-        .field
-          .label
-            Please select the ethnic group with which you most closely identify:
+        .form-group
+          = label_tag :ethnicity,
+            'Please select the ethnic group with which you most closely identify:'
           = select_tag :ethnicity,
             options_for_select(ApplicationSubmission::ETHNICITY_OPTIONS),
-            include_blank: 'Prefer not to answer'
-        .field
-          .label Please select the gender with which you most closely identify:
+            include_blank: 'Prefer not to answer', class: 'form-control'
+        .form-group
+          = label_tag :gender,
+            'Please select the gender with which you most closely identify:'
           = select_tag :gender,
             options_for_select(ApplicationSubmission::GENDER_OPTIONS),
-            include_blank: 'Prefer not to answer'
-      .actions
-        = submit_tag 'Submit application', disabled: true, class: 'btn btn-primary'
-.actions
-  = link_to 'Continue editing', edit_draft_path(@draft), class: 'btn btn-primary'
-  = button_to 'Discard changes', draft_path(@draft), method: :delete, class: 'btn btn-primary'
-  = button_to 'Save application',
-      update_application_template_draft_path(@draft), class: 'btn btn-primary'
+            include_blank: 'Prefer not to answer', class: 'form-control'
+      .form-group
+        = submit_tag 'Submit application', disabled: true, class: 'btn btn-primary centered'
+.row
+  .col.centered
+    = link_to 'Continue editing',
+      edit_draft_path(@draft), class: 'btn btn-primary mb-2'
+    = button_to 'Discard changes',
+      draft_path(@draft), method: :delete, class: 'btn btn-primary mb-2'
+    = button_to 'Save application',
+      update_application_template_draft_path(@draft), class: 'btn btn-primary mb-2'
