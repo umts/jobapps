@@ -18,35 +18,40 @@
           = u.text_field field, required: true, class: 'form-control',
             value: @current_user.try(field)
     = fields_for :data do |r|
-      - @draft.questions.each do |question|
+      - @draft.questions.each_with_index do |question, index|
         .form-group
           - if question.explanation?
             .explanation= render_markdown question.prompt
           - elsif question.heading?
             %h2.heading= question.prompt
           - else
-            = r.label question.prompt, question.prompt
+            = label_tag index, question.prompt
             - case question.data_type
             - when 'phone-number'
               = r.text_field question.prompt, required: question.required?,
-                class: 'form-control phone', size: 20, placeholder: '(XXX) XXX-XXXX'
+                class: 'form-control phone',
+                id: index,
+                placeholder: '(XXX) XXX-XXXX'
             - when 'long-text'
               = r.text_area question.prompt,
                 required: question.required?,
+                id: index,
                 class: 'form-control'
             - when 'text'
               = r.text_field question.prompt,
                 required: question.required?,
+                id: index,
                 class: 'form-control'
             - when 'date'
               = r.text_field question.prompt,
                 required: question.required?,
                 class: 'form-control datepicker',
-                placeholder: 'Click here to select date...',
-                size: 40
+                id: index,
+                placeholder: 'Click here to select date...'
             - when 'number'
               = r.number_field question.prompt,
                 required: question.required?,
+                id: index,
                 class: 'form-control'
             - when 'yes/no'
               Yes
