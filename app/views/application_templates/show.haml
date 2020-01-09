@@ -53,7 +53,6 @@
             .col-md-6
               = u.text_field :first_name, size: 50, required: true,
                 value: @current_user.try(:first_name)
-              %span.ast *
         .field
           .row
             .col-md-6
@@ -61,7 +60,6 @@
             .col-md-6
               = u.text_field :last_name, size: 50, required: true,
                 value: @current_user.try(:last_name)
-              %span.ast *
         .field
           .row
             .col-md-6
@@ -69,7 +67,6 @@
             .col-md-6
               = u.email_field :email, size: 50, required: true,
                   value: @current_user.try(:email)
-              %span.ast *
       = fields_for :data do |r|
         - @template.questions.each do |question|
           .field
@@ -119,8 +116,6 @@
                     = r.radio_button question.unique_name, 'No',
                       required: question.required?,
                       checked: @old_data[question.id] == 'No'
-                  - if question.required?
-                    %span.ast *
             = r.hidden_field question.unique_prompt_name,
               value: question.prompt
             = r.hidden_field question.unique_data_type_name,

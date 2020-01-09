@@ -58,8 +58,6 @@
               No
               = r.radio_button question.prompt, 'No',
                 required: question.required?
-            - if question.required?
-              %span.ast *
 
       - if @draft.application_template.unavailability_enabled?
         .heading Unavailability

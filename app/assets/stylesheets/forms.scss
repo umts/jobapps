@@ -10,3 +10,7 @@ form {
     }
   }
 }
+.required:after {
+  content:"*";
+  color:red;
+}
