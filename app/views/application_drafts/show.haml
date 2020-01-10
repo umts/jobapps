@@ -53,11 +53,13 @@
               id: index,
               class: 'form-control'
           - when 'yes/no'
-            Yes
+            = label_tag "#{index}_yes", 'Yes'
             = r.radio_button question.prompt, 'Yes',
+              id: "#{index}_yes",
               required: question.required?
-            No
+            = label_tag "#{index}_no", 'No'
             = r.radio_button question.prompt, 'No',
+              id: "#{index}_no",
               required: question.required?
 
     - if @draft.application_template.unavailability_enabled?
