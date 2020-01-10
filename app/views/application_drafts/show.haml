@@ -9,92 +9,91 @@
     %span.ast *
     ) are required.
   %li You will be able to log in and review your application.
-%form
-  = form_tag controller: :application_submissions, action: :create do
-    = fields_for :user do |u|
-      - [:first_name, :last_name, :email].each do |field|
-        .form-group
-          = u.label field
-          = u.text_field field, required: true, class: 'form-control',
-            value: @current_user.try(field)
-    = fields_for :data do |r|
-      - @draft.questions.each_with_index do |question, index|
-        .form-group
-          - if question.explanation?
-            .explanation= render_markdown question.prompt
-          - elsif question.heading?
-            %h2.heading= question.prompt
-          - else
-            = label_tag index, question.prompt
-            - case question.data_type
-            - when 'phone-number'
-              = r.text_field question.prompt, required: question.required?,
-                class: 'form-control phone',
-                id: index,
-                placeholder: '(XXX) XXX-XXXX'
-            - when 'long-text'
-              = r.text_area question.prompt,
-                required: question.required?,
-                id: index,
-                class: 'form-control'
-            - when 'text'
-              = r.text_field question.prompt,
-                required: question.required?,
-                id: index,
-                class: 'form-control'
-            - when 'date'
-              = r.text_field question.prompt,
-                required: question.required?,
-                class: 'form-control datepicker',
-                id: index,
-                placeholder: 'Click here to select date...'
-            - when 'number'
-              = r.number_field question.prompt,
-                required: question.required?,
-                id: index,
-                class: 'form-control'
-            - when 'yes/no'
-              Yes
-              = r.radio_button question.prompt, 'Yes',
-                required: question.required?
-              No
-              = r.radio_button question.prompt, 'No',
-                required: question.required?
-
-      - if @draft.application_template.unavailability_enabled?
-        .heading Unavailability
-        .explanation
-          Please fill out your weekly unavailability for this semester via this calendar. This is
-          used to determine if you have enough available time to commit to this position.
-          Check off times when you are
-          %strong NOT
-          available to work.
-          Note that you can click and drag to check or uncheck a range of boxes.
-        %br
-        =fields_for :unavailability do |u|
-          =render partial: "unavailabilities_calendar", locals: { form: u }
-
-      - if @draft.application_template.eeo_enabled?
-        %h2.heading Voluntary Equal Employment Opportunity Information
-        .explanation
-          The University of Massachusetts and the Pioneer Valley
-          Transit Authority are equal opportunity employers. To help
-          us ensure that we are complying with EEO policies, please supply
-          the information requested below.
-        .form-group
-          = label_tag :ethnicity,
-            'Please select the ethnic group with which you most closely identify:'
-          = select_tag :ethnicity,
-            options_for_select(ApplicationSubmission::ETHNICITY_OPTIONS),
-            include_blank: 'Prefer not to answer', class: 'form-control'
-        .form-group
-          = label_tag :gender,
-            'Please select the gender with which you most closely identify:'
-          = select_tag :gender,
-            options_for_select(ApplicationSubmission::GENDER_OPTIONS),
-            include_blank: 'Prefer not to answer', class: 'form-control'
+= form_tag controller: :application_submissions, action: :create do
+  = fields_for :user do |u|
+    - [:first_name, :last_name, :email].each do |field|
       .form-group
-        = submit_tag 'Submit application', disabled: true, class: 'btn btn-primary centered'
+        = u.label field
+        = u.text_field field, required: true, class: 'form-control',
+          value: @current_user.try(field)
+  = fields_for :data do |r|
+    - @draft.questions.each_with_index do |question, index|
+      .form-group
+        - if question.explanation?
+          .explanation= render_markdown question.prompt
+        - elsif question.heading?
+          %h2.heading= question.prompt
+        - else
+          = label_tag index, question.prompt
+          - case question.data_type
+          - when 'phone-number'
+            = r.text_field question.prompt, required: question.required?,
+              class: 'form-control phone',
+              id: index,
+              placeholder: '(XXX) XXX-XXXX'
+          - when 'long-text'
+            = r.text_area question.prompt,
+              required: question.required?,
+              id: index,
+              class: 'form-control'
+          - when 'text'
+            = r.text_field question.prompt,
+              required: question.required?,
+              id: index,
+              class: 'form-control'
+          - when 'date'
+            = r.text_field question.prompt,
+              required: question.required?,
+              class: 'form-control datepicker',
+              id: index,
+              placeholder: 'Click here to select date...'
+          - when 'number'
+            = r.number_field question.prompt,
+              required: question.required?,
+              id: index,
+              class: 'form-control'
+          - when 'yes/no'
+            Yes
+            = r.radio_button question.prompt, 'Yes',
+              required: question.required?
+            No
+            = r.radio_button question.prompt, 'No',
+              required: question.required?
+
+    - if @draft.application_template.unavailability_enabled?
+      .heading Unavailability
+      .explanation
+        Please fill out your weekly unavailability for this semester via this calendar. This is
+        used to determine if you have enough available time to commit to this position.
+        Check off times when you are
+        %strong NOT
+        available to work.
+        Note that you can click and drag to check or uncheck a range of boxes.
+      %br
+      =fields_for :unavailability do |u|
+        =render partial: "unavailabilities_calendar", locals: { form: u }
+
+    - if @draft.application_template.eeo_enabled?
+      %h2.heading Voluntary Equal Employment Opportunity Information
+      .explanation
+        The University of Massachusetts and the Pioneer Valley
+        Transit Authority are equal opportunity employers. To help
+        us ensure that we are complying with EEO policies, please supply
+        the information requested below.
+      .form-group
+        = label_tag :ethnicity,
+          'Please select the ethnic group with which you most closely identify:'
+        = select_tag :ethnicity,
+          options_for_select(ApplicationSubmission::ETHNICITY_OPTIONS),
+          include_blank: 'Prefer not to answer', class: 'form-control'
+      .form-group
+        = label_tag :gender,
+          'Please select the gender with which you most closely identify:'
+        = select_tag :gender,
+          options_for_select(ApplicationSubmission::GENDER_OPTIONS),
+          include_blank: 'Prefer not to answer', class: 'form-control'
+    .form-group
+      = submit_tag 'Submit application', disabled: true, class: 'btn btn-primary centered'
 .row
   .col.centered
     = link_to 'Continue editing',
