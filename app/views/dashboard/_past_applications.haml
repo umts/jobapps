@@ -5,7 +5,7 @@
     .form-row
       = select_tag :department_ids,
         options_from_collection_for_select(@departments, :id, :name),
-        class: 'dept_select m-2',
+        class: 'dept-select m-2',
         id: 'past-applications-dept-select',
         multiple: true
     .form-row
