@@ -8,11 +8,12 @@
 %p You will be notified when someone fills out an application.
 = form_for :subscription,
   url: {controller: :subscriptions, action: :create} do |f|
-  = f.label :email
-  = f.text_field :email
-  = f.hidden_field :position_id, value: @position.id
-  = f.hidden_field :user_id, value: @current_user.id
-  = f.submit 'Subscribe'
+  .form-group
+    = f.label :email
+    = f.text_field :email, class: 'form-control'
+    = f.hidden_field :position_id, value: @position.id
+    = f.hidden_field :user_id, value: @current_user.id
+  = f.submit 'Subscribe', class: 'btn btn-primary'
 - if @subscriptions.present?
   %p Your currently subscribed emails:
   .subscriptions
