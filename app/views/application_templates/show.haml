@@ -122,30 +122,30 @@
         %strong not
         available to work.
         Note that you can click and drag to check or uncheck a range of boxes.
-      .row.form-group
+      .form-group
         = fields_for :unavailability do |u|
           =render partial: "application_drafts/unavailabilities_calendar",
                 locals: { form: u }
-    .row.form-group
-      - if @template.eeo_enabled?
-        %h2.heading Voluntary Equal Employment Opportunity Information
-        .explanation
-          The University of Massachusetts and the Pioneer Valley
-          Transit Authority are equal opportunity employers. To help
-          us insure that we are complying with EEO policies, please supply
-          the information requested below.
-        .form-group
-          = label_tag :ethnicity,
-            'Please select the ethnic group with which you most closely identify:'
-          = select_tag :ethnicity,
-            options_for_select(ApplicationSubmission::ETHNICITY_OPTIONS),
-            include_blank: 'Prefer not to answer', class: 'form-control'
-        .form-group
-          = label_tag :gender,
-            'Please select the gender with which you most closely identify:'
-          = select_tag :gender,
-            options_for_select(ApplicationSubmission::GENDER_OPTIONS),
-            include_blank: 'Prefer not to answer', class: 'form-control'
+    - if @template.eeo_enabled?
+      %h2.heading Voluntary Equal Employment Opportunity Information
+      .explanation
+        The University of Massachusetts and the Pioneer Valley
+        Transit Authority are equal opportunity employers. To help
+        us insure that we are complying with EEO policies, please supply
+        the information requested below.
+      .form-group
+        = label_tag :ethnicity,
+          'Please select the ethnic group with which you most closely identify:'
+        = select_tag :ethnicity,
+          options_for_select(ApplicationSubmission::ETHNICITY_OPTIONS),
+          include_blank: 'Prefer not to answer', class: 'custom-select'
+      .form-group
+        = label_tag :gender,
+          'Please select the gender with which you most closely identify:'
+        = select_tag :gender,
+          options_for_select(ApplicationSubmission::GENDER_OPTIONS),
+          include_blank: 'Prefer not to answer', class: 'custom-select'
+      - unless @current_user.try(:staff?)
         .form-group
           = submit_tag 'Submit application', class: 'btn btn-primary' unless @current_user.try(:staff?)
 - else
