@@ -22,7 +22,7 @@
         - if question.explanation?
           .explanation= render_markdown question.prompt
         - elsif question.heading?
-          %h2.heading= question.prompt
+          %h3.heading= question.prompt
         - else
           = label_tag index, question.prompt
           - case question.data_type
