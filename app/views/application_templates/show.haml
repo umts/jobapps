@@ -147,6 +147,6 @@
           include_blank: 'Prefer not to answer', class: 'custom-select'
       - unless @current_user.try(:staff?)
         .form-group
-          = submit_tag 'Submit application', class: 'btn btn-primary' unless @current_user.try(:staff?)
+          = submit_tag 'Submit application', class: 'btn btn-primary'
 - else
   %p= @template.position.not_hiring_text
