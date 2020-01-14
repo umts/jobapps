@@ -59,53 +59,52 @@
           - if question.explanation?
             .explanation= render_markdown question.prompt
           - elsif question.heading?
-            %h3.heading
+            %h2.heading
               = question.prompt
           - else
-            .form-group
-              = label_tag index, question.prompt
-              - case question.data_type
-              - when 'phone-number'
-                = r.text_field question.unique_name, required: question.required?,
-                  class: 'form-control phone', placeholder: '(XXX) XXX-XXXX',
-                  id: index,
-                  value: @old_data[question.id] || ""
-              - when 'long-text'
-                = r.text_area question.unique_name,
-                  required: question.required?,
-                  class: 'form-control',
-                  id: index,
-                  value: @old_data[question.id] || ""
-              - when 'text'
-                = r.text_field question.unique_name,
-                  required: question.required?,
-                  class: 'form-control',
-                  id: index,
-                  value: @old_data[question.id] || ""
-              - when 'date'
-                = r.text_field question.unique_name,
-                  required: question.required?,
-                  class: 'form-control datepicker',
-                  placeholder: 'Click here to select date...',
-                  id: index,
-                  value: @old_data[question.id] || ""
-              - when 'number'
-                = r.number_field question.unique_name,
-                  required: question.required?,
-                  class: 'form-control',
-                  id: index,
-                  value: (@old_data[question.id] || "").to_i
-              - when 'yes/no'
-                = label_tag "#{index}_yes", 'Yes'
-                = r.radio_button question.unique_name, 'Yes',
-                  required: question.required?,
-                  id: "#{index}_yes",
-                  checked: @old_data[question.id] == 'Yes'
-                = label_tag "#{index}_no", 'No'
-                = r.radio_button question.unique_name, 'No',
-                  required: question.required?,
-                  id: "#{index}_no",
-                  checked: @old_data[question.id] == 'No'
+            = label_tag index, question.prompt
+            - case question.data_type
+            - when 'phone-number'
+              = r.text_field question.unique_name, required: question.required?,
+                class: 'form-control phone', placeholder: '(XXX) XXX-XXXX',
+                id: index,
+                value: @old_data[question.id] || ""
+            - when 'long-text'
+              = r.text_area question.unique_name,
+                required: question.required?,
+                class: 'form-control',
+                id: index,
+                value: @old_data[question.id] || ""
+            - when 'text'
+              = r.text_field question.unique_name,
+                required: question.required?,
+                class: 'form-control',
+                id: index,
+                value: @old_data[question.id] || ""
+            - when 'date'
+              = r.text_field question.unique_name,
+                required: question.required?,
+                class: 'form-control datepicker',
+                placeholder: 'Click here to select date...',
+                id: index,
+                value: @old_data[question.id] || ""
+            - when 'number'
+              = r.number_field question.unique_name,
+                required: question.required?,
+                class: 'form-control',
+                id: index,
+                value: (@old_data[question.id] || "").to_i
+            - when 'yes/no'
+              = label_tag "#{index}_yes", 'Yes'
+              = r.radio_button question.unique_name, 'Yes',
+                required: question.required?,
+                id: "#{index}_yes",
+                checked: @old_data[question.id] == 'Yes'
+              = label_tag "#{index}_no", 'No'
+              = r.radio_button question.unique_name, 'No',
+                required: question.required?,
+                id: "#{index}_no",
+                checked: @old_data[question.id] == 'No'
           = r.hidden_field question.unique_prompt_name,
             value: question.prompt
           = r.hidden_field question.unique_data_type_name,
