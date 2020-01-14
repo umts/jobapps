@@ -22,7 +22,7 @@
         - if question.explanation?
           .explanation= render_markdown question.prompt
         - elsif question.heading?
-          %h3.heading= question.prompt
+          %h2.heading= question.prompt
         - else
           = label_tag index, question.prompt
           - case question.data_type
@@ -63,7 +63,7 @@
               required: question.required?
 
     - if @draft.application_template.unavailability_enabled?
-      .heading Unavailability
+      %h2.heading Unavailability
       .explanation
         Please fill out your weekly unavailability for this semester via this calendar. This is
         used to determine if you have enough available time to commit to this position.
