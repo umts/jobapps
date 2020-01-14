@@ -71,10 +71,9 @@
         %strong NOT
         available to work.
         Note that you can click and drag to check or uncheck a range of boxes.
-      %br
-      =fields_for :unavailability do |u|
-        =render partial: "unavailabilities_calendar", locals: { form: u }
-
+      .form-group
+        =fields_for :unavailability do |u|
+          =render partial: "unavailabilities_calendar", locals: { form: u }
     - if @draft.application_template.eeo_enabled?
       %h2.heading Voluntary Equal Employment Opportunity Information
       .explanation
