@@ -5,7 +5,7 @@ $(document).ready ->
     yearRange:   'c-20:c+5'
 
   $('.fa-calendar').click ->
-    $('.datepicker').focus()
+    $(this).parents('.input-group').find('.datepicker').focus()
 
   $('.datetimepicker').datetimepicker
     format: 'dddd, MMMM D, YYYY, h:mm a'
