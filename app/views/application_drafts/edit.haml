@@ -26,9 +26,10 @@
                 { class: 'form-control' }
             .col-3
               = g.check_box :required
-        Reply-to email:
-        =f.text_field :email, size: 50, class: 'form-control'
-        .actions
+        .form-group
+          = f.label :email, 'Reply-to email:'
+          = f.text_field :email, class: 'form-control'
+        .form-group
           = f.submit 'Save changes and continue editing', class: 'btn btn-primary'
           = f.submit 'Preview changes', class: 'btn btn-primary'
     .col-3
