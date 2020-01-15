@@ -13,11 +13,11 @@
  *= require jquery-ui
  *= require jquery-datetimepicker/jquery.datetimepicker.css
  *= require multiple-select/dist/multiple-select.scss
- *= require font-awesome/css/font-awesome.css
  *= require_tree .
  *= require_self
  */
 
+@import 'font-awesome';
 @import 'datatables.net-bs4/css/dataTables.bootstrap4';
 @import 'custom_bootstrap_variables';
 @import 'bootstrap';
