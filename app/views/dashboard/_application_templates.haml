@@ -14,9 +14,9 @@
                 - draft = template.draft_belonging_to @current_user
                 = link_to 'Resume editing saved draft',
                   edit_draft_path(draft)
-                %br
                 = button_to 'Discard saved draft',
-                  draft_path(draft), method: :delete
+                  draft_path(draft), method: :delete,
+                  class: 'btn btn-secondary'
               - else
                 = link_to 'Edit application',
                   new_draft_path(application_template_id: template.id)

@@ -1,17 +1,18 @@
 = form_for user,
   url: { controller: :users, action: action, id: user.id } do |f|
-  .form-group.row
-    .col-md-2= f.label :first_name
-    = f.text_field :first_name, required: true
-  .form-group.row
-    .col-md-2= f.label :last_name
-    = f.text_field :last_name, required: true
-  .form-group.row
-    .col-md-2= f.label :email
-    = f.text_field :email, required: true
-  .form-group.row
-    .col-md-2= f.label :spire
-    = f.text_field :spire, required: true, placeholder: 'e.g. 12345678@umass.edu'
-  .action
+  .form-group
+    = f.label :first_name
+    = f.text_field :first_name, required: true, class: 'form-control'
+  .form-group
+    = f.label :last_name
+    = f.text_field :last_name, required: true, class: 'form-control'
+  .form-group
+    = f.label :email
+    = f.text_field :email, required: true, class: 'form-control'
+  .form-group
+    = f.label :spire
+    = f.text_field :spire, required: true,
+      placeholder: 'e.g. 12345678@umass.edu', class: 'form-control'
+  .form-group
     = f.hidden_field :staff, value: true
-    .btn= f.submit 'Save changes'
+    = f.submit 'Save changes', class: 'btn btn-primary'

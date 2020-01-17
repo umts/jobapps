@@ -1,53 +1,16 @@
-.form{
-  margin: 0 5em;
-  .title{
-    text-align: center;
-  }
-
-  .heading{
+form {
+  .heading {
     background:  #ece0e0;
-    font-size:   20px;
-    font-weight: bold;
-    margin:      1em auto;
-    padding:     0.3em;
-    text-align:  center;
   }
-
   .explanation{
-    font-size: 90%;
     font-style: italic;
     text-align: center;
     ul {
       text-align: left;
     }
   }
-
-  .field{
-    margin: 1em;
-    .label{
-      white-space: normal !important;
-      margin-right:   1em;
-      text-align:     left !important;
-      vertical-align: middle;
-      width:          30%;
-      color:          black;
-      font-size: 100%;
-      line-height: 1.25;
-      font-weight: normal;
-    }
-    input[type='number']{
-      width: 3em;
-    }
-    input:not([type='radio']) {
-      width: 90%;
-    }
-    select{
-      border: 1px solid gray;
-      width:  22.5em;
-    }
-  }
-
-  span.ast{
-    color: red;
-  }
+}
+.required:after {
+  content:"*";
+  color:red;
 }

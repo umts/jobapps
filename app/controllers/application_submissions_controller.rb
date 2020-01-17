@@ -146,7 +146,7 @@ class ApplicationSubmissionsController < ApplicationController
     if params[:date_for_later].present?
       parameters[:date] = Date.strptime(params[:date_for_later], '%m/%d/%Y')
     end
-    parameters[:mail] = params[:mail_to_applicant] == '1'
+    parameters[:mail] = params[:mail_to_applicant].present?
     parameters
   end
 end

@@ -2,4 +2,4 @@
 
 = render 'form', user: @user, action: :update
 
-.btn= button_to "Remove #{@user.full_name}", @user, method: :delete
+= button_to "Remove #{@user.full_name}", @user, method: :delete, class: 'btn btn-danger'
