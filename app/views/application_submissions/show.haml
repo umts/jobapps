@@ -25,10 +25,10 @@
   - @record.data.each do |prompt, response, data_type, _question_id|
     %tr
       - if data_type == 'heading'
-        %td
+        %td{colspan: 2}
           %b=prompt.upcase
       - elsif data_type == 'explanation'
-        %td
+        %td{colspan: 2}
           %i= render_markdown prompt
       - else
         %td=prompt
