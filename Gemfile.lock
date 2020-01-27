@@ -410,7 +410,7 @@ DEPENDENCIES
   whenever
 
 RUBY VERSION
-   ruby 2.6.1p33
+   ruby 2.6.5p114
 
 BUNDLED WITH
-   2.0.2
+   2.1.4
