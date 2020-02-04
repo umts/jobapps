@@ -43,10 +43,10 @@ class Interview < ApplicationRecord
   def resend_confirmation
     return unless saved_change_to_location? || saved_change_to_scheduled?
 
-    JobappsMailer.interview_reschedule self
+    JobappsMailer.interview_reschedule(self).deliver_now
   end
 
   def send_confirmation
-    JobappsMailer.interview_confirmation self
+    JobappsMailer.interview_confirmation(self).deliver_now
   end
 end

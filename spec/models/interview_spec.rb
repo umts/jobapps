@@ -5,8 +5,11 @@ require 'rails_helper'
 describe Interview do
   describe 'callbacks' do
     it 'sends interview confirmation mailer when interview is created' do
-      # expect the mailer method to be called
-      expect(JobappsMailer).to receive :interview_confirmation
+      mail = ActionMailer::MessageDelivery.new(JobappsMailer,
+                                               :interview_confirmation)
+      expect(JobappsMailer).to receive(:interview_confirmation)
+        .and_return mail
+      expect(mail).to receive(:deliver_now).and_return true
       create :interview
     end
     context 'interview reschedule mailer method' do
@@ -14,11 +17,19 @@ describe Interview do
         @interview = create :interview
       end
       it 'sends when location changes' do
-        expect(JobappsMailer).to receive :interview_reschedule
+        mail = ActionMailer::MessageDelivery.new(JobappsMailer,
+                                                 :interview_reschedule)
+        expect(JobappsMailer).to receive(:interview_reschedule)
+          .and_return mail
+        expect(mail).to receive(:deliver_now).and_return true
         @interview.update location: 'another location'
       end
       it 'sends when scheduled changes' do
-        expect(JobappsMailer).to receive :interview_reschedule
+        mail = ActionMailer::MessageDelivery.new(JobappsMailer,
+                                                 :interview_reschedule)
+        expect(JobappsMailer).to receive(:interview_reschedule)
+          .and_return mail
+        expect(mail).to receive(:deliver_now).and_return true
         @interview.update scheduled: 1.day.since.to_datetime
       end
       it 'does not send if completed changes' do
