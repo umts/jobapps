@@ -7,14 +7,14 @@ and then copying it into this box.
 = form_for @site_text, url: { controller: :site_texts,
                             action: :update,
                             id: @site_text.id } do |f|
-  = f.text_area :text, size: '100x20'
-  .action= f.submit 'Update text'
+  = f.text_area :text, size: '100x20', class: 'form-control'
+  = f.submit 'Update text', class: 'btn btn-primary'
 %h3 Markdown sandbox
 Enter text here to preview without updating.
 = form_tag do
   = text_area_tag :preview_input,
-    @preview_input || @site_text.text, size: '100x20'
-  = submit_tag 'Preview below'
+    @preview_input || @site_text.text, size: '100x20', class: 'form-control'
+  = submit_tag 'Preview below', class: 'btn btn-primary'
 - if @preview_input.present?
   %h3 Preview output
   = render_markdown @preview_input

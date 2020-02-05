@@ -1,7 +1,7 @@
 = form_for department, url: { controller: :departments,
   action: action, id: department.id } do |f|
-  .field
+  .form-group
     = f.label :name
-    = f.text_field :name, required: true
-  .action
-    = f.submit 'Save changes'
+    = f.text_field :name, required: true, class: 'form-control'
+  .form-group
+    = f.submit 'Save changes', class: 'btn btn-primary'

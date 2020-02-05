@@ -1,47 +1,5 @@
-.data_container{
-  margin-top: 1em;
-  margin-bottom: 1em;
-  display: flex;
-  flex-direction: column;
-  .data_row{
-    border-bottom: 1px solid black;
-    display: flex;
-    .prompt_item{
-      margin: 1em;
-      flex: 1;
-    }
-    .response_item{
-      margin: 1em;
-      flex: 1;
-    }
-    .explanation_item{
-      margin: .5em;
-      flex-grow: 1;
-      font-style: italic;
-      font-size: small;
-    }
-    .heading_item{
-      margin: .5em;
-      flex-grow: 1;
-      font-style: bold;
-      font-size: small;
-    }
+.application-record-table{
+  th, td {
+    width: 50%;
   }
-}
-
-.note_item{
-    textarea{
-        width: 50%;
-    }
-    
-    justify-content: right;
-    margin: 1em;
-    font-weight: normal;
-    
-}
-h4{
-    margin-left: 0.5em;
-    }
-#notification{
-  display: none;
 }

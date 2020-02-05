@@ -136,6 +136,7 @@ class ApplicationSubmissionsController < ApplicationController
   end
 
   def save_for_later_params
+    #TODO: make sure date_for_later is saved properly
     parameters = params.require(:application_submission).permit(
       :note_for_later, :mail_to_applicant, :date_for_later, :email_to_notify
     )

@@ -9,7 +9,6 @@ gem 'factory_bot_rails'
 gem 'friendly_id', '~> 5.1.0'
 gem 'haml'
 gem 'haml-rails'
-gem 'jquery-datatables-rails'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'mysql2'
@@ -23,11 +22,6 @@ gem 'snappconfig'
 gem 'strscan'
 gem 'uglifier'
 gem 'whenever', require: false
-
-source 'https://rails-assets.org' do
-  gem 'rails-assets-jquery.maskedinput'
-  gem 'rails-assets-wenzhixin--multiple-select'
-end
 
 group :production do
   gem 'exception_notification'

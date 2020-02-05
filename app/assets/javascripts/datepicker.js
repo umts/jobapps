@@ -12,4 +12,9 @@ $(document).ready(function(){
     format: 'dddd, MMMM D, YYYY, h:mm a',
     step: 15
   });
+
+  $('.fa-calendar').click(function(){
+    $(this).parents('.input-group').find('.datepicker').focus();
+  });
+
 });
