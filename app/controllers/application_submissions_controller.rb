@@ -142,7 +142,9 @@ class ApplicationSubmissionsController < ApplicationController
     parameters[:saved_for_later] = params[:commit] == 'Save for later'
     parameters[:mail_to_applicant] = parameters[:mail_to_applicant].present?
     if parameters[:date_for_later].present?
-      parameters[:date_for_later] = Date.strptime(parameters[:date_for_later], '%m/%d/%Y')
+      parameters[:date_for_later] = Date.strptime(
+        parameters[:date_for_later], '%m/%d/%Y'
+      )
     end
     parameters
   end
