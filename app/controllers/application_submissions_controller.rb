@@ -140,7 +140,7 @@ class ApplicationSubmissionsController < ApplicationController
       :note_for_later, :mail_to_applicant, :date_for_later, :email_to_notify
     )
     parameters[:saved_for_later] = params[:commit] == 'Save for later'
-    parameters[:mail_to_applicant] = parameters[:mail_to_applicant].present?
+    parameters[:mail_to_applicant] = parameters[:mail_to_applicant] == '1'
     if parameters[:date_for_later].present?
       parameters[:date_for_later] = Date.strptime(
         parameters[:date_for_later], '%m/%d/%Y'
