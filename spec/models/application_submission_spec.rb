@@ -220,21 +220,23 @@ describe ApplicationSubmission do
           .with(@record)
           .and_return mail
         expect(mail).to receive(:deliver_now).and_return true
-        @record.update_attributes(
+        @record.assign_attributes(
           saved_for_later: true,
-          mail_to_applicant: true
+          mail_to_applicant: true,
+          note_for_later: 'avacadooo'
         )
+        @record.save
       end
     end
     context 'mail to applicant not desired' do
-      let :call do
-        record.update_attributes(
-          saved_for_later: true
-        )
-      end
       it 'does not call the mailer method' do
         expect(JobappsMailer).not_to receive(:send_note_for_later)
-        call
+        @record.assign_attributes(
+          saved_for_later: true,
+          mail_to_applicant: false,
+          note_for_later: 'avacadooo'
+        )
+        @record.save
       end
     end
   end
