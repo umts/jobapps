@@ -123,7 +123,7 @@ class ApplicationSubmission < ApplicationRecord
     elsif email_records.many?
       send_notification_emails! email_records
     end
-    records.update_all(saved_for_later: false)
+    records.each(&:move_to_dashboard)
   end
 
   def self.combined_eeo_data(records)
