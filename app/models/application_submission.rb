@@ -9,6 +9,8 @@ class ApplicationSubmission < ApplicationRecord
   has_one :interview, dependent: :destroy
   has_one :unavailability, dependent: :destroy
 
+  attr_accessor :mail_to_applicant
+
   serialize :data, Array
   attr_accessor :mail_to_applicant
 
@@ -61,6 +63,12 @@ class ApplicationSubmission < ApplicationRecord
 
   GENDER_OPTIONS = %w[Male Female].freeze
 
+  before_save do
+    if saved_for_later_changed? && saved_for_later?
+      JobappsMailer.send_note_for_later(self).deliver_now if mail_to_applicant
+    end
+  end
+
   def data_rows
     header = [%w[Question Response]]
     # deletes rows of type header/explanation
@@ -99,14 +107,10 @@ class ApplicationSubmission < ApplicationRecord
     !reviewed
   end
 
-  def save_for_later(date: nil, note: nil, mail: false, email: nil)
-    if update(
-        saved_for_later: true,
-        date_for_later: date,
-        note_for_later: note,
-        email_to_notify: email
-    )
-    end
+  def move_to_dashboard
+    update(saved_for_later: false,
+           date_for_later: nil,
+           reviewed: false)
   end
 
   def self.move_to_dashboard

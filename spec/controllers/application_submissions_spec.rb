@@ -337,26 +337,19 @@ describe ApplicationSubmissionsController do
     before :each do
       when_current_user_is :staff
     end
-    context 'record not saved for later' do
+    context 'something went wrong' do
       let!(:record) { create :application_submission, saved_for_later: false }
-      let(:submit) { post :toggle_saved_for_later, params: { id: record.id } }
-      it 'calls record.save_for_later' do
-        expect_any_instance_of(ApplicationSubmission)
-          .to receive(:save_for_later)
-        submit
+      let(:submit) do
+        post :toggle_saved_for_later,
+          params: { id: record.id, commit: 'Save for later', application_submission: { mail_to_applicant: true } }
       end
-    end
-    context 'record previously saved for later' do
-      let!(:record) do
-        create :application_submission,
-               saved_for_later: true,
-               note_for_later: 'this needs to be here'
-      end
-      let(:submit) { post :toggle_saved_for_later, params: { id: record.id } }
-      it 'calls record.move_to_dashboard' do
-        expect_any_instance_of(ApplicationSubmission)
-          .to receive(:move_to_dashboard)
+      it "doesn't save the record" do
         submit
+        expect(record.saved_for_later).to be false
+      end
+      it 'puts the errors in the flash' do
+        submit
+        expect(flash[:errors]).to include "Note for later can't be blank"
       end
     end
   end

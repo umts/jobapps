@@ -136,15 +136,16 @@ class ApplicationSubmissionsController < ApplicationController
   end
 
   def save_for_later_params
-    #TODO: make sure date_for_later is saved properly
     parameters = params.require(:application_submission).permit(
       :note_for_later, :mail_to_applicant, :date_for_later, :email_to_notify
     )
-    parameters[:saved_for_later] = if params[:commit] == 'Save for later'
-                                    true
-                                  else
-                                    false
-                                  end
+    parameters[:saved_for_later] = params[:commit] == 'Save for later'
+    parameters[:mail_to_applicant] = parameters[:mail_to_applicant] == '1'
+    if parameters[:date_for_later].present?
+      parameters[:date_for_later] = Date.strptime(
+        parameters[:date_for_later], '%m/%d/%Y'
+      )
+    end
     parameters
   end
 end

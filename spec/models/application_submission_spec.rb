@@ -206,14 +206,9 @@ describe ApplicationSubmission do
     end
   end
 
-  describe 'save_for_later' do
-    let :record do
-      create :application_submission,
-             saved_for_later: false
-    end
-    it 'updates the saved for later attribute to true' do
-      record.save_for_later
-      expect(record.saved_for_later).to be_truthy
+  describe 'saving for later' do
+    before :each do
+      @record = create :application_submission, saved_for_later: false
     end
     context 'mail to applicant desired' do
       let :mail do
@@ -222,16 +217,26 @@ describe ApplicationSubmission do
       it 'calls the mailer method' do
         expect(JobappsMailer)
           .to receive(:send_note_for_later)
-          .with(record)
+          .with(@record)
           .and_return mail
         expect(mail).to receive(:deliver_now).and_return true
-        record.save_for_later(mail: true)
+        @record.assign_attributes(
+          saved_for_later: true,
+          mail_to_applicant: true,
+          note_for_later: 'avacadooo'
+        )
+        @record.save
       end
     end
     context 'mail to applicant not desired' do
       it 'does not call the mailer method' do
         expect(JobappsMailer).not_to receive(:send_note_for_later)
-        record.save_for_later(mail: false)
+        @record.assign_attributes(
+          saved_for_later: true,
+          mail_to_applicant: false,
+          note_for_later: 'avacadooo'
+        )
+        @record.save
       end
     end
   end
