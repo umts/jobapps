@@ -282,7 +282,7 @@ describe ApplicationSubmissionsController do
         let :submit do
           post :review, params: {
             id: @record.id,
-            accepted: 'true',
+            application_submission: { accepted: 'true' },
             interview: @interview
           }
         end
@@ -306,9 +306,10 @@ describe ApplicationSubmissionsController do
         end
         let :submit do
           post :review, params: {
-            id: @record.id,
-            accepted: 'false',
-            staff_note: @staff_note
+            id: @record.id, application_submission: {
+              accepted: 'false',
+              staff_note: @staff_note
+            }
           }
         end
         it 'updates record with staff note given' do
