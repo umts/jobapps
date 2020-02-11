@@ -342,7 +342,7 @@ describe ApplicationSubmissionsController do
       let!(:record) { create :application_submission, saved_for_later: false }
       let(:submit) do
         post :toggle_saved_for_later,
-          params: { id: record.id, commit: 'Save for later', application_submission: { mail_to_applicant: true } }
+             params: { id: record.id, commit: 'Save for later', application_submission: { mail_to_applicant: true } }
       end
       it "doesn't save the record" do
         submit
