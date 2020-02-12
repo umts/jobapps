@@ -282,7 +282,7 @@ describe ApplicationSubmissionsController do
         let :submit do
           post :review, params: {
             id: @record.id,
-            accepted: 'true',
+            application_submission: { accepted: 'true' },
             interview: @interview
           }
         end
@@ -306,9 +306,10 @@ describe ApplicationSubmissionsController do
         end
         let :submit do
           post :review, params: {
-            id: @record.id,
-            accepted: 'false',
-            staff_note: @staff_note
+            id: @record.id, application_submission: {
+              accepted: 'false',
+              staff_note: @staff_note
+            }
           }
         end
         it 'updates record with staff note given' do
@@ -341,7 +342,10 @@ describe ApplicationSubmissionsController do
       let!(:record) { create :application_submission, saved_for_later: false }
       let(:submit) do
         post :toggle_saved_for_later,
-          params: { id: record.id, commit: 'Save for later', application_submission: { mail_to_applicant: true } }
+             params: {
+               id: record.id, commit: 'Save for later',
+               application_submission: { mail_to_applicant: true }
+             }
       end
       it "doesn't save the record" do
         submit

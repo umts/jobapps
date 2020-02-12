@@ -32,7 +32,7 @@ describe 'viewing job applications individually' do
     it 'provides a means to reject the application and provide a staff note' do
       click_link unreviewed_record.user.proper_name,
                  href: application_submission_path(unreviewed_record)
-      fill_in 'staff_note', with: 'note'
+      fill_in 'application_submission_staff_note', with: 'note'
       click_button 'Decline'
       expect(page.current_url).to eql staff_dashboard_url
       expect(page).to have_text 'Application has been marked as reviewed'

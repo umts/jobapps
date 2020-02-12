@@ -44,41 +44,8 @@
 - if @current_user.staff?
   - if @record.pending?
     %h3 Review application
-    %h4 Deny Application
-    = form_tag controller: :application_submissions,
-      action: :review,
-      id: @record.id,
-      accepted: false do
-      .form-group
-        %b Reason for rejection:
-        = text_area_tag :staff_note, '', class: 'form-control'
-      .form-group
-        - if configured_value [:on_application_denial, :provide_reason],
-                              default: true
-          %i These notes will be provided to the applicant.
-        - else
-          %i These notes will not be provided to the applicant.
-      .form-group
-        = submit_tag 'Decline', class: 'btn btn-danger'
-    = form_tag controller: :application_submissions,
-      action: :review,
-      id: @record.id,
-      accepted: true do
-      %h4 Approve Application and Schedule Interview
-      = fields_for :interview do |f|
-        .form-group
-          = f.label :scheduled, 'Date/time'
-          = f.text_field :scheduled,
-            class: 'datetimepicker form-control',
-            placeholder: 'Click here to select date/time...',
-            required: true
-        .form-group
-          = f.label :location
-          = f.text_field :location,
-                         required: true,
-                         value: @record.position.default_interview_location,
-                         class: 'form-control'
-      .form-group= submit_tag 'Approve', class: 'btn btn-primary'
+    = render 'deny', locals: { record: @record }
+    = render 'approve', locals: { record: @record }
     = render 'save_for_later', locals: { record: @record }
   - else
     %p Application reviewed on: #{format_date_time @record.updated_at}

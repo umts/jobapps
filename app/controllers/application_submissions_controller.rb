@@ -55,17 +55,9 @@ class ApplicationSubmissionsController < ApplicationController
   end
 
   def review
-    if params.require(:accepted) == 'true'
-      interview_parameters = params.require(:interview)
-                                   .permit(:location, :scheduled)
-      interview_parameters.require :location
-      interview_parameters.require :scheduled
-      interview_parameters.merge! completed: false,
-                                  hired: false,
-                                  application_submission: @record,
-                                  user: @record.user
-      Interview.create! interview_parameters
-    else @record.deny_with params[:staff_note]
+    if params[:application_submission][:accepted] == 'true'
+      Interview.create! interview_params
+    else @record.deny_with params[:application_submission][:staff_note]
     end
     show_message :application_review,
                  default: 'Application has been marked as reviewed.'
@@ -147,5 +139,16 @@ class ApplicationSubmissionsController < ApplicationController
       )
     end
     parameters
+  end
+
+  def interview_params
+    interview_parameters = params.require(:interview)
+                                 .permit(:location, :scheduled)
+    interview_parameters.merge(
+      completed: false,
+      hired: false,
+      application_submission: @record,
+      user: @record.user
+    )
   end
 end

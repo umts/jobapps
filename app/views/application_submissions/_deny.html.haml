@@ -1,0 +1,10 @@
+%h4 Deny Application
+= form_with(model: @record, url: { action: :review }) do |form|
+  = form.hidden_field :accepted, value: 'false'
+  .row
+    .form-group.col
+      = form.label :staff_note, 'Reason for rejection (sent to applicant)'
+      = form.text_area :staff_note, class: 'form-control'
+      %i This note will be emailed to the applicant
+  .row.form-group.col
+    = form.submit 'Decline', class: 'btn btn-danger'
