@@ -13,7 +13,7 @@ describe 'saving or unsaving applications' do
       click_link record.user.proper_name,
                  href: application_submission_path(record)
       page.fill_in 'application_submission_note_for_later',
-        with: 'Put him in the brig'
+                   with: 'Put him in the brig'
       click_button 'Save'
     end
     it 'displays the number of saved applications in the link to their page' do
@@ -71,9 +71,9 @@ describe 'saving or unsaving applications' do
     it 'saves all the relevant attributes' do
       visit application_submission_url(record)
       page.fill_in 'application_submission_note_for_later',
-        with: 'Taken to sick bay'
+                   with: 'Taken to sick bay'
       page.fill_in 'application_submission_date_for_later',
-        with: Time.zone.today.strftime('%m/%d/%Y')
+                   with: Time.zone.today.strftime('%m/%d/%Y')
       click_button 'Save'
       record.reload
       expect(record.note_for_later).to eql 'Taken to sick bay'
