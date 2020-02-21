@@ -41,19 +41,6 @@ class ApplicationSubmission < ApplicationRecord
   scope :with_gender, -> { where.not gender: [nil, ''] }
   scope :with_ethnicity, -> { where.not ethnicity: [nil, ''] }
 
-  before_save do
-    if saved_for_later_changed?
-      if saved_for_later?
-        JobappsMailer.send_note_for_later(self).deliver_now if mail_to_applicant
-      else
-        assign_attributes(
-          date_for_later: nil,
-          reviewed: false
-        )
-      end
-    end
-  end
-
   ETHNICITY_OPTIONS = ['White (Not of Hispanic origin)',
                        'Black (Not of Hispanic origin)',
                        'Hispanic',
