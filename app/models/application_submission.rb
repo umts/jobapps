@@ -9,7 +9,7 @@ class ApplicationSubmission < ApplicationRecord
   has_one :interview, dependent: :destroy
   has_one :unavailability, dependent: :destroy
 
-  attr_accessor :mail_to_applicant
+  attr_accessor :mail_note_for_later
 
   serialize :data, Array
 
@@ -51,7 +51,7 @@ class ApplicationSubmission < ApplicationRecord
 
   before_save do
     if saved_for_later_changed? && saved_for_later?
-      JobappsMailer.send_note_for_later(self).deliver_now if mail_to_applicant
+      JobappsMailer.send_note_for_later(self).deliver_now if mail_note_for_later
     end
   end
 

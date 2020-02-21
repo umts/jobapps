@@ -222,7 +222,7 @@ describe ApplicationSubmission do
         expect(mail).to receive(:deliver_now).and_return true
         @record.assign_attributes(
           saved_for_later: true,
-          mail_to_applicant: true,
+          mail_note_for_later: true,
           note_for_later: 'avacadooo'
         )
         @record.save
@@ -233,7 +233,7 @@ describe ApplicationSubmission do
         expect(JobappsMailer).not_to receive(:send_note_for_later)
         @record.assign_attributes(
           saved_for_later: true,
-          mail_to_applicant: false,
+          mail_note_for_later: false,
           note_for_later: 'avacadooo'
         )
         @record.save
