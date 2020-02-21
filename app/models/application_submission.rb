@@ -12,7 +12,6 @@ class ApplicationSubmission < ApplicationRecord
   attr_accessor :mail_to_applicant
 
   serialize :data, Array
-  attr_accessor :mail_to_applicant
 
   # validate ethnicity and gender in constants but allow blank
   validates :position, :data, :user, presence: true
