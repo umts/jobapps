@@ -55,14 +55,13 @@ class ApplicationSubmissionsController < ApplicationController
   end
 
   def review
+    @record.update review_params
     if params[:application_submission][:accepted] == 'true'
       Interview.create! interview_params
-    else @record.deny_with params[:application_submission][:staff_note]
+    else @record.deny
     end
     show_message :application_review,
                  default: 'Application has been marked as reviewed.'
-    @record.update reviewed: true
-    @record.update saved_for_later: false
     redirect_to staff_dashboard_path
   end
 
@@ -150,5 +149,12 @@ class ApplicationSubmissionsController < ApplicationController
       application_submission: @record,
       user: @record.user
     )
+  end
+
+  def review_params
+    parameters = params.require(:application_submission)
+      .permit(:staff_note, :rejection_message, :notify_of_denial)
+    parameters[:notify_of_denial] = parameters[:notify_of_denial] == '1'
+    parameters.merge(reviewed: true, saved_for_later: false)
   end
 end

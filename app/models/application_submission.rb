@@ -10,6 +10,7 @@ class ApplicationSubmission < ApplicationRecord
   has_one :unavailability, dependent: :destroy
 
   attr_accessor :mail_note_for_later
+  attr_accessor :notify_of_denial
 
   serialize :data, Array
 
@@ -79,14 +80,8 @@ class ApplicationSubmission < ApplicationRecord
     end.select(&:all?).to_h
   end
 
-  def deny_with(staff_note)
-    update staff_note: staff_note if staff_note
-    if configured_value %i[on_application_denial notify_applicant],
-                        default: true
-      if self.staff_note.present?
-        JobappsMailer.application_denial(self).deliver_now
-      end
-    end
+  def deny
+    JobappsMailer.application_denial(self).deliver_now if notify_of_denial
   end
 
   def pending?
