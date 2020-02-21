@@ -313,9 +313,7 @@ describe ApplicationSubmissionsController do
           }
         end
         it 'updates record with staff note given' do
-          expect_any_instance_of(ApplicationSubmission)
-            .to receive(:deny_with)
-            .with @staff_note
+          expect_any_instance_of(ApplicationSubmission).to receive(:deny)
           submit
         end
         it 'marks record as reviewed' do

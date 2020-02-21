@@ -33,36 +33,22 @@ describe JobappsMailer do
     it 'has the correct reply-to' do
       expect(output.reply_to).to eql Array(@template.email)
     end
-    context 'notify_of_reason is set to true' do
+    context 'rejection_message exists' do
       before :each do
-        # Allow generic invocation
-        allow_any_instance_of(ApplicationConfiguration)
-          .to receive :configured_value
-        # Stub the invocation we expect
-        allow_any_instance_of(ApplicationConfiguration)
-          .to receive(:configured_value)
-          .with(%i[on_application_denial notify_of_reason], anything)
-          .and_return true
+        @application_submission.update(
+          rejection_message: 'You like dags?'
+        )
       end
       it 'includes a reason for application denial' do
         expect(output.body.encoded)
-          .to include @application_submission.staff_note
+          .to include @application_submission.rejection_message
       end
     end
-    context 'notify_of_reason is set to false' do
-      before :each do
-        # Allow generic invocation
-        allow_any_instance_of(ApplicationConfiguration)
-          .to receive :configured_value
-        # Stub the invocation we expect
-        allow_any_instance_of(ApplicationConfiguration)
-          .to receive(:configured_value)
-          .with(%i[on_application_denial notify_of_reason], anything)
-          .and_return false
-      end
+    context 'rejection_message does not exist' do
       it 'does not include a reason for application denial' do
-        expect(output.body.encoded)
-          .not_to include @application_submission.staff_note
+        message = "Your application to the "\
+          "#{@application_submission.position.name} position has been denied."
+        expect(output.body.encoded).to include message
       end
     end
   end
