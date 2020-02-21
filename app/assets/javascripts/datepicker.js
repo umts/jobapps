@@ -16,5 +16,4 @@ $(document).ready(function(){
   $('.fa-calendar').click(function(){
     $(this).parents('.input-group').find('.datepicker').focus();
   });
-
 });
