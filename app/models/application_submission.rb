@@ -176,8 +176,4 @@ class ApplicationSubmission < ApplicationRecord
   def rejected?
     reviewed? && interview.blank?
   end
-
-  def accepted?
-    reviewed? && interview.present?
-  end
 end
