@@ -32,9 +32,9 @@ describe 'reviewing applications' do
     expect(mail).to receive(:deliver_now).and_return true
     page.check 'Notify applicant of denial'
     page.fill_in 'Tell them why',
-      with: "It's not you, it's me"
+                 with: "It's not you, it's me"
     page.fill_in 'Staff note',
-      with: "They said they don't like Star Trek"
+                 with: "They said they don't like Star Trek"
     click_button 'Decline'
     expect(unreviewed_record.reload.staff_note)
       .to eq "They said they don't like Star Trek"
@@ -46,7 +46,7 @@ describe 'reviewing applications' do
                href: application_submission_path(unreviewed_record)
     expect(JobappsMailer).not_to receive(:application_denial)
     page.fill_in 'Staff note',
-      with: "They said they don't like Star Trek"
+                 with: "They said they don't like Star Trek"
     click_button 'Decline'
     expect(unreviewed_record.reload.staff_note)
       .to eq "They said they don't like Star Trek"

@@ -46,7 +46,7 @@ describe JobappsMailer do
     end
     context 'rejection_message does not exist' do
       it 'does not include a reason for application denial' do
-        message = "Your application to the "\
+        message = 'Your application to the '\
           "#{@application_submission.position.name} position has been denied."
         expect(output.body.encoded).to include message
       end

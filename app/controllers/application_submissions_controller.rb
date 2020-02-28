@@ -153,8 +153,8 @@ class ApplicationSubmissionsController < ApplicationController
 
   def review_params
     parameters = params
-      .require(:application_submission)
-      .permit(:staff_note, :rejection_message, :notify_of_denial)
+                 .require(:application_submission)
+                 .permit(:staff_note, :rejection_message, :notify_of_denial)
     parameters[:notify_of_denial] = parameters[:notify_of_denial] == '1'
     parameters.merge(reviewed: true, saved_for_later: false)
   end
