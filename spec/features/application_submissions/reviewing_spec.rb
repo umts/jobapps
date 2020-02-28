@@ -47,6 +47,8 @@ describe 'reviewing applications' do
     expect(JobappsMailer).not_to receive(:application_denial)
     page.fill_in 'Staff note',
                  with: "They said they don't like Star Trek"
+    # the box is checked by default
+    uncheck 'Notify applicant of denial'
     click_button 'Decline'
     expect(unreviewed_record.reload.staff_note)
       .to eq "They said they don't like Star Trek"
