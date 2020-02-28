@@ -140,26 +140,17 @@ describe ApplicationSubmission do
     end
   end
 
-  describe 'deny_with' do
+  describe 'deny' do
     before :each do
       @record = create :application_submission
       @note = 'a staff note'
     end
     let :call do
-      @record.deny_with @note
+      @record.deny
     end
-    it 'updates with the given note' do
-      call
-      expect(@record.reload.staff_note).to eql @note
-    end
-    context 'notify_applicant set to true' do
+    context 'notify_of_denial set to true' do
       before :each do
-        allow_any_instance_of(ApplicationConfiguration)
-          .to receive :configured_value
-        allow_any_instance_of(ApplicationConfiguration)
-          .to receive(:configured_value)
-          .with(%i[on_application_denial notify_applicant], anything)
-          .and_return true
+        @record.notify_of_denial = true
         @mail = ActionMailer::MessageDelivery.new(JobappsMailer,
                                                   :application_denial)
       end
@@ -171,21 +162,10 @@ describe ApplicationSubmission do
         expect(@mail).to receive(:deliver_now).and_return true
         call
       end
-      it 'it does not send application denial email without staff note' do
-        @note = nil
-        expect(JobappsMailer).not_to receive(:application_denial)
-        expect(@mail).not_to receive(:deliver_now)
-        call
-      end
     end
     context 'notify_applicant set to false' do
       before :each do
-        allow_any_instance_of(ApplicationConfiguration)
-          .to receive :configured_value
-        allow_any_instance_of(ApplicationConfiguration)
-          .to receive(:configured_value)
-          .with(%i[on_application_denial notify_applicant], anything)
-          .and_return false
+        @record.notify_of_denial = false
       end
       it 'does not send application denial email' do
         expect(JobappsMailer)
@@ -222,7 +202,7 @@ describe ApplicationSubmission do
         expect(mail).to receive(:deliver_now).and_return true
         @record.assign_attributes(
           saved_for_later: true,
-          mail_to_applicant: true,
+          mail_note_for_later: true,
           note_for_later: 'avacadooo'
         )
         @record.save
@@ -233,7 +213,7 @@ describe ApplicationSubmission do
         expect(JobappsMailer).not_to receive(:send_note_for_later)
         @record.assign_attributes(
           saved_for_later: true,
-          mail_to_applicant: false,
+          mail_note_for_later: false,
           note_for_later: 'avacadooo'
         )
         @record.save

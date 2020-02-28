@@ -55,14 +55,13 @@ class ApplicationSubmissionsController < ApplicationController
   end
 
   def review
+    @record.update review_params
     if params[:application_submission][:accepted] == 'true'
       Interview.create! interview_params
-    else @record.deny_with params[:application_submission][:staff_note]
+    else @record.deny
     end
     show_message :application_review,
                  default: 'Application has been marked as reviewed.'
-    @record.update reviewed: true
-    @record.update saved_for_later: false
     redirect_to staff_dashboard_path
   end
 
@@ -129,10 +128,10 @@ class ApplicationSubmissionsController < ApplicationController
 
   def save_for_later_params
     parameters = params.require(:application_submission).permit(
-      :note_for_later, :mail_to_applicant, :date_for_later, :email_to_notify
+      :note_for_later, :mail_note_for_later, :date_for_later, :email_to_notify
     )
     parameters[:saved_for_later] = params[:commit] == 'Save for later'
-    parameters[:mail_to_applicant] = parameters[:mail_to_applicant] == '1'
+    parameters[:mail_note_for_later] = parameters[:mail_note_for_later] == '1'
     if parameters[:date_for_later].present?
       parameters[:date_for_later] = Date.strptime(
         parameters[:date_for_later], '%m/%d/%Y'
@@ -150,5 +149,13 @@ class ApplicationSubmissionsController < ApplicationController
       application_submission: @record,
       user: @record.user
     )
+  end
+
+  def review_params
+    parameters = params
+                 .require(:application_submission)
+                 .permit(:staff_note, :rejection_message, :notify_of_denial)
+    parameters[:notify_of_denial] = parameters[:notify_of_denial] == '1'
+    parameters.merge(reviewed: true, saved_for_later: false)
   end
 end

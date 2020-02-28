@@ -313,9 +313,7 @@ describe ApplicationSubmissionsController do
           }
         end
         it 'updates record with staff note given' do
-          expect_any_instance_of(ApplicationSubmission)
-            .to receive(:deny_with)
-            .with @staff_note
+          expect_any_instance_of(ApplicationSubmission).to receive(:deny)
           submit
         end
         it 'marks record as reviewed' do
@@ -344,7 +342,7 @@ describe ApplicationSubmissionsController do
         post :toggle_saved_for_later,
              params: {
                id: record.id, commit: 'Save for later',
-               application_submission: { mail_to_applicant: true }
+               application_submission: { mail_note_for_later: true }
              }
       end
       it "doesn't save the record" do
