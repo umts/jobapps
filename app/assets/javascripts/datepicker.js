@@ -5,7 +5,7 @@ $(document).ready(function(){
 
   $('.datepicker').datetimepicker({
     timepicker: false,
-    format: 'dddd, MMMM D, YYYY'
+    format: 'MM/DD/YYYY'
   });
 
   $('.datetimepicker').datetimepicker({
