@@ -55,36 +55,21 @@ class ApplicationSubmissionsController < ApplicationController
   end
 
   def review
-    if params.require(:accepted) == 'true'
-      interview_parameters = params.require(:interview)
-                                   .permit(:location, :scheduled)
-      interview_parameters.require :location
-      interview_parameters.require :scheduled
-      interview_parameters.merge! completed: false,
-                                  hired: false,
-                                  application_submission: @record,
-                                  user: @record.user
-      Interview.create! interview_parameters
-    else @record.deny_with params[:staff_note]
+    @record.update review_params
+    if params[:application_submission][:accepted] == 'true'
+      Interview.create! interview_params
+    else @record.deny
     end
     show_message :application_review,
                  default: 'Application has been marked as reviewed.'
-    @record.update reviewed: true
-    @record.update saved_for_later: false
     redirect_to staff_dashboard_path
   end
 
   def toggle_saved_for_later
-    if @record.saved_for_later?
-      @record.move_to_dashboard
-      flash[:message] = 'Application moved back to dashboard.'
+    if @record.update save_for_later_params
+      flash[:message] = 'Application successfully updated'
     else
-      parameters = save_for_later_params
-      @record.save_for_later(date: parameters[:date],
-                             note: params[:note_for_later],
-                             mail: parameters[:mail],
-                             email: params[:email_to_notify])
-      flash[:message] = 'Application saved for later.'
+      flash[:errors] = @record.errors.full_messages
     end
     redirect_to staff_dashboard_path
   end
@@ -142,11 +127,35 @@ class ApplicationSubmissionsController < ApplicationController
   end
 
   def save_for_later_params
-    parameters = {}
-    if params[:date_for_later].present?
-      parameters[:date] = Date.strptime(params[:date_for_later], '%m/%d/%Y')
+    parameters = params.require(:application_submission).permit(
+      :note_for_later, :mail_note_for_later, :date_for_later, :email_to_notify
+    )
+    parameters[:saved_for_later] = params[:commit] == 'Save for later'
+    parameters[:mail_note_for_later] = parameters[:mail_note_for_later] == '1'
+    if parameters[:date_for_later].present?
+      parameters[:date_for_later] = Date.strptime(
+        parameters[:date_for_later], '%m/%d/%Y'
+      )
     end
-    parameters[:mail] = params[:mail_to_applicant].present?
     parameters
+  end
+
+  def interview_params
+    interview_parameters = params.require(:interview)
+                                 .permit(:location, :scheduled)
+    interview_parameters.merge(
+      completed: false,
+      hired: false,
+      application_submission: @record,
+      user: @record.user
+    )
+  end
+
+  def review_params
+    parameters = params
+                 .require(:application_submission)
+                 .permit(:staff_note, :rejection_message, :notify_of_denial)
+    parameters[:notify_of_denial] = parameters[:notify_of_denial] == '1'
+    parameters.merge(reviewed: true, saved_for_later: false)
   end
 end

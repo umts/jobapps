@@ -12,7 +12,8 @@ describe 'saving or unsaving applications' do
       visit staff_dashboard_url
       click_link record.user.proper_name,
                  href: application_submission_path(record)
-      page.fill_in 'note_for_later', with: 'This is required'
+      page.fill_in 'application_submission_note_for_later',
+                   with: 'Put him in the brig'
       click_button 'Save'
     end
     it 'displays the number of saved applications in the link to their page' do
@@ -35,7 +36,7 @@ describe 'saving or unsaving applications' do
                                     href: application_submission_path(record)
     end
     it 'puts a notice in the flash' do
-      expect(page).to have_text 'Application saved for later.'
+      expect(page).to have_text 'Application successfully updated'
     end
   end
   context 'moving the application record back to the dashboard' do
@@ -62,18 +63,20 @@ describe 'saving or unsaving applications' do
     end
     it 'puts a notice in the flash' do
       click_button 'Move back to dashboard'
-      expect(page).to have_text 'Application moved back to dashboard'
+      expect(page).to have_text 'Application successfully updated'
     end
   end
   context 'adding a note and date for later' do
     let!(:record) { create :application_submission, reviewed: false }
     it 'saves all the relevant attributes' do
       visit application_submission_url(record)
-      page.fill_in 'note_for_later', with: 'This is my note'
-      page.fill_in 'date_for_later', with: Time.zone.today.strftime('%m/%d/%Y')
+      page.fill_in 'application_submission_note_for_later',
+                   with: 'Taken to sick bay'
+      page.fill_in 'application_submission_date_for_later',
+                   with: Time.zone.today.strftime('%m/%d/%Y')
       click_button 'Save'
       record.reload
-      expect(record.note_for_later).to eql 'This is my note'
+      expect(record.note_for_later).to eql 'Taken to sick bay'
       expect(record.date_for_later).to eql Time.zone.today
       expect(record.saved_for_later).to be true
     end
