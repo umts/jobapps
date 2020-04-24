@@ -1,4 +1,4 @@
-.centered{
+/*.centered{
   margin: 1em;
   text-align: center;
 }
@@ -9,3 +9,50 @@
 .header-row{
   height: 3em;
 }
+*/
+.container-fluid{
+  .row.header-row{
+    font-weight: bold; 
+    text-align: center;
+    width: 95%;
+    margin-left: 3em;
+  }
+  .row.field-row{
+    border-radius: 5px;
+    border: 1px solid #5b7f95;
+    cursor: grab;
+    padding: 1em;
+  }
+}
+span.grabbable-number.btn.btn-primary{
+  float: left;
+  cursor: grab;
+  &:after{
+    content: "\28FF";
+    display: block;
+    font-size: 1.5em;
+  }
+}
+
+.number input{
+  width: 1.5em;
+  background-color: inherit;
+  border: none;
+  color: white;
+  text-align: center;
+}
+.row{
+  margin: 1em;
+}
+.buttons{
+  width: 200px;
+}
+.form-attributes{
+  text-align: left;
+  width: 50%;
+  margin: 0px auto;
+}
+/*.remove{
+  cursor: pointer;
+}
+*/

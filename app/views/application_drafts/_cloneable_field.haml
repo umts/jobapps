@@ -2,7 +2,8 @@
 - if question.new_record?
   .centered Add new question...
 .row.field-row
-  = g.hidden_field :number
+  %span.grabbable-number.btn.btn-primary
+    .number= g.text_field :number, value: question.number, readonly: true
   .col-5
     = g.text_area :prompt, required: !question.new_record?,
     class: 'form-control'
@@ -10,5 +11,5 @@
     = g.select :data_type, Question::DATA_TYPES, 
       { include_blank: 'Select a data type...', required: !question.new_record? },
       { class: 'form-control' }
-  .col-3
+  .col-1
     = g.check_box :required
