@@ -4,7 +4,7 @@
 .row.field-row
   %span.grabbable-number.btn.btn-primary
     .number= g.text_field :number, value: question.number, readonly: true
-  .col-5
+  .col-4
     = g.text_area :prompt, required: !question.new_record?,
     class: 'form-control'
   .col-4
@@ -13,3 +13,7 @@
       { class: 'form-control' }
   .col-1
     = g.check_box :required
+  .col-1.remove
+    = button_to 'X',
+      remove_question_draft_path(@draft, number: question.number),
+      class: 'btn btn-secondary mb-1'

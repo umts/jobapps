@@ -15,13 +15,17 @@
     font-weight: bold; 
     text-align: center;
     width: 95%;
-    margin-left: 3em;
+    margin-left: 4.5em;
   }
   .row.field-row{
     border-radius: 5px;
     border: 1px solid #5b7f95;
     cursor: grab;
     padding: 1em;
+    .remove{
+      margin-left: 1em;
+      margin-top: 1em;
+    }
   }
 }
 span.grabbable-number.btn.btn-primary{

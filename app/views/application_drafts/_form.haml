@@ -2,12 +2,14 @@
 .container-fluid.col-12
   = form_for draft, as: :draft, url: draft_path(:draft) do |f|
     .row.header-row
-      .col-5
+      .col-3
         Prompt
       .col-4
         Response type
-      .col-3
-        Required?
+      .col-2
+        Required
+      .col-2
+        Remove
     .container.sortable
       = f.fields_for :questions do |g|
         = render partial: 'cloneable_field', locals: {g: g}
