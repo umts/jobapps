@@ -1,6 +1,6 @@
-%h1 Editing #{draft.position.name_and_department}
+%h1 Editing #{@draft.position.name_and_department}
 .container-fluid.col-12
-  = form_for draft, as: :draft, url: draft_path(:draft) do |f|
+  = form_for @draft, as: :draft, url: draft_path(@draft) do |f|
     .row.header-row
       .col-3
         Prompt
@@ -13,6 +13,9 @@
     .container.sortable
       = f.fields_for :questions do |g|
         = render partial: 'cloneable_field', locals: {g: g}
+    .container
+      .col-4
+        .btn.btn-secondary#add-new Add new field
       .form-group
         = f.label :email, 'Reply-to email:'
         = f.text_field :email, class: 'form-control'

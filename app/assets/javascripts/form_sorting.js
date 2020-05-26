@@ -6,14 +6,14 @@ $( document ).ready( function() {
     });
   
     $('#add-new').click(function() {
-      const newField = $('.hidden').find('.row.padded-field').clone(true).removeClass('hidden');
+      const newField = $('.hidden').find('.row.field-row').clone(true).removeClass('hidden');
       newField.appendTo('.container.sortable');
       reAttribute();
       $('.sortable').sortable('refresh');
     });
   
     $('.remove').click(function() {
-      const parentField = $(this).parents('.row.padded-field');
+      const parentField = $(this).parents('.row.field-row');
       parentField.remove();
       reAttribute(); // This one works.
     });
@@ -32,7 +32,7 @@ $( document ).ready( function() {
       $(this).attr('name', newName('number', index))
       $(this).attr('id', 'form_draft_fields_attributes_' + index + '_number');
       $(this).val(index + 1);
-      const parentField = $(this).parents('.row.padded-field');
+      const parentField = $(this).parents('.row.field-row');
       [
         '.prompt textarea',
         '.placeholder input',
@@ -59,7 +59,7 @@ $( document ).ready( function() {
   }
   function toggleFields(dataField) {
     const dataType = dataField.value;
-    const container = $(dataField).parents('.padded-field');
+    const container = $(dataField).parents('.field-row');
     togglePlaceholder(dataType, container);
     toggleOptions(dataType, container);
     toggleRequiredCheckbox(dataType, container);
