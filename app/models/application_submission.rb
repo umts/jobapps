@@ -9,6 +9,9 @@ class ApplicationSubmission < ApplicationRecord
   has_one :interview, dependent: :destroy
   has_one :unavailability, dependent: :destroy
 
+  attr_accessor :mail_note_for_later
+  attr_accessor :notify_of_denial
+
   serialize :data, Array
 
   # validate ethnicity and gender in constants but allow blank
@@ -47,6 +50,12 @@ class ApplicationSubmission < ApplicationRecord
 
   GENDER_OPTIONS = %w[Male Female].freeze
 
+  before_save do
+    if saved_for_later_changed? && saved_for_later?
+      JobappsMailer.send_note_for_later(self).deliver_now if mail_note_for_later
+    end
+  end
+
   def data_rows
     header = [%w[Question Response]]
     # deletes rows of type header/explanation
@@ -71,26 +80,12 @@ class ApplicationSubmission < ApplicationRecord
     end.select(&:all?).to_h
   end
 
-  def deny_with(staff_note)
-    update staff_note: staff_note if staff_note
-    if configured_value %i[on_application_denial notify_applicant],
-                        default: true
-      if self.staff_note.present?
-        JobappsMailer.application_denial(self).deliver_now
-      end
-    end
+  def deny
+    JobappsMailer.application_denial(self).deliver_now if notify_of_denial
   end
 
   def pending?
     !reviewed
-  end
-
-  def save_for_later(date: nil, note: nil, mail: false, email: nil)
-    update(saved_for_later: true,
-           date_for_later: date,
-           note_for_later: note,
-           email_to_notify: email)
-    JobappsMailer.send_note_for_later(self).deliver_now if mail
   end
 
   def move_to_dashboard

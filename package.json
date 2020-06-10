@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.12.0",
+    "datatables.net": "^1.10.20",
+    "datatables.net-bs4": "^1.10.20",
+    "jquery": "^3.5.0",
+    "jquery-datetimepicker": "^2.5.21",
+    "jquery.maskedinput": "^1.4.1",
+    "moment": "^2.24.0",
+    "multiple-select": "^1.5.2"
+  }
+}

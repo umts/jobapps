@@ -27,9 +27,9 @@ Rails.application.routes.draw do
       get :eeo_data
     end
     member do
-      post :review
+      patch :review
       post :unreject
-      post :toggle_saved_for_later
+      patch :toggle_saved_for_later
       get  :print
     end
   end

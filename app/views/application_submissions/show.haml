@@ -1,33 +1,38 @@
 %h1 #{@record.position.name} Application Record
 
-submitted
-= format_date_time @record.created_at
-by:
-= @record.user.name_and_email
+%p submitted #{format_date_time @record.created_at}
+%p by #{@record.user.name_and_email}
 = button_to 'Print this page',
-  application_submission_path(@record, format: :pdf), method: :get
+  application_submission_path(@record, format: :pdf),
+  method: :get,
+  class: 'btn btn-secondary'
 - if @record.rejected?
-  = button_to 'Re-review Applicant',
-    unreject_application_submission_path(@application_submission, id: @record.id)
+  %p
+    = button_to 'Re-review Applicant',
+      unreject_application_submission_path(@application_submission, id: @record.id),
+      class: 'btn btn-primary'
 - if !@record.saved_for_later? && @record.note_for_later.present?
-  %em
-    This application had previously been saved for later review. Your note:
-  = @record.note_for_later
-.data_container
-  .data_row
-    %h2.prompt_item Question
-    %h2.response_item Response
-  - @record.data.each do |prompt, response, data_type, question_id|
-    - if data_type == 'heading'
-      .data_row
-        .heading_item= prompt.upcase
-    - elsif data_type == 'explanation'
-      .data_row
-        .explanation_item= render_markdown prompt
-    - else
-      .data_row
-        .prompt_item= prompt
-        .response_item= response
+  %p
+    %i This application had previously been saved for later review. Your note:
+  %p
+    = @record.note_for_later
+%table.table.table-bordered.application-record-table
+  %thead
+    %tr
+      %th Questions
+      %th Responses
+  %tbody
+  - @record.data.each do |prompt, response, data_type, _question_id|
+    %tr
+      - if data_type == 'heading'
+        %td{colspan: 2}
+          %b=prompt.upcase
+      - elsif data_type == 'explanation'
+        %td{colspan: 2}
+          %i= render_markdown prompt
+      - else
+        %td=prompt
+      %td=response
 
 -if @record.unavailability.present?
   %strong Unavailability
@@ -39,128 +44,49 @@ by:
 - if @current_user.staff?
   - if @record.pending?
     %h3 Review application
-    %h4 Deny Application
-    = form_tag controller: :application_submissions,
-      action: :review,
-      id: @record.id,
-      accepted: false do
-      .field.note_item
-        %p
-        <b>
-        Reason for rejection:
-        </b>
-        %p
-        = text_area_tag :staff_note, ''
-      .text.note_item
-        - if configured_value [:on_application_denial, :provide_reason],
-                              default: true
-          <i>
-          These notes will be provided to the applicant.</i>
-        - else
-          These notes will not be provided to the applicant.
-      .note_item
-        = submit_tag 'Decline'
-    = form_tag controller: :application_submissions,
-      action: :review,
-      id: @record.id,
-      accepted: true do
-      %h4 Approve Application and Schedule Interview
-      = fields_for :interview do |f|
-        .field.note_item
-          = f.label :scheduled, 'Date/time'
-          = f.text_field :scheduled,
-            class: 'datetimepicker',
-            placeholder: 'Click here to select date/time...',
-            size: 40, required: true
-        .field.note_item
-          = f.label :location
-          = f.text_field :location,
-                         required: true,
-                         value: @record.position.default_interview_location
-      .note_item= submit_tag 'Approve'
-    - if @record.saved_for_later?
-      - if @record.note_for_later.present?
-        Note:
-        .note_item= @record.note_for_later
-      - if @record.date_for_later.present?
-        Date to review:
-        .note_item= format_date @record.date_for_later
-      .note_item= button_to 'Move back to dashboard',
-        toggle_saved_for_later_application_submission_url(@record)
-    - else
-      %h3 Save application for later review
-      = form_tag controller: :application_submissions,
-        action: :toggle_saved_for_later,
-        id: @record.id do
-        .field.note_item
-          %p
-          <b>Note: </b>
-          %p
-          = text_area_tag :note_for_later, '', required: true
-        %p.note_item
-          Email note to applicant:
-          =check_box_tag :mail_to_applicant
-        %p
-        %p.note_item
-          %em
-            This note will be listed as the reason their application was
-            saved for review at a later date.
-        %p.note_item
-          <b>Select a date for later review</b>
-          = text_field_tag :date_for_later, '', class: 'datepicker'
-        %p.note_item
-          %em
-            If a date is selected, the application will move back onto the
-            dashboard at that time.
-        %p#notification.hidden
-          %em
-            Get notified when this happens:
-          = text_field_tag :email_to_notify, '', placeholder: 'person@example.com'
-          .note_item=submit_tag 'Save'
+    = render 'deny', locals: { record: @record }
+    = render 'approve', locals: { record: @record }
+    = render 'save_for_later', locals: { record: @record }
   - else
-    .note_item
-      Application reviewed on:
-      = format_date_time @record.updated_at
+    %p Application reviewed on: #{format_date_time @record.updated_at}
     - if @record.staff_note.present?
-      .notes.note_item
-        Reason for denial:
-        = @record.staff_note
+      %p Reason for denial: #{@record.staff_note}
   - if @interview.present?
     - if @interview.pending?
-      .note_item
-        Interview is scheduled for:
-        = @interview.information
-      .export_link.note_item= link_to 'Click here for a calendar export file',
-        interview_path(@interview, format: :ics)
+      %p Interview is scheduled for: #{@interview.information}
+      %p
+        = link_to 'Click here for a calendar export file',
+          interview_path(@interview, format: :ics)
       %h3 Reschedule interview
       = form_tag controller: :interviews,
         action: :reschedule,
         id: @interview.id do
-        .field.note_item
-          New interview date/time:
+        .form-group
+          = label_tag :scheduled, 'New interview date/time:'
           = text_field_tag :scheduled, '',
-            required: true, class: 'datetimepicker',
-            placeholder: 'Click here to select date/time...', size: 30
-        .field.note_item
-          New location:
+            required: true,
+            placeholder: 'Click here to select date/time...',
+            class: 'form-control datetimepicker'
+        .form-group
+          = label_tag :location, 'New location:'
           = text_field_tag :location, @interview.location,
-            required: true, size: 30
-        .note_item
-          = submit_tag 'Reschedule interview'
+            required: true,
+            class: 'form-control'
+        .form-group
+          = submit_tag 'Reschedule interview', class: 'btn btn-secondary'
       %h3 Mark interview as complete:
       = form_tag controller: :interviews,
         action: :complete,
         id: @interview.id do
-        .note_item
-          = submit_tag 'Candidate hired',
-            name: 'hired'
-        .field.note_item
-          Reason for rejection:
-          = text_area_tag :interview_note
-        .note_item
-          = submit_tag 'Candidate not hired'
+        .form-group
+          = submit_tag 'Candidate hired', name: 'hired', class: 'btn btn-primary'
+        .form-group
+          = label_tag :interview_note, 'Reason for rejection:'
+          = text_area_tag :interview_note, '', class: 'form-control'
+        .form-group
+          = submit_tag 'Candidate not hired', class: 'btn btn-danger'
     - else # application is being reviewed for whatever reason
-      .note_item
+      .form-group
         Interview occurred on
         = @interview.information
 - else # student
