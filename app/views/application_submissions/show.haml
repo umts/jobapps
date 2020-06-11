@@ -50,7 +50,9 @@
   - else
     %p Application reviewed on: #{format_date_time @record.updated_at}
     - if @record.staff_note.present?
-      %p Reason for denial: #{@record.staff_note}
+      %p Staff note (internal reason for denial): #{@record.staff_note}
+    - if @record.rejection_message.present?
+      %p Rejection message (shared with candidate): #{@record.rejection_message}
   - if @interview.present?
     - if @interview.pending?
       %p Interview is scheduled for: #{@interview.information}
@@ -109,4 +111,7 @@
       - if configured_value([:on_application_denial, :notify_of_reason],
         default: true)
         Reason:
-        = @record.staff_note
+        = @record.rejection_message
+
+
+

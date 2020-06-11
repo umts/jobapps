@@ -5,6 +5,7 @@
       %th Name
       %th Interview
       %th Staff Note
+      %th Rejection Message
       %th Hired?
   %tbody
     - @records.each do |record|
@@ -23,6 +24,11 @@
             = format_date_time record.interview.scheduled
         %td
           = record.staff_note
+        %td 
+          - if record.rejection_message.present?
+            = record.rejection_message
+          - else
+            none
         %td
           - if record.interview.present?
             - if record.interview.hired?

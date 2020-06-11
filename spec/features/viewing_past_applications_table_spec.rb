@@ -40,6 +40,9 @@ describe 'viewing table of past applications' do
   it 'displays the staff note of the applications' do
     expect(page).to have_text record.staff_note
   end
+  it 'displays the rejection message of the application' do
+    expect(page).to have_text record.rejection_message
+  end
   it 'provides a UNIX timestamp by which to sort the records' do
     expect page.has_css? "*[data-order=#{record.created_at.to_i}]"
   end
