@@ -38,7 +38,7 @@ describe 'viewing the dashboard as a student' do
         create :application_submission,
                reviewed: true,
                user: student,
-               staff_note: 'No'
+               rejection_message: 'No'
       end
       before :each do
         visit student_dashboard_url
@@ -101,7 +101,7 @@ describe 'viewing the dashboard as a student' do
               .to eql application_submission_url(denied_application)
             expect(page)
               .to have_text 'Your application has been denied. Reason: No'
-            # reason is the staff note.
+            # reason is the rejection message
           end
         end
       end
