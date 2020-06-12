@@ -6,11 +6,11 @@ describe 'viewing table of past applications' do
   let(:start_date) { 1.week.ago.strftime('%m/%d/%Y') }
   # datepicker requires m/d/Y format
   let(:end_date) { 1.week.since.strftime('%m/%d/%Y') }
-  let! :record do
+  let!(:record) do
     create :application_submission,
     rejection_message: "it's not you, it's me",
     staff_note: "they smelled terrible"
-end
+  end
   let!(:record_with_completed_interview) { create :application_submission }
   let!(:interview) do
     create :interview,
