@@ -1,4 +1,4 @@
-rquire 'factory_bot_rails'
+require 'factory_bot_rails'
 require 'csv'
 
 exit if Rails.env.test?

@@ -24,11 +24,8 @@
             = format_date_time record.interview.scheduled
         %td
           = record.staff_note
-        %td 
-          - if record.rejection_message.present?
-            = record.rejection_message
-          - else
-            none
+        %td
+          = record.rejection_message
         %td
           - if record.interview.present?
             - if record.interview.hired?

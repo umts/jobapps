@@ -42,19 +42,5 @@ class SessionsController < ApplicationController
 
   def new_spire
     (User.pluck(:spire).map(&:to_i).max + 1).to_s.rjust(8, '0') + '@umass.edu'
-
   end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-

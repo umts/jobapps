@@ -6,9 +6,17 @@ describe 'viewing table of past applications' do
   let(:start_date) { 1.week.ago.strftime('%m/%d/%Y') }
   # datepicker requires m/d/Y format
   let(:end_date) { 1.week.since.strftime('%m/%d/%Y') }
-  let!(:record) { create :application_submission }
+  let! :record do
+    create :application_submission,
+    rejection_message: "it's not you, it's me",
+    staff_note: "they smelled terrible"
+end
   let!(:record_with_completed_interview) { create :application_submission }
-  let!(:interview) { create :interview, application_submission: record }
+  let!(:interview) do
+    create :interview,
+    application_submission: record,
+    interview_note: "bunnies"
+  end
   let!(:completed_interview) do
     create :interview,
            application_submission: record_with_completed_interview,
@@ -29,7 +37,6 @@ describe 'viewing table of past applications' do
     expect(page.current_url)
       .to include past_applications_application_submissions_url
   end
-
   it 'lists the proper name of applicants' do
     expect(page)
       .to have_text "#{record.user.last_name}, #{record.user.first_name}"
