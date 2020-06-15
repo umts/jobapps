@@ -22,6 +22,7 @@ describe 'submitting application records' do
     end
     context 'application template has been marked as inactive' do
       it 'shows text explaining that the application is unavailable' do
+        application_template.position.update(not_hiring_text: 'custom text')
         application_template.update active: false
         visit current_url
         # must reload the page for changes to template to take effect
@@ -50,6 +51,7 @@ describe 'submitting application records' do
     end
     context 'application template has been marked as inactive' do
       it 'shows text explaining that the application is unavailable' do
+        application_template.position.update(not_hiring_text: 'custom text')
         application_template.update active: false
         visit current_url
         # must reload the page for changes to template to take effect
