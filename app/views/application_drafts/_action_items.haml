@@ -38,6 +38,23 @@
           toggle_unavailability_enabled_application_url(@draft.application_template),
           class: 'btn btn-secondary'
   .row.mb-2
+    - if @draft.application_template.resume_upload_enabled?
+      .col-md-6
+        This application allows for resume upload from applicants.
+        Click here to disable this feature:
+      .col-md-6
+        = button_to 'Deactivate Resume Upload',
+          toggle_resume_upload_enabled_application_url(@draft.application_template),
+          class: 'btn btn-secondary'
+    - else
+      .col-md-6
+        This application does not allow resume upload from applicants.
+        Click here to enable this feature:
+      .col-md-6
+        = button_to 'Activate Resume Upload',
+          toggle_resume_upload_enabled_application_url(@draft.application_template),
+          class: 'btn btn-secondary'
+  .row.mb-2
     - if @draft.application_template.active?
       .col-md-6
         This application is available to applicants. Not hiring currently?

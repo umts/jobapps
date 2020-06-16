@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       post :toggle_active
       post :toggle_eeo_enabled
       post :toggle_unavailability_enabled
+      post :toggle_resume_upload_enabled
     end
   end
 
