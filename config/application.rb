@@ -17,5 +17,6 @@ module Jobapps
     config.action_view.form_with_generates_ids = true
     config.action_controller.default_protect_from_forgery = true
     config.active_support.use_sha1_digests = true
+    config.active_record.cache_versioning = true
   end
 end
