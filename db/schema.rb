@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(version: 2019_09_26_144109) do
 
-  create_table "application_drafts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "application_drafts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "application_template_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 2019_09_26_144109) do
     t.string "email"
   end
 
-  create_table "application_submissions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "application_submissions", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.text "data"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 2019_09_26_144109) do
     t.text "rejection_message"
   end
 
-  create_table "application_templates", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "application_templates", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer "position_id"
@@ -48,13 +48,13 @@ ActiveRecord::Schema.define(version: 2019_09_26_144109) do
     t.boolean "unavailability_enabled"
   end
 
-  create_table "departments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "departments", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "interviews", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "interviews", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.boolean "hired"
     t.datetime "scheduled"
     t.datetime "created_at"
@@ -66,7 +66,7 @@ ActiveRecord::Schema.define(version: 2019_09_26_144109) do
     t.text "interview_note"
   end
 
-  create_table "positions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "positions", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "department_id"
     t.string "name"
     t.datetime "created_at"
@@ -75,7 +75,7 @@ ActiveRecord::Schema.define(version: 2019_09_26_144109) do
     t.string "not_hiring_text"
   end
 
-  create_table "questions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "questions", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.text "prompt"
     t.string "data_type"
     t.boolean "required"
@@ -86,7 +86,7 @@ ActiveRecord::Schema.define(version: 2019_09_26_144109) do
     t.integer "application_draft_id"
   end
 
-  create_table "site_texts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "site_texts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.text "text"
     t.datetime "created_at"
@@ -94,7 +94,7 @@ ActiveRecord::Schema.define(version: 2019_09_26_144109) do
     t.string "slug"
   end
 
-  create_table "subscriptions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "subscriptions", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "user_id"
     t.integer "position_id"
     t.string "email"
@@ -102,7 +102,7 @@ ActiveRecord::Schema.define(version: 2019_09_26_144109) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "unavailabilities", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "unavailabilities", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "sunday"
     t.string "monday"
     t.string "tuesday"
@@ -115,7 +115,7 @@ ActiveRecord::Schema.define(version: 2019_09_26_144109) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "users", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
     t.string "spire"
