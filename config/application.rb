@@ -18,5 +18,6 @@ module Jobapps
     config.action_controller.default_protect_from_forgery = true
     config.active_support.use_sha1_digests = true
     config.active_record.cache_versioning = true
+    config.action_dispatch.use_authenticated_cookie_encryption = true
   end
 end
