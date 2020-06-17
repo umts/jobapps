@@ -123,7 +123,7 @@ class ApplicationSubmissionsController < ApplicationController
   end
 
   def record_params
-    params.permit(:position_id, :ethnicity, :gender)
+    params.permit(:position_id, :ethnicity, :gender, :resume)
   end
 
   def save_for_later_params

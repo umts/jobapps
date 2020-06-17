@@ -9,6 +9,8 @@ class ApplicationSubmission < ApplicationRecord
   has_one :interview, dependent: :destroy
   has_one :unavailability, dependent: :destroy
 
+  has_one_attached :resume, dependent: :destroy
+
   attr_accessor :mail_note_for_later
   attr_accessor :notify_of_denial
 

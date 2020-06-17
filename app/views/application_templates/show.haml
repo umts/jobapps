@@ -39,7 +39,7 @@
               = format_date_time app.created_at
             %td.load_column
               = link_to 'Load reponses', application_path(@template, load_id: app.id)
-  = form_tag controller: :application_submissions, action: :create do
+  = form_tag application_submissions_path, multipart: true do
     = fields_for :user do |u|
       .form-group
         = u.label :first_name
@@ -145,8 +145,15 @@
         = select_tag :gender,
           options_for_select(ApplicationSubmission::GENDER_OPTIONS),
           include_blank: 'Prefer not to answer', class: 'custom-select'
-      - unless @current_user.try(:staff?)
-        .form-group
-          = submit_tag 'Submit application', class: 'btn btn-primary'
+    - if @template.resume_upload_enabled?
+      %h2.heading Resume
+      .explanation
+        Please upload a copy of your resume.
+        - #PLACEHOLDER, IDK WHAT TO REALLY PUT
+      .form-group
+        = file_field_tag :resume
+    - unless @current_user.try(:staff?)
+      .form-group
+        = submit_tag 'Submit application', class: 'btn btn-primary'
 - else
   %p= @template.position.not_hiring_text
