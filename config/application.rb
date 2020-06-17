@@ -15,5 +15,6 @@ module Jobapps
     config.filter_parameters += [:password, :secret, :spire, :github]
     config.assets.paths << Rails.root.join('node_modules')
     config.action_view.form_with_generates_ids = true
+    config.action_controller.default_protect_from_forgery = true
   end
 end

@@ -6,7 +6,6 @@ class ApplicationController < ActionController::Base
   include DateAndTimeMethods
 
   attr_accessor :current_user
-  protect_from_forgery with: :exception
   before_action :set_spire
   before_action :set_current_user
   before_action :redirect_unauthenticated
