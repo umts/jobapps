@@ -19,5 +19,6 @@ module Jobapps
     config.active_support.use_sha1_digests = true
     config.active_record.cache_versioning = true
     config.action_dispatch.use_authenticated_cookie_encryption = true
+    config.active_support.use_authenticated_message_encryption = true
   end
 end
