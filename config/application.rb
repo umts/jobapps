@@ -14,6 +14,5 @@ module Jobapps
     config.autoload_paths << Rails.root.join('vendor/lib')
     config.assets.paths << Rails.root.join('node_modules')
     config.filter_parameters += [:password, :secret, :spire, :github]
-    config.assets.paths << Rails.root.join('node_modules')
   end
 end
