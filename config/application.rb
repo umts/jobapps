@@ -7,6 +7,7 @@ Bundler.require(*Rails.groups)
 
 module Jobapps
   class Application < Rails::Application
+    config.load_defaults 5.2
     config.encoding = 'utf-8'
     config.time_zone = 'Eastern Time (US & Canada)'
     config.autoload_paths << Rails.root.join('lib')
@@ -14,11 +15,5 @@ module Jobapps
     config.assets.paths << Rails.root.join('node_modules')
     config.filter_parameters += [:password, :secret, :spire, :github]
     config.assets.paths << Rails.root.join('node_modules')
-    config.action_view.form_with_generates_ids = true
-    config.action_controller.default_protect_from_forgery = true
-    config.active_support.use_sha1_digests = true
-    config.active_record.cache_versioning = true
-    config.action_dispatch.use_authenticated_cookie_encryption = true
-    config.active_support.use_authenticated_message_encryption = true
   end
 end
