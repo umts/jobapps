@@ -42,9 +42,9 @@
   %p Grey boxes indicate that applicant is unavailable
 
 -if @record.resume.attached?
-  %strong Resume:
-  =link_to @record.resume.filename, rails_blob_path(@record.resume, disposition: 'attachment')
-  %br
+  %p
+    %strong Resume:
+    =link_to @record.resume.filename, rails_blob_path(@record.resume, disposition: 'attachment')
 
 - if @current_user.staff?
   - if @record.pending?
