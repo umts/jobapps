@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class Question < ApplicationRecord
-  belongs_to :application_template
-  belongs_to :application_draft
+  belongs_to :application_template, optional: true
+  belongs_to :application_draft, optional: true
 
   DATA_TYPES = %w[text
                   number
