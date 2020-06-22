@@ -148,10 +148,9 @@
     - if @template.resume_upload_enabled?
       %h2.heading Resume
       .explanation
-        Please upload a copy of your resume.
-        - #PLACEHOLDER, IDK WHAT TO REALLY PUT
+        = label_tag :resume, 'Please upload a copy of your resume.'
       .form-group
-        = file_field_tag :resume
+        = file_field_tag :resume, required: true
     - unless @current_user.try(:staff?)
       .form-group
         = submit_tag 'Submit application', class: 'btn btn-primary'
