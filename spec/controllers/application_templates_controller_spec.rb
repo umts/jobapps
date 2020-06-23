@@ -263,4 +263,71 @@ describe ApplicationTemplatesController do
       end
     end
   end
+
+  describe 'POST #toggle_resume_upload_enabled' do
+    before :each do
+      department = create :department
+      position = create :position, department: department
+      @template = create :application_template, position: position
+    end
+    let :submit do
+      post :toggle_resume_upload_enabled, params: {
+          id: @template.id,
+          position: @template.position.name,
+          department: @template.department.name
+      }
+    end
+    context 'staff' do
+      before :each do
+        @user = create :user, staff: true
+        when_current_user_is @user
+        request.env['HTTP_REFERER'] = 'http://test.host/redirect'
+      end
+      it 'changes resume_upload_enabled when called' do
+        expect { submit }.to change { @template.reload.resume_upload_enabled }
+      end
+      context 'resume upload is disabled' do
+        before :each do
+          @template.update resume_upload_enabled: false
+        end
+        it 'enables resume upload' do
+          submit
+          expect(@template.reload.resume_upload_enabled).to be true
+        end
+      end
+      context 'resume upload is enabled' do
+        before :each do
+          @template.update resume_upload_enabled: true
+        end
+        it 'disables resume upload' do
+          submit
+          expect(@template.reload.resume_upload_enabled).to be false
+        end
+      end
+      context 'redirecting with no HTTP_REFERER' do
+        before :each do
+          request.env['HTTP_REFERER'] = nil
+        end
+        context 'draft belonging to current user' do
+          it 'redirects to the edit path' do
+            @template.create_draft @user
+            submit
+            expect(response).to redirect_to(
+                                    edit_draft_path(@template.draft_belonging_to @user)
+                                )
+          end
+        end
+        context 'no draft belonging to current user' do
+          it 'redirects to the application path' do
+            submit
+            expect(response).to redirect_to application_path(@template)
+          end
+        end
+      end
+      it 'redirects back' do
+        submit
+        expect(response).to redirect_to 'http://test.host/redirect'
+      end
+    end
+  end
 end
