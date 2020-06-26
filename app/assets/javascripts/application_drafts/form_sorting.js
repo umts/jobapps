@@ -41,8 +41,6 @@ function newName(fieldType, index){
   return 'draft[questions_attributes][' + index + '][' + fieldType + ']';
 }
 
-// the number of padded fields will the number of visible fields + 1,
-// which is what we want for the number of a new visible field.
 function newID(fieldType, index){
   return 'draft_questions_attributes_' + index + '_' + fieldType
 }
