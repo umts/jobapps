@@ -1,24 +1,27 @@
-%h1 Editing #{@draft.position.name_and_department}
-.container-fluid.col-12
-  = form_for @draft, as: :draft, url: draft_path(@draft) do |f|
-    .row.header-row
-      .col-3
-        Prompt
-      .col-4
-        Response type
-      .col-2
-        Required
-      .col-2
-        Remove
-    .container.sortable
-      = f.fields_for :questions do |g|
-        = render partial: 'cloneable_field', locals: {g: g}
-    .container
-      .col-4
-        .btn.btn-secondary#add-new Add new field
-      .form-group
-        = f.label :email, 'Reply-to email:'
-        = f.text_field :email, class: 'form-control'
-      .form-group
-        = f.submit 'Save changes and continue editing', class: 'btn btn-primary'
-        = f.submit 'Preview changes', class: 'btn btn-primary'
+
+= form_for draft, as: :draft, url: draft_path(draft) do |f|
+  .row.header-row
+    .col-3
+      Prompt
+    .col-4
+      Response Type
+    .col-2
+      Required
+    .col-2
+      Remove
+  #fields-container.container.sortable
+    = f.fields_for :questions do |g|
+      = render partial: 'cloneable_field', locals: {g: g}
+  .container
+    .form-group
+      = link_to 'Add new field', '', class: 'btn btn-secondary', id: 'add-new-button'
+    .form-group
+      = f.label :email, 'Reply-to email:'
+      = f.text_field :email, class: 'form-control'
+    .form-group
+      = f.submit 'Save changes and continue editing', class: 'btn btn-primary'
+      = f.submit 'Preview changes', class: 'btn btn-primary'
+
+#hidden-field-container.hidden
+  = fields_for Question.new do |g|
+    = render partial: 'cloneable_field', locals: { g: g }

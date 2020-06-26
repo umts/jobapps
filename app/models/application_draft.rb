@@ -60,6 +60,7 @@ class ApplicationDraft < ApplicationRecord
   def update_questions(question_data)
     return if question_data.blank?
 
+    questions.destroy_all
     question_data.each do |_index, question_attributes|
       question = questions.find_by number: question_attributes.fetch(:number)
       if question.present?

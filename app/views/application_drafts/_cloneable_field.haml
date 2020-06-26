@@ -1,15 +1,15 @@
 - question = g.object
 .row.field-row
-  %span.grabbable-number.btn.btn-primary
-    .number= g.text_field :number, value: question.number, readonly: true
-  .col-4
-    = g.text_area :prompt, required: !question.new_record?,
-    class: 'form-control'
-  .col-4
-    = g.select :data_type, Question::DATA_TYPES, 
-      { include_blank: 'Select a data type...', required: !question.new_record? },
+  .col-1.number
+    %span.grabbable-number.btn.btn-primary
+      = g.text_field :number, readonly: true
+  .col-4.prompt
+    = g.text_area :prompt, required: !question.new_record?, class: 'form-control'
+  .col-4.data-type
+    = g.select :data_type, Question::DATA_TYPES,
+      { include_blank: 'Select a response type...', required: !question.new_record? },
       { class: 'form-control' }
-  .col-1
+  .col-1.field-required
     = g.check_box :required
-  .col-1
-    .remove.btn.btn-secondary X
+  .col-2
+    = link_to 'X', '', class: 'remove-button btn btn-secondary'

@@ -1,2 +1,3 @@
 = render 'action_items'
-= render partial: 'form'
+%h1 Editing #{@draft.position.name_and_department}
+= render partial: 'form', locals: {draft: @draft}
