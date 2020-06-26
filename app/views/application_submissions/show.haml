@@ -41,6 +41,11 @@
       locals: { unavailability: @record.unavailability }
   %p Grey boxes indicate that applicant is unavailable
 
+-if @record.resume.attached?
+  %p
+    %strong Resume:
+    =link_to @record.resume.filename, rails_blob_path(@record.resume, disposition: 'attachment')
+
 - if @current_user.staff?
   - if @record.pending?
     %h3 Review application
@@ -50,7 +55,9 @@
   - else
     %p Application reviewed on: #{format_date_time @record.updated_at}
     - if @record.staff_note.present?
-      %p Reason for denial: #{@record.staff_note}
+      %p Staff note (internal reason for denial): #{@record.staff_note}
+    - if @record.rejection_message.present?
+      %p Rejection message (shared with candidate): #{@record.rejection_message}
   - if @interview.present?
     - if @interview.pending?
       %p Interview is scheduled for: #{@interview.information}
@@ -109,4 +116,4 @@
       - if configured_value([:on_application_denial, :notify_of_reason],
         default: true)
         Reason:
-        = @record.staff_note
+        = @record.rejection_message

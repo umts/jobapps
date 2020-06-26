@@ -30,3 +30,6 @@ Guardfile
 
 # Ignore JS packages
 /node_modules
+
+# Ignore storage files
+/storage

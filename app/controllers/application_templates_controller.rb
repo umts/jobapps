@@ -79,6 +79,28 @@ class ApplicationTemplatesController < ApplicationController
     redirect_back fallback_location: back_path
   end
 
+  def toggle_resume_upload_enabled
+    # rubocop:disable Rails/SkipsModelValidations
+    @template.toggle! :resume_upload_enabled
+    # rubocop:enable Rails/SkipsModelValidations
+    if @template.resume_upload_enabled?
+      show_message :unavailability_enabled,
+                   default: 'Resume uploads enabled on
+                            this application.'
+    else
+      show_message :unavailability_disabled,
+                   default: 'Resume uploads disabled on
+                            this application.'
+    end
+    if @template.draft_belonging_to? @current_user
+      draft = @template.draft_belonging_to @current_user
+      back_path = edit_draft_path(draft)
+    else
+      back_path = application_path(@template)
+    end
+    redirect_back fallback_location: back_path
+  end
+
   private
 
   def find_template
