@@ -5,7 +5,7 @@ $(document).ready(function() {
     }
   });
 
-  $('#add-new-button').on('click', function(event) {
+  $('#add-field-button').on('click', function(event) {
     event.preventDefault();
     const newField = $('#hidden-field-container').find('.field-row').clone(true);
     newField.appendTo('#fields-container');
@@ -13,7 +13,7 @@ $(document).ready(function() {
     $('.sortable').sortable('refresh');
   });
 
-  $(document).on('click', '.remove-button', function(event) {
+  $(document).on('click', '.remove-field-button', function(event) {
     event.preventDefault();
     $(this).parents('.row.field-row').remove();
     reAttribute();

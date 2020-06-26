@@ -21,19 +21,6 @@ class ApplicationDraftsController < ApplicationController
     redirect_to edit_draft_path(@draft)
   end
 
-  def move_question
-    question_number = params.require(:number).to_i
-    direction = params.require(:direction).to_sym
-    @draft.move_question question_number, direction
-    redirect_to edit_draft_path(@draft)
-  end
-
-  def remove_question
-    question_number = params.require(:number).to_i
-    @draft.remove_question question_number
-    redirect_to edit_draft_path(@draft)
-  end
-
   def update
     draft_params = params.require(:draft)
     question_attributes = draft_params.require(:questions_attributes)

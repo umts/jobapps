@@ -11,10 +11,10 @@
       Remove
   #fields-container.container.sortable
     = f.fields_for :questions do |g|
-      = render partial: 'cloneable_field', locals: {g: g}
+      = render partial: 'question_fields', locals: {g: g}
   .container
     .form-group
-      = link_to 'Add new field', '', class: 'btn btn-secondary', id: 'add-new-button'
+      = link_to 'Add New Field', '', class: 'btn btn-secondary', id: 'add-field-button'
     .form-group
       = f.label :email, 'Reply-to email:'
       = f.text_field :email, class: 'form-control'
@@ -24,4 +24,4 @@
 
 #hidden-field-container.hidden
   = fields_for Question.new do |g|
-    = render partial: 'cloneable_field', locals: { g: g }
+    = render partial: 'question_fields', locals: { g: g }
