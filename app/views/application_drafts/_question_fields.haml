@@ -1,0 +1,15 @@
+- question = g.object
+.row.field-row
+  .col-1.number
+    %span.grabbable-number.btn.btn-primary
+      = g.text_field :number, readonly: true
+  .col-4.prompt
+    = g.text_area :prompt, required: !question.new_record?, class: 'form-control'
+  .col-4.data-type
+    = g.select :data_type, Question::DATA_TYPES,
+      { include_blank: 'Select a response type...', required: !question.new_record? },
+      { class: 'form-control' }
+  .col-1.field-required
+    = g.check_box :required
+  .col-2
+    = link_to 'X', '', class: 'remove-field-button btn btn-secondary'

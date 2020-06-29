@@ -60,14 +60,10 @@ class ApplicationDraft < ApplicationRecord
   def update_questions(question_data)
     return if question_data.blank?
 
-    question_data.each do |_index, question_attributes|
-      question = questions.find_by number: question_attributes.fetch(:number)
-      if question.present?
-        question.update question_attributes
-      else
-        question_attributes[:application_draft_id] = id
-        Question.create question_attributes
-      end
+    questions.destroy_all
+    question_data.values.each do |question_attributes|
+      question_attributes[:application_draft_id] = id
+      Question.create question_attributes
     end
   end
 

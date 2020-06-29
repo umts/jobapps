@@ -7,8 +7,6 @@ describe ApplicationDraftsController do
     %i[delete destroy member],
     %i[get edit member],
     %i[get new collection],
-    %i[post move_question member],
-    %i[post remove_question member],
     %i[post update member],
     %i[post update_application_template member]
   ]
@@ -101,67 +99,6 @@ describe ApplicationDraftsController do
         submit
         draft = assigns.fetch :draft
         expect(response).to redirect_to edit_draft_path(draft)
-      end
-    end
-  end
-
-  describe 'POST #move_question' do
-    before :each do
-      @draft = create :application_draft
-      @question = create :question, application_draft: @draft
-      @direction = :up
-    end
-    let :submit do
-      post :move_question, params: { id: @draft.id,
-                                     number: @question.number,
-                                     direction: @direction }
-    end
-    context 'staff' do
-      before :each do
-        when_current_user_is :staff
-      end
-      it 'assigns the correct draft to the draft instance variable' do
-        submit
-        expect(assigns.fetch :draft).to eql @draft
-      end
-      it 'calls #move_question on the draft' do
-        expect_any_instance_of(ApplicationDraft)
-          .to receive(:move_question)
-          .with(@question.number, @direction)
-        submit
-      end
-      it 'redirects to the edit path' do
-        submit
-        expect(response).to redirect_to edit_draft_path(@draft)
-      end
-    end
-  end
-
-  describe 'POST #remove_question' do
-    before :each do
-      @draft = create :application_draft
-      @question = create :question, application_draft: @draft
-    end
-    let :submit do
-      post :remove_question, params: { id: @draft.id, number: @question.number }
-    end
-    context 'staff' do
-      before :each do
-        when_current_user_is :staff
-      end
-      it 'assigns the correct draft to the draft instance variable' do
-        submit
-        expect(assigns.fetch :draft).to eql @draft
-      end
-      it 'calls #remove_question on the draft with the number referenced' do
-        expect_any_instance_of(ApplicationDraft)
-          .to receive(:remove_question)
-          .with @question.number
-        submit
-      end
-      it 'redirects to the edit path for the draft' do
-        submit
-        expect(response).to redirect_to edit_draft_path(@draft)
       end
     end
   end

@@ -15,8 +15,6 @@ Rails.application.routes.draw do
 
   resources :application_drafts, as: :drafts, except: [:create, :index] do
     member do
-      post :move_question
-      post :remove_question
       post :update_application_template
     end
   end

@@ -1,0 +1,27 @@
+
+= form_for draft, as: :draft, url: draft_path(draft) do |f|
+  .row.header-row
+    .col-3
+      Prompt
+    .col-4
+      Response Type
+    .col-2
+      Required
+    .col-2
+      Remove
+  #fields-container.container.sortable
+    = f.fields_for :questions do |g|
+      = render partial: 'question_fields', locals: {g: g}
+  .container
+    .form-group
+      = link_to 'Add New Field', '', class: 'btn btn-secondary', id: 'add-field-button'
+    .form-group
+      = f.label :email, 'Reply-to email:'
+      = f.text_field :email, class: 'form-control'
+    .form-group
+      = f.submit 'Save changes and continue editing', class: 'btn btn-primary'
+      = f.submit 'Preview changes', class: 'btn btn-primary'
+
+#hidden-field-container.hidden
+  = fields_for Question.new do |g|
+    = render partial: 'question_fields', locals: { g: g }

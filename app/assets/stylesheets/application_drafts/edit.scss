@@ -1,11 +1,46 @@
-.centered{
-  margin: 1em;
+.container-fluid{
+  .row.header-row{
+    font-weight: bold; 
+    text-align: center;
+    width: 95%;
+    margin-left: 4.5em;
+  }
+  .row.field-row{
+    border-radius: 5px;
+    border: 1px solid #5b7f95;
+    cursor: grab;
+    padding: 1em;
+    .remove{
+      margin-left: 1em;
+      margin-top: 1em;
+    }
+  }
+}
+span.grabbable-number.btn.btn-primary{
+  float: left;
+  cursor: grab;
+  &:after{
+    content: "\28FF";
+    display: block;
+    font-size: 1.5em;
+  }
+}
+
+.number input{
+  width: 1.5em;
+  background-color: inherit;
+  border: none;
+  color: white;
   text-align: center;
 }
-.field-row{
-  height: 7em;
-  margin-bottom: 2em;
+.row{
+  margin: 1em;
 }
-.header-row{
-  height: 3em;
+.buttons{
+  width: 200px;
+}
+.form-attributes{
+  text-align: left;
+  width: 50%;
+  margin: 0px auto;
 }
