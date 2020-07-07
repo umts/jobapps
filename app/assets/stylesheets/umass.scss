@@ -23,7 +23,7 @@
   #search{
     float: right;
     #submit{
-      background: #881c1c url('search.svg') 0 0 no-repeat;
+      background: #881c1c asset-url('search.svg') 0 0 no-repeat;
       background-size: contain;
       border: none;
       cursor: pointer;

@@ -108,7 +108,9 @@ describe ApplicationDraft do
       @question_data = {
         0 => {
           number: @question.number,
-          prompt: 'A new prompt'
+          prompt: 'A new prompt',
+          data_type: @question.data_type,
+          required: @question.required
         },
         1 => {
           number: @question.number + 1,
@@ -121,15 +123,10 @@ describe ApplicationDraft do
     let :call do
       @draft.update_questions @question_data
     end
-    it 'updates existing questions' do
-      expect { call }
-        .to change { @question.reload.prompt }
-        .to @new_prompt
-    end
-    it 'creates new questions if none existing with that number' do
-      expect { call }
-        .to change { @draft.questions.count }
-        .by 1
+    it 'erases old questions and creates new ones with the given data' do
+      call
+      expect(@draft.questions.where(prompt: 'A new prompt')).to exist
+      expect(@draft.questions.where(prompt: 'A prompt')).to exist
     end
   end
   describe 'update_application_template!' do
