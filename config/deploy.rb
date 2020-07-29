@@ -1,18 +1,16 @@
 # config valid only for current version of Capistrano
-lock  '~> 3.8.0'
+lock  '~> 3.14.1'
 
 set :application, 'jobapps'
 set :repo_url, 'https://github.com/umts/jobapps.git'
 set :branch, :master
 set :deploy_to, "/srv/#{fetch :application}"
 set :log_level, :info
-set :keep_releases, 5
 
 set :whenever_command, [:sudo, :bundle, :exec, :whenever]
 
-set :linked_files, fetch(:linked_files, []).push(
+append :linked_files,
   'config/application.yml',
   'config/database.yml'
-)
 
-set :linked_dirs, fetch(:linked_dirs, []).push('log')
+append :linked_dirs, '.bundle', 'log'
