@@ -57,7 +57,7 @@ class ApplicationSubmissionsController < ApplicationController
   def review
     @record.update review_params
     if params[:application_submission][:accepted] == 'true'
-      Interview.create! interview_params
+      @record.create_interview! interview_params
     else @record.deny
     end
     show_message :application_review,
