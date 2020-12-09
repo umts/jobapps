@@ -340,7 +340,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bootstrap (~> 4.0)
-  capistrano (~> 3.14.1)
+  capistrano (~> 3.14)
   capistrano-bundler
   capistrano-passenger
   capistrano-pending
