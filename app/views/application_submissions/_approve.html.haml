@@ -1,5 +1,5 @@
 %h4 Approve Application and Schedule Interview
-= form_with(model: @record, url: { action: :review }) do |form|
+= form_with(model: @record, url: { action: :review }, local: true) do |form|
   = form.hidden_field :accepted, value: 'true'
   = fields_for :interview do |f|
     .row
