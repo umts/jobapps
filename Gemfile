@@ -50,7 +50,6 @@ end
 group :test do
   gem 'capybara'
   gem 'codeclimate-test-reporter', '~> 1.0'
-  gem 'fuubar', require: false
   gem 'rack_session_access'
   gem 'rails-controller-testing'
   gem 'rspec-html-matchers'
