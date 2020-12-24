@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class ApplicationSubmission < ApplicationRecord
-  include ApplicationConfiguration
-
   belongs_to :user
   belongs_to :position
   delegate :department, to: :position
