@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'application_configuration'
+
 module ConfigurableMessages
   include ApplicationConfiguration
   extend ActiveSupport::Concern

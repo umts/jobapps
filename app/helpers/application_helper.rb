@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'application_configuration'
+
 module ApplicationHelper
   include ApplicationConfiguration
   include DateAndTimeMethods

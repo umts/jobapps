@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'application_configuration'
+
 class JobappsMailer < ActionMailer::Base
   include ApplicationConfiguration
 
