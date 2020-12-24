@@ -25,11 +25,7 @@ describe 'layouts/_footer.haml' do
   end
   it 'has the configured value as the Site Contact Email' do
     site_contact_email = 'your-it-department@test.host'
-    allow_any_instance_of(ApplicationConfiguration).to receive :configured_value
-    expect_any_instance_of(ApplicationConfiguration)
-      .to receive(:configured_value)
-      .with(%i[email site_contact_email])
-      .and_return site_contact_email
+    stub_config(:email, :site_contact_email, site_contact_email)
     render
     expect(rendered)
       .to have_tag 'a', with: { href: "mailto:#{site_contact_email}" } do
