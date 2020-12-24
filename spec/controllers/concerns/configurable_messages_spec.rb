@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require 'application_configuration'
 
 class DummyController < ApplicationController
   include ConfigurableMessages
