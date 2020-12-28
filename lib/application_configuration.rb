@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 module ApplicationConfiguration
-  extend self
-
   # Accepts an array of symbols corresponding to the key path
   # at which to reach the desired value in application.yml.
   # For instance [:a, :b] would query CONFIG[:a][:b].
@@ -27,4 +25,6 @@ module ApplicationConfiguration
             and default not specified."
     end
   end
+
+  module_function :configured_value
 end

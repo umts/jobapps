@@ -10,7 +10,8 @@ AllCops:
     - 'vendor/**/*'
 
 Lint/AmbiguousBlockAssociation:
-  Enabled: false
+  Exclude:
+    - 'spec/**/*'
 
 # Relax complexity testing to codeclimate standards (roughly).
 Metrics/AbcSize:
@@ -30,15 +31,7 @@ Metrics/BlockLength:
 Style/Documentation:
   Enabled: false
 
-# I think multiline block chains are beautiful.
-Style/MultilineBlockChain:
-  Enabled: false
-
 # I think this cop disagrees with nested calls
 # that are perfectly clear.
 Style/NestedParenthesizedCalls:
-  Enabled: false
-
-# Module function isn't quite the same as extend self
-Style/ModuleFunction:
   Enabled: false

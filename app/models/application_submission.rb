@@ -58,12 +58,15 @@ class ApplicationSubmission < ApplicationRecord
 
   def data_rows
     header = [%w[Question Response]]
+    #
     # deletes rows of type header/explanation
     questions = data.delete_if do |_prompt, _response, data_type, _id|
       %w[heading explanation].include? data_type
-    end.map do |prompt, response, _data_type, _id|
+    end
+    questions = questions.map do |prompt, response, _data_type, _id|
       [prompt, response]
     end
+
     header + questions
   end
 

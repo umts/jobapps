@@ -8,14 +8,14 @@ describe 'viewing table of past applications' do
   let(:end_date) { 1.week.since.strftime('%m/%d/%Y') }
   let!(:record) do
     create :application_submission,
-    rejection_message: "it's not you, it's me",
-    staff_note: "they smelled terrible"
+           rejection_message: "it's not you, it's me",
+           staff_note: 'they smelled terrible'
   end
   let!(:record_with_completed_interview) { create :application_submission }
   let!(:interview) do
     create :interview,
-    application_submission: record,
-    interview_note: "bunnies"
+           application_submission: record,
+           interview_note: 'bunnies'
   end
   let!(:completed_interview) do
     create :interview,
@@ -54,10 +54,12 @@ describe 'viewing table of past applications' do
     expect page.has_css? "*[data-order=#{record.created_at.to_i}]"
   end
   it 'displays the date any interviews are scheduled' do
-    expect(page).to have_text record.interview.scheduled.to_formatted_s(:long_with_time)
+    time = record.interview.scheduled.to_formatted_s(:long_with_time)
+    expect(page).to have_text time
   end
   it 'displays the date any interviews were completed' do
-    time = record_with_completed_interview.interview.scheduled.to_formatted_s :long_with_time
+    time = record_with_completed_interview
+           .interview.scheduled.to_formatted_s(:long_with_time)
     expect(page).to have_text "Completed #{time}"
   end
   it 'displays text that the interview has not been scheduled' do

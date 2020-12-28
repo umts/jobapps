@@ -37,7 +37,7 @@ describe 'editing application draft' do
 
     it 'has a checkbox to determine whether the question is required' do
       boxes = all("form[action='#{draft_path(draft)}'] input[type=checkbox]")
-                .select do |box|
+              .select do |box|
         box[:name].include? 'required'
       end
       expect(boxes.count).to eql draft.questions.count + 1
@@ -49,7 +49,8 @@ describe 'editing application draft' do
     it 'has a field to create a new question' do
       expect(find('#fields-container').find_all('.row.field-row').count).to be 4
       # there are 3 existing questions, the 4th textarea field is for a new one
-      expect(find('#fields-container').find_all('.row.field-row textarea').last.value).to be_empty
+      expect(find('#fields-container')
+        .find_all('.row.field-row textarea').last.value).to be_empty
       # and it should contain no existing text
     end
 
@@ -68,7 +69,8 @@ describe 'editing application draft' do
       field = find('#fields-container').find_all('textarea')[3][:name]
       fill_in(field, with: 'Stuff')
       # select a data type for the new question
-      select 'text', from: find('#fields-container').find_all('select').last[:name]
+      select 'text',
+             from: find('#fields-container').find_all('select').last[:name]
       click_button('Save changes and continue editing')
       draft.reload
       expect(draft.questions.count).to be 4
