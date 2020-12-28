@@ -57,6 +57,6 @@ describe 'viewing eeo data page' do
   end
 
   it 'displays the formatted creation date of the application records' do
-    expect(page).to have_text format_date_time record_with_eeo_data.created_at
+    expect(page).to have_text record_with_eeo_data.created_at.to_formatted_s(:long_with_time)
   end
 end

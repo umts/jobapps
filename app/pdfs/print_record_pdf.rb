@@ -3,8 +3,6 @@
 require 'prawn/table'
 
 class PrintRecordPdf < Prawn::Document
-  include DateAndTimeMethods
-
   def initialize(record)
     super()
     font_families.update(
@@ -25,7 +23,7 @@ class PrintRecordPdf < Prawn::Document
   end
 
   def header_content(content_width, record)
-    date = format_date_time(record.created_at)
+    date = record.created_at.to_formatted_s :long_with_time
     name = record.user.full_name
     email = record.user.email
     bounding_box([5, cursor], width: content_width) do

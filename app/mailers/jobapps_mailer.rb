@@ -6,7 +6,6 @@ class JobappsMailer < ActionMailer::Base
   include ApplicationConfiguration
 
   helper_method :configured_value
-  helper DateAndTimeMethods
 
   default(
     from: ApplicationConfiguration.configured_value(%i[email default_from])

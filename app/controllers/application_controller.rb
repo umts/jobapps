@@ -5,7 +5,6 @@ require 'application_configuration'
 class ApplicationController < ActionController::Base
   include ApplicationConfiguration
   include ConfigurableMessages
-  include DateAndTimeMethods
 
   attr_accessor :current_user
   before_action :set_spire
@@ -77,5 +76,9 @@ class ApplicationController < ActionController::Base
     render 'sessions/unauthenticated_subsidiary',
            status: :unauthorized,
            layout: false
+  end
+
+  def parse_date_picker_param(name)
+    Date.strptime params.require(name), '%m/%d/%Y'
   end
 end

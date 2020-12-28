@@ -90,11 +90,11 @@ describe 'saving or unsaving applications' do
       end
       it 'displays the date on the saved_for_later page' do
         visit saved_applications_position_url(saved_record.position)
-        expect(page).to have_text format_date saved_record.date_for_later
+        expect(page).to have_text saved_record.date_for_later.to_formatted_s(:long)
       end
       it 'displays the date on the application record page' do
         visit saved_applications_position_url(saved_record.position)
-        expect(page).to have_text format_date saved_record.date_for_later
+        expect(page).to have_text saved_record.date_for_later.to_formatted_s(:long)
       end
       it 'displays the note on the saved_for_later page' do
         visit saved_applications_position_url(saved_record.position)

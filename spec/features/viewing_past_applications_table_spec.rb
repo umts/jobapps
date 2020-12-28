@@ -42,7 +42,7 @@ describe 'viewing table of past applications' do
       .to have_text "#{record.user.last_name}, #{record.user.first_name}"
   end
   it 'displays the formatted creation date of the application records' do
-    expect(page).to have_text format_date_time record.created_at
+    expect(page).to have_text record.created_at.to_formatted_s(:long_with_time)
   end
   it 'displays the staff note of the applications' do
     expect(page).to have_text record.staff_note
@@ -54,10 +54,10 @@ describe 'viewing table of past applications' do
     expect page.has_css? "*[data-order=#{record.created_at.to_i}]"
   end
   it 'displays the date any interviews are scheduled' do
-    expect(page).to have_text format_date_time record.interview.scheduled
+    expect(page).to have_text record.interview.scheduled.to_formatted_s(:long_with_time)
   end
   it 'displays the date any interviews were completed' do
-    time = format_date_time record_with_completed_interview.interview.scheduled
+    time = record_with_completed_interview.interview.scheduled.to_formatted_s :long_with_time
     expect(page).to have_text "Completed #{time}"
   end
   it 'displays text that the interview has not been scheduled' do
