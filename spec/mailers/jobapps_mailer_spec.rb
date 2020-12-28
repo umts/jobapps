@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require 'application_configuration'
 
 describe JobappsMailer do
   let(:config) { ApplicationConfiguration }
@@ -226,9 +227,8 @@ describe JobappsMailer do
       expect(output.body.encoded).to include @record.user.full_name
     end
     it 'includes the date applied' do
-      format = '%A, %B %e, %Y - %l:%M %P'
       expect(output.body.encoded).to include
-      @record.created_at.strftime(format).squish
+      @record.created_at.to_formatted_s(:long_with_time)
     end
     it 'includes the note for later if it exists' do
       @record.update note_for_later: 'This note is for later.'
@@ -263,11 +263,10 @@ describe JobappsMailer do
       expect(output.body.encoded).to include @record2.user.full_name
     end
     it 'includes the dates applied' do
-      format = '%A, %B %e, %Y - %l:%M %P'
       expect(output.body.encoded)
-        .to include @record1.created_at.strftime(format).squish
+        .to include @record1.created_at.to_formatted_s(:long_with_time)
       expect(output.body.encoded)
-        .to include @record2.created_at.strftime(format).squish
+        .to include @record2.created_at.to_formatted_s(:long_with_time)
     end
     it 'includes any notes for later' do
       expect(output.body.encoded).to include @record1.note_for_later

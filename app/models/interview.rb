@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class Interview < ApplicationRecord
-  include DateAndTimeMethods
-
   belongs_to :user
   belongs_to :application_submission
   delegate :department,
@@ -29,7 +27,7 @@ class Interview < ApplicationRecord
   end
 
   def information(options = {})
-    info = "#{format_date_time scheduled} at #{location}"
+    info = "#{scheduled.to_formatted_s :long_with_time} at #{location}"
     info += ": #{user.proper_name}" if options.key? :include_name
     info
   end

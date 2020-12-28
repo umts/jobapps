@@ -15,13 +15,13 @@ describe 'interviews/interview.ics.erb' do
       lines[key] = value.strip
     end
     expect(lines.fetch 'DTSTART')
-      .to eql format_date_time @interview.scheduled, format: :iCal
+      .to eql @interview.scheduled.to_formatted_s :ical
     expect(lines.fetch 'DESCRIPTION')
       .to eql application_submission_url(@interview.application_submission)
     expect(lines.fetch 'SUMMARY').to eql @interview.calendar_title
     expect(lines.fetch 'UID')
       .to eql "INTERVIEW#{@interview.id}@UMASS_TRANSIT//JOBAPPS"
     expect(lines.fetch 'DTSTAMP')
-      .to eql format_date_time Time.zone.now, format: :iCal
+      .to eql Time.zone.now.to_formatted_s :ical
   end
 end

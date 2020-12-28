@@ -1,6 +1,6 @@
 %h1 #{@record.position.name} Application Record
 
-%p submitted #{format_date_time @record.created_at}
+%p submitted #{@record.created_at.to_formatted_s :long_with_time}
 %p by #{@record.user.name_and_email}
 = button_to 'Print this page',
   application_submission_path(@record, format: :pdf),
@@ -53,7 +53,7 @@
     = render 'approve', locals: { record: @record }
     = render 'save_for_later', locals: { record: @record }
   - else
-    %p Application reviewed on: #{format_date_time @record.updated_at}
+    %p Application reviewed on: #{@record.updated_at.to_formatted_s :long_with_time}
     - if @record.staff_note.present?
       %p Staff note (internal reason for denial): #{@record.staff_note}
     - if @record.rejection_message.present?

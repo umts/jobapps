@@ -68,6 +68,7 @@ describe 'saving or unsaving applications' do
   end
   context 'adding a note and date for later' do
     let!(:record) { create :application_submission, reviewed: false }
+    let(:saved_date) { saved_record.date_for_later.to_formatted_s(:long) }
     it 'saves all the relevant attributes' do
       visit application_submission_url(record)
       page.fill_in 'application_submission_note_for_later',
@@ -90,11 +91,11 @@ describe 'saving or unsaving applications' do
       end
       it 'displays the date on the saved_for_later page' do
         visit saved_applications_position_url(saved_record.position)
-        expect(page).to have_text format_date saved_record.date_for_later
+        expect(page).to have_text saved_date
       end
       it 'displays the date on the application record page' do
         visit saved_applications_position_url(saved_record.position)
-        expect(page).to have_text format_date saved_record.date_for_later
+        expect(page).to have_text saved_date
       end
       it 'displays the note on the saved_for_later page' do
         visit saved_applications_position_url(saved_record.position)

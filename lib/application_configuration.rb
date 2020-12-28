@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module ApplicationConfiguration
-  extend self
+  module_function
 
   # Accepts an array of symbols corresponding to the key path
   # at which to reach the desired value in application.yml.

@@ -59,7 +59,7 @@ describe Interview do
     end
     it 'includes the formatted date and time' do
       expect(@interview.information)
-        .to include format_date_time(@interview.scheduled)
+        .to include @interview.scheduled.to_formatted_s(:long_with_time)
     end
     it 'includes the location' do
       expect(@interview.information).to include @interview.location

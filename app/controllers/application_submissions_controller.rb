@@ -30,16 +30,16 @@ class ApplicationSubmissionsController < ApplicationController
   end
 
   def csv_export
-    start_date = parse_american_date(params.require :start_date)
-    end_date = parse_american_date(params.require :end_date)
+    start_date = parse_date_picker_param(:start_date)
+    end_date = parse_date_picker_param(:end_date)
     @records = ApplicationSubmission.in_department(given_or_all_department_ids)
                                     .between(start_date, end_date)
     render 'csv_export.csv.erb', layout: false
   end
 
   def eeo_data
-    start_date = parse_american_date(params.require :eeo_start_date)
-    end_date = parse_american_date(params.require :eeo_end_date)
+    start_date = parse_date_picker_param(:eeo_start_date)
+    end_date = parse_date_picker_param(:eeo_end_date)
     @records = ApplicationSubmission.eeo_data(start_date,
                                               end_date,
                                               given_or_all_department_ids)
@@ -48,8 +48,8 @@ class ApplicationSubmissionsController < ApplicationController
   def past_applications
     # text field tags must be unique to the page, hence records_start_date
     # instead of just start_date
-    start_date = parse_american_date(params.require :records_start_date)
-    end_date = parse_american_date(params.require :records_end_date)
+    start_date = parse_date_picker_param(:records_start_date)
+    end_date = parse_date_picker_param(:records_end_date)
     @records = ApplicationSubmission.in_department(given_or_all_department_ids)
                                     .between(start_date, end_date)
   end

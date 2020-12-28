@@ -9,7 +9,7 @@
     - @records[:all].each do |record|
       %tr
         %td{ data: { order: record.created_at.to_i } }
-          = format_date_time record.created_at
+          = record.created_at.to_formatted_s :long_with_time
         %td= record.ethnicity
         %td= record.gender
         %td

@@ -36,7 +36,7 @@
         - @old_applications.each do |app|
           %tr
             %td
-              = format_date_time app.created_at
+              = app.created_at.to_formatted_s :long_with_time
             %td.load_column
               = link_to 'Load reponses', application_path(@template, load_id: app.id)
   = form_tag application_submissions_path, multipart: true do

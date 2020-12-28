@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
+require 'application_configuration'
+
 module ApplicationHelper
   include ApplicationConfiguration
-  include DateAndTimeMethods
 
   def configured_organization_name
     configured_value [:organization_name]

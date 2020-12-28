@@ -44,14 +44,9 @@ describe 'viewing the dashboard as a student' do
         visit student_dashboard_url
       end
 
-      context 'configured value notify of application denial reason is true' do
+      context 'configured value notify of application denial is true' do
         before :each do
-          allow_any_instance_of(ApplicationConfiguration)
-            .to receive :configured_value
-          allow_any_instance_of(ApplicationConfiguration)
-            .to receive(:configured_value)
-            .with(%i[on_application_denial notify_applicant], anything)
-            .and_return true
+          stub_config(:on_application_denial, :notify_applicant, true)
         end
 
         it 'contains a link to review the pending application' do
@@ -66,12 +61,7 @@ describe 'viewing the dashboard as a student' do
 
         context 'configured value provide reason is set to false' do
           before :each do
-            allow_any_instance_of(ApplicationConfiguration)
-              .to receive :configured_value
-            allow_any_instance_of(ApplicationConfiguration)
-              .to receive(:configured_value)
-              .with(%i[on_application_denial notify_of_reason], anything)
-              .and_return false
+            stub_config(:on_application_denial, :notify_of_reason, false)
           end
 
           it 'has link to see denied app, without text of denial reason' do
@@ -86,12 +76,7 @@ describe 'viewing the dashboard as a student' do
 
         context 'configured value provide reason is set to true' do
           before :each do
-            allow_any_instance_of(ApplicationConfiguration)
-              .to receive :configured_value
-            allow_any_instance_of(ApplicationConfiguration)
-              .to receive(:configured_value)
-              .with(%i[on_application_denial notify_of_reason], anything)
-              .and_return true
+            stub_config(:on_application_denial, :notify_of_reason, true)
           end
 
           it 'has link to see the denied app, with text of denial reason' do
@@ -106,14 +91,9 @@ describe 'viewing the dashboard as a student' do
         end
       end
 
-      context 'configured value notify of application denial reason is false' do
+      context 'configured value notify of application denial is false' do
         before :each do
-          allow_any_instance_of(ApplicationConfiguration)
-            .to receive :configured_value
-          allow_any_instance_of(ApplicationConfiguration)
-            .to receive(:configured_value)
-            .with(%i[on_application_denial notify_applicant], anything)
-            .and_return false
+          stub_config(:on_application_denial, :notify_applicant, false)
         end
 
         it 'contains a link to review pending applications' do

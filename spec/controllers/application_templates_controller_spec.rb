@@ -272,9 +272,9 @@ describe ApplicationTemplatesController do
     end
     let :submit do
       post :toggle_resume_upload_enabled, params: {
-          id: @template.id,
-          position: @template.position.name,
-          department: @template.department.name
+        id: @template.id,
+        position: @template.position.name,
+        department: @template.department.name
       }
     end
     context 'staff' do
@@ -313,8 +313,8 @@ describe ApplicationTemplatesController do
             @template.create_draft @user
             submit
             expect(response).to redirect_to(
-                                    edit_draft_path(@template.draft_belonging_to @user)
-                                )
+              edit_draft_path(@template.draft_belonging_to @user)
+            )
           end
         end
         context 'no draft belonging to current user' do

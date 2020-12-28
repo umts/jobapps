@@ -4,11 +4,11 @@ PRODID:-//UMASS_TRANSIT_JOBAPPS//INTERVIEW_EXPORT//EN
 TZID:US-Eastern
 METHOD:PUBLISH
 BEGIN:VEVENT
-DTSTART:<%= format_date_time @interview.scheduled, format: :iCal %>
+DTSTART:<%= @interview.scheduled.to_formatted_s :ical %>
 DESCRIPTION:<%= application_submission_url(@interview.application_submission) %>
 SUMMARY:<%= @interview.calendar_title %>
 UID:INTERVIEW<%= @interview.id -%>@UMASS_TRANSIT//JOBAPPS
-DTSTAMP:<%= format_date_time DateTime.now, format: :iCal %>
+DTSTAMP:<%= DateTime.now.to_formatted_s :ical %>
 STATUS:CONFIRMED
 END:VEVENT
 END:VCALENDAR
