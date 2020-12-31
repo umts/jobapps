@@ -15,7 +15,9 @@ class User < ApplicationRecord
             format: { with: /\A([^@\s]+)@((?:[-a-zA-Z0-9]+\.)+[a-zA-Z]{2,})\Z/ }
   validates :staff, inclusion: { in: [true, false],
                                  message: 'must be true or false' }
-  validates :spire, uniqueness: true, format: { with: /\A\d{8}@umass\.edu\z/ }
+  validates :spire,
+            uniqueness: { case_sensitive: false },
+            format: { with: /\A\d{8}@umass\.edu\z/ }
 
   default_scope { order :last_name, :first_name }
   scope :staff,    -> { where staff: true }
