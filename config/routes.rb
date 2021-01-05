@@ -54,6 +54,10 @@ Rails.application.routes.draw do
 
   resources :subscriptions
 
+  get 'markdowns/explanation'
+
+  get 'markdowns/edit'
+  post 'markdowns/edit'
   # sessions
   unless Rails.env.production?
     get  'sessions/dev_login', to: 'sessions#dev_login', as: :dev_login

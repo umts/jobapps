@@ -20,7 +20,6 @@ class DashboardController < ApplicationController
                                             .group_by(&:position)
     @saved_records = ApplicationSubmission.where(saved_for_later: true)
                                           .group_by(&:position)
-    @site_texts = SiteText.order :name
     @staff = User.staff
     @templates = ApplicationTemplate.all.group_by(&:position)
   end
