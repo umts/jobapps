@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ApplicationSubmission < ApplicationRecord
+  include Routable
+
   belongs_to :user
   belongs_to :position
   delegate :department, to: :position
@@ -87,14 +89,18 @@ class ApplicationSubmission < ApplicationRecord
     JobappsMailer.application_denial(self).deliver_now if notify_of_denial
   end
 
-  def pending?
-    !reviewed
-  end
-
   def move_to_dashboard
     update(saved_for_later: false,
            date_for_later: nil,
            reviewed: false)
+  end
+
+  def pending?
+    !reviewed
+  end
+
+  def rejected?
+    reviewed? && interview.blank?
   end
 
   def self.move_to_dashboard
@@ -168,9 +174,5 @@ class ApplicationSubmission < ApplicationRecord
       records_by_position = email_records.group_by(&:position)
       JobappsMailer.saved_applications_notification records_by_position, address
     end
-  end
-
-  def rejected?
-    reviewed? && interview.blank?
   end
 end
