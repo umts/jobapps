@@ -127,7 +127,7 @@ GEM
       factory_bot (~> 6.1.0)
       railties (>= 5.0.0)
     ffi (1.14.2)
-    friendly_id (5.1.0)
+    friendly_id (5.4.1)
       activerecord (>= 4.0.0)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
@@ -151,7 +151,7 @@ GEM
       haml (>= 4.0, < 6)
       nokogiri (>= 1.6.0)
       ruby_parser (~> 3.5)
-    i18n (1.8.5)
+    i18n (1.8.6)
       concurrent-ruby (~> 1.0)
     icalendar (2.7.0)
       ice_cube (~> 0.16)
@@ -360,7 +360,7 @@ DEPENDENCIES
   coffee-rails
   exception_notification
   factory_bot_rails
-  friendly_id (~> 5.1.0)
+  friendly_id (~> 5.1)
   haml
   haml-rails
   haml_lint
