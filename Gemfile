@@ -18,7 +18,6 @@ gem 'rails', '~> 6.0.3'
 gem 'redcarpet'
 gem 'sass-rails'
 gem 'snappconfig'
-gem 'strscan'
 gem 'uglifier'
 gem 'whenever', require: false
 

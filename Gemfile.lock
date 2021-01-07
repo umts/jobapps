@@ -315,7 +315,6 @@ GEM
     sshkit (1.21.1)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
-    strscan (3.0.0)
     sysexits (1.2.0)
     temple (0.8.2)
     thor (1.0.1)
@@ -384,7 +383,6 @@ DEPENDENCIES
   simplecov
   snappconfig
   spring
-  strscan
   timecop
   uglifier
   umts-custom-cops
