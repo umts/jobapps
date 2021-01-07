@@ -145,7 +145,7 @@ describe InterviewsController do
       end
 
       it 'renders an ICS file if so requested' do
-        expect(response.content_type).to eql 'text/calendar'
+        expect(response.media_type).to eql 'text/calendar'
       end
 
       it 'has a UID' do

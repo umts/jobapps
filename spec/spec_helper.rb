@@ -2,7 +2,7 @@
 
 require 'factory_bot_rails'
 require 'simplecov'
-require 'umts-custom-matchers'
+require 'umts_custom_matchers'
 
 SimpleCov.start 'rails' do
   refuse_coverage_drop

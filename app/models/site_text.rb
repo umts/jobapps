@@ -5,7 +5,7 @@ class SiteText < ApplicationRecord
   friendly_id :site_text_name, use: :slugged
 
   validates :name, :text, presence: true
-  validates :name, uniqueness: true
+  validates :name, uniqueness: { case_sensitive: false }
 
   def site_text_name
     name.parameterize
