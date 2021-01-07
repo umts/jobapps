@@ -1,9 +1,0 @@
-%h3 Markdown sandbox
-Enter text here to preview without updating.
-= form_tag do
-	= text_area_tag :preview_input,
-    	@preview_input, size: '100x20', class: 'form-control'
-	= submit_tag 'Preview below', class: 'btn btn-primary'
-- if @preview_input.present?
-	%h3 Preview output
-	= render_markdown @preview_input
