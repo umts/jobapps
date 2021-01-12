@@ -15,17 +15,13 @@ gem 'mysql2'
 gem 'prawn'
 gem 'prawn-table'
 gem 'rails', '~> 6.0.3'
+
+gem 'puma'
 gem 'redcarpet'
 gem 'sass-rails'
 gem 'snappconfig'
 gem 'uglifier'
 gem 'whenever', require: false
-gem 'puma'
-gem 'webdrivers'
-gem 'capybara'
-gem 'selenium-webdriver'
-gem 'rspec-rails'
-gem 'vcr'
 
 group :production do
   gem 'exception_notification'
@@ -54,11 +50,16 @@ group :development, :test do
 end
 
 group :test do
+  gem 'capybara'
   gem 'codeclimate-test-reporter', '~> 1.0'
   gem 'rack_session_access'
   gem 'rails-controller-testing'
   gem 'rspec-html-matchers'
+  gem 'rspec-rails'
+  gem 'selenium-webdriver'
   gem 'simplecov'
   gem 'timecop'
   gem 'umts-custom-matchers'
+  gem 'vcr'
+  gem 'webdrivers'
 end

@@ -70,8 +70,6 @@ private
 def set_current_user(user, **options)
   if options.key? :view
     assign :current_user, user
-  elsif options.key? :integration
-    page.set_rack_session user_id: user.try(:id)
   elsif options.key? :system
     page.set_rack_session user_id: user.try(:id)
   elsif user.present?
