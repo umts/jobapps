@@ -72,6 +72,8 @@ def set_current_user(user, **options)
     assign :current_user, user
   elsif options.key? :integration
     page.set_rack_session user_id: user.try(:id)
+  elsif options.key? :system
+    page.set_rack_session user_id: user.try(:id)
   elsif user.present?
     session[:user_id] = user.id
   else session[:spire] = build(:user).spire

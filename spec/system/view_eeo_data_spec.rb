@@ -18,16 +18,16 @@ describe 'viewing eeo data page' do
            gender: 'Female'
   end
   before :each do
-    when_current_user_is :staff, integration: true
-    visit staff_dashboard_url
+    when_current_user_is :staff, system: true
+    visit staff_dashboard_path
     fill_in 'eeo_start_date', with: start_date
     fill_in 'eeo_end_date', with: end_date
     click_button 'List EEO data'
   end
 
   it 'goes to the past applications page' do
-    expect(page.current_url)
-      .to include eeo_data_application_submissions_url
+    expect(page.current_path)
+      .to include eeo_data_application_submissions_path
   end
 
   it 'displays the ethnicity of valid applicant' do

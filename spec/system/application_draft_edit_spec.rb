@@ -17,8 +17,8 @@ describe 'editing application draft' do
                       application_draft: draft
   end
   before :each do
-    when_current_user_is :staff, integration: true
-    visit edit_draft_url(draft)
+    when_current_user_is :staff, system: true
+    visit edit_draft_path(draft)
   end
 
   context 'viewing page' do
@@ -56,7 +56,7 @@ describe 'editing application draft' do
 
     it 'has a button to bring the user to a preview draft page' do
       click_button('Preview changes')
-      expect(page.current_url).to eql draft_url(draft)
+      expect(page.current_path).to eql draft_path(draft)
     end
   end
 

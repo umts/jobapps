@@ -12,7 +12,7 @@ describe 'submitting application records' do
       create :user, :student
     end
     before :each do
-      when_current_user_is student, integration: true
+      when_current_user_is student, system: true
       visit application_path(application_template)
       application_template.position.update(not_hiring_text: 'custom text')
     end
@@ -24,7 +24,7 @@ describe 'submitting application records' do
     context 'application template has been marked as inactive' do
       it 'shows text explaining that the application is unavailable' do
         application_template.update active: false
-        visit current_url
+        visit current_path
         # must reload the page for changes to template to take effect
         expect(page)
           .to have_text application_template.position.not_hiring_text
@@ -34,7 +34,7 @@ describe 'submitting application records' do
   context 'student has been authenticated but has no user object' do
     let(:spire) { '12345678@umass.edu' }
     before :each do
-      when_current_user_is nil, integration: true
+      when_current_user_is nil, system: true
       page.set_rack_session spire: spire
       visit application_path(application_template)
       application_template.position.update(not_hiring_text: 'custom text')
@@ -53,7 +53,7 @@ describe 'submitting application records' do
     context 'application template has been marked as inactive' do
       it 'shows text explaining that the application is unavailable' do
         application_template.update active: false
-        visit current_url
+        visit current_path
         # must reload the page for changes to template to take effect
         expect(page)
           .to have_text application_template.position.not_hiring_text

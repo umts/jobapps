@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'deleting users' do
   context 'with admin privilege' do
     before :each do
-      when_current_user_is :admin, integration: true
+      when_current_user_is :admin, system: true
       visit edit_user_path(user)
     end
     let!(:user) { create :user }
@@ -17,7 +17,7 @@ describe 'deleting users' do
 
     it 'redirects you to the staff dashboard' do
       click_on "Remove #{user.full_name}"
-      expect(page.current_url).to eql staff_dashboard_url
+      expect(page.current_path).to eql staff_dashboard_path
     end
 
     it 'has a flash message' do
@@ -29,11 +29,11 @@ end
 
 context 'with staff privilege' do
   before :each do
-    when_current_user_is :staff, integration: true
+    when_current_user_is :staff, system: true
   end
   let!(:user) { create :user }
   it 'does not have the link' do
-    visit staff_dashboard_url
+    visit staff_dashboard_path
     expect(page).not_to have_link user.proper_name
   end
   it 'does not give access' do

@@ -13,14 +13,14 @@ describe 'reviewing applications' do
     ActionMailer::MessageDelivery.new(JobappsMailer, :application_denial)
   end
   before :each do
-    when_current_user_is :staff, integration: true
-    visit staff_dashboard_url
+    when_current_user_is :staff, system: true
+    visit staff_dashboard_path
   end
   it 'provides a means to reject the application without a staff note' do
     click_link unreviewed_record.user.proper_name,
                href: application_submission_path(unreviewed_record)
     click_button 'Decline'
-    expect(page.current_url).to eql staff_dashboard_url
+    expect(page.current_path).to eql staff_dashboard_path
     expect(page).to have_text 'Application has been marked as reviewed'
   end
   it 'provides a means to notify the applicant of denial' do
@@ -61,7 +61,7 @@ describe 'reviewing applications' do
     fill_in 'Date/time', with: 1.week.since
     fill_in 'Location', with: 'A Place'
     click_button 'Approve'
-    expect(page.current_url).to eql staff_dashboard_url
+    expect(page.current_path).to eql staff_dashboard_path
     expect(page).to have_text 'Application has been marked as reviewed'
     expect(unreviewed_record.interview.reload.scheduled.to_datetime)
       .to be_within(1.second).of(1.week.since.to_datetime)
@@ -76,7 +76,7 @@ describe 'reviewing applications' do
       expect(interview.reload.scheduled.to_datetime)
         .to be_within(1.second).of(1.week.since.to_datetime)
     end
-    expect(page.current_url).to eql staff_dashboard_url
+    expect(page.current_path).to eql staff_dashboard_path
     expect(page).to have_text 'Interview has been rescheduled'
   end
   it 'provides a means to mark interview complete and candidate hired' do

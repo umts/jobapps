@@ -24,8 +24,8 @@ describe 'viewing table of past applications' do
   end
   let!(:record_without_interview) { create :application_submission }
   before :each do
-    when_current_user_is :staff, integration: true
-    visit staff_dashboard_url
+    when_current_user_is :staff, system: true
+    visit staff_dashboard_path
     fill_in 'records_start_date', with: start_date
     fill_in 'records_end_date', with: end_date
     click_button 'List Applications'
@@ -34,8 +34,8 @@ describe 'viewing table of past applications' do
   it_behaves_like 'a data page', table_ids: %w[main_data_table]
 
   it 'goes to the past applications page' do
-    expect(page.current_url)
-      .to include past_applications_application_submissions_url
+    expect(page.current_path)
+      .to include past_applications_application_submissions_path
   end
   it 'lists the proper name of applicants' do
     expect(page)

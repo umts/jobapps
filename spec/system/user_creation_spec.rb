@@ -5,22 +5,22 @@ require 'rails_helper'
 describe 'creating a staff member' do
   context 'with admin privilege' do
     before :each do
-      when_current_user_is :admin, integration: true
+      when_current_user_is :admin, system: true
     end
     context 'clicking from dashboard' do
       before :each do
-        visit staff_dashboard_url
+        visit staff_dashboard_path
       end
       it 'goes to the new user page' do
         click_on 'Add new staff member'
         click_on 'here'
-        expect(page.current_url).to eql new_user_url
+        expect(page.current_path).to eql new_user_path
       end
     end
 
     context 'on user creation page' do
       before :each do
-        visit new_user_url
+        visit new_user_path
       end
       let!(:user_fields) { attributes_for(:user).except :staff }
       # staff attribute is a hidden field in the form
@@ -33,7 +33,7 @@ describe 'creating a staff member' do
         end
         it 'renders the staff dashboard' do
           click_on 'Save changes'
-          expect(page.current_url).to eql staff_dashboard_url
+          expect(page.current_path).to eql staff_dashboard_path
         end
         it 'creates a user' do
           expect { click_on 'Save changes' }
@@ -47,7 +47,7 @@ describe 'creating a staff member' do
       context 'with a required form element not filled in' do
         it 'renders the new user page' do
           click_on 'Save changes'
-          expect(page.current_url).to eql new_user_url
+          expect(page.current_path).to eql new_user_path
         end
         it 'does not create a user' do
           expect { click_on 'Save changes' }
@@ -63,14 +63,14 @@ describe 'creating a staff member' do
   end
   context 'with staff privilege' do
     before :each do
-      when_current_user_is :staff, integration: true
+      when_current_user_is :staff, system: true
     end
     it 'does not have link for user creation page' do
-      visit staff_dashboard_url
+      visit staff_dashboard_path
       expect(page).not_to have_link 'Add new staff member'
     end
     it 'does not give access' do
-      visit new_user_url
+      visit new_user_path
       expected = 'You do not have permission to access this page.'
       expect(page).to have_text expected
     end

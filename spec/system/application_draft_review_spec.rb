@@ -8,15 +8,15 @@ describe 'previewing an application draft' do
   let!(:question) { create :question, application_draft: draft }
   context 'on draft preview page' do
     before :each do
-      when_current_user_is :staff, integration: true
-      visit draft_url(draft)
+      when_current_user_is :staff, system: true
+      visit draft_path(draft)
     end
     it 'has text explaining that this is a preview' do
       assert_text('This is a preview of your changes')
     end
     it 'has a button to continue editing' do
       click_link('Continue editing')
-      expect(page.current_url).to eql edit_draft_url(draft)
+      expect(page.current_path).to eql edit_draft_path(draft)
     end
     it 'has a button to save the application' do
       click_button('Save application')
@@ -28,7 +28,7 @@ describe 'previewing an application draft' do
       click_button('Discard changes')
       template.reload
       expect(template.drafts).to be_empty
-      expect(page.current_url).to eql staff_dashboard_url
+      expect(page.current_path).to eql staff_dashboard_path
     end
     it 'has a disabled submit button' do
       expect(page).to have_button('Submit application', disabled: true)

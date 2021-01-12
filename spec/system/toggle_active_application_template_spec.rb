@@ -6,7 +6,7 @@ describe 'toggling the active attribute of application templates' do
   let(:application) { create :application_template }
   let(:draft) { create :application_draft, application_template: application }
   before :each do
-    when_current_user_is :staff, integration: true
+    when_current_user_is :staff, system: true
   end
   context 'on application template page' do
     before :each do

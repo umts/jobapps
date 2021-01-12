@@ -5,14 +5,14 @@ require 'rails_helper'
 describe 'viewing the dashboard as a student' do
   let!(:student) { create :user, staff: false }
   before :each do
-    when_current_user_is student, integration: true
+    when_current_user_is student, system: true
   end
 
   context 'student has submitted an application' do
     context 'student got an interview' do
       let!(:interview) { create :interview, user: student }
       before :each do
-        visit student_dashboard_url
+        visit student_dashboard_path
       end
 
       it 'displays the date, time, and location of any interviews' do
@@ -23,8 +23,8 @@ describe 'viewing the dashboard as a student' do
         path = application_submission_path(interview.application_submission)
         click_link 'Review your application',
                    href: path
-        expect(page.current_url)
-          .to eql application_submission_url(interview.application_submission)
+        expect(page.current_path)
+          .to eql application_submission_path(interview.application_submission)
       end
     end
 
@@ -41,7 +41,7 @@ describe 'viewing the dashboard as a student' do
                rejection_message: 'No'
       end
       before :each do
-        visit student_dashboard_url
+        visit student_dashboard_path
       end
 
       context 'configured value notify of application denial is true' do
@@ -52,8 +52,8 @@ describe 'viewing the dashboard as a student' do
         it 'contains a link to review the pending application' do
           click_link 'Review your application',
                      href: application_submission_path(pending_application)
-          expect(page.current_url)
-            .to eql application_submission_url(pending_application)
+          expect(page.current_path)
+            .to eql application_submission_path(pending_application)
           expect(page).to have_text 'Your application is pending'
           expect(page).to have_text 'You will be notified'
           expect(page).to have_text 'when your application has been reviewed'
@@ -67,8 +67,8 @@ describe 'viewing the dashboard as a student' do
           it 'has link to see denied app, without text of denial reason' do
             click_link 'Review your application',
                        href: application_submission_path(denied_application)
-            expect(page.current_url)
-              .to eql application_submission_url(denied_application)
+            expect(page.current_path)
+              .to eql application_submission_path(denied_application)
             expect(page).to have_text 'Your application has been denied.'
             expect(page).not_to have_text 'Reason: No'
           end
@@ -82,8 +82,8 @@ describe 'viewing the dashboard as a student' do
           it 'has link to see the denied app, with text of denial reason' do
             click_link 'Review your application',
                        href: application_submission_path(denied_application)
-            expect(page.current_url)
-              .to eql application_submission_url(denied_application)
+            expect(page.current_path)
+              .to eql application_submission_path(denied_application)
             expect(page)
               .to have_text 'Your application has been denied. Reason: No'
             # reason is the rejection message
@@ -99,8 +99,8 @@ describe 'viewing the dashboard as a student' do
         it 'contains a link to review pending applications' do
           click_link 'Review your application',
                      href: application_submission_path(pending_application)
-          expect(page.current_url)
-            .to eql application_submission_url(pending_application)
+          expect(page.current_path)
+            .to eql application_submission_path(pending_application)
           expect(page).to have_text 'Your application is pending'
         end
 
@@ -116,21 +116,21 @@ describe 'viewing the dashboard as a student' do
   context 'student has not yet submitted an application' do
     let!(:position_not_hiring) { create :position }
     before :each do
-      visit student_dashboard_url
+      visit student_dashboard_path
     end
 
     context 'position exists, but applications have not been created' do
       context 'user has changed the not hiring text' do
         it 'displays the custom text for the position not hiring' do
           position_not_hiring.update(not_hiring_text: 'custom text')
-          visit current_url
+          visit current_path
           expect(page).to have_text 'custom text'
         end
       end
 
       context 'user has not edited the not hiring text' do
         it 'displays a boiler-plate not-hiring text' do
-          visit current_url
+          visit current_path
           expect(page)
             .to have_text "not currently hiring for #{position_not_hiring.name}"
         end
@@ -147,14 +147,14 @@ describe 'viewing the dashboard as a student' do
       context 'deactivated application text has been edited' do
         it 'displays the custom text for the position not hiring' do
           position_not_hiring.update(not_hiring_text: 'custom text')
-          visit current_url
+          visit current_path
           expect(page).to have_text 'custom text'
         end
       end
 
       context 'deactivated application text has not been edited' do
         it 'displays the default not-hiring text' do
-          visit current_url
+          visit current_path
           expect(page)
             .to have_text "not currently hiring for #{position_not_hiring.name}"
         end
@@ -167,11 +167,11 @@ describe 'viewing the dashboard as a student' do
       end
 
       it 'shows links to submit the application' do
-        visit current_url
+        visit current_path
         # page must be reloaded, as we first visited the page before this
         # application was created
         click_link "Submit application for #{active_application.position.name}"
-        expect(page.current_url).to eql application_url(active_application)
+        expect(page.current_path).to eql application_path(active_application)
       end
     end
   end
