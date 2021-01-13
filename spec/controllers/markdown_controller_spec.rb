@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 describe MarkdownController do
-  context 'POST' do
+  context 'GET' do
     before :each do
       @input = 'input'
     end
