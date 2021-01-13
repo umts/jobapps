@@ -9,7 +9,6 @@ require 'rspec/rails'
 require 'capybara/rails'
 require 'capybara/rspec'
 require 'rack_session_access/capybara'
-require 'vcr'
 require 'selenium/webdriver'
 
 ActiveRecord::Migration.maintain_test_schema!
