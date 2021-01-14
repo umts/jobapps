@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 describe MarkdownController do
-  context 'GET' do
+  context 'POST' do
     before :each do
       @input = 'input'
     end
     let :submit do
-      get :explanation, params: { preview_input: @input }
+      post :explanation, params: { preview_input: @input }
     end
     context 'staff' do
       before :each do
