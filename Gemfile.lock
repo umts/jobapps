@@ -392,7 +392,6 @@ DEPENDENCIES
   rspec-rails
   rubocop
   sass-rails
-  selenium-webdriver
   simplecov
   snappconfig
   spring
