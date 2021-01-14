@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe 'creating departments' do
   before :each do
-    when_current_user_is :staff, integration: true
+    when_current_user_is :staff
     visit new_department_path
   end
 

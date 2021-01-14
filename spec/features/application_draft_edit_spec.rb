@@ -17,7 +17,7 @@ describe 'editing application draft' do
                       application_draft: draft
   end
   before :each do
-    when_current_user_is :staff, integration: true
+    when_current_user_is :staff
     visit edit_draft_url(draft)
   end
 

@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'deleting users' do
   context 'with admin privilege' do
     before :each do
-      when_current_user_is :admin, integration: true
+      when_current_user_is :admin
       visit edit_user_path(user)
     end
     let!(:user) { create :user }
@@ -29,7 +29,7 @@ end
 
 context 'with staff privilege' do
   before :each do
-    when_current_user_is :staff, integration: true
+    when_current_user_is :staff
   end
   let!(:user) { create :user }
   it 'does not have the link' do

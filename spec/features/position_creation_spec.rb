@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'creating new positions' do
   let!(:department) { create :department }
   before :each do
-    when_current_user_is :staff, integration: true
+    when_current_user_is :staff
     visit new_position_path
   end
 

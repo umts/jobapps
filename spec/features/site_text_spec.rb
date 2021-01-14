@@ -6,7 +6,7 @@ describe 'edit site text or request new' do
   let!(:site_text) { create :site_text }
   let!(:user) { create :user, staff: true }
   before :each do
-    when_current_user_is user, integration: true
+    when_current_user_is user
   end
   context 'link to edit or request new from dashboard' do
     before :each do

@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe 'saving or unsaving applications' do
   before :each do
-    when_current_user_is :staff, integration: true
+    when_current_user_is :staff
   end
   context 'saving an application record for later' do
     let!(:record) { create :application_submission, reviewed: false }

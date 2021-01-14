@@ -24,7 +24,7 @@ describe 'viewing table of past applications' do
   end
   let!(:record_without_interview) { create :application_submission }
   before :each do
-    when_current_user_is :staff, integration: true
+    when_current_user_is :staff
     visit staff_dashboard_url
     fill_in 'records_start_date', with: start_date
     fill_in 'records_end_date', with: end_date

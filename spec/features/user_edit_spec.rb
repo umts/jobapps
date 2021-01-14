@@ -8,7 +8,7 @@ describe 'edit staff users' do
 
     context 'clicking from dashboard' do
       before :each do
-        when_current_user_is :admin, integration: true
+        when_current_user_is :admin
         visit staff_dashboard_url
       end
       it 'directs to the correct page' do
@@ -19,7 +19,7 @@ describe 'edit staff users' do
 
     context 'on edit user page' do
       before :each do
-        when_current_user_is :admin, integration: true
+        when_current_user_is :admin
         visit edit_user_url(user)
       end
 
@@ -83,7 +83,7 @@ describe 'edit staff users' do
   end
   context 'with staff privilege' do
     before :each do
-      when_current_user_is :staff, integration: true
+      when_current_user_is :staff
     end
     let!(:user) { create :user }
     it 'does not have link to page' do

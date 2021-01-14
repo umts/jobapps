@@ -12,7 +12,7 @@ describe 'editing positions' do
   let!(:position) { create :position, base_attributes }
   let(:save) { click_on 'Save changes' }
   before :each do
-    when_current_user_is :staff, integration: true
+    when_current_user_is :staff
     visit edit_position_path(position)
   end
   context 'required fields are filled in' do

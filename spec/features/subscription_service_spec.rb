@@ -5,7 +5,7 @@ describe 'subscriptions' do
   let(:position) { create :position }
   context 'subscribing to positions' do
     before :each do
-      when_current_user_is :staff, integration: true
+      when_current_user_is :staff
       visit edit_position_path(position)
     end
     it 'displays the email address when subscribe is clicked' do
@@ -24,7 +24,7 @@ describe 'subscriptions' do
     end
     let(:other_position) { create :position }
     before :each do
-      when_current_user_is user_2, integration: true
+      when_current_user_is user_2
       visit edit_position_path(position)
     end
     it 'does not display subscription belonging to another user' do
@@ -41,7 +41,7 @@ describe 'subscriptions' do
       create :subscription, user: user, position: position
     end
     before :each do
-      when_current_user_is user, integration: true
+      when_current_user_is user
       visit edit_position_path(position)
     end
     it 'removes the email from the page when remove is clicked' do

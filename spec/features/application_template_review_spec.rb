@@ -6,7 +6,7 @@ describe 'reviewing application templates' do
   let(:application) { create :application_template, :with_questions }
   let(:user) { create :user, :staff }
   before :each do
-    when_current_user_is user, integration: true
+    when_current_user_is user
     visit application_path(application)
   end
   it 'displays the title of the application' do

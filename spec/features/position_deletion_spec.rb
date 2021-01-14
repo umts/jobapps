@@ -16,7 +16,7 @@ describe 'deleting a position' do
     click_on "Remove #{pos_name} (#{dept_name})"
   end
   before :each do
-    when_current_user_is :staff, integration: true
+    when_current_user_is :staff
     visit edit_position_path(position)
   end
   it 'deletes the position in question' do

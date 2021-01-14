@@ -6,7 +6,7 @@ describe 'promoting a staff member' do
   context 'with admin privilege' do
     let!(:user) { create :user }
     before :each do
-      when_current_user_is :admin, integration: true
+      when_current_user_is :admin
     end
     context 'clicking from dashboard' do
       before :each do
@@ -41,7 +41,7 @@ describe 'promoting a staff member' do
   end
   context 'with staff privilege' do
     before :each do
-      when_current_user_is :staff, integration: true
+      when_current_user_is :staff
     end
     let!(:user) { create :user }
     it 'does not link to page' do

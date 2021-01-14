@@ -6,7 +6,7 @@ describe 'adding or editing departments and positions from dashboard' do
   let!(:department) { create :department }
   let!(:position) { create :position, department: department }
   before :each do
-    when_current_user_is :staff, integration: true
+    when_current_user_is :staff
     visit staff_dashboard_url
   end
   it 'has a link to edit the department name' do

@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'creating new drafts' do
   let!(:application) { create :application_template }
   before :each do
-    when_current_user_is :staff, integration: true
+    when_current_user_is :staff
     visit staff_dashboard_url
   end
   context 'clicking save changes and continue editing' do
