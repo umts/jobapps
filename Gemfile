@@ -60,5 +60,4 @@ group :test do
   gem 'simplecov'
   gem 'timecop'
   gem 'umts-custom-matchers'
-  gem 'webdrivers'
 end
