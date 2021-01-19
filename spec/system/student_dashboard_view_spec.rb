@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'viewing the dashboard as a student' do
   let!(:student) { create :user, staff: false }
   before :each do
-    when_current_user_is student, system: true
+    when_current_user_is student
   end
 
   context 'student has submitted an application' do

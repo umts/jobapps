@@ -13,7 +13,7 @@ describe 'viewing application forms on dashboard' do
            user: user
   end
   before :each do
-    when_current_user_is user, system: true
+    when_current_user_is user
     visit staff_dashboard_path
   end
   it 'has links to view the applications' do

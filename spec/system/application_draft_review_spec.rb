@@ -8,7 +8,7 @@ describe 'previewing an application draft' do
   let!(:question) { create :question, application_draft: draft }
   context 'on draft preview page' do
     before :each do
-      when_current_user_is :staff, system: true
+      when_current_user_is :staff
       visit draft_path(draft)
     end
     it 'has text explaining that this is a preview' do

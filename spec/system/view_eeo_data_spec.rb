@@ -18,7 +18,7 @@ describe 'viewing eeo data page' do
            gender: 'Female'
   end
   before :each do
-    when_current_user_is :staff, system: true
+    when_current_user_is :staff
     visit staff_dashboard_path
     fill_in 'eeo_start_date', with: start_date
     fill_in 'eeo_end_date', with: end_date

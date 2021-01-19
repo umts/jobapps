@@ -6,7 +6,7 @@ describe 'deleting users' do
   let(:dept) { create :department }
 
   before :each do
-    when_current_user_is :staff, system: true
+    when_current_user_is :staff
     visit edit_department_path(dept)
   end
 
