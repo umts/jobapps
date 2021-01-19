@@ -5,19 +5,21 @@ ruby IO.read(File.expand_path('.ruby-version', __dir__)).strip
 
 gem 'bootstrap', '~> 4.0'
 gem 'coffee-rails'
-gem 'friendly_id', '~> 5.1.0'
+gem 'friendly_id', '~> 5.1'
 gem 'haml'
 gem 'haml-rails'
+gem 'icalendar'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'mysql2'
 gem 'prawn'
 gem 'prawn-table'
-gem 'rails', '~> 5.2.0'
+gem 'rails', '~> 6.0.3'
+
+gem 'puma'
 gem 'redcarpet'
 gem 'sass-rails'
 gem 'snappconfig'
-gem 'strscan'
 gem 'uglifier'
 gem 'whenever', require: false
 
@@ -57,4 +59,5 @@ group :test do
   gem 'simplecov'
   gem 'timecop'
   gem 'umts-custom-matchers'
+  gem 'webdrivers'
 end

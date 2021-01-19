@@ -2,7 +2,7 @@
 
 require 'factory_bot_rails'
 require 'simplecov'
-require 'umts-custom-matchers'
+require 'umts_custom_matchers'
 
 SimpleCov.start 'rails' do
   refuse_coverage_drop
@@ -70,7 +70,7 @@ private
 def set_current_user(user, **options)
   if options.key? :view
     assign :current_user, user
-  elsif options.key? :integration
+  elsif options.key? :system
     page.set_rack_session user_id: user.try(:id)
   elsif user.present?
     session[:user_id] = user.id
