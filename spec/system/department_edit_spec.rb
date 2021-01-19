@@ -7,7 +7,7 @@ describe 'editing departments' do
   let(:dept) { create :department, base_attributes }
 
   before :each do
-    when_current_user_is :staff, integration: true
+    when_current_user_is :staff, system: true
     visit edit_department_path(dept)
   end
 
@@ -26,7 +26,7 @@ describe 'editing departments' do
 
     it 'redirects to the staff dashboard' do
       click_on 'Save changes'
-      expect(page.current_url).to eql staff_dashboard_url
+      expect(page.current_path).to eql staff_dashboard_path
     end
 
     it 'gives a flash message' do
@@ -50,7 +50,7 @@ describe 'editing departments' do
 
     it 'redirects back to same page' do
       click_on 'Save changes'
-      expect(page.current_url).to eql edit_department_url(dept)
+      expect(page.current_path).to eql edit_department_path(dept)
     end
 
     it 'gives a flash error' do

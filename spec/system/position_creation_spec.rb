@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'creating new positions' do
   let!(:department) { create :department }
   before :each do
-    when_current_user_is :staff, integration: true
+    when_current_user_is :staff, system: true
     visit new_position_path
   end
 
@@ -27,7 +27,7 @@ describe 'creating new positions' do
     end
     it 'redirects to the Staff Dashboard' do
       click_on 'Save changes'
-      expect(page.current_url).to eql staff_dashboard_url
+      expect(page.current_path).to eql staff_dashboard_path
     end
     it 'renders a flash message' do
       expect_flash_message(:position_create)
@@ -47,7 +47,7 @@ describe 'creating new positions' do
     end
     it 'redirects us to the same page' do
       click_on 'Save changes'
-      expect(page.current_url).to eql new_position_url
+      expect(page.current_path).to eql new_position_path
     end
     it 'renders a flash error' do
       click_on 'Save changes'

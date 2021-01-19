@@ -15,6 +15,8 @@ gem 'mysql2'
 gem 'prawn'
 gem 'prawn-table'
 gem 'rails', '~> 6.0.3'
+
+gem 'puma'
 gem 'redcarpet'
 gem 'sass-rails'
 gem 'snappconfig'
@@ -57,4 +59,5 @@ group :test do
   gem 'simplecov'
   gem 'timecop'
   gem 'umts-custom-matchers'
+  gem 'webdrivers'
 end

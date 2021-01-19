@@ -8,8 +8,8 @@ describe 'viewing job applications individually' do
     # There must be a position for which there exist
     # neither applications nor interviews.
     before :each do
-      when_current_user_is :staff, integration: true
-      visit staff_dashboard_url
+      when_current_user_is :staff, system: true
+      visit staff_dashboard_path
     end
     it 'lets the user know there are no pending applications' do
       expect(page).to have_text 'No pending applications'

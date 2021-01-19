@@ -6,7 +6,7 @@ describe 'reviewing application templates' do
   let(:application) { create :application_template, :with_questions }
   let(:user) { create :user, :staff }
   before :each do
-    when_current_user_is user, integration: true
+    when_current_user_is user, system: true
     visit application_path(application)
   end
   it 'displays the title of the application' do
@@ -37,8 +37,8 @@ describe 'reviewing application templates' do
     expect(find_field('Last name').value).to eql user.last_name
     expect(find_field('Email').value).to eql user.email
   end
-  it 'uses the slug attribute of the application template as the url slug' do
-    expect(page.current_url).to include application.slug
+  it 'uses the slug attribute of the application template as the path slug' do
+    expect(page.current_path).to include application.slug
   end
   it 'shows any questions the application has' do
     expect(page).to have_text application.questions.first.prompt

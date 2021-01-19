@@ -6,7 +6,7 @@ describe 'toggle the unavailability_enabled attribute of templates' do
   let(:application) { create :application_template }
   let(:draft) { create :application_draft, application_template: application }
   before :each do
-    when_current_user_is :staff, integration: true
+    when_current_user_is :staff, system: true
   end
   context 'on editing application drafts page' do
     before :each do

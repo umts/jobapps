@@ -6,7 +6,7 @@ describe 'deleting users' do
   let(:dept) { create :department }
 
   before :each do
-    when_current_user_is :staff, integration: true
+    when_current_user_is :staff, system: true
     visit edit_department_path(dept)
   end
 
@@ -18,7 +18,7 @@ describe 'deleting users' do
 
   it 'redirects you to the staff dashboard' do
     click_on "Remove #{dept.name}"
-    expect(page.current_url).to eql staff_dashboard_url
+    expect(page.current_path).to eql staff_dashboard_path
   end
 
   it 'gives a flash message' do

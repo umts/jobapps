@@ -8,19 +8,19 @@ describe 'edit staff users' do
 
     context 'clicking from dashboard' do
       before :each do
-        when_current_user_is :admin, integration: true
-        visit staff_dashboard_url
+        when_current_user_is :admin, system: true
+        visit staff_dashboard_path
       end
       it 'directs to the correct page' do
         click_link user.proper_name, href: edit_user_path(user)
-        expect(page.current_url).to eql edit_user_url(user)
+        expect(page.current_path).to eql edit_user_path(user)
       end
     end
 
     context 'on edit user page' do
       before :each do
-        when_current_user_is :admin, integration: true
-        visit edit_user_url(user)
+        when_current_user_is :admin, system: true
+        visit edit_user_path(user)
       end
 
       context 'every field is filled in correctly' do
@@ -44,7 +44,7 @@ describe 'edit staff users' do
 
         it 'redirects you to the staff dashboard' do
           click_on 'Save changes'
-          expect(page.current_url).to eql staff_dashboard_url
+          expect(page.current_path).to eql staff_dashboard_path
         end
 
         it 'gives a flash message' do
@@ -70,7 +70,7 @@ describe 'edit staff users' do
 
         it 'redirects back to the edit user page' do
           click_on 'Save changes'
-          expect(page.current_url).to eql edit_user_url(user)
+          expect(page.current_path).to eql edit_user_path(user)
         end
 
         it 'has flash errors' do
@@ -83,15 +83,15 @@ describe 'edit staff users' do
   end
   context 'with staff privilege' do
     before :each do
-      when_current_user_is :staff, integration: true
+      when_current_user_is :staff, system: true
     end
     let!(:user) { create :user }
     it 'does not have link to page' do
-      visit staff_dashboard_url
+      visit staff_dashboard_path
       expect(page).not_to have_link user.proper_name
     end
     it 'does not give access' do
-      visit edit_user_url(user)
+      visit edit_user_path(user)
       expected = 'You do not have permission to access this page.'
       expect(page).to have_text expected
     end

@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe 'creating departments' do
   before :each do
-    when_current_user_is :staff, integration: true
+    when_current_user_is :staff, system: true
     visit new_department_path
   end
 
@@ -25,7 +25,7 @@ describe 'creating departments' do
 
     it 'redirects to the staff dashboard' do
       click_on 'Save changes'
-      expect(page.current_url).to eql staff_dashboard_url
+      expect(page.current_path).to eql staff_dashboard_path
     end
 
     it 'gives a flash message' do
@@ -42,7 +42,7 @@ describe 'creating departments' do
 
     it 'redirects to the new department page' do
       click_on 'Save changes'
-      expect(page.current_url).to eql new_department_url
+      expect(page.current_path).to eql new_department_path
     end
 
     it 'gives a flash error' do

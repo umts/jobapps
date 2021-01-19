@@ -4,12 +4,12 @@ require 'rails_helper'
 
 describe 'saving or unsaving applications' do
   before :each do
-    when_current_user_is :staff, integration: true
+    when_current_user_is :staff, system: true
   end
   context 'saving an application record for later' do
     let!(:record) { create :application_submission, reviewed: false }
     before :each do
-      visit staff_dashboard_url
+      visit staff_dashboard_path
       click_link record.user.proper_name,
                  href: application_submission_path(record)
       page.fill_in 'application_submission_note_for_later',
@@ -23,13 +23,13 @@ describe 'saving or unsaving applications' do
     end
     it 'moves the application record to the saved applications page' do
       click_link "View saved applications for #{record.position.name}"
-      expect(page.current_url)
-        .to eql saved_applications_position_url(record.position)
+      expect(page.current_path)
+        .to eql saved_applications_position_path(record.position)
       expect(page).to have_link record.user.proper_name,
                                 href: application_submission_path(record)
     end
     it 'redirects to the dashboard' do
-      expect(page.current_url).to eql staff_dashboard_url
+      expect(page.current_path).to eql staff_dashboard_path
     end
     it 'moves the application record off the dashboard' do
       expect(page).not_to have_link record.user.proper_name,
@@ -47,7 +47,7 @@ describe 'saving or unsaving applications' do
              note_for_later: 'this is required'
     end
     before :each do
-      visit application_submission_url(record)
+      visit application_submission_path(record)
     end
     it 'moves the record back to the dashboard' do
       click_button 'Move back to dashboard'
@@ -55,7 +55,7 @@ describe 'saving or unsaving applications' do
     end
     it 'redirects to the dashboard' do
       click_button 'Move back to dashboard'
-      expect(page.current_url).to eql staff_dashboard_url
+      expect(page.current_path).to eql staff_dashboard_path
     end
     it 'indicates there are no saved applications on the dashboard' do
       click_button 'Move back to dashboard'
@@ -70,7 +70,7 @@ describe 'saving or unsaving applications' do
     let!(:record) { create :application_submission, reviewed: false }
     let(:saved_date) { saved_record.date_for_later.to_formatted_s(:long) }
     it 'saves all the relevant attributes' do
-      visit application_submission_url(record)
+      visit application_submission_path(record)
       page.fill_in 'application_submission_note_for_later',
                    with: 'Taken to sick bay'
       page.fill_in 'application_submission_date_for_later',
@@ -90,19 +90,19 @@ describe 'saving or unsaving applications' do
                saved_for_later: true
       end
       it 'displays the date on the saved_for_later page' do
-        visit saved_applications_position_url(saved_record.position)
+        visit saved_applications_position_path(saved_record.position)
         expect(page).to have_text saved_date
       end
       it 'displays the date on the application record page' do
-        visit saved_applications_position_url(saved_record.position)
+        visit saved_applications_position_path(saved_record.position)
         expect(page).to have_text saved_date
       end
       it 'displays the note on the saved_for_later page' do
-        visit saved_applications_position_url(saved_record.position)
+        visit saved_applications_position_path(saved_record.position)
         expect(page).to have_text 'This is my note'
       end
       it 'displays the note on the application record page' do
-        visit application_submission_url(saved_record)
+        visit application_submission_path(saved_record)
         expect(page).to have_text 'This is my note'
       end
     end

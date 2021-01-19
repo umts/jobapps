@@ -16,7 +16,7 @@ describe 'deleting a position' do
     click_on "Remove #{pos_name} (#{dept_name})"
   end
   before :each do
-    when_current_user_is :staff, integration: true
+    when_current_user_is :staff, system: true
     visit edit_position_path(position)
   end
   it 'deletes the position in question' do
@@ -26,7 +26,7 @@ describe 'deleting a position' do
   end
   it 'redirects to the staff dashboard' do
     delete
-    expect(page.current_url).to eql staff_dashboard_url
+    expect(page.current_path).to eql staff_dashboard_path
   end
   it 'renders a positive flash message' do
     expect_flash_message(:position_destroy)
