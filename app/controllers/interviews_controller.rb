@@ -34,7 +34,7 @@ class InterviewsController < ApplicationController
   def show
     respond_to do |format|
       format.ics do
-        render 'interview.ics', layout: false
+        render plain: @interview.ical.to_ical, content_type: 'text/calendar'
       end
     end
   end

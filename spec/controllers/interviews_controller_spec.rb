@@ -8,6 +8,7 @@ describe InterviewsController do
     %i[post reschedule member],
     %i[get show member]
   ]
+
   describe 'POST #complete' do
     before :each do
       @interview = create :interview, completed: false
@@ -128,17 +129,45 @@ describe InterviewsController do
     let :submit do
       get :show, params: { id: @interview.id, format: :ics }
     end
+    let :calendar_fields do
+      response.body.lines.map { |l| l.strip.split(':', 2) }.to_h
+    end
+
     context 'staff' do
       before :each do
         when_current_user_is :staff
+        submit
       end
+
       it 'does not respond to HTML if so requested' do
         expect { get :show, params: { id: @interview.id, format: :html } }
           .to raise_error ActionController::UnknownFormat
       end
+
       it 'renders an ICS file if so requested' do
-        submit
         expect(response.media_type).to eql 'text/calendar'
+      end
+
+      it 'has a UID' do
+        expect(calendar_fields.fetch 'UID')
+          .to eq "INTERVIEW#{@interview.id}@UMASS_TRANSIT//JOBAPPS"
+      end
+      it 'has a start time' do
+        expect(calendar_fields.fetch 'DTSTART')
+          .to eq @interview.scheduled.to_formatted_s :ical
+      end
+      it 'has a summary' do
+        expect(calendar_fields.fetch 'SUMMARY')
+          .to eq @interview.calendar_title
+      end
+      it 'has a description' do
+        expect(calendar_fields.fetch 'DESCRIPTION').to match(
+          application_submission_path(@interview.application_submission)
+        )
+      end
+      it 'has a stamp' do
+        expect(calendar_fields.fetch 'DTSTART')
+          .to eq @interview.created_at.to_formatted_s :ical
       end
     end
   end

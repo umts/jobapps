@@ -26,6 +26,23 @@ class Interview < ApplicationRecord
     "Interview with #{user.full_name}"
   end
 
+  def ical
+    Icalendar::Calendar.new.tap do |cal|
+      cal.prodid = '-//UMASS_TRANSIT_JOBAPPS//INTERVIEW_EXPORT//EN'
+      cal.publish
+
+      event = Icalendar::Event.new.tap do |e|
+        e.dtstart = scheduled.to_formatted_s :ical
+        e.description = application_submission.url
+        e.summary = calendar_title
+        e.uid = "INTERVIEW#{id}@UMASS_TRANSIT//JOBAPPS"
+        e.dtstamp = created_at.to_formatted_s :ical
+        e.status = 'CONFIRMED'
+      end
+      cal.add_event event
+    end
+  end
+
   def information(options = {})
     info = "#{scheduled.to_formatted_s :long_with_time} at #{location}"
     info += ": #{user.proper_name}" if options.key? :include_name

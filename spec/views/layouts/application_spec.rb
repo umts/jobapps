@@ -6,7 +6,7 @@ describe 'layouts/application.haml' do
   context 'current user is present' do
     before :each do
       user = create :user
-      when_current_user_is user, view: true
+      when_current_user_is user
     end
     it 'displays a link to logout' do
       render
@@ -14,7 +14,7 @@ describe 'layouts/application.haml' do
     end
     context 'current user is staff' do
       before :each do
-        when_current_user_is :staff, view: true
+        when_current_user_is :staff
       end
       it 'has a link to the staff dashboard' do
         render
