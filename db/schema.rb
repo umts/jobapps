@@ -108,19 +108,7 @@ ActiveRecord::Schema.define(version: 2021_01_07_005114) do
     t.integer "application_draft_id"
   end
 
-<<<<<<< HEAD
-  create_table "subscriptions", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-=======
-  create_table "site_texts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "name"
-    t.text "text"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string "slug"
-  end
-
   create_table "subscriptions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
->>>>>>> 3bbac5f7dcb4f4005d57c5e574f46b12c5e6fac8
     t.integer "user_id"
     t.integer "position_id"
     t.string "email"
