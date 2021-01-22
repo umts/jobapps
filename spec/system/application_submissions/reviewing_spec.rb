@@ -13,7 +13,7 @@ describe 'reviewing applications' do
     ActionMailer::MessageDelivery.new(JobappsMailer, :application_denial)
   end
   before :each do
-    when_current_user_is :staff, system: true
+    when_current_user_is :staff
     visit staff_dashboard_path
   end
   it 'provides a means to reject the application without a staff note' do

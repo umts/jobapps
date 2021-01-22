@@ -8,7 +8,7 @@ describe 'viewing job applications individually' do
     # There must be a position for which there exist
     # neither applications nor interviews.
     before :each do
-      when_current_user_is :staff, system: true
+      when_current_user_is :staff
       visit staff_dashboard_path
     end
     it 'lets the user know there are no pending applications' do

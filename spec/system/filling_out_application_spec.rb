@@ -8,7 +8,7 @@ describe 'filling out an application' do
   end
 
   before :each do
-    when_current_user_is :student, system: true
+    when_current_user_is :student
     visit application_path(application)
   end
 

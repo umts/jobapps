@@ -12,7 +12,7 @@ describe 'submitting application records' do
       create :user, :student
     end
     before :each do
-      when_current_user_is student, system: true
+      when_current_user_is student
       visit application_path(application_template)
       application_template.position.update(not_hiring_text: 'custom text')
     end
@@ -34,7 +34,7 @@ describe 'submitting application records' do
   context 'student has been authenticated but has no user object' do
     let(:spire) { '12345678@umass.edu' }
     before :each do
-      when_current_user_is nil, system: true
+      when_current_user_is nil
       page.set_rack_session spire: spire
       visit application_path(application_template)
       application_template.position.update(not_hiring_text: 'custom text')

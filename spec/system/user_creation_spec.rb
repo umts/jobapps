@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'creating a staff member' do
   context 'with admin privilege' do
     before :each do
-      when_current_user_is :admin, system: true
+      when_current_user_is :admin
     end
     context 'clicking from dashboard' do
       before :each do
@@ -63,7 +63,7 @@ describe 'creating a staff member' do
   end
   context 'with staff privilege' do
     before :each do
-      when_current_user_is :staff, system: true
+      when_current_user_is :staff
     end
     it 'does not have link for user creation page' do
       visit staff_dashboard_path
