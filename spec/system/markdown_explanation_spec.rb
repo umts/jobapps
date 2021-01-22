@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe 'markdown explanation' do
   before :each do
-    when_current_user_is :staff, integration: true
+    when_current_user_is :staff
     visit markdown_explanation_path
   end
   context 'markdown explanation renders properly' do
