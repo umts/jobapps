@@ -173,39 +173,6 @@ describe JobappsMailer do
     end
   end
 
-  describe 'site_text_request' do
-    before :each do
-      @user = create :user
-      @location = 'the desired location'
-      @description = 'the description of the text'
-    end
-    let :output do
-      JobappsMailer.site_text_request @user, @location, @description
-    end
-    it 'emails from the default configured value' do
-      expect(output.from).to eql Array(@from)
-    end
-    it 'emails to the site_text_request_email configured value' do
-      expect(output.to)
-        .to eql Array(config.configured_value %i[email site_contact_email])
-    end
-    it 'has a subject that includes the words Site text request' do
-      expect(output.subject).to include 'Site text request'
-    end
-    it 'includes the full name of the requesting user' do
-      expect(output.body.encoded).to include @user.full_name
-    end
-    it 'includes the desired location of the site text' do
-      expect(output.body.encoded).to include @location
-    end
-    it 'includes the description of the site text' do
-      expect(output.body.encoded).to include @description
-    end
-    it 'includes the email of the requesting user' do
-      expect(output.body.encoded).to include @user.email
-    end
-  end
-
   describe 'saved_application_notification' do
     before :each do
       @record = create :application_submission,
