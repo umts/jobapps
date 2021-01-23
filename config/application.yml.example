@@ -10,7 +10,6 @@ email:
   # This value determines where site emails will be sent from (e.g. noreply).
   default_from: 'transit-it@admin.umass.edu'
   # This value determines where emails about your site's content should go,
-  # including emails about configurable site text requests.
   site_contact_email: 'transit-it@admin.umass.edu'
 
 # OPTIONAL KEYS
@@ -60,8 +59,6 @@ messages:
   question_create:      'Question was successfully updated.'
   question_destroy:     'Question was successfully removed.'
   question_update:      'Question was successfully updated.'
-  site_text_request:    'Your request has been sent. Thank you!'
-  site_text_update:     'Text was successfully updated.'
   user_create:          'User has been created.'
   user_destroy:         'User has been removed.'
   user_update:          'User has been updated.'

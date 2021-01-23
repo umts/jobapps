@@ -54,6 +54,9 @@ Rails.application.routes.draw do
 
   resources :subscriptions
 
+  get 'markdown/explanation'
+  post 'markdown/explanation'
+
   # sessions
   unless Rails.env.production?
     get  'sessions/dev_login', to: 'sessions#dev_login', as: :dev_login
@@ -61,16 +64,6 @@ Rails.application.routes.draw do
   end
   get 'sessions/unauthenticated', to: 'sessions#unauthenticated', as: :unauthenticated_session
   get 'sessions/destroy', to: 'sessions#destroy', as: :destroy_session
-
-  resources :site_texts, only: [:edit, :show, :update] do
-    collection do
-      get  :request_new
-      post :request_new
-    end
-    member do
-      post :edit # for previewing changes
-    end
-  end
 
   resources :users, except: [:index, :show] do
     collection do

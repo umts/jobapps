@@ -55,7 +55,7 @@ describe DashboardController do
           submit
           expect(assigns.keys).to include('departments', 'pending_interviews',
                                           'pending_records', 'positions',
-                                          'site_texts', 'staff')
+                                          'staff')
         end
       end
       context 'in the process of logging in' do
