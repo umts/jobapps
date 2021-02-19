@@ -58,14 +58,6 @@ class JobappsMailer < ActionMailer::Base
          reply_to: reply_to
   end
 
-  def site_text_request(user, location, description)
-    @user = user
-    @location = location
-    @description = description
-    mail to: configured_value(%i[email site_contact_email]),
-         subject: "Site text request from #{user.full_name}"
-  end
-
   def saved_application_notification(record)
     @record = record
     mail to: record.email_to_notify,

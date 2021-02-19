@@ -78,11 +78,6 @@ module ApplicationHelper
                      default: true
   end
 
-  def text(name)
-    text = SiteText.where(name: name).first.try :text
-    render_markdown text if text.present?
-  end
-
   def dashboard_path
     if @current_user.try :staff?
       staff_dashboard_path

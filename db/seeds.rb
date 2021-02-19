@@ -115,20 +115,6 @@ FactoryBot.create :application_submission,
                          ["All responses to the previous questions are true and correct to the best of your knowledge.", "Yes", "yes/no", 80]],
                   user_id: user.id,
                   position_id: position.id
-
-FactoryBot.create :site_text, name: 'welcome', text: 'Welcome to the UMass Transit job application page.'
-markdown_text = FactoryBot.create :site_text, name: 'markdown explanation'
-markdown_text.update text: <<MARKDOWN
-Configurable site text is interpreted and shown to end users using a protocol known as Markdown. This means that you can do some of your own text formatting. Here's how:
-
-+ Surround text with \*asterisks\* or \_underscores\_for *italic text*
-+ Surround text with \*\*double asterisks\*\* or \_\_double underscores\_\_ for **bold text**
-+ Start lines with a plus (`+`), a minus (`-`), or an asterisk (`*`) to make a list (that's how we made this one!).
-+ For links, write the link text in [brackets] followed by the destination in (parentheses). Here's an example:
-+ Typing '`[our homepage](https://umasstransit.org)`' outputs the following link: [our homepage](https://umasstransit.org)
-
-For additional information, we like to reference [this tutorial](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) (and if you're feeling particularly meta, feel free to check out [how we wrote a Markdown tutorial in Markdown](/site_texts/#{markdown_text.id}/edit)).
-MARKDOWN
 # create staff members?
 template = FactoryBot.create :application_template, position: position
 ActiveRecord::Base.transaction do
