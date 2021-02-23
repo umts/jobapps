@@ -63,6 +63,7 @@ GEM
     ast (2.4.1)
     autoprefixer-rails (10.2.0.0)
       execjs
+    bcrypt_pbkdf (1.1.0)
     better_errors (2.9.1)
       coderay (>= 1.0.0)
       erubi (>= 1.0.0)
@@ -116,6 +117,7 @@ GEM
     debug_inspector (1.0.0)
     diff-lcs (1.4.4)
     docile (1.1.5)
+    ed25519 (1.2.4)
     erubi (1.10.0)
     erubis (2.7.0)
     exception_notification (4.4.3)
@@ -356,6 +358,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bcrypt_pbkdf (>= 1.0, < 2.0)
   better_errors
   binding_of_caller
   bootstrap (~> 4.0)
@@ -368,6 +371,7 @@ DEPENDENCIES
   capybara
   codeclimate-test-reporter (~> 1.0)
   coffee-rails
+  ed25519 (>= 1.2, < 2.0)
   exception_notification
   factory_bot_rails
   friendly_id (~> 5.1)
@@ -406,4 +410,4 @@ RUBY VERSION
    ruby 2.6.5p114
 
 BUNDLED WITH
-   2.2.3
+   2.2.11
