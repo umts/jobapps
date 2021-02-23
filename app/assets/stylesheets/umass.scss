@@ -41,9 +41,8 @@
 
 #footer{
   background-color: black;
-  padding: 1.25em;
-  text-align: center;
-  .content, a{
-    color: silver;
+  color: silver;
+  a {
+    color: inherit;
   }
 }
