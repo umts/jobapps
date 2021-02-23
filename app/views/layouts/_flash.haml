@@ -1,0 +1,9 @@
+- if flash[:message].present?
+  #message
+    = flash[:message]
+- if flash[:errors].present?
+  #errors
+    The following errors occurred:
+    %ul
+      - flash[:errors].each do |error_message|
+        %li= error_message

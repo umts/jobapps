@@ -16,20 +16,7 @@
     padding: 0 2em 0 0;
     a{
       color: white;
-      font-size: 16px;
       margin-right: 5px;
-    }
-  }
-  #search{
-    float: right;
-    #submit{
-      background: #881c1c asset-url('search.svg') 0 0 no-repeat;
-      background-size: contain;
-      border: none;
-      cursor: pointer;
-      height: 1.75em;
-      text-indent: -9999px;
-      width: 1.75em;
     }
   }
 }
@@ -41,9 +28,8 @@
 
 #footer{
   background-color: black;
-  padding: 1.25em;
-  text-align: center;
-  .content, a{
-    color: silver;
+  color: silver;
+  a {
+    color: inherit;
   }
 }

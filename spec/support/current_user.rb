@@ -15,6 +15,7 @@ def when_current_user_is(user)
 end
 
 # Helper method, sets the current user based on spec type
+# rubocop:disable Naming/AccessorMethodName
 def set_current_user(user)
   case self.class.metadata[:type]
   when :view
@@ -29,3 +30,4 @@ def set_current_user(user)
     end
   end
 end
+# rubocop:enable Naming/AccessorMethodName
