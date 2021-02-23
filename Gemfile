@@ -33,7 +33,6 @@ group :development do
   gem 'capistrano-passenger', require: false
   gem 'capistrano-pending', require: false
   gem 'capistrano-rails', require: false
-  gem 'capistrano-yarn', require: false
   gem 'listen'
   gem 'rb-readline', require: false
 end
