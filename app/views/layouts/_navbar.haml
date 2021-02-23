@@ -6,12 +6,3 @@
   #current_user_name= @current_user.try :full_name
 #transportation_banner
   = image_tag 'trans-header-large.png'
-- if flash[:message].present?
-  #message
-    = flash[:message]
-- if flash[:errors].present?
-  #errors
-    The following errors occurred:
-    %ul
-      - flash[:errors].each do |error_message|
-        %li= error_message
