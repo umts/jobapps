@@ -1,5 +1,4 @@
-Rails:
-  Enabled: true
+require: rubocop-rails
 
 AllCops:
   TargetRubyVersion: 2.6
@@ -7,7 +6,9 @@ AllCops:
     - 'bin/**/*'
     - 'config/**/*'
     - 'db/**/*'
+    - 'node_modules/**/*'
     - 'vendor/**/*'
+  NewCops: enable
 
 Lint/AmbiguousBlockAssociation:
   Exclude:
