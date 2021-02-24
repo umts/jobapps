@@ -11,8 +11,7 @@ class ApplicationSubmission < ApplicationRecord
 
   has_one_attached :resume, dependent: :destroy
 
-  attr_accessor :mail_note_for_later
-  attr_accessor :notify_of_denial
+  attr_accessor :mail_note_for_later, :notify_of_denial
 
   serialize :data, Array
 
@@ -53,8 +52,8 @@ class ApplicationSubmission < ApplicationRecord
   GENDER_OPTIONS = %w[Male Female].freeze
 
   before_save do
-    if saved_for_later_changed? && saved_for_later?
-      JobappsMailer.send_note_for_later(self).deliver_now if mail_note_for_later
+    if saved_for_later_changed? && saved_for_later? && mail_note_for_later
+      JobappsMailer.send_note_for_later(self).deliver_now
     end
   end
 

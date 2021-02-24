@@ -20,9 +20,7 @@ class ApplicationSubmissionsController < ApplicationController
                                                  reviewed: false))
     record.email_subscribers applicant: @current_user
 
-    if record.position.application_template.unavailability_enabled?
-      create_unavailability(record)
-    end
+    create_unavailability(record) if record.position.application_template.unavailability_enabled?
 
     show_message :application_receipt,
                  default: 'Your application has been submitted. Thank you!'
@@ -76,9 +74,8 @@ class ApplicationSubmissionsController < ApplicationController
   end
 
   def show
-    unless @current_user == @record.user || @current_user.try(:staff?)
-      deny_access && return
-    end
+    deny_access and return unless @current_user == @record.user || @current_user.try(:staff?)
+
     @interview = @record.interview
     respond_to do |format|
       format.html

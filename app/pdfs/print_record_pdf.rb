@@ -71,9 +71,7 @@ class PrintRecordPdf < Prawn::Document
     table unavailability_rows, position: :center do
       style row(0), size: 10
       cells.style do |cell|
-        if unavailability.grid[cell.row - 1][cell.column - 1]
-          cell.background_color = 'b0b0b0'
-        end
+        cell.background_color = 'b0b0b0' if unavailability.grid[cell.row - 1][cell.column - 1]
       end
     end
   end
