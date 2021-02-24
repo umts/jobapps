@@ -12,14 +12,9 @@ describe 'layouts/application.haml' do
       render
       expect(rendered).to have_tag 'a', with: { href: '/sessions/destroy' }
     end
-    context 'current user is staff' do
-      before :each do
-        when_current_user_is :staff
-      end
-      it 'has a link to the staff dashboard' do
-        render
-        expect(rendered).to have_tag 'a', with: { href: staff_dashboard_path }
-      end
+    it 'has a link to the main dashboard' do
+      render
+      expect(rendered).to have_tag 'a', with: { href: main_dashboard_path }
     end
   end
   context 'message present in flash' do
