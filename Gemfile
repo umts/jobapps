@@ -34,7 +34,6 @@ group :development do
   gem 'capistrano-passenger', require: false
   gem 'capistrano-pending', require: false
   gem 'capistrano-rails', require: false
-  gem 'capistrano-yarn', require: false
   gem 'ed25519', '>= 1.2', '< 2.0', require: false
   gem 'listen'
   gem 'rb-readline', require: false
