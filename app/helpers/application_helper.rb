@@ -76,13 +76,4 @@ module ApplicationHelper
     configured_value %i[on_application_denial fill_form_with_old],
                      default: true
   end
-
-  def dashboard_path
-    if @current_user.try :staff?
-      staff_dashboard_path
-    else
-      # We still want anonymous logins to redirect to student dashboard
-      student_dashboard_path
-    end
-  end
 end
