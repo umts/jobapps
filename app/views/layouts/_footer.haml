@@ -1,8 +1,9 @@
-%span.content
-  &copy;
-  = Time.zone.now.year
-  = link_to 'University of Massachusetts Amherst', 'http://umass.edu'
-  &bull;
-  = link_to 'Site Policies', 'http://umass.edu/site_policies'
-  &bull;
-  = mail_to configured_value([:email, :site_contact_email]), 'Site Contact'
+%footer#footer.mt-auto.py-3.text-center
+  %span.content
+    &copy;
+    = Time.zone.now.year
+    = link_to 'University of Massachusetts Amherst', 'http://umass.edu'
+    &bull;
+    = link_to 'Site Policies', 'http://umass.edu/site_policies'
+    &bull;
+    = mail_to configured_value([:email, :site_contact_email]), 'Site Contact'

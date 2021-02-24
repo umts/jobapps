@@ -28,11 +28,13 @@ group :production do
 end
 
 group :development do
+  gem 'bcrypt_pbkdf', '>= 1.0', '< 2.0', require: false
   gem 'capistrano', '~> 3.14', require: false
   gem 'capistrano-bundler', require: false
   gem 'capistrano-passenger', require: false
   gem 'capistrano-pending', require: false
   gem 'capistrano-rails', require: false
+  gem 'ed25519', '>= 1.2', '< 2.0', require: false
   gem 'listen'
   gem 'rb-readline', require: false
 end
