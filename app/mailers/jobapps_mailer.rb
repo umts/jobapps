@@ -1,16 +1,6 @@
 # frozen_string_literal: true
 
-require 'application_configuration'
-
-class JobappsMailer < ActionMailer::Base
-  include ApplicationConfiguration
-
-  helper_method :configured_value
-
-  default(
-    from: ApplicationConfiguration.configured_value(%i[email default_from])
-  )
-
+class JobappsMailer < ApplicationMailer
   def application_denial(application_submission)
     @application_submission = application_submission
     @user = @application_submission.user

@@ -61,7 +61,7 @@ class ApplicationDraft < ApplicationRecord
     return if question_data.blank?
 
     questions.destroy_all
-    question_data.values.each do |question_attributes|
+    question_data.each_value do |question_attributes|
       question_attributes[:application_draft_id] = id
       Question.create question_attributes
     end

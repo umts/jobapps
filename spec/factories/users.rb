@@ -6,14 +6,16 @@ FactoryBot.define do
     first_name { 'FirstName' }
     last_name { 'LastName' }
     staff { false }
-    sequence(:spire) { |n| n.to_s.rjust(8, '0') + '@umass.edu' }
+    sequence(:spire) { |n| format('%08d@umass.edu', n) }
 
     trait :staff do
       staff { true }
     end
+
     trait :student do
       staff { false }
     end
+
     trait :admin do
       admin { true }
       staff { true }
