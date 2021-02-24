@@ -5,11 +5,12 @@ require 'prawn/table'
 class PrintRecordPdf < Prawn::Document
   def initialize(record)
     super()
+    # need a true-type font for all UTF-8 Characters
     font_families.update(
       'DejaVu Sans' => {
-        normal: Rails.root.join('app', 'assets', 'fonts', 'DejaVuSans.ttf')
+        normal: Rails.root.join('app/assets/fonts/DejaVuSans.ttf')
       }
-    ) # need a true-type font for all UTF-8 Characters
+    )
     font 'DejaVu Sans'
     page_border
     content_width = bounds.width - 10
