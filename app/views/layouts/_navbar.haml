@@ -1,18 +1,8 @@
 #umass_banner
   #wordmark= image_tag 'wordmark.svg', height: 25
   #links
-    - if @current_user.present?
-      = link_to 'Logout', destroy_session_path
+    = link_to 'Logout', destroy_session_path
     = link_to 'Dashboard', dashboard_path
   #current_user_name= @current_user.try :full_name
 #transportation_banner
   = image_tag 'trans-header-large.png'
-- if flash[:message].present?
-  #message
-    = flash[:message]
-- if flash[:errors].present?
-  #errors
-    The following errors occurred:
-    %ul
-      - flash[:errors].each do |error_message|
-        %li= error_message
