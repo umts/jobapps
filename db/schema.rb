@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_25_150902) do
+ActiveRecord::Schema.define(version: 2021_02_25_152930) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 2021_02_25_150902) do
     t.datetime "updated_at"
     t.integer "user_id"
     t.string "email"
+    t.index ["application_template_id"], name: "index_application_drafts_on_application_template_id"
     t.index ["user_id", "application_template_id"], name: "index_application_drafts_on_user_id_and_application_template_id", unique: true
   end
 
@@ -57,6 +58,8 @@ ActiveRecord::Schema.define(version: 2021_02_25_150902) do
     t.date "date_for_later"
     t.string "email_to_notify"
     t.text "rejection_message"
+    t.index ["position_id"], name: "index_application_submissions_on_position_id"
+    t.index ["user_id"], name: "index_application_submissions_on_user_id"
   end
 
   create_table "application_templates", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
@@ -89,6 +92,8 @@ ActiveRecord::Schema.define(version: 2021_02_25_150902) do
     t.boolean "completed"
     t.string "location"
     t.text "interview_note"
+    t.index ["application_submission_id"], name: "index_interviews_on_application_submission_id"
+    t.index ["user_id"], name: "index_interviews_on_user_id"
   end
 
   create_table "positions", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
@@ -120,6 +125,7 @@ ActiveRecord::Schema.define(version: 2021_02_25_150902) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["position_id", "email"], name: "index_subscriptions_on_position_id_and_email", unique: true
+    t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end
 
   create_table "unavailabilities", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
@@ -133,6 +139,7 @@ ActiveRecord::Schema.define(version: 2021_02_25_150902) do
     t.integer "application_submission_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["application_submission_id"], name: "index_unavailabilities_on_application_submission_id"
   end
 
   create_table "users", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
