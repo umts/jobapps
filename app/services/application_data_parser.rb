@@ -49,7 +49,7 @@ class ApplicationDataParser
   # e.g. "316-1" (for the first question)
   def store_question_id(value)
     id, index = value.split('-').map(&:to_i)
-    index -= 1 #question ids are 1-indexed
+    index -= 1 # question ids are 1-indexed
     @questions[index] ||= []
     @questions[index][INPUT_TYPES.length] = id
   end
