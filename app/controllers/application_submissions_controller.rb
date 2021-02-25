@@ -12,7 +12,7 @@ class ApplicationSubmissionsController < ApplicationController
 
   def create
     create_user if @current_user.blank?
-    data = ApplicationDataParserer.new(params.require(:data)).result
+    data = ApplicationDataParser.new(params.require(:data)).result
     params.require :position_id
     record = ApplicationSubmission.create(record_params
                                           .merge(data: data,
