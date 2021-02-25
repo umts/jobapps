@@ -30,11 +30,12 @@ class ApplicationSubmissionsController < ApplicationController
   end
 
   def csv_export
+    respond_to :csv
     start_date = parse_date_picker_param(:start_date)
     end_date = parse_date_picker_param(:end_date)
     @records = ApplicationSubmission.in_department(given_or_all_department_ids)
                                     .between(start_date, end_date)
-    render 'csv_export.csv.erb', layout: false
+    render layout: false
   end
 
   def eeo_data

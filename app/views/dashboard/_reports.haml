@@ -1,5 +1,5 @@
 .container
-  = form_tag csv_export_application_submissions_path,
+  = form_tag csv_export_application_submissions_path(format: :csv),
     method: :get do
     %h5 Export records for
     .form-row

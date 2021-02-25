@@ -14,7 +14,7 @@ gem 'jquery-ui-rails'
 gem 'mysql2'
 gem 'prawn'
 gem 'prawn-table'
-gem 'rails', '~> 6.0.3'
+gem 'rails', '~> 6.1.3'
 
 gem 'puma'
 gem 'redcarpet'
@@ -37,6 +37,9 @@ group :development do
   gem 'ed25519', '>= 1.2', '< 2.0', require: false
   gem 'listen'
   gem 'rb-readline', require: false
+  gem 'rubocop', require: false
+  gem 'rubocop-rails', require: false
+  gem 'umts-custom-cops', require: false
 end
 
 group :development, :test do
@@ -45,9 +48,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'haml_lint'
   gem 'pry-byebug'
-  gem 'rubocop'
   gem 'spring', require: false
-  gem 'umts-custom-cops', require: false
 end
 
 group :test do

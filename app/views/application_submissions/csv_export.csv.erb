@@ -1,3 +1,4 @@
+<% require 'csv' %>
 Record Number,Prompt,Response
 <% @records.each do |record| %>
 <% record.data.each do |prompt, response| %>
