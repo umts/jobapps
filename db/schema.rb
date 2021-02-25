@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_07_005114) do
+ActiveRecord::Schema.define(version: 2021_02_25_150902) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 2021_01_07_005114) do
     t.datetime "updated_at"
     t.integer "user_id"
     t.string "email"
+    t.index ["user_id", "application_template_id"], name: "index_application_drafts_on_user_id_and_application_template_id", unique: true
   end
 
   create_table "application_submissions", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
@@ -68,12 +69,14 @@ ActiveRecord::Schema.define(version: 2021_01_07_005114) do
     t.string "email"
     t.boolean "unavailability_enabled"
     t.boolean "resume_upload_enabled", default: false
+    t.index ["position_id"], name: "index_application_templates_on_position_id", unique: true
   end
 
   create_table "departments", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["name"], name: "index_departments_on_name", unique: true
   end
 
   create_table "interviews", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
@@ -106,6 +109,8 @@ ActiveRecord::Schema.define(version: 2021_01_07_005114) do
     t.datetime "updated_at"
     t.integer "application_template_id"
     t.integer "application_draft_id"
+    t.index ["application_draft_id", "number"], name: "index_questions_on_application_draft_id_and_number", unique: true
+    t.index ["application_template_id", "number"], name: "index_questions_on_application_template_id_and_number", unique: true
   end
 
   create_table "subscriptions", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
@@ -114,6 +119,7 @@ ActiveRecord::Schema.define(version: 2021_01_07_005114) do
     t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["position_id", "email"], name: "index_subscriptions_on_position_id_and_email", unique: true
   end
 
   create_table "unavailabilities", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
@@ -138,6 +144,7 @@ ActiveRecord::Schema.define(version: 2021_01_07_005114) do
     t.boolean "staff"
     t.string "email"
     t.boolean "admin"
+    t.index ["spire"], name: "index_users_on_spire", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
