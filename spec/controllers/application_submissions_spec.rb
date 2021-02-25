@@ -102,20 +102,27 @@ describe ApplicationSubmissionsController do
       @end_date = Time.zone.today
       @department = create :department
     end
+
+    let :params do
+      { format: :csv,
+        start_date: @start_date.strftime('%m/%d/%Y'),
+        end_date: @end_date.strftime('%m/%d/%Y') }
+    end
+    let(:extra_params) { {} }
+    let :submit do
+      get :csv_export, params: params.merge(extra_params)
+    end
+
     context 'submitting with the department ID param' do
-      let :submit do
-        get :csv_export, params: {
-          start_date: @start_date.strftime('%m/%d/%Y'),
-          end_date: @end_date.strftime('%m/%d/%Y'),
-          department_ids: @department.id
-        }
-      end
+      let(:extra_params) { { department_ids: [@department.id] } }
+
       it 'calls AR#in_department with the correct parameters' do
-        expect(ApplicationSubmission).to receive(:in_department)
-          .with(@department.id.to_s)
-          .and_return ApplicationSubmission.none
+        create :department
         # Needs to return something, because we must call
         # other methods on what it returns later.
+        expect(ApplicationSubmission).to receive(:in_department)
+          .with([@department.id.to_s])
+          .and_return ApplicationSubmission.none
         submit
       end
       it 'calls AR#between with the correct parameters' do
@@ -129,13 +136,8 @@ describe ApplicationSubmissionsController do
         expect(assigns.fetch :records).to eql 'whatever'
       end
     end
+
     context 'submitting without the department ID param' do
-      let :submit do
-        get :csv_export, params: {
-          start_date: @start_date.strftime('%m/%d/%Y'),
-          end_date: @end_date.strftime('%m/%d/%Y')
-        }
-      end
       it 'calls AR#in_department with all department IDs' do
         expect(ApplicationSubmission).to receive(:in_department)
           .with(Department.all.pluck(:id)).and_return ApplicationSubmission.none
