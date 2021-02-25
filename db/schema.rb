@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_25_152930) do
+ActiveRecord::Schema.define(version: 2021_02_25_153739) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 2021_02_25_152930) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer "user_id"
-    t.boolean "reviewed"
+    t.boolean "reviewed", default: false
     t.integer "position_id"
     t.text "staff_note"
     t.string "ethnicity"
@@ -70,7 +70,7 @@ ActiveRecord::Schema.define(version: 2021_02_25_152930) do
     t.string "slug"
     t.boolean "eeo_enabled", default: true
     t.string "email"
-    t.boolean "unavailability_enabled"
+    t.boolean "unavailability_enabled", default: false
     t.boolean "resume_upload_enabled", default: false
     t.index ["position_id"], name: "index_application_templates_on_position_id", unique: true
   end
@@ -83,13 +83,13 @@ ActiveRecord::Schema.define(version: 2021_02_25_152930) do
   end
 
   create_table "interviews", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
-    t.boolean "hired"
+    t.boolean "hired", default: false
     t.datetime "scheduled"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer "user_id"
     t.integer "application_submission_id"
-    t.boolean "completed"
+    t.boolean "completed", default: false
     t.string "location"
     t.text "interview_note"
     t.index ["application_submission_id"], name: "index_interviews_on_application_submission_id"
@@ -108,7 +108,7 @@ ActiveRecord::Schema.define(version: 2021_02_25_152930) do
   create_table "questions", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.text "prompt"
     t.string "data_type"
-    t.boolean "required"
+    t.boolean "required", default: false
     t.integer "number"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -148,9 +148,9 @@ ActiveRecord::Schema.define(version: 2021_02_25_152930) do
     t.string "spire"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean "staff"
+    t.boolean "staff", default: false
     t.string "email"
-    t.boolean "admin"
+    t.boolean "admin", default: false
     t.index ["spire"], name: "index_users_on_spire", unique: true
   end
 
