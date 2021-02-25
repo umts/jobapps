@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
-require 'prawn'
 class ApplicationSubmissionsController < ApplicationController
-  include ApplicationHelper
-
   skip_before_action :access_control, only: %i[create show]
   before_action :find_record, except: %i[create
                                          csv_export
@@ -12,7 +9,7 @@ class ApplicationSubmissionsController < ApplicationController
 
   def create
     create_user if @current_user.blank?
-    data = parse_application_data(params.require :data)
+    data = ApplicationDataParser.new(params.require(:data)).result
     params.require :position_id
     record = ApplicationSubmission.create(record_params
                                           .merge(data: data,
@@ -109,9 +106,8 @@ class ApplicationSubmissionsController < ApplicationController
   end
 
   def create_unavailability(record)
-    unavail_params = parse_unavailability(params.require :unavailability)
-                     .merge application_submission: record
-    Unavailability.create unavail_params
+    up = UnavailabilityParser.new(params.require(:unavailability))
+    record.create_unavailability(up.result)
   end
 
   def find_record
