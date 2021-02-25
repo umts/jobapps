@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'prawn'
 require 'prawn/table'
 
 class PrintRecordPdf < Prawn::Document
