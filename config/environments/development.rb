@@ -30,6 +30,10 @@ Rails.application.configure do
     config.cache_store = :null_store
   end
 
+  # Set Same-Site on cookies to "Lax"
+  # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite
+  config.action_dispatch.cookies_same_site_protection = :lax
+
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 
