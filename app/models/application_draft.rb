@@ -20,13 +20,10 @@ class ApplicationDraft < ApplicationRecord
       other_question = questions.find_by number: other_number
       return unless other_question
 
-      # Move the specified field without validation, since before we move
-      # the other field out of its place, it will be invalid.
-      question.number = other_number
-      question.save validate: false
-      other_question.update number: question_number
-      # Validate it afterwards, and do nothing if there is an error.
-      raise ActiveRecord::Rollback unless question.valid?
+      # Temporarily set number to 0 to avoid unique index conflicts
+      question.update(number: 0)
+      other_question.update(number: question_number)
+      question.update(number: other_number)
     end
   end
 
