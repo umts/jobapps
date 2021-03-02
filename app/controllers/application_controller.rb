@@ -18,7 +18,6 @@ class ApplicationController < ActionController::Base
   private
 
   # Appended as a before_action in controllers by default
-  # '... and return' is the correct behavior here, disable rubocop warning
   def access_control
     deny_access and return unless @current_user.present? && @current_user.staff?
   end
@@ -33,7 +32,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # '... and return' is the correct behavior here, disable rubocop warning
   def redirect_unauthenticated
     return if @current_user.present? || session.key?(:spire)
 
@@ -57,7 +55,6 @@ class ApplicationController < ActionController::Base
     session[:spire] = request.env['fcIdNumber'] if request.env.key? 'fcIdNumber'
   end
 
-  # '... and return' is the correct behavior here, disable rubocop warning
   def show_errors(object)
     flash[:errors] = object.errors.full_messages
     redirect_back(fallback_location: 'public/404.html') and return
