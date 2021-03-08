@@ -2,7 +2,9 @@
   %h3 Application saved for later
 - else
   %h3 Save application for later review
-= form_with(model: @record, url: { action: :toggle_saved_for_later}) do |form|
+= form_with model: @record,
+  url: { action: :toggle_saved_for_later},
+  local: true do |form|
   .form-group
     = form.label :note_for_later, 'Note'
     = form.text_area :note_for_later, class: 'form-control'
