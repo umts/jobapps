@@ -68,9 +68,7 @@ class UsersController < ApplicationController
                                  :staff
   end
 
-  # rubocop:disable Style/AndOr
   def allow_only_admin
     deny_access and return unless @current_user.admin?
   end
-  # rubocop:enable Style/AndOr
 end

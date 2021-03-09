@@ -6,7 +6,6 @@ class ApplicationTemplate < ApplicationRecord
 
   has_many :questions, dependent: :destroy
   has_many :drafts, class_name: 'ApplicationDraft',
-                    foreign_key: :application_template_id,
                     dependent: :destroy,
                     inverse_of: :application_template
   accepts_nested_attributes_for :questions

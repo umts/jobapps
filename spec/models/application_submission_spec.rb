@@ -244,13 +244,14 @@ describe ApplicationSubmission do
   describe 'move_to_dashboard' do
     let(:call) { ApplicationSubmission.move_to_dashboard }
     context 'there is an expired record' do
-      let!(:expired_saved_record) do
+      before do
         create :application_submission,
                saved_for_later: true,
                date_for_later: Date.yesterday,
                note_for_later: 'this is required',
                email_to_notify: 'foo@example.com'
       end
+
       it 'calls move_to_dashboard on expired record' do
         expect_any_instance_of(ApplicationSubmission)
           .to receive(:move_to_dashboard)
@@ -259,20 +260,19 @@ describe ApplicationSubmission do
       end
     end
     context 'there are many expired records' do
-      let!(:expired_saved_record_1) do
+      before do
+        create :application_submission,
+               saved_for_later: true,
+               date_for_later: Date.yesterday,
+               note_for_later: 'this is required',
+               email_to_notify: 'foo@example.com'
         create :application_submission,
                saved_for_later: true,
                date_for_later: Date.yesterday,
                note_for_later: 'this is required',
                email_to_notify: 'foo@example.com'
       end
-      let!(:expired_saved_record_2) do
-        create :application_submission,
-               saved_for_later: true,
-               date_for_later: Date.yesterday,
-               note_for_later: 'this is required',
-               email_to_notify: 'foo@example.com'
-      end
+
       it 'calls move_to_dashboard on expired records' do
         expect(JobappsMailer).to receive(:saved_applications_notification)
         call

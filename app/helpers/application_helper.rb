@@ -12,13 +12,13 @@ module ApplicationHelper
   def render_markdown(text)
     renderer = Redcarpet::Render::HTML.new(filter_html: true)
     markdown = Redcarpet::Markdown.new renderer
-    # rubocop:disable OutputSafety
     # This cop is to warn developers of the possible dangers of using html_safe
     # because it will, by definition, allow injecting user-input into the DOM.
     # However, the filter_html: true option above prevents users from entering
     # in their own tags. Thus, ignore this cop, it has done its job.
+    # rubocop:disable Rails/OutputSafety
     markdown.render(text).html_safe
-    # rubocop:enable OutputSafety
+    # rubocop:enable Rails/OutputSafety
   end
 
   def should_show_denied_applications?
@@ -33,14 +33,5 @@ module ApplicationHelper
   def should_allow_form_refilling?
     configured_value %i[on_application_denial fill_form_with_old],
                      default: true
-  end
-
-  def dashboard_path
-    if @current_user.try :staff?
-      staff_dashboard_path
-    else
-      # We still want anonymous logins to redirect to student dashboard
-      student_dashboard_path
-    end
   end
 end

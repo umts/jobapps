@@ -21,5 +21,5 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.include UmtsCustomMatchers
 
-  Dir['./spec/support/**/*.rb'].each { |f| require f }
+  Dir['./spec/support/**/*.rb'].sort.each { |f| require f }
 end

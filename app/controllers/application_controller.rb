@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   include ConfigurableMessages
 
   attr_accessor :current_user
+
   before_action :set_spire
   before_action :set_current_user
   before_action :redirect_unauthenticated
@@ -17,12 +18,9 @@ class ApplicationController < ActionController::Base
   private
 
   # Appended as a before_action in controllers by default
-  # '... and return' is the correct behavior here, disable rubocop warning
-  # rubocop:disable Style/AndOr
   def access_control
     deny_access and return unless @current_user.present? && @current_user.staff?
   end
-  # rubocop:enable Style/AndOr
 
   def deny_access
     if request.xhr?
@@ -34,8 +32,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # '... and return' is the correct behavior here, disable rubocop warning
-  # rubocop:disable Style/AndOr
   def redirect_unauthenticated
     return if @current_user.present? || session.key?(:spire)
 
@@ -45,7 +41,6 @@ class ApplicationController < ActionController::Base
     logger.info session.inspect
     redirect_to unauthenticated_session_path and return
   end
-  # rubocop:enable Style/AndOr
 
   def set_current_user
     @current_user =
@@ -60,13 +55,10 @@ class ApplicationController < ActionController::Base
     session[:spire] = request.env['fcIdNumber'] if request.env.key? 'fcIdNumber'
   end
 
-  # '... and return' is the correct behavior here, disable rubocop warning
-  # rubocop:disable Style/AndOr
   def show_errors(object)
     flash[:errors] = object.errors.full_messages
     redirect_back(fallback_location: 'public/404.html') and return
   end
-  # rubocop:enable Style/AndOr
 
   def check_primary_account
     return if request.env['UMAPrimaryAccount'] == request.env['uid']

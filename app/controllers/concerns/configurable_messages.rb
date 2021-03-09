@@ -16,7 +16,7 @@ module ConfigurableMessages
   # in test, make sure that the default given is the default provided
   # in the application.yml.example file, if one exists.
   def check_message_default(message_name, controller_default)
-    config_path = Rails.root.join 'config', 'application.yml.example'
+    config_path = Rails.root.join 'config/application.yml.example'
     return unless File.exist? config_path
 
     example_config = YAML.load_file config_path

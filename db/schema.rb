@@ -30,7 +30,6 @@ ActiveRecord::Schema.define(version: 2021_02_25_153739) do
     t.bigint "byte_size", null: false
     t.string "checksum", null: false
     t.datetime "created_at", null: false
-    t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
@@ -162,5 +161,4 @@ ActiveRecord::Schema.define(version: 2021_02_25_153739) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
 end

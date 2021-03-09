@@ -15,16 +15,14 @@ describe 'subscriptions' do
     end
   end
   context 'displaying existing subscriptions' do
-    let(:user_1) { create :user, :staff }
-    let(:user_2) { create :user, :staff }
+    let(:user1) { create :user, :staff }
+    let(:user2) { create :user, :staff }
     let(:subscription) do
-      create :subscription,
-             user: user_1,
-             position: position
+      create :subscription, user: user1, position: position
     end
     let(:other_position) { create :position }
     before :each do
-      when_current_user_is user_2
+      when_current_user_is user2
       visit edit_position_path(position)
     end
     it 'does not display subscription belonging to another user' do

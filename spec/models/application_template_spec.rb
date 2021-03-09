@@ -31,10 +31,10 @@ describe ApplicationTemplate do
         expect(call).to be_a ApplicationDraft
       end
       it 'sets the user of the draft to the user argument' do
-        expect(call.user). to eql @user
+        expect(call.user).to eql @user
       end
       it 'sets the email of the draft to be same as template email' do
-        expect(call.email). to eql @application_template.email
+        expect(call.email).to eql @application_template.email
       end
       it 'sets the application template of the draft to the current one' do
         expect(call.application_template).to eql @application_template
