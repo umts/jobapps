@@ -19,17 +19,11 @@ Rails.application.config.active_job.retry_jitter = 0.15
 # `before_enqueue`/`before_perform` respectively halts with `throw :abort`.
 Rails.application.config.active_job.skip_after_callbacks_if_terminated = true
 
-# Specify cookies SameSite protection level: either :none, :lax, or :strict.
-#
-# This change is not backwards compatible with earlier Rails versions.
-# It's best enabled when your entire app is migrated and stable on 6.1.
-# Rails.application.config.action_dispatch.cookies_same_site_protection = :lax
-
 # Generate CSRF tokens that are encoded in URL-safe Base64.
 #
 # This change is not backwards compatible with earlier Rails versions.
 # It's best enabled when your entire app is migrated and stable on 6.1.
-# Rails.application.config.action_controller.urlsafe_csrf_tokens = true
+Rails.application.config.action_controller.urlsafe_csrf_tokens = true
 
 # Specify whether `ActiveSupport::TimeZone.utc_to_local` returns a time with an
 # UTC offset or a UTC time.
@@ -45,7 +39,7 @@ Rails.application.config.action_dispatch.ssl_default_redirect_status = 308
 Rails.application.config.active_record.legacy_connection_handling = false
 
 # Make `form_with` generate non-remote forms by default.
-# Rails.application.config.action_view.form_with_generates_remote_forms = false
+Rails.application.config.action_view.form_with_generates_remote_forms = false
 
 # Set the default queue name for the analysis job to the queue adapter default.
 Rails.application.config.active_storage.queues.analysis = nil
