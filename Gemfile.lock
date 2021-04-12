@@ -297,6 +297,9 @@ GEM
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 0.90.0, < 2.0)
+    rubocop-rspec (2.2.0)
+      rubocop (~> 1.0)
+      rubocop-ast (>= 1.1.0)
     ruby-progressbar (1.11.0)
     ruby_parser (3.15.1)
       sexp_processor (~> 4.9)
@@ -342,8 +345,6 @@ GEM
       concurrent-ruby (~> 1.0)
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
-    umts-custom-cops (1.0.0)
-      rubocop (~> 1.10)
     umts-custom-matchers (1.0.0)
       rspec-rails (>= 3.0, <= 5.0)
     unicode-display_width (2.0.0)
@@ -401,13 +402,13 @@ DEPENDENCIES
   rspec-rails
   rubocop
   rubocop-rails
+  rubocop-rspec
   sass-rails
   simplecov
   snappconfig
   spring
   timecop
   uglifier
-  umts-custom-cops
   umts-custom-matchers
   webdrivers
   whenever

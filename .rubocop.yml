@@ -1,2 +1,48 @@
-require: umts-custom-cops
-inherit_from: .rubocop-no-umts-cops.yml
+require:
+  - rubocop-rails
+  - rubocop-rspec
+
+AllCops:
+  Exclude:
+    - 'bin/**/*'
+    - 'config/**/*'
+    - 'db/**/*'
+    - 'node_modules/**/*'
+    - 'vendor/**/*'
+  NewCops: enable
+
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - 'spec/**/*'
+
+# Relax complexity testing to codeclimate standards (roughly).
+Metrics/AbcSize:
+  Max: 20
+Metrics/MethodLength:
+  Max: 20
+Metrics/ClassLength:
+  Max: 160
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+
+RSpec:
+  Enabled: false
+
+RSpec/BeEql:
+  Enabled: true
+
+RSpec/PredicateMatcher:
+  Enabled: true
+
+# Don't worry about documentation for now.
+# In particular, this fails for things like
+# controller files, which seems unnecessary.
+Style/Documentation:
+  Enabled: false
+
+# I think this cop disagrees with nested calls
+# that are perfectly clear.
+Style/NestedParenthesizedCalls:
+  Enabled: false
