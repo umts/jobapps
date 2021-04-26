@@ -194,7 +194,7 @@ GEM
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
     parallel (1.20.1)
-    parser (3.0.0.0)
+    parser (3.0.1.0)
       ast (~> 2.4.1)
     pdf-core (0.9.0)
     popper_js (1.16.0)
@@ -413,7 +413,7 @@ DEPENDENCIES
   whenever
 
 RUBY VERSION
-   ruby 2.6.5p114
+   ruby 2.7.3p183
 
 BUNDLED WITH
-   2.2.11
+   2.2.16
