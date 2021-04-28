@@ -39,7 +39,7 @@ group :development do
   gem 'rb-readline', require: false
   gem 'rubocop', require: false
   gem 'rubocop-rails', require: false
-  gem 'umts-custom-cops', require: false
+  gem 'rubocop-rspec', require: false
 end
 
 group :development, :test do
