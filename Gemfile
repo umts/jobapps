@@ -39,7 +39,7 @@ group :development do
   gem 'rb-readline', require: false
   gem 'rubocop', require: false
   gem 'rubocop-rails', require: false
-  gem 'umts-custom-cops', require: false
+  gem 'rubocop-rspec', require: false
 end
 
 group :development, :test do
@@ -53,7 +53,6 @@ end
 
 group :test do
   gem 'capybara'
-  gem 'codeclimate-test-reporter', '~> 1.0'
   gem 'rack_session_access'
   gem 'rails-controller-testing'
   gem 'rspec-html-matchers'

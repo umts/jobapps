@@ -85,8 +85,6 @@ describe Question do
     end
   end
 
-  # I prefer not to write `to be takes_placeholder`
-  # rubocop:disable UmtsCustomCops/PredicateMethodMatcher
   describe 'takes_placeholder?' do
     before :each do
       @draft = create :application_draft
@@ -106,5 +104,4 @@ describe Question do
       end
     end
   end
-  # rubocop:enable UmtsCustomCops/PredicateMethodMatcher
 end
