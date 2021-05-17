@@ -1,5 +1,7 @@
 language: ruby
-cache: bundler
+cache:
+  bundler: true
+  npm: true
 services:
   - mysql
 env:
