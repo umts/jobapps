@@ -11,3 +11,10 @@
                 interview.application_submission
           - else
             No pending interviews
+        %ul
+          - if @saved_interviews[position].present?
+            - count = @saved_interviews[position].count
+            =link_to "View saved interviews for #{position.name} (#{count})",
+              saved_interviews_position_path(position)
+          - else
+            No saved interviews

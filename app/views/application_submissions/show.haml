@@ -62,6 +62,8 @@
     - if @interview.pending?
       %p Interview is scheduled for: #{@interview.information}
       %p
+        = render 'save_for_later', locals: { record: @record }
+      %p
         = link_to 'Click here for a calendar export file',
           interview_path(@interview, format: :ics)
       %h3 Reschedule interview
