@@ -4,7 +4,9 @@ class PositionsController < ApplicationController
   before_action :find_position, only: %i[destroy
                                          edit
                                          update
-                                         saved_applications]
+                                         saved_applications
+                                         saved_interviews
+                                       ]
 
   def create
     @position = Position.new position_parameters
@@ -26,8 +28,8 @@ class PositionsController < ApplicationController
   end
 
   def saved_interviews
-    @saved = Array.new
-    @saved = @saved_interviews.where(position: @position) if @saved_interviews != nil
+    @saved = @position.application_submissions.where(saved_for_later: false)
+                      .each_with_object([]) { |x,arr| arr.push(x) if x.interview.present? && x.interview.saved_for_later }
   end
 
   def edit
