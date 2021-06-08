@@ -6,7 +6,7 @@ class PositionsController < ApplicationController
                                          update
                                          saved_applications
                                          saved_interviews
-                                       ]
+                                        ]
 
   def create
     @position = Position.new position_parameters
@@ -29,7 +29,9 @@ class PositionsController < ApplicationController
 
   def saved_interviews
     @saved = @position.application_submissions.where(saved_for_later: false)
-                      .each_with_object([]) { |x,arr| arr.push(x) if x.interview.present? && x.interview.saved_for_later }
+                      .each_with_object([]) {
+                        |x, arr| arr.push(x) if x.interview.present? && x.interview.saved_for_later
+                      }
   end
 
   def edit
