@@ -5,8 +5,7 @@ class PositionsController < ApplicationController
                                          edit
                                          update
                                          saved_applications
-                                         saved_interviews
-                                        ]
+                                         saved_interviews]
 
   def create
     @position = Position.new position_parameters
