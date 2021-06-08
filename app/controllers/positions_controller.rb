@@ -25,6 +25,11 @@ class PositionsController < ApplicationController
     @saved = @position.application_submissions.where(saved_for_later: true)
   end
 
+  def saved_interviews
+    @saved = Array.new
+    @saved = @saved_interviews.where(position: @position) if @saved_interviews != nil
+  end
+
   def edit
     @subscriptions = Subscription.where user: @current_user,
                                         position: @position

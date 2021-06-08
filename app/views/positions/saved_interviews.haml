@@ -1,0 +1,18 @@
+%table.table.data_table.display#main_data_table
+  %thead
+    %tr
+      %th Date submitted
+      %th Name
+      %th Note
+      %th Date to review
+  %tbody
+    - @saved.each do |record|
+      %tr
+        %td{ data: { order: record.created_at.to_i } }
+          = record.created_at.to_formatted_s :long_with_time
+        %td
+          = link_to(record.user.proper_name, application_submission_path(record.id))
+        %td
+          = record.note_for_later
+        %td
+          = record.date_for_later.to_formatted_s(:long) if record.date_for_later.present?

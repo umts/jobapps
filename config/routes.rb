@@ -49,6 +49,7 @@ Rails.application.routes.draw do
   resources :positions, except: [:index, :show] do
     member do
       get :saved_applications
+      get :saved_interviews
     end
   end
 
