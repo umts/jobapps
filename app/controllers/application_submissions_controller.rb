@@ -62,15 +62,15 @@ class ApplicationSubmissionsController < ApplicationController
   end
 
   def toggle_saved_for_later
-   @interview = @record.interview
-   if @interview.present?
-    flash[:message] = 'Interview successfully updated' if @interview.update save_for_later_params
-   elsif @record.update save_for_later_params
-    flash[:message] = 'Application successfully updated'
-   else
-    flash[:errors] = @record.errors.full_messages
-   end
-   redirect_to staff_dashboard_path
+    @interview = @record.interview
+    if @interview.present?
+     flash[:message] = 'Interview successfully updated' if @interview.update save_for_later_params
+    elsif @record.update save_for_later_params
+     flash[:message] = 'Application successfully updated'
+    else
+     flash[:errors] = @record.errors.full_messages
+    end
+    redirect_to staff_dashboard_path
   end
 
   def show
@@ -126,12 +126,12 @@ class ApplicationSubmissionsController < ApplicationController
   def save_for_later_params
     if @record.interview.present?
       parameters = params.require(:interview).permit(
-       :note_for_later, :date_for_later
-    )
+        :note_for_later, :date_for_later
+     )
     else
       parameters = params.require(:application_submission).permit(
-      :note_for_later, :mail_note_for_later, :date_for_later, :email_to_notify
-    )
+        :note_for_later, :mail_note_for_later, :date_for_later, :email_to_notify
+     )
       parameters[:mail_note_for_later] = parameters[:mail_note_for_later] == '1'
     end
     parameters[:saved_for_later] = params[:commit] == 'Save for later'
