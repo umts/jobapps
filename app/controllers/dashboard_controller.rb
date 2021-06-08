@@ -20,6 +20,11 @@ class DashboardController < ApplicationController
                                             .group_by(&:position)
     @saved_records = ApplicationSubmission.where(saved_for_later: true)
                                           .group_by(&:position)
+    @saved_interviews = Array.new
+    Interview.where(saved_for_later: true).each do |interview|
+      @saved_interviews.push(ApplicationSubmission.find(interview.application_submission_id)) if interview.saved_for_later
+    end
+    @saved_interviews = @saved_interviews.group_by(&:position)
     @staff = User.staff
     @templates = ApplicationTemplate.all.group_by(&:position)
   end

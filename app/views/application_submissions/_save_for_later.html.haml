@@ -1,8 +1,11 @@
-- if @record.saved_for_later?
+- temprecord = @record
+- if @record.interview.present?
+  - temprecord = @interview
+- if temprecord.saved_for_later?
   %h3 Application saved for later
 - else
   %h3 Save application for later review
-= form_with model: @record,
+= form_with model: temprecord,
   url: { action: :toggle_saved_for_later},
   local: true do |form|
   .form-group
@@ -18,7 +21,7 @@
       = form.label :date_for_later, 'Select a date for later review'
       = form.text_field :date_for_later, class: 'datepicker form-control',
         placeholder: 'Click here to select date...'
-      %i If a date is selected, the application will 
+      %i If a date is selected, the application will
       %i move back onto the dashboard at that time.
     .form-group.col
       #notification
@@ -27,6 +30,6 @@
           placeholder: 'person@example.com',
           class: 'form-control'
   .form-group
-    - if @record.saved_for_later?
+    - if temprecord.saved_for_later?
       = submit_tag 'Move back to dashboard', class: 'btn btn-primary'
     = submit_tag 'Save for later', class: 'btn btn-primary'

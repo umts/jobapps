@@ -62,7 +62,12 @@ class ApplicationSubmissionsController < ApplicationController
   end
 
   def toggle_saved_for_later
-    if @record.update save_for_later_params
+   @interview = @record.interview
+   if @interview.present?
+     if @interview.update save_for_later_params
+       flash[:message] = 'Interview successfully updated'
+     end
+   elsif @record.update save_for_later_params
       flash[:message] = 'Application successfully updated'
     else
       flash[:errors] = @record.errors.full_messages
@@ -121,11 +126,17 @@ class ApplicationSubmissionsController < ApplicationController
   end
 
   def save_for_later_params
-    parameters = params.require(:application_submission).permit(
+    if @record.interview.present?
+      parameters = params.require(:interview).permit(
+      :note_for_later, :date_for_later
+      )
+    else
+      parameters = params.require(:application_submission).permit(
       :note_for_later, :mail_note_for_later, :date_for_later, :email_to_notify
-    )
+      )
+      parameters[:mail_note_for_later] = parameters[:mail_note_for_later] == '1'
+    end
     parameters[:saved_for_later] = params[:commit] == 'Save for later'
-    parameters[:mail_note_for_later] = parameters[:mail_note_for_later] == '1'
     if parameters[:date_for_later].present?
       parameters[:date_for_later] = Date.strptime(
         parameters[:date_for_later], '%m/%d/%Y'

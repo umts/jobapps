@@ -13,9 +13,12 @@
       class: 'btn btn-primary'
 - if !@record.saved_for_later? && @record.note_for_later.present?
   %p
-    %i This application had previously been saved for later review. Your note:
+    %i This application/interview had previously been saved for later review. Your note(s):
   %p
     = @record.note_for_later
+  - if @record.interview.present?
+    %p
+      = @interview.note_for_later
 %table.table.table-bordered.application-record-table
   %thead
     %tr
@@ -62,7 +65,7 @@
     - if @interview.pending?
       %p Interview is scheduled for: #{@interview.information}
       %p
-        = render 'save_for_later', locals: { record: @record }
+        = render 'save_for_later', locals: { record: @interview }
       %p
         = link_to 'Click here for a calendar export file',
           interview_path(@interview, format: :ics)
