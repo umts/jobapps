@@ -96,6 +96,7 @@
       .form-group
         Interview occurred on
         = @interview.information
+    = render 'save_for_later', locals: { record: @record }
 - else # student
   - if @record.pending?
     Your application is pending and has not yet been reviewed.
