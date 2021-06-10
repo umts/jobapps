@@ -14,7 +14,7 @@ class DashboardController < ApplicationController
 
   def staff
     @departments = Department.includes :positions
-    @pending_interviews = Interview.where(:application_submission.saved_for_later => false).pending.group_by(&:position)
+    @pending_interviews = Interview.pending.group_by(&:position)
     @pending_records = ApplicationSubmission.where(saved_for_later: false)
                                             .pending.newest_first
                                             .group_by(&:position)
