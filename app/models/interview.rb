@@ -56,7 +56,7 @@ class Interview < ApplicationRecord
   end
 
   def pending?
-    !completed && !saved_for_later
+    !completed
   end
 
   private

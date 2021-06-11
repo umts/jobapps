@@ -51,7 +51,6 @@
     %h3 Review application
     = render 'deny', locals: { record: @record }
     = render 'approve', locals: { record: @record }
-    = render 'save_for_later', locals: { record: @record }
   - else
     %p Application reviewed on: #{@record.updated_at.to_formatted_s :long_with_time}
     - if @record.staff_note.present?
