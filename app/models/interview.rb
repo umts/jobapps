@@ -22,8 +22,8 @@ class Interview < ApplicationRecord
   default_scope { order :scheduled }
   scope :pending, -> {
     joins(:application_submission).where(interviews: { completed: false },
-                                         application_submission: { saved_for_later: false
-                                           }) }
+                                         application_submission: { saved_for_later: false})
+                      }
 
   delegate :saved_for_later?, to: :application_submission
 
