@@ -25,8 +25,6 @@ class Interview < ApplicationRecord
                                                          application_submission: { saved_for_later: false })
                   }
 
-  delegate :saved_for_later?, to: :application_submission
-
   def calendar_title
     "Interview with #{user.full_name}"
   end
