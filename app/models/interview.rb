@@ -20,7 +20,8 @@ class Interview < ApplicationRecord
   after_update :resend_confirmation
 
   default_scope { order :scheduled }
-  scope :pending, -> { joins(:application_submission).where(interviews: { completed: false }, application_submission: { saved_for_later: false }) }
+  scope :pending, -> { joins(:application_submission)
+                       .where(interviews: { completed: false }, application_submission: { saved_for_later: false }) }
 
   delegate :saved_for_later?, to: :application_submission
 
