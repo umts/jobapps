@@ -20,7 +20,10 @@ class Interview < ApplicationRecord
   after_update :resend_confirmation
 
   default_scope { order :scheduled }
-  scope :pending, -> { where completed: false }
+  scope :pending, lambda {
+                    joins(:application_submission).where(interviews: { completed: false },
+                                                         application_submission: { saved_for_later: false })
+                  }
 
   def calendar_title
     "Interview with #{user.full_name}"
