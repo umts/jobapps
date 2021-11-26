@@ -26,8 +26,7 @@ describe ApplicationDraftsController do
         expect(assigns.fetch :draft).to eql @draft
       end
       it 'destroys the draft' do
-        expect_any_instance_of(ApplicationDraft)
-          .to receive :destroy
+        expect_any_instance_of(ApplicationDraft).to receive :destroy
         submit
       end
       it 'includes a flash message' do
@@ -57,8 +56,7 @@ describe ApplicationDraftsController do
         expect(assigns.fetch :draft).to eql @draft
       end
       it 'adds a question to the draft, in memory only' do
-        expect { submit }
-          .not_to change { @draft.questions.count }
+        expect { submit }.not_to change { @draft.questions.count }
         # Factory draft has 0 questions by default
         expect(assigns.fetch(:draft).questions.size).to be 1
       end
@@ -82,15 +80,12 @@ describe ApplicationDraftsController do
       end
       context 'no pre-existing draft' do
         it 'creates a draft for the correct application template' do
-          expect { submit }
-            .to change { @template.drafts.count }
-            .by 1
+          expect { submit }.to change { @template.drafts.count }.by 1
         end
       end
       context 'pre-existing draft' do
         it 'finds the pre-existing draft' do
-          draft = create :application_draft,
-                         application_template: @template, user: @user
+          draft = create :application_draft, application_template: @template, user: @user
           submit
           expect(assigns.fetch :draft).to eql draft
         end
@@ -167,8 +162,7 @@ describe ApplicationDraftsController do
         expect(assigns.fetch :draft).to eql @draft
       end
       it 'calls update_application_template! on the draft' do
-        expect_any_instance_of(ApplicationDraft)
-          .to receive :update_application_template!
+        expect_any_instance_of(ApplicationDraft).to receive :update_application_template!
         submit
       end
       it 'includes a flash message' do
