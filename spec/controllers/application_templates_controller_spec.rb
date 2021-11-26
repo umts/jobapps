@@ -26,7 +26,7 @@ describe ApplicationTemplatesController do
       it 'creates a draft for that application template for the current user' do
         submit
         draft = assigns.fetch :draft
-        expect(draft.user).to eql @user
+        expect(draft.locked_by).to eql @user
       end
       it 'assigns the created draft to a draft variable' do
         draft = create :application_draft
@@ -177,10 +177,9 @@ describe ApplicationTemplatesController do
         context 'draft belonging to current user' do
           it 'redirects to the edit path' do
             @template.create_draft @user
+            @template.reload
             submit
-            expect(response).to redirect_to(
-              edit_draft_path(@template.draft_belonging_to @user)
-            )
+            expect(response).to redirect_to(edit_draft_path(@template.draft))
           end
         end
         context 'no draft belonging to current user' do
@@ -244,10 +243,9 @@ describe ApplicationTemplatesController do
         context 'draft belonging to current user' do
           it 'redirects to the edit path' do
             @template.create_draft @user
+            @template.reload
             submit
-            expect(response).to redirect_to(
-              edit_draft_path(@template.draft_belonging_to @user)
-            )
+            expect(response).to redirect_to(edit_draft_path(@template.draft))
           end
         end
         context 'no draft belonging to current user' do
@@ -311,10 +309,9 @@ describe ApplicationTemplatesController do
         context 'draft belonging to current user' do
           it 'redirects to the edit path' do
             @template.create_draft @user
+            @template.reload
             submit
-            expect(response).to redirect_to(
-              edit_draft_path(@template.draft_belonging_to @user)
-            )
+            expect(response).to redirect_to(edit_draft_path(@template.draft))
           end
         end
         context 'no draft belonging to current user' do

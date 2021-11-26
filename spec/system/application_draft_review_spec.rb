@@ -21,13 +21,13 @@ describe 'previewing an application draft' do
     it 'has a button to save the application' do
       click_button('Save application')
       expect(template.reload.questions).to include question
-      expect(template.drafts).to be_empty
+      expect(template.draft).to be_nil
     end
     it 'has a button to discard changes' do
-      expect(template.drafts.first).to eql draft
+      expect(template.draft).to eql draft
       click_button('Discard changes')
       template.reload
-      expect(template.drafts).to be_empty
+      expect(template.draft).to be_nil
       expect(page.current_path).to eql staff_dashboard_path
     end
     it 'has a disabled submit button' do

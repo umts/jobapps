@@ -3,21 +3,13 @@
 require 'rails_helper'
 
 describe 'editing application draft' do
-  let!(:draft) { create :application_draft }
-  let!(:top_question) do
-    create :question, number: 1,
-                      application_draft: draft
-  end
-  let!(:middle_question) do
-    create :question, number: 2,
-                      application_draft: draft
-  end
-  let!(:bottom_question) do
-    create :question, number: 3,
-                      application_draft: draft
-  end
+  let(:user) { create :user, staff: true }
+  let!(:draft) { create :application_draft, locked_by: user }
+  let!(:top_question) { create :question, number: 1, application_draft: draft }
+  let!(:middle_question) { create :question, number: 2, application_draft: draft }
+  let!(:bottom_question) { create :question, number: 3, application_draft: draft }
   before :each do
-    when_current_user_is :staff
+    when_current_user_is user
     visit edit_draft_path(draft)
   end
 

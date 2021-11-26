@@ -3,6 +3,6 @@
 FactoryBot.define do
   factory :application_draft do
     application_template
-    user
+    association :locked_by, factory: :user
   end
 end
