@@ -9,6 +9,10 @@ class ApplicationDraft < ApplicationRecord
 
   validates :application_template, presence: true
 
+  def unlocked_for?(user)
+    locked_by == user
+  end
+
   def move_question(question_number, direction)
     transaction do
       question = questions.find_by number: question_number

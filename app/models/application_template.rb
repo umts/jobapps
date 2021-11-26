@@ -35,12 +35,8 @@ class ApplicationTemplate < ApplicationRecord
     draft
   end
 
-  def draft_belonging_to(user)
-    drafts.find_by user_id: user.id
-  end
-
   def draft_belonging_to?(user)
-    draft_belonging_to(user).present?
+    draft.present? && draft.unlocked_for?(user)
   end
 
   def department_and_position
