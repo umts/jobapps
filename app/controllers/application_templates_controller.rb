@@ -48,8 +48,7 @@ class ApplicationTemplatesController < ApplicationController
                    default: 'EEO data requests disabled on this application.'
     end
     if @template.draft_belonging_to? @current_user
-      draft = @template.draft_belonging_to @current_user
-      back_path = edit_draft_path(draft)
+      back_path = edit_draft_path(@template.draft)
     else
       back_path = application_path(@template)
     end
@@ -71,8 +70,7 @@ class ApplicationTemplatesController < ApplicationController
                             this application.'
     end
     if @template.draft_belonging_to? @current_user
-      draft = @template.draft_belonging_to @current_user
-      back_path = edit_draft_path(draft)
+      back_path = edit_draft_path(@template.draft)
     else
       back_path = application_path(@template)
     end
@@ -93,8 +91,7 @@ class ApplicationTemplatesController < ApplicationController
                             this application.'
     end
     if @template.draft_belonging_to? @current_user
-      draft = @template.draft_belonging_to @current_user
-      back_path = edit_draft_path(draft)
+      back_path = edit_draft_path(@template.draft)
     else
       back_path = application_path(@template)
     end

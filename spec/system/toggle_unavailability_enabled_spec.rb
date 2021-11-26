@@ -3,10 +3,11 @@
 require 'rails_helper'
 
 describe 'toggle the unavailability_enabled attribute of templates' do
+  let(:user) { create :user, staff: true }
   let(:application) { create :application_template }
-  let(:draft) { create :application_draft, application_template: application }
+  let(:draft) { create :application_draft, application_template: application, locked_by: user }
   before :each do
-    when_current_user_is :staff
+    when_current_user_is user
   end
   context 'on editing application drafts page' do
     before :each do

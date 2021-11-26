@@ -5,9 +5,8 @@ class ApplicationTemplate < ApplicationRecord
   friendly_id :department_and_position, use: :slugged
 
   has_many :questions, dependent: :destroy
-  has_many :drafts, class_name: 'ApplicationDraft',
-                    dependent: :destroy,
-                    inverse_of: :application_template
+  has_one :draft, class_name: 'ApplicationDraft', dependent: :destroy,
+                  inverse_of: :application_template
   accepts_nested_attributes_for :questions
 
   belongs_to :position
@@ -15,11 +14,12 @@ class ApplicationTemplate < ApplicationRecord
 
   validates :position, presence: true, uniqueness: true
   validates :active, inclusion: { in: [true, false] }
+  validate :just_one_draft
 
-  def create_draft(user)
-    return false if draft_belonging_to?(user)
+  def create_draft(locked_by)
+    return false if draft_belonging_to? locked_by
 
-    draft = ApplicationDraft.create user: user, application_template: self
+    draft = ApplicationDraft.create application_template: self, locked_by: locked_by
     draft_attributes = draft.attributes.keys
     template_attributes = attributes.keys
     excluded = %w[id created_at updated_at]
@@ -35,16 +35,18 @@ class ApplicationTemplate < ApplicationRecord
     draft
   end
 
-  def draft_belonging_to(user)
-    drafts.find_by user_id: user.id
-  end
-
   def draft_belonging_to?(user)
-    draft_belonging_to(user).present?
+    draft.present? && draft.unlocked_for?(user)
   end
 
   def department_and_position
     [department.name.parameterize,
      position.name.parameterize].join('-')
+  end
+
+  def just_one_draft
+    if ApplicationDraft.where(application_template: self).count > 1
+      errors.add(:draft, 'Applications cannot have more than one draft')
+    end
   end
 end

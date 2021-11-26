@@ -7,19 +7,16 @@
         %ul
           - if @templates.key? position
             - template = @templates[position].first
-            %li= link_to 'View application',
-              application_path(template)
+            %li= link_to 'View application', application_path(template)
             %li
-              - if template.draft_belonging_to? @current_user
-                - draft = template.draft_belonging_to @current_user
-                = link_to 'Resume editing saved draft',
-                  edit_draft_path(draft)
-                = button_to 'Discard saved draft',
-                  draft_path(draft), method: :delete,
-                  class: 'btn btn-secondary'
+              - if template.draft.present?
+                - if template.draft.unlocked_for? @current_user
+                  = link_to 'Resume editing saved draft', edit_draft_path(template.draft)
+                  = button_to 'Discard saved draft', draft_path(template.draft), method: :delete,
+                    class: 'btn btn-secondary'
+                - else
+                  This application is currently being edited by #{template.draft.locked_by.full_name}
               - else
-                = link_to 'Edit application',
-                  new_draft_path(application_template_id: template.id)
+                = link_to 'Edit application', new_draft_path(application_template_id: template.id)
           - else # position has no template... yet
-            %li= link_to 'Create application',
-                  new_application_path(position_id: position.id)
+            %li= link_to 'Create application', new_application_path(position_id: position.id)

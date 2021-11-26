@@ -5,19 +5,13 @@ class User < ApplicationRecord
   has_many :application_submissions, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
   has_many :positions, through: :subscriptions
+  has_many :application_drafts, dependent: :nullify
 
-  validates :email,
-            :first_name,
-            :last_name,
-            :spire,
-            presence: true
+  validates :email, :first_name, :last_name, :spire, presence: true
   validates :email,
             format: { with: /\A([^@\s]+)@((?:[-a-zA-Z0-9]+\.)+[a-zA-Z]{2,})\Z/ }
-  validates :staff, inclusion: { in: [true, false],
-                                 message: 'must be true or false' }
-  validates :spire,
-            uniqueness: { case_sensitive: false },
-            format: { with: /\A\d{8}@umass\.edu\z/ }
+  validates :staff, inclusion: { in: [true, false], message: 'must be true or false' }
+  validates :spire, uniqueness: { case_sensitive: false }, format: { with: /\A\d{8}@umass\.edu\z/ }
 
   default_scope { order :last_name, :first_name }
   scope :staff,    -> { where staff: true }

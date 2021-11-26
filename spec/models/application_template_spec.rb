@@ -17,7 +17,7 @@ describe ApplicationTemplate do
       before :each do
         create :application_draft,
                application_template: @application_template,
-               user: @user
+               locked_by: @user
       end
       it 'returns false' do
         expect(call).to be false
@@ -30,8 +30,8 @@ describe ApplicationTemplate do
       it 'returns the draft' do
         expect(call).to be_a ApplicationDraft
       end
-      it 'sets the user of the draft to the user argument' do
-        expect(call.user).to eql @user
+      it 'sets the locked_by aspect of the draft to the user argument' do
+        expect(call.locked_by).to eql @user
       end
       it 'sets the email of the draft to be same as template email' do
         expect(call.email).to eql @application_template.email
@@ -42,23 +42,6 @@ describe ApplicationTemplate do
       it 'adds the questions of the application template to the draft' do
         expect(call.questions.size).to eql @application_template.questions.size
       end
-    end
-  end
-  describe 'draft_belonging_to' do
-    before :each do
-      @user = create :user
-      other_user = create :user
-      @application_template = create :application_template
-      @draft = create :application_draft,
-                      application_template: @application_template,
-                      user: @user
-      # other draft
-      create :application_draft,
-             application_template: @application_template,
-             user: other_user
-    end
-    it 'returns the application template draft belonging to the user' do
-      expect(@application_template.draft_belonging_to @user).to eql @draft
     end
   end
 
@@ -74,8 +57,7 @@ describe ApplicationTemplate do
       expect(call).to be false
     end
     it 'returns true if a draft does exist for the user in question' do
-      create :application_draft, user: @user,
-                                 application_template: @application_template
+      create :application_draft, locked_by: @user, application_template: @application_template
       expect(call).to be true
     end
   end

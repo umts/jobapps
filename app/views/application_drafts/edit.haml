@@ -1,3 +1,13 @@
-= render 'action_items'
-%h1 Editing #{@draft.position.name_and_department}
-= render partial: 'form', locals: {draft: @draft}
+- if @draft.unlocked_for? @current_user
+  %p
+    %i.text-danger
+      This application is now locked for editing to your user profile.
+      No one else may edit it until you save and publish the application.
+  = render 'action_items'
+  %h1 Editing #{@draft.position.name_and_department}
+  = render partial: 'form', locals: {draft: @draft}
+- else
+  %p
+    %i.text-danger
+      This application is locked for editing by #{@draft.locked_by.full_name}.
+      No one else may edit it until they save and publish, or discard their draft.

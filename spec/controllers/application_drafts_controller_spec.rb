@@ -83,14 +83,12 @@ describe ApplicationDraftsController do
       context 'no pre-existing draft' do
         it 'creates a draft for the correct application template' do
           expect { submit }
-            .to change { @template.drafts.count }
-            .by 1
+            .to change { ApplicationDraft.where(application_template: @template).count }.by 1
         end
       end
       context 'pre-existing draft' do
         it 'finds the pre-existing draft' do
-          draft = create :application_draft,
-                         application_template: @template, user: @user
+          draft = create :application_draft, application_template: @template, locked_by: @user
           submit
           expect(assigns.fetch :draft).to eql draft
         end
