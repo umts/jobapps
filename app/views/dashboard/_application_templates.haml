@@ -17,8 +17,6 @@
                   draft_path(draft), method: :delete,
                   class: 'btn btn-secondary'
               - else
-                = link_to 'Edit application',
-                  new_draft_path(application_template_id: template.id)
+                = link_to 'Edit application', new_draft_path(application_template_id: template.id)
           - else # position has no template... yet
-            %li= link_to 'Create application',
-                  new_application_path(position_id: position.id)
+            %li= link_to 'Create application', new_application_path(position_id: position.id)
