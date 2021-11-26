@@ -17,8 +17,6 @@
                 - else
                   This application is currently being edited by #{template.draft.locked_by.full_name}
               - else
-                = link_to 'Edit application',
-                  new_draft_path(application_template_id: template.id)
+                = link_to 'Edit application', new_draft_path(application_template_id: template.id)
           - else # position has no template... yet
-            %li= link_to 'Create application',
-                  new_application_path(position_id: position.id)
+            %li= link_to 'Create application', new_application_path(position_id: position.id)
