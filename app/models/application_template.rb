@@ -5,9 +5,8 @@ class ApplicationTemplate < ApplicationRecord
   friendly_id :department_and_position, use: :slugged
 
   has_many :questions, dependent: :destroy
-  has_many :drafts, class_name: 'ApplicationDraft',
-                    dependent: :destroy,
-                    inverse_of: :application_template
+  has_one :draft, class_name: 'ApplicationDraft', dependent: :destroy,
+                  inverse_of: :application_template
   accepts_nested_attributes_for :questions
 
   belongs_to :position
