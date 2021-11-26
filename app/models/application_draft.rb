@@ -4,7 +4,7 @@ class ApplicationDraft < ApplicationRecord
   has_many :questions, dependent: :destroy
   accepts_nested_attributes_for :questions
   belongs_to :application_template
-  belongs_to :user
+  belongs_to :locked_by, class_name: 'User', foreign_key: :user_id
   delegate :position, to: :application_template
 
   validates :application_template, uniqueness: { scope: :user_id }
