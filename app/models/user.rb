@@ -5,6 +5,7 @@ class User < ApplicationRecord
   has_many :application_submissions, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
   has_many :positions, through: :subscriptions
+  has_many :application_drafts, dependent: :nullify
 
   validates :email,
             :first_name,
