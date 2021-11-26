@@ -14,6 +14,7 @@ class ApplicationTemplate < ApplicationRecord
 
   validates :position, presence: true, uniqueness: true
   validates :active, inclusion: { in: [true, false] }
+  validate :just_one_draft
 
   def create_draft(user)
     return false if draft_belonging_to?(user)
@@ -45,5 +46,11 @@ class ApplicationTemplate < ApplicationRecord
   def department_and_position
     [department.name.parameterize,
      position.name.parameterize].join('-')
+  end
+
+  def just_one_draft
+    if ApplicationDraft.where(application_template: self).count > 1
+      errors.add(:draft, 'Applications cannot have more than one draft')
+    end
   end
 end
