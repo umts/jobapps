@@ -16,10 +16,10 @@ class ApplicationTemplate < ApplicationRecord
   validates :active, inclusion: { in: [true, false] }
   validate :just_one_draft
 
-  def create_draft(user)
-    return false if draft_belonging_to?(user)
+  def create_draft(locked_by)
+    return false if draft_belonging_to? locked_by
 
-    draft = ApplicationDraft.create user: user, application_template: self
+    draft = ApplicationDraft.create application_template: self, locked_by: locked_by
     draft_attributes = draft.attributes.keys
     template_attributes = attributes.keys
     excluded = %w[id created_at updated_at]
