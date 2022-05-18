@@ -15,15 +15,13 @@ class ApplicationDraftsController < ApplicationController
 
   def new
     template = ApplicationTemplate.find(params.require :application_template_id)
-    @draft = template.create_draft(@current_user) ||
-             template.draft_belonging_to(@current_user)
+    @draft = template.create_draft(@current_user) || template.draft_belonging_to(@current_user)
     redirect_to edit_draft_path(@draft)
   end
 
   def update
     draft_params = params.require(:draft)
-    question_attributes = draft_params.require(:questions_attributes)
-                                      .permit!.to_h
+    question_attributes = draft_params.require(:questions_attributes).permit!.to_h
     @draft.update email: draft_params[:email]
     @draft.update_questions question_attributes
     @draft.reload # since questions have been updated
@@ -37,15 +35,13 @@ class ApplicationDraftsController < ApplicationController
 
   def update_application_template
     @draft.update_application_template!
-    flash[:message] = 'Application has been updated and is now live. ' \
-                      'Draft has been discarded.'
+    flash[:message] = 'Application has been updated and is now live. Draft has been discarded.'
     redirect_to staff_dashboard_url
   end
 
   private
 
   def find_draft
-    @draft = ApplicationDraft.includes(:questions)
-                             .find(params.require :id)
+    @draft = ApplicationDraft.includes(:questions).find(params.require :id)
   end
 end
