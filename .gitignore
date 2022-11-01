@@ -33,3 +33,7 @@ Guardfile
 
 # Ignore storage files
 /storage
+
+/config/master.key
+
+/config/credentials/production.key
