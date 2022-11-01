@@ -18,6 +18,7 @@
 .DS_Store
 
 # Ignore application configuration
+/config/credentials/production.key
 /config/application.yml
 /config/database.yml
 
@@ -33,7 +34,3 @@ Guardfile
 
 # Ignore storage files
 /storage
-
-/config/master.key
-
-/config/credentials/production.key
