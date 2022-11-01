@@ -11,7 +11,8 @@ set :whenever_command, [:sudo, :bundle, :exec, :whenever]
 
 append :linked_files,
   'config/application.yml',
-  'config/database.yml'
+  'config/database.yml',
+  'config/credentials/production.yml.enc'
 
 append :linked_dirs, '.bundle', 'log', 'node_modules'
 
