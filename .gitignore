@@ -18,6 +18,7 @@
 .DS_Store
 
 # Ignore application configuration
+/config/credentials/production.key
 /config/application.yml
 /config/database.yml
 
