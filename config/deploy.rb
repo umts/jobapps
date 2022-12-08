@@ -3,7 +3,7 @@ lock  '~> 3.14'
 
 set :application, 'jobapps'
 set :repo_url, 'https://github.com/umts/jobapps.git'
-set :branch, :master
+set :branch, :main
 set :deploy_to, "/srv/#{fetch :application}"
 set :log_level, :info
 
