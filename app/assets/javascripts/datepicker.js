@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(function() {
   // you must set a dateFormatter for datetimepicker to use or
   // you'll get an error
   $.datetimepicker.setDateFormatter('moment');

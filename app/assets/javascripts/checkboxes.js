@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(function() {
   var mousedownOn = {
     id: '',
     checkState: false
@@ -26,7 +26,4 @@ $(document).ready(function(){
         e.preventDefault();
         return false;
     });
-
-  //javascript source comes from http://jsfiddle.net/ebStc/7/
-
 });
