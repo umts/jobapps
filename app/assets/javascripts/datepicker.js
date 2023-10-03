@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(function() {
   // you must set a dateFormatter for datetimepicker to use or
   // you'll get an error
   $.datetimepicker.setDateFormatter('moment');
@@ -11,9 +11,5 @@ $(document).ready(function(){
   $('.datetimepicker').datetimepicker({
     format: 'dddd, MMMM D, YYYY, h:mm a',
     step: 15
-  });
-
-  $('.fa-calendar').click(function(){
-    $(this).parents('.input-group').find('.datepicker').focus();
   });
 });

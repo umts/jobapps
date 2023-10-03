@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(function() {
   $('.sortable').sortable({
     stop: function() {
       reAttribute();

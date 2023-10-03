@@ -4,7 +4,6 @@ source 'https://rubygems.org'
 ruby IO.read(File.expand_path('.ruby-version', __dir__)).strip
 
 gem 'bootstrap', '~> 4.0'
-gem 'coffee-rails'
 gem 'friendly_id', '~> 5.1'
 gem 'haml'
 gem 'haml-rails'
