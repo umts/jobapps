@@ -11,8 +11,8 @@
 // about supported directives.
 //
 //= require jquery
-//= require jquery_ujs
-//= require jquery-ui
+//= require rails-ujs
+//= require jquery-ui-dist/jquery-ui
 //= require jquery-datetimepicker/jquery.datetimepicker.js
 //= require moment/moment.js
 //= require multiple-select/dist/multiple-select.js
