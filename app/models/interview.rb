@@ -15,6 +15,7 @@ class Interview < ApplicationRecord
             :scheduled,
             :user,
             presence: true
+  validates :application_submission_id, uniqueness: true
 
   after_create :send_confirmation
   after_update :resend_confirmation
