@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_25_153739) do
+ActiveRecord::Schema.define(version: 2023_10_13_143527) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -99,7 +99,7 @@ ActiveRecord::Schema.define(version: 2021_02_25_153739) do
     t.boolean "completed", default: false
     t.string "location"
     t.text "interview_note"
-    t.index ["application_submission_id"], name: "index_interviews_on_application_submission_id"
+    t.index ["application_submission_id"], name: "index_interviews_on_application_submission_id", unique: true
     t.index ["user_id"], name: "index_interviews_on_user_id"
   end
 
