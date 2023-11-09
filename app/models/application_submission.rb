@@ -43,11 +43,12 @@ class ApplicationSubmission < ApplicationRecord
   scope :with_ethnicity, -> { where.not ethnicity: [nil, ''] }
 
   ETHNICITY_OPTIONS = ['White (Not of Hispanic origin)',
-                       'Black (Not of Hispanic origin)',
-                       'Hispanic',
-                       'Asian or Pacific Islander',
                        'American Indian or Alaskan Native',
-                       'Mixed ethnicity'].freeze
+                       'Black or African American (Not of Hispanic origin)',
+                       'Hispanic or Latino',
+                       'Asian American',
+                       'Native Hawaiian and Other Pacific Islander',
+                       'Multiracial'].freeze
 
   GENDER_OPTIONS = %w[Male Female].freeze
 
