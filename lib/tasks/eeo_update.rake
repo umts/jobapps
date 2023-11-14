@@ -3,7 +3,7 @@
 namespace :application_submission do
   desc 'Update old EEO ethnicities to the new wording'
   task update_ethnicity: :environment do
-    ApplicationSubmission.each do |app|
+    ApplicationSubmission.find_each do |app|
       case app.ethnicity
       when 'Black (Not of Hispanic origin)'
         app.update! ethnicity: 'Black or African American (Not of Hispanic origin)'
