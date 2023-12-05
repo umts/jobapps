@@ -53,8 +53,10 @@ class ApplicationSubmissionsController < ApplicationController
   def review
     @record.update review_params
     if params[:application_submission][:accepted] == 'true'
-      @record.create_interview! interview_params
-    else @record.deny
+      @interview = @record.interview || Interview.new(application_submission: @record)
+      @interview.update! interview_params
+    else
+      @record.deny
     end
     show_message :application_review,
                  default: 'Application has been marked as reviewed.'
