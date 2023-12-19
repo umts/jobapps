@@ -1,13 +1,14 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
-ruby IO.read(File.expand_path('.ruby-version', __dir__)).strip
+ruby file: '.ruby-version'
 
 gem 'bootstrap', '~> 4.0'
 gem 'friendly_id', '~> 5.1'
 gem 'haml'
 gem 'haml-rails'
 gem 'icalendar'
+gem 'matrix'
 gem 'mysql2'
 gem 'prawn'
 gem 'prawn-table'
