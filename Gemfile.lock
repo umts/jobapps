@@ -362,20 +362,20 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bcrypt_pbkdf (>= 1.0, < 2.0)
+  bcrypt_pbkdf
   better_errors
   binding_of_caller
-  bootstrap (~> 4.0)
-  capistrano (~> 3.14)
+  bootstrap
+  capistrano
   capistrano-bundler
   capistrano-passenger
   capistrano-pending
   capistrano-rails
   capybara
-  ed25519 (>= 1.2, < 2.0)
+  ed25519
   exception_notification
   factory_bot_rails
-  friendly_id (~> 5.1)
+  friendly_id
   haml
   haml-rails
   haml_lint
@@ -387,7 +387,7 @@ DEPENDENCIES
   pry-byebug
   puma
   rack_session_access
-  rails (~> 6.1.3)
+  rails (~> 6.1)
   rails-controller-testing
   rb-readline
   redcarpet
@@ -410,4 +410,4 @@ RUBY VERSION
    ruby 3.0.5p211
 
 BUNDLED WITH
-   2.3.26
+   2.5.2
