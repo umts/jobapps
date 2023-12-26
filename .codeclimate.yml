@@ -22,7 +22,7 @@ engines:
         - FIXME 
   rubocop:
     enabled: true
-    channel: rubocop-1-9-1
+    channel: rubocop-1-56-3
 ratings:
   paths:
   - Gemfile.lock
