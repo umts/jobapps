@@ -368,20 +368,20 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bcrypt_pbkdf (>= 1.0, < 2.0)
+  bcrypt_pbkdf
   better_errors
   binding_of_caller
   bootstrap (~> 4.0)
-  capistrano (~> 3.14)
+  capistrano
   capistrano-bundler
   capistrano-passenger
   capistrano-pending
   capistrano-rails
   capybara
-  ed25519 (>= 1.2, < 2.0)
+  ed25519
   exception_notification
   factory_bot_rails
-  friendly_id (~> 5.1)
+  friendly_id
   haml
   haml-rails
   haml_lint
@@ -417,4 +417,4 @@ RUBY VERSION
    ruby 3.1.4p223
 
 BUNDLED WITH
-   2.5.1
+   2.5.2
