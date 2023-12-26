@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 ruby IO.read(File.expand_path('.ruby-version', __dir__)).strip
 
-gem 'bootstrap'
+gem 'bootstrap', '~> 4.0'
 gem 'friendly_id'
 gem 'haml'
 gem 'haml-rails'
@@ -11,7 +11,7 @@ gem 'icalendar'
 gem 'mysql2'
 gem 'prawn'
 gem 'prawn-table'
-gem 'rails', '~> 6.1'
+gem 'rails', '~> 6.1.3'
 
 gem 'puma'
 gem 'redcarpet'
