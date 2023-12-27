@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 ruby file: '.ruby-version'
 
 gem 'bootstrap', '~> 4.0'
-gem 'friendly_id', '~> 5.1'
+gem 'friendly_id'
 gem 'haml'
 gem 'haml-rails'
 gem 'icalendar'
@@ -26,13 +26,13 @@ group :production do
 end
 
 group :development do
-  gem 'bcrypt_pbkdf', '>= 1.0', '< 2.0', require: false
-  gem 'capistrano', '~> 3.14', require: false
+  gem 'bcrypt_pbkdf', require: false
+  gem 'capistrano', require: false
   gem 'capistrano-bundler', require: false
   gem 'capistrano-passenger', require: false
   gem 'capistrano-pending', require: false
   gem 'capistrano-rails', require: false
-  gem 'ed25519', '>= 1.2', '< 2.0', require: false
+  gem 'ed25519', require: false
   gem 'listen'
   gem 'rb-readline', require: false
   gem 'rubocop', require: false
