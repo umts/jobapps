@@ -23,7 +23,7 @@ describe 'deleting a position' do
 
   it 'deletes the position in question' do
     expect { delete }
-      .to change { Position.count }.by(-1)
+      .to change(Position, :count).by(-1)
     expect(Position.all).not_to include position
   end
 

@@ -13,6 +13,6 @@ describe 'creating new drafts' do
   it 'creates a new draft' do
     expect(ApplicationDraft.count).to be 0
     expect { click_link 'Edit application' }
-      .to change { ApplicationDraft.count }.by 1
+      .to change(ApplicationDraft, :count).by 1
   end
 end

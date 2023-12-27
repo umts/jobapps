@@ -43,7 +43,7 @@ describe 'creating a staff member' do
 
         it 'creates a user' do
           expect { click_on 'Save changes' }
-            .to change { User.count }.by 1
+            .to change(User, :count).by 1
         end
 
         it 'has a flash message' do
@@ -60,7 +60,7 @@ describe 'creating a staff member' do
 
         it 'does not create a user' do
           expect { click_on 'Save changes' }
-            .not_to change { User.count }
+            .not_to change(User, :count)
         end
 
         it 'has flash errors' do

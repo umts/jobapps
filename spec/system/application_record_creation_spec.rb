@@ -49,7 +49,7 @@ describe 'submitting application records' do
       # SPIRE isn't a field on the page, so we don't fill it in
       fill_in_fields_for User, attributes: user_attributes.except(:spire)
       expect { click_on 'Submit application' }
-        .to change { User.count }.by 1
+        .to change(User, :count).by 1
       expect(User.last).to have_attributes user_attributes
     end
 

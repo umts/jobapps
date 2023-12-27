@@ -13,7 +13,7 @@ describe 'deleting users' do
 
     it 'deletes the user in question' do
       expect { click_on "Remove #{user.full_name}" }
-        .to change { User.count }.by(-1)
+        .to change(User, :count).by(-1)
       expect(User.all).not_to include user
     end
 

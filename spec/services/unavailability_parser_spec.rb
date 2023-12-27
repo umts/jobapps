@@ -8,7 +8,7 @@ describe UnavailabilityParser do
       { 'sunday_7AM' => '0', 'sunday_8AM' => '0', 'tuesday_11AM' => '1',
         'tuesday_12AM' => '1', 'friday_4PM' => '1', 'friday_5PM' => '0' }
     end
-    let(:output) { UnavailabilityParser.new(input).result }
+    let(:output) { described_class.new(input).result }
 
     it 'does not select days that have no unavailabilities' do
       expect(output.keys).not_to include :sunday

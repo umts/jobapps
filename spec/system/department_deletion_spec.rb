@@ -12,7 +12,7 @@ describe 'deleting users' do
 
   it 'deletes the department in question' do
     expect { click_on "Remove #{dept.name}" }
-      .to change { Department.count }.by(-1)
+      .to change(Department, :count).by(-1)
     expect(Department.all).not_to include dept
   end
 

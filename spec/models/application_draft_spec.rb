@@ -169,7 +169,7 @@ describe ApplicationDraft do
 
     it 'destroys itself' do
       call
-      expect(ApplicationDraft.where id: @draft.id).to be_empty
+      expect(described_class.where id: @draft.id).to be_empty
     end
   end
 end

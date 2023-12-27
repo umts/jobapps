@@ -19,7 +19,7 @@ describe JobappsMailer do
     end
 
     let :output do
-      JobappsMailer.application_denial @application_submission
+      described_class.application_denial @application_submission
     end
 
     it 'emails from the configured value' do
@@ -65,7 +65,7 @@ describe JobappsMailer do
     let(:subscription) { create(:subscription, position:) }
     let(:applicant) { create(:user, :student) }
     let :output do
-      JobappsMailer.application_notification subscription, position, applicant
+      described_class.application_notification subscription, position, applicant
     end
 
     it 'emails from the configured value' do
@@ -95,7 +95,7 @@ describe JobappsMailer do
     end
 
     let :output do
-      JobappsMailer.interview_confirmation @interview
+      described_class.interview_confirmation @interview
     end
 
     it 'emails from the configured value' do
@@ -129,7 +129,7 @@ describe JobappsMailer do
     end
 
     let :output do
-      JobappsMailer.interview_reschedule @interview
+      described_class.interview_reschedule @interview
     end
 
     it 'emails from the configured value' do
@@ -162,7 +162,7 @@ describe JobappsMailer do
       create(:application_template, position: record.position, email: 'steve@sharklazers.com')
     end
     let :output do
-      JobappsMailer.send_note_for_later record
+      described_class.send_note_for_later record
     end
 
     it 'emails from the configured value' do
@@ -194,7 +194,7 @@ describe JobappsMailer do
     end
 
     let :output do
-      JobappsMailer.saved_application_notification @record
+      described_class.saved_application_notification @record
     end
 
     it 'emails to the email_to_notify value' do
@@ -235,7 +235,7 @@ describe JobappsMailer do
 
     let :output do
       info = { @position => [@record1, @record2] }
-      JobappsMailer.saved_applications_notification info, @email
+      described_class.saved_applications_notification info, @email
     end
 
     it 'emails from default configured value' do

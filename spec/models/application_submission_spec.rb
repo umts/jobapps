@@ -95,7 +95,7 @@ describe ApplicationSubmission do
     end
 
     let :call do
-      ApplicationSubmission.between @start_date, @end_date
+      described_class.between @start_date, @end_date
     end
 
     it 'gives the application records between the given dates' do
@@ -113,7 +113,7 @@ describe ApplicationSubmission do
     end
 
     let :call do
-      ApplicationSubmission.in_department @department.id
+      described_class.in_department @department.id
     end
 
     it 'only returns records for the specified department(s)' do
@@ -131,7 +131,7 @@ describe ApplicationSubmission do
     end
 
     let :call do
-      ApplicationSubmission.hire_count
+      described_class.hire_count
     end
 
     it 'counts the number of interviews where the applicant was hired' do
@@ -147,7 +147,7 @@ describe ApplicationSubmission do
     end
 
     let :call do
-      ApplicationSubmission.interview_count
+      described_class.interview_count
     end
 
     it 'counts the interviews associated with the collection' do
@@ -268,7 +268,7 @@ describe ApplicationSubmission do
   end
 
   describe 'move_to_dashboard' do
-    let(:call) { ApplicationSubmission.move_to_dashboard }
+    let(:call) { described_class.move_to_dashboard }
 
     context 'there is an expired record' do
       before do
@@ -280,7 +280,7 @@ describe ApplicationSubmission do
       end
 
       it 'calls move_to_dashboard on expired record' do
-        expect_any_instance_of(ApplicationSubmission)
+        expect_any_instance_of(described_class)
           .to receive(:move_to_dashboard)
         expect(JobappsMailer).to receive(:saved_application_notification)
         call
@@ -317,7 +317,7 @@ describe ApplicationSubmission do
       end
 
       it 'does not call move_to_dashboard on any records' do
-        expect_any_instance_of(ApplicationSubmission)
+        expect_any_instance_of(described_class)
           .not_to receive(:move_to_dashboard)
         expect(JobappsMailer).not_to receive(:saved_application_notification)
         call
@@ -327,23 +327,23 @@ describe ApplicationSubmission do
 
   describe 'self.combined_eeo_data' do
     before do
-      @records = ApplicationSubmission.all
+      @records = described_class.all
       stub_const 'ApplicationSubmission::ETHNICITY_OPTIONS', ['Klingon']
       stub_const 'ApplicationSubmission::GENDER_OPTIONS', ['Other']
     end
 
     let :call do
-      ApplicationSubmission.combined_eeo_data @records
+      described_class.combined_eeo_data @records
     end
 
     it 'calls AR#interview_count to count interviews' do
-      expect(ApplicationSubmission).to receive(:interview_count)
+      expect(described_class).to receive(:interview_count)
         .at_least(:once)
       call
     end
 
     it 'calls AR#hire_count to count hirees' do
-      expect(ApplicationSubmission).to receive(:hire_count)
+      expect(described_class).to receive(:hire_count)
         .at_least(:once)
       call
     end
@@ -382,22 +382,22 @@ describe ApplicationSubmission do
   describe 'self.ethnicity_eeo_data' do
     # There are no interviews, all interview counts are 0
     before do
-      @records = ApplicationSubmission.all
+      @records = described_class.all
       stub_const 'ApplicationSubmission::ETHNICITY_OPTIONS', ['Klingon']
     end
 
     let :call do
-      ApplicationSubmission.ethnicity_eeo_data @records
+      described_class.ethnicity_eeo_data @records
     end
 
     it 'calls AR#interview_count to count interviews' do
-      expect(ApplicationSubmission).to receive(:interview_count)
+      expect(described_class).to receive(:interview_count)
         .at_least(:once)
       call
     end
 
     it 'calls AR#hire_count to count hirees' do
-      expect(ApplicationSubmission).to receive(:hire_count)
+      expect(described_class).to receive(:hire_count)
         .at_least(:once)
       call
     end
@@ -417,22 +417,22 @@ describe ApplicationSubmission do
   describe 'self.gender_eeo_data' do
     # There are no interviews, all interview counts are 0
     before do
-      @records = ApplicationSubmission.all
+      @records = described_class.all
       stub_const 'ApplicationSubmission::GENDER_OPTIONS', ['Female']
     end
 
     let :call do
-      ApplicationSubmission.gender_eeo_data @records
+      described_class.gender_eeo_data @records
     end
 
     it 'calls AR#interview_count to count interviews' do
-      expect(ApplicationSubmission).to receive(:interview_count)
+      expect(described_class).to receive(:interview_count)
         .at_least(:once)
       call
     end
 
     it 'calls AR#hire_count to count hirees' do
-      expect(ApplicationSubmission).to receive(:hire_count)
+      expect(described_class).to receive(:hire_count)
         .at_least(:once)
       call
     end
@@ -456,16 +456,16 @@ describe ApplicationSubmission do
       @department = create(:department)
       @start_date = 1.week.ago
       @end_date = 1.week.since
-      @relation = ApplicationSubmission.between(@start_date, @end_date)
-                                       .in_department(@department.id)
+      @relation = described_class.between(@start_date, @end_date)
+                                 .in_department(@department.id)
     end
 
     let :call do
-      ApplicationSubmission.eeo_data @start_date, @end_date, @department.id
+      described_class.eeo_data @start_date, @end_date, @department.id
     end
 
     it 'calls AR#between to gather application records' do
-      expect(ApplicationSubmission).to receive(:between)
+      expect(described_class).to receive(:between)
         .with(@start_date, @end_date)
         .and_return(@relation)
       # returns an ActiveRecord relation
@@ -473,7 +473,7 @@ describe ApplicationSubmission do
     end
 
     it 'calls AR#in_department to filter application records' do
-      expect(ApplicationSubmission).to receive(:in_department)
+      expect(described_class).to receive(:in_department)
         .with(@department.id)
         .and_return(@relation)
       # returns an ActiveRecord relation
@@ -481,7 +481,7 @@ describe ApplicationSubmission do
     end
 
     it 'calls AR#ethnicity_eeo_data to populate hash with ethnicity numbers' do
-      expect(ApplicationSubmission).to receive(:ethnicity_eeo_data)
+      expect(described_class).to receive(:ethnicity_eeo_data)
         .with(@relation)
         .and_return('some values')
       call
@@ -489,7 +489,7 @@ describe ApplicationSubmission do
     end
 
     it 'calls AR#gender_eeo_data to assign values to genders key in hash' do
-      expect(ApplicationSubmission).to receive(:gender_eeo_data)
+      expect(described_class).to receive(:gender_eeo_data)
         .with(@relation)
         .and_return('something')
       call
@@ -497,7 +497,7 @@ describe ApplicationSubmission do
     end
 
     it 'calls AR#combined_eeo_data to populate hash with combo numbers' do
-      expect(ApplicationSubmission).to receive(:combined_eeo_data)
+      expect(described_class).to receive(:combined_eeo_data)
         .with(@relation)
         .and_return('combo values')
       call

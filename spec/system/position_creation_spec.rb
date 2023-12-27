@@ -21,7 +21,7 @@ describe 'creating new positions' do
     end
 
     it 'creates a new position with the proper attributes' do
-      expect { click_on 'Save changes' }.to change { Position.count }.by 1
+      expect { click_on 'Save changes' }.to change(Position, :count).by 1
       expect(Position.last)
         .to have_attributes(name: 'Our new shiny position',
                             default_interview_location: 'UMTS',
@@ -48,7 +48,7 @@ describe 'creating new positions' do
     end
 
     it 'does not add anything' do
-      expect { click_on 'Save changes' }.not_to change { Position.count }
+      expect { click_on 'Save changes' }.not_to change(Position, :count)
     end
 
     it 'redirects us to the same page' do

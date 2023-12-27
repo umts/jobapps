@@ -10,7 +10,7 @@ describe ApplicationDataParser do
         'data_type_0' => 'text',
         '316' => '316-1' }
     end
-    let(:output) { ApplicationDataParser.new(input).result }
+    let(:output) { described_class.new(input).result }
     let(:question_data) { output.first }
 
     it 'has the same size as the number of questions' do

@@ -29,7 +29,7 @@ describe ApplicationTemplate do
 
     context 'no pre-existing draft' do
       it 'creates an application template draft' do
-        expect { call }.to change { ApplicationDraft.count }.by 1
+        expect { call }.to change(ApplicationDraft, :count).by 1
       end
 
       it 'returns the draft' do

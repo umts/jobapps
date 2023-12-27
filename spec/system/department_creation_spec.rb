@@ -19,7 +19,7 @@ describe 'creating departments' do
 
     it 'creates the given department' do
       expect { click_on 'Save changes' }
-        .to change { Department.count }.by 1
+        .to change(Department, :count).by 1
       expect(Department.last).to have_attributes(department_fields)
     end
 
@@ -37,7 +37,7 @@ describe 'creating departments' do
   context 'name is left blank' do
     it 'does not create the department' do
       expect { click_on 'Save changes' }
-        .not_to change { Department.count }
+        .not_to change(Department, :count)
     end
 
     it 'redirects to the new department page' do

@@ -47,7 +47,7 @@ describe ApplicationSubmissionsController do
           email: 'flastnam@umass.edu'
         }
         expect { submit }
-          .to change { User.count }
+          .to change(User, :count)
           .by 1
       end
     end
@@ -59,13 +59,13 @@ describe ApplicationSubmissionsController do
 
       it 'creates an application record as specified' do
         expect { submit }
-          .to change { ApplicationSubmission.count }
+          .to change(ApplicationSubmission, :count)
           .by 1
       end
 
       it 'creates an unavailability' do
         expect { submit }
-          .to change { Unavailability.count }
+          .to change(Unavailability, :count)
           .by 1
       end
 
@@ -84,7 +84,7 @@ describe ApplicationSubmissionsController do
 
       it 'creates an application record as specified' do
         expect { submit }
-          .to change { ApplicationSubmission.count }
+          .to change(ApplicationSubmission, :count)
           .by 1
       end
 
@@ -323,7 +323,7 @@ describe ApplicationSubmissionsController do
 
         it 'creates an interview as given' do
           expect { submit }
-            .to change { Interview.count }
+            .to change(Interview, :count)
             .by 1
         end
 

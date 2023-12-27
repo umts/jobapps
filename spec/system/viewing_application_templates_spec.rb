@@ -52,6 +52,6 @@ describe 'viewing application forms on dashboard' do
 
   it 'has a button to discard drafts' do
     expect { click_button 'Discard saved draft' }
-      .to change { ApplicationDraft.count }.by(-1)
+      .to change(ApplicationDraft, :count).by(-1)
   end
 end
