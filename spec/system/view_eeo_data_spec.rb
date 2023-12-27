@@ -17,7 +17,8 @@ describe 'viewing eeo data page' do
            ethnicity: 'Black (Not of Hispanic origin)',
            gender: 'Female')
   end
-  before :each do
+
+  before do
     when_current_user_is :staff
     visit staff_dashboard_path
     fill_in 'eeo_start_date', with: start_date
@@ -36,6 +37,7 @@ describe 'viewing eeo data page' do
         .to have_text record_with_eeo_data.ethnicity
     end
   end
+
   it 'displays the gender of valid applicant' do
     within('table.data_table') do
       expect(page)
@@ -49,6 +51,7 @@ describe 'viewing eeo data page' do
         .not_to have_text old_record_with_eeo_data.ethnicity
     end
   end
+
   it 'does not display the gender of outdated application' do
     within('table.data_table') do
       expect(page)

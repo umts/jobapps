@@ -4,14 +4,16 @@ require 'rails_helper'
 
 describe 'viewing the dashboard as a student' do
   let!(:student) { create(:user, staff: false) }
-  before :each do
+
+  before do
     when_current_user_is student
   end
 
   context 'student has submitted an application' do
     context 'student got an interview' do
       let!(:interview) { create(:interview, user: student) }
-      before :each do
+
+      before do
         visit student_dashboard_path
       end
 
@@ -35,12 +37,13 @@ describe 'viewing the dashboard as a student' do
       let!(:denied_application) do
         create(:application_submission, reviewed: true, user: student, rejection_message: 'No')
       end
-      before :each do
+
+      before do
         visit student_dashboard_path
       end
 
       context 'configured value notify of application denial is true' do
-        before :each do
+        before do
           stub_config(:on_application_denial, :notify_applicant, true)
         end
 
@@ -55,7 +58,7 @@ describe 'viewing the dashboard as a student' do
         end
 
         context 'configured value provide reason is set to false' do
-          before :each do
+          before do
             stub_config(:on_application_denial, :notify_of_reason, false)
           end
 
@@ -70,7 +73,7 @@ describe 'viewing the dashboard as a student' do
         end
 
         context 'configured value provide reason is set to true' do
-          before :each do
+          before do
             stub_config(:on_application_denial, :notify_of_reason, true)
           end
 
@@ -87,7 +90,7 @@ describe 'viewing the dashboard as a student' do
       end
 
       context 'configured value notify of application denial is false' do
-        before :each do
+        before do
           stub_config(:on_application_denial, :notify_applicant, false)
         end
 
@@ -110,7 +113,8 @@ describe 'viewing the dashboard as a student' do
 
   context 'student has not yet submitted an application' do
     let!(:position_not_hiring) { create(:position) }
-    before :each do
+
+    before do
       visit student_dashboard_path
     end
 

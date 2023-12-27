@@ -7,10 +7,11 @@ describe 'edit staff users' do
     let!(:user) { create(:user, staff: true) }
 
     context 'clicking from dashboard' do
-      before :each do
+      before do
         when_current_user_is :admin
         visit staff_dashboard_path
       end
+
       it 'directs to the correct page' do
         click_link user.proper_name, href: edit_user_path(user)
         expect(page.current_path).to eql edit_user_path(user)
@@ -18,15 +19,16 @@ describe 'edit staff users' do
     end
 
     context 'on edit user page' do
-      before :each do
+      before do
         when_current_user_is :admin
         visit edit_user_path(user)
       end
 
       context 'every field is filled in correctly' do
         let!(:attributes) { attributes_for(:user).except :staff, :last_name }
+
         # staff attribute is hidden field, and don't want to change last name
-        before :each do
+        before do
           within 'form.edit_user' do
             fill_in_fields_for User,
                                attributes: attributes
@@ -55,7 +57,8 @@ describe 'edit staff users' do
 
       context 'a field is left blank' do
         let!(:attributes) { attributes_for(:user).except :staff }
-        before :each do
+
+        before do
           within 'form.edit_user' do
             fill_in_fields_for User, attributes: attributes
               .merge(first_name: '')
@@ -80,15 +83,19 @@ describe 'edit staff users' do
       end
     end
   end
+
   context 'with staff privilege' do
-    before :each do
+    before do
       when_current_user_is :staff
     end
+
     let!(:user) { create(:user) }
+
     it 'does not have link to page' do
       visit staff_dashboard_path
       expect(page).not_to have_link user.proper_name
     end
+
     it 'does not give access' do
       visit edit_user_path(user)
       expected = 'You do not have permission to access this page.'

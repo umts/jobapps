@@ -1,6 +1,8 @@
 require:
   - rubocop-rails
   - rubocop-rspec
+  - rubocop-capybara
+  - rubocop-factory_bot
 
 AllCops:
   Exclude:
@@ -26,15 +28,6 @@ Metrics/ClassLength:
 Metrics/BlockLength:
   Exclude:
     - 'spec/**/*'
-
-RSpec:
-  Enabled: false
-
-RSpec/BeEql:
-  Enabled: true
-
-RSpec/PredicateMatcher:
-  Enabled: true
 
 # Don't worry about documentation for now.
 # In particular, this fails for things like

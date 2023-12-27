@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'creating departments' do
-  before :each do
+  before do
     when_current_user_is :staff
     visit new_department_path
   end
@@ -11,7 +11,7 @@ describe 'creating departments' do
   let!(:department_fields) { attributes_for(:department) }
 
   context 'name is filled in' do
-    before :each do
+    before do
       within 'form.new_department' do
         fill_in_fields_for Department, attributes: department_fields
       end

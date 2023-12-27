@@ -7,10 +7,11 @@ describe Question do
   context 'validations' do
     # Yes that's right, ladies and gentlemen,
     # we are testing an XOR gate.
-    before :each do
+    before do
       @draft = create(:application_draft)
       @template = create(:application_template)
     end
+
     context 'question belonging to neither draft nor template' do
       it 'fails' do
         question = build(:question,
@@ -19,6 +20,7 @@ describe Question do
         expect { question.save! }.to raise_error ActiveRecord::RecordInvalid
       end
     end
+
     context 'question belonging to draft but not template' do
       it 'passes' do
         question = build(:question,
@@ -27,6 +29,7 @@ describe Question do
         expect { question.save! }.not_to raise_error
       end
     end
+
     context 'questions belonging to template but not draft' do
       it 'passes' do
         question = build(:question,
@@ -35,6 +38,7 @@ describe Question do
         expect { question.save! }.not_to raise_error
       end
     end
+
     context 'question belonging to both draft and template' do
       it 'fails' do
         question = build(:question,
@@ -44,11 +48,10 @@ describe Question do
       end
     end
   end
+
   context 'data_type identification methods' do
-    before :each do
+    before do
       @template = create(:application_template)
-    end
-    before :each do
       @date = create(:question, data_type: 'date', application_template: @template)
       @explanation = create(:question, data_type: 'explanation', application_template: @template)
       @heading = create(:question, data_type: 'heading', application_template: @template)
@@ -58,6 +61,7 @@ describe Question do
       it 'returns true if data type is date' do
         expect(@date).to be_date
       end
+
       it 'returns false if data type is not date' do
         expect(@explanation).not_to be_date
       end
@@ -67,6 +71,7 @@ describe Question do
       it 'returns true if data type is explanation' do
         expect(@explanation).to be_explanation
       end
+
       it 'returns false if data type is not explanation' do
         expect(@heading).not_to be_explanation
       end
@@ -76,6 +81,7 @@ describe Question do
       it 'returns true if data type is heading' do
         expect(@heading).to be_heading
       end
+
       it 'returns false if data type is not heading' do
         expect(@date).not_to be_heading
       end
@@ -83,15 +89,17 @@ describe Question do
   end
 
   describe 'takes_placeholder?' do
-    before :each do
+    before do
       @draft = create(:application_draft)
     end
+
     it 'returns true for date, or text' do
       %w[date text].each do |data_type|
         question = create(:question, application_draft: @draft, data_type:)
         expect(question.takes_placeholder?).to be true
       end
     end
+
     it 'returns false for explanation, heading, number, or yes/no' do
       %w[explanation heading number yes/no].each do |data_type|
         question = create(:question, application_draft: @draft, data_type:)

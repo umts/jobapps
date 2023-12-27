@@ -6,13 +6,13 @@ describe 'editing departments' do
   let(:base_attributes) { { name: 'Bananas' } }
   let(:dept) { create(:department, base_attributes) }
 
-  before :each do
+  before do
     when_current_user_is :staff
     visit edit_department_path(dept)
   end
 
   context 'all fields filled in' do
-    before :each do
+    before do
       within 'form.edit_department' do
         fill_in_fields_for Department, attributes: base_attributes
           .merge(name: 'Apples')
@@ -36,7 +36,7 @@ describe 'editing departments' do
   end
 
   context 'field left blank' do
-    before :each do
+    before do
       within 'form.edit_department' do
         fill_in_fields_for Department, attributes: base_attributes
           .merge(name: '')

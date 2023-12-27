@@ -10,10 +10,12 @@ describe 'reviewing applications' do
   let :mail do
     ActionMailer::MessageDelivery.new(JobappsMailer, :application_denial)
   end
-  before :each do
+
+  before do
     when_current_user_is :staff
     visit staff_dashboard_path
   end
+
   it 'provides a means to reject the application without a staff note' do
     click_link unreviewed_record.user.proper_name,
                href: application_submission_path(unreviewed_record)
@@ -21,6 +23,7 @@ describe 'reviewing applications' do
     expect(page.current_path).to eql staff_dashboard_path
     expect(page).to have_text 'Application has been marked as reviewed'
   end
+
   it 'provides a means to notify the applicant of denial' do
     click_link unreviewed_record.user.proper_name,
                href: application_submission_path(unreviewed_record)
@@ -37,8 +40,9 @@ describe 'reviewing applications' do
     expect(unreviewed_record.reload.staff_note)
       .to eq "They said they don't like Star Trek"
     expect(unreviewed_record).to be_reviewed
-    expect(unreviewed_record).to_not be_saved_for_later
+    expect(unreviewed_record).not_to be_saved_for_later
   end
+
   it 'provides a means to reject without notifying' do
     click_link unreviewed_record.user.proper_name,
                href: application_submission_path(unreviewed_record)
@@ -51,8 +55,9 @@ describe 'reviewing applications' do
     expect(unreviewed_record.reload.staff_note)
       .to eq "They said they don't like Star Trek"
     expect(unreviewed_record).to be_reviewed
-    expect(unreviewed_record).to_not be_saved_for_later
+    expect(unreviewed_record).not_to be_saved_for_later
   end
+
   it 'provides a means to accept the application and schedule an interview' do
     click_link unreviewed_record.user.proper_name,
                href: application_submission_path(unreviewed_record)
@@ -64,6 +69,7 @@ describe 'reviewing applications' do
     expect(unreviewed_record.interview.reload.scheduled.to_datetime)
       .to be_within(1.second).of(1.week.since.to_datetime)
   end
+
   it 'provides a means to reschedule the interview' do
     time = interview.scheduled.to_formatted_s :long_with_time
     click_link reviewed_record.interview.information(include_name: true)
@@ -77,6 +83,7 @@ describe 'reviewing applications' do
     expect(page.current_path).to eql staff_dashboard_path
     expect(page).to have_text 'Interview has been rescheduled'
   end
+
   it 'provides a means to mark interview complete and candidate hired' do
     click_link reviewed_record.user.proper_name,
                href: application_submission_path(reviewed_record)
@@ -86,6 +93,7 @@ describe 'reviewing applications' do
     expect page.has_no_link? reviewed_record.user.proper_name,
                              href: path
   end
+
   it 'provides a means to mark interview complete and candidate not hired' do
     click_link reviewed_record.user.proper_name,
                href: application_submission_path(reviewed_record)

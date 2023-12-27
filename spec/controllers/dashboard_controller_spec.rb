@@ -14,6 +14,7 @@ describe DashboardController do
         expect(response).to redirect_to staff_dashboard_path
       end
     end
+
     context 'as student' do
       it 'redirects to student dashboard' do
         when_current_user_is :student
@@ -21,6 +22,7 @@ describe DashboardController do
         expect(response).to redirect_to student_dashboard_path
       end
     end
+
     context 'as no user' do
       it 'redirects to student dashboard' do
         when_current_user_is nil
@@ -34,10 +36,12 @@ describe DashboardController do
     let :submit do
       get :staff
     end
+
     context 'student' do
-      before :each do
+      before do
         when_current_user_is :student
       end
+
       context 'XHR request' do
         it 'does not allow access' do
           get :staff, xhr: true
@@ -46,11 +50,13 @@ describe DashboardController do
         end
       end
     end
+
     context 'staff' do
       context 'already logged in' do
-        before :each do
+        before do
           when_current_user_is :staff
         end
+
         it 'assigns the required instance variables' do
           submit
           expect(assigns.keys).to include('departments', 'pending_interviews',
@@ -58,6 +64,7 @@ describe DashboardController do
                                           'staff')
         end
       end
+
       context 'in the process of logging in' do
         # Step 1: Unauthenticated user requests dashboard/staff.
         # Step 2: Unauthenticated user is redirected to Shibboleth login page.
@@ -68,15 +75,17 @@ describe DashboardController do
         #         which sets the current user, and they are allowed access.
         #
         # This test assesses step 5.
-        before :each do
+        before do
           @user = create(:user, :staff)
           request.env['fcIdNumber'] = @user.spire
         end
+
         it 'renders the correct page' do
           submit
           expect(response).not_to have_http_status :unauthorized
           expect(response).to render_template 'staff'
         end
+
         it 'sets the correct current user' do
           submit
           expect(assigns.fetch :current_user).to eql @user
@@ -89,27 +98,33 @@ describe DashboardController do
     let :submit do
       get :student
     end
+
     context 'no user' do
-      before :each do
+      before do
         when_current_user_is nil
       end
+
       it 'allows access' do
         submit
         expect(response).not_to have_http_status :unauthorized
       end
+
       it 'assigns the required instance variables' do
         submit
         expect(assigns.keys).to include 'positions'
       end
     end
+
     context 'student' do
-      before :each do
+      before do
         when_current_user_is :student
       end
+
       it 'allows access' do
         submit
         expect(response).not_to have_http_status :unauthorized
       end
+
       it 'assigns the required instance variables' do
         submit
         expect(assigns.keys).to include('application_submissions',
@@ -133,6 +148,7 @@ describe DashboardController do
         expect(response).to have_http_status :unauthorized
       end
     end
+
     context 'login as primary account' do
       it 'goes to dashboard' do
         when_current_user_is :student

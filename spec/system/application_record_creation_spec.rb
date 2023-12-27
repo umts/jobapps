@@ -8,16 +8,18 @@ describe 'submitting application records' do
   context 'student has been authenticated and has a user object' do
     let(:student) { create(:user, :student) }
 
-    before :each do
+    before do
       when_current_user_is student
       visit application_path(application_template)
       application_template.position.update(not_hiring_text: 'custom text')
     end
+
     it 'automatically fills in the user fields' do
       expect(find_field('First name').value).to eql student.first_name
       expect(find_field('Last name').value).to eql student.last_name
       expect(find_field('Email').value).to eql student.email
     end
+
     context 'application template has been marked as inactive' do
       it 'shows text explaining that the application is unavailable' do
         application_template.update active: false
@@ -28,14 +30,17 @@ describe 'submitting application records' do
       end
     end
   end
+
   context 'student has been authenticated but has no user object' do
     let(:spire) { '12345678@umass.edu' }
-    before :each do
+
+    before do
       when_current_user_is nil
       page.set_rack_session(spire:)
       visit application_path(application_template)
       application_template.position.update(not_hiring_text: 'custom text')
     end
+
     it 'creates a user object based on how the user fields are filled in' do
       user_attributes = { first_name: 'John',
                           last_name: 'Smith',
@@ -47,6 +52,7 @@ describe 'submitting application records' do
         .to change { User.count }.by 1
       expect(User.last).to have_attributes user_attributes
     end
+
     context 'application template has been marked as inactive' do
       it 'shows text explaining that the application is unavailable' do
         application_template.update active: false

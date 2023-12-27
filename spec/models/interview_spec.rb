@@ -12,10 +12,12 @@ describe Interview do
       expect(mail).to receive(:deliver_now).and_return true
       create(:interview)
     end
+
     context 'interview reschedule mailer method' do
-      before :each do
+      before do
         @interview = create(:interview)
       end
+
       it 'sends when location changes' do
         mail = ActionMailer::MessageDelivery.new(JobappsMailer,
                                                  :interview_reschedule)
@@ -24,6 +26,7 @@ describe Interview do
         expect(mail).to receive(:deliver_now).and_return true
         @interview.update location: 'another location'
       end
+
       it 'sends when scheduled changes' do
         mail = ActionMailer::MessageDelivery.new(JobappsMailer,
                                                  :interview_reschedule)
@@ -32,6 +35,7 @@ describe Interview do
         expect(mail).to receive(:deliver_now).and_return true
         @interview.update scheduled: 1.day.since.to_datetime
       end
+
       it 'does not send if completed changes' do
         expect(JobappsMailer).not_to receive :interview_reschedule
         @interview.toggle :completed
@@ -40,12 +44,14 @@ describe Interview do
   end
 
   describe 'calendar_title' do
-    before :each do
+    before do
       @interview = create(:interview, location: 'Anywhere')
     end
+
     it 'is titleized (starts with a capital letter)' do
       expect(@interview.calendar_title).to match(/^[[:upper:]]/)
     end
+
     it 'includes the name of interviewee' do
       interviewee = @interview.user
       expect(@interview.calendar_title).to include interviewee.first_name
@@ -54,16 +60,19 @@ describe Interview do
   end
 
   describe 'information' do
-    before :each do
+    before do
       @interview = create(:interview)
     end
+
     it 'includes the formatted date and time' do
       expect(@interview.information)
         .to include @interview.scheduled.to_formatted_s(:long_with_time)
     end
+
     it 'includes the location' do
       expect(@interview.information).to include @interview.location
     end
+
     it 'includes the name of interviewee if so requested' do
       user = @interview.user
       expect(@interview.information include_name: true)
@@ -78,6 +87,7 @@ describe Interview do
       interview = create(:interview, completed: false)
       expect(interview).to be_pending
     end
+
     it 'returns false if interview has been completed' do
       interview = create(:interview, completed: true)
       expect(interview).not_to be_pending

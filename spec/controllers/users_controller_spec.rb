@@ -21,6 +21,7 @@ describe UsersController do
       end
     end
   end
+
   describe 'DELETE #destroy' do
     context 'destroying a user as staff' do
       it 'does not destroy the user' do
@@ -32,6 +33,7 @@ describe UsersController do
       end
     end
   end
+
   describe 'PUT #update' do
     context 'updating a user as staff' do
       it 'does not update the user' do
@@ -45,6 +47,7 @@ describe UsersController do
       end
     end
   end
+
   describe 'PUT #promote_save' do
     context 'promoting a user as staff' do
       it 'does not promote the user' do
