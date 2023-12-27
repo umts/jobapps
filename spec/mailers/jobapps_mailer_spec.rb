@@ -131,7 +131,7 @@ describe JobappsMailer do
   describe 'send_note_for_later' do
     let :record do
       create(:application_submission, saved_for_later: true,
-             note_for_later: 'We need you to grow up a little')
+                                      note_for_later: 'We need you to grow up a little')
     end
     let! :template do
       create(:application_template, position: record.position, email: 'steve@sharklazers.com')
@@ -191,7 +191,7 @@ describe JobappsMailer do
     before :each do
       @position = create(:position)
       @record1 = create(:application_submission, position: @position,
-                        note_for_later: 'This note is for later.')
+                                                 note_for_later: 'This note is for later.')
       @record2 = create(:application_submission, position: @position)
       @email = 'foo@example.com'
     end

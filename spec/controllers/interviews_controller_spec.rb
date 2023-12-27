@@ -130,7 +130,7 @@ describe InterviewsController do
       get :show, params: { id: @interview.id, format: :ics }
     end
     let :calendar_fields do
-      response.body.lines.map { |l| l.strip.split(':', 2) }.to_h
+      response.body.lines.to_h { |l| l.strip.split(':', 2) }
     end
 
     context 'staff' do
