@@ -11,7 +11,8 @@ class PositionsController < ApplicationController
     if @position.save
       show_message :position_create, default: 'Position has been created.'
       redirect_to staff_dashboard_path
-    else show_errors @position
+    else
+      show_errors @position
     end
   end
 
@@ -36,7 +37,8 @@ class PositionsController < ApplicationController
     if @position.update position_parameters
       show_message :position_update, default: 'Position has been updated.'
       redirect_to staff_dashboard_path
-    else show_errors @position
+    else
+      show_errors @position
     end
   end
 

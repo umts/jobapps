@@ -11,10 +11,7 @@ class ApplicationSubmissionsController < ApplicationController
     create_user if @current_user.blank?
     data = ApplicationDataParser.new(params.require(:data)).result
     params.require :position_id
-    record = ApplicationSubmission.create(record_params
-                                          .merge(data: data,
-                                                 user: @current_user,
-                                                 reviewed: false))
+    record = ApplicationSubmission.create record_params.merge(data:, user: @current_user, reviewed: false)
     record.email_subscribers applicant: @current_user
 
     create_unavailability(record) if record.position.application_template.unavailability_enabled?

@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe 'promoting a staff member' do
   context 'with admin privilege' do
-    let!(:user) { create :user }
+    let!(:user) { create(:user) }
     before :each do
       when_current_user_is :admin
     end
@@ -43,7 +43,7 @@ describe 'promoting a staff member' do
     before :each do
       when_current_user_is :staff
     end
-    let!(:user) { create :user }
+    let!(:user) { create(:user) }
     it 'does not link to page' do
       visit staff_dashboard_path
       expect(page).not_to have_link 'Add new staff member'

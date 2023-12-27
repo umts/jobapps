@@ -8,7 +8,7 @@ FactoryBot.define do
 
   trait :with_questions do
     after :create do |instance|
-      create :question, application_template: instance
+      create(:question, application_template: instance)
     end
   end
 end

@@ -11,7 +11,7 @@ describe InterviewsController do
 
   describe 'POST #complete' do
     before :each do
-      @interview = create :interview, completed: false
+      @interview = create(:interview, completed: false)
     end
     let :submit do
       post :complete, params: { id: @interview.id }
@@ -77,7 +77,7 @@ describe InterviewsController do
 
   describe 'POST #reschedule' do
     before :each do
-      @interview = create :interview
+      @interview = create(:interview)
       @location = 'New location'
       # beginning_of_day to eliminate failures
       # based on the seconds not matching up
@@ -124,7 +124,7 @@ describe InterviewsController do
 
   describe 'GET #show' do
     before :each do
-      @interview = create :interview
+      @interview = create(:interview)
     end
     let :submit do
       get :show, params: { id: @interview.id, format: :ics }

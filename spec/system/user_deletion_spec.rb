@@ -8,7 +8,7 @@ describe 'deleting users' do
       when_current_user_is :admin
       visit edit_user_path(user)
     end
-    let!(:user) { create :user }
+    let!(:user) { create(:user) }
     it 'deletes the user in question' do
       expect { click_on "Remove #{user.full_name}" }
         .to change { User.count }.by(-1)
@@ -31,7 +31,7 @@ context 'with staff privilege' do
   before :each do
     when_current_user_is :staff
   end
-  let!(:user) { create :user }
+  let!(:user) { create(:user) }
   it 'does not have the link' do
     visit staff_dashboard_path
     expect(page).not_to have_link user.proper_name

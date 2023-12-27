@@ -3,12 +3,10 @@
 require 'rails_helper'
 
 describe 'reviewing applications' do
-  let!(:unreviewed_record) { create :application_submission, reviewed: false }
-  let!(:reviewed_record) { create :application_submission, reviewed: true }
-  let!(:interview) do
-    create :interview,
-           application_submission: reviewed_record
-  end
+  let!(:unreviewed_record) { create(:application_submission, reviewed: false) }
+  let!(:reviewed_record) { create(:application_submission, reviewed: true) }
+  let!(:interview) { create(:interview, application_submission: reviewed_record) }
+
   let :mail do
     ActionMailer::MessageDelivery.new(JobappsMailer, :application_denial)
   end

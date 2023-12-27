@@ -3,23 +3,23 @@
 require 'rails_helper'
 
 describe 'reviewing application templates' do
-  let(:application) { create :application_template, :with_questions }
-  let(:user) { create :user, :staff }
+  let(:application) { create(:application_template, :with_questions) }
+  let(:user) { create(:user, :staff) }
   before :each do
     when_current_user_is user
     visit application_path(application)
   end
   it 'displays the title of the application' do
-    expect(page).to have_selector 'h1', text: application.position.name
+    expect(page).to have_css 'h1', text: application.position.name
   end
   context 'the application is active' do
-    let(:application) { create :application_template, active: true }
+    let(:application) { create(:application_template, active: true) }
     it 'tells the user that the application is active' do
       expect(page).to have_text 'application is available'
     end
   end
   context 'the application is inactive' do
-    let(:application) { create :application_template, active: false }
+    let(:application) { create(:application_template, active: false) }
     it 'tells the user that the application is inactive' do
       expect(page).to have_text 'application is currently not available'
     end

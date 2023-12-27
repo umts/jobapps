@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe 'editing departments' do
   let(:base_attributes) { { name: 'Bananas' } }
-  let(:dept) { create :department, base_attributes }
+  let(:dept) { create(:department, base_attributes) }
 
   before :each do
     when_current_user_is :staff
@@ -55,7 +55,7 @@ describe 'editing departments' do
 
     it 'gives a flash error' do
       click_on 'Save changes'
-      expect(page).to have_selector '#errors', text: "Name can't be blank"
+      expect(page).to have_css '#errors', text: "Name can't be blank"
     end
   end
 end

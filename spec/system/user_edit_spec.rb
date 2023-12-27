@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe 'edit staff users' do
   context 'with admin privilege' do
-    let!(:user) { create :user, staff: true }
+    let!(:user) { create(:user, staff: true) }
 
     context 'clicking from dashboard' do
       before :each do
@@ -75,8 +75,7 @@ describe 'edit staff users' do
 
         it 'has flash errors' do
           click_on 'Save changes'
-          expect(page).to have_selector '#errors',
-                                        text: "First name can't be blank"
+          expect(page).to have_css('#errors', text: "First name can't be blank")
         end
       end
     end
@@ -85,7 +84,7 @@ describe 'edit staff users' do
     before :each do
       when_current_user_is :staff
     end
-    let!(:user) { create :user }
+    let!(:user) { create(:user) }
     it 'does not have link to page' do
       visit staff_dashboard_path
       expect(page).not_to have_link user.proper_name

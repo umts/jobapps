@@ -3,13 +3,13 @@
 require 'rails_helper'
 
 describe 'deleting a position' do
-  let!(:department) { create :department }
+  let!(:department) { create(:department) }
   let!(:base_attributes) do
     { name: 'A position',
-      department: department,
+      department:,
       default_interview_location: 'UMTS' }
   end
-  let!(:position) { create :position, base_attributes }
+  let!(:position) { create(:position, base_attributes) }
   let(:delete) do
     dept_name = position.department.name
     pos_name = position.name

@@ -7,22 +7,22 @@ describe 'viewing table of past applications' do
   # datepicker requires m/d/Y format
   let(:end_date) { 1.week.since.strftime('%m/%d/%Y') }
   let!(:record) do
-    create :application_submission,
+    create(:application_submission,
            rejection_message: "it's not you, it's me",
-           staff_note: 'they smelled terrible'
+           staff_note: 'they smelled terrible')
   end
-  let!(:record_with_completed_interview) { create :application_submission }
+  let!(:record_with_completed_interview) { create(:application_submission) }
   let!(:interview) do
-    create :interview,
+    create(:interview,
            application_submission: record,
-           interview_note: 'bunnies'
+           interview_note: 'bunnies')
   end
   let!(:completed_interview) do
-    create :interview,
+    create(:interview,
            application_submission: record_with_completed_interview,
-           completed: true
+           completed: true)
   end
-  let!(:record_without_interview) { create :application_submission }
+  let!(:record_without_interview) { create(:application_submission) }
   before :each do
     when_current_user_is :staff
     visit staff_dashboard_path

@@ -5,8 +5,8 @@ require 'rails_helper'
 describe ApplicationSubmission do
   describe 'data_rows' do
     before :each do
-      @record = create :application_submission,
-                       data: [['a question', 'an answer', 'text', 5]]
+      @record = create(:application_submission,
+                       data: [['a question', 'an answer', 'text', 5]])
     end
     let :call do
       @record.data_rows
@@ -23,15 +23,15 @@ describe ApplicationSubmission do
 
   describe 'unavailability_rows' do
     let :unavail do
-      create :unavailability, sunday: [],
+      create(:unavailability, sunday: [],
                               monday: %w[10AM 11AM 12PM],
                               tuesday: %w[11AM 12PM 1PM 2PM 3PM 4PM 5PM],
                               wednesday: %w[10AM 11AM 12PM],
                               thursday: %w[11AM 12PM 1PM 2PM 3PM 4PM 5PM],
                               friday: %w[10AM 11AM 12PM],
-                              saturday: []
+                              saturday: [])
     end
-    let(:record) { create :application_submission, unavailability: unavail }
+    let(:record) { create(:application_submission, unavailability: unavail) }
     let(:call) { record.unavailability.grid }
     it 'gives false for available times' do
       expect(call[0][0]).to be false
@@ -42,8 +42,8 @@ describe ApplicationSubmission do
   end
 
   describe 'email_subscribers' do
-    let(:record) { create :application_submission }
-    let!(:subscription) { create :subscription, position: record.position }
+    let(:record) { create(:application_submission) }
+    let!(:subscription) { create(:subscription, position: record.position) }
     let :call do
       record.email_subscribers applicant: record.user
     end
@@ -63,8 +63,8 @@ describe ApplicationSubmission do
 
   describe 'question_hash' do
     let :record do
-      create :application_submission,
-             data: [['What is your name?', 'Luke Starkiller', 'text', 316]]
+      create(:application_submission,
+             data: [['What is your name?', 'Luke Starkiller', 'text', 316]])
     end
     it 'maps question IDs to responses' do
       expect(record.questions_hash).to eql 316 => 'Luke Starkiller'
@@ -74,15 +74,15 @@ describe ApplicationSubmission do
   describe 'between' do
     before :each do
       Timecop.freeze 1.week.ago do
-        @too_past_record = create :application_submission
+        @too_past_record = create(:application_submission)
       end
       Timecop.freeze 1.month.since do
-        @too_future_record = create :application_submission
+        @too_future_record = create(:application_submission)
       end
       Timecop.freeze 1.week.since do
-        @almost_too_future_record = create :application_submission
+        @almost_too_future_record = create(:application_submission)
       end
-      @just_right_record = create :application_submission
+      @just_right_record = create(:application_submission)
       @start_date = Time.zone.today
       @end_date = 1.week.since
     end
@@ -97,10 +97,10 @@ describe ApplicationSubmission do
 
   describe 'in_department' do
     before :each do
-      @department = create :department
-      position = create :position, department: @department
-      @good_record = create :application_submission, position: position
-      @bad_record = create :application_submission, position: create(:position)
+      @department = create(:department)
+      position = create(:position, department: @department)
+      @good_record = create(:application_submission, position:)
+      @bad_record = create(:application_submission, position: create(:position))
     end
     let :call do
       ApplicationSubmission.in_department @department.id
@@ -113,10 +113,10 @@ describe ApplicationSubmission do
 
   describe 'hire_count' do
     before :each do
-      record1 = create :application_submission
-      record2 = create :application_submission
-      create :interview, application_submission: record2, hired: false
-      create :interview, application_submission: record1, hired: true
+      record1 = create(:application_submission)
+      record2 = create(:application_submission)
+      create(:interview, application_submission: record2, hired: false)
+      create(:interview, application_submission: record1, hired: true)
     end
     let :call do
       ApplicationSubmission.hire_count
@@ -128,9 +128,9 @@ describe ApplicationSubmission do
 
   describe 'interview_count' do
     before :each do
-      record1 = create :application_submission
-      create :application_submission
-      create :interview, application_submission: record1
+      record1 = create(:application_submission)
+      create(:application_submission)
+      create(:interview, application_submission: record1)
     end
     let :call do
       ApplicationSubmission.interview_count
@@ -142,7 +142,7 @@ describe ApplicationSubmission do
 
   describe 'deny' do
     before :each do
-      @record = create :application_submission
+      @record = create(:application_submission)
       @note = 'a staff note'
     end
     let :call do
@@ -177,18 +177,18 @@ describe ApplicationSubmission do
 
   describe 'pending?' do
     it 'returns true if record has not been reviewed' do
-      record = create :application_submission, reviewed: false
+      record = create(:application_submission, reviewed: false)
       expect(record).to be_pending
     end
     it 'returns false if record has been reviewed' do
-      record = create :application_submission, reviewed: true
+      record = create(:application_submission, reviewed: true)
       expect(record).not_to be_pending
     end
   end
 
   describe 'saving for later' do
     before :each do
-      @record = create :application_submission, saved_for_later: false
+      @record = create(:application_submission, saved_for_later: false)
     end
     context 'mail to applicant desired' do
       let :mail do
@@ -223,10 +223,10 @@ describe ApplicationSubmission do
 
   describe 'move_to_dashboard' do
     let :record do
-      create :application_submission,
+      create(:application_submission,
              saved_for_later: true,
              date_for_later: Time.zone.today,
-             note_for_later: 'super required'
+             note_for_later: 'super required')
     end
     let :call do
       record.move_to_dashboard
@@ -245,11 +245,11 @@ describe ApplicationSubmission do
     let(:call) { ApplicationSubmission.move_to_dashboard }
     context 'there is an expired record' do
       before do
-        create :application_submission,
+        create(:application_submission,
                saved_for_later: true,
                date_for_later: Date.yesterday,
                note_for_later: 'this is required',
-               email_to_notify: 'foo@example.com'
+               email_to_notify: 'foo@example.com')
       end
 
       it 'calls move_to_dashboard on expired record' do
@@ -261,16 +261,16 @@ describe ApplicationSubmission do
     end
     context 'there are many expired records' do
       before do
-        create :application_submission,
+        create(:application_submission,
                saved_for_later: true,
                date_for_later: Date.yesterday,
                note_for_later: 'this is required',
-               email_to_notify: 'foo@example.com'
-        create :application_submission,
+               email_to_notify: 'foo@example.com')
+        create(:application_submission,
                saved_for_later: true,
                date_for_later: Date.yesterday,
                note_for_later: 'this is required',
-               email_to_notify: 'foo@example.com'
+               email_to_notify: 'foo@example.com')
       end
 
       it 'calls move_to_dashboard on expired records' do
@@ -280,11 +280,11 @@ describe ApplicationSubmission do
     end
     context 'there are no expired records' do
       let!(:future_saved_record) do
-        create :application_submission,
+        create(:application_submission,
                saved_for_later: true,
                date_for_later: Date.tomorrow,
                note_for_later: 'SO required',
-               email_to_notify: 'foo@example.com'
+               email_to_notify: 'foo@example.com')
       end
       it 'does not call move_to_dashboard on any records' do
         expect_any_instance_of(ApplicationSubmission)
@@ -315,22 +315,22 @@ describe ApplicationSubmission do
       call
     end
     it 'counts only records and interviews with both ethnicity and gender' do
-      create :application_submission, ethnicity: nil, gender: nil
-      create :application_submission, ethnicity: '', gender: ''
+      create(:application_submission, ethnicity: nil, gender: nil)
+      create(:application_submission, ethnicity: '', gender: '')
       expect(call).to eql('Other' => [['Klingon', 0, 0, 0]])
     end
     it 'counts records/interviews whose ethnicity is not one of the options' do
-      create :application_submission, ethnicity: 'Romulan', gender: 'Other'
+      create(:application_submission, ethnicity: 'Romulan', gender: 'Other')
       expect(call).to eql('Other' => [['Klingon', 0, 0, 0],
                                       ['Romulan', 1, 0, 0]])
     end
     it 'counts records/interviews whose gender is not one of the options' do
-      create :application_submission, ethnicity: 'Klingon', gender: 'Male'
+      create(:application_submission, ethnicity: 'Klingon', gender: 'Male')
       expect(call).to eql('Other' => [['Klingon', 0, 0, 0]],
                           'Male' => [['Klingon', 1, 0, 0]])
     end
     it 'counts records/interviews where gender and ethnicity not in options' do
-      create :application_submission, ethnicity: 'Romulan', gender: 'Male'
+      create(:application_submission, ethnicity: 'Romulan', gender: 'Male')
       expect(call).to eql('Other' => [['Klingon', 0, 0, 0],
                                       ['Romulan', 0, 0, 0]],
                           'Male' => [['Klingon', 0, 0, 0],
@@ -361,12 +361,12 @@ describe ApplicationSubmission do
       call
     end
     it 'counts only records and their interviews with an ethnicity attribute' do
-      create :application_submission, ethnicity: nil
-      create :application_submission, ethnicity: ''
+      create(:application_submission, ethnicity: nil)
+      create(:application_submission, ethnicity: '')
       expect(call).to contain_exactly ['Klingon', 0, 0, 0]
     end
     it 'counts records/interviews whose ethnicity is not of the options' do
-      create :application_submission, ethnicity: 'Romulan', gender: 'Male'
+      create(:application_submission, ethnicity: 'Romulan', gender: 'Male')
       expect(call).to contain_exactly ['Klingon', 0, 0, 0], ['Romulan', 1, 0, 0]
     end
   end
@@ -391,12 +391,12 @@ describe ApplicationSubmission do
       call
     end
     it 'counts only records and their interviews with a gender attribute' do
-      create :application_submission, gender: nil
-      create :application_submission, gender: ''
+      create(:application_submission, gender: nil)
+      create(:application_submission, gender: '')
       expect(call).to contain_exactly ['Female', 0, 0, 0]
     end
     it 'counts records/interviews whose gender is not of the gender_options' do
-      create :application_submission, gender: 'Male'
+      create(:application_submission, gender: 'Male')
       expect(call).to contain_exactly ['Female', 0, 0, 0], ['Male', 1, 0, 0]
     end
   end
@@ -405,7 +405,7 @@ describe ApplicationSubmission do
     # all this method does is call other methods and put the values returned
     # in a hash.
     before :each do
-      @department = create :department
+      @department = create(:department)
       @start_date = 1.week.ago
       @end_date = 1.week.since
       @relation = ApplicationSubmission.between(@start_date, @end_date)
@@ -456,11 +456,11 @@ describe ApplicationSubmission do
 
   describe 'rejected?' do
     let!(:application_sub1) do
-      create :application_submission, reviewed: true, interview: nil
+      create(:application_submission, reviewed: true, interview: nil)
     end
-    let!(:interview) { create :interview, scheduled: Time.zone.today }
+    let!(:interview) { create(:interview, scheduled: Time.zone.today) }
     let!(:application_sub2) do
-      create :application_submission, reviewed: true, interview: interview
+      create(:application_submission, reviewed: true, interview:)
     end
     context 'when reviewed and interview not scheduled' do
       it 'returns true' do

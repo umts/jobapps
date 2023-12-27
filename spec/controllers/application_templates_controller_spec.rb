@@ -11,9 +11,9 @@ describe ApplicationTemplatesController do
   describe 'GET #new' do
     context 'staff' do
       before :each do
-        @user = create :user, staff: true
+        @user = create(:user, staff: true)
         when_current_user_is @user
-        @position = create :position
+        @position = create(:position)
       end
       let :submit do
         get :new, params: { position_id: @position.id }
@@ -29,7 +29,7 @@ describe ApplicationTemplatesController do
         expect(draft.user).to eql @user
       end
       it 'assigns the created draft to a draft variable' do
-        draft = create :application_draft
+        draft = create(:application_draft)
         expect_any_instance_of(ApplicationTemplate)
           .to receive(:create_draft).with(@user).and_return draft
         submit
@@ -45,11 +45,11 @@ describe ApplicationTemplatesController do
 
   describe 'GET #show' do
     before :each do
-      department = create :department, name: 'Bus'
-      position = create :position, name: 'Operator', department: department
-      @template = create :application_template, position: position
-      @record = create :application_submission,
-                       data: [['a question', 'an answer', 'data type', 1]]
+      department = create(:department, name: 'Bus')
+      position = create(:position, name: 'Operator', department:)
+      @template = create(:application_template, position:)
+      @record = create(:application_submission,
+                       data: [['a question', 'an answer', 'data type', 1]])
     end
     context 'using specific route' do
       let :submit do
@@ -93,9 +93,9 @@ describe ApplicationTemplatesController do
 
   describe 'POST #toggle_active' do
     before :each do
-      department = create :department, name: 'Bus'
-      position = create :position, department: department, name: 'Operator'
-      @template = create :application_template, position: position
+      department = create(:department, name: 'Bus')
+      position = create(:position, department:, name: 'Operator')
+      @template = create(:application_template, position:)
     end
     let :submit do
       post :toggle_active, params: {
@@ -130,9 +130,9 @@ describe ApplicationTemplatesController do
 
   describe 'POST #toggle_eeo_enabled' do
     before :each do
-      department = create :department, name: 'Bus'
-      position = create :position, department: department, name: 'Operator'
-      @template = create :application_template, position: position
+      department = create(:department, name: 'Bus')
+      position = create(:position, department:, name: 'Operator')
+      @template = create(:application_template, position:)
     end
     let :submit do
       post :toggle_eeo_enabled, params: {
@@ -143,7 +143,7 @@ describe ApplicationTemplatesController do
     end
     context 'staff' do
       before :each do
-        @user = create :user, staff: true
+        @user = create(:user, staff: true)
         when_current_user_is @user
         request.env['HTTP_REFERER'] = 'http://test.host/redirect'
       end
@@ -199,9 +199,9 @@ describe ApplicationTemplatesController do
 
   describe 'POST #toggle_unavailability_enabled' do
     before :each do
-      department = create :department
-      position = create :position, department: department
-      @template = create :application_template, position: position
+      department = create(:department)
+      position = create(:position, department:)
+      @template = create(:application_template, position:)
     end
     let :submit do
       post :toggle_unavailability_enabled, params: {
@@ -212,7 +212,7 @@ describe ApplicationTemplatesController do
     end
     context 'staff' do
       before :each do
-        @user = create :user, staff: true
+        @user = create(:user, staff: true)
         when_current_user_is @user
         request.env['HTTP_REFERER'] = 'http://test.host/redirect'
       end
@@ -266,9 +266,9 @@ describe ApplicationTemplatesController do
 
   describe 'POST #toggle_resume_upload_enabled' do
     before :each do
-      department = create :department
-      position = create :position, department: department
-      @template = create :application_template, position: position
+      department = create(:department)
+      position = create(:position, department:)
+      @template = create(:application_template, position:)
     end
     let :submit do
       post :toggle_resume_upload_enabled, params: {
@@ -279,7 +279,7 @@ describe ApplicationTemplatesController do
     end
     context 'staff' do
       before :each do
-        @user = create :user, staff: true
+        @user = create(:user, staff: true)
         when_current_user_is @user
         request.env['HTTP_REFERER'] = 'http://test.host/redirect'
       end

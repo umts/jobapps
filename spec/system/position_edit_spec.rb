@@ -3,13 +3,13 @@
 require 'rails_helper'
 
 describe 'editing positions' do
-  let!(:department) { create :department }
+  let!(:department) { create(:department) }
   let!(:base_attributes) do
     { name: 'A position',
-      department: department,
+      department:,
       default_interview_location: 'UMTS' }
   end
-  let!(:position) { create :position, base_attributes }
+  let!(:position) { create(:position, base_attributes) }
   let(:save) { click_on 'Save changes' }
   before :each do
     when_current_user_is :staff
@@ -49,7 +49,7 @@ describe 'editing positions' do
     end
     it 'renders a negative flash message' do
       save
-      expect(page).to have_selector '#errors', text: "Name can't be blank"
+      expect(page).to have_css '#errors', text: "Name can't be blank"
     end
   end
 end

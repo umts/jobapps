@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'layouts/application.haml' do
   context 'current user is present' do
     before :each do
-      user = create :user
+      user = create(:user)
       when_current_user_is user
     end
     it 'displays a link to logout' do

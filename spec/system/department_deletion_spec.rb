@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'deleting users' do
-  let(:dept) { create :department }
+  let(:dept) { create(:department) }
 
   before :each do
     when_current_user_is :staff

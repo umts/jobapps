@@ -5,19 +5,19 @@ require 'rails_helper'
 describe ApplicationTemplate do
   describe 'create_draft' do
     before :each do
-      @application_template = create :application_template,
+      @application_template = create(:application_template,
                                      :with_questions,
-                                     email: 'something@example.com'
-      @user = create :user
+                                     email: 'something@example.com')
+      @user = create(:user)
     end
     let :call do
       @application_template.create_draft @user
     end
     context 'pre-existing draft belonging to user' do
       before :each do
-        create :application_draft,
+        create(:application_draft,
                application_template: @application_template,
-               user: @user
+               user: @user)
       end
       it 'returns false' do
         expect(call).to be false
@@ -46,16 +46,16 @@ describe ApplicationTemplate do
   end
   describe 'draft_belonging_to' do
     before :each do
-      @user = create :user
-      other_user = create :user
-      @application_template = create :application_template
-      @draft = create :application_draft,
+      @user = create(:user)
+      other_user = create(:user)
+      @application_template = create(:application_template)
+      @draft = create(:application_draft,
                       application_template: @application_template,
-                      user: @user
+                      user: @user)
       # other draft
-      create :application_draft,
+      create(:application_draft,
              application_template: @application_template,
-             user: other_user
+             user: other_user)
     end
     it 'returns the application template draft belonging to the user' do
       expect(@application_template.draft_belonging_to @user).to eql @draft
@@ -64,8 +64,8 @@ describe ApplicationTemplate do
 
   describe 'draft_belonging_to?' do
     before :each do
-      @user = create :user
-      @application_template = create :application_template
+      @user = create(:user)
+      @application_template = create(:application_template)
     end
     let :call do
       @application_template.draft_belonging_to? @user
@@ -74,8 +74,7 @@ describe ApplicationTemplate do
       expect(call).to be false
     end
     it 'returns true if a draft does exist for the user in question' do
-      create :application_draft, user: @user,
-                                 application_template: @application_template
+      create(:application_draft, user: @user, application_template: @application_template)
       expect(call).to be true
     end
   end

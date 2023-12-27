@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'creating new positions' do
-  let!(:department) { create :department }
+  let!(:department) { create(:department) }
   before :each do
     when_current_user_is :staff
     visit new_position_path
@@ -15,7 +15,7 @@ describe 'creating new positions' do
         fill_in_fields_for Position, attributes:
         { name: 'Our new shiny position',
           default_interview_location: 'UMTS',
-          department: department }
+          department: }
       end
     end
     it 'creates a new position with the proper attributes' do
@@ -23,7 +23,7 @@ describe 'creating new positions' do
       expect(Position.last)
         .to have_attributes(name: 'Our new shiny position',
                             default_interview_location: 'UMTS',
-                            department: department)
+                            department:)
     end
     it 'redirects to the Staff Dashboard' do
       click_on 'Save changes'
@@ -39,7 +39,7 @@ describe 'creating new positions' do
     before :each do
       within 'form.new_position' do
         fill_in_fields_for Position,
-                           attributes: { name: '', department: department }
+                           attributes: { name: '', department: }
       end
     end
     it 'does not add anything' do
@@ -51,7 +51,7 @@ describe 'creating new positions' do
     end
     it 'renders a flash error' do
       click_on 'Save changes'
-      expect(page).to have_selector '#errors', text: 'Name can\'t be blank'
+      expect(page).to have_css '#errors', text: 'Name can\'t be blank'
     end
   end
 end

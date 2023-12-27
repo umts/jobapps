@@ -10,11 +10,11 @@ describe Interview do
       expect(JobappsMailer).to receive(:interview_confirmation)
         .and_return mail
       expect(mail).to receive(:deliver_now).and_return true
-      create :interview
+      create(:interview)
     end
     context 'interview reschedule mailer method' do
       before :each do
-        @interview = create :interview
+        @interview = create(:interview)
       end
       it 'sends when location changes' do
         mail = ActionMailer::MessageDelivery.new(JobappsMailer,
@@ -41,7 +41,7 @@ describe Interview do
 
   describe 'calendar_title' do
     before :each do
-      @interview = create :interview, location: 'Anywhere'
+      @interview = create(:interview, location: 'Anywhere')
     end
     it 'is titleized (starts with a capital letter)' do
       expect(@interview.calendar_title).to match(/^[[:upper:]]/)
@@ -55,7 +55,7 @@ describe Interview do
 
   describe 'information' do
     before :each do
-      @interview = create :interview
+      @interview = create(:interview)
     end
     it 'includes the formatted date and time' do
       expect(@interview.information)
@@ -75,11 +75,11 @@ describe Interview do
 
   describe 'pending?' do
     it 'returns true if interview has not been completed' do
-      interview = create :interview, completed: false
+      interview = create(:interview, completed: false)
       expect(interview).to be_pending
     end
     it 'returns false if interview has been completed' do
-      interview = create :interview, completed: true
+      interview = create(:interview, completed: true)
       expect(interview).not_to be_pending
     end
   end

@@ -13,9 +13,8 @@ describe ApplicationSubmissionsController do
 
   describe 'POST #create' do
     before :each do
-      @position = create :position
-      create :application_template, position: @position,
-                                    unavailability_enabled: true
+      @position = create(:position)
+      create(:application_template, position: @position, unavailability_enabled: true)
       @data = { 'response_1' => 'No',
                 'prompt_1' => 'Do you like cats',
                 'response_2' => '10/07/2015',
@@ -51,7 +50,7 @@ describe ApplicationSubmissionsController do
       end
     end
     context 'student' do
-      let!(:user) { create :user, :student }
+      let!(:user) { create(:user, :student) }
       before(:each) { when_current_user_is user }
       it 'creates an application record as specified' do
         expect { submit }
@@ -71,7 +70,7 @@ describe ApplicationSubmissionsController do
       end
     end
     context 'staff' do
-      let!(:user) { create :user, :staff }
+      let!(:user) { create(:user, :staff) }
       before(:each) { when_current_user_is user }
       it 'creates an application record as specified' do
         expect { submit }
@@ -100,7 +99,7 @@ describe ApplicationSubmissionsController do
       when_current_user_is :staff
       @start_date = 1.week.ago.to_date
       @end_date = Time.zone.today
-      @department = create :department
+      @department = create(:department)
     end
 
     let :params do
@@ -117,7 +116,7 @@ describe ApplicationSubmissionsController do
       let(:extra_params) { { department_ids: [@department.id] } }
 
       it 'calls AR#in_department with the correct parameters' do
-        create :department
+        create(:department)
         # Needs to return something, because we must call
         # other methods on what it returns later.
         expect(ApplicationSubmission).to receive(:in_department)
@@ -162,7 +161,7 @@ describe ApplicationSubmissionsController do
       when_current_user_is :staff
       @start_date = 1.week.ago.to_date
       @end_date = 1.week.since.to_date
-      @department = create :department
+      @department = create(:department)
     end
     context 'submitting with the department ID param' do
       let :submit do
@@ -214,7 +213,7 @@ describe ApplicationSubmissionsController do
       when_current_user_is :staff
       @start_date = 1.week.ago.to_date
       @end_date = Time.zone.today
-      @department = create :department
+      @department = create(:department)
     end
     context 'submitting with the department ID param' do
       let :submit do
@@ -270,7 +269,7 @@ describe ApplicationSubmissionsController do
 
   describe 'POST #review' do
     before :each do
-      @record = create :application_submission
+      @record = create(:application_submission)
       @interview = { location: 'somewhere',
                      scheduled: 1.day.since.strftime('%Y/%m/%d %H:%M') }
     end
@@ -339,7 +338,7 @@ describe ApplicationSubmissionsController do
       when_current_user_is :staff
     end
     context 'something went wrong' do
-      let!(:record) { create :application_submission, saved_for_later: false }
+      let!(:record) { create(:application_submission, saved_for_later: false) }
       let(:submit) do
         post :toggle_saved_for_later,
              params: {
@@ -360,7 +359,7 @@ describe ApplicationSubmissionsController do
 
   describe 'GET #show' do
     before :each do
-      @record = create :application_submission, user: (create :user, :student)
+      @record = create(:application_submission, user: create(:user, :student))
     end
     let :submit do
       get :show, params: { id: @record.id }
@@ -381,9 +380,9 @@ describe ApplicationSubmissionsController do
     end
     context 'record belongs to another student' do
       before :each do
-        student1 = create :user, :student
-        student2 = create :user, :student
-        @record = create :application_submission, user: student1
+        student1 = create(:user, :student)
+        student2 = create(:user, :student)
+        @record = create(:application_submission, user: student1)
         when_current_user_is student2
       end
       it 'does not allow access' do
@@ -425,7 +424,7 @@ describe ApplicationSubmissionsController do
     before :each do
       when_current_user_is :staff
     end
-    let!(:record) { create :application_submission, reviewed: 'true' }
+    let!(:record) { create(:application_submission, reviewed: 'true') }
     let(:submit) { post :unreject, params: { id: record.id } }
     it 'changes attribute reviewed to false' do
       submit

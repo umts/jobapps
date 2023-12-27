@@ -3,14 +3,12 @@
 require 'rails_helper'
 
 describe 'viewing application forms on dashboard' do
-  let!(:position) { create :position }
-  let!(:user) { create :user, staff: true }
-  let!(:app_with_draft) { create :application_template }
-  let!(:app_without_draft) { create :application_template }
+  let!(:position) { create(:position) }
+  let!(:user) { create(:user, staff: true) }
+  let!(:app_with_draft) { create(:application_template) }
+  let!(:app_without_draft) { create(:application_template) }
   let!(:draft) do
-    create :application_draft,
-           application_template: app_with_draft,
-           user: user
+    create(:application_draft, application_template: app_with_draft, user:)
   end
   before :each do
     when_current_user_is user

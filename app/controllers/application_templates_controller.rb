@@ -6,7 +6,7 @@ class ApplicationTemplatesController < ApplicationController
 
   def new
     position = Position.find(params.require :position_id)
-    template = ApplicationTemplate.create!(position: position, active: true)
+    template = ApplicationTemplate.create!(position:, active: true)
     @draft = template.create_draft @current_user
     redirect_to edit_draft_path(@draft)
   end
@@ -29,8 +29,9 @@ class ApplicationTemplatesController < ApplicationController
     if @template.active
       show_message :active_application,
                    default: 'The application is now active.'
-    else show_message :inactive_application,
-                      default: 'The application is now inactive.'
+    else
+      show_message :inactive_application,
+                   default: 'The application is now inactive.'
     end
     redirect_back fallback_location: application_path(@template)
   end

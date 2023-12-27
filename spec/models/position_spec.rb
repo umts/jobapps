@@ -5,7 +5,7 @@ require 'rails_helper'
 describe Position do
   describe 'name_and_department' do
     before :each do
-      @position = create :position
+      @position = create(:position)
     end
     it 'includes the name of the position' do
       expect(@position.name_and_department).to include @position.name

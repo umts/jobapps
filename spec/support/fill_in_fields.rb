@@ -9,7 +9,8 @@ def fill_in_fields_for(model, attributes:)
     value = value.name if value.respond_to? :name
     if page.has_selector? :fillable_field, name then fill_in name, with: value
     elsif page.has_selector? :select, name then select value, from: name
-    else raise Capybara::ElementNotFound, "Unable to find field #{name}"
+    else
+      raise Capybara::ElementNotFound, "Unable to find field #{name}"
     end
   end
 end

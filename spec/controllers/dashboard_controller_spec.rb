@@ -69,7 +69,7 @@ describe DashboardController do
         #
         # This test assesses step 5.
         before :each do
-          @user = create :user, :staff
+          @user = create(:user, :staff)
           request.env['fcIdNumber'] = @user.spire
         end
         it 'renders the correct page' do
@@ -123,7 +123,7 @@ describe DashboardController do
     context 'login as subsidiary account' do
       it 'renders unauthenticated subsidiary haml' do
         when_current_user_is :student
-        admin = create :user, :admin
+        admin = create(:user, :admin)
         request.env.merge! 'uid' => session[:user_id],
                            'UMAPrimaryAccount' => admin.id
         get :main

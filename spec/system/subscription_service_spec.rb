@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 describe 'subscriptions' do
-  let(:position) { create :position }
+  let(:position) { create(:position) }
   context 'subscribing to positions' do
     before :each do
       when_current_user_is :staff
@@ -15,12 +15,12 @@ describe 'subscriptions' do
     end
   end
   context 'displaying existing subscriptions' do
-    let(:user1) { create :user, :staff }
-    let(:user2) { create :user, :staff }
+    let(:user1) { create(:user, :staff) }
+    let(:user2) { create(:user, :staff) }
     let(:subscription) do
-      create :subscription, user: user1, position: position
+      create(:subscription, user: user1, position:)
     end
-    let(:other_position) { create :position }
+    let(:other_position) { create(:position) }
     before :each do
       when_current_user_is user2
       visit edit_position_path(position)
@@ -34,9 +34,9 @@ describe 'subscriptions' do
     end
   end
   context 'deleting a subscription' do
-    let(:user) { create :user, :staff }
+    let(:user) { create(:user, :staff) }
     let! :subscription do
-      create :subscription, user: user, position: position
+      create(:subscription, user:, position:)
     end
     before :each do
       when_current_user_is user

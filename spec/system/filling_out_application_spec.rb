@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe 'filling out an application' do
   let(:application) do
-    create :application_template, :with_questions
+    create(:application_template, :with_questions)
   end
 
   before :each do

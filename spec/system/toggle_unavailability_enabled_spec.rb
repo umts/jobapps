@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 describe 'toggle the unavailability_enabled attribute of templates' do
-  let(:application) { create :application_template }
-  let(:draft) { create :application_draft, application_template: application }
+  let(:application) { create(:application_template) }
+  let(:draft) { create(:application_draft, application_template: application) }
   before :each do
     when_current_user_is :staff
   end
@@ -14,7 +14,7 @@ describe 'toggle the unavailability_enabled attribute of templates' do
     end
     context 'unavailability is disabled' do
       let :application do
-        create :application_template, unavailability_enabled: false
+        create(:application_template, unavailability_enabled: false)
       end
       it 'has a button to enable unavailability' do
         click_button 'Activate Unavailability'
@@ -27,7 +27,7 @@ describe 'toggle the unavailability_enabled attribute of templates' do
     end
     context 'unavailability is enabled' do
       let :application do
-        create :application_template, unavailability_enabled: true
+        create(:application_template, unavailability_enabled: true)
       end
       it 'has a button to disable unavailability' do
         click_button 'Deactivate Unavailability'

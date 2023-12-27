@@ -47,7 +47,7 @@ describe 'creating departments' do
 
     it 'gives a flash error' do
       click_on 'Save changes'
-      expect(page).to have_selector '#errors', text: "Name can't be blank"
+      expect(page).to have_css '#errors', text: "Name can't be blank"
     end
   end
 end

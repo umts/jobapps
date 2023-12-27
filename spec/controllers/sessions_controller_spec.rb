@@ -5,7 +5,7 @@ require 'rails_helper'
 describe SessionsController do
   describe 'DELETE #destroy' do
     before :each do
-      @user = create :user
+      @user = create(:user)
       when_current_user_is @user
     end
     let :submit do
@@ -48,7 +48,7 @@ describe SessionsController do
   describe 'GET #dev_login' do
     before :each do
       when_current_user_is nil
-      create :user # for SPIRE purposes
+      create(:user) # for SPIRE purposes
     end
     let :submit do
       get :dev_login
@@ -66,7 +66,7 @@ describe SessionsController do
   describe 'POST #dev_login' do
     before :each do
       when_current_user_is nil
-      @user = create :user
+      @user = create(:user)
     end
     let :submit do
       post :dev_login, params: { user_id: @user.id }

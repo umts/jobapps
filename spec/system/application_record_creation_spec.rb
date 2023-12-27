@@ -3,14 +3,11 @@
 require 'rails_helper'
 
 describe 'submitting application records' do
-  let! :application_template do
-    create :application_template,
-           :with_questions
-  end
+  let!(:application_template) { create(:application_template, :with_questions) }
+
   context 'student has been authenticated and has a user object' do
-    let :student do
-      create :user, :student
-    end
+    let(:student) { create(:user, :student) }
+
     before :each do
       when_current_user_is student
       visit application_path(application_template)
@@ -35,7 +32,7 @@ describe 'submitting application records' do
     let(:spire) { '12345678@umass.edu' }
     before :each do
       when_current_user_is nil
-      page.set_rack_session spire: spire
+      page.set_rack_session(spire:)
       visit application_path(application_template)
       application_template.position.update(not_hiring_text: 'custom text')
     end
@@ -43,7 +40,7 @@ describe 'submitting application records' do
       user_attributes = { first_name: 'John',
                           last_name: 'Smith',
                           email: 'johnsmith@umass.edu',
-                          spire: spire }
+                          spire: }
       # SPIRE isn't a field on the page, so we don't fill it in
       fill_in_fields_for User, attributes: user_attributes.except(:spire)
       expect { click_on 'Submit application' }

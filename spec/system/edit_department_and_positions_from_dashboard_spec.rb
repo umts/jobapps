@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 describe 'adding or editing departments and positions from dashboard' do
-  let!(:department) { create :department }
-  let!(:position) { create :position, department: department }
+  let!(:department) { create(:department) }
+  let!(:position) { create(:position, department:) }
   before :each do
     when_current_user_is :staff
     visit staff_dashboard_path

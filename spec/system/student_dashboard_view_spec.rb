@@ -3,14 +3,14 @@
 require 'rails_helper'
 
 describe 'viewing the dashboard as a student' do
-  let!(:student) { create :user, staff: false }
+  let!(:student) { create(:user, staff: false) }
   before :each do
     when_current_user_is student
   end
 
   context 'student has submitted an application' do
     context 'student got an interview' do
-      let!(:interview) { create :interview, user: student }
+      let!(:interview) { create(:interview, user: student) }
       before :each do
         visit student_dashboard_path
       end
@@ -30,15 +30,10 @@ describe 'viewing the dashboard as a student' do
 
     context 'student did not get an interview' do
       let!(:pending_application) do
-        create :application_submission,
-               reviewed: false,
-               user: student
+        create(:application_submission, reviewed: false, user: student)
       end
       let!(:denied_application) do
-        create :application_submission,
-               reviewed: true,
-               user: student,
-               rejection_message: 'No'
+        create(:application_submission, reviewed: true, user: student, rejection_message: 'No')
       end
       before :each do
         visit student_dashboard_path
@@ -114,7 +109,7 @@ describe 'viewing the dashboard as a student' do
   end
 
   context 'student has not yet submitted an application' do
-    let!(:position_not_hiring) { create :position }
+    let!(:position_not_hiring) { create(:position) }
     before :each do
       visit student_dashboard_path
     end
@@ -139,9 +134,7 @@ describe 'viewing the dashboard as a student' do
 
     context 'applications have been created for a position, but are inactive' do
       let!(:inactive_app) do
-        create :application_template,
-               active: false,
-               position: position_not_hiring
+        create(:application_template, active: false, position: position_not_hiring)
       end
 
       context 'deactivated application text has been edited' do
@@ -163,7 +156,7 @@ describe 'viewing the dashboard as a student' do
 
     context 'applications are active for that position' do
       let!(:active_application) do
-        create :application_template, active: true
+        create(:application_template, active: true)
       end
 
       it 'shows links to submit the application' do

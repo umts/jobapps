@@ -55,8 +55,7 @@ describe 'creating a staff member' do
         end
         it 'has flash errors' do
           click_on 'Save changes'
-          expect(page).to have_selector '#errors',
-                                        text: "First name can't be blank"
+          expect(page).to have_css('#errors', text: "First name can't be blank")
         end
       end
     end

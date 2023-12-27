@@ -7,7 +7,7 @@ describe 'saving or unsaving applications' do
     when_current_user_is :staff
   end
   context 'saving an application record for later' do
-    let!(:record) { create :application_submission, reviewed: false }
+    let!(:record) { create(:application_submission, reviewed: false) }
     before :each do
       visit staff_dashboard_path
       click_link record.user.proper_name,
@@ -41,10 +41,10 @@ describe 'saving or unsaving applications' do
   end
   context 'moving the application record back to the dashboard' do
     let!(:record) do
-      create :application_submission,
+      create(:application_submission,
              reviewed: false,
              saved_for_later: true,
-             note_for_later: 'this is required'
+             note_for_later: 'this is required')
     end
     before :each do
       visit application_submission_path(record)
@@ -67,7 +67,7 @@ describe 'saving or unsaving applications' do
     end
   end
   context 'adding a note and date for later' do
-    let!(:record) { create :application_submission, reviewed: false }
+    let!(:record) { create(:application_submission, reviewed: false) }
     let(:saved_date) { saved_record.date_for_later.to_formatted_s(:long) }
     it 'saves all the relevant attributes' do
       visit application_submission_path(record)
@@ -83,11 +83,11 @@ describe 'saving or unsaving applications' do
     end
     context 'application_submission has been saved for later' do
       let :saved_record do
-        create :application_submission,
+        create(:application_submission,
                reviewed: false,
                note_for_later: 'This is my note',
                date_for_later: Time.zone.today,
-               saved_for_later: true
+               saved_for_later: true)
       end
       it 'displays the date on the saved_for_later page' do
         visit saved_applications_position_path(saved_record.position)

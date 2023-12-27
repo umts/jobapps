@@ -7,15 +7,15 @@ describe 'viewing eeo data page' do
   let(:start_date) { 1.week.ago.strftime('%m/%d/%Y') }
   let(:end_date) { 1.week.since.strftime('%m/%d/%Y') }
   let!(:record_with_eeo_data) do
-    create :application_submission,
+    create(:application_submission,
            ethnicity: 'White (Not of Hispanic origin)',
-           gender: 'Male'
+           gender: 'Male')
   end
   let!(:old_record_with_eeo_data) do
-    create :application_submission,
+    create(:application_submission,
            created_at: 2.weeks.ago,
            ethnicity: 'Black (Not of Hispanic origin)',
-           gender: 'Female'
+           gender: 'Female')
   end
   before :each do
     when_current_user_is :staff

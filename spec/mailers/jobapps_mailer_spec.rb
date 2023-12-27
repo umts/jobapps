@@ -11,12 +11,9 @@ describe JobappsMailer do
 
   describe 'application denial' do
     before :each do
-      position = create :position
-      @template = create :application_template,
-                         position: position, email: 'steve@sharklazers.com'
-      @application_submission = create :application_submission,
-                                       staff_note: 'note',
-                                       position: position
+      position = create(:position)
+      @template = create(:application_template, position:, email: 'steve@sharklazers.com')
+      @application_submission = create(:application_submission, staff_note: 'note', position:)
       @user = @application_submission.user
     end
     let :output do
@@ -47,17 +44,17 @@ describe JobappsMailer do
     end
     context 'rejection_message does not exist' do
       it 'does not include a reason for application denial' do
-        message = 'Your application to the '\
-          "#{@application_submission.position.name} position has been denied."
+        message = 'Your application to the ' \
+                  "#{@application_submission.position.name} position has been denied."
         expect(output.body.encoded).to include message
       end
     end
   end
 
   describe 'application_notification' do
-    let(:position) { create :position }
-    let(:subscription) { create :subscription, position: position }
-    let(:applicant) { create :user, :student }
+    let(:position) { create(:position) }
+    let(:subscription) { create(:subscription, position:) }
+    let(:applicant) { create(:user, :student) }
     let :output do
       JobappsMailer.application_notification subscription, position, applicant
     end
@@ -77,14 +74,10 @@ describe JobappsMailer do
 
   describe 'interview_confirmation' do
     before :each do
-      position = create :position
-      @template = create :application_template,
-                         position: position, email: 'steve@sharklazers.com'
-      application_submission = create :application_submission,
-                                      staff_note: 'note',
-                                      position: position
-      @interview = create :interview,
-                          application_submission: application_submission
+      position = create(:position)
+      @template = create(:application_template, position:, email: 'steve@sharklazers.com')
+      application_submission = create(:application_submission, staff_note: 'note', position:)
+      @interview = create(:interview, application_submission:)
       @user = @interview.user
     end
     let :output do
@@ -109,15 +102,10 @@ describe JobappsMailer do
 
   describe 'interview reschedule' do
     before :each do
-      position = create :position
-      @template = create :application_template,
-                         position: position,
-                         email: 'steve@sharklazers.com'
-      application_submission = create :application_submission,
-                                      staff_note: 'note',
-                                      position: position
-      @interview = create :interview,
-                          application_submission: application_submission
+      position = create(:position)
+      @template = create(:application_template, position:, email: 'steve@sharklazers.com')
+      application_submission = create(:application_submission, staff_note: 'note', position:)
+      @interview = create(:interview, application_submission:)
       @user = @interview.user
     end
     let :output do
@@ -142,14 +130,11 @@ describe JobappsMailer do
 
   describe 'send_note_for_later' do
     let :record do
-      create :application_submission,
-             saved_for_later: true,
-             note_for_later: 'We need you to grow up a little'
+      create(:application_submission, saved_for_later: true,
+             note_for_later: 'We need you to grow up a little')
     end
     let! :template do
-      create :application_template,
-             position: record.position,
-             email: 'steve@sharklazers.com'
+      create(:application_template, position: record.position, email: 'steve@sharklazers.com')
     end
     let :output do
       JobappsMailer.send_note_for_later record
@@ -175,8 +160,7 @@ describe JobappsMailer do
 
   describe 'saved_application_notification' do
     before :each do
-      @record = create :application_submission,
-                       email_to_notify: 'foo@example.com'
+      @record = create(:application_submission, email_to_notify: 'foo@example.com')
     end
     let :output do
       JobappsMailer.saved_application_notification @record
@@ -205,11 +189,10 @@ describe JobappsMailer do
 
   describe 'saved_applications_notification' do
     before :each do
-      @position = create :position
-      @record1 = create :application_submission,
-                        position: @position,
-                        note_for_later: 'This note is for later.'
-      @record2 = create :application_submission, position: @position
+      @position = create(:position)
+      @record1 = create(:application_submission, position: @position,
+                        note_for_later: 'This note is for later.')
+      @record2 = create(:application_submission, position: @position)
       @email = 'foo@example.com'
     end
     let :output do
