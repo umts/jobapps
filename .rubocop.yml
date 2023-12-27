@@ -9,8 +9,6 @@ AllCops:
     - 'bin/**/*'
     - 'config/**/*'
     - 'db/**/*'
-    - 'node_modules/**/*'
-    - 'vendor/**/*'
   NewCops: enable
 
 Lint/AmbiguousBlockAssociation:
