@@ -55,8 +55,8 @@ group :test do
   gem 'rails-controller-testing'
   gem 'rspec-html-matchers'
   gem 'rspec-rails'
+  gem 'selenium-webdriver'
   gem 'simplecov'
   gem 'timecop'
   gem 'umts-custom-matchers'
-  gem 'webdrivers'
 end
