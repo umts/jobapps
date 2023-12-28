@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 ruby file: '.ruby-version'
 
-gem 'bootstrap', '~> 4.0'
+gem 'bootstrap', '~> 5.3'
 gem 'friendly_id'
 gem 'haml'
 gem 'haml-rails'
