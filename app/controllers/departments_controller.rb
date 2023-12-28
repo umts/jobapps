@@ -9,7 +9,8 @@ class DepartmentsController < ApplicationController
       show_message :department_create,
                    default: 'Department has been created.'
       redirect_to staff_dashboard_path
-    else show_errors @department
+    else
+      show_errors @department
     end
   end
 
@@ -29,7 +30,8 @@ class DepartmentsController < ApplicationController
       show_message :department_update,
                    default: 'Department has been updated.'
       redirect_to staff_dashboard_path
-    else show_errors @department
+    else
+      show_errors @department
     end
   end
 

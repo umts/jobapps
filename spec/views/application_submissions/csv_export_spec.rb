@@ -4,7 +4,7 @@ require 'rails_helper'
 require 'csv'
 
 describe 'application_submissions/csv_export.csv.erb' do
-  before :each do
+  before do
     # this test does not simply create an application record, because
     # it is supposed to be able to be run when an actual application
     # record's response data are serialized as either a hash or an array.
@@ -15,6 +15,7 @@ describe 'application_submissions/csv_export.csv.erb' do
     record = double('record', id: @id, data: { @prompt => @response })
     assign :records, [record]
   end
+
   it 'displays comma separated id, prompt, and response for all records' do
     render
     data = CSV.parse rendered, headers: true
@@ -23,6 +24,7 @@ describe 'application_submissions/csv_export.csv.erb' do
     expect(row.fetch 'Prompt').to eql @prompt
     expect(row.fetch 'Response').to eql @response
   end
+
   it 'has the correct number of lines' do
     render
     data = CSV.parse rendered, headers: true

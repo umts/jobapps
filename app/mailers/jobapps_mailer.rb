@@ -6,16 +6,13 @@ class JobappsMailer < ApplicationMailer
     @user = @application_submission.user
     template = @application_submission.position.application_template
     reply_to = template.try :email
-    mail to: @user.email,
-         subject: 'Application Denial',
-         reply_to: reply_to
+    mail to: @user.email, subject: 'Application Denial', reply_to:
   end
 
   def application_notification(subscription, position, applicant)
     @position = position
     @applicant = applicant
-    mail to: subscription.email,
-         subject: "New application for #{position.name}"
+    mail to: subscription.email, subject: "New application for #{position.name}"
   end
 
   def interview_confirmation(interview)
@@ -23,9 +20,7 @@ class JobappsMailer < ApplicationMailer
     @user = interview.user
     template = interview.application_submission.position.application_template
     reply_to = template.try :email
-    mail to: @user.email,
-         subject: 'Interview Confirmation',
-         reply_to: reply_to
+    mail to: @user.email, subject: 'Interview Confirmation', reply_to:
   end
 
   def interview_reschedule(interview)
@@ -33,9 +28,7 @@ class JobappsMailer < ApplicationMailer
     @user = interview.user
     template = interview.application_submission.position.application_template
     reply_to = template.try :email
-    mail to: @user.email,
-         subject: 'Interview Rescheduled',
-         reply_to: reply_to
+    mail to: @user.email, subject: 'Interview Rescheduled', reply_to:
   end
 
   def send_note_for_later(application_submission)
@@ -43,9 +36,8 @@ class JobappsMailer < ApplicationMailer
     @user = application_submission.user
     @record = application_submission
     reply_to = template.try :email
-    mail to: @user.email,
-         subject: 'Your application has been saved for later review',
-         reply_to: reply_to
+    mail to: @user.email, reply_to:,
+         subject: 'Your application has been saved for later review'
   end
 
   def saved_application_notification(record)
@@ -56,7 +48,6 @@ class JobappsMailer < ApplicationMailer
 
   def saved_applications_notification(records, email)
     @records = records
-    mail to: email,
-         subject: 'Saved applications moved back to dashboard'
+    mail to: email, subject: 'Saved applications moved back to dashboard'
   end
 end

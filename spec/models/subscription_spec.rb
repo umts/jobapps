@@ -2,6 +2,7 @@
 
 require 'rails_helper'
 describe Subscription do
-  subject { create :subscription }
+  subject { create(:subscription) }
+
   it { is_expected.to be_valid }
 end

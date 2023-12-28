@@ -3,11 +3,12 @@
 require 'rails_helper'
 
 describe 'editing application draft' do
-  let!(:draft) { create :application_draft }
-  let!(:top_question) { create :question, number: 1, application_draft: draft }
-  let!(:middle_question) { create :question, number: 2, application_draft: draft }
-  let!(:bottom_question) { create :question, number: 3, application_draft: draft }
-  before :each do
+  let!(:draft) { create(:application_draft) }
+  let!(:top_question) { create(:question, number: 1, application_draft: draft) }
+  let!(:middle_question) { create(:question, number: 2, application_draft: draft) }
+  let!(:bottom_question) { create(:question, number: 3, application_draft: draft) }
+
+  before do
     when_current_user_is :staff
     visit edit_draft_path(draft)
   end
@@ -36,9 +37,9 @@ describe 'editing application draft' do
     end
 
     it 'has a field to create a new question' do
-      expect(find('#fields-container').find_all('.row.field-row').count).to be 4
+      expect(find_all('#fields-container .row.field-row').count).to be 4
       # there are 3 existing questions, the 4th textarea field is for a new one
-      expect(find('#fields-container').find_all('.row.field-row textarea').last.value).to be_empty
+      expect(find_all('#fields-container .row.field-row textarea').last.value).to be_empty
       # and it should contain no existing text
     end
 
@@ -54,10 +55,10 @@ describe 'editing application draft' do
       expect(draft.questions.count).to be 3
       # fill in the prompt of the new question by finding
       # the last one on the page by its name
-      field = find('#fields-container').find_all('textarea')[3][:name]
+      field = find_all('#fields-container textarea')[3][:name]
       fill_in(field, with: 'Stuff')
       # select a data type for the new question
-      select 'text', from: find('#fields-container').find_all('select').last[:name]
+      select 'text', from: find_all('#fields-container select').last[:name]
       click_button('Save changes and continue editing')
       draft.reload
       expect(draft.questions.count).to be 4
