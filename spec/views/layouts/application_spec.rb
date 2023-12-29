@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'layouts/application.haml' do
+describe 'layouts/application' do
   context 'when current user is present' do
     before do
       when_current_user_is create(:user)
