@@ -27,6 +27,9 @@ Metrics/BlockLength:
   Exclude:
     - 'spec/**/*'
 
+RSpec/NestedGroups:
+  Max: 4
+
 # Don't worry about documentation for now.
 # In particular, this fails for things like
 # controller files, which seems unnecessary.
