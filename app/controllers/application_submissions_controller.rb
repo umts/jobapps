@@ -23,16 +23,16 @@ class ApplicationSubmissionsController < ApplicationController
 
   def csv_export
     respond_to :csv
-    start_date = parse_date_picker_param(:start_date)
-    end_date = parse_date_picker_param(:end_date)
+    start_date = Date.parse params[:start_date]
+    end_date = Date.parse params[:end_date]
     @records = ApplicationSubmission.in_department(given_or_all_department_ids)
                                     .between(start_date, end_date)
     render layout: false
   end
 
   def eeo_data
-    start_date = parse_date_picker_param(:eeo_start_date)
-    end_date = parse_date_picker_param(:eeo_end_date)
+    start_date = Date.parse params[:eeo_start_date]
+    end_date = Date.parse params[:eeo_end_date]
     @records = ApplicationSubmission.eeo_data(start_date,
                                               end_date,
                                               given_or_all_department_ids)
@@ -41,8 +41,8 @@ class ApplicationSubmissionsController < ApplicationController
   def past_applications
     # text field tags must be unique to the page, hence records_start_date
     # instead of just start_date
-    start_date = parse_date_picker_param(:records_start_date)
-    end_date = parse_date_picker_param(:records_end_date)
+    start_date = Date.parse params[:records_start_date]
+    end_date = Date.parse params[:records_end_date]
     @records = ApplicationSubmission.in_department(given_or_all_department_ids)
                                     .between(start_date, end_date)
   end
@@ -126,9 +126,7 @@ class ApplicationSubmissionsController < ApplicationController
     parameters[:saved_for_later] = params[:commit] == 'Save for later'
     parameters[:mail_note_for_later] = parameters[:mail_note_for_later] == '1'
     if parameters[:date_for_later].present?
-      parameters[:date_for_later] = Date.strptime(
-        parameters[:date_for_later], '%m/%d/%Y'
-      )
+      parameters[:date_for_later] = Date.parse parameters[:date_for_later]
     end
     parameters
   end
