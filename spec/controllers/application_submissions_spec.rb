@@ -116,10 +116,13 @@ describe ApplicationSubmissionsController do
     end
 
     let :params do
-      { format: :csv,
-        start_date: @start_date.strftime('%m/%d/%Y'),
-        end_date: @end_date.strftime('%m/%d/%Y') }
+      {
+        format: :csv,
+        start_date: @start_date.to_formatted_s(:db),
+        end_date: @end_date.to_formatted_s(:db)
+      }
     end
+
     let(:extra_params) { {} }
     let :submit do
       get :csv_export, params: params.merge(extra_params)
@@ -184,8 +187,8 @@ describe ApplicationSubmissionsController do
     context 'submitting with the department ID param' do
       let :submit do
         get :eeo_data, params: {
-          eeo_start_date: @start_date.strftime('%m/%d/%Y'),
-          eeo_end_date: @end_date.strftime('%m/%d/%Y'),
+          eeo_start_date: @start_date.to_formatted_s(:db),
+          eeo_end_date: @end_date.to_formatted_s(:db),
           department_ids: @department.id
         }
       end
@@ -208,8 +211,8 @@ describe ApplicationSubmissionsController do
     context 'submitting without the department ID param' do
       let :submit do
         get :eeo_data, params: {
-          eeo_start_date: @start_date.strftime('%m/%d/%Y'),
-          eeo_end_date: @end_date.strftime('%m/%d/%Y')
+          eeo_start_date: @start_date.to_formatted_s(:db),
+          eeo_end_date: @end_date.to_formatted_s(:db)
         }
       end
 
@@ -242,8 +245,8 @@ describe ApplicationSubmissionsController do
     context 'submitting with the department ID param' do
       let :submit do
         get :past_applications, params: {
-          records_start_date: @start_date.strftime('%m/%d/%Y'),
-          records_end_date: @end_date.strftime('%m/%d/%Y'),
+          records_start_date: @start_date.to_formatted_s(:db),
+          records_end_date: @end_date.to_formatted_s(:db),
           department_ids: @department.id
         }
       end
@@ -272,8 +275,8 @@ describe ApplicationSubmissionsController do
     context 'submitting without the department ID param' do
       let :submit do
         get :past_applications, params: {
-          records_start_date: @start_date.strftime('%m/%d/%Y'),
-          records_end_date: @end_date.strftime('%m/%d/%Y')
+          records_start_date: @start_date.to_formatted_s(:db),
+          records_end_date: @end_date.to_formatted_s(:db)
         }
       end
 

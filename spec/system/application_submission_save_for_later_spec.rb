@@ -89,7 +89,7 @@ describe 'saving or unsaving applications' do
       page.fill_in 'application_submission_note_for_later',
                    with: 'Taken to sick bay'
       page.fill_in 'application_submission_date_for_later',
-                   with: Time.zone.today.strftime('%m/%d/%Y')
+                   with: Time.zone.today.to_formatted_s(:db)
       click_button 'Save'
       record.reload
       expect(record.note_for_later).to eql 'Taken to sick bay'
