@@ -120,15 +120,13 @@ class ApplicationSubmissionsController < ApplicationController
   end
 
   def save_for_later_params
-    parameters = params.require(:application_submission).permit(
+    params.require(:application_submission).permit(
       :note_for_later, :mail_note_for_later, :date_for_later, :email_to_notify
-    )
-    parameters[:saved_for_later] = params[:commit] == 'Save for later'
-    parameters[:mail_note_for_later] = parameters[:mail_note_for_later] == '1'
-    if parameters[:date_for_later].present?
-      parameters[:date_for_later] = Date.parse parameters[:date_for_later]
+    ).tap do |p|
+      p[:saved_for_later] = params[:commit] == 'Save for later'
+      p[:mail_note_for_later] = p[:mail_note_for_later] == '1'
+      p[:date_for_later] = Date.parse p[:date_for_later] if p[:date_for_later].present?
     end
-    parameters
   end
 
   def interview_params
