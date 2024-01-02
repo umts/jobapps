@@ -23,28 +23,22 @@ class ApplicationSubmissionsController < ApplicationController
 
   def csv_export
     respond_to :csv
-    start_date = Date.parse params[:start_date]
-    end_date = Date.parse params[:end_date]
     @records = ApplicationSubmission.in_department(given_or_all_department_ids)
-                                    .between(start_date, end_date)
+                                    .between(params[:start_date], params[:end_date])
     render layout: false
   end
 
   def eeo_data
-    start_date = Date.parse params[:eeo_start_date]
-    end_date = Date.parse params[:eeo_end_date]
-    @records = ApplicationSubmission.eeo_data(start_date,
-                                              end_date,
-                                              given_or_all_department_ids)
+    @records = ApplicationSubmission.eeo_data params[:eeo_start_date],
+                                              params[:eeo_end_date],
+                                              given_or_all_department_ids
   end
 
   def past_applications
     # text field tags must be unique to the page, hence records_start_date
     # instead of just start_date
-    start_date = Date.parse params[:records_start_date]
-    end_date = Date.parse params[:records_end_date]
     @records = ApplicationSubmission.in_department(given_or_all_department_ids)
-                                    .between(start_date, end_date)
+                                    .between(params[:records_start_date], params[:records_end_date])
   end
 
   def review
