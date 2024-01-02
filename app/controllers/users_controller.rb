@@ -10,7 +10,8 @@ class UsersController < ApplicationController
       show_message :user_create,
                    default: 'User has been created.'
       redirect_to staff_dashboard_path
-    else show_errors @user
+    else
+      show_errors @user
     end
   end
 
@@ -30,7 +31,8 @@ class UsersController < ApplicationController
       show_message :user_update,
                    default: 'User has been updated.'
       redirect_to staff_dashboard_path
-    else show_errors @user
+    else
+      show_errors @user
     end
   end
 

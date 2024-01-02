@@ -10,7 +10,7 @@ FactoryBot.define do
 
   trait :with_unavailability do
     after :create do |application|
-      create :unavailability, application_submission: application
+      create(:unavailability, application_submission: application)
     end
   end
 end

@@ -19,7 +19,7 @@ class ApplicationTemplate < ApplicationRecord
   def create_draft(user)
     return false if draft_belonging_to?(user)
 
-    draft = ApplicationDraft.create user: user, application_template: self
+    draft = ApplicationDraft.create user:, application_template: self
     draft_attributes = draft.attributes.keys
     template_attributes = attributes.keys
     excluded = %w[id created_at updated_at]

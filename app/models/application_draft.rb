@@ -67,9 +67,6 @@ class ApplicationDraft < ApplicationRecord
   private
 
   def new_question_number
-    if questions.present?
-      questions.last.number + 1
-    else 1
-    end
+    (questions.last&.number || 0) + 1
   end
 end

@@ -15,7 +15,8 @@ class InterviewsController < ApplicationController
                           interview_note: params[:interview_note]
       end
       redirect_to staff_dashboard_path
-    else show_errors @interview
+    else
+      show_errors @interview
     end
   end
 
@@ -27,7 +28,8 @@ class InterviewsController < ApplicationController
       show_message :interview_reschedule,
                    default: 'Interview has been rescheduled.'
       redirect_to staff_dashboard_path
-    else show_errors @interview
+    else
+      show_errors @interview
     end
   end
 

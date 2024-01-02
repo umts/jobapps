@@ -124,7 +124,7 @@ class ApplicationSubmission < ApplicationRecord
     all_genders.map do |gender|
       ethnicity_specs = []
       all_ethnicities.map do |ethnicity|
-        records = combined_records.where ethnicity: ethnicity, gender: gender
+        records = combined_records.where(ethnicity:, gender:)
         count = records.count
         interviewed = records.interview_count
         hired = records.hire_count
@@ -139,7 +139,7 @@ class ApplicationSubmission < ApplicationRecord
     gender_records = records.with_gender
     all_genders = GENDER_OPTIONS | gender_records.pluck(:gender)
     all_genders.map do |gender|
-      specific_records = gender_records.where gender: gender
+      specific_records = gender_records.where(gender:)
       count = specific_records.count
       interviewed = specific_records.interview_count
       hired = specific_records.hire_count
@@ -160,7 +160,7 @@ class ApplicationSubmission < ApplicationRecord
     ethnicity_records = records.with_ethnicity
     all_ethnicities = ETHNICITY_OPTIONS | ethnicity_records.pluck(:ethnicity)
     all_ethnicities.map do |ethnicity|
-      specific_records = ethnicity_records.where ethnicity: ethnicity
+      specific_records = ethnicity_records.where(ethnicity:)
       count = specific_records.count
       interviewed = specific_records.interview_count
       hired = specific_records.hire_count
