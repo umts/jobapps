@@ -7,15 +7,9 @@
 # Ignore bundler config.
 /.bundle
 
-# Ignore the default SQLite database.
-/db/*.sqlite3
-/db/*.sqlite3-journal
-
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
-
-.DS_Store
 
 # Ignore application configuration
 /config/credentials/production.key
@@ -23,14 +17,14 @@
 /config/database.yml
 
 # Ignore all of coverage, except the .last_run.json
-coverage/index.html
-coverage/assets/*
-coverage/.resultset.*
-
-Guardfile
+coverage/*
+!coverage/.last_run.json
 
 # Ignore JS packages
 /node_modules
 
 # Ignore storage files
 /storage
+
+# Ignore spec status file
+spec/examples.txt
