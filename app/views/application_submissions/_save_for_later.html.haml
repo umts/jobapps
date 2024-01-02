@@ -16,7 +16,7 @@
   .row
     .form-group.col
       = form.label :date_for_later, 'Select a date for later review'
-      = form.text_field :date_for_later, class: 'datepicker form-control',
+      = form.date_field :date_for_later, class: 'form-control',
         placeholder: 'Click here to select date...'
       %i If a date is selected, the application will 
       %i move back onto the dashboard at that time.

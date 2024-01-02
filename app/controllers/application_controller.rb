@@ -69,8 +69,4 @@ class ApplicationController < ActionController::Base
            status: :unauthorized,
            layout: false
   end
-
-  def parse_date_picker_param(name)
-    Date.strptime params.require(name), '%m/%d/%Y'
-  end
 end

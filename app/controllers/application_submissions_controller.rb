@@ -23,28 +23,22 @@ class ApplicationSubmissionsController < ApplicationController
 
   def csv_export
     respond_to :csv
-    start_date = parse_date_picker_param(:start_date)
-    end_date = parse_date_picker_param(:end_date)
     @records = ApplicationSubmission.in_department(given_or_all_department_ids)
-                                    .between(start_date, end_date)
+                                    .between(params[:start_date], params[:end_date])
     render layout: false
   end
 
   def eeo_data
-    start_date = parse_date_picker_param(:eeo_start_date)
-    end_date = parse_date_picker_param(:eeo_end_date)
-    @records = ApplicationSubmission.eeo_data(start_date,
-                                              end_date,
-                                              given_or_all_department_ids)
+    @records = ApplicationSubmission.eeo_data params[:eeo_start_date],
+                                              params[:eeo_end_date],
+                                              given_or_all_department_ids
   end
 
   def past_applications
     # text field tags must be unique to the page, hence records_start_date
     # instead of just start_date
-    start_date = parse_date_picker_param(:records_start_date)
-    end_date = parse_date_picker_param(:records_end_date)
     @records = ApplicationSubmission.in_department(given_or_all_department_ids)
-                                    .between(start_date, end_date)
+                                    .between(params[:records_start_date], params[:records_end_date])
   end
 
   def review
@@ -120,17 +114,12 @@ class ApplicationSubmissionsController < ApplicationController
   end
 
   def save_for_later_params
-    parameters = params.require(:application_submission).permit(
+    params.require(:application_submission).permit(
       :note_for_later, :mail_note_for_later, :date_for_later, :email_to_notify
-    )
-    parameters[:saved_for_later] = params[:commit] == 'Save for later'
-    parameters[:mail_note_for_later] = parameters[:mail_note_for_later] == '1'
-    if parameters[:date_for_later].present?
-      parameters[:date_for_later] = Date.strptime(
-        parameters[:date_for_later], '%m/%d/%Y'
-      )
+    ).tap do |p|
+      p[:saved_for_later] = params[:commit] == 'Save for later'
+      p[:mail_note_for_later] = p[:mail_note_for_later] == '1'
     end
-    parameters
   end
 
   def interview_params

@@ -12,11 +12,11 @@
       .form-row
         .form-group.col-md-6
           = label_tag :records_start_date, 'start date'
-          = text_field_tag :records_start_date, '',
-            required: true, class: 'form-control datepicker m-2'
+          = date_field_tag :records_start_date, '',
+            required: true, class: 'form-control m-2'
         .form-group.col-md-6
           = label_tag :records_end_date, 'end date'
-          = text_field_tag :records_end_date, '',
-            required: true, class: 'form-control datepicker m-2'
+          = date_field_tag :records_end_date, '',
+            required: true, class: 'form-control m-2'
       .form-row.mb-2
         = submit_tag 'List Applications', class: 'btn btn-primary'

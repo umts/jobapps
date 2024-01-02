@@ -10,11 +10,11 @@
     .form-row
       .form-group.col-md-6
         = label_tag :eeo_start_date, 'start date'
-        = text_field_tag :eeo_start_date, '',
-          class: 'form-control datepicker m-2', required: true
+        = date_field_tag :eeo_start_date, '',
+          class: 'form-control m-2', required: true
       .form-group.col-md-6
         = label_tag :eeo_end_date, 'end date'
-        = text_field_tag :eeo_end_date, '',
-          class: 'form-control datepicker m-2', required: true
+        = date_field_tag :eeo_end_date, '',
+          class: 'form-control m-2', required: true
     .form-row.mb-2
       = submit_tag 'List EEO data', class: 'btn btn-primary'

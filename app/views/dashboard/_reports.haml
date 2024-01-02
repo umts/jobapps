@@ -11,11 +11,11 @@
     .form-row
       .form-group.col-md-6
         = label_tag :start_date, 'start date'
-        = text_field_tag :start_date, '',
-          class: 'form-control datepicker m-2', required: true
+        = date_field_tag :start_date, '',
+          class: 'form-control m-2', required: true
       .form-group.col-md-6
         = label_tag :end_date, 'end date'
-        = text_field_tag :end_date, '',
-          class: 'form-control datepicker m-2', required: true
+        = date_field_tag :end_date, '',
+          class: 'form-control m-2', required: true
     .form-row.mb-2
       = submit_tag 'Generate CSV', class: 'btn btn-primary'

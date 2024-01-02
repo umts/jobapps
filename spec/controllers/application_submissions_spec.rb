@@ -110,16 +110,17 @@ describe ApplicationSubmissionsController do
   describe 'GET #csv_export' do
     before do
       when_current_user_is :staff
-      @start_date = 1.week.ago.to_date
-      @end_date = Time.zone.today
       @department = create(:department)
     end
 
     let :params do
-      { format: :csv,
-        start_date: @start_date.strftime('%m/%d/%Y'),
-        end_date: @end_date.strftime('%m/%d/%Y') }
+      {
+        format: :csv,
+        start_date: 1.week.ago.to_date.to_formatted_s(:db),
+        end_date: Time.zone.today.to_formatted_s(:db)
+      }
     end
+
     let(:extra_params) { {} }
     let :submit do
       get :csv_export, params: params.merge(extra_params)
@@ -140,7 +141,7 @@ describe ApplicationSubmissionsController do
 
       it 'calls AR#between with the correct parameters' do
         expect(ApplicationSubmission).to receive(:between)
-          .with @start_date, @end_date
+          .with params[:start_date], params[:end_date]
         submit
       end
 
@@ -161,7 +162,7 @@ describe ApplicationSubmissionsController do
 
       it 'calls AR#between with the correct parameters' do
         expect(ApplicationSubmission).to receive(:between)
-          .with @start_date, @end_date
+          .with params[:start_date], params[:end_date]
         submit
       end
 
@@ -174,25 +175,26 @@ describe ApplicationSubmissionsController do
   end
 
   describe 'GET #eeo_data' do
+    let :params do
+      {
+        eeo_start_date: 1.week.ago.to_date.to_formatted_s(:db),
+        eeo_end_date: 1.week.since.to_date.to_formatted_s(:db),
+      }
+    end
+
     before do
       when_current_user_is :staff
-      @start_date = 1.week.ago.to_date
-      @end_date = 1.week.since.to_date
       @department = create(:department)
     end
 
     context 'submitting with the department ID param' do
       let :submit do
-        get :eeo_data, params: {
-          eeo_start_date: @start_date.strftime('%m/%d/%Y'),
-          eeo_end_date: @end_date.strftime('%m/%d/%Y'),
-          department_ids: @department.id
-        }
+        get :eeo_data, params: params.merge(department_ids: @department.id)
       end
 
       it 'calls AR#eeo_data with the correct parameters' do
         expect(ApplicationSubmission).to receive(:eeo_data)
-          .with(@start_date, @end_date, @department.id.to_s)
+          .with(params[:eeo_start_date], params[:eeo_end_date], @department.id.to_s)
         # to_s because params are a string
         submit
       end
@@ -206,18 +208,13 @@ describe ApplicationSubmissionsController do
     end
 
     context 'submitting without the department ID param' do
-      let :submit do
-        get :eeo_data, params: {
-          eeo_start_date: @start_date.strftime('%m/%d/%Y'),
-          eeo_end_date: @end_date.strftime('%m/%d/%Y')
-        }
-      end
+      let(:submit) { get :eeo_data, params: }
 
       # the third argument in this case is not from the params,
       # it is a given array
       it 'calls AR#eeo_data with the correct parameters' do
         expect(ApplicationSubmission).to receive(:eeo_data)
-          .with(@start_date, @end_date, Department.all.pluck(:id))
+          .with(params[:eeo_start_date], params[:eeo_end_date], Department.all.pluck(:id))
           .and_return ApplicationSubmission.none
         submit
       end
@@ -232,25 +229,27 @@ describe ApplicationSubmissionsController do
   end
 
   describe 'GET #past_applications' do
+    let :params do
+      {
+        records_start_date: 1.week.ago.to_date.to_formatted_s(:db),
+        records_end_date: Time.zone.today.to_formatted_s(:db),
+      }
+    end
+
     before do
       when_current_user_is :staff
-      @start_date = 1.week.ago.to_date
-      @end_date = Time.zone.today
       @department = create(:department)
     end
 
     context 'submitting with the department ID param' do
-      let :submit do
-        get :past_applications, params: {
-          records_start_date: @start_date.strftime('%m/%d/%Y'),
-          records_end_date: @end_date.strftime('%m/%d/%Y'),
-          department_ids: @department.id
-        }
+
+      let(:submit) do
+        get :past_applications, params: params.merge(department_ids: @department.id)
       end
 
       it 'calls AR#between with the correct parameters' do
         expect(ApplicationSubmission).to receive(:between)
-          .with @start_date, @end_date
+          .with params[:records_start_date], params[:records_end_date]
         submit
       end
 
@@ -270,16 +269,11 @@ describe ApplicationSubmissionsController do
     end
 
     context 'submitting without the department ID param' do
-      let :submit do
-        get :past_applications, params: {
-          records_start_date: @start_date.strftime('%m/%d/%Y'),
-          records_end_date: @end_date.strftime('%m/%d/%Y')
-        }
-      end
+      let(:submit) { get :past_applications, params: }
 
       it 'calls AR#between with the correct parameters' do
         expect(ApplicationSubmission).to receive(:between)
-          .with @start_date, @end_date
+          .with params[:records_start_date], params[:records_end_date]
         submit
       end
 

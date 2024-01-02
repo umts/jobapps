@@ -3,9 +3,8 @@
 require 'rails_helper'
 
 describe 'viewing eeo data page' do
-  # datepicker requires m/d/Y format
-  let(:start_date) { 1.week.ago.strftime('%m/%d/%Y') }
-  let(:end_date) { 1.week.since.strftime('%m/%d/%Y') }
+  let(:start_date) { 1.week.ago.to_formatted_s(:db) }
+  let(:end_date) { 1.week.since.to_formatted_s(:db) }
   let!(:record_with_eeo_data) do
     create(:application_submission,
            ethnicity: 'White (Not of Hispanic origin)',
