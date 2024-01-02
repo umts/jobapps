@@ -125,7 +125,6 @@ class ApplicationSubmissionsController < ApplicationController
     ).tap do |p|
       p[:saved_for_later] = params[:commit] == 'Save for later'
       p[:mail_note_for_later] = p[:mail_note_for_later] == '1'
-      p[:date_for_later] = Date.parse p[:date_for_later] if p[:date_for_later].present?
     end
   end
 
