@@ -21,6 +21,8 @@ class PrintRecordPdf
     unavailability_calendar
   end
 
+  private
+
   def document
     @document ||= Prawn::Document.new.tap do |doc|
       doc.font_families.update 'DejaVu Sans' => {
