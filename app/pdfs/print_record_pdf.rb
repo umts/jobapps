@@ -57,10 +57,18 @@ class PrintRecordPdf
       column_widths = [(@content_width / 2), (@content_width / 2)]
       cell_style = { borders: [:bottom], border_width: 0.5, font: 'DejaVu Sans', padding: 12 }
 
-      table(@record.data_rows, header: true, column_widths:, cell_style:) do
-        style row(0), size: 20
-      end
+      table(table_data, header: true, column_widths:, cell_style:)
     end
+  end
+
+  def table_data
+    headers = [make_cell(content: 'Question', size: 20), make_cell(content: 'Response', size: 20)]
+
+    @record.data.filter_map do |prompt, response, data_type, _id|
+      next if %w[heading explanation].include? data_type
+
+      [prompt, response]
+    end.unshift headers
   end
 
   def unavailability_rows
