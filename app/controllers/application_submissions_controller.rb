@@ -69,12 +69,7 @@ class ApplicationSubmissionsController < ApplicationController
     @interview = @record.interview
     respond_to do |format|
       format.html
-      format.pdf do
-        pdf = PrintRecordPdf.new(@record)
-        send_data pdf.render, filename: "#{@record.user.full_name}.pdf",
-                              type: 'application/pdf',
-                              disposition: :inline
-      end
+      format.pdf { render pdf: PrintRecordPdf.new(@record), filename: @record.user.full_name }
     end
   end
 
