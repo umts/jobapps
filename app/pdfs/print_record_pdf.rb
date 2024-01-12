@@ -7,17 +7,18 @@ class PrintRecordPdf
   include Prawn::View
 
   def initialize(record)
+    @record = record
+    @content_width = bounds.width - 10
+
     font 'DejaVu Sans'
 
     page_border
-    content_width = bounds.width - 10
-    column_width = content_width / 2
-    header_content(content_width, record)
-    table_content(content_width, column_width, record)
-    return if record.unavailability.blank?
+    header_content
+    table_content
+    return if @record.unavailability.blank?
 
     start_new_page
-    unavailability_calendar(record.unavailability)
+    unavailability_calendar
   end
 
   def document
@@ -28,13 +29,13 @@ class PrintRecordPdf
     end
   end
 
-  def header_content(content_width, record)
-    date = record.created_at.to_formatted_s :long_with_time
-    name = record.user.full_name
-    email = record.user.email
-    bounding_box([5, cursor], width: content_width) do
+  def header_content
+    date = @record.created_at.to_formatted_s :long_with_time
+    name = @record.user.full_name
+    email = @record.user.email
+    bounding_box([5, cursor], width: @content_width) do
       move_down 20
-      text "#{record.position.name} Application Record", size: 24
+      text "#{@record.position.name} Application Record", size: 24
       text "submitted #{date} by #{name}, #{email}"
       move_down 5
       move_down 10
@@ -49,16 +50,13 @@ class PrintRecordPdf
     end
   end
 
-  def table_content(content_width, column_width, record)
-    bounding_box([5, cursor - 5], width: content_width) do
-      table record.data_rows do
+  def table_content
+    bounding_box([5, cursor - 5], width: @content_width) do
+      column_widths = [(@content_width / 2), (@content_width / 2)]
+      cell_style = { borders: [:bottom], border_width: 0.5, font: 'DejaVu Sans', padding: 12 }
+
+      table(@record.data_rows, header: true, column_widths:, cell_style:) do
         style row(0), size: 20
-        cells.padding = 12
-        self.header = true
-        self.column_widths = [column_width, column_width]
-        self.cell_style = {
-          borders: [:bottom], border_width: 0.5, font: 'DejaVu Sans'
-        }
       end
     end
   end
@@ -71,9 +69,10 @@ class PrintRecordPdf
     rows.unshift headers
   end
 
-  def unavailability_calendar(unavailability)
+  def unavailability_calendar
     move_down 10
     text 'Applicant Unavailability', size: 24, align: :center
+    unavailability = @record.unavailability
     table unavailability_rows, position: :center do
       style row(0), size: 10
       cells.style do |cell|
