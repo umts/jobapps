@@ -3,16 +3,12 @@
 require 'prawn'
 require 'prawn/table'
 
-class PrintRecordPdf < Prawn::Document
+class PrintRecordPdf
+  include Prawn::View
+
   def initialize(record)
-    super()
-    # need a true-type font for all UTF-8 Characters
-    font_families.update(
-      'DejaVu Sans' => {
-        normal: Rails.root.join('app/assets/fonts/DejaVuSans.ttf')
-      }
-    )
     font 'DejaVu Sans'
+
     page_border
     content_width = bounds.width - 10
     column_width = content_width / 2
@@ -22,6 +18,14 @@ class PrintRecordPdf < Prawn::Document
 
     start_new_page
     unavailability_calendar(record.unavailability)
+  end
+
+  def document
+    @document ||= Prawn::Document.new.tap do |doc|
+      doc.font_families.update 'DejaVu Sans' => {
+        normal: Rails.root.join('app/assets/fonts/DejaVuSans.ttf')
+      }
+    end
   end
 
   def header_content(content_width, record)
