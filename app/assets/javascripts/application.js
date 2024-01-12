@@ -13,8 +13,6 @@
 //= require jquery
 //= require rails-ujs
 //= require jquery-ui-dist/jquery-ui
-//= require jquery-datetimepicker/jquery.datetimepicker.js
-//= require moment/moment.js
 //= require multiple-select/dist/multiple-select.js
 //= require jquery.maskedinput/src/jquery.maskedinput.js
 //= require datatables.net/js/jquery.dataTables.js
