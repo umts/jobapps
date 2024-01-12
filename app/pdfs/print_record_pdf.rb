@@ -72,21 +72,22 @@ class PrintRecordPdf
   end
 
   def unavailability_rows
-    headers = Unavailability::HOURS.dup.unshift nil
-    rows = Date::DAYNAMES.map do |name|
-      ([nil] * Unavailability::HOURS.count).unshift name
-    end
-    rows.unshift headers
+    headers = [nil] + Unavailability::HOURS.map { |hr| make_cell(content: hr, size: 10) }
+
+    Date::DAYNAMES.map do |name|
+      [name] + Unavailability::HOURS.map { nil }
+    end.unshift headers
   end
 
   def unavailability_calendar
     move_down 10
     text 'Applicant Unavailability', size: 24, align: :center
-    unavailability = @record.unavailability
+    unavailability = @record.unavailability.grid
     table unavailability_rows, position: :center do
-      style row(0), size: 10
       cells.style do |cell|
-        cell.background_color = 'b0b0b0' if unavailability.grid[cell.row - 1][cell.column - 1]
+        if cell.row.positive? && cell.column.positive? && unavailability[cell.row - 1][cell.column - 1]
+          cell.background_color = 'b0b0b0'
+        end
       end
     end
   end
