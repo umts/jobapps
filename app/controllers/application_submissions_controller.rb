@@ -7,6 +7,16 @@ class ApplicationSubmissionsController < ApplicationController
                                          eeo_data
                                          past_applications]
 
+  def show
+    deny_access and return unless @current_user == @record.user || @current_user.try(:staff?)
+
+    @interview = @record.interview
+    respond_to do |format|
+      format.html
+      format.pdf { render pdf: PrintRecordPdf.new(@record), filename: @record.user.full_name }
+    end
+  end
+
   def create
     create_user if @current_user.blank?
     data = ApplicationDataParser.new(params.require(:data)).result
@@ -61,16 +71,6 @@ class ApplicationSubmissionsController < ApplicationController
       flash[:errors] = @record.errors.full_messages
     end
     redirect_to staff_dashboard_path
-  end
-
-  def show
-    deny_access and return unless @current_user == @record.user || @current_user.try(:staff?)
-
-    @interview = @record.interview
-    respond_to do |format|
-      format.html
-      format.pdf { render pdf: PrintRecordPdf.new(@record), filename: @record.user.full_name }
-    end
   end
 
   def unreject
