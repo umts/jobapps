@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe ApplicationSubmissionHelper do
   describe 'format_response' do
-    it 'is a blanks string for blank responses' do
+    it 'is a blank string for blank responses' do
       expect(format_response(nil, 'anything')).to eq('')
     end
 
