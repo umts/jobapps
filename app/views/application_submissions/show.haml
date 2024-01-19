@@ -32,7 +32,7 @@
           %i= render_markdown prompt
       - else
         %td=prompt
-        %td= format_response response, data_type
+      %td=response
 
 -if @record.unavailability.present?
   %strong Unavailability

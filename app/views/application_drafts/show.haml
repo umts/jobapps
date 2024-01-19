@@ -42,10 +42,11 @@
               id: index,
               class: 'form-control'
           - when 'date'
-            = r.date_field question.prompt,
+            = r.text_field question.prompt,
               required: question.required?,
-              class: 'form-control',
-              id: index
+              class: 'form-control datepicker',
+              id: index,
+              placeholder: 'Click here to select date...'
           - when 'number'
             = r.number_field question.prompt,
               required: question.required?,
