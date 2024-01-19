@@ -4,6 +4,7 @@ require 'prawn'
 require 'prawn/table'
 
 class PrintRecordPdf
+  include ApplicationSubmissionHelper
   include Prawn::View
 
   def initialize(record)
@@ -67,7 +68,7 @@ class PrintRecordPdf
     @record.data.filter_map do |prompt, response, data_type, _id|
       next if %w[heading explanation].include? data_type
 
-      [prompt, response]
+      [prompt, format_response(response, data_type)]
     end.unshift headers
   end
 
