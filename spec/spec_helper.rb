@@ -5,7 +5,7 @@ require 'simplecov'
 require 'umts_custom_matchers'
 
 SimpleCov.start 'rails' do
-  refuse_coverage_drop
+  refuse_coverage_drop if ENV['CI']
 end
 
 RSpec.configure do |config|
