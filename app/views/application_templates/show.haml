@@ -82,10 +82,9 @@
                 id: index,
                 value: @old_data[question.id] || ""
             - when 'date'
-              = r.text_field question.unique_name,
+              = r.date_field question.unique_name,
                 required: question.required?,
-                class: 'form-control datepicker',
-                placeholder: 'Click here to select date...',
+                class: 'form-control',
                 id: index,
                 value: @old_data[question.id] || ""
             - when 'number'
