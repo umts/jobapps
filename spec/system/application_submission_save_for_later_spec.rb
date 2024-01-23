@@ -38,8 +38,8 @@ describe 'saving or unsaving applications' do
     end
 
     it 'moves the application record off the dashboard' do
-      expect(page).not_to have_link record.user.proper_name,
-                                    href: application_submission_path(record)
+      expect(page).to have_no_link record.user.proper_name,
+                                   href: application_submission_path(record)
     end
 
     it 'puts a notice in the flash' do
@@ -82,14 +82,14 @@ describe 'saving or unsaving applications' do
 
   context 'adding a note and date for later' do
     let!(:record) { create(:application_submission, reviewed: false) }
-    let(:saved_date) { saved_record.date_for_later.to_formatted_s(:long) }
+    let(:saved_date) { saved_record.date_for_later.to_fs(:long) }
 
     it 'saves all the relevant attributes' do
       visit application_submission_path(record)
       page.fill_in 'application_submission_note_for_later',
                    with: 'Taken to sick bay'
       page.fill_in 'application_submission_date_for_later',
-                   with: Time.zone.today.to_formatted_s(:db)
+                   with: Time.zone.today.to_fs(:db)
       click_button 'Save'
       record.reload
       expect(record.note_for_later).to eql 'Taken to sick bay'

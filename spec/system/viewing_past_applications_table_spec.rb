@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 describe 'viewing table of past applications' do
-  let(:start_date) { 1.week.ago.to_formatted_s(:db) }
-  let(:end_date) { 1.week.since.to_formatted_s(:db) }
+  let(:start_date) { 1.week.ago.to_fs(:db) }
+  let(:end_date) { 1.week.since.to_fs(:db) }
   let!(:record) do
     create(:application_submission,
            rejection_message: "it's not you, it's me",
@@ -44,7 +44,7 @@ describe 'viewing table of past applications' do
   end
 
   it 'displays the formatted creation date of the application records' do
-    expect(page).to have_text record.created_at.to_formatted_s(:long_with_time)
+    expect(page).to have_text record.created_at.to_fs(:long_with_time)
   end
 
   it 'displays the staff note of the applications' do
@@ -60,13 +60,13 @@ describe 'viewing table of past applications' do
   end
 
   it 'displays the date any interviews are scheduled' do
-    time = record.interview.scheduled.to_formatted_s(:long_with_time)
+    time = record.interview.scheduled.to_fs(:long_with_time)
     expect(page).to have_text time
   end
 
   it 'displays the date any interviews were completed' do
     time = record_with_completed_interview
-           .interview.scheduled.to_formatted_s(:long_with_time)
+           .interview.scheduled.to_fs(:long_with_time)
     expect(page).to have_text "Completed #{time}"
   end
 

@@ -116,8 +116,8 @@ describe ApplicationSubmissionsController do
     let :params do
       {
         format: :csv,
-        start_date: 1.week.ago.to_date.to_formatted_s(:db),
-        end_date: Time.zone.today.to_formatted_s(:db)
+        start_date: 1.week.ago.to_date.to_fs(:db),
+        end_date: Time.zone.today.to_fs(:db)
       }
     end
 
@@ -155,7 +155,7 @@ describe ApplicationSubmissionsController do
     context 'submitting without the department ID param' do
       it 'calls AR#in_department with all department IDs' do
         expect(ApplicationSubmission).to receive(:in_department)
-          .with(Department.all.pluck(:id)).and_return ApplicationSubmission.none
+          .with(Department.pluck(:id)).and_return ApplicationSubmission.none
         # must return something - another method is called on the results
         submit
       end
@@ -177,8 +177,8 @@ describe ApplicationSubmissionsController do
   describe 'GET #eeo_data' do
     let :params do
       {
-        eeo_start_date: 1.week.ago.to_date.to_formatted_s(:db),
-        eeo_end_date: 1.week.since.to_date.to_formatted_s(:db),
+        eeo_start_date: 1.week.ago.to_date.to_fs(:db),
+        eeo_end_date: 1.week.since.to_date.to_fs(:db)
       }
     end
 
@@ -214,7 +214,7 @@ describe ApplicationSubmissionsController do
       # it is a given array
       it 'calls AR#eeo_data with the correct parameters' do
         expect(ApplicationSubmission).to receive(:eeo_data)
-          .with(params[:eeo_start_date], params[:eeo_end_date], Department.all.pluck(:id))
+          .with(params[:eeo_start_date], params[:eeo_end_date], Department.pluck(:id))
           .and_return ApplicationSubmission.none
         submit
       end
@@ -231,8 +231,8 @@ describe ApplicationSubmissionsController do
   describe 'GET #past_applications' do
     let :params do
       {
-        records_start_date: 1.week.ago.to_date.to_formatted_s(:db),
-        records_end_date: Time.zone.today.to_formatted_s(:db),
+        records_start_date: 1.week.ago.to_date.to_fs(:db),
+        records_end_date: Time.zone.today.to_fs(:db)
       }
     end
 
@@ -242,7 +242,6 @@ describe ApplicationSubmissionsController do
     end
 
     context 'submitting with the department ID param' do
-
       let(:submit) do
         get :past_applications, params: params.merge(department_ids: @department.id)
       end
@@ -280,7 +279,7 @@ describe ApplicationSubmissionsController do
       it 'calls AR#in_department with all department IDs' do
         # must return something, as a method is called on the results
         expect(ApplicationSubmission).to receive(:in_department)
-          .with(Department.all.pluck(:id)).and_return ApplicationSubmission.none
+          .with(Department.pluck(:id)).and_return ApplicationSubmission.none
         submit
       end
 

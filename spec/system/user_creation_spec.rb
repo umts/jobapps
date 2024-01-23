@@ -78,7 +78,7 @@ describe 'creating a staff member' do
 
     it 'does not have link for user creation page' do
       visit staff_dashboard_path
-      expect(page).not_to have_link 'Add new staff member'
+      expect(page).to have_no_link 'Add new staff member'
     end
 
     it 'does not give access' do

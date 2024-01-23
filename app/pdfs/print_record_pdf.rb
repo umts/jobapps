@@ -33,7 +33,7 @@ class PrintRecordPdf
   end
 
   def header_content
-    date = @record.created_at.to_formatted_s :long_with_time
+    date = @record.created_at.to_fs :long_with_time
     name = @record.user.full_name
     email = @record.user.email
     bounding_box([5, cursor], width: @content_width) do

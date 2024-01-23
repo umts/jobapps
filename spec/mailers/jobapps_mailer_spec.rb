@@ -206,7 +206,7 @@ describe JobappsMailer do
     end
 
     it 'includes the date applied' do
-      expect(output.body.encoded).to include(record.created_at.to_formatted_s(:long_with_time))
+      expect(output.body.encoded).to include(record.created_at.to_fs(:long_with_time))
     end
 
     it 'includes the note for later if it exists' do
@@ -247,7 +247,7 @@ describe JobappsMailer do
     end
 
     it 'includes the dates applied' do
-      dates = records.map { |r| r.created_at.to_formatted_s(:long_with_time) }
+      dates = records.map { |r| r.created_at.to_fs(:long_with_time) }
       expect(output.body.encoded).to include(*dates)
     end
 

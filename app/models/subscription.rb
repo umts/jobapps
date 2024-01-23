@@ -6,7 +6,5 @@ class Subscription < ApplicationRecord
 
   validates :position, uniqueness: { scope: :email }
 
-  validates :email,
-            :user,
-            :position, presence: true
+  validates :email, presence: true
 end
