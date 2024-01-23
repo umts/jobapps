@@ -5,9 +5,8 @@
     .row
       .form-group.col
         = f.label :scheduled, 'Date/time'
-        = f.text_field :scheduled,
-          class: 'datetimepicker form-control',
-          placeholder: 'Click here to select date/time...',
+        = f.datetime_field :scheduled,
+          class: 'form-control',
           size: 40, required: true
       .form-group.col
         = f.label :location

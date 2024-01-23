@@ -4,7 +4,6 @@ require 'rails_helper'
 
 describe 'viewing table of past applications' do
   let(:start_date) { 1.week.ago.to_formatted_s(:db) }
-  # datepicker requires m/d/Y format
   let(:end_date) { 1.week.since.to_formatted_s(:db) }
   let!(:record) do
     create(:application_submission,

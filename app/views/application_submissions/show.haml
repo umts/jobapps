@@ -69,10 +69,9 @@
         id: @interview.id do
         .form-group
           = label_tag :scheduled, 'New interview date/time:'
-          = text_field_tag :scheduled, '',
+          = datetime_field_tag :scheduled, '',
             required: true,
-            placeholder: 'Click here to select date/time...',
-            class: 'form-control datetimepicker'
+            class: 'form-control'
         .form-group
           = label_tag :location, 'New location:'
           = text_field_tag :location, @interview.location,
