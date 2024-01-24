@@ -50,7 +50,7 @@ describe 'editing application draft' do
   end
 
   context 'clicking save changes and continue editing button' do
-    it 'will add new questions to the draft' do
+    it 'adds new questions to the draft' do
       # draft starts with 3 questions
       expect(draft.questions.count).to be 3
       # fill in the prompt of the new question by finding
@@ -65,7 +65,7 @@ describe 'editing application draft' do
       expect(draft.questions.last.prompt).to eql 'Stuff'
     end
 
-    it 'will save changes made to questions' do
+    it 'saves changes made to questions' do
       expect(draft.questions.first.prompt).to eql 'Question prompt'
       # change the prompt of one of the questions
       fill_in(all('textarea').first[:name], with: 'A different prompt')

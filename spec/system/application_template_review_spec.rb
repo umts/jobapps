@@ -38,7 +38,7 @@ describe 'reviewing application templates' do
   end
 
   it 'does not contain a submit button for the form' do
-    expect(page).not_to have_button('Submit application')
+    expect(page).to have_no_button('Submit application')
   end
 
   it 'pre-fills the personal information values' do

@@ -8,9 +8,7 @@ class Position < ApplicationRecord
   has_many :subscriptions, dependent: :destroy
   has_many :users, through: :subscriptions
 
-  validates :department,
-            :name,
-            presence: true
+  validates :name, presence: true
 
   default_scope { order :name }
 

@@ -13,7 +13,7 @@ class ApplicationTemplate < ApplicationRecord
   belongs_to :position
   delegate :department, to: :position
 
-  validates :position, presence: true, uniqueness: true
+  validates :position, uniqueness: true
   validates :active, inclusion: { in: [true, false] }
 
   def create_draft(user)

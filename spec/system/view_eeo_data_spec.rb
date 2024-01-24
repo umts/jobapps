@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 describe 'viewing eeo data page' do
-  let(:start_date) { 1.week.ago.to_formatted_s(:db) }
-  let(:end_date) { 1.week.since.to_formatted_s(:db) }
+  let(:start_date) { 1.week.ago.to_fs(:db) }
+  let(:end_date) { 1.week.since.to_fs(:db) }
   let!(:record_with_eeo_data) do
     create(:application_submission,
            ethnicity: 'White (Not of Hispanic origin)',
@@ -47,19 +47,19 @@ describe 'viewing eeo data page' do
   it 'does not display ethnicity of outdated application' do
     within('table.data_table') do
       expect(page)
-        .not_to have_text old_record_with_eeo_data.ethnicity
+        .to have_no_text old_record_with_eeo_data.ethnicity
     end
   end
 
   it 'does not display the gender of outdated application' do
     within('table.data_table') do
       expect(page)
-        .not_to have_text old_record_with_eeo_data.gender
+        .to have_no_text old_record_with_eeo_data.gender
     end
   end
 
   it 'displays the formatted creation date of the application records' do
-    time = record_with_eeo_data.created_at.to_formatted_s :long_with_time
+    time = record_with_eeo_data.created_at.to_fs :long_with_time
     expect(page).to have_text time
   end
 end

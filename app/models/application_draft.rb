@@ -8,7 +8,6 @@ class ApplicationDraft < ApplicationRecord
   delegate :position, to: :application_template
 
   validates :application_template, uniqueness: { scope: :user_id }
-  validates :application_template, :user, presence: true
 
   def move_question(question_number, direction)
     transaction do

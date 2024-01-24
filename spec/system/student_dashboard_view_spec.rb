@@ -68,7 +68,7 @@ describe 'viewing the dashboard as a student' do
             expect(page.current_path)
               .to eql application_submission_path(denied_application)
             expect(page).to have_text 'Your application has been denied.'
-            expect(page).not_to have_text 'Reason: No'
+            expect(page).to have_no_text 'Reason: No'
           end
         end
 

@@ -38,7 +38,7 @@ context 'with staff privilege' do
 
   it 'does not have the link' do
     visit staff_dashboard_path
-    expect(page).not_to have_link user.proper_name
+    expect(page).to have_no_link user.proper_name
   end
 
   it 'does not give access' do

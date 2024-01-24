@@ -7,14 +7,8 @@ class Interview < ApplicationRecord
            :position,
            to: :application_submission
 
-  validates :completed,
-            :hired,
-            inclusion: { in: [true, false], message: 'must be true or false' }
-  validates :application_submission,
-            :location,
-            :scheduled,
-            :user,
-            presence: true
+  validates :completed, :hired, inclusion: { in: [true, false], message: 'must be true or false' }
+  validates :location, :scheduled, presence: true
   validates :application_submission_id, uniqueness: true
 
   after_create :send_confirmation
@@ -39,11 +33,11 @@ class Interview < ApplicationRecord
       cal.publish
 
       event = Icalendar::Event.new.tap do |e|
-        e.dtstart = scheduled.to_formatted_s :ical
+        e.dtstart = scheduled.to_fs :ical
         e.description = application_submission.url
         e.summary = calendar_title
         e.uid = "INTERVIEW#{id}@UMASS_TRANSIT//JOBAPPS"
-        e.dtstamp = created_at.to_formatted_s :ical
+        e.dtstamp = created_at.to_fs :ical
         e.status = 'CONFIRMED'
       end
       cal.add_event event
@@ -52,7 +46,7 @@ class Interview < ApplicationRecord
   # rubocop:enable Metrics/AbcSize
 
   def information(options = {})
-    info = "#{scheduled.to_formatted_s :long_with_time} at #{location}"
+    info = "#{scheduled.to_fs :long_with_time} at #{location}"
     info += ": #{user.proper_name}" if options.key? :include_name
     info
   end

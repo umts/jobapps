@@ -174,7 +174,7 @@ describe InterviewsController do
 
       it 'has a start time' do
         expect(calendar_fields.fetch 'DTSTART')
-          .to eq @interview.scheduled.to_formatted_s :ical
+          .to eq @interview.scheduled.to_fs :ical
       end
 
       it 'has a summary' do
@@ -190,7 +190,7 @@ describe InterviewsController do
 
       it 'has a stamp' do
         expect(calendar_fields.fetch 'DTSTART')
-          .to eq @interview.created_at.to_formatted_s :ical
+          .to eq @interview.created_at.to_fs :ical
       end
     end
   end

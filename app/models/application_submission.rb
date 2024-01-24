@@ -16,7 +16,7 @@ class ApplicationSubmission < ApplicationRecord
   serialize :data, Array
 
   # validate ethnicity and gender in constants but allow blank
-  validates :position, :data, :user, presence: true
+  validates :data, presence: true
   validates :reviewed, inclusion: { in: [true, false] }
   validates :note_for_later, presence: true, if: :saved_for_later
 

@@ -3,20 +3,14 @@
 class ApplicationDraftsController < ApplicationController
   before_action :find_draft, except: :new
 
-  def destroy
-    @draft.destroy
-    flash[:message] = 'Your draft has been discarded.'
-    redirect_to staff_dashboard_url
-  end
-
-  def edit
-    @draft.questions << @draft.new_question
-  end
-
   def new
     template = ApplicationTemplate.find(params.require :application_template_id)
     @draft = template.create_draft(@current_user) || template.draft_belonging_to(@current_user)
     redirect_to edit_draft_path(@draft)
+  end
+
+  def edit
+    @draft.questions << @draft.new_question
   end
 
   def update
@@ -31,6 +25,12 @@ class ApplicationDraftsController < ApplicationController
     when 'Preview changes'
       render 'show'
     end
+  end
+
+  def destroy
+    @draft.destroy
+    flash[:message] = 'Your draft has been discarded.'
+    redirect_to staff_dashboard_url
   end
 
   def update_application_template
