@@ -31,12 +31,12 @@ describe 'subscriptions' do
     end
 
     it 'does not display subscription belonging to another user' do
-      expect(page).not_to have_text subscription.email
+      expect(page).to have_no_text subscription.email
     end
 
     it 'only displays emails that have been subscribed to this position' do
       visit edit_position_path(other_position)
-      expect(page).not_to have_text subscription.email
+      expect(page).to have_no_text subscription.email
     end
   end
 
@@ -54,7 +54,7 @@ describe 'subscriptions' do
     it 'removes the email from the page when remove is clicked' do
       form = within('.subscriptions') { find('form.button_to') }
       within(form) { find('button').click }
-      expect(page).not_to have_text subscription.email
+      expect(page).to have_no_text subscription.email
     end
   end
 end

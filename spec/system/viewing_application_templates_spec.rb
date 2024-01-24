@@ -40,14 +40,14 @@ describe 'viewing application forms on dashboard' do
     click_link 'Edit application',
                href: action_path
     expect(page.current_path)
-      .to eql edit_draft_path(ApplicationDraft.all.last.id)
+      .to eql edit_draft_path(ApplicationDraft.last.id)
   end
 
   it 'has a link to create an application if one does not exist' do
     click_link 'Create application',
                href: new_application_path(position_id: position.id)
     expect(page.current_path)
-      .to eql edit_draft_path(ApplicationDraft.all.last.id)
+      .to eql edit_draft_path(ApplicationDraft.last.id)
   end
 
   it 'has a button to discard drafts' do

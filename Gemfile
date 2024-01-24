@@ -12,12 +12,12 @@ gem 'matrix'
 gem 'mysql2'
 gem 'prawn'
 gem 'prawn-table'
-gem 'rails', '~> 6.1.3'
-
 gem 'puma'
+gem 'rails', '~> 7.0.8'
 gem 'redcarpet'
 gem 'sass-rails'
 gem 'snappconfig'
+gem 'sprockets-rails'
 gem 'uglifier'
 gem 'whenever', require: false
 

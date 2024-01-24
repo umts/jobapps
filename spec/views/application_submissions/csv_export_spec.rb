@@ -3,7 +3,7 @@
 require 'rails_helper'
 require 'csv'
 
-describe 'application_submissions/csv_export.csv.erb' do
+describe 'application_submissions/csv_export' do
   subject(:data) { CSV.parse rendered, headers: true }
 
   let(:prompt) { 'A question' }

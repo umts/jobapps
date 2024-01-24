@@ -4,6 +4,9 @@ class UsersController < ApplicationController
   before_action :find_user, only: %i[destroy edit update]
   before_action :allow_only_admin
 
+  def new; end
+  def edit; end
+
   def create
     @user = User.new user_parameters
     if @user.save
@@ -15,17 +18,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def destroy
-    @user.destroy
-    show_message :user_destroy,
-                 default: 'User has been removed.'
-    redirect_to staff_dashboard_path
-  end
-
-  def edit; end
-
-  def new; end
-
   def update
     if @user.update user_parameters
       show_message :user_update,
@@ -34,6 +26,13 @@ class UsersController < ApplicationController
     else
       show_errors @user
     end
+  end
+
+  def destroy
+    @user.destroy
+    show_message :user_destroy,
+                 default: 'User has been removed.'
+    redirect_to staff_dashboard_path
   end
 
   def promote

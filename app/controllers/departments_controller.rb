@@ -3,6 +3,9 @@
 class DepartmentsController < ApplicationController
   before_action :find_department, only: %i[destroy edit update]
 
+  def new; end
+  def edit; end
+
   def create
     @department = Department.new department_parameters
     if @department.save
@@ -14,17 +17,6 @@ class DepartmentsController < ApplicationController
     end
   end
 
-  def destroy
-    @department.destroy
-    show_message :department_destroy,
-                 default: 'Department has been deleted.'
-    redirect_to staff_dashboard_path
-  end
-
-  def edit; end
-
-  def new; end
-
   def update
     if @department.update department_parameters
       show_message :department_update,
@@ -33,6 +25,13 @@ class DepartmentsController < ApplicationController
     else
       show_errors @department
     end
+  end
+
+  def destroy
+    @department.destroy
+    show_message :department_destroy,
+                 default: 'Department has been deleted.'
+    redirect_to staff_dashboard_path
   end
 
   private

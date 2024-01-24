@@ -71,7 +71,7 @@ describe 'reviewing applications' do
   end
 
   it 'provides a means to reschedule the interview' do
-    time = interview.scheduled.to_formatted_s :long_with_time
+    time = interview.scheduled.to_fs :long_with_time
     click_link reviewed_record.interview.information(include_name: true)
     expect(page).to have_text "Interview is scheduled for: #{time}"
     Timecop.freeze do

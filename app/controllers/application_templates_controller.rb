@@ -4,13 +4,6 @@ class ApplicationTemplatesController < ApplicationController
   skip_before_action :access_control, only: :show
   before_action :find_template, except: :new
 
-  def new
-    position = Position.find(params.require :position_id)
-    template = ApplicationTemplate.create!(position:, active: true)
-    @draft = template.create_draft @current_user
-    redirect_to edit_draft_path(@draft)
-  end
-
   def show
     @old_applications = @current_user.try(:old_applications,
                                           @template)
@@ -19,6 +12,13 @@ class ApplicationTemplatesController < ApplicationController
 
     @old_data = ApplicationSubmission.find(params[:load_id])
                                      .try :questions_hash || {}
+  end
+
+  def new
+    position = Position.find(params.require :position_id)
+    template = ApplicationTemplate.create!(position:, active: true)
+    @draft = template.create_draft @current_user
+    redirect_to edit_draft_path(@draft)
   end
 
   def toggle_active

@@ -6,7 +6,7 @@ module ApplicationSubmissionHelper
 
     case type
     when 'date'
-      response.to_date.to_formatted_s
+      response.to_date.to_fs
     else
       response
     end

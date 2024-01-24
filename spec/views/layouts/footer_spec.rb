@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'layouts/_footer.haml' do
+describe 'layouts/_footer' do
   let(:site_contact) { 'your-it-department@test.host' }
 
   before do

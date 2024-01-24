@@ -10,14 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_10_13_143527) do
-
+ActiveRecord::Schema[7.0].define(version: 2023_12_29_171440) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
     t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
@@ -28,8 +27,8 @@ ActiveRecord::Schema.define(version: 2023_10_13_143527) do
     t.string "content_type"
     t.text "metadata"
     t.bigint "byte_size", null: false
-    t.string "checksum", null: false
-    t.datetime "created_at", null: false
+    t.string "checksum"
+    t.datetime "created_at", precision: nil, null: false
     t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
@@ -42,8 +41,8 @@ ActiveRecord::Schema.define(version: 2023_10_13_143527) do
 
   create_table "application_drafts", id: :integer, charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.integer "application_template_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.integer "user_id"
     t.string "email"
     t.index ["application_template_id"], name: "index_application_drafts_on_application_template_id"
@@ -52,8 +51,8 @@ ActiveRecord::Schema.define(version: 2023_10_13_143527) do
 
   create_table "application_submissions", id: :integer, charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.text "data"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.integer "user_id"
     t.boolean "reviewed", default: false
     t.integer "position_id"
@@ -70,8 +69,8 @@ ActiveRecord::Schema.define(version: 2023_10_13_143527) do
   end
 
   create_table "application_templates", id: :integer, charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.integer "position_id"
     t.boolean "active", default: true
     t.string "slug"
@@ -84,16 +83,16 @@ ActiveRecord::Schema.define(version: 2023_10_13_143527) do
 
   create_table "departments", id: :integer, charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["name"], name: "index_departments_on_name", unique: true
   end
 
   create_table "interviews", id: :integer, charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.boolean "hired", default: false
-    t.datetime "scheduled"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "scheduled", precision: nil
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.integer "user_id"
     t.integer "application_submission_id"
     t.boolean "completed", default: false
@@ -106,8 +105,8 @@ ActiveRecord::Schema.define(version: 2023_10_13_143527) do
   create_table "positions", id: :integer, charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.integer "department_id"
     t.string "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "default_interview_location"
     t.string "not_hiring_text"
   end
@@ -117,8 +116,8 @@ ActiveRecord::Schema.define(version: 2023_10_13_143527) do
     t.string "data_type"
     t.boolean "required", default: false
     t.integer "number"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.integer "application_template_id"
     t.integer "application_draft_id"
     t.index ["application_draft_id", "number"], name: "index_questions_on_application_draft_id_and_number", unique: true
@@ -129,8 +128,8 @@ ActiveRecord::Schema.define(version: 2023_10_13_143527) do
     t.integer "user_id"
     t.integer "position_id"
     t.string "email"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["position_id", "email"], name: "index_subscriptions_on_position_id_and_email", unique: true
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end
@@ -144,8 +143,8 @@ ActiveRecord::Schema.define(version: 2023_10_13_143527) do
     t.string "friday"
     t.string "saturday"
     t.integer "application_submission_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["application_submission_id"], name: "index_unavailabilities_on_application_submission_id"
   end
 
@@ -153,8 +152,8 @@ ActiveRecord::Schema.define(version: 2023_10_13_143527) do
     t.string "first_name"
     t.string "last_name"
     t.string "spire"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.boolean "staff", default: false
     t.string "email"
     t.boolean "admin", default: false
