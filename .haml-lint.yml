@@ -1,4 +1,6 @@
 linters:
+  LineLength:
+    max: 120
   RuboCop:
     ignored_cops:
       - Metrics/BlockNesting
