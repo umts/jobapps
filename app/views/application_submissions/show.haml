@@ -69,9 +69,7 @@
         id: @interview.id do
         .form-group
           = label_tag :scheduled, 'New interview date/time:'
-          = datetime_field_tag :scheduled, '',
-            required: true,
-            class: 'form-control'
+          = datetime_field_tag :scheduled, '', step: 60 * 15, required: true, class: 'form-control'
         .form-group
           = label_tag :location, 'New location:'
           = text_field_tag :location, @interview.location,
