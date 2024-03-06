@@ -396,7 +396,6 @@ DEPENDENCIES
   haml_lint
   icalendar
   listen
-  matrix
   mysql2
   prawn
   prawn-table
