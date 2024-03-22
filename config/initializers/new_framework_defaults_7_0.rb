@@ -11,7 +11,7 @@
 
 # `button_to` view helper will render `<button>` element, regardless of whether
 # or not the content is passed as the first argument or as a block.
-# Rails.application.config.action_view.button_to_generates_button_tag = true
+Rails.application.config.action_view.button_to_generates_button_tag = true
 
 # `stylesheet_link_tag` view helper will not render the media attribute by default.
 Rails.application.config.action_view.apply_stylesheet_media_default = false
@@ -50,7 +50,7 @@ Rails.application.config.active_storage.video_preview_arguments =
   "-vf 'select=eq(n\\,0)+eq(key\\,1)+gt(scene\\,0.015),loop=loop=-1:size=2,trim=start_frame=1' -frames:v 1 -f image2"
 
 # Automatically infer `inverse_of` for associations with a scope.
-# Rails.application.config.active_record.automatic_scope_inversing = true
+Rails.application.config.active_record.automatic_scope_inversing = true
 
 # Raise when running tests if fixtures contained foreign key violations
 Rails.application.config.active_record.verify_foreign_keys_for_fixtures = true
@@ -68,7 +68,7 @@ Rails.application.config.action_controller.raise_on_open_redirects = true
 # generate variants to use image processing macros and ruby-vips
 # operations. See the upgrading guide for detail on the changes required.
 # The `:mini_magick` option is not deprecated; it's fine to keep using it.
-# Rails.application.config.active_storage.variant_processor = :vips
+Rails.application.config.active_storage.variant_processor = :vips
 
 # Enable parameter wrapping for JSON.
 # Previously this was set in an initializer. It's fine to keep using that initializer if you've customized it.
@@ -92,17 +92,6 @@ Rails.application.config.action_dispatch.default_headers = {
   "Referrer-Policy" => "strict-origin-when-cross-origin"
 }
 
-
-# ** Please read carefully, this must be configured in config/application.rb **
-# Change the format of the cache entry.
-# Changing this default means that all new cache entries added to the cache
-# will have a different format that is not supported by Rails 6.1 applications.
-# Only change this value after your application is fully deployed to Rails 7.0
-# and you have no plans to rollback.
-# When you're ready to change format, add this to `config/application.rb` (NOT this file):
-#  config.active_support.cache_format_version = 7.0
-
-
 # Cookie serializer: 2 options
 #
 # If you're upgrading and haven't set `cookies_serializer` previously, your cookie serializer
@@ -117,8 +106,3 @@ Rails.application.config.action_dispatch.return_only_request_media_type_on_conte
 # Thus, to support submitting an empty collection, the `file_field` helper will render an hidden field `include_hidden` by default when `multiple_file_field_include_hidden` is set to `true`.
 # See https://guides.rubyonrails.org/configuring.html#config-active-storage-multiple-file-field-include-hidden for more information.
 Rails.application.config.active_storage.multiple_file_field_include_hidden = true
-
-# ** Please read carefully, this must be configured in config/application.rb (NOT this file) **
-# Disables the deprecated #to_s override in some Ruby core classes
-# See https://guides.rubyonrails.org/configuring.html#config-active-support-disable-to-s-conversion for more information.
-# config.active_support.disable_to_s_conversion = true
