@@ -10,8 +10,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new user_parameters
     if @user.save
-      show_message :user_create,
-                   default: 'User has been created.'
+      flash[:message] = t('.success')
       redirect_to staff_dashboard_path
     else
       show_errors @user
@@ -20,8 +19,7 @@ class UsersController < ApplicationController
 
   def update
     if @user.update user_parameters
-      show_message :user_update,
-                   default: 'User has been updated.'
+      flash[:message] = t('.success')
       redirect_to staff_dashboard_path
     else
       show_errors @user
@@ -30,8 +28,7 @@ class UsersController < ApplicationController
 
   def destroy
     @user.destroy
-    show_message :user_destroy,
-                 default: 'User has been removed.'
+    flash[:message] = t('.success')
     redirect_to staff_dashboard_path
   end
 
@@ -48,8 +45,7 @@ class UsersController < ApplicationController
     if user.nil?
       redirect_to promote_users_path
     elsif user.update(staff: true)
-      show_message :user_update,
-                   default: 'User has been updated.'
+      flash[:message] = t('.success')
       redirect_to promote_users_path
     end
   end

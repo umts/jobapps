@@ -78,3 +78,12 @@ en:
       success: Position successfully updated.
     destroy:
       success: Position successfully deleted.
+  users:
+    create:
+      success: User successfully created.
+    update:
+      success: User successfully updated.
+    destroy:
+      success: User successfully deleted.
+    promote_save:
+      success: User successfully updated.
