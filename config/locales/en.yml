@@ -48,8 +48,8 @@ en:
       success: Application successfully updated.
   application_templates:
     toggle_active:
-      now_active: The application is now active
-      now_inactive: The application is now inactive
+      now_active: The application is now active.
+      now_inactive: The application is now inactive.
     toggle_eeo_enabled:
       enabled: EEO data requests enabled on this application.
       disabled: EEO data requests disabled on this application.
@@ -59,3 +59,11 @@ en:
     toggle_resume_upload_enabled:
       enabled: Resume uploads enabled on this application.
       disabled: Resume uploads disabled on this application.
+  departments:
+    create:
+      success: Department successfully created.
+    update:
+      success: Department successfully updated.
+    destroy:
+      success: Department successfully deleted.
+
