@@ -34,3 +34,8 @@ en:
     attributes:
       user:
         spire: SPIRE
+  application_drafts:
+    destroy:
+      success: Your draft has been discarded.
+    update_application_template:
+      success: Application has been updated and is now live. Draft has been discarded.
