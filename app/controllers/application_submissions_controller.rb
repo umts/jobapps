@@ -26,8 +26,7 @@ class ApplicationSubmissionsController < ApplicationController
 
     create_unavailability(record) if record.position.application_template.unavailability_enabled?
 
-    show_message :application_receipt,
-                 default: 'Your application has been submitted. Thank you!'
+    flash[:message] = t('.success')
     redirect_to student_dashboard_path
   end
 
@@ -59,8 +58,7 @@ class ApplicationSubmissionsController < ApplicationController
     else
       @record.deny
     end
-    show_message :application_review,
-                 default: 'Application has been marked as reviewed.'
+    flash[:message] = t('.success')
     redirect_to staff_dashboard_path
   end
 

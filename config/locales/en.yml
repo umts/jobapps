@@ -40,5 +40,9 @@ en:
     update_application_template:
       success: Application has been updated and is now live. Draft has been discarded.
   application_submissions:
+    create:
+      success: Your application has been submitted. Thank you!
+    review:
+      success: Application has been marked as reviewed.
     toggle_saved_for_later:
       success: Application successfully updated.
