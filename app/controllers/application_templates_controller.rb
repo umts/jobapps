@@ -26,13 +26,7 @@ class ApplicationTemplatesController < ApplicationController
     # rubocop:disable Rails/SkipsModelValidations
     @template.toggle! :active
     # rubocop:enable Rails/SkipsModelValidations
-    if @template.active
-      show_message :active_application,
-                   default: 'The application is now active.'
-    else
-      show_message :inactive_application,
-                   default: 'The application is now inactive.'
-    end
+    flash[:message] = t(@template.active ? '.now_active' : '.now_inactive')
     redirect_back fallback_location: application_path(@template)
   end
 
@@ -41,13 +35,7 @@ class ApplicationTemplatesController < ApplicationController
     # rubocop:disable Rails/SkipsModelValidations
     @template.toggle! :eeo_enabled
     # rubocop:enable Rails/SkipsModelValidations
-    if @template.eeo_enabled?
-      show_message :eeo_enabled,
-                   default: 'EEO data requests enabled on this application.'
-    else
-      show_message :eeo_disabled,
-                   default: 'EEO data requests disabled on this application.'
-    end
+    flash[:message] = t(@template.eeo_enabled? ? '.enabled' : '.disabled')
     if @template.draft_belonging_to? @current_user
       draft = @template.draft_belonging_to @current_user
       back_path = edit_draft_path(draft)
@@ -62,15 +50,7 @@ class ApplicationTemplatesController < ApplicationController
     # rubocop:disable Rails/SkipsModelValidations
     @template.toggle! :unavailability_enabled
     # rubocop:enable Rails/SkipsModelValidations
-    if @template.unavailability_enabled?
-      show_message :unavailability_enabled,
-                   default: 'Unavailability requests enabled on
-                            this application.'
-    else
-      show_message :unavailability_disabled,
-                   default: 'Unavailability requests disabled on
-                            this application.'
-    end
+    flash[:message] = t(@template.unavailability_enabled? ? '.enabled' : '.disabled')
     if @template.draft_belonging_to? @current_user
       draft = @template.draft_belonging_to @current_user
       back_path = edit_draft_path(draft)
@@ -84,15 +64,7 @@ class ApplicationTemplatesController < ApplicationController
     # rubocop:disable Rails/SkipsModelValidations
     @template.toggle! :resume_upload_enabled
     # rubocop:enable Rails/SkipsModelValidations
-    if @template.resume_upload_enabled?
-      show_message :unavailability_enabled,
-                   default: 'Resume uploads enabled on
-                            this application.'
-    else
-      show_message :unavailability_disabled,
-                   default: 'Resume uploads disabled on
-                            this application.'
-    end
+    flash[:message] = t(@template.resume_upload_enabled? ? '.enabled' : '.disabled')
     if @template.draft_belonging_to? @current_user
       draft = @template.draft_belonging_to @current_user
       back_path = edit_draft_path(draft)

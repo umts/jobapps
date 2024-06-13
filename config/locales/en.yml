@@ -46,3 +46,16 @@ en:
       success: Application has been marked as reviewed.
     toggle_saved_for_later:
       success: Application successfully updated.
+  application_templates:
+    toggle_active:
+      now_active: The application is now active
+      now_inactive: The application is now inactive
+    toggle_eeo_enabled:
+      enabled: EEO data requests enabled on this application.
+      disabled: EEO data requests disabled on this application.
+    toggle_unavailability_enabled:
+      enabled: Unavailability requests enabled on this application.
+      disabled: Unavailability requests disabled on this application.
+    toggle_resume_upload_enabled:
+      enabled: Resume uploads enabled on this application.
+      disabled: Resume uploads disabled on this application.
