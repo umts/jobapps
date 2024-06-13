@@ -1,3 +1,5 @@
+inherit_from: .rubocop.base.yml
+
 require:
   - rubocop-rails
   - rubocop-rspec
@@ -5,39 +7,5 @@ require:
   - rubocop-capybara
   - rubocop-factory_bot
 
-AllCops:
-  Exclude:
-    - 'bin/**/*'
-    - 'config/**/*'
-    - 'db/**/*'
-  NewCops: enable
-
-Lint/AmbiguousBlockAssociation:
-  Exclude:
-    - 'spec/**/*'
-
-# Relax complexity testing to codeclimate standards (roughly).
-Metrics/AbcSize:
-  Max: 20
-Metrics/MethodLength:
-  Max: 20
-Metrics/ClassLength:
-  Max: 160
-
-Metrics/BlockLength:
-  Exclude:
-    - 'spec/**/*'
-
 RSpec/NestedGroups:
   Max: 4
-
-# Don't worry about documentation for now.
-# In particular, this fails for things like
-# controller files, which seems unnecessary.
-Style/Documentation:
-  Enabled: false
-
-# I think this cop disagrees with nested calls
-# that are perfectly clear.
-Style/NestedParenthesizedCalls:
-  Enabled: false

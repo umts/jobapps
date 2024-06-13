@@ -5,8 +5,6 @@ engines:
     enabled: true
   csslint:
     enabled: true
-  coffeelint:
-    enabled: true
   duplication:
     enabled: true
     config:
@@ -23,6 +21,7 @@ engines:
   rubocop:
     enabled: true
     channel: rubocop-1-56-3
+    file: .rubocop.base.yml
 ratings:
   paths:
   - Gemfile.lock

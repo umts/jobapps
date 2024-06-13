@@ -1,0 +1,33 @@
+AllCops:
+  Exclude:
+    - 'bin/**/*'
+    - 'config/**/*'
+    - 'db/**/*'
+  NewCops: enable
+
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - 'spec/**/*'
+
+# Relax complexity testing to codeclimate standards (roughly).
+Metrics/AbcSize:
+  Max: 20
+Metrics/MethodLength:
+  Max: 20
+Metrics/ClassLength:
+  Max: 160
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+
+# Don't worry about documentation for now.
+# In particular, this fails for things like
+# controller files, which seems unnecessary.
+Style/Documentation:
+  Enabled: false
+
+# I think this cop disagrees with nested calls
+# that are perfectly clear.
+Style/NestedParenthesizedCalls:
+  Enabled: false
