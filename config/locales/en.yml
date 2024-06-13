@@ -66,4 +66,8 @@ en:
       success: Department successfully updated.
     destroy:
       success: Department successfully deleted.
-
+  interviews:
+    complete:
+      success: Interview marked as completed.
+    reschedule:
+      success: Interview has been rescheduled.
