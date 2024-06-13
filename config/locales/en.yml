@@ -71,3 +71,10 @@ en:
       success: Interview marked as completed.
     reschedule:
       success: Interview has been rescheduled.
+  positions:
+    create:
+      success: Position successfully created.
+    update:
+      success: Position successfully updated.
+    destroy:
+      success: Position successfully deleted.
