@@ -26,8 +26,8 @@ describe 'toggle the unavailability_enabled attribute of templates' do
       end
 
       it 'puts a message in the flash' do
-        expect_flash_message(:unavailability_enabled)
         click_on 'Activate Unavailability'
+        expect(page).to have_text('Unavailability requests enabled on this application.')
       end
     end
 
@@ -42,8 +42,8 @@ describe 'toggle the unavailability_enabled attribute of templates' do
       end
 
       it 'puts a message in the flash' do
-        expect_flash_message(:unavailability_disabled)
         click_on 'Deactivate Unavailability'
+        expect(page).to have_text('Unavailability requests disabled on this application.')
       end
     end
   end

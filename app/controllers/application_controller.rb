@@ -4,7 +4,6 @@ require 'application_configuration'
 
 class ApplicationController < ActionController::Base
   include ApplicationConfiguration
-  include ConfigurableMessages
 
   attr_accessor :current_user
 

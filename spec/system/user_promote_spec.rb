@@ -31,8 +31,7 @@ describe 'promoting a staff member' do
           text = "#{user.full_name} #{user.spire}"
           fill_in 'promote-search', with: text
           click_on 'Promote'
-          flash_message = 'User has been updated.'
-          expect(page).to have_text flash_message
+          expect(page).to have_text('User successfully updated.')
         end
       end
 

@@ -95,11 +95,6 @@ describe ApplicationSubmissionsController do
         submit
       end
 
-      it 'shows the application_receipt message' do
-        expect_flash_message :application_receipt
-        submit
-      end
-
       it 'redirects to the student dashboard' do
         submit
         expect(response).to redirect_to student_dashboard_path
@@ -353,11 +348,6 @@ describe ApplicationSubmissionsController do
         it 'marks record as reviewed' do
           submit
           expect(@record.reload.reviewed).to be true
-        end
-
-        it 'displays application_review message' do
-          expect_flash_message :application_review
-          submit
         end
 
         it 'redirects to staff dashboard' do

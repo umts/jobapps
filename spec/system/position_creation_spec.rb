@@ -34,8 +34,8 @@ describe 'creating new positions' do
     end
 
     it 'renders a flash message' do
-      expect_flash_message(:position_create)
       click_on 'Save changes'
+      expect(page).to have_text('Position successfully created.')
     end
   end
 

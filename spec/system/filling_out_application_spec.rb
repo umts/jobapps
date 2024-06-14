@@ -19,8 +19,8 @@ describe 'filling out an application' do
     end
 
     it 'renders the application receipt flash message' do
-      expect_flash_message(:application_receipt)
       click_on('Submit application')
+      expect(page).to have_text('Your application has been submitted. Thank you!')
     end
   end
 end
