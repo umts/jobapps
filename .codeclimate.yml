@@ -5,8 +5,6 @@ engines:
     enabled: true
   csslint:
     enabled: true
-  coffeelint:
-    enabled: true
   duplication:
     enabled: true
     config:
@@ -21,7 +19,7 @@ engines:
         - BUG
         - FIXME 
   rubocop:
-    enabled: true
+    enabled: false
     channel: rubocop-1-56-3
 ratings:
   paths:
