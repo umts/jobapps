@@ -66,7 +66,7 @@ class ApplicationSubmissionsController < ApplicationController
 
   def toggle_saved_for_later
     if @record.update save_for_later_params
-      flash[:message] = 'Application successfully updated'
+      flash[:message] = t('.success')
     else
       flash[:errors] = @record.errors.full_messages
     end
