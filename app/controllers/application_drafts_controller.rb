@@ -29,13 +29,13 @@ class ApplicationDraftsController < ApplicationController
 
   def destroy
     @draft.destroy
-    flash[:message] = 'Your draft has been discarded.'
+    flash[:message] = t('.success')
     redirect_to staff_dashboard_url
   end
 
   def update_application_template
     @draft.update_application_template!
-    flash[:message] = 'Application has been updated and is now live. Draft has been discarded.'
+    flash[:message] = t('.success')
     redirect_to staff_dashboard_url
   end
 

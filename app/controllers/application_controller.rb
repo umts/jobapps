@@ -19,16 +19,14 @@ class ApplicationController < ActionController::Base
 
   # Appended as a before_action in controllers by default
   def access_control
-    deny_access and return unless @current_user.present? && @current_user.staff?
+    deny_access unless @current_user.present? && @current_user.staff?
   end
 
   def deny_access
     if request.xhr?
       head :unauthorized
     else
-      render file: 'public/401.html',
-             status: :unauthorized,
-             layout: false
+      render file: Rails.public_path.join('401.html'), status: :unauthorized, layout: false
     end
   end
 
@@ -39,7 +37,7 @@ class ApplicationController < ActionController::Base
     logger.info request.inspect
     logger.info 'Session:'
     logger.info session.inspect
-    redirect_to unauthenticated_session_path and return
+    redirect_to unauthenticated_session_path
   end
 
   def set_current_user
@@ -57,7 +55,7 @@ class ApplicationController < ActionController::Base
 
   def show_errors(object)
     flash[:errors] = object.errors.full_messages
-    redirect_back(fallback_location: 'public/404.html') and return
+    redirect_back(fallback_location: 'public/404.html')
   end
 
   def check_primary_account
