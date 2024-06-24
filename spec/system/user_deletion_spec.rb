@@ -23,8 +23,8 @@ describe 'deleting users' do
     end
 
     it 'has a flash message' do
-      expect_flash_message(:user_destroy)
       click_on "Remove #{user.full_name}"
+      expect(page).to have_text('User successfully deleted.')
     end
   end
 end

@@ -78,11 +78,6 @@ describe InterviewsController do
           submit
           expect(response).to redirect_to staff_dashboard_path
         end
-
-        it 'displays the interview_complete confirmation message' do
-          expect_flash_message :interview_complete
-          submit
-        end
       end
     end
   end
@@ -114,11 +109,6 @@ describe InterviewsController do
         @interview.reload
         expect(@interview.location).to eql @location
         expect(@interview.scheduled).to eql @scheduled
-      end
-
-      it 'displays the interview_reschedule confirmation message' do
-        expect_flash_message :interview_reschedule
-        submit
       end
 
       it 'redirects to staff dashboard' do

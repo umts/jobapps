@@ -6,8 +6,7 @@ class InterviewsController < ApplicationController
   def complete
     params.permit(:hired, :interview_note)
     if @interview.update completed: true
-      show_message :interview_complete,
-                   default: 'Interview marked as completed.'
+      flash[:message] = t('.success')
       if params[:hired].present?
         @interview.update hired: true
       else
@@ -25,8 +24,7 @@ class InterviewsController < ApplicationController
     params.require :location
     if @interview.update scheduled: params[:scheduled],
                          location: params[:location]
-      show_message :interview_reschedule,
-                   default: 'Interview has been rescheduled.'
+      flash[:message] = t('.success')
       redirect_to staff_dashboard_path
     else
       show_errors @interview

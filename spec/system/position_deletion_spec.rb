@@ -33,7 +33,7 @@ describe 'deleting a position' do
   end
 
   it 'renders a positive flash message' do
-    expect_flash_message(:position_destroy)
     delete
+    expect(page).to have_text('Position successfully deleted.')
   end
 end

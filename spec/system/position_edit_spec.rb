@@ -34,8 +34,8 @@ describe 'editing positions' do
     end
 
     it 'renders a positive flash message' do
-      expect_flash_message(:position_update)
       save
+      expect(page).to have_text('Position successfully updated.')
     end
   end
 

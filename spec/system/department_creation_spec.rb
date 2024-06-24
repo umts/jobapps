@@ -29,8 +29,8 @@ describe 'creating departments' do
     end
 
     it 'gives a flash message' do
-      expect_flash_message(:department_create)
       click_on 'Save changes'
+      expect(page).to have_text('Department successfully created.')
     end
   end
 

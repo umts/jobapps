@@ -47,8 +47,8 @@ describe 'creating a staff member' do
         end
 
         it 'has a flash message' do
-          expect_flash_message(:user_create)
           click_on 'Save changes'
+          expect(page).to have_text('User successfully created.')
         end
       end
 

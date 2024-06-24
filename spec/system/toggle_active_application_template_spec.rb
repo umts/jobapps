@@ -24,8 +24,8 @@ describe 'toggling the active attribute of application templates' do
       end
 
       it 'puts a message in the flash' do
-        expect_flash_message(:active_application)
         click_on 'Activate application'
+        expect(page).to have_text('The application is now active.')
       end
     end
 
@@ -38,8 +38,8 @@ describe 'toggling the active attribute of application templates' do
       end
 
       it 'puts a message in the flash' do
-        expect_flash_message(:inactive_application)
         click_on 'Deactivate application'
+        expect(page).to have_text('The application is now inactive.')
       end
     end
   end
@@ -58,8 +58,8 @@ describe 'toggling the active attribute of application templates' do
       end
 
       it 'puts a message in the flash' do
-        expect_flash_message(:active_application)
         click_on 'Activate application'
+        expect(page).to have_text('The application is now active.')
       end
     end
 
@@ -72,8 +72,8 @@ describe 'toggling the active attribute of application templates' do
       end
 
       it 'puts a message in the flash' do
-        expect_flash_message(:inactive_application)
         click_on 'Deactivate application'
+        expect(page).to have_text('The application is now inactive.')
       end
     end
   end

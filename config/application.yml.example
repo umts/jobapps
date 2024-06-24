@@ -31,34 +31,3 @@ on_application_denial:
   # Whether or not the applicant will be allowed to refill in new applications
   # with data from past ones.
   fill_form_with_old: true
-
-# MESSAGE KEYS
-# Many site messages which are shown to your users are configurable -
-# in particular, the messages shown when database objects are touched.
-# These messages are below, and can be configured as they are shown here.
-# Unless otherwise marked, these messages are shown only to staff members.
-
-messages:
-  # message to display if the application has been activated
-  active_application: 'The application is now active.'
-  # message to display if the application has been deactivated
-  inactive_application: 'The application is now inactive.'
-  # shown to students when they submit an application
-  application_receipt:  'Your application has been submitted. Thank you!'
-  application_review:   'Application has been marked as reviewed.'
-  department_create:    'Department has been created.'
-  department_destroy:   'Department has been deleted.'
-  department_update:    'Department has been updated.'
-  eeo_enabled:          'EEO data requests enabled on this application.'
-  eeo_disabled:         'EEO data requests disabled on this application.'
-  interview_complete:   'Interview marked as completed.'
-  interview_reschedule: 'Interview has been rescheduled.'
-  position_create:      'Position has been created.'
-  position_destroy:     'Position has been deleted.'
-  position_update:      'Position has been updated.'
-  question_create:      'Question was successfully updated.'
-  question_destroy:     'Question was successfully removed.'
-  question_update:      'Question was successfully updated.'
-  user_create:          'User has been created.'
-  user_destroy:         'User has been removed.'
-  user_update:          'User has been updated.'
