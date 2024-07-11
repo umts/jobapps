@@ -9,7 +9,8 @@ class SessionsController < ApplicationController
   def destroy
     session.clear
     if Rails.env.production?
-      redirect_to '/Shibboleth.sso/Logout?return=https://webauth.umass.edu/Logout'
+      redirect_to '/Shibboleth.sso/Logout?return=' \
+                  'https://webauth.umass.edu/saml2/idp/SingleLogoutService.php'
     else
       redirect_to dev_login_path
     end

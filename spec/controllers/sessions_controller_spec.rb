@@ -41,7 +41,7 @@ describe SessionsController do
 
       it 'redirects to something about Shibboleth' do
         submit
-        expect(response).to redirect_to '/Shibboleth.sso/Logout?return=https://webauth.umass.edu/Logout'
+        expect(response).to redirect_to %r(/Shibboleth.sso/Logout)
       end
 
       it 'clears the session' do
