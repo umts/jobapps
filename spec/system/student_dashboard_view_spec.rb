@@ -5,11 +5,11 @@ require 'rails_helper'
 describe 'viewing the dashboard as a student' do
   let!(:student) { create(:user, staff: false) }
 
-  before do
-    when_current_user_is student
-  end
-
   context 'student has submitted an application' do
+    before do
+      when_current_user_is student
+    end
+
     context 'student got an interview' do
       let!(:interview) { create(:interview, user: student) }
 
@@ -113,8 +113,10 @@ describe 'viewing the dashboard as a student' do
 
   context 'student has not yet submitted an application' do
     let!(:position_not_hiring) { create(:position) }
+    let(:spire) { '12345678@umass.edu' }
 
     before do
+      page.set_rack_session(spire:)
       visit student_dashboard_path
     end
 

@@ -15,7 +15,7 @@ Please select the application which you would like to submit.
   %h3= department.name
   - positions.each do |position|
     // most recent application, if more than one
-    - if application = @application_submissions[position].try(:last)
+    - if application = @application_submissions.try(:[], position)&.last
       - if application.pending? || should_show_denied_applications?
         %li= link_to "View your submitted application for #{position.name}", application
         - if position.application_template.try(:active?) && should_allow_resubmission?
