@@ -5,11 +5,11 @@ require 'rails_helper'
 describe 'viewing the dashboard as a student' do
   let!(:student) { create(:user, staff: false) }
 
-  before do
-    when_current_user_is student
-  end
-
   context 'student has submitted an application' do
+    before do
+      when_current_user_is student
+    end
+
     context 'student got an interview' do
       let!(:interview) { create(:interview, user: student) }
 
@@ -23,7 +23,7 @@ describe 'viewing the dashboard as a student' do
 
       it 'contains a link to review the application' do
         path = application_submission_path(interview.application_submission)
-        click_link 'Review your application',
+        click_link 'View your application',
                    href: path
         expect(page.current_path)
           .to eql application_submission_path(interview.application_submission)
@@ -48,7 +48,7 @@ describe 'viewing the dashboard as a student' do
         end
 
         it 'contains a link to review the pending application' do
-          click_link 'Review your application',
+          click_link 'View your submitted application',
                      href: application_submission_path(pending_application)
           expect(page.current_path)
             .to eql application_submission_path(pending_application)
@@ -63,7 +63,7 @@ describe 'viewing the dashboard as a student' do
           end
 
           it 'has link to see denied app, without text of denial reason' do
-            click_link 'Review your application',
+            click_link 'View your submitted application',
                        href: application_submission_path(denied_application)
             expect(page.current_path)
               .to eql application_submission_path(denied_application)
@@ -78,7 +78,7 @@ describe 'viewing the dashboard as a student' do
           end
 
           it 'has link to see the denied app, with text of denial reason' do
-            click_link 'Review your application',
+            click_link 'View your submitted application',
                        href: application_submission_path(denied_application)
             expect(page.current_path)
               .to eql application_submission_path(denied_application)
@@ -95,7 +95,7 @@ describe 'viewing the dashboard as a student' do
         end
 
         it 'contains a link to review pending applications' do
-          click_link 'Review your application',
+          click_link 'View your submitted application',
                      href: application_submission_path(pending_application)
           expect(page.current_path)
             .to eql application_submission_path(pending_application)
@@ -104,7 +104,7 @@ describe 'viewing the dashboard as a student' do
 
         it 'does not contain a link to review denied applications' do
           action_path = application_submission_path(denied_application)
-          expect page.has_no_link? 'Review your application',
+          expect page.has_no_link? 'View your submitted application',
                                    href: action_path
         end
       end
@@ -113,8 +113,10 @@ describe 'viewing the dashboard as a student' do
 
   context 'student has not yet submitted an application' do
     let!(:position_not_hiring) { create(:position) }
+    let(:spire) { '12345678@umass.edu' }
 
     before do
+      page.set_rack_session(spire:)
       visit student_dashboard_path
     end
 

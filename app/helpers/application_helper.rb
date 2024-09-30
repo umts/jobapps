@@ -25,7 +25,7 @@ module ApplicationHelper
     configured_value %i[on_application_denial notify_applicant], default: true
   end
 
-  def should_allow_resubmission?
+  def allow_resubmission?
     configured_value %i[on_application_denial allow_resubmission],
                      default: true
   end
