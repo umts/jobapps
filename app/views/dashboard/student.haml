@@ -28,8 +28,8 @@
             Your application has not yet been reviewed by staff
         - else
           %li You are not allowed to resubmit this application.
-      - elsif position.application_template.try(:active?)
-        %li= link_to "Submit application for #{position.name}",
-                      application_path(position.application_template)
-      - else
-        %li= position.not_hiring
+    - elsif position.application_template.try(:active?)
+      %li= link_to "Submit application for #{position.name}",
+                    application_path(position.application_template)
+    - else
+      %li= position.not_hiring
