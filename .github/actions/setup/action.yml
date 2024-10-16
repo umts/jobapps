@@ -1,0 +1,12 @@
+name: setup
+description: Setup the repository
+runs:
+  using: composite
+  steps:
+    - uses: ruby/setup-ruby@v1
+      with:
+        bundler-cache: true
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 'lts/*'
+        cache: yarn
