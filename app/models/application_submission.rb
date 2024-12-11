@@ -13,7 +13,7 @@ class ApplicationSubmission < ApplicationRecord
 
   attr_accessor :mail_note_for_later, :notify_of_denial
 
-  serialize :data, Array
+  serialize :data, type: Array
 
   # validate ethnicity and gender in constants but allow blank
   validates :data, presence: true

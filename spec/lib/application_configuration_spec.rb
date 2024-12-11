@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'application_configuration'
 
 describe ApplicationConfiguration do
   describe 'configured_value' do
