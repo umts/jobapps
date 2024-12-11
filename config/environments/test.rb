@@ -8,12 +8,14 @@ require "active_support/core_ext/integer/time"
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
-  config.cache_classes = false
+  # Allow Spring to reload classes in test, but still cache view templates
+  config.enable_reloading = true
   config.action_view.cache_template_loading = true
 
-  # Eager loading loads your whole application. When running a single test locally,
-  # this probably isn't necessary. It's a good idea to do in a continuous integration
-  # system, or in some way before deploying your code.
+  # Eager loading loads your entire application. When running a single test locally,
+  # this is usually not necessary, and can slow down your test suite. However, it's
+  # recommended that you enable it in continuous integration systems to ensure eager
+  # loading is working properly before deploying your code.
   config.eager_load = ENV["CI"].present?
 
   # Configure public file server for tests with Cache-Control for performance.
@@ -23,16 +25,12 @@ Rails.application.configure do
   }
 
   # Show full error reports and disable caching.
-  config.consider_all_requests_local       = true
+  config.consider_all_requests_local = true
   config.action_controller.perform_caching = false
   config.cache_store = :null_store
 
-  # Set Same-Site on cookies to "Lax"
-  # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite
-  config.action_dispatch.cookies_same_site_protection = :lax
-
-  # Raise exceptions instead of rendering exception templates.
-  config.action_dispatch.show_exceptions = false
+  # Render exception templates for rescuable exceptions and raise for other exceptions.
+  config.action_dispatch.show_exceptions = :rescuable
 
   # Disable request forgery protection in test environment.
   config.action_controller.allow_forgery_protection = false
@@ -67,7 +65,9 @@ Rails.application.configure do
   # Annotate rendered view with file names.
   # config.action_view.annotate_rendered_view_with_filenames = true
 
-  # RackSessionAccess gives us access to the rack session
-  # during feature tests
+  # Raise error when a before_action's only/except options reference missing actions
+  config.action_controller.raise_on_missing_callback_actions = true
+
+  # RackSessionAccess gives us access to the rack session during feature tests
   config.middleware.use RackSessionAccess::Middleware
 end
