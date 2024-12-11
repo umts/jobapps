@@ -41,8 +41,7 @@ describe InterviewsController do
 
       context 'not hired button is pressed' do
         let :submit do
-          post :complete, params: { id: @interview.id,
-                                    interview_note: 'note' }
+          post :complete, params: { id: @interview.id, interview_note: 'note' }
         end
 
         it 'marks the interview as complete' do
@@ -63,10 +62,11 @@ describe InterviewsController do
 
       context 'with errors' do
         it 'redirects with errors stored in flash' do
+          request.env['HTTP_REFERER'] = '/some/path'
           expect_any_instance_of(Interview)
             .to receive(:update)
             .and_return(false)
-          expect { submit }.to redirect_back
+          expect(submit).to redirect_to('/some/path')
           # to have_key won't work here,
           # ActionDispatch::Flash::FlashHash doesn't respond to has_key?
           expect(flash.keys).to include 'errors'
@@ -118,10 +118,11 @@ describe InterviewsController do
 
       context 'with errors' do
         it 'redirects with errors stored in flash' do
+          request.env['HTTP_REFERER'] = '/some/path'
           expect_any_instance_of(Interview)
             .to receive(:update)
             .and_return(false)
-          expect { submit }.to redirect_back
+          expect(submit).to redirect_to('/some/path')
           # to have_key won't work here,
           # ActionDispatch::Flash::FlashHash doesn't respond to has_key?
           expect(flash.keys).to include 'errors'
