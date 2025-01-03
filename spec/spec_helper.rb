@@ -2,7 +2,6 @@
 
 require 'factory_bot_rails'
 require 'simplecov'
-require 'umts_custom_matchers'
 
 SimpleCov.start 'rails' do
   refuse_coverage_drop if ENV['CI']
@@ -34,7 +33,6 @@ RSpec.configure do |config|
   end
 
   config.include FactoryBot::Syntax::Methods
-  config.include UmtsCustomMatchers
 
   Dir['./spec/support/**/*.rb'].each { |f| require f }
 end

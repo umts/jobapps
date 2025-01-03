@@ -7,7 +7,7 @@ class Unavailability < ApplicationRecord
 
   # this will serialize the columns of the unavailability model
   # so that they accept strings in the form of arrays
-  Date::DAYNAMES.map(&:downcase).map(&:to_sym).each { |d| serialize d, Array }
+  Date::DAYNAMES.map(&:downcase).map(&:to_sym).each { |d| serialize d, type: Array }
 
   # the grid method returns a data structure
   # which represents the unavailability as a 2d array
