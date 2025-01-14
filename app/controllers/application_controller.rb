@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'application_configuration'
-
 class ApplicationController < ActionController::Base
   include ApplicationConfiguration
 
@@ -54,7 +52,7 @@ class ApplicationController < ActionController::Base
 
   def show_errors(object)
     flash[:errors] = object.errors.full_messages
-    redirect_back(fallback_location: 'public/404.html')
+    redirect_back(fallback_location: '/404.html')
   end
 
   def check_primary_account

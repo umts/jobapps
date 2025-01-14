@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'application_configuration'
 
 describe JobappsMailer do
   let(:config) { ApplicationConfiguration }
