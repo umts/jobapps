@@ -17,7 +17,7 @@ gem 'redcarpet'
 gem 'sass-rails'
 gem 'snappconfig'
 gem 'sprockets-rails'
-gem 'uglifier'
+gem 'terser'
 gem 'whenever', require: false
 
 group :production do
