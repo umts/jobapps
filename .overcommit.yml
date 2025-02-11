@@ -1,0 +1,19 @@
+PreCommit:
+  ALL:
+    problem_on_unmodified_line: ignore
+    skip_if: ["test", "-f", ".git/MERGE_HEAD"]
+  ForbiddenBranches:
+    enabled: true
+    branch_patterns: ["master", "main"]
+  HamlLint:
+    enabled: true
+    on_warn: fail
+    required_executable: bundle
+    command: ["bundle", "exec", "haml-lint"]
+  RuboCop:
+    enabled: true
+    required_executable: bundle
+    command: ["bundle", "exec", "rubocop"]
+CommitMsg:
+  ALL:
+    enabled: false
