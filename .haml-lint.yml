@@ -1,4 +1,8 @@
+exclude:
+  - 'vendor/**/*'
+
 linters:
-  RuboCop:
-    ignored_cops:
-      - Metrics/BlockNesting
+  ClassesBeforeIds:
+    EnforcedStyle: id
+  LineLength:
+    max: 120

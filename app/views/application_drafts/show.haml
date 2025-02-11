@@ -15,7 +15,7 @@
       .form-group
         = u.label field
         = u.text_field field, required: true, class: 'form-control',
-          value: @current_user.try(field)
+                              value: @current_user.try(field)
   = fields_for :data do |r|
     - @draft.questions.each_with_index do |question, index|
       .form-group
@@ -28,38 +28,38 @@
           - case question.data_type
           - when 'phone-number'
             = r.text_field question.prompt, required: question.required?,
-              class: 'form-control phone',
-              id: index,
-              placeholder: '(XXX) XXX-XXXX'
+                                            class: 'form-control phone',
+                                            id: index,
+                                            placeholder: '(XXX) XXX-XXXX'
           - when 'long-text'
             = r.text_area question.prompt,
-              required: question.required?,
-              id: index,
-              class: 'form-control'
+                          required: question.required?,
+                          id: index,
+                          class: 'form-control'
           - when 'text'
             = r.text_field question.prompt,
-              required: question.required?,
-              id: index,
-              class: 'form-control'
+                           required: question.required?,
+                           id: index,
+                           class: 'form-control'
           - when 'date'
             = r.date_field question.prompt,
-              required: question.required?,
-              class: 'form-control',
-              id: index
+                           required: question.required?,
+                           class: 'form-control',
+                           id: index
           - when 'number'
             = r.number_field question.prompt,
-              required: question.required?,
-              id: index,
-              class: 'form-control'
+                             required: question.required?,
+                             id: index,
+                             class: 'form-control'
           - when 'yes/no'
             = label_tag "#{index}_yes", 'Yes'
             = r.radio_button question.prompt, 'Yes',
-              id: "#{index}_yes",
-              required: question.required?
+                             id: "#{index}_yes",
+                             required: question.required?
             = label_tag "#{index}_no", 'No'
             = r.radio_button question.prompt, 'No',
-              id: "#{index}_no",
-              required: question.required?
+                             id: "#{index}_no",
+                             required: question.required?
 
     - if @draft.application_template.unavailability_enabled?
       %h2.heading Unavailability
@@ -71,8 +71,8 @@
         available to work.
         Note that you can click and drag to check or uncheck a range of boxes.
       .form-group
-        =fields_for :unavailability do |u|
-          =render partial: "unavailabilities_calendar", locals: { form: u }
+        = fields_for :unavailability do |u|
+          = render partial: 'unavailabilities_calendar', locals: { form: u }
     - if @draft.application_template.eeo_enabled?
       %h2.heading Voluntary Equal Employment Opportunity Information
       .explanation
@@ -82,23 +82,23 @@
         the information requested below.
       .form-group
         = label_tag :ethnicity,
-          'Please select the ethnic group with which you most closely identify:'
+                    'Please select the ethnic group with which you most closely identify:'
         = select_tag :ethnicity,
-          options_for_select(ApplicationSubmission::ETHNICITY_OPTIONS),
-          include_blank: 'Prefer not to answer', class: 'form-control'
+                     options_for_select(ApplicationSubmission::ETHNICITY_OPTIONS),
+                     include_blank: 'Prefer not to answer', class: 'form-control'
       .form-group
         = label_tag :gender,
-          'Please select the gender with which you most closely identify:'
+                    'Please select the gender with which you most closely identify:'
         = select_tag :gender,
-          options_for_select(ApplicationSubmission::GENDER_OPTIONS),
-          include_blank: 'Prefer not to answer', class: 'form-control'
+                     options_for_select(ApplicationSubmission::GENDER_OPTIONS),
+                     include_blank: 'Prefer not to answer', class: 'form-control'
     .form-group
       = submit_tag 'Submit application', disabled: true, class: 'btn btn-primary'
 .row
   .col.centered
     = link_to 'Continue editing',
-      edit_draft_path(@draft), class: 'btn btn-primary mb-2'
+              edit_draft_path(@draft), class: 'btn btn-primary mb-2'
     = button_to 'Discard changes',
-      draft_path(@draft), method: :delete, class: 'btn btn-primary mb-2'
+                draft_path(@draft), method: :delete, class: 'btn btn-primary mb-2'
     = button_to 'Save application',
-      update_application_template_draft_path(@draft), class: 'btn btn-primary mb-2'
+                update_application_template_draft_path(@draft), class: 'btn btn-primary mb-2'
