@@ -4,11 +4,14 @@ source 'https://rubygems.org'
 ruby file: '.ruby-version'
 
 gem 'bootstrap', '~> 4.6'
+gem 'csv'
 gem 'friendly_id'
 gem 'haml'
 gem 'haml-rails'
 gem 'icalendar'
 gem 'mysql2'
+# TODO: Remove ruby platform when we're off RHEL 7
+gem 'nokogiri', force_ruby_platform: true
 gem 'prawn'
 gem 'prawn-table'
 gem 'puma'
