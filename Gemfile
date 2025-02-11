@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 ruby file: '.ruby-version'
 
 gem 'bootstrap', '~> 4.6'
+gem 'csv'
 gem 'friendly_id'
 gem 'haml'
 gem 'haml-rails'
