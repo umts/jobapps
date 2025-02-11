@@ -471,7 +471,7 @@ DEPENDENCIES
   whenever
 
 RUBY VERSION
-   ruby 3.2.5p208
+   ruby 3.3.7p123
 
 BUNDLED WITH
-   2.5.21
+   2.6.3
