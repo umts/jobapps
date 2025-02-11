@@ -18,18 +18,19 @@
     // most recent application, if more than one
     - if (application = @application_submissions&.dig(position)&.last)
       - if application.pending? || should_show_denied_applications?
-        %li= link_to "View your submitted application for #{position.name}",
-          application
+        %li= link_to "View your submitted application for #{position.name}", application
         - if position.application_template&.active? && allow_resubmission?
           - if application.reviewed?
-            %li= link_to "Resubmit application for #{position.name}",
-              application_path(position.application_template)
+            %li
+              = link_to "Resubmit application for #{position.name}",
+                        application_path(position.application_template)
           - else
             Your application has not yet been reviewed by staff
         - else
           %li You are not allowed to resubmit this application.
     - elsif position.application_template.try(:active?)
-      %li= link_to "Submit application for #{position.name}",
-                    application_path(position.application_template)
+      %li
+        = link_to "Submit application for #{position.name}",
+                  application_path(position.application_template)
     - else
       %li= position.not_hiring

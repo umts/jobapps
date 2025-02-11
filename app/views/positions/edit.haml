@@ -2,12 +2,12 @@
 
 = render 'form', position: @position, action: :update
 
-.centered= button_to "Remove #{@position.name_and_department}",
-  @position, method: :delete, class: 'btn btn-danger'
+.centered
+  = button_to "Remove #{@position.name_and_department}", @position,
+              method: :delete, class: 'btn btn-danger'
 %h2 Subscribe to email notifications
 %p You will be notified when someone fills out an application.
-= form_for :subscription,
-  url: {controller: :subscriptions, action: :create} do |f|
+= form_for :subscription, url: { controller: :subscriptions, action: :create } do |f|
   .form-group
     = f.label :email
     = f.text_field :email, class: 'form-control'
@@ -20,8 +20,8 @@
     %ul.list-group
       - @subscriptions.each do |subscription|
         %li.list-group-item
-          =subscription.email
-          =button_to subscription_path(subscription), {method: :delete, class: 'btn btn-default'} do
+          = subscription.email
+          = button_to subscription_path(subscription), { method: :delete, class: 'btn btn-default' } do
             %i.fa.fa-times-circle
 - else
   %p You are not currently subscribed.
