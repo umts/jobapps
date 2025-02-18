@@ -1,11 +1,11 @@
-%table.eeo_table#gender_table
+%table#gender_table.eeo_table
   %thead
     %tr
       %th Gender
       %th Total Applicants
       %th Total Interviews
       %th Total Hired
-  - @records[:genders].each do |gender, count, interview_count, hired|
+  - records[:genders].each do |gender, count, interview_count, hired|
     %tr
       %td= gender
       %td= count
