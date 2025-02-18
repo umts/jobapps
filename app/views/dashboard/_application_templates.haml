@@ -9,8 +9,8 @@
             - template = @templates[position].first
             %li= link_to 'View application', application_path(template)
             %li
-              - if template.draft_belonging_to? @current_user
-                - draft = template.draft_belonging_to @current_user
+              - if template.draft_belonging_to? Current.user
+                - draft = template.draft_belonging_to Current.user
                 = link_to 'Resume editing saved draft',
                   edit_draft_path(draft)
                 = button_to 'Discard saved draft',

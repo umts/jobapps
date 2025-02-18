@@ -3,8 +3,6 @@
 class ApplicationController < ActionController::Base
   include ApplicationConfiguration
 
-  attr_accessor :current_user
-
   before_action :set_spire
   before_action :set_current_user
   before_action :redirect_unauthenticated
@@ -16,7 +14,7 @@ class ApplicationController < ActionController::Base
 
   # Appended as a before_action in controllers by default
   def access_control
-    deny_access unless @current_user.present? && @current_user.staff?
+    deny_access unless Current.user.presence&.staff?
   end
 
   def deny_access
@@ -28,7 +26,7 @@ class ApplicationController < ActionController::Base
   end
 
   def redirect_unauthenticated
-    return if @current_user.present? || session.key?(:spire)
+    return if Current.user.present? || session.key?(:spire)
 
     logger.info 'Request:'
     logger.info request.inspect
@@ -38,7 +36,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_current_user
-    @current_user =
+    Current.user =
       if session.key? :user_id
         User.find_by id: session[:user_id]
       elsif session.key? :spire

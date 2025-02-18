@@ -5,7 +5,7 @@ class ApplicationDraftsController < ApplicationController
 
   def new
     template = ApplicationTemplate.find(params.require :application_template_id)
-    @draft = template.create_draft(@current_user) || template.draft_belonging_to(@current_user)
+    @draft = template.create_draft(Current.user) || template.draft_belonging_to(Current.user)
     redirect_to edit_draft_path(@draft)
   end
 
