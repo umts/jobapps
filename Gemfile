@@ -37,7 +37,6 @@ group :development do
   gem 'ed25519', require: false
   gem 'listen'
   gem 'overcommit', require: false
-  gem 'rb-readline', require: false
   gem 'rubocop', require: false
   gem 'rubocop-capybara', require: false
   gem 'rubocop-factory_bot', require: false
