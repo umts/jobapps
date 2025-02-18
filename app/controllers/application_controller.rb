@@ -40,7 +40,9 @@ class ApplicationController < ActionController::Base
       if session.key? :user_id
         User.find_by id: session[:user_id]
       elsif session.key? :spire
-        User.find_by spire: session[:spire]
+        User.find_by(spire: session[:spire]).tap do |user|
+          session[:user_id] = user&.id
+        end
       end
   end
 
