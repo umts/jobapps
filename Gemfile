@@ -36,6 +36,7 @@ group :development do
   gem 'capistrano-rails', require: false
   gem 'ed25519', require: false
   gem 'listen'
+  gem 'overcommit', require: false
   gem 'rubocop', require: false
   gem 'rubocop-capybara', require: false
   gem 'rubocop-factory_bot', require: false
