@@ -18,8 +18,6 @@ end
 # rubocop:disable Naming/AccessorMethodName
 def set_current_user(user)
   case self.class.metadata[:type]
-  when :view
-    assign :current_user, user
   when :feature, :system
     page.set_rack_session user_id: user.try(:id)
   when :controller

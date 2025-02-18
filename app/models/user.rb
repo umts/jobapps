@@ -16,6 +16,10 @@ class User < ApplicationRecord
   scope :staff,    -> { where staff: true }
   scope :students, -> { where staff: false }
 
+  def current?
+    self == Current.user
+  end
+
   def full_name
     "#{first_name} #{last_name}"
   end
