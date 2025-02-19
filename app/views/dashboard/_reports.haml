@@ -1,21 +1,21 @@
 .container
   = form_tag csv_export_application_submissions_path(format: :csv),
-    method: :get do
+             method: :get do
     %h5 Export records for
     .form-row
       = select_tag :department_ids,
-      options_from_collection_for_select(@departments, :id, :name),
-      class: 'dept-select m-2',
-      id: 'reports-dept-select',
-      multiple: true
+                   options_from_collection_for_select(@departments, :id, :name),
+                   class: 'dept-select m-2',
+                   id: 'reports-dept-select',
+                   multiple: true
     .form-row
       .form-group.col-md-6
         = label_tag :start_date, 'start date'
         = date_field_tag :start_date, '',
-          class: 'form-control m-2', required: true
+                         class: 'form-control m-2', required: true
       .form-group.col-md-6
         = label_tag :end_date, 'end date'
         = date_field_tag :end_date, '',
-          class: 'form-control m-2', required: true
+                         class: 'form-control m-2', required: true
     .form-row.mb-2
       = submit_tag 'Generate CSV', class: 'btn btn-primary'

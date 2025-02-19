@@ -6,8 +6,7 @@
         = link_to 'Change department name', edit_department_path(department)
       %ul
         - department.positions.each do |position|
-          %li= link_to "Edit #{position.name} position",
-            edit_position_path(position)
+          %li= link_to "Edit #{position.name} position", edit_position_path(position)
   .title_header.fs-26 Add new
   %ul
     %li= link_to 'Add new position', new_position_path

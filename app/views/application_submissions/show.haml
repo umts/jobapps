@@ -1,16 +1,16 @@
 %h1 #{@record.position.name} Application Record
 
-%p submitted #{@record.created_at.to_formatted_s :long_with_time}
+%p submitted #{@record.created_at.to_fs :long_with_time}
 %p by #{@record.user.name_and_email}
 = button_to 'Print this page',
-  application_submission_path(@record, format: :pdf),
-  method: :get,
-  class: 'btn btn-secondary'
+            application_submission_path(@record, format: :pdf),
+            method: :get,
+            class: 'btn btn-secondary'
 - if @record.rejected?
   %p
     = button_to 'Re-review Applicant',
-      unreject_application_submission_path(@application_submission, id: @record.id),
-      class: 'btn btn-primary'
+                unreject_application_submission_path(@application_submission, id: @record.id),
+                class: 'btn btn-primary'
 - if !@record.saved_for_later? && @record.note_for_later.present?
   %p
     %i This application had previously been saved for later review. Your note:
@@ -25,26 +25,26 @@
   - @record.data.each do |prompt, response, data_type, _question_id|
     %tr
       - if data_type == 'heading'
-        %td{colspan: 2}
-          %b=prompt.upcase
+        %td{ colspan: 2 }
+          %b= prompt.upcase
       - elsif data_type == 'explanation'
-        %td{colspan: 2}
+        %td{ colspan: 2 }
           %i= render_markdown prompt
       - else
-        %td=prompt
+        %td= prompt
         %td= format_response response, data_type
 
--if @record.unavailability.present?
+- if @record.unavailability.present?
   %strong Unavailability
-  =fields_for :unavailability do |u|
-    =render partial: "unavailabilities_calendar_staff",
-      locals: { unavailability: @record.unavailability }
+  = fields_for :unavailability do |_u|
+    = render partial: 'unavailabilities_calendar_staff',
+             locals: { unavailability: @record.unavailability }
   %p Grey boxes indicate that applicant is unavailable
 
--if @record.resume.attached?
+- if @record.resume.attached?
   %p
     %strong Resume:
-    =link_to @record.resume.filename, rails_blob_path(@record.resume, disposition: 'attachment')
+    = link_to @record.resume.filename, rails_blob_path(@record.resume, disposition: 'attachment')
 
 - if @current_user.staff?
   - if @record.pending?
@@ -52,7 +52,7 @@
     = render 'deny', locals: { record: @record }
     = render 'approve', locals: { record: @record }
   - else
-    %p Application reviewed on: #{@record.updated_at.to_formatted_s :long_with_time}
+    %p Application reviewed on: #{@record.updated_at.to_fs :long_with_time}
     - if @record.staff_note.present?
       %p Staff note (internal reason for denial): #{@record.staff_note}
     - if @record.rejection_message.present?
@@ -62,27 +62,27 @@
       %p Interview is scheduled for: #{@interview.information}
       %p
         = link_to 'Click here for a calendar export file',
-          interview_path(@interview, format: :ics)
+                  interview_path(@interview, format: :ics)
       %h3 Reschedule interview
       = form_tag controller: :interviews,
-        action: :reschedule,
-        id: @interview.id do
+                 action: :reschedule,
+                 id: @interview.id do
         .form-group
           = label_tag :scheduled, 'New interview date/time:'
           = datetime_field_tag :scheduled, '',
-            required: true,
-            class: 'form-control'
+                               required: true,
+                               class: 'form-control'
         .form-group
           = label_tag :location, 'New location:'
           = text_field_tag :location, @interview.location,
-            required: true,
-            class: 'form-control'
+                           required: true,
+                           class: 'form-control'
         .form-group
           = submit_tag 'Reschedule interview', class: 'btn btn-secondary'
       %h3 Mark interview as complete:
       = form_tag controller: :interviews,
-        action: :complete,
-        id: @interview.id do
+                 action: :complete,
+                 id: @interview.id do
         .form-group
           = submit_tag 'Candidate hired', name: 'hired', class: 'btn btn-primary'
         .form-group
@@ -98,8 +98,7 @@
 - else # student
   - if @record.pending?
     Your application is pending and has not yet been reviewed.
-    - if configured_value [:on_application_denial, :notify_applicant],
-      default: true
+    - if configured_value [:on_application_denial, :notify_applicant], default: true
       You will be notified when your application has been reviewed.
     - else
       You will be contacted if an interview is requested.
@@ -112,7 +111,6 @@
       = @interview.information
     - else
       Your application has been denied.
-      - if configured_value([:on_application_denial, :notify_of_reason],
-        default: true)
+      - if configured_value [:on_application_denial, :notify_of_reason], default: true
         Reason:
         = @record.rejection_message

@@ -6,18 +6,18 @@
         Click here to deactivate the application:
       .cold-6
         = button_to 'Deactivate application',
-            toggle_active_application_url(@template), class: 'btn btn-secondary'
+                    toggle_active_application_url(@template), class: 'btn btn-secondary'
   - else
     .row
       This application is currently not available to applicants. Hiring
       again? Click here to reactivate the application:
       .cold-6
         = button_to 'Activate application',
-            toggle_active_application_url(@template), class: 'btn btn-secondary'
+                    toggle_active_application_url(@template), class: 'btn btn-secondary'
 
 - if @current_user.try(:staff?) || @template.active?
   %h1 Application for #{@template.position.name_and_department}
-  -if @template.email.present? && @current_user.try(:staff?)
+  - if @template.email.present? && @current_user.try(:staff?)
     .row Reply-to email: #{@template.email}
   %ul
     %li
@@ -36,7 +36,7 @@
         - @old_applications.each do |app|
           %tr
             %td
-              = app.created_at.to_formatted_s :long_with_time
+              = app.created_at.to_fs :long_with_time
             %td.load_column
               = link_to 'Load reponses', application_path(@template, load_id: app.id)
   = form_tag application_submissions_path, multipart: true do
@@ -44,15 +44,15 @@
       .form-group
         = u.label :first_name
         = u.text_field :first_name, required: true,
-          value: @current_user.try(:first_name), class: 'form-control'
+                                    value: @current_user.try(:first_name), class: 'form-control'
       .form-group
         = u.label :last_name
         = u.text_field :last_name, required: true,
-          value: @current_user.try(:last_name), class: 'form-control'
+                                   value: @current_user.try(:last_name), class: 'form-control'
       .form-group
         = u.label :email
         = u.email_field :email, required: true,
-          value: @current_user.try(:email), class: 'form-control'
+                                value: @current_user.try(:email), class: 'form-control'
     = fields_for :data do |r|
       - @template.questions.each_with_index do |question, index|
         .form-group
@@ -66,50 +66,50 @@
             - case question.data_type
             - when 'phone-number'
               = r.text_field question.unique_name, required: question.required?,
-                class: 'form-control phone', placeholder: '(XXX) XXX-XXXX',
-                id: index,
-                value: @old_data[question.id] || ""
+                                                   class: 'form-control phone', placeholder: '(XXX) XXX-XXXX',
+                                                   id: index,
+                                                   value: @old_data[question.id] || ''
             - when 'long-text'
               = r.text_area question.unique_name,
-                required: question.required?,
-                class: 'form-control',
-                id: index,
-                value: @old_data[question.id] || ""
+                            required: question.required?,
+                            class: 'form-control',
+                            id: index,
+                            value: @old_data[question.id] || ''
             - when 'text'
               = r.text_field question.unique_name,
-                required: question.required?,
-                class: 'form-control',
-                id: index,
-                value: @old_data[question.id] || ""
+                             required: question.required?,
+                             class: 'form-control',
+                             id: index,
+                             value: @old_data[question.id] || ''
             - when 'date'
               = r.date_field question.unique_name,
-                required: question.required?,
-                class: 'form-control',
-                id: index,
-                value: @old_data[question.id] || ""
+                             required: question.required?,
+                             class: 'form-control',
+                             id: index,
+                             value: @old_data[question.id] || ''
             - when 'number'
               = r.number_field question.unique_name,
-                required: question.required?,
-                class: 'form-control',
-                id: index,
-                value: (@old_data[question.id] || "").to_i
+                               required: question.required?,
+                               class: 'form-control',
+                               id: index,
+                               value: (@old_data[question.id] || '').to_i
             - when 'yes/no'
               = label_tag "#{index}_yes", 'Yes'
               = r.radio_button question.unique_name, 'Yes',
-                required: question.required?,
-                id: "#{index}_yes",
-                checked: @old_data[question.id] == 'Yes'
+                               required: question.required?,
+                               id: "#{index}_yes",
+                               checked: @old_data[question.id] == 'Yes'
               = label_tag "#{index}_no", 'No'
               = r.radio_button question.unique_name, 'No',
-                required: question.required?,
-                id: "#{index}_no",
-                checked: @old_data[question.id] == 'No'
+                               required: question.required?,
+                               id: "#{index}_no",
+                               checked: @old_data[question.id] == 'No'
           = r.hidden_field question.unique_prompt_name,
-            value: question.prompt
+                           value: question.prompt
           = r.hidden_field question.unique_data_type_name,
-            value: question.data_type
+                           value: question.data_type
           = r.hidden_field question.id,
-            value: "#{question.id}-#{question.number}"
+                           value: "#{question.id}-#{question.number}"
     = hidden_field_tag :position_id, @template.position_id
 
     - if @template.unavailability_enabled?
@@ -123,8 +123,8 @@
         Note that you can click and drag to check or uncheck a range of boxes.
       .form-group
         = fields_for :unavailability do |u|
-          =render partial: "application_drafts/unavailabilities_calendar",
-                locals: { form: u }
+          = render partial: 'application_drafts/unavailabilities_calendar',
+                   locals: { form: u }
     - if @template.eeo_enabled?
       %h2.heading Voluntary Equal Employment Opportunity Information
       .explanation
@@ -134,16 +134,16 @@
         the information requested below.
       .form-group
         = label_tag :ethnicity,
-          'Please select the ethnic group with which you most closely identify:'
+                    'Please select the ethnic group with which you most closely identify:'
         = select_tag :ethnicity,
-          options_for_select(ApplicationSubmission::ETHNICITY_OPTIONS),
-          include_blank: 'Prefer not to answer', class: 'custom-select'
+                     options_for_select(ApplicationSubmission::ETHNICITY_OPTIONS),
+                     include_blank: 'Prefer not to answer', class: 'custom-select'
       .form-group
         = label_tag :gender,
-          'Please select the gender with which you most closely identify:'
+                    'Please select the gender with which you most closely identify:'
         = select_tag :gender,
-          options_for_select(ApplicationSubmission::GENDER_OPTIONS),
-          include_blank: 'Prefer not to answer', class: 'custom-select'
+                     options_for_select(ApplicationSubmission::GENDER_OPTIONS),
+                     include_blank: 'Prefer not to answer', class: 'custom-select'
     - if @template.resume_upload_enabled?
       %h2.heading Resume
       .explanation
