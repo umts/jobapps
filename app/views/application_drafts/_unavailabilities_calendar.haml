@@ -9,4 +9,4 @@
       %tr.dow_row
         %td.day.col_1= dow
         - Unavailability::HOURS.each do |hour|
-          %td.hours_checkbox= form.check_box dow.downcase + '_' + hour
+          %td.hours_checkbox= form.check_box "#{dow.downcase}_#{hour}"

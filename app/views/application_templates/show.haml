@@ -26,8 +26,8 @@
       ) are required.
     %li You will be able to log in and review your application.
   - if should_allow_form_refilling? && @old_applications.present?
-    .row#old_application_block
-      .col-md-8.col-md-offset-2#subtitle
+    #old_application_block.row
+      #subtitle.col-md-8.col-md-offset-2
         You have some old applications you can take responses from!
       %table.col-md-8.col-md-offset-2
         %tr

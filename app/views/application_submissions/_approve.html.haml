@@ -1,5 +1,5 @@
 %h4 Approve Application and Schedule Interview
-= form_with(model: @record, url: { action: :review }, local: true) do |form|
+= form_with(model: record, url: { action: :review }, local: true) do |form|
   = form.hidden_field :accepted, value: 'true'
   = fields_for :interview do |f|
     .row
@@ -12,6 +12,6 @@
         = f.label :location
         = f.text_field :location,
                        required: true,
-                       value: @record.position.default_interview_location,
+                       value: record.position.default_interview_location,
                        class: 'form-control'
     .row.form-group.col= f.submit 'Approve', class: 'btn btn-primary'

@@ -5,7 +5,7 @@
       %h5 List applications for
       .form-row
         = select_tag :department_ids,
-                     options_from_collection_for_select(@departments, :id, :name),
+                     options_from_collection_for_select(departments, :id, :name),
                      class: 'dept-select m-2',
                      id: 'past-applications-dept-select',
                      multiple: true

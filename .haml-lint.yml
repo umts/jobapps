@@ -6,3 +6,5 @@ linters:
     EnforcedStyle: id
   LineLength:
     max: 120
+  ViewLength:
+    max: 160

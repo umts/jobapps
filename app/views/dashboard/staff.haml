@@ -1,18 +1,23 @@
 %h1.mb-4 Staff Dashboard
 .dashboard_heading Pending Applications
-= render partial: 'pending_applications'
+= render partial: 'pending_applications',
+         locals: { departments: @departments,
+                   pending_records: @pending_records,
+                   saved_records: @saved_records }
 .dashboard_heading Pending interviews
-= render partial: 'pending_interviews'
+= render partial: 'pending_interviews',
+         locals: { departments: @departments, pending_interviews: @pending_interviews }
 .dashboard_heading Application forms
-= render partial: 'application_templates'
+= render partial: 'application_templates',
+         locals: { departments: @departments, templates: @templates }
 - if @current_user.admin?
   .dashboard_heading Staff members
-  = render partial: 'users'
+  = render partial: 'users', locals: { staff: @staff }
 .dashboard_heading Past applications / interviews
-= render partial: 'past_applications'
+= render partial: 'past_applications', locals: { departments: @departments }
 .dashboard_heading Reports
 .dashboard_partial
-  = render partial: 'reports'
-  = render partial: 'eeo_data'
+  = render partial: 'reports', locals: { departments: @departments }
+  = render partial: 'eeo_data', locals: { departments: @departments }
 .dashboard_heading Departments / positions
-= render partial: 'departments'
+= render partial: 'departments', locals: { departments: @departments }
