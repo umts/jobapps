@@ -12,10 +12,10 @@
               - if template.draft_belonging_to? @current_user
                 - draft = template.draft_belonging_to @current_user
                 = link_to 'Resume editing saved draft',
-                  edit_draft_path(draft)
+                          edit_draft_path(draft)
                 = button_to 'Discard saved draft',
-                  draft_path(draft), method: :delete,
-                  class: 'btn btn-secondary'
+                            draft_path(draft), method: :delete,
+                                               class: 'btn btn-secondary'
               - else
                 = link_to 'Edit application', new_draft_path(application_template_id: template.id)
           - else # position has no template... yet

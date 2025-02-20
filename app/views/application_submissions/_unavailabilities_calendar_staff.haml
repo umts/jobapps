@@ -2,14 +2,14 @@
   %thead
     %tr.hours_row
       %th.col_1
-      -Unavailability::HOURS.each do |hour|
+      - Unavailability::HOURS.each do |hour|
         %th.hours= hour
   %tbody
-    -Date::DAYNAMES.each_with_index do |dow, i|
+    - Date::DAYNAMES.each_with_index do |dow, i|
       %tr.dow_row
         %td.day.col_1= dow
-        -Unavailability::HOURS.count.times do |j|
-          -if unavailability.grid[i][j]
+        - Unavailability::HOURS.count.times do |j|
+          - if unavailability.grid[i][j]
             %td.hours_checkbox.checked_off
-          -else
+          - else
             %td.hours_checkbox

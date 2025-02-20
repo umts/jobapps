@@ -1,5 +1,5 @@
 = form_for department, url: { controller: :departments,
-  action: action, id: department.id } do |f|
+                              action: action, id: department.id } do |f|
   .form-group
     = f.label :name
     = f.text_field :name, required: true, class: 'form-control'

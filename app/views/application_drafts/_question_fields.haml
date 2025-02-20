@@ -7,8 +7,8 @@
     = g.text_area :prompt, required: !question.new_record?, class: 'form-control'
   .col-4.data-type
     = g.select :data_type, Question::DATA_TYPES,
-      { include_blank: 'Select a response type...', required: !question.new_record? },
-      { class: 'form-control' }
+               { include_blank: 'Select a response type...', required: !question.new_record? },
+               { class: 'form-control' }
   .col-1.field-required
     = g.check_box :required
   .col-2

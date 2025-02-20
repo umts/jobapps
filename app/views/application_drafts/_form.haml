@@ -11,7 +11,7 @@
       Remove
   #fields-container.container.sortable
     = f.fields_for :questions do |g|
-      = render partial: 'question_fields', locals: {g: g}
+      = render partial: 'question_fields', locals: { g: g }
   .container
     .form-group
       = link_to 'Add New Field', '', class: 'btn btn-secondary', id: 'add-field-button'
