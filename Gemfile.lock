@@ -166,7 +166,7 @@ GEM
       activesupport (>= 5.1)
       haml (>= 4.0.6)
       railties (>= 5.1)
-    haml_lint (0.60.0)
+    haml_lint (0.61.0)
       haml (>= 5.0)
       parallel (~> 1.10)
       rainbow
@@ -549,7 +549,7 @@ CHECKSUMS
   globalid (1.2.1) sha256=70bf76711871f843dbba72beb8613229a49429d1866828476f9c9d6ccc327ce9
   haml (6.3.0) sha256=8e6eb87d869639e348852009e74a2a1663d79663ed7e7dbcb38beb1f12bcdd97
   haml-rails (2.1.0) sha256=273ba0189e2f82ce4b2385019dd9138884017e3103cc2eaebeee7f45186f59ea
-  haml_lint (0.60.0) sha256=bf71c5b6fe92bb7c23b41e7d18641785fa7304136fb24661de538fbca61a2cf6
+  haml_lint (0.61.0) sha256=a8d7c912a9cad1ff1785011289fc54ff3be019cc786e1f0d0af04134c81fd623
   i18n (1.14.7) sha256=ceba573f8138ff2c0915427f1fc5bdf4aa3ab8ae88c8ce255eb3ecf0a11a5d0f
   icalendar (2.10.3) sha256=0ebfc2672f9fa77b86b4d8c0e25e9b2319aad45a33319fed06d0be8ddd0cd485
   ice_cube (0.17.0) sha256=32deb45dda4b4acc53505c2f581f6d32b5afc04d29b9004769944a0df5a5fcbe
