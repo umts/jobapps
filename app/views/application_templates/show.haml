@@ -26,7 +26,7 @@
       ) are required.
     %li You will be able to log in and review your application.
   - if should_allow_form_refilling? && @old_applications.present?
-    #old_application_block.row
+    #old-application-block.row
       #subtitle.col-md-8.col-md-offset-2
         You have some old applications you can take responses from!
       %table.col-md-8.col-md-offset-2
@@ -37,7 +37,7 @@
           %tr
             %td
               = app.created_at.to_fs :long_with_time
-            %td.load_column
+            %td.load-column
               = link_to 'Load reponses', application_path(@template, load_id: app.id)
   = form_tag application_submissions_path, multipart: true do
     = fields_for :user do |u|
