@@ -1,5 +1,5 @@
 %h4 Deny Application
-= form_with(model: @record, url: { action: :review }, local: true) do |form|
+= form_with(model: record, url: { action: :review }, local: true) do |form|
   = form.hidden_field :accepted, value: 'false'
   .form-group
     = form.label :notify_of_denial, 'Notify applicant of denial'

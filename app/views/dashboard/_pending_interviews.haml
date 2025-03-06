@@ -1,12 +1,12 @@
 .dashboard_partial
-  - @departments.each do |department|
+  - departments.each do |department|
     .title_header.fs-26= department.name
     .partial_block
       - department.positions.each do |position|
         .position_label= position.name
         %ul
-          - if @pending_interviews.key? position
-            - @pending_interviews[position].each do |interview|
+          - if pending_interviews.key? position
+            - pending_interviews[position].each do |interview|
               %li= link_to interview.information(include_name: true), interview.application_submission
           - else
             No pending interviews

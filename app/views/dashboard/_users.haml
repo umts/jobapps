@@ -6,5 +6,5 @@
   .partial_block
     .title_header.fs-22 Edit/remove staff
     %ul
-      - @staff.each do |user|
+      - staff.each do |user|
         %li= link_to user.proper_name, edit_user_path(user)

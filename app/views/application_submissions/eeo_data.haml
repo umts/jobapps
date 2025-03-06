@@ -1,4 +1,4 @@
-%table.table.data_table.display#main_data_table
+%table#main_data_table.table.data_table.display
   %thead
     %tr
       %th Date Submitted
@@ -21,6 +21,6 @@
               = record.interview.interview_note
 
 %h3 Totals:
-= render partial: 'ethnicity_totals'
-= render partial: 'gender_totals'
-= render partial: 'combined_totals'
+= render partial: 'ethnicity_totals', locals: { records: @records }
+= render partial: 'gender_totals', locals: { records: @records }
+= render partial: 'combined_totals', locals: { records: @records }
