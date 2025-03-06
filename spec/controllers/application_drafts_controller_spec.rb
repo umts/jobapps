@@ -118,7 +118,7 @@ describe ApplicationDraftsController do
   describe 'POST #update' do
     before do
       @draft = create(:application_draft)
-      @question_attrs = { a_key: 'a_value' }
+      @question_attrs = { '0' => { number: 1, data_type: 'text', prompt: 'a_prompt' } }
       @draft_changes = { questions_attributes: @question_attrs }
       @commit = 'Save changes and continue editing'
     end
@@ -134,12 +134,6 @@ describe ApplicationDraftsController do
     context 'staff' do
       before do
         when_current_user_is :staff
-        # Mock it out above so that we don't get errors
-        # from the original method being invoked
-        # on an incorrect data structure
-        expect_any_instance_of(ApplicationDraft)
-          .to receive(:update_questions)
-          .with @question_attrs.stringify_keys
       end
 
       it 'assigns the correct draft variable' do
@@ -148,8 +142,8 @@ describe ApplicationDraftsController do
       end
 
       it 'updates the draft with the changes given' do
-        # mocked above
         submit
+        expect(@draft.reload.questions.first.prompt).to eql 'a_prompt'
       end
 
       context 'saving changes' do

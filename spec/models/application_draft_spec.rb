@@ -117,21 +117,20 @@ describe ApplicationDraft do
       @draft = create(:application_draft)
       @question = create(:question, application_draft: @draft)
       @new_prompt = 'A new prompt'
-      # keys don't matter, ignored in method
-      @question_data = {
-        0 => {
+      @question_data = [
+        {
           number: @question.number,
           prompt: 'A new prompt',
           data_type: @question.data_type,
           required: @question.required
         },
-        1 => {
+        {
           number: @question.number + 1,
           prompt: 'A prompt',
           data_type: 'text',
           required: true
         }
-      }
+      ]
     end
 
     let :call do
