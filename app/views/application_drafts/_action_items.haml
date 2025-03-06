@@ -4,13 +4,13 @@
   = link_to 'here.', markdown_explanation_path
 %p
   .row.mb-2
-    - if @draft.application_template.eeo_enabled?
+    - if draft.application_template.eeo_enabled?
       .col-md-6
         This application requests equal employment opportunity (EEO) data from applicants.
         Click here to disable these requests:
       .col-md-6
         = button_to 'Deactivate EEO',
-                    toggle_eeo_enabled_application_url(@draft.application_template),
+                    toggle_eeo_enabled_application_url(draft.application_template),
                     class: 'btn btn-secondary'
     - else
       .col-md-6
@@ -18,16 +18,16 @@
         Click here to enable these requests:
       .col-md-6
         = button_to 'Activate EEO',
-                    toggle_eeo_enabled_application_url(@draft.application_template),
+                    toggle_eeo_enabled_application_url(draft.application_template),
                     class: 'btn btn-secondary'
   .row.mb-2
-    - if @draft.application_template.unavailability_enabled?
+    - if draft.application_template.unavailability_enabled?
       .col-md-6
         This application requests unavailability from applicants.
         Click here to disable this feature:
       .col-md-6
         = button_to 'Deactivate Unavailability',
-                    toggle_unavailability_enabled_application_url(@draft.application_template),
+                    toggle_unavailability_enabled_application_url(draft.application_template),
                     class: 'btn btn-secondary'
     - else
       .col-md-6
@@ -35,16 +35,16 @@
         Click here to enable this feature:
       .col-md-6
         = button_to 'Activate Unavailability',
-                    toggle_unavailability_enabled_application_url(@draft.application_template),
+                    toggle_unavailability_enabled_application_url(draft.application_template),
                     class: 'btn btn-secondary'
   .row.mb-2
-    - if @draft.application_template.resume_upload_enabled?
+    - if draft.application_template.resume_upload_enabled?
       .col-md-6
         This application allows for resume upload from applicants.
         Click here to disable this feature:
       .col-md-6
         = button_to 'Deactivate Resume Upload',
-                    toggle_resume_upload_enabled_application_url(@draft.application_template),
+                    toggle_resume_upload_enabled_application_url(draft.application_template),
                     class: 'btn btn-secondary'
     - else
       .col-md-6
@@ -52,16 +52,16 @@
         Click here to enable this feature:
       .col-md-6
         = button_to 'Activate Resume Upload',
-                    toggle_resume_upload_enabled_application_url(@draft.application_template),
+                    toggle_resume_upload_enabled_application_url(draft.application_template),
                     class: 'btn btn-secondary'
   .row.mb-2
-    - if @draft.application_template.active?
+    - if draft.application_template.active?
       .col-md-6
         This application is available to applicants. Not hiring currently?
         Click here to deactivate the application:
       .col-md-6
         = button_to 'Deactivate application',
-                    toggle_active_application_url(@draft.application_template),
+                    toggle_active_application_url(draft.application_template),
                     class: 'btn btn-secondary'
     - else
       .col-md-6
@@ -69,5 +69,5 @@
         again? Click here to reactivate the application:
       .col-md-6
         = button_to 'Activate application',
-                    toggle_active_application_url(@draft.application_template),
+                    toggle_active_application_url(draft.application_template),
                     class: 'btn btn-secondary'
