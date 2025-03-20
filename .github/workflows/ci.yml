@@ -25,3 +25,9 @@ jobs:
       - uses: ./.github/actions/setup
       - run: bin/setup
       - run: bundle exec rspec
+  brakeman:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      - run: bundle exec brakeman --no-pager
