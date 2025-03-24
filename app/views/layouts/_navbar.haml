@@ -3,6 +3,6 @@
   #links
     = link_to 'Logout', destroy_session_path
     = link_to 'Dashboard', main_dashboard_path
-  #current-user-name= @current_user.try :full_name
+  #current-user-name= Current.user&.full_name
 #transportation-banner
   = image_tag 'trans-header-large.png'

@@ -1,4 +1,4 @@
-- if @current_user.try :staff?
+- if Current.user&.staff?
   - if @template.active?
     .row
       .col-6
@@ -15,9 +15,9 @@
         = button_to 'Activate application',
                     toggle_active_application_url(@template), class: 'btn btn-secondary'
 
-- if @current_user.try(:staff?) || @template.active?
+- if Current.user&.staff? || @template.active?
   %h1 Application for #{@template.position.name_and_department}
-  - if @template.email.present? && @current_user.try(:staff?)
+  - if @template.email.present? && Current.user&.staff?
     .row Reply-to email: #{@template.email}
   %ul
     %li
@@ -43,16 +43,13 @@
     = fields_for :user do |u|
       .form-group
         = u.label :first_name
-        = u.text_field :first_name, required: true,
-                                    value: @current_user.try(:first_name), class: 'form-control'
+        = u.text_field :first_name, required: true, class: 'form-control', value: Current.user&.first_name
       .form-group
         = u.label :last_name
-        = u.text_field :last_name, required: true,
-                                   value: @current_user.try(:last_name), class: 'form-control'
+        = u.text_field :last_name, required: true, class: 'form-control', value: Current.user&.last_name
       .form-group
         = u.label :email
-        = u.email_field :email, required: true,
-                                value: @current_user.try(:email), class: 'form-control'
+        = u.email_field :email, required: true, class: 'form-control', value: Current.user&.email
     = fields_for :data do |r|
       - @template.questions.each_with_index do |question, index|
         .form-group
@@ -150,7 +147,7 @@
         = label_tag :resume, 'Please upload a copy of your resume.'
       .form-group
         = file_field_tag :resume, required: true
-    - unless @current_user.try(:staff?)
+    - unless Current.user&.staff?
       .form-group
         = submit_tag 'Submit application', class: 'btn btn-primary'
 - else

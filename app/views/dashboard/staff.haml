@@ -10,7 +10,7 @@
 .dashboard_heading Application forms
 = render partial: 'application_templates',
          locals: { departments: @departments, templates: @templates }
-- if @current_user.admin?
+- if Current.user&.admin?
   .dashboard_heading Staff members
   = render partial: 'users', locals: { staff: @staff }
 .dashboard_heading Past applications / interviews

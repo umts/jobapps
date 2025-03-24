@@ -56,10 +56,11 @@ class ApplicationDraft < ApplicationRecord
   def update_questions(question_data)
     return if question_data.blank?
 
-    questions.destroy_all
-    question_data.each_value do |question_attributes|
-      question_attributes[:application_draft_id] = id
-      Question.create question_attributes
+    transaction do
+      questions.destroy_all
+      question_data.each do |question_attributes|
+        questions.create question_attributes
+      end
     end
   end
 
