@@ -5,8 +5,7 @@ class ApplicationTemplatesController < ApplicationController
   before_action :find_template, except: :new
 
   def show
-    @old_applications = @current_user.try(:old_applications,
-                                          @template)
+    @old_applications = Current.user.try(:old_applications, @template)
     @old_data = {}
     return unless params[:load_id]
 
@@ -17,7 +16,7 @@ class ApplicationTemplatesController < ApplicationController
   def new
     position = Position.find(params.require :position_id)
     template = ApplicationTemplate.create!(position:, active: true)
-    @draft = template.create_draft @current_user
+    @draft = template.create_draft Current.user
     redirect_to edit_draft_path(@draft)
   end
 
@@ -36,8 +35,8 @@ class ApplicationTemplatesController < ApplicationController
     @template.toggle! :eeo_enabled
     # rubocop:enable Rails/SkipsModelValidations
     flash[:message] = t(@template.eeo_enabled? ? '.enabled' : '.disabled')
-    if @template.draft_belonging_to? @current_user
-      draft = @template.draft_belonging_to @current_user
+    if @template.draft_belonging_to? Current.user
+      draft = @template.draft_belonging_to Current.user
       back_path = edit_draft_path(draft)
     else
       back_path = application_path(@template)
@@ -51,8 +50,8 @@ class ApplicationTemplatesController < ApplicationController
     @template.toggle! :unavailability_enabled
     # rubocop:enable Rails/SkipsModelValidations
     flash[:message] = t(@template.unavailability_enabled? ? '.enabled' : '.disabled')
-    if @template.draft_belonging_to? @current_user
-      draft = @template.draft_belonging_to @current_user
+    if @template.draft_belonging_to? Current.user
+      draft = @template.draft_belonging_to Current.user
       back_path = edit_draft_path(draft)
     else
       back_path = application_path(@template)
@@ -65,8 +64,8 @@ class ApplicationTemplatesController < ApplicationController
     @template.toggle! :resume_upload_enabled
     # rubocop:enable Rails/SkipsModelValidations
     flash[:message] = t(@template.resume_upload_enabled? ? '.enabled' : '.disabled')
-    if @template.draft_belonging_to? @current_user
-      draft = @template.draft_belonging_to @current_user
+    if @template.draft_belonging_to? Current.user
+      draft = @template.draft_belonging_to Current.user
       back_path = edit_draft_path(draft)
     else
       back_path = application_path(@template)

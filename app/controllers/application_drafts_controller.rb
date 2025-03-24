@@ -5,7 +5,7 @@ class ApplicationDraftsController < ApplicationController
 
   def new
     template = ApplicationTemplate.find(params.require :application_template_id)
-    @draft = template.create_draft(@current_user) || template.draft_belonging_to(@current_user)
+    @draft = template.create_draft(Current.user) || template.draft_belonging_to(Current.user)
     redirect_to edit_draft_path(@draft)
   end
 
@@ -15,10 +15,10 @@ class ApplicationDraftsController < ApplicationController
 
   def update
     draft_params = params.require(:draft)
-    question_attributes = draft_params.require(:questions_attributes).permit!.to_h
+                         .permit(:email, questions_attributes: %i[id number prompt data_type required])
+    questions = draft_params.require(:questions_attributes).values
     @draft.update email: draft_params[:email]
-    @draft.update_questions question_attributes
-    @draft.reload # since questions have been updated
+    @draft.update_questions questions
     case params.require :commit
     when 'Save changes and continue editing'
       redirect_to edit_draft_path(@draft)

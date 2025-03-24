@@ -9,8 +9,7 @@ class PositionsController < ApplicationController
   def new; end
 
   def edit
-    @subscriptions = Subscription.where user: @current_user,
-                                        position: @position
+    @subscriptions = Subscription.where user: Current.user, position: @position
   end
 
   def create
