@@ -75,9 +75,10 @@ describe DashboardController do
         #         which sets the current user, and they are allowed access.
         #
         # This test assesses step 5.
+        let(:user) { create(:user, :staff) }
+
         before do
-          @user = create(:user, :staff)
-          request.env['fcIdNumber'] = @user.spire
+          request.env['fcIdNumber'] = user.spire
         end
 
         it 'renders the correct page' do
@@ -88,7 +89,7 @@ describe DashboardController do
 
         it 'sets the correct current user' do
           submit
-          expect(assigns.fetch :current_user).to eql @user
+          expect(session[:user_id]).to eq(user.id)
         end
       end
     end

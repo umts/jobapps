@@ -46,7 +46,7 @@
     %strong Resume:
     = link_to @record.resume.filename, rails_blob_path(@record.resume, disposition: 'attachment')
 
-- if @current_user.staff?
+- if Current.user&.staff?
   - if @record.pending?
     %h3 Review application
     = render partial: 'deny', locals: { record: @record }

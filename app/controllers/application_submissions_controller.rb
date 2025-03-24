@@ -8,7 +8,7 @@ class ApplicationSubmissionsController < ApplicationController
                                          past_applications]
 
   def show
-    deny_access and return unless @current_user == @record.user || @current_user.try(:staff?)
+    deny_access and return unless @record.user.current? || Current.user&.staff?
 
     @interview = @record.interview
     respond_to do |format|
@@ -18,11 +18,11 @@ class ApplicationSubmissionsController < ApplicationController
   end
 
   def create
-    create_user if @current_user.blank?
+    create_user if Current.user.blank?
     data = ApplicationDataParser.new(params.require(:data)).result
     params.require :position_id
-    record = ApplicationSubmission.create record_params.merge(data:, user: @current_user, reviewed: false)
-    record.email_subscribers applicant: @current_user
+    record = ApplicationSubmission.create record_params.merge(data:, user: Current.user, reviewed: false)
+    record.email_subscribers applicant: Current.user
 
     create_unavailability(record) if record.position.application_template.unavailability_enabled?
 
