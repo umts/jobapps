@@ -6,7 +6,7 @@
 = form_tag '/sessions/dev_login' do
   = submit_tag 'Log in with no SPIRE or user record (should fail)'
 - [@staff, @students].each_with_index do |group, index|
-  %h2 Login as #{%w(staff student)[index]}:
+  %h2 Login as #{%w[staff student][index]}:
   %ul
     - group.each do |user|
       = form_tag '/sessions/dev_login' do

@@ -3,18 +3,18 @@
     %h5 List EEO data for
     .form-row
       = select_tag :department_ids,
-      options_from_collection_for_select(@departments, :id, :name),
-      class: 'dept-select m-2',
-      id: 'eeo-data-dept-select',
-      multiple: true
+                   options_from_collection_for_select(departments, :id, :name),
+                   class: 'dept-select m-2',
+                   id: 'eeo-data-dept-select',
+                   multiple: true
     .form-row
       .form-group.col-md-6
         = label_tag :eeo_start_date, 'start date'
         = date_field_tag :eeo_start_date, '',
-          class: 'form-control m-2', required: true
+                         class: 'form-control m-2', required: true
       .form-group.col-md-6
         = label_tag :eeo_end_date, 'end date'
         = date_field_tag :eeo_end_date, '',
-          class: 'form-control m-2', required: true
+                         class: 'form-control m-2', required: true
     .form-row.mb-2
       = submit_tag 'List EEO data', class: 'btn btn-primary'

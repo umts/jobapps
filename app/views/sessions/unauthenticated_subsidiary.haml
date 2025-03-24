@@ -1,4 +1,6 @@
 %h1 Login failure
-You are attempting to login with #{@uid}, which is a role subsidiary account belonging to #{@primary_account}. Role subsidiary accounts cannot be used to access this site. Please login with your primary NetID. If you need assistance, contact transit-it@admin.umass.edu.
+You are attempting to login with #{@uid}, which is a role subsidiary account belonging
+to #{@primary_account}. Role subsidiary accounts cannot be used to access this site.
+Please login with your primary NetID. If you need assistance, contact transit-it@admin.umass.edu.
 %br
 = link_to 'Logout', destroy_session_path

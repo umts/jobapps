@@ -1,10 +1,10 @@
-- if @record.saved_for_later?
+- if record.saved_for_later?
   %h3 Application saved for later
 - else
   %h3 Save application for later review
-= form_with model: @record,
-  url: { action: :toggle_saved_for_later},
-  local: true do |form|
+= form_with model: record,
+            url: { action: :toggle_saved_for_later },
+            local: true do |form|
   .form-group
     = form.label :note_for_later, 'Note'
     = form.text_area :note_for_later, class: 'form-control'
@@ -17,16 +17,14 @@
     .form-group.col
       = form.label :date_for_later, 'Select a date for later review'
       = form.date_field :date_for_later, class: 'form-control',
-        placeholder: 'Click here to select date...'
-      %i If a date is selected, the application will 
-      %i move back onto the dashboard at that time.
+                                         placeholder: 'Click here to select date...'
+      %i If a date is selected, the application will move back onto the dashboard at that time.
     .form-group.col
       #notification
         = form.label :email_to_notify, 'Get notified when this happens:'
         = form.text_field :email_to_notify,
-          placeholder: 'person@example.com',
-          class: 'form-control'
+                          placeholder: 'person@example.com',
+                          class: 'form-control'
   .form-group
-    - if @record.saved_for_later?
-      = submit_tag 'Move back to dashboard', class: 'btn btn-primary'
+    = submit_tag 'Move back to dashboard', class: 'btn btn-primary' if record.saved_for_later?
     = submit_tag 'Save for later', class: 'btn btn-primary'

@@ -1,12 +1,16 @@
 %h1 Markdown explanation
 %p Markdown is used in question rendering and here is simple guide to get you started.
 
-:markdown 
+:markdown
   - Surround text with \*asterisks\* or \_underscores\_ for *italic text*
-  - Surround text with \*\*double asterisks\*\* or \_\_double underscores\_\_ for **bold text**
-  - Start lines with a plus (`+`), a minus (`-`), or an asterisk (`*`) to make a list (that is how we made this one!).
-    For links, write the link text in [brackets] followed by the destination in (parentheses). Here's an example: 
-  - Typing '`[our homepage](https://umasstransit.org)`' outputs the following link: [our homepage](https://umasstransit.org)
+  - Surround text with \*\*double asterisks\*\* or \_\_double underscores\_\_
+    for **bold text**
+  - Start lines with a plus (`+`), a minus (`-`), or an asterisk (`*`) to make
+    a list (that is how we made this one!).
+  - For links, write the link text in [brackets] followed by the destination in
+    (parentheses). Here's an example:
+  - Typing '`[our homepage](https://umasstransit.org)`' outputs the following
+    link: [our homepage](https://umasstransit.org)
   - For additional exercise, you can refer to the markdown editor below:
 
 %h3 Markdown sandbox
@@ -14,8 +18,8 @@ Enter text here to preview:
 
 = form_tag do
   = text_area_tag :preview_input,
-    @preview_input, size: '100x20', class: 'form-control'
+                  @preview_input, size: '100x20', class: 'form-control'
   = submit_tag 'Preview below', class: 'btn btn-primary'
--if @preview_input.present?
+- if @preview_input.present?
   %h3 Preview output
   = render_markdown @preview_input

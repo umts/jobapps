@@ -1,11 +1,11 @@
-%table.eeo_table#ethnicity_table
+%table#ethnicity_table.eeo_table
   %thead
     %tr
     %th Ethnicity
     %th Total Applicants
     %th Total Interviews
     %th Total Hired
-  - @records[:ethnicities].each do |ethnicity, count, interview_count, hired|
+  - records[:ethnicities].each do |ethnicity, count, interview_count, hired|
     %tr
       %td= ethnicity
       %td= count
