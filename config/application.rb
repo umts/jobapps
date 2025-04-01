@@ -24,5 +24,9 @@ module Jobapps
     # in config/environments, which are processed later.
     #
     config.time_zone = "Eastern Time (US & Canada)"
+
+    mail_previews = Rails.root.join('app/mailers/previews')
+    config.action_mailer.preview_paths << mail_previews
+    config.eager_load_paths << mail_previews
   end
 end

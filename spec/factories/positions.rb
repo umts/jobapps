@@ -3,7 +3,7 @@
 FactoryBot.define do
   factory :position do
     department
-    name { 'Position' }
+    sequence(:name) { |n| "Position #{n}" }
     default_interview_location { 'Place' }
   end
 end
