@@ -25,7 +25,7 @@ Rails.application.config.action_dispatch.default_headers = {
 # Do not treat an `ActionController::Parameters` instance
 # as equal to an equivalent `Hash` by default.
 #++
-# Rails.application.config.action_controller.allow_deprecated_parameters_hash_equality = false
+Rails.application.config.action_controller.allow_deprecated_parameters_hash_equality = false
 
 ###
 # Active Record Encryption now uses SHA-256 as its hash digest algorithm.
@@ -83,7 +83,7 @@ Rails.application.config.active_record.allow_deprecated_singular_associations_na
 # serializer. Therefore, this setting should only be enabled after all replicas
 # have been successfully upgraded to Rails 7.1.
 #++
-# Rails.application.config.active_job.use_big_decimal_serializer = true
+Rails.application.config.active_job.use_big_decimal_serializer = true
 
 ###
 # Specify if an `ArgumentError` should be raised if `Rails.cache` `fetch` or
@@ -128,7 +128,7 @@ Rails.application.config.active_record.query_log_tags_format = :sqlcommenter
 # servers, first deploy without changing the serializer, then set the serializer
 # in a subsequent deploy.
 #++
-# Rails.application.config.active_support.message_serializer = :json_allow_marshal
+Rails.application.config.active_support.message_serializer = :json_allow_marshal
 
 ###
 # Enable a performance optimization that serializes message data and metadata
@@ -141,7 +141,7 @@ Rails.application.config.active_record.query_log_tags_format = :sqlcommenter
 # leave this optimization off on the first deploy, then enable it on a
 # subsequent deploy.
 #++
-# Rails.application.config.active_support.use_message_serializer_for_metadata = true
+Rails.application.config.active_support.use_message_serializer_for_metadata = true
 
 ###
 # Set the maximum size for Rails log files.
@@ -197,7 +197,7 @@ Rails.application.config.active_record.default_column_serializer = nil
 # leave this optimization off on the first deploy, then enable it on a
 # subsequent deploy.
 #++
-# Rails.application.config.active_record.marshalling_format_version = 7.1
+Rails.application.config.active_record.marshalling_format_version = 7.1
 
 ###
 # Run `after_commit` and `after_*_commit` callbacks in the order they are defined in a model.
@@ -215,21 +215,6 @@ Rails.application.config.active_record.commit_transaction_on_non_local_return = 
 # Controls when to generate a value for <tt>has_secure_token</tt> declarations.
 #++
 Rails.application.config.active_record.generate_secure_token_on = :initialize
-
-###
-# ** Please read carefully, this must be configured in config/application.rb **
-#
-# Change the format of the cache entry.
-#
-# Changing this default means that all new cache entries added to the cache
-# will have a different format that is not supported by Rails 7.0
-# applications.
-#
-# Only change this value after your application is fully deployed to Rails 7.1
-# and you have no plans to rollback.
-# When you're ready to change format, add this to `config/application.rb` (NOT
-# this file):
-#   config.active_support.cache_format_version = 7.1
 
 ###
 # Configure Action View to use HTML5 standards-compliant sanitizers when they are supported on your
