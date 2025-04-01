@@ -10,6 +10,7 @@ FactoryBot.define do
 
     trait :staff do
       staff { true }
+      email { 'staff@umass.edu' }
     end
 
     trait :student do
@@ -17,8 +18,8 @@ FactoryBot.define do
     end
 
     trait :admin do
+      staff
       admin { true }
-      staff { true }
     end
   end
 end
