@@ -1,0 +1,14 @@
+%p Hello,
+%p
+  An application which you had saved for later has been moved back to the dashboard as scheduled.
+  It is now ready for your review.
+%dl
+  %dt Position
+  %dd= @record.position.name
+  %dt Applicant
+  %dd= @record.user.full_name
+  %dt Applied on
+  %dd= @record.created_at.to_fs :long_with_time
+  - if @record.note_for_later.present?
+    %dt Note
+    %dd= @record.note_for_later

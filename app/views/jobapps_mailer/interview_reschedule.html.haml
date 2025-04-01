@@ -1,0 +1,12 @@
+%p Hello #{@user.first_name},
+%p
+  Your interview has been rescheduled for
+  #{@interview.scheduled.to_fs(:long_with_time)} at #{@interview.location}.
+%p
+  you may confirm your interview status at
+  = succeed '.' do
+    = link_to 'here', student_dashboard_url
+%p
+  Best,
+  %br
+  = configured_value [:organization_name]
