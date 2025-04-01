@@ -9,6 +9,7 @@ gem 'friendly_id'
 gem 'haml'
 gem 'haml-rails'
 gem 'icalendar'
+gem 'irb'
 gem 'mysql2'
 # TODO: Remove ruby platform when we're off RHEL 7
 gem 'nokogiri', force_ruby_platform: true
@@ -49,9 +50,9 @@ end
 group :development, :test do
   gem 'better_errors', require: false
   gem 'binding_of_caller', require: false
+  gem 'debug'
   gem 'factory_bot_rails'
   gem 'haml_lint'
-  gem 'pry-byebug'
   gem 'spring', require: false
 end
 
