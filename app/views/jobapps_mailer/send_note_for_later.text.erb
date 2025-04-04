@@ -1,9 +1,8 @@
 Hello <%= @user.first_name %>,
 
-Your application to the <%= @record.position.try(:name) %> position has been saved for later review due to the following reason:
+Your application to the <%= @record.position&.name %> position has been saved for later review due to the following reason:
 
 <%= @record.note_for_later %> 
 
 Best,
-
 <%= configured_value [:organization_name] %>

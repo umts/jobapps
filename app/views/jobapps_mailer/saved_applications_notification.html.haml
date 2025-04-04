@@ -1,0 +1,16 @@
+%p Hello,
+%p
+  The following applications which you had saved for later have been moved back
+  to the dashboard and are now ready for your review:
+
+- @records.each_pair do |position, records|
+  %h3= position.name
+  - records.each do |record|
+    %dl
+      %dt Applicant
+      %dd= record.user.full_name
+      %dt Applied On
+      %dd= record.created_at.to_fs :long_with_time
+      - if record.note_for_later.present?
+        %dt Note
+        %dd= record.note_for_later

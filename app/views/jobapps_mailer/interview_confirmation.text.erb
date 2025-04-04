@@ -1,9 +1,8 @@
 Hello <%= @user.first_name %>,
 
-Your interview has been scheduled for <%= @interview.scheduled %> at <%= @interview.location %>.
+Your interview has been scheduled for <%= @interview.scheduled.to_fs(:long_with_time) %> at <%= @interview.location %>.
 
-You may confirm your interview status <%=link_to 'here', student_dashboard_url %>.
+You may confirm your interview status at <<%= student_dashboard_url %>>.
 
 Best,
-
 <%= configured_value [:organization_name] %>

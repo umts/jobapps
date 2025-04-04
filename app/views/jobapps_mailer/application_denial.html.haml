@@ -1,0 +1,15 @@
+- position_name = @application_submission.position&.name
+
+%p Hello #{@user.first_name},
+%p
+  - if @application_submission.rejection_message.present?
+    Your application to the #{position_name} position has been denied due to the following reason:
+    = succeed '.' do
+      = @application_submission.rejection_message
+  - else
+    Your application to the #{position_name} position has been denied.
+
+%p
+  Best,
+  %br
+  = configured_value [:organization_name]

@@ -76,7 +76,7 @@ describe JobappsMailer do
     end
 
     it 'includes the position name and the name of the applicant' do
-      expect(output.body).to include(position.name, applicant.full_name)
+      expect(output.body.encoded).to include(position.name, applicant.full_name)
     end
   end
 
@@ -107,7 +107,7 @@ describe JobappsMailer do
     end
 
     it 'includes the date and time of the interview' do
-      expect(output.body.encoded).to include(interview.scheduled.to_s)
+      expect(output.body.encoded).to include(interview.scheduled.to_fs(:long_with_time))
     end
 
     it 'has the correct reply-to address' do
@@ -142,7 +142,7 @@ describe JobappsMailer do
     end
 
     it 'includes the date and time of the interview' do
-      expect(output.body.encoded).to include(interview.scheduled.to_s)
+      expect(output.body.encoded).to include(interview.scheduled.to_fs(:long_with_time))
     end
 
     it 'has the correct reply-to address' do

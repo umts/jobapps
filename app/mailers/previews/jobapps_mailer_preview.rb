@@ -31,9 +31,11 @@ class JobappsMailerPreview < ActionMailer::Preview
 
   def saved_applications_notification
     user = build(:user, :staff)
-    submissions =
-      build_list(:application_submission, 3, created_at: 10.days.ago, note_for_later: "We're not at all ready.")
-    JobappsMailer.saved_applications_notification(submissions.group_by(&:position), user.email)
+    submissions = build_list(:position, 3).index_with do |position|
+      build_list(:application_submission, 3,
+                 position:, created_at: 10.days.ago, note_for_later: "We're not at all ready.")
+    end
+    JobappsMailer.saved_applications_notification(submissions, user.email)
   end
 
   def send_note_for_later

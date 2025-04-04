@@ -4,9 +4,10 @@ The following applications which you had saved for later have been moved back to
 
 <% @records.each_pair do |position, records| %>
 Position: <%= position.name %>
+-----------------------------------
 <% records.each do |record| %>
   Applicant: <%= record.user.full_name %>,
-  Applied on: <%= record.created_at.to_formatted_s :long_with_time %>
+  Applied on: <%= record.created_at.to_fs :long_with_time %>
   <%- if record.note_for_later.present? %>
   Note: <%= record.note_for_later %>
   <%- end %>

@@ -1,0 +1,9 @@
+%p Hello #{@user.first_name},
+%p
+  Your application to the #{@record.position&.name} position has been saved for later review
+  due to the following reason:
+%p= @record.note_for_later
+%p
+  Best,
+  %br
+  = configured_value [:organization_name]
