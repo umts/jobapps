@@ -16,7 +16,7 @@ gem 'nokogiri', force_ruby_platform: true
 gem 'prawn'
 gem 'prawn-table'
 gem 'puma'
-gem 'rails', '~> 7.1.5'
+gem 'rails', '~> 7.2.2'
 gem 'redcarpet'
 gem 'sass-rails'
 gem 'snappconfig'
