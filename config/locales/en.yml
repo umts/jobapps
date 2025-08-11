@@ -30,6 +30,9 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
+  errors:
+    messages:
+      true_false: 'must be true or false'
   activerecord:
     attributes:
       user:
