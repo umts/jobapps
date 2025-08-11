@@ -71,6 +71,21 @@ en:
       success: Interview marked as completed.
     reschedule:
       success: Interview has been rescheduled.
+  jobapps_mailer:
+    application_denial:
+      subject: Application Denial
+    application_notification:
+      subject: "New Application for %{position}"
+    interview_confirmation:
+      subject: Interview Confirmation
+    interview_reschedule:
+      subject: Interview Rescheduled
+    send_note_for_later:
+      subject: Your application has been saved for later review
+    saved_application_notification:
+      subject: Saved application moved back to dashboard
+    saved_applications_notification:
+      subject: Saved applications moved back to dashboard
   positions:
     create:
       success: Position successfully created.
