@@ -12,87 +12,86 @@ describe ApplicationSubmissionsController do
   ]
 
   describe 'POST #create' do
-    before do
-      @position = create(:position)
-      create(:application_template, position: @position, unavailability_enabled: true)
-      @data = { 'response_1' => 'No',
-                'prompt_1' => 'Do you like cats',
-                'response_2' => '10/07/2015',
-                'prompt_2' => 'Another question',
-                'response_3' => '',
-                'prompt_3' => 'This thing' }
-      @unavailability = { 'sunday_7AM' => '0',
-                          'sunday_8AM' => '0',
-                          'tuesday_11AM' => '1',
-                          'tuesday_12AM' => '1',
-                          'friday_4PM' => '1',
-                          'friday_5PM' => '0' }
-
-      @user = {}
+    let(:position) { create(:position) }
+    let(:user_params) { {} }
+    let :params do
+      {
+        position_id: position.id,
+        user: user_params,
+        data: {
+          'response_1' => 'No',
+          'prompt_1' => 'Do you like cats',
+          'response_2' => '10/07/2015',
+          'prompt_2' => 'Another question',
+          'response_3' => '',
+          'prompt_3' => 'This thing'
+        },
+        unavailability: {
+          'sunday_7AM' => '0',
+          'sunday_8AM' => '0',
+          'tuesday_11AM' => '1',
+          'tuesday_12AM' => '1',
+          'friday_4PM' => '1',
+          'friday_5PM' => '0'
+        }
+      }
     end
+    let(:submit) { post :create, params: }
 
-    let :submit do
-      post :create, params: { position_id: @position.id,
-                              data: @data,
-                              user: @user,
-                              unavailability: @unavailability }
-    end
+    before { create(:application_template, position:, unavailability_enabled: true) }
 
-    context 'current user is nil' do
-      it 'creates a user' do
-        when_current_user_is nil
-        @user = {
+    context 'when the current user is nil' do
+      let :user_params do
+        {
           first_name: 'FirstName',
           last_name: 'LastName',
           email: 'flastnam@umass.edu'
         }
-        expect { submit }
-          .to change(User, :count)
-          .by 1
+      end
+
+      it 'creates a user' do
+        when_current_user_is nil
+        expect { submit }.to change(User, :count).by(1)
       end
     end
 
-    context 'student' do
-      let!(:user) { create(:user, :student) }
+    context 'when the current user is a student' do
+      let(:user) { create(:user, :student) }
 
       before { when_current_user_is user }
 
       it 'creates an application record as specified' do
-        expect { submit }
-          .to change(ApplicationSubmission, :count)
-          .by 1
+        expect { submit }.to change(ApplicationSubmission, :count).by(1)
       end
 
       it 'creates an unavailability' do
-        expect { submit }
-          .to change(Unavailability, :count)
-          .by 1
+        expect { submit }.to change(Unavailability, :count).by(1)
       end
 
       it 'emails the subscribers to the position of the application record' do
-        expect_any_instance_of(ApplicationSubmission)
-          .to receive(:email_subscribers)
-          .with applicant: user
+        application_submission = create(:application_submission, user:, position:)
+        allow(ApplicationSubmission).to receive(:create).and_return(application_submission)
+        allow(application_submission).to receive(:email_subscribers)
         submit
+        expect(application_submission).to have_received(:email_subscribers).with(applicant: user)
       end
     end
 
-    context 'staff' do
-      let!(:user) { create(:user, :staff) }
+    context 'when the current user is staff' do
+      let(:user) { create(:user, :staff) }
 
       before { when_current_user_is user }
 
       it 'creates an application record as specified' do
-        expect { submit }
-          .to change(ApplicationSubmission, :count)
-          .by 1
+        expect { submit }.to change(ApplicationSubmission, :count).by(1)
       end
 
       it 'emails the subscribers to the position of the application record' do
-        expect_any_instance_of(ApplicationSubmission)
-          .to receive(:email_subscribers)
-          .with applicant: user
+        application_submission = create(:application_submission, user:, position:)
+        allow(ApplicationSubmission).to receive(:create).and_return(application_submission)
+        allow(application_submission).to receive(:email_subscribers)
         submit
+        expect(application_submission).to have_received(:email_subscribers).with(applicant: user)
       end
 
       it 'redirects to the student dashboard' do
@@ -103,10 +102,7 @@ describe ApplicationSubmissionsController do
   end
 
   describe 'GET #csv_export' do
-    before do
-      when_current_user_is :staff
-      @department = create(:department)
-    end
+    let(:department) { create(:department) }
 
     let :params do
       {
@@ -115,61 +111,62 @@ describe ApplicationSubmissionsController do
         end_date: Time.zone.today.to_fs(:db)
       }
     end
-
     let(:extra_params) { {} }
+
     let :submit do
       get :csv_export, params: params.merge(extra_params)
     end
 
-    context 'submitting with the department ID param' do
-      let(:extra_params) { { department_ids: [@department.id] } }
+    before do
+      when_current_user_is :staff
+    end
 
-      it 'calls AR#in_department with the correct parameters' do
+    context 'when submitting with the department id param' do
+      let(:extra_params) { { department_ids: [department.id] } }
+
+      it 'calls .in_department with the correct parameters' do
         create(:department)
-        # Needs to return something, because we must call
-        # other methods on what it returns later.
-        expect(ApplicationSubmission).to receive(:in_department)
-          .with([@department.id.to_s])
-          .and_return ApplicationSubmission.none
+        allow(ApplicationSubmission).to receive(:in_department).and_return ApplicationSubmission.none
         submit
+        expect(ApplicationSubmission).to have_received(:in_department).with([department.id.to_s])
       end
 
-      it 'calls AR#between with the correct parameters' do
-        expect(ApplicationSubmission).to receive(:between)
-          .with params[:start_date], params[:end_date]
+      it 'calls .between with the correct parameters' do
+        allow(ApplicationSubmission).to receive(:between)
         submit
+        expect(ApplicationSubmission).to have_received(:between).with(params[:start_date], params[:end_date])
       end
 
       it 'assigns the correct records to the instance variable' do
-        expect(ApplicationSubmission).to receive(:between).and_return 'whatever'
+        allow(ApplicationSubmission).to receive(:between).and_return(:a_record)
         submit
-        expect(assigns.fetch :records).to eql 'whatever'
+        expect(assigns.fetch :records).to be(:a_record)
       end
     end
 
-    context 'submitting without the department ID param' do
-      it 'calls AR#in_department with all department IDs' do
-        expect(ApplicationSubmission).to receive(:in_department)
-          .with(Department.pluck(:id)).and_return ApplicationSubmission.none
-        # must return something - another method is called on the results
+    context 'when submitting without the department id param' do
+      it 'calls .in_department with all department IDs' do
+        allow(ApplicationSubmission).to receive(:in_department).and_return ApplicationSubmission.none
         submit
+        expect(ApplicationSubmission).to have_received(:in_department).with(Department.pluck(:id))
       end
 
-      it 'calls AR#between with the correct parameters' do
-        expect(ApplicationSubmission).to receive(:between)
-          .with params[:start_date], params[:end_date]
+      it 'calls .between with the correct parameters' do
+        allow(ApplicationSubmission).to receive(:between)
         submit
+        expect(ApplicationSubmission).to have_received(:between).with(params[:start_date], params[:end_date])
       end
 
       it 'assigns the correct records to the instance variable' do
-        expect(ApplicationSubmission).to receive(:between).and_return 'whatever'
+        allow(ApplicationSubmission).to receive(:between).and_return :a_record
         submit
-        expect(assigns.fetch :records).to eql 'whatever'
+        expect(assigns.fetch :records).to be(:a_record)
       end
     end
   end
 
   describe 'GET #eeo_data' do
+    let(:department) { create(:department) }
     let :params do
       {
         eeo_start_date: 1.week.ago.to_date.to_fs(:db),
@@ -179,51 +176,49 @@ describe ApplicationSubmissionsController do
 
     before do
       when_current_user_is :staff
-      @department = create(:department)
     end
 
-    context 'submitting with the department ID param' do
+    context 'when submitting with the department ID param' do
       let :submit do
-        get :eeo_data, params: params.merge(department_ids: @department.id)
+        get :eeo_data, params: params.merge(department_ids: department.id)
       end
 
-      it 'calls AR#eeo_data with the correct parameters' do
-        expect(ApplicationSubmission).to receive(:eeo_data)
-          .with(params[:eeo_start_date], params[:eeo_end_date], @department.id.to_s)
-        # to_s because params are a string
+      it 'calls .eeo_data with the correct parameters' do
+        allow(ApplicationSubmission).to receive(:eeo_data)
         submit
+        expect(ApplicationSubmission).to have_received(:eeo_data)
+          .with(params[:eeo_start_date], params[:eeo_end_date], department.id.to_s)
       end
 
       it 'assigns the correct records to the instance variable' do
-        record = ApplicationSubmission.none
-        expect(ApplicationSubmission).to receive(:eeo_data).and_return record
+        records = ApplicationSubmission.none
+        allow(ApplicationSubmission).to receive(:eeo_data).and_return records
         submit
-        expect(assigns.fetch :records).to eql record
+        expect(assigns.fetch :records).to eql records
       end
     end
 
-    context 'submitting without the department ID param' do
+    context 'when submitting without the department ID param' do
       let(:submit) { get :eeo_data, params: }
 
-      # the third argument in this case is not from the params,
-      # it is a given array
-      it 'calls AR#eeo_data with the correct parameters' do
-        expect(ApplicationSubmission).to receive(:eeo_data)
-          .with(params[:eeo_start_date], params[:eeo_end_date], Department.pluck(:id))
-          .and_return ApplicationSubmission.none
+      it 'calls .eeo_data with the correct parameters' do
+        allow(ApplicationSubmission).to receive(:eeo_data).and_return(ApplicationSubmission.none)
         submit
+        expect(ApplicationSubmission).to have_received(:eeo_data)
+          .with(params[:eeo_start_date], params[:eeo_end_date], Department.pluck(:id))
       end
 
       it 'assigns the correct records to the instance variable' do
-        record = ApplicationSubmission.none
-        expect(ApplicationSubmission).to receive(:eeo_data).and_return record
+        records = ApplicationSubmission.none
+        allow(ApplicationSubmission).to receive(:eeo_data).and_return records
         submit
-        expect(assigns.fetch :records).to eql record
+        expect(assigns.fetch :records).to eql records
       end
     end
   end
 
   describe 'GET #past_applications' do
+    let(:department) { create(:department) }
     let :params do
       {
         records_start_date: 1.week.ago.to_date.to_fs(:db),
@@ -233,126 +228,116 @@ describe ApplicationSubmissionsController do
 
     before do
       when_current_user_is :staff
-      @department = create(:department)
     end
 
-    context 'submitting with the department ID param' do
+    context 'when submitting with the department ID param' do
       let(:submit) do
-        get :past_applications, params: params.merge(department_ids: @department.id)
+        get :past_applications, params: params.merge(department_ids: department.id)
       end
 
-      it 'calls AR#between with the correct parameters' do
-        expect(ApplicationSubmission).to receive(:between)
-          .with params[:records_start_date], params[:records_end_date]
+      it 'calls .between with the correct parameters' do
+        allow(ApplicationSubmission).to receive(:between)
         submit
+        expect(ApplicationSubmission).to have_received(:between)
+          .with(params[:records_start_date], params[:records_end_date])
       end
 
-      it 'calls AR#in_department with the correct parameters' do
-        expect(ApplicationSubmission).to receive(:in_department)
-          .with(@department.id.to_s)
-          .and_return ApplicationSubmission.none
-        #  needs to return something - other methods are called on the results
+      it 'calls .in_department with the correct parameters' do
+        allow(ApplicationSubmission).to receive(:in_department).and_return ApplicationSubmission.none
         submit
+        expect(ApplicationSubmission).to have_received(:in_department).with(department.id.to_s)
       end
 
       it 'assigns the correct records to the instance variable' do
-        expect(ApplicationSubmission).to receive(:between).and_return 'whatever'
+        allow(ApplicationSubmission).to receive(:between).and_return(:a_record)
         submit
-        expect(assigns.fetch :records).to eql 'whatever'
+        expect(assigns.fetch :records).to be(:a_record)
       end
     end
 
-    context 'submitting without the department ID param' do
+    context 'when submitting without the department ID param' do
       let(:submit) { get :past_applications, params: }
 
-      it 'calls AR#between with the correct parameters' do
-        expect(ApplicationSubmission).to receive(:between)
-          .with params[:records_start_date], params[:records_end_date]
+      it 'calls .between with the correct parameters' do
+        allow(ApplicationSubmission).to receive(:between)
         submit
+        expect(ApplicationSubmission).to have_received(:between)
+          .with(params[:records_start_date], params[:records_end_date])
       end
 
-      it 'calls AR#in_department with all department IDs' do
-        # must return something, as a method is called on the results
-        expect(ApplicationSubmission).to receive(:in_department)
-          .with(Department.pluck(:id)).and_return ApplicationSubmission.none
+      it 'calls .in_department with all department IDs' do
+        allow(ApplicationSubmission).to receive(:in_department).and_return ApplicationSubmission.none
         submit
+        expect(ApplicationSubmission).to have_received(:in_department).with(Department.pluck(:id))
       end
 
       it 'assigns the correct records to the instance variable' do
-        expect(ApplicationSubmission).to receive(:between).and_return 'whatever'
+        allow(ApplicationSubmission).to receive(:between).and_return(:a_record)
         submit
-        expect(assigns.fetch :records).to eql 'whatever'
+        expect(assigns.fetch :records).to be(:a_record)
       end
     end
   end
 
   describe 'POST #review' do
-    before do
-      @record = create(:application_submission)
-      @interview = { location: 'somewhere',
-                     scheduled: 1.day.since.strftime('%Y/%m/%d %H:%M') }
-    end
+    let(:record) { create(:application_submission) }
+    let(:interview) { { location: 'somewhere', scheduled: 1.day.since.strftime('%Y/%m/%d %H:%M') } }
 
-    # Didn't define a let block since the action takes different
-    # parameters under different circumstances
-    context 'staff' do
+    context 'when the current user is staff' do
       before do
         when_current_user_is :staff
       end
 
-      context 'record accepted' do
+      context 'when the record is accepted' do
         let :submit do
           post :review, params: {
-            id: @record.id,
+            id: record.id,
             application_submission: { accepted: 'true' },
-            interview: @interview
+            interview: interview
           }
         end
 
         it 'creates an interview as given' do
-          expect { submit }
-            .to change(Interview, :count)
-            .by 1
+          expect { submit }.to change(Interview, :count).by(1)
         end
 
         it 'marks record as reviewed' do
           submit
-          expect(@record.reload.reviewed).to be true
+          expect(record.reload.reviewed).to be(true)
         end
 
         it 'redirects to staff dashboard' do
           submit
-          expect(response).to redirect_to staff_dashboard_path
+          expect(response).to redirect_to(staff_dashboard_path)
         end
       end
 
-      context 'record not accepted' do
-        before do
-          @staff_note = 'because I said so'
-        end
-
+      context 'when the record is not accepted' do
         let :submit do
           post :review, params: {
-            id: @record.id, application_submission: {
+            id: record.id,
+            application_submission: {
               accepted: 'false',
-              staff_note: @staff_note
+              staff_note: 'because I said so'
             }
           }
         end
 
         it 'updates record with staff note given' do
-          expect_any_instance_of(ApplicationSubmission).to receive(:deny)
+          allow(ApplicationSubmission).to receive(:find).and_return(record)
+          allow(record).to receive(:deny)
           submit
+          expect(record).to have_received(:deny)
         end
 
         it 'marks record as reviewed' do
           submit
-          expect(@record.reload.reviewed).to be true
+          expect(record.reload.reviewed).to be(true)
         end
 
         it 'redirects to staff dashboard' do
           submit
-          expect(response).to redirect_to staff_dashboard_path
+          expect(response).to redirect_to(staff_dashboard_path)
         end
       end
     end
@@ -363,98 +348,91 @@ describe ApplicationSubmissionsController do
       when_current_user_is :staff
     end
 
-    context 'something went wrong' do
-      let!(:record) { create(:application_submission, saved_for_later: false) }
+    context 'when something goes wrong' do
+      let(:record) { create(:application_submission, saved_for_later: false) }
+
       let(:submit) do
         post :toggle_saved_for_later,
-             params: {
-               id: record.id, commit: 'Save for later',
-               application_submission: { mail_note_for_later: true }
-             }
+             params: { id: record.id, commit: 'Save for later',
+                       application_submission: { mail_note_for_later: true } }
       end
 
       it "doesn't save the record" do
         submit
-        expect(record.saved_for_later).to be false
+        expect(record.saved_for_later).to be(false)
       end
 
       it 'puts the errors in the flash' do
         submit
-        expect(flash[:errors]).to include "Note for later can't be blank"
+        expect(flash[:errors]).to include("Note for later can't be blank")
       end
     end
   end
 
   describe 'GET #show' do
-    before do
-      @record = create(:application_submission, user: create(:user, :student))
-    end
+    let(:record) { create(:application_submission, user: create(:user, :student)) }
 
     let :submit do
-      get :show, params: { id: @record.id }
+      get :show, params: { id: record.id }
     end
 
-    context 'applicant student' do
+    context 'when the current user is the student applicant' do
       before do
-        when_current_user_is @record.user
+        when_current_user_is record.user
       end
 
       it 'renders the correct template' do
         submit
-        expect(response).to render_template 'show'
+        expect(response).to render_template('show')
       end
 
       it 'assigns the correct variables' do
         submit
-        expect(assigns.keys).to include 'record', 'interview'
-        # why interview?
+        expect(assigns.keys).to include('record', 'interview')
       end
     end
 
-    context 'record belongs to another student' do
+    context 'when the record belongs to another student' do
+      let(:record) { create(:application_submission, user: create(:user, :student)) }
+
       before do
-        student1 = create(:user, :student)
-        student2 = create(:user, :student)
-        @record = create(:application_submission, user: student1)
-        when_current_user_is student2
+        when_current_user_is :student
       end
 
       it 'does not allow access' do
         submit
-        expect(response).to have_http_status :unauthorized
-        expect(response).not_to render_template 'show'
+        expect(response).to have_http_status(:unauthorized)
       end
     end
 
-    context 'no user' do
+    context 'with no current user' do
       before do
         when_current_user_is nil
       end
 
       it 'does not allow access' do
         submit
-        expect(response).to have_http_status :unauthorized
-        expect(response).not_to render_template 'show'
+        expect(response).to have_http_status(:unauthorized)
       end
     end
 
-    context 'staff' do
+    context 'when the current user is staff' do
       before do
         when_current_user_is :staff
       end
 
       it 'renders the correct template' do
         submit
-        expect(response).to render_template 'show'
+        expect(response).to render_template('show')
       end
 
       it 'assigns the correct variables' do
         submit
-        expect(assigns.keys).to include 'record', 'interview'
+        expect(assigns.keys).to include('record', 'interview')
       end
 
-      it 'generates a pdf by calling prawn' do
-        get :show, params: { id: @record.id, format: :pdf }
+      it 'generates a pdf' do
+        get :show, params: { id: record.id, format: :pdf }
         expect(response.headers['Content-Type']).to eql 'application/pdf'
       end
     end
