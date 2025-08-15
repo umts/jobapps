@@ -11,27 +11,27 @@ describe ApplicationDraftsController do
     %i[post update_application_template member]
   ]
   describe 'DELETE #destroy' do
-    before do
-      @draft = create(:application_draft)
-    end
+    let(:draft) { create(:application_draft) }
 
     let :submit do
-      delete :destroy, params: { id: @draft.id }
+      delete :destroy, params: { id: draft.id }
     end
 
-    context 'staff' do
+    context 'when the current user is staff' do
       before do
         when_current_user_is :staff
       end
 
       it 'assigns the correct draft to the draft instance variable' do
         submit
-        expect(assigns.fetch :draft).to eql @draft
+        expect(assigns.fetch :draft).to eql draft
       end
 
       it 'destroys the draft' do
-        expect_any_instance_of(ApplicationDraft).to receive :destroy
+        allow(ApplicationDraft).to receive_messages(includes: ApplicationDraft, find: draft)
+        allow(draft).to receive(:destroy)
         submit
+        expect(draft).to have_received(:destroy)
       end
 
       it 'includes a flash message' do
@@ -47,28 +47,30 @@ describe ApplicationDraftsController do
   end
 
   describe 'GET #edit' do
-    before do
-      @draft = create(:application_draft)
-    end
+    let(:draft) { create(:application_draft) }
 
     let :submit do
-      get :edit, params: { id: @draft.id }
+      get :edit, params: { id: draft.id }
     end
 
-    context 'staff' do
+    context 'when the current user is staff' do
       before do
         when_current_user_is :staff
       end
 
       it 'assigns the correct draft to the draft instance variable' do
         submit
-        expect(assigns.fetch :draft).to eql @draft
+        expect(assigns.fetch :draft).to eql draft
       end
 
       it 'adds a question to the draft, in memory only' do
-        expect { submit }.not_to change { @draft.questions.count }
-        # Factory draft has 0 questions by default
+        submit
         expect(assigns.fetch(:draft).questions.size).to be 1
+      end
+
+      it 'does not persist the new question' do
+        # Factory draft has 0 questions by default
+        expect { submit }.not_to change { draft.questions.count }
       end
 
       it 'renders the edit template' do
@@ -79,29 +81,26 @@ describe ApplicationDraftsController do
   end
 
   describe 'GET #new' do
-    before do
-      @template = create(:application_template)
-    end
+    let(:template) { create(:application_template) }
 
     let :submit do
-      get :new, params: { application_template_id: @template.id }
+      get :new, params: { application_template_id: template.id }
     end
 
-    context 'staff' do
-      before do
-        @user = create(:user, :staff)
-        when_current_user_is @user
-      end
+    context 'when the current user is staff' do
+      let(:user) { create(:user, :staff) }
 
-      context 'no pre-existing draft' do
+      before { when_current_user_is user }
+
+      context 'with no pre-existing draft' do
         it 'creates a draft for the correct application template' do
-          expect { submit }.to change { @template.drafts.count }.by 1
+          expect { submit }.to change { template.drafts.count }.by 1
         end
       end
 
-      context 'pre-existing draft' do
+      context 'with a pre-existing draft' do
         it 'finds the pre-existing draft' do
-          draft = create(:application_draft, application_template: @template, user: @user)
+          draft = create(:application_draft, application_template: template, user:)
           submit
           expect(assigns.fetch :draft).to eql draft
         end
@@ -116,46 +115,42 @@ describe ApplicationDraftsController do
   end
 
   describe 'POST #update' do
-    before do
-      @draft = create(:application_draft)
-      @question_attrs = { '0' => { number: 1, data_type: 'text', prompt: 'a_prompt' } }
-      @draft_changes = { questions_attributes: @question_attrs }
-      @commit = 'Save changes and continue editing'
+    let(:draft) { create(:application_draft) }
+    let(:draft_changes) do
+      { questions_attributes: { '0' => { number: 1, data_type: 'text', prompt: 'a_prompt' } } }
     end
+    let(:commit) { 'Save changes and continue editing' }
 
     let :submit do
-      post :update, params: {
-        id: @draft,
-        draft: @draft_changes,
-        commit: @commit
-      }
+      post :update, params: { id: draft, draft: draft_changes, commit: }
     end
 
-    context 'staff' do
+    context 'when current user is staff' do
       before do
         when_current_user_is :staff
       end
 
       it 'assigns the correct draft variable' do
         submit
-        expect(assigns.fetch :draft).to eql @draft
+        expect(assigns.fetch :draft).to eql draft
       end
 
       it 'updates the draft with the changes given' do
         submit
-        expect(@draft.reload.questions.first.prompt).to eql 'a_prompt'
+        expect(draft.reload.questions.first.prompt).to eql 'a_prompt'
       end
 
-      context 'saving changes' do
+      context 'when saving changes' do
         it 'redirects to the edit page for the draft' do
           submit
-          expect(response).to redirect_to edit_draft_path(@draft)
+          expect(response).to redirect_to edit_draft_path(draft)
         end
       end
 
-      context 'previewing changes' do
+      context 'when previewing changes' do
+        let(:commit) { 'Preview changes' }
+
         it 'renders the show page' do
-          @commit = 'Preview changes'
           submit
           expect(response).to render_template 'show'
         end
@@ -164,27 +159,27 @@ describe ApplicationDraftsController do
   end
 
   describe 'POST #update_application_template' do
-    before do
-      @draft = create(:application_draft)
-    end
+    let(:draft) { create(:application_draft) }
 
     let :submit do
-      post :update_application_template, params: { id: @draft.id }
+      post :update_application_template, params: { id: draft.id }
     end
 
-    context 'staff' do
+    context 'when the current user is staff' do
       before do
         when_current_user_is :staff
       end
 
       it 'assigns the correct draft to the draft instance variable' do
         submit
-        expect(assigns.fetch :draft).to eql @draft
+        expect(assigns.fetch :draft).to eql draft
       end
 
       it 'calls update_application_template! on the draft' do
-        expect_any_instance_of(ApplicationDraft).to receive :update_application_template!
+        allow(ApplicationDraft).to receive_messages(includes: ApplicationDraft, find: draft)
+        allow(draft).to receive(:update_application_template!)
         submit
+        expect(draft).to have_received(:update_application_template!)
       end
 
       it 'includes a flash message' do
