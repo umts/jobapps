@@ -72,7 +72,7 @@ describe JobappsMailer do
     end
 
     it 'has a subject notifying the subscriber of the message purpose' do
-      expect(output.subject).to eq("New application for #{position.name}")
+      expect(output.subject).to eq("New Application for #{position.name}")
     end
 
     it 'includes the position name and the name of the applicant' do
