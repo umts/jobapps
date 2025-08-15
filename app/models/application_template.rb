@@ -2,6 +2,7 @@
 
 class ApplicationTemplate < ApplicationRecord
   extend FriendlyId
+
   friendly_id :department_and_position, use: :slugged
 
   has_many :questions, dependent: :destroy

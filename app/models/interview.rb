@@ -7,7 +7,7 @@ class Interview < ApplicationRecord
            :position,
            to: :application_submission
 
-  validates :completed, :hired, inclusion: { in: [true, false], message: 'must be true or false' }
+  validates :completed, :hired, inclusion: { in: [true, false], message: :true_false }
   validates :location, :scheduled, presence: true
   validates :application_submission_id, uniqueness: true
 
