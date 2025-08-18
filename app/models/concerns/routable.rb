@@ -7,9 +7,7 @@ module Routable
     include Rails.application.routes.url_helpers
   end
 
-  def default_url_options
-    ActionMailer::Base.default_url_options
-  end
+  delegate :default_url_options, to: :'ActionMailer::Base'
 
   def url
     url_for self

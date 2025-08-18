@@ -13,14 +13,13 @@ class Question < ApplicationRecord
                   long-text
                   phone-number].freeze
 
-  validate :belongs_to_application_template_or_draft?
+  validate :belongs_to_application_template_or_draft
 
   validates :data_type,
             :number,
             :prompt,
             presence: true
-  validates :required, inclusion: { in: [true, false],
-                                    message: 'must be true or false' }
+  validates :required, inclusion: { in: [true, false], message: :true_false }
   # No questions in one application template with the same number
   validates :number, uniqueness: { scope: :application_template,
                                    if: -> { application_template.present? } }
@@ -62,13 +61,11 @@ class Question < ApplicationRecord
   private
 
   # must have app temp or app temp draft, but not both
-  def belongs_to_application_template_or_draft?
+  def belongs_to_application_template_or_draft
     template = application_template
     draft = application_draft
     return if template.present? ^ draft.present?
 
-    errors.add :base,
-               'You must specify either an application template or a draft,
-                 but not both'
+    errors.add :base, 'You must specify either an application template or a draft, but not both'
   end
 end
