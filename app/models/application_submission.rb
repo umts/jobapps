@@ -37,7 +37,7 @@ class ApplicationSubmission < ApplicationRecord
     joins(:interview)
       .where(interviews: { application_submission_id: ids }).count
   }
-  scope :newest_first, -> { order 'created_at desc' }
+  scope :newest_first, -> { order created_at: :desc }
   scope :pending, -> { where reviewed: false }
   scope :with_gender, -> { where.not gender: [nil, ''] }
   scope :with_ethnicity, -> { where.not ethnicity: [nil, ''] }
@@ -90,8 +90,8 @@ class ApplicationSubmission < ApplicationRecord
   end
 
   def self.move_to_dashboard
-    records = where('date_for_later <= ?', Time.zone.today)
-    email_records = where('date_for_later <= ?', Time.zone.today)
+    records = where(date_for_later: ..Time.zone.today)
+    email_records = where(date_for_later: ..Time.zone.today)
                     .where.not(email_to_notify: [nil, ''])
     if email_records.one?
       record = records.first
