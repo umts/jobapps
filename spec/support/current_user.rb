@@ -6,9 +6,9 @@
 def when_current_user_is(user)
   current_user =
     case user
+    when :anyone, :anybody then create(:user)
     when Symbol then create(:user, user)
-    when User then user
-    when nil then nil
+    when User, nil then user
     else raise ArgumentError, 'Invalid user type'
     end
   set_current_user current_user
