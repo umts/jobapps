@@ -3,17 +3,12 @@
 require 'rails_helper'
 
 describe Position do
-  describe 'name_and_department' do
-    before do
-      @position = create(:position)
-    end
+  describe '#name_and_department' do
+    subject(:call) { position.name_and_department }
 
-    it 'includes the name of the position' do
-      expect(@position.name_and_department).to include @position.name
-    end
+    let(:position) { build(:position) }
 
-    it 'includes the department of the position' do
-      expect(@position.name_and_department).to include @position.department.name
-    end
+    it { is_expected.to include(position.name) }
+    it { is_expected.to include(position.department.name) }
   end
 end
