@@ -8,5 +8,5 @@ runs:
         bundler-cache: true
     - uses: actions/setup-node@v5
       with:
-        node-version: 'lts/*'
-        cache: yarn
+        node-version-file: .node-version
+        cache: npm
