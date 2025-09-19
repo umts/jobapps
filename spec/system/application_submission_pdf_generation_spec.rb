@@ -14,6 +14,6 @@ describe 'generating a pdf to print an application record' do
   it 'generates a pdf of the application record for printing' do
     click_button 'Print this page'
     path = application_submission_path(record, format: :pdf)
-    expect(page.current_path).to eql path
+    expect(page).to have_current_path(path)
   end
 end
