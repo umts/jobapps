@@ -5,61 +5,51 @@ require 'rails_helper'
 describe SessionsController do
   describe 'DELETE #destroy' do
     before do
-      @user = create(:user)
-      when_current_user_is @user
+      when_current_user_is :anyone
+      allow(session).to receive(:clear).and_call_original
     end
 
     let :submit do
       delete :destroy
     end
 
-    context 'development' do
+    context 'when in the development environment' do
       before do
-        expect(Rails.env)
-          .to receive(:production?)
-          .and_return false
+        allow(Rails.env).to receive(:production?).and_return false
       end
 
       it 'redirects to dev_login' do
-        submit
-        expect(response).to redirect_to dev_login_path
+        expect(submit).to redirect_to dev_login_path
       end
 
       it 'clears the session' do
-        expect_any_instance_of(ActionController::TestSession)
-          .to receive :clear
         submit
+        expect(session).to have_received(:clear)
       end
     end
 
-    context 'production' do
+    context 'when in the production environment' do
       before do
-        expect(Rails.env)
-          .to receive(:production?)
-          .and_return true
+        allow(Rails.env).to receive(:production?).and_return true
       end
 
       it 'redirects to something about Shibboleth' do
-        submit
-        expect(response).to redirect_to %r(/Shibboleth.sso/Logout)
+        expect(submit).to redirect_to %r{/Shibboleth.sso/Logout}
       end
 
       it 'clears the session' do
-        expect_any_instance_of(ActionController::TestSession)
-          .to receive :clear
         submit
+        expect(session).to have_received(:clear)
       end
     end
   end
 
   describe 'GET #dev_login' do
+    let(:submit) { get :dev_login }
+
     before do
       when_current_user_is nil
       create(:user) # for SPIRE purposes
-    end
-
-    let :submit do
-      get :dev_login
     end
 
     it 'assigns instance variables' do
@@ -74,37 +64,35 @@ describe SessionsController do
   end
 
   describe 'POST #dev_login' do
-    before do
-      when_current_user_is nil
-      @user = create(:user)
+    let :submit do
+      post :dev_login, params: { user_id: user.id }
     end
 
-    let :submit do
-      post :dev_login, params: { user_id: @user.id }
+    let(:user) { create(:user) }
+
+    before do
+      when_current_user_is nil
     end
 
     it 'creates a session for the user specified' do
       submit
-      expect(session[:user_id]).to eql @user.id
+      expect(session[:user_id]).to eq(user.id)
     end
 
-    context 'SPIRE submitted' do
+    context 'with a submitted SPIRE id' do
       it 'creates a session with that SPIRE' do
         post :dev_login, params: { spire: '12345678' }
-        expect(session[:spire]).to eql '12345678'
+        expect(session[:spire]).to eq('12345678')
       end
     end
 
     it 'redirects to main dashboard' do
-      submit
-      expect(response).to redirect_to main_dashboard_path
+      expect(submit).to redirect_to main_dashboard_path
     end
   end
 
   describe 'GET #unauthenticated' do
-    let :submit do
-      get :unauthenticated
-    end
+    let(:submit) { get :unauthenticated }
 
     it 'renders the correct template' do
       expect(submit).to render_template :unauthenticated

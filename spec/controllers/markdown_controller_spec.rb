@@ -1,23 +1,23 @@
 # frozen_string_literal: true
 
+require 'rails_helper'
+
 describe MarkdownController do
-  context 'POST' do
-    before do
-      @input = 'input'
-    end
+  describe 'POST #explanation' do
+    let(:input) { 'input' }
 
     let :submit do
-      post :explanation, params: { preview_input: @input }
+      post :explanation, params: { preview_input: input }
     end
 
-    context 'staff' do
+    context 'when the current user is staff' do
       before do
         when_current_user_is :staff
       end
 
       it 'passes preview input parameter through as an instance variable' do
         submit
-        expect(assigns[:preview_input]).to eql @input
+        expect(assigns[:preview_input]).to eq(input)
       end
     end
   end

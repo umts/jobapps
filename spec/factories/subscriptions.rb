@@ -4,6 +4,6 @@ FactoryBot.define do
   factory :subscription do
     user
     position
-    email { 'email@example.com' }
+    sequence(:email) { |n| "email#{n}@example.com" }
   end
 end

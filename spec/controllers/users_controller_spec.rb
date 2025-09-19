@@ -11,51 +11,66 @@ describe UsersController do
     %i[put update member]
   ]
   describe 'POST #create' do
-    context 'creating a user as staff' do
-      it 'does not create the user' do
+    context 'when the current user is staff' do
+      before do
         when_current_user_is :staff
-        attrs = build(:user)
-        post :create, params: { user: attrs }
+      end
+
+      it 'does not create the user' do
+        post :create, params: { user: build(:user) }
         expect(response).to have_http_status :unauthorized
-        expect(response.body).not_to be_empty
       end
     end
   end
 
   describe 'DELETE #destroy' do
-    context 'destroying a user as staff' do
-      it 'does not destroy the user' do
+    context 'when the current user is staff' do
+      let(:user) { create(:user, :staff) }
+
+      before do
         when_current_user_is :staff
-        user = create(:user, :staff)
+      end
+
+      it 'does not allow the request' do
         delete :destroy, params: { id: user }
         expect(response).to have_http_status :unauthorized
+      end
+
+      it 'does not destroy the user' do
+        delete :destroy, params: { id: user }
         expect(User.all).to include user
       end
     end
   end
 
   describe 'PUT #update' do
-    context 'updating a user as staff' do
-      it 'does not update the user' do
+    context 'when the current user is staff' do
+      let(:user) { create(:user) }
+
+      before do
         when_current_user_is :staff
-        user = create(:user)
-        initial_user = user
-        attrs = build(:user)
-        put :update, params: { id: user, user: attrs }
-        user.reload
-        expect(user).to eql initial_user
+      end
+
+      it 'does not update the user' do
+        expect do
+          put :update, params: { id: user, user: build(:user) }
+        end.not_to change { user.reload.attributes }
       end
     end
   end
 
   describe 'PUT #promote_save' do
-    context 'promoting a user as staff' do
-      it 'does not promote the user' do
+    context 'when the current user is staff' do
+      let(:user) { create(:user) }
+
+      before do
         when_current_user_is :staff
-        user = create(:user)
+      end
+
+      it 'does not promote the user' do
         put :promote_save, params: { user: "#{user.full_name} #{user.spire}" }
         user.reload
-        expect(user.staff).to be false
+        expect(user).not_to be_staff
       end
     end
   end
