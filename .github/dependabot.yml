@@ -11,6 +11,10 @@ updates:
     directory: /
     schedule:
       interval: daily
+    groups:
+      datatables-packages:
+        patterns:
+          - "datatables.net*"
   - package-ecosystem: github-actions
     directory: /
     schedule:
