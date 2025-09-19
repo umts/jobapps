@@ -3,27 +3,23 @@
 require 'rails_helper'
 
 describe User do
-  describe 'full_name' do
-    before do
-      @user = create(:user)
-    end
+  describe '#full_name' do
+    subject(:call) { user.full_name }
 
-    it 'gives first name followed by last name' do
-      expect(@user.full_name).to eql "#{@user.first_name} #{@user.last_name}"
-    end
+    let(:user) { build(:user) }
+
+    it { is_expected.to eq("#{user.first_name} #{user.last_name}") }
   end
 
-  describe 'proper_name' do
-    before do
-      @user = create(:user)
-    end
+  describe '#proper_name' do
+    subject(:call) { user.proper_name }
 
-    it 'gives last name, first name' do
-      expect(@user.proper_name).to eql "#{@user.last_name}, #{@user.first_name}"
-    end
+    let(:user) { build(:user) }
+
+    it { is_expected.to eq("#{user.last_name}, #{user.first_name}") }
   end
 
-  describe 'student?' do
+  describe '#student?' do
     it 'returns true if user is not staff' do
       user = create(:user, staff: false)
       expect(user).to be_student
