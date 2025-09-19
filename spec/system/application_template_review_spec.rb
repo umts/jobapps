@@ -12,27 +12,27 @@ describe 'reviewing application templates' do
   end
 
   it 'displays the title of the application' do
-    expect(page).to have_css 'h1', text: application.position.name
+    expect(page).to have_css('h1', text: application.position.name)
   end
 
-  context 'the application is active' do
+  context 'when the application is active' do
     let(:application) { create(:application_template, active: true) }
 
     it 'tells the user that the application is active' do
-      expect(page).to have_text 'application is available'
+      expect(page).to have_text('application is available')
     end
   end
 
-  context 'the application is inactive' do
+  context 'when the application is inactive' do
     let(:application) { create(:application_template, active: false) }
 
     it 'tells the user that the application is inactive' do
-      expect(page).to have_text 'application is currently not available'
+      expect(page).to have_text('application is currently not available')
     end
 
     it 'still displays the application' do
       application.questions.each do |q|
-        expect(page).to have_text q.prompt
+        expect(page).to have_text(q.prompt)
       end
     end
   end
@@ -41,17 +41,23 @@ describe 'reviewing application templates' do
     expect(page).to have_no_button('Submit application')
   end
 
-  it 'pre-fills the personal information values' do
-    expect(find_field('First name').value).to eql user.first_name
-    expect(find_field('Last name').value).to eql user.last_name
-    expect(find_field('Email').value).to eql user.email
+  it "pre-fills the user's first name" do
+    expect(page).to have_field('First name', with: user.first_name)
+  end
+
+  it "pre-fills the user's last name" do
+    expect(page).to have_field('Last name', with: user.last_name)
+  end
+
+  it "pre-fills the user's email" do
+    expect(page).to have_field('Email', with: user.email)
   end
 
   it 'uses the slug attribute of the application template as the path slug' do
-    expect(page.current_path).to include application.slug
+    expect(page).to have_current_path(/#{application.slug}/)
   end
 
   it 'shows any questions the application has' do
-    expect(page).to have_text application.questions.first.prompt
+    expect(page).to have_text(application.questions.first.prompt)
   end
 end
