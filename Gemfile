@@ -10,7 +10,6 @@ gem 'haml'
 gem 'haml-rails'
 gem 'icalendar'
 gem 'irb'
-gem 'mysql2'
 # TODO: Remove ruby platform when we're off RHEL 7
 gem 'nokogiri', force_ruby_platform: true
 gem 'prawn'
@@ -22,6 +21,7 @@ gem 'sass-rails'
 gem 'snappconfig'
 gem 'sprockets-rails'
 gem 'terser'
+gem 'trilogy'
 gem 'whenever', require: false
 
 group :production do
