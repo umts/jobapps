@@ -1,10 +1,23 @@
 {
   "dependencies": {
+    "@csstools/postcss-sass": "*",
+    "autoprefixer": "*",
+    "bootstrap": "^4.6.2",
     "datatables.net": "^1.11.3",
     "datatables.net-bs4": "^1.11.3",
     "jquery": "^3.7.1",
     "jquery-ui-dist": "^1.13.3",
     "jquery.maskedinput": "^1.4.1",
-    "multiple-select": "^2.2.0"
+    "multiple-select": "^2.2.0",
+    "popper.js": "^1.16.1",
+    "postcss": "*",
+    "postcss-cli": "< 11",
+    "postcss-scss": "*"
+  },
+  "devDependencies": {
+    "run-pty": "*"
+  },
+  "scripts": {
+    "build:css": "postcss ./app/assets/stylesheets/application.scss -o ./app/assets/builds/application.css"
   }
 }
