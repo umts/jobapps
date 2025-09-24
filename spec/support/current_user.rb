@@ -26,6 +26,8 @@ def set_current_user(user)
     else
       session[:spire] = build(:user).spire
     end
+  when :request
+    put RackSessionAccess.path, params: { data: RackSessionAccess.encode(user_id: user&.id) }
   end
 end
 # rubocop:enable Naming/AccessorMethodName
