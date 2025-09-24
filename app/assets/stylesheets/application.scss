@@ -1,8 +1,7 @@
 @use 'bootstrap/scss/bootstrap' with ($blue: #5b7f95, $red: #a8431e);
-
-@import 'jquery-ui-dist/jquery-ui';
-@import 'multiple-select/dist/multiple-select';
-@import 'datatables.net-bs4/css/dataTables.bootstrap4';
+@use 'datatables.net-bs4/css/dataTables.bootstrap4';
+@use 'jquery-ui-dist/jquery-ui';
+@use 'multiple-select/dist/multiple-select';
 
 @import "application_drafts/edit";
 @import "application_records/eeo_display";
