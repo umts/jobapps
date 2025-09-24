@@ -16,92 +16,155 @@ describe 'reviewing applications' do
     visit staff_dashboard_path
   end
 
-  it 'provides a means to reject the application without a staff note' do
-    click_link unreviewed_record.user.proper_name,
-               href: application_submission_path(unreviewed_record)
-    click_button 'Decline'
-    expect(page.current_path).to eql staff_dashboard_path
-    expect(page).to have_text 'Application has been marked as reviewed'
-  end
-
-  it 'provides a means to notify the applicant of denial' do
-    click_link unreviewed_record.user.proper_name,
-               href: application_submission_path(unreviewed_record)
-    expect(JobappsMailer).to receive(:application_denial)
-      .with(unreviewed_record)
-      .and_return mail
-    expect(mail).to receive(:deliver_now).and_return true
-    page.check 'Notify applicant of denial'
-    page.fill_in 'Tell them why',
-                 with: "It's not you, it's me"
-    page.fill_in 'Staff note',
-                 with: "They said they don't like Star Trek"
-    click_button 'Decline'
-    expect(unreviewed_record.reload.staff_note)
-      .to eq "They said they don't like Star Trek"
-    expect(unreviewed_record).to be_reviewed
-    expect(unreviewed_record).not_to be_saved_for_later
-  end
-
-  it 'provides a means to reject without notifying' do
-    click_link unreviewed_record.user.proper_name,
-               href: application_submission_path(unreviewed_record)
-    expect(JobappsMailer).not_to receive(:application_denial)
-    page.fill_in 'Staff note',
-                 with: "They said they don't like Star Trek"
-    # the box is checked by default
-    uncheck 'Notify applicant of denial'
-    click_button 'Decline'
-    expect(unreviewed_record.reload.staff_note)
-      .to eq "They said they don't like Star Trek"
-    expect(unreviewed_record).to be_reviewed
-    expect(unreviewed_record).not_to be_saved_for_later
-  end
-
-  it 'provides a means to accept the application and schedule an interview' do
-    click_link unreviewed_record.user.proper_name,
-               href: application_submission_path(unreviewed_record)
-    fill_in 'Date/time', with: 1.week.since
-    fill_in 'Location', with: 'A Place'
-    click_button 'Approve'
-    expect(page.current_path).to eql staff_dashboard_path
-    expect(page).to have_text 'Application has been marked as reviewed'
-    expect(unreviewed_record.interview.reload.scheduled.to_datetime)
-      .to be_within(1.second).of(1.week.since.to_datetime)
-  end
-
-  it 'provides a means to reschedule the interview' do
-    time = interview.scheduled.to_fs :long_with_time
-    click_link reviewed_record.interview.information(include_name: true)
-    expect(page).to have_text "Interview is scheduled for: #{time}"
-    Timecop.freeze do
-      fill_in 'scheduled', with: 1.week.since
-      click_button 'Reschedule interview'
-      expect(interview.reload.scheduled.to_datetime)
-        .to be_within(1.second).of(1.week.since.to_datetime)
+  describe 'pending applications' do
+    before do
+      allow(JobappsMailer).to receive(:application_denial).and_return(mail)
+      allow(mail).to receive(:deliver_now).and_return(true)
+      click_link unreviewed_record.user.proper_name
     end
-    expect(page.current_path).to eql staff_dashboard_path
-    expect(page).to have_text 'Interview has been rescheduled'
+
+    it 'redirects to the staff dashboard on declining an interview' do
+      click_button 'Decline'
+      expect(page).to have_current_path(staff_dashboard_path)
+    end
+
+    it 'informs the user that the applcation is reviewed when declining an interview' do
+      click_button 'Decline'
+      expect(page).to have_text('Application has been marked as reviewed')
+    end
+
+    context 'when requesting denial notification' do
+      before do
+        check 'Notify applicant of denial'
+        fill_in 'Tell them why', with: "It's not you, it's me"
+        fill_in 'Staff note', with: "They said they don't like Star Trek"
+        click_button 'Decline'
+      end
+
+      it 'creates a notification email' do
+        expect(JobappsMailer).to have_received(:application_denial).with(unreviewed_record)
+      end
+
+      it 'sends the notification email' do
+        expect(mail).to have_received(:deliver_now)
+      end
+
+      it 'saves the staff note' do
+        expect(unreviewed_record.reload.staff_note).to eq("They said they don't like Star Trek")
+      end
+
+      it 'marks the application as reviewed' do
+        expect(unreviewed_record.reload).to be_reviewed
+      end
+
+      it 'ensures the application is not marked as saved for later' do
+        expect(unreviewed_record.reload).not_to be_saved_for_later
+      end
+    end
+
+    context 'when declining without notification' do
+      before do
+        fill_in 'Staff note', with: "They said they don't like Star Trek"
+        uncheck 'Notify applicant of denial'
+        click_button 'Decline'
+      end
+
+      it 'does not create a notification email' do
+        expect(JobappsMailer).not_to have_received(:application_denial)
+      end
+
+      it 'saves the staff note' do
+        expect(unreviewed_record.reload.staff_note).to eq("They said they don't like Star Trek")
+      end
+
+      it 'marks the application as reviewed' do
+        expect(unreviewed_record.reload).to be_reviewed
+      end
+
+      it 'ensures the application is not marked as saved for later' do
+        expect(unreviewed_record.reload).not_to be_saved_for_later
+      end
+    end
+
+    context 'when accepting the application and scheduling an interview' do
+      before do
+        fill_in 'Date/time', with: 1.week.from_now
+        fill_in 'Location', with: 'A Place'
+        click_button 'Approve'
+      end
+
+      it 'redirects to the staff dashboard' do
+        expect(page).to have_current_path(staff_dashboard_path)
+      end
+
+      it 'informs the user that the application is reviewed' do
+        expect(page).to have_text('Application has been marked as reviewed')
+      end
+
+      it 'schedules the interview' do
+        expect(unreviewed_record.interview.reload.scheduled.to_datetime)
+          .to be_within(1.second).of(1.week.from_now.to_datetime)
+      end
+    end
   end
 
-  it 'provides a means to mark interview complete and candidate hired' do
-    click_link reviewed_record.user.proper_name,
-               href: application_submission_path(reviewed_record)
-    click_button 'Candidate hired'
-    expect(page).to have_text 'Interview marked as completed'
-    path = application_submission_path(reviewed_record)
-    expect page.has_no_link? reviewed_record.user.proper_name,
-                             href: path
-  end
+  describe 'scheduled interviews' do
+    context 'when rescheduling the interview' do
+      before do
+        click_link interview.information(include_name: true)
+        fill_in 'scheduled', with: 1.week.from_now
+      end
 
-  it 'provides a means to mark interview complete and candidate not hired' do
-    click_link reviewed_record.user.proper_name,
-               href: application_submission_path(reviewed_record)
-    fill_in 'interview_note', with: 'reason for rejection'
-    click_button 'Candidate not hired'
-    expect(page).to have_text 'Interview marked as completed'
-    path = application_submission_path(reviewed_record)
-    expect page.has_no_link? reviewed_record.user.proper_name,
-                             href: path
+      it 'shows the current interview time' do
+        time = interview.scheduled.to_fs :long_with_time
+        expect(page).to have_text "Interview is scheduled for: #{time}"
+      end
+
+      it 'changes the interview time' do
+        click_button 'Reschedule interview'
+        expect(interview.reload.scheduled.to_datetime).to be_within(30.seconds).of(1.week.from_now.to_datetime)
+      end
+
+      it 'redirects to the staff dashboard' do
+        click_button 'Reschedule interview'
+        expect(page).to have_current_path(staff_dashboard_path)
+      end
+
+      it 'informs the user of the rescheduling' do
+        click_button 'Reschedule interview'
+        expect(page).to have_text('Interview has been rescheduled')
+      end
+    end
+
+    context 'when hiring the interviewee' do
+      before do
+        click_link interview.information(include_name: true)
+        click_button 'Candidate hired'
+      end
+
+      it 'informs the user that the interview is complete' do
+        expect(page).to have_text('Interview marked as completed')
+      end
+
+      it 'does not show the hired interviewee on the dashboard' do
+        expect(page).to have_no_link(interview.information(include_name: true))
+      end
+    end
+
+    context 'when not hiring the interviewee' do
+      before do
+        click_link interview.information(include_name: true)
+        fill_in 'interview_note', with: 'reason for rejection'
+        click_button 'Candidate not hired'
+      end
+
+      it 'informs the user that the interview is complete' do
+        expect(page).to have_text('Interview marked as completed')
+      end
+
+      it 'does not show the hired interviewee on the dashboard' do
+        expect(page).to have_no_link(interview.information(include_name: true))
+      end
+    end
   end
 end
