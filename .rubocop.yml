@@ -21,8 +21,9 @@ Metrics/ClassLength:
   Max: 160
 
 Metrics/BlockLength:
-  Exclude:
-    - 'spec/**/*'
+  AllowedMethods:
+    - describe
+    - context
 
 RSpec/NestedGroups:
   Max: 5
