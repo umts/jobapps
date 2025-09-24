@@ -30,3 +30,6 @@ coverage/*
 spec/examples.txt
 
 /.local-overcommit.yml
+
+/app/assets/builds/*
+!/app/assets/builds/.keep
