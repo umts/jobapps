@@ -3,6 +3,8 @@
 require 'rails_helper'
 
 describe 'deleting users' do
+  subject(:submit) { click_on "Remove #{dept.name}" }
+
   let(:dept) { create(:department) }
 
   before do
@@ -10,19 +12,22 @@ describe 'deleting users' do
     visit edit_department_path(dept)
   end
 
+  it 'deletes a department' do
+    expect { submit }.to change(Department, :count).by(-1)
+  end
+
   it 'deletes the department in question' do
-    expect { click_on "Remove #{dept.name}" }
-      .to change(Department, :count).by(-1)
-    expect(Department.all).not_to include dept
+    submit
+    expect(Department.ids).not_to include(dept.id)
   end
 
   it 'redirects you to the staff dashboard' do
-    click_on "Remove #{dept.name}"
-    expect(page.current_path).to eql staff_dashboard_path
+    submit
+    expect(page).to have_current_path(staff_dashboard_path)
   end
 
   it 'gives a flash message' do
-    click_on "Remove #{dept.name}"
+    submit
     expect(page).to have_text('Department successfully deleted.')
   end
 end
