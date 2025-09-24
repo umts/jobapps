@@ -15,9 +15,13 @@
     "postcss-scss": "*"
   },
   "devDependencies": {
-    "run-pty": "*"
+    "run-pty": "*",
+    "stylelint": "< 16",
+    "stylelint-config-standard": "< 35",
+    "stylelint-config-standard-scss": "< 12"
   },
   "scripts": {
-    "build:css": "postcss ./app/assets/stylesheets/application.scss -o ./app/assets/builds/application.css"
+    "build:css": "postcss ./app/assets/stylesheets/application.scss -o ./app/assets/builds/application.css",
+    "lint:css": "stylelint **/*.css **/*.scss"
   }
 }
