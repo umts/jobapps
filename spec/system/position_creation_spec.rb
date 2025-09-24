@@ -10,7 +10,7 @@ describe 'creating new positions' do
     visit new_position_path
   end
 
-  context 'required fields are filled in' do
+  context 'with required fields filled in' do
     before do
       within 'form.new_position' do
         fill_in_fields_for Position, attributes:
@@ -20,17 +20,19 @@ describe 'creating new positions' do
       end
     end
 
-    it 'creates a new position with the proper attributes' do
-      expect { click_on 'Save changes' }.to change(Position, :count).by 1
+    it 'creates a new position' do
+      expect { click_on 'Save changes' }.to change(Position, :count).by(1)
+    end
+
+    it 'creates a position with the proper attributes' do
+      click_on 'Save changes'
       expect(Position.last)
-        .to have_attributes(name: 'Our new shiny position',
-                            default_interview_location: 'UMTS',
-                            department:)
+        .to have_attributes(name: 'Our new shiny position', default_interview_location: 'UMTS', department:)
     end
 
     it 'redirects to the Staff Dashboard' do
       click_on 'Save changes'
-      expect(page.current_path).to eql staff_dashboard_path
+      expect(page).to have_current_path(staff_dashboard_path)
     end
 
     it 'renders a flash message' do
@@ -39,11 +41,10 @@ describe 'creating new positions' do
     end
   end
 
-  context 'missing required field' do
+  context 'with missing required fields' do
     before do
       within 'form.new_position' do
-        fill_in_fields_for Position,
-                           attributes: { name: '', department: }
+        fill_in_fields_for Position, attributes: { name: '', department: }
       end
     end
 
@@ -53,12 +54,12 @@ describe 'creating new positions' do
 
     it 'redirects us to the same page' do
       click_on 'Save changes'
-      expect(page.current_path).to eql new_position_path
+      expect(page).to have_current_path(new_position_path)
     end
 
     it 'renders a flash error' do
       click_on 'Save changes'
-      expect(page).to have_css '#errors', text: 'Name can\'t be blank'
+      expect(page).to have_css('#errors', text: "Name can't be blank")
     end
   end
 end
