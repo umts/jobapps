@@ -1,35 +1,40 @@
-#umass-banner{
+#footer {
+  background-color: black;
+  color: silver;
+
+  a {
+    color: inherit;
+  }
+}
+
+#umass-banner {
   background-color: #881c1c;
   max-width: 100%;
   padding: 1.25em;
-  #wordmark{
+
+  #wordmark {
     float: left;
   }
-  #current-user-name{
+
+  #current-user-name {
     color: lightgrey;
     float: right;
     margin-right: 2em;
     text-align: right;
   }
-  #links{
+
+  #links {
     float: right;
     padding: 0 2em 0 0;
-    a{
+
+    a {
       color: white;
       margin-right: 5px;
     }
   }
 }
 
-#transportation-banner{
-  background: #eeeeee;
+#transportation-banner {
+  background: #eee;
   padding: 1.25em;
-}
-
-#footer{
-  background-color: black;
-  color: silver;
-  a {
-    color: inherit;
-  }
 }
