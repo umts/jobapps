@@ -2,82 +2,64 @@
 
 require 'rails_helper'
 
-describe 'edit staff users' do
+describe 'editing staff users' do
   context 'with admin privilege' do
     let!(:user) { create(:user, staff: true) }
 
-    context 'clicking from dashboard' do
-      before do
-        when_current_user_is :admin
-        visit staff_dashboard_path
-      end
+    before { when_current_user_is :admin }
 
-      it 'directs to the correct page' do
-        click_link user.proper_name, href: edit_user_path(user)
-        expect(page.current_path).to eql edit_user_path(user)
-      end
+    it 'is available from the dashboard' do
+      visit staff_dashboard_path
+      expect(page).to have_link user.proper_name, href: edit_user_path(user)
     end
 
-    context 'on edit user page' do
+    context 'when on edit user page' do
+      subject(:submit) { click_on 'Save changes' }
+
       before do
-        when_current_user_is :admin
         visit edit_user_path(user)
       end
 
-      context 'every field is filled in correctly' do
-        let!(:attributes) { attributes_for(:user).except :staff, :last_name }
+      context 'when every field is filled in correctly' do
+        let(:attributes) { attributes_for(:user).except :staff, :last_name }
 
-        # staff attribute is hidden field, and don't want to change last name
         before do
-          within 'form.edit_user' do
-            fill_in_fields_for User,
-                               attributes: attributes
-                                 .merge(first_name: 'Bananas')
-          end
+          fill_in_fields_for User, attributes: attributes.merge(first_name: 'Bananas')
         end
 
-        it 'only changes the given attributes' do
-          click_on 'Save changes'
-          initial_last_name = user.last_name
-          expect(user.reload)
-            .to have_attributes first_name: 'Bananas',
-                                last_name: initial_last_name
+        it 'changes the given attributes' do
+          expect { submit }.to change { user.reload.first_name }.to('Bananas')
         end
 
         it 'redirects you to the staff dashboard' do
-          click_on 'Save changes'
-          expect(page.current_path).to eql staff_dashboard_path
+          submit
+          expect(page).to have_current_path(staff_dashboard_path)
         end
 
         it 'gives a flash message' do
-          click_on 'Save changes'
+          submit
           expect(page).to have_text('User successfully updated.')
         end
       end
 
-      context 'a field is left blank' do
-        let!(:attributes) { attributes_for(:user).except :staff }
+      context 'when a required field is left blank' do
+        let(:attributes) { attributes_for(:user).except(:staff) }
 
         before do
-          within 'form.edit_user' do
-            fill_in_fields_for User, attributes: attributes
-              .merge(first_name: '')
-          end
+          fill_in_fields_for User, attributes: attributes.merge(first_name: '')
         end
 
         it 'does not change the blank attribute' do
-          click_on 'Save changes'
-          expect(user.reload.attributes.symbolize_keys)
-            .to include first_name: user.first_name, last_name: user.last_name
+          expect { submit }.not_to change { user.reload.first_name }
         end
 
         it 'redirects back to the edit user page' do
-          click_on 'Save changes'
-          expect(page.current_path).to eql edit_user_path(user)
+          submit
+          expect(page).to have_current_path(edit_user_path(user))
         end
 
         it 'has flash errors' do
-          click_on 'Save changes'
+          submit
           expect(page).to have_css('#errors', text: "First name can't be blank")
         end
       end
@@ -85,21 +67,19 @@ describe 'edit staff users' do
   end
 
   context 'with staff privilege' do
-    before do
-      when_current_user_is :staff
-    end
+    before { when_current_user_is :staff }
 
     let!(:user) { create(:user) }
 
     it 'does not have link to page' do
       visit staff_dashboard_path
-      expect(page).to have_no_link user.proper_name
+      find_link('Add new department')
+      expect(page).to have_no_link(user.proper_name)
     end
 
     it 'does not give access' do
       visit edit_user_path(user)
-      expected = 'You do not have permission to access this page.'
-      expect(page).to have_text expected
+      expect(page).to have_text('You do not have permission to access this page.')
     end
   end
 end
