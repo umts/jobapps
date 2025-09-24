@@ -50,7 +50,7 @@ describe 'editing staff users' do
         end
 
         it 'does not change the blank attribute' do
-          expect { submit }.not_to change { user.reload.first_name }
+          expect { submit }.not_to(change { user.reload.first_name })
         end
 
         it 'redirects back to the edit user page' do
