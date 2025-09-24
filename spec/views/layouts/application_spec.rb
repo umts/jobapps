@@ -15,7 +15,7 @@ describe 'layouts/application' do
 
   context 'with message present in flash' do
     before do
-      flash[:message] = 'this is totally a message'
+      flash[:message] = 'this is totally a message' # rubocop:disable Rails/I18nLocaleTexts
       render
     end
 
