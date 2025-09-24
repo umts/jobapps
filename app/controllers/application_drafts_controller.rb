@@ -14,8 +14,7 @@ class ApplicationDraftsController < ApplicationController
   end
 
   def update
-    draft_params = params.require(:draft)
-                         .permit(:email, questions_attributes: %i[id number prompt data_type required])
+    draft_params = params.expect(draft: [:email, { questions_attributes: [%i[id number prompt data_type required]] }])
     questions = draft_params.require(:questions_attributes).values
     @draft.update email: draft_params[:email]
     @draft.update_questions questions
