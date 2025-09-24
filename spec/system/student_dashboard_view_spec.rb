@@ -35,13 +35,10 @@ describe 'viewing the dashboard as a student' do
         create(:application_submission, reviewed: true, user: student, rejection_message: 'No')
       end
 
-      before do
-        visit student_dashboard_path
-      end
-
       context 'when configured value, "notify applicant", is true' do
         before do
           stub_config(:on_application_denial, :notify_applicant, true)
+          visit student_dashboard_path
         end
 
         it 'contains a link to review the pending application' do
@@ -64,6 +61,7 @@ describe 'viewing the dashboard as a student' do
         context 'when configured value, "notify of reason", is set to false' do
           before do
             stub_config(:on_application_denial, :notify_of_reason, false)
+            visit student_dashboard_path
           end
 
           it 'informs the applicant of the denial' do
@@ -82,6 +80,7 @@ describe 'viewing the dashboard as a student' do
         context 'when configured value, "notify of reason", is set to true' do
           before do
             stub_config(:on_application_denial, :notify_of_reason, true)
+            visit student_dashboard_path
           end
 
           it 'informs the applicant of the denial' do
@@ -101,6 +100,7 @@ describe 'viewing the dashboard as a student' do
       context 'when configured value, "notify applicant", is false' do
         before do
           stub_config(:on_application_denial, :notify_applicant, false)
+          visit student_dashboard_path
         end
 
         it 'contains a link to review pending applications' do
