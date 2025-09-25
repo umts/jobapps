@@ -15,6 +15,10 @@
     "postcss-scss": "*"
   },
   "devDependencies": {
+    "@eslint/js": "< 9",
+    "eslint": "< 9",
+    "eslint-config-google": "*",
+    "globals": "< 14",
     "run-pty": "*"
   },
   "scripts": {
