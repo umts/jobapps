@@ -22,6 +22,7 @@
     "run-pty": "*"
   },
   "scripts": {
-    "build:css": "postcss ./app/assets/stylesheets/application.scss -o ./app/assets/builds/application.css"
+    "build:css": "postcss ./app/assets/stylesheets/application.scss -o ./app/assets/builds/application.css",
+    "lint": "eslint ."
   }
 }
