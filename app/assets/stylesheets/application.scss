@@ -1,36 +1,36 @@
-@import 'jquery-ui-dist/jquery-ui';
-@import 'multiple-select/dist/multiple-select';
-@import 'datatables.net-bs4/css/dataTables.bootstrap4';
-@import 'custom_bootstrap_variables';
-@import 'bootstrap/scss/bootstrap';
+@use "bootstrap/scss/bootstrap" with ($blue: #5b7f95, $red: #a8431e);
+@use "datatables.net-bs4/css/dataTables.bootstrap4";
+@use "jquery-ui-dist/jquery-ui";
+@use "multiple-select/dist/multiple-select";
 
-@import "application_drafts/edit";
-@import "application_records/eeo_display";
-@import "application_records/show";
-@import "application_templates/show";
-@import "calendar";
-@import "dashboard";
-@import "date_range_data";
-@import "flash";
-@import "forms";
-@import "subscriptions";
-@import "umass";
+// application
+@use "application_drafts/edit" as application_drafts-edit;
+@use "application_records/eeo_display" as application_records-eeo_display;
+@use "application_records/show" as application_records-show;
+@use "application_templates/show" as application_templates-show;
+@use "calendar";
+@use "dashboard";
+@use "flash";
+@use "forms";
+@use "subscriptions";
+@use "umass";
 
-body{
+body {
   display: flex;
   flex-direction: column;
-  font-family: "Verdana", sans-serif;
+  font-family: Verdana, sans-serif;
   margin: 0;
   min-height: 100vh;
 }
 
-.main-content{
+.main-content {
   background-color: #fafafa;
 }
 
-h1{
+h1 {
   text-align: center;
 }
+
 .hidden {
   display: none;
 }
