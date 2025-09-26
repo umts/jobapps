@@ -1,14 +1,14 @@
 %table.table.data_table.display
   %thead
     %tr
-      %th Date submitted
+      %th.dt-left Date submitted
       %th Name
       %th Note
       %th Date to review
   %tbody
     - @saved.each do |record|
       %tr
-        %td{ data: { order: record.created_at.to_i } }
+        %td.dt-left{ data: { order: record.created_at.to_i } }
           = record.created_at.to_fs :long_with_time
         %td
           = link_to(record.user.proper_name, application_submission_path(record.id))
