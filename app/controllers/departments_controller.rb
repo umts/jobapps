@@ -39,6 +39,6 @@ class DepartmentsController < ApplicationController
   end
 
   def department_parameters
-    params.require(:department).permit :name
+    params.expect department: [:name]
   end
 end
