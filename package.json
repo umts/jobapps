@@ -19,10 +19,14 @@
     "eslint": "< 9",
     "eslint-config-google": "*",
     "globals": "< 14",
-    "run-pty": "*"
+    "run-pty": "*",
+    "stylelint": "< 16",
+    "stylelint-config-standard": "< 35",
+    "stylelint-config-standard-scss": "< 12"
   },
   "scripts": {
     "build:css": "postcss ./app/assets/stylesheets/application.scss -o ./app/assets/builds/application.css",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "lint:css": "stylelint **/*.css **/*.scss"
   }
 }

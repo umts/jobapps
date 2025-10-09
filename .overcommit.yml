@@ -18,6 +18,10 @@ PreCommit:
     enabled: true
     required_executable: bundle
     command: ["bundle", "exec", "rubocop"]
+  Stylelint:
+    enabled: true
+    required_executable: npx
+    command: ["npx", "stylelint"]
 PrePush:
   Brakeman:
     enabled: true

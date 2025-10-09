@@ -1,14 +1,16 @@
-table.eeo_table{
+table.eeo_table {
   margin: 45px;
   border-collapse: collapse;
   text-align: left;
   width: 75%;
-  th{
+
+  th {
     font-weight: normal;
     padding: 10px 8px;
     border-bottom: 2px solid black;
   }
-  td{
+
+  td {
     border-bottom: 1px solid #ccc;
     padding: 6px 8px;
   }
