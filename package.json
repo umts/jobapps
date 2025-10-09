@@ -15,9 +15,14 @@
     "postcss-scss": "*"
   },
   "devDependencies": {
+    "@eslint/js": "< 9",
+    "eslint": "< 9",
+    "eslint-config-google": "*",
+    "globals": "< 14",
     "run-pty": "*"
   },
   "scripts": {
-    "build:css": "postcss ./app/assets/stylesheets/application.scss -o ./app/assets/builds/application.css"
+    "build:css": "postcss ./app/assets/stylesheets/application.scss -o ./app/assets/builds/application.css",
+    "lint": "eslint ."
   }
 }
