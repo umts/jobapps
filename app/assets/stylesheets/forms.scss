@@ -2,15 +2,18 @@ form {
   .heading {
     background:  #ece0e0;
   }
-  .explanation{
+
+  .explanation {
     font-style: italic;
     text-align: center;
+
     ul {
       text-align: left;
     }
   }
 }
-.required:after {
+
+.required::after {
   content:"*";
   color:red;
 }

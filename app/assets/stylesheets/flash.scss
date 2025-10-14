@@ -1,4 +1,4 @@
-#message, #errors{
+#message, #errors {
   border-radius: 5px;
   margin: auto;
   margin-top: .25em;
@@ -7,14 +7,17 @@
   text-align: center;
   width: 95%;
 }
-#message{
+
+#message {
   background-color: lightgreen;
   border: 2px solid #003a5b;
 }
-#errors{
+
+#errors {
   border: 2px solid #8D201E;
   background-color: #FFBABA;
-  ul { 
+
+  ul {
     list-style-type: none;
   }
 }

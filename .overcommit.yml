@@ -2,6 +2,10 @@ PreCommit:
   ALL:
     problem_on_unmodified_line: ignore
     skip_if: ["test", "-f", ".git/MERGE_HEAD"]
+  EsLint:
+    enabled: true
+    required_executable: npx
+    command: ["npx", "eslint"]
   ForbiddenBranches:
     enabled: true
     branch_patterns: ["master", "main"]
@@ -14,6 +18,10 @@ PreCommit:
     enabled: true
     required_executable: bundle
     command: ["bundle", "exec", "rubocop"]
+  Stylelint:
+    enabled: true
+    required_executable: npx
+    command: ["npx", "stylelint"]
 PrePush:
   Brakeman:
     enabled: true
