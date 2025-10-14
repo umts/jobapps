@@ -135,7 +135,7 @@ class ApplicationSubmission < ApplicationRecord
 
   def self.eeo_data(start_date, end_date, dept_ids)
     records = {}
-    records[:all] = between(start_date, end_date).in_department(dept_ids)
+    records[:all] = between(start_date, end_date).in_department(dept_ids).order(:created_at)
     records[:ethnicities] = ethnicity_eeo_data(records[:all])
     records[:genders] = gender_eeo_data(records[:all])
     records[:combined_data] = combined_eeo_data(records[:all])
