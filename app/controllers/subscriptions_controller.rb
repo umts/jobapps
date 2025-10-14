@@ -16,8 +16,6 @@ class SubscriptionsController < ApplicationController
   private
 
   def subscription_parameters
-    params.require(:subscription).permit :email,
-                                         :position_id,
-                                         :user_id
+    params.expect subscription: %i[email position_id user_id]
   end
 end
