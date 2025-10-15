@@ -14,7 +14,7 @@ class ApplicationTemplatesController < ApplicationController
   end
 
   def new
-    position = Position.find(params.require :position_id)
+    position = Position.find params.require(:position_id)
     template = ApplicationTemplate.create!(position:, active: true)
     @draft = template.create_draft Current.user
     redirect_to edit_draft_path(@draft)

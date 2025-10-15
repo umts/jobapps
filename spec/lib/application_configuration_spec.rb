@@ -14,7 +14,7 @@ describe ApplicationConfiguration do
       end
 
       it 'returns the value' do
-        expect(call [:present_key]).to be true
+        expect(call([:present_key])).to be true
       end
     end
 
@@ -25,7 +25,7 @@ describe ApplicationConfiguration do
 
       context 'with a default specified' do
         it 'returns the default' do
-          expect(call [:missing_key], default: 'trees').to eq('trees')
+          expect(call([:missing_key], default: 'trees')).to eq('trees')
         end
       end
 
