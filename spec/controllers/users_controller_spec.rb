@@ -54,7 +54,7 @@ describe UsersController do
       it 'does not update the user' do
         expect do
           put :update, params: { id: user, user: build(:user) }
-        end.not_to change { user.reload.attributes }
+        end.not_to(change { user.reload.attributes })
       end
     end
   end

@@ -4,7 +4,7 @@ class ApplicationDraftsController < ApplicationController
   before_action :find_draft, except: :new
 
   def new
-    template = ApplicationTemplate.find(params.require :application_template_id)
+    template = ApplicationTemplate.find params.require(:application_template_id)
     @draft = template.create_draft(Current.user) || template.draft_belonging_to(Current.user)
     redirect_to edit_draft_path(@draft)
   end
@@ -41,6 +41,6 @@ class ApplicationDraftsController < ApplicationController
   private
 
   def find_draft
-    @draft = ApplicationDraft.includes(:questions).find(params.require :id)
+    @draft = ApplicationDraft.includes(:questions).find(params.require(:id))
   end
 end

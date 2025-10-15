@@ -140,7 +140,7 @@ describe ApplicationSubmissionsController do
       it 'assigns the correct records to the instance variable' do
         allow(ApplicationSubmission).to receive(:between).and_return(:a_record)
         submit
-        expect(assigns.fetch :records).to be(:a_record)
+        expect(assigns.fetch(:records)).to be(:a_record)
       end
     end
 
@@ -160,7 +160,7 @@ describe ApplicationSubmissionsController do
       it 'assigns the correct records to the instance variable' do
         allow(ApplicationSubmission).to receive(:between).and_return :a_record
         submit
-        expect(assigns.fetch :records).to be(:a_record)
+        expect(assigns.fetch(:records)).to be(:a_record)
       end
     end
   end
@@ -194,7 +194,7 @@ describe ApplicationSubmissionsController do
         records = ApplicationSubmission.none
         allow(ApplicationSubmission).to receive(:eeo_data).and_return records
         submit
-        expect(assigns.fetch :records).to eql records
+        expect(assigns.fetch(:records)).to eql records
       end
     end
 
@@ -212,7 +212,7 @@ describe ApplicationSubmissionsController do
         records = ApplicationSubmission.none
         allow(ApplicationSubmission).to receive(:eeo_data).and_return records
         submit
-        expect(assigns.fetch :records).to eql records
+        expect(assigns.fetch(:records)).to eql records
       end
     end
   end
