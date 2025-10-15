@@ -38,7 +38,7 @@ class PositionsController < ApplicationController
   end
 
   def saved_applications
-    @saved = @position.application_submissions.where(saved_for_later: true)
+    @saved = @position.application_submissions.where(saved_for_later: true).order(:created_at)
   end
 
   private

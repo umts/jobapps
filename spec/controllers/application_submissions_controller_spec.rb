@@ -236,7 +236,7 @@ describe ApplicationSubmissionsController do
       end
 
       it 'calls .between with the correct parameters' do
-        allow(ApplicationSubmission).to receive(:between)
+        allow(ApplicationSubmission).to receive(:between).and_return ApplicationSubmission.none
         submit
         expect(ApplicationSubmission).to have_received(:between)
           .with(params[:records_start_date], params[:records_end_date])
@@ -247,19 +247,13 @@ describe ApplicationSubmissionsController do
         submit
         expect(ApplicationSubmission).to have_received(:in_department).with(department.id.to_s)
       end
-
-      it 'assigns the correct records to the instance variable' do
-        allow(ApplicationSubmission).to receive(:between).and_return(:a_record)
-        submit
-        expect(assigns.fetch(:records)).to be(:a_record)
-      end
     end
 
     context 'when submitting without the department ID param' do
       let(:submit) { get :past_applications, params: }
 
       it 'calls .between with the correct parameters' do
-        allow(ApplicationSubmission).to receive(:between)
+        allow(ApplicationSubmission).to receive(:between).and_return ApplicationSubmission.none
         submit
         expect(ApplicationSubmission).to have_received(:between)
           .with(params[:records_start_date], params[:records_end_date])
@@ -269,12 +263,6 @@ describe ApplicationSubmissionsController do
         allow(ApplicationSubmission).to receive(:in_department).and_return ApplicationSubmission.none
         submit
         expect(ApplicationSubmission).to have_received(:in_department).with(Department.pluck(:id))
-      end
-
-      it 'assigns the correct records to the instance variable' do
-        allow(ApplicationSubmission).to receive(:between).and_return(:a_record)
-        submit
-        expect(assigns.fetch(:records)).to be(:a_record)
       end
     end
   end

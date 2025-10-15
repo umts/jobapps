@@ -44,6 +44,7 @@ class ApplicationSubmissionsController < ApplicationController
     # instead of just start_date
     @records = ApplicationSubmission.in_department(given_or_all_department_ids)
                                     .between(params[:records_start_date], params[:records_end_date])
+                                    .order(:created_at)
   end
 
   def review
