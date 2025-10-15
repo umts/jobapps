@@ -10,6 +10,7 @@ AllCops:
     - 'bin/**/*'
     - 'config/**/*'
     - 'db/**/*'
+    - 'vendor/**/*'
   NewCops: enable
 
 Lint/AmbiguousBlockAssociation:
