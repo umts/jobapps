@@ -58,7 +58,7 @@ describe ApplicationTemplate do
     end
 
     it 'returns the application template draft belonging to the user' do
-      expect(application_template.draft_belonging_to user).to eq(draft)
+      expect(application_template.draft_belonging_to(user)).to eq(draft)
     end
   end
 

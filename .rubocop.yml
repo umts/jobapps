@@ -13,32 +13,20 @@ AllCops:
     - 'vendor/**/*'
   NewCops: enable
 
-Lint/AmbiguousBlockAssociation:
-  Exclude:
-    - 'spec/**/*'
-
-# Relax complexity testing to codeclimate standards (roughly).
 Metrics/AbcSize:
   Max: 20
 Metrics/MethodLength:
-  Max: 20
+  Max: 16
 Metrics/ClassLength:
-  Max: 160
+  Max: 140
 
 Metrics/BlockLength:
-  Exclude:
-    - 'spec/**/*'
+  AllowedMethods:
+    - describe
+    - context
 
 RSpec/NestedGroups:
   Max: 5
 
-# Don't worry about documentation for now.
-# In particular, this fails for things like
-# controller files, which seems unnecessary.
 Style/Documentation:
-  Enabled: false
-
-# I think this cop disagrees with nested calls
-# that are perfectly clear.
-Style/NestedParenthesizedCalls:
   Enabled: false

@@ -20,7 +20,7 @@ describe 'editing positions' do
     end
 
     it 'changes the desired field' do
-      expect { save }.to change { position.reload.name }
+      expect { save }.to(change { position.reload.name })
     end
 
     it 'redirects to the dashboard' do
@@ -42,7 +42,7 @@ describe 'editing positions' do
     end
 
     it 'changes nothing' do
-      expect { save }.not_to change { position.reload.name }
+      expect { save }.not_to(change { position.reload.name })
     end
 
     it 'redirects to the same page' do
