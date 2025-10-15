@@ -19,12 +19,8 @@ class ApplicationSubmissionsController < ApplicationController
 
   def create
     create_user if Current.user.blank?
-    data = ApplicationDataParser.new(params.require(:data)).result
-    params.require :position_id
-    record = ApplicationSubmission.create record_params.merge(data:, user: Current.user, reviewed: false)
+    record = create_record
     record.email_subscribers applicant: Current.user
-
-    create_unavailability(record) if record.position.application_template.unavailability_enabled?
 
     flash[:message] = t('.success')
     redirect_to student_dashboard_path
@@ -48,11 +44,12 @@ class ApplicationSubmissionsController < ApplicationController
     # instead of just start_date
     @records = ApplicationSubmission.in_department(given_or_all_department_ids)
                                     .between(params[:records_start_date], params[:records_end_date])
+                                    .order(:created_at)
   end
 
   def review
-    @record.update review_params
-    if params[:application_submission][:accepted] == 'true'
+    @record.update review_params.except(:accepted)
+    if review_params[:accepted]
       @interview = @record.interview || Interview.new(application_submission: @record)
       @interview.update! interview_params
     else
@@ -78,10 +75,15 @@ class ApplicationSubmissionsController < ApplicationController
 
   private
 
+  def create_record
+    data = ApplicationDataParser.new(params.require(:data)).result
+    ApplicationSubmission.create(record_params.merge(data:, user: Current.user, reviewed: false)).tap do |r|
+      create_unavailability(r) if r.position.application_template.unavailability_enabled?
+    end
+  end
+
   def create_user
-    user_attributes = params.require(:user).permit(:first_name,
-                                                   :last_name,
-                                                   :email)
+    user_attributes = params.expect(user: %i[first_name last_name email])
     user_attributes[:spire] = session[:spire]
     user_attributes[:staff] = false
     session[:user_id] = User.create(user_attributes).id
@@ -103,21 +105,20 @@ class ApplicationSubmissionsController < ApplicationController
   end
 
   def record_params
-    params.permit(:position_id, :ethnicity, :gender, :resume)
+    params.require :position_id
+    params.permit :position_id, :ethnicity, :gender, :resume
   end
 
   def save_for_later_params
-    params.require(:application_submission).permit(
-      :note_for_later, :mail_note_for_later, :date_for_later, :email_to_notify
-    ).tap do |p|
+    fields = %i[note_for_later mail_note_for_later date_for_later email_to_notify]
+    params.expect(application_submission: fields).tap do |p|
       p[:saved_for_later] = params[:commit] == 'Save for later'
       p[:mail_note_for_later] = p[:mail_note_for_later] == '1'
     end
   end
 
   def interview_params
-    interview_parameters = params.require(:interview)
-                                 .permit(:location, :scheduled)
+    interview_parameters = params.expect(interview: %i[location scheduled])
     interview_parameters.merge(
       completed: false,
       hired: false,
@@ -127,10 +128,11 @@ class ApplicationSubmissionsController < ApplicationController
   end
 
   def review_params
-    parameters = params
-                 .require(:application_submission)
-                 .permit(:staff_note, :rejection_message, :notify_of_denial)
-    parameters[:notify_of_denial] = parameters[:notify_of_denial] == '1'
-    parameters.merge(reviewed: true, saved_for_later: false)
+    params.expect(application_submission: %i[accepted staff_note rejection_message notify_of_denial]).tap do |p|
+      p[:accepted] = p[:accepted] == 'true'
+      p[:notify_of_denial] = p[:notify_of_denial] == '1'
+      p[:reviewed] = true
+      p[:saved_for_later] = false
+    end
   end
 end

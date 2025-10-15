@@ -58,11 +58,7 @@ class UsersController < ApplicationController
   end
 
   def user_parameters
-    params.require(:user).permit :email,
-                                 :first_name,
-                                 :last_name,
-                                 :spire,
-                                 :staff
+    params.expect user: %i[email first_name last_name spire staff]
   end
 
   def allow_only_admin

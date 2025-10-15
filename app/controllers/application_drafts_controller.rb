@@ -4,7 +4,7 @@ class ApplicationDraftsController < ApplicationController
   before_action :find_draft, except: :new
 
   def new
-    template = ApplicationTemplate.find(params.require :application_template_id)
+    template = ApplicationTemplate.find params.require(:application_template_id)
     @draft = template.create_draft(Current.user) || template.draft_belonging_to(Current.user)
     redirect_to edit_draft_path(@draft)
   end
@@ -14,8 +14,7 @@ class ApplicationDraftsController < ApplicationController
   end
 
   def update
-    draft_params = params.require(:draft)
-                         .permit(:email, questions_attributes: %i[id number prompt data_type required])
+    draft_params = params.expect(draft: [:email, { questions_attributes: [%i[id number prompt data_type required]] }])
     questions = draft_params.require(:questions_attributes).values
     @draft.update email: draft_params[:email]
     @draft.update_questions questions
@@ -42,6 +41,6 @@ class ApplicationDraftsController < ApplicationController
   private
 
   def find_draft
-    @draft = ApplicationDraft.includes(:questions).find(params.require :id)
+    @draft = ApplicationDraft.includes(:questions).find(params.require(:id))
   end
 end
