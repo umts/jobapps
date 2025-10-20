@@ -303,7 +303,7 @@ GEM
     regexp_parser (2.11.3)
     reline (0.6.2)
       io-console (~> 0.5)
-    rexml (3.4.2)
+    rexml (3.4.4)
     rouge (4.2.0)
     rspec (3.13.0)
       rspec-core (~> 3.13.0)
@@ -363,9 +363,9 @@ GEM
       rubocop (~> 1.72, >= 1.72.1)
       rubocop-rspec (~> 3.5)
     ruby-progressbar (1.13.0)
-    rubyzip (3.0.1)
+    rubyzip (3.2.0)
     securerandom (0.4.1)
-    selenium-webdriver (4.35.0)
+    selenium-webdriver (4.37.0)
       base64 (~> 0.2)
       logger (~> 1.4)
       rexml (~> 3.2, >= 3.2.5)
@@ -599,7 +599,7 @@ CHECKSUMS
   redcarpet (3.6.1) sha256=d444910e6aa55480c6bcdc0cdb057626e8a32c054c29e793fa642ba2f155f445
   regexp_parser (2.11.3) sha256=ca13f381a173b7a93450e53459075c9b76a10433caadcb2f1180f2c741fc55a4
   reline (0.6.2) sha256=1dad26a6008872d59c8e05244b119347c9f2ddaf4a53dce97856cd5f30a02846
-  rexml (3.4.2) sha256=1384268554a37af5da5279431ca3f2f37d46f09ffdd6c95e17cc84c83ea7c417
+  rexml (3.4.4) sha256=19e0a2c3425dfbf2d4fc1189747bdb2f849b6c5e74180401b15734bc97b5d142
   rouge (4.2.0) sha256=60dd666b3a223467dc72f5b7384764dfd7ad4e50b0df9eff072be58123506eba
   rspec (3.13.0) sha256=d490914ac1d5a5a64a0e1400c1d54ddd2a501324d703b8cfe83f458337bab993
   rspec-core (3.13.5) sha256=ab3f682897c6131c67f9a17cfee5022a597f283aebe654d329a565f9937a4fa3
@@ -616,9 +616,9 @@ CHECKSUMS
   rubocop-rspec (3.7.0) sha256=b7b214da112034db9c6d00f2d811a354847e870f7b6ed2482b29649c3d42058f
   rubocop-rspec_rails (2.31.0) sha256=775375e18a26a1184a812ef3054b79d218e85601b9ae897f38f8be24dddf1f45
   ruby-progressbar (1.13.0) sha256=80fc9c47a9b640d6834e0dc7b3c94c9df37f08cb072b7761e4a71e22cff29b33
-  rubyzip (3.0.1) sha256=8bbbf32ff93db9a156ce2626820e748e2913352e6df80d764d0eea1ed1f5b8a7
+  rubyzip (3.2.0) sha256=7176c29319893374b235e42e309e5ef46049bfb07d20471ddde4c988f1dc2ccf
   securerandom (0.4.1) sha256=cc5193d414a4341b6e225f0cb4446aceca8e50d5e1888743fac16987638ea0b1
-  selenium-webdriver (4.35.0) sha256=6fc920cec4b9e6263afeb4941289d8deb0853acbc49e0d6f7de91c86986d359b
+  selenium-webdriver (4.37.0) sha256=50873c16ad6c8720048a410f65ecac4bfef26abc7b31e8562477b504b2b976a6
   simplecov (0.22.0) sha256=fe2622c7834ff23b98066bb0a854284b2729a569ac659f82621fc22ef36213a5
   simplecov-html (0.12.3) sha256=4b1aad33259ffba8b29c6876c12db70e5750cb9df829486e4c6e5da4fa0aa07b
   simplecov_json_formatter (0.1.4) sha256=529418fbe8de1713ac2b2d612aa3daa56d316975d307244399fa4838c601b428
