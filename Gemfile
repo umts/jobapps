@@ -15,7 +15,7 @@ gem 'nokogiri', force_ruby_platform: true
 gem 'prawn'
 gem 'prawn-table'
 gem 'puma'
-gem 'rails', '~> 8.0.3'
+gem 'rails', '~> 8.0.4'
 gem 'redcarpet'
 gem 'snappconfig'
 gem 'sprockets-rails'
