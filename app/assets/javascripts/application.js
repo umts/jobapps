@@ -15,6 +15,6 @@
 //= require jquery-ui-dist/jquery-ui
 //= require multiple-select/dist/multiple-select.js
 //= require jquery.maskedinput/src/jquery.maskedinput.js
-//= require datatables.net/js/jquery.dataTables.js
+//= require datatables.net/js/dataTables.js
 //= require datatables.net-bs4/js/dataTables.bootstrap4.js
 //= require_tree .
