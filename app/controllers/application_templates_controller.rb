@@ -26,7 +26,7 @@ class ApplicationTemplatesController < ApplicationController
     @template.toggle! :active
     # rubocop:enable Rails/SkipsModelValidations
     flash[:message] = t(@template.active ? '.now_active' : '.now_inactive')
-    redirect_back fallback_location: application_path(@template)
+    redirect_back_or_to application_path(@template)
   end
 
   def toggle_eeo_enabled
@@ -41,7 +41,7 @@ class ApplicationTemplatesController < ApplicationController
     else
       back_path = application_path(@template)
     end
-    redirect_back fallback_location: back_path
+    redirect_back_or_to back_path
   end
 
   def toggle_unavailability_enabled
@@ -56,7 +56,7 @@ class ApplicationTemplatesController < ApplicationController
     else
       back_path = application_path(@template)
     end
-    redirect_back fallback_location: back_path
+    redirect_back_or_to back_path
   end
 
   def toggle_resume_upload_enabled
@@ -70,7 +70,7 @@ class ApplicationTemplatesController < ApplicationController
     else
       back_path = application_path(@template)
     end
-    redirect_back fallback_location: back_path
+    redirect_back_or_to back_path
   end
 
   private
