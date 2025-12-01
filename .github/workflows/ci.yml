@@ -23,25 +23,25 @@ jobs:
       RAILS_ENV: test
       DATABASE_URL: trilogy://root@127.0.0.1:3306/jobapps_test
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/setup
       - run: bin/setup
       - run: bundle exec rspec
   brakeman:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/setup
       - run: bundle exec brakeman --no-pager
   haml-lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/setup
       - run: bundle exec haml-lint
   rubocop:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/setup
       - run: bundle exec rubocop
