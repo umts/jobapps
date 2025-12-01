@@ -97,7 +97,7 @@ GEM
       i18n
       rake (>= 10.0.0)
       sshkit (>= 1.9.0)
-    capistrano-bundler (2.1.1)
+    capistrano-bundler (2.2.0)
       capistrano (~> 3.1)
     capistrano-passenger (0.2.1)
       capistrano (~> 3.0)
@@ -209,7 +209,7 @@ GEM
       net-protocol
     net-protocol (0.2.2)
       timeout
-    net-scp (4.0.0)
+    net-scp (4.1.0)
       net-ssh (>= 2.6.5, < 8.0.0)
     net-sftp (4.0.0)
       net-ssh (>= 5.0.0, < 8.0.0)
@@ -388,8 +388,9 @@ GEM
       actionpack (>= 6.1)
       activesupport (>= 6.1)
       sprockets (>= 3.0.0)
-    sshkit (1.23.2)
+    sshkit (1.24.0)
       base64
+      logger
       net-scp (>= 1.1.2)
       net-sftp (>= 2.1.2)
       net-ssh (>= 2.8.0)
@@ -508,7 +509,7 @@ CHECKSUMS
   brakeman (7.1.1) sha256=629426b5d6496c75e3ffa2299e1ab1bb3ba721fea03d8808414c083660439498
   builder (3.3.0) sha256=497918d2f9dca528fdca4b88d84e4ef4387256d984b8154e9d5d3fe5a9c8835f
   capistrano (3.19.2) sha256=e0c79823edf604ba513533b224f85f5a9fe33c4c6c9cbde9483a56b48838f563
-  capistrano-bundler (2.1.1) sha256=c234a72c1698265885522ba7da77b522c683e2ca350f90ac94d7e84d6f8f4f94
+  capistrano-bundler (2.2.0) sha256=47b4cf2ea17ea132bb0a5cabc5663443f5190a54f4da5b322d04e1558ff1468c
   capistrano-passenger (0.2.1) sha256=07a1d25edd5c1d909c19d4fe45fe2ea5f11200569f6967f6bff1d605ade98e13
   capistrano-pending (0.2.0) sha256=f9e8c1e6b6a2ce760ed49ccb470c474f802c1d453704fb62d67ca4c1ee547066
   capistrano-rails (1.7.0) sha256=aca57455e8c5435785e0f938e16aa5b79c263694a755e1dca1c5d1743b40aae7
@@ -563,7 +564,7 @@ CHECKSUMS
   net-imap (0.5.12) sha256=cb8cd05bd353fcc19b6cbc530a9cb06b577a969ea10b7ddb0f37787f74be4444
   net-pop (0.1.2) sha256=848b4e982013c15b2f0382792268763b748cce91c9e91e36b0f27ed26420dff3
   net-protocol (0.2.2) sha256=aa73e0cba6a125369de9837b8d8ef82a61849360eba0521900e2c3713aa162a8
-  net-scp (4.0.0) sha256=b32ded0d48c88ce70844a063e4e14efb44a95e51a9e0c0bfb0c54b4313b622ea
+  net-scp (4.1.0) sha256=a99b0b92a1e5d360b0de4ffbf2dc0c91531502d3d4f56c28b0139a7c093d1a5d
   net-sftp (4.0.0) sha256=65bb91c859c2f93b09826757af11b69af931a3a9155050f50d1b06d384526364
   net-smtp (0.5.1) sha256=ed96a0af63c524fceb4b29b0d352195c30d82dd916a42f03c62a3a70e5b70736
   net-ssh (7.3.0) sha256=172076c4b30ce56fb25a03961b0c4da14e1246426401b0f89cba1a3b54bf3ef0
@@ -628,7 +629,7 @@ CHECKSUMS
   spring (4.4.0) sha256=ec4e6cf5fb48d96b9ec9a80ebb40f962f2467b651c000693f33c14b6d6c340af
   sprockets (4.2.1) sha256=951b13dd2f2fcae840a7184722689a803e0ff9d2702d902bd844b196da773f97
   sprockets-rails (3.5.2) sha256=a9e88e6ce9f8c912d349aa5401509165ec42326baf9e942a85de4b76dbc4119e
-  sshkit (1.23.2) sha256=76d7088fddeaf3ac37bad20e7121f7352367cae6bb0cdbc7d7354efc714d213b
+  sshkit (1.24.0) sha256=9597c1f984778ae9742f2dc839778d57a6a2efb868107046575c52ac7c628e6c
   stringio (3.1.7) sha256=5b78b7cb242a315fb4fca61a8255d62ec438f58da2b90be66048546ade4507fa
   sysexits (1.2.0) sha256=598241c4ae57baa403c125182dfdcc0d1ac4c0fb606dd47fbed57e4aaf795662
   temple (0.10.4) sha256=b7a1e94b6f09038ab0b6e4fe0126996055da2c38bec53a8a336f075748fff72c
