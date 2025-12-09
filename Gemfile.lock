@@ -119,7 +119,7 @@ GEM
       logger (~> 1.5)
     chronic (0.10.2)
     concurrent-ruby (1.3.5)
-    connection_pool (2.5.5)
+    connection_pool (3.0.2)
     crass (1.0.6)
     cssbundling-rails (1.4.3)
       railties (>= 6.0.0)
@@ -148,7 +148,7 @@ GEM
     ffi (1.17.0-arm64-darwin)
     ffi (1.17.0-x86-linux-gnu)
     ffi (1.17.0-x86_64-darwin)
-    friendly_id (5.5.1)
+    friendly_id (5.6.0)
       activerecord (>= 4.0.0)
     globalid (1.3.0)
       activesupport (>= 6.1)
@@ -403,7 +403,7 @@ GEM
     thor (1.4.0)
     tilt (2.6.1)
     timecop (0.9.10)
-    timeout (0.4.4)
+    timeout (0.5.0)
     trilogy (2.9.0)
     tsort (0.2.0)
     ttfunk (1.8.0)
@@ -517,7 +517,7 @@ CHECKSUMS
   childprocess (5.1.0) sha256=9a8d484be2fd4096a0e90a0cd3e449a05bc3aa33f8ac9e4d6dcef6ac1455b6ec
   chronic (0.10.2) sha256=766f2fcce6ac3cc152249ed0f2b827770d3e517e2e87c5fba7ed74f4889d2dc3
   concurrent-ruby (1.3.5) sha256=813b3e37aca6df2a21a3b9f1d497f8cbab24a2b94cab325bffe65ee0f6cbebc6
-  connection_pool (2.5.5) sha256=e54ff92855753df1fd7c59fa04a398833355f27dd14c074f8c83a05f72a716ad
+  connection_pool (3.0.2) sha256=33fff5ba71a12d2aa26cb72b1db8bba2a1a01823559fb01d29eb74c286e62e0a
   crass (1.0.6) sha256=dc516022a56e7b3b156099abc81b6d2b08ea1ed12676ac7a5657617f012bd45d
   cssbundling-rails (1.4.3) sha256=53aecd5a7d24ac9c8fcd92975acd0e830fead4ee4583d3d3d49bb64651946e41
   csv (3.3.5) sha256=6e5134ac3383ef728b7f02725d9872934f523cb40b961479f69cf3afa6c8e73f
@@ -538,7 +538,7 @@ CHECKSUMS
   ffi (1.17.0-arm64-darwin) sha256=609c874e76614542c6d485b0576e42a7a38ffcdf086612f9a300c4ec3fcd0d12
   ffi (1.17.0-x86-linux-gnu) sha256=81b80d24392be2b8ec6bd66da6b488fd05242af5c0868b59c8b716e5a633c8b5
   ffi (1.17.0-x86_64-darwin) sha256=fdcd48c69db3303ef95aec5c64d6275fcf9878a02c0bec0afddc506ceca0f56b
-  friendly_id (5.5.1) sha256=e018f2b89bfc143276fee6d378a64792385cd4fddd3d4fce501f59ec19c06207
+  friendly_id (5.6.0) sha256=28e221cd53fbd21586321164c1c6fd0c9ba8dde13969cb2363679f44726bb0c3
   globalid (1.3.0) sha256=05c639ad6eb4594522a0b07983022f04aa7254626ab69445a0e493aa3786ff11
   haml (7.0.2) sha256=c5b47858dddf533c182f5e80d00fa1768c8b01708611de8e20418a50720c03aa
   haml-rails (3.0.0) sha256=091fe496a85ca521d9cac87fb50f1ecf77a57974a99aa7e267130add81a5585f
@@ -637,7 +637,7 @@ CHECKSUMS
   thor (1.4.0) sha256=8763e822ccb0f1d7bee88cde131b19a65606657b847cc7b7b4b82e772bcd8a3d
   tilt (2.6.1) sha256=35a99bba2adf7c1e362f5b48f9b581cce4edfba98117e34696dde6d308d84770
   timecop (0.9.10) sha256=12ba45ce57cdcf6b1043cb6cdffa6381fd89ce10d369c28a7f6f04dc1b0cd8eb
-  timeout (0.4.4) sha256=f0f6f970104b82427cd990680f539b6bbb8b1e55efa913a55c6492935e4e0edb
+  timeout (0.5.0) sha256=852aefd13f41d84c2d0d83099b275034c6517395884b58e635acc8847c9190cb
   trilogy (2.9.0) sha256=a2d63b663ba68a4758e15d1f9afb228f5d16efc7fe7cea68699e1c106ef6067f
   tsort (0.2.0) sha256=9650a793f6859a43b6641671278f79cfead60ac714148aabe4e3f0060480089f
   ttfunk (1.8.0) sha256=a7cbc7e489cc46e979dde04d34b5b9e4f5c8f1ee5fc6b1a7be39b829919d20ca
