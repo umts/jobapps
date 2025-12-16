@@ -52,7 +52,6 @@ group :development, :test do
   gem 'debug'
   gem 'factory_bot_rails'
   gem 'haml_lint'
-  gem 'spring', require: false
 end
 
 group :test do
