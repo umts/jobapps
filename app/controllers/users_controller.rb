@@ -36,7 +36,7 @@ class UsersController < ApplicationController
     @users = User.where.not(staff: true)
                  .pluck(:first_name, :last_name, :spire)
                  .map do |first_name, last_name, spire|
-      "#{first_name} #{last_name} #{spire}"
+                   "#{first_name} #{last_name} #{spire}"
     end
   end
 
