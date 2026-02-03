@@ -35,9 +35,7 @@ class UsersController < ApplicationController
   def promote
     @users = User.where.not(staff: true)
                  .pluck(:first_name, :last_name, :spire)
-                 .map do |first_name, last_name, spire|
-      "#{first_name} #{last_name} #{spire}"
-    end
+                 .map { |attrs| attrs.join(' ') }
   end
 
   def promote_save
