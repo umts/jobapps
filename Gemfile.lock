@@ -222,7 +222,7 @@ GEM
       net-protocol
     net-ssh (7.3.0)
     nio4r (2.7.5)
-    nokogiri (1.19.0)
+    nokogiri (1.19.1)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     ostruct (0.6.3)
@@ -573,7 +573,7 @@ CHECKSUMS
   net-smtp (0.5.1) sha256=ed96a0af63c524fceb4b29b0d352195c30d82dd916a42f03c62a3a70e5b70736
   net-ssh (7.3.0) sha256=172076c4b30ce56fb25a03961b0c4da14e1246426401b0f89cba1a3b54bf3ef0
   nio4r (2.7.5) sha256=6c90168e48fb5f8e768419c93abb94ba2b892a1d0602cb06eef16d8b7df1dca1
-  nokogiri (1.19.0) sha256=e304d21865f62518e04f2bf59f93bd3a97ca7b07e7f03952946d8e1c05f45695
+  nokogiri (1.19.1) sha256=598b327f36df0b172abd57b68b18979a6e14219353bca87180c31a51a00d5ad3
   ostruct (0.6.3) sha256=95a2ed4a4bd1d190784e666b47b2d3f078e4a9efda2fccf18f84ddc6538ed912
   overcommit (0.68.0) sha256=bfbcd26388e024e10a3d720f03077bc9389fe7c3beac360263b6c77926bcc8d0
   parallel (1.27.0) sha256=4ac151e1806b755fb4e2dc2332cbf0e54f2e24ba821ff2d3dcf86bf6dc4ae130
