@@ -52,7 +52,7 @@ class ApplicationController < ActionController::Base
 
   def show_errors(object)
     flash[:errors] = object.errors.full_messages
-    redirect_back_or_to('/404.html')
+    redirect_back_or_to root_path
   end
 
   def check_primary_account
