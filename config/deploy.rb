@@ -15,3 +15,4 @@ append :linked_files,
 append :linked_dirs, '.bundle', 'log', 'node_modules', 'storage'
 
 set :passenger_restart_with_sudo, true
+set :bundle_version, 4
