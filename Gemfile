@@ -50,6 +50,7 @@ group :development, :test do
   gem 'better_errors', require: false
   gem 'binding_of_caller', require: false
   gem 'debug'
+  gem 'dotenv'
   gem 'factory_bot_rails'
   gem 'haml_lint'
 end
