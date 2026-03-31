@@ -3,7 +3,6 @@
 !/app/assets/builds/.keep
 /config/application.yml
 /config/credentials/*.key
-/config/database.yml
 /coverage/*
 !/coverage/.last_run.json
 /log/
