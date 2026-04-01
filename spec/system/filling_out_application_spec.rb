@@ -12,15 +12,13 @@ describe 'filling out an application' do
     visit application_path(application)
   end
 
-  context 'answered all required questions' do
-    it 'redirects to the student dashboard' do
-      click_on 'Submit application'
-      expect(page.current_path).to eql student_dashboard_path
-    end
+  it 'redirects to the student dashboard' do
+    click_on 'Submit application'
+    expect(page).to have_current_path(student_dashboard_path)
+  end
 
-    it 'renders the application receipt flash message' do
-      click_on('Submit application')
-      expect(page).to have_text('Your application has been submitted. Thank you!')
-    end
+  it 'renders the application receipt flash message' do
+    click_on 'Submit application'
+    expect(page).to have_text('Your application has been submitted. Thank you!')
   end
 end

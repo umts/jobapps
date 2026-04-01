@@ -24,7 +24,7 @@ describe ApplicationDraftsController do
 
       it 'assigns the correct draft to the draft instance variable' do
         submit
-        expect(assigns.fetch :draft).to eql draft
+        expect(assigns.fetch(:draft)).to eq(draft)
       end
 
       it 'destroys the draft' do
@@ -60,17 +60,17 @@ describe ApplicationDraftsController do
 
       it 'assigns the correct draft to the draft instance variable' do
         submit
-        expect(assigns.fetch :draft).to eql draft
+        expect(assigns.fetch(:draft)).to eq(draft)
       end
 
       it 'adds a question to the draft, in memory only' do
         submit
-        expect(assigns.fetch(:draft).questions.size).to be 1
+        expect(assigns.fetch(:draft).questions.size).to be(1)
       end
 
       it 'does not persist the new question' do
         # Factory draft has 0 questions by default
-        expect { submit }.not_to change { draft.questions.count }
+        expect { submit }.not_to(change { draft.questions.count })
       end
 
       it 'renders the edit template' do
@@ -94,7 +94,7 @@ describe ApplicationDraftsController do
 
       context 'with no pre-existing draft' do
         it 'creates a draft for the correct application template' do
-          expect { submit }.to change { template.drafts.count }.by 1
+          expect { submit }.to change { template.drafts.count }.by(1)
         end
       end
 
@@ -102,14 +102,14 @@ describe ApplicationDraftsController do
         it 'finds the pre-existing draft' do
           draft = create(:application_draft, application_template: template, user:)
           submit
-          expect(assigns.fetch :draft).to eql draft
+          expect(assigns.fetch(:draft)).to eq(draft)
         end
       end
 
       it 'redirects to the edit page for that draft' do
         submit
         draft = assigns.fetch :draft
-        expect(response).to redirect_to edit_draft_path(draft)
+        expect(response).to redirect_to(edit_draft_path(draft))
       end
     end
   end
@@ -132,18 +132,18 @@ describe ApplicationDraftsController do
 
       it 'assigns the correct draft variable' do
         submit
-        expect(assigns.fetch :draft).to eql draft
+        expect(assigns.fetch(:draft)).to eq(draft)
       end
 
       it 'updates the draft with the changes given' do
         submit
-        expect(draft.reload.questions.first.prompt).to eql 'a_prompt'
+        expect(draft.reload.questions.first.prompt).to eq('a_prompt')
       end
 
       context 'when saving changes' do
         it 'redirects to the edit page for the draft' do
           submit
-          expect(response).to redirect_to edit_draft_path(draft)
+          expect(response).to redirect_to(edit_draft_path(draft))
         end
       end
 
@@ -152,7 +152,7 @@ describe ApplicationDraftsController do
 
         it 'renders the show page' do
           submit
-          expect(response).to render_template 'show'
+          expect(response).to render_template('show')
         end
       end
     end
@@ -172,7 +172,7 @@ describe ApplicationDraftsController do
 
       it 'assigns the correct draft to the draft instance variable' do
         submit
-        expect(assigns.fetch :draft).to eql draft
+        expect(assigns.fetch(:draft)).to eq(draft)
       end
 
       it 'calls update_application_template! on the draft' do
@@ -189,7 +189,7 @@ describe ApplicationDraftsController do
 
       it 'redirects to the staff dashboard' do
         submit
-        expect(response).to redirect_to staff_dashboard_url
+        expect(response).to redirect_to(staff_dashboard_url)
       end
     end
   end

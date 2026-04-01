@@ -8,17 +8,15 @@ describe 'markdown explanation' do
     visit markdown_explanation_path
   end
 
-  context 'markdown explanation renders properly' do
-    it 'renders bold properly' do
-      expect(page).to have_css('li strong', text: 'bold')
-    end
-
-    it 'renders italic properly' do
-      expect(page).to have_css('li em', text: 'italic')
-    end
+  it 'renders bold properly' do
+    expect(page).to have_css('li strong', text: 'bold')
   end
 
-  context 'markdown editor renders text properly' do
+  it 'renders italic properly' do
+    expect(page).to have_css('li em', text: 'italic')
+  end
+
+  describe 'preview sandbox functionality' do
     it 'renders the bold markdown properly' do
       fill_in 'preview_input', with: '**Test bold text**'
       click_button 'Preview below'

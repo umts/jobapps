@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+
 describe 'subscriptions' do
   let(:position) { create(:position) }
 
-  context 'subscribing to positions' do
+  describe 'subscribing to positions' do
     before do
       when_current_user_is :staff
       visit edit_position_path(position)
@@ -13,38 +14,37 @@ describe 'subscriptions' do
     it 'displays the email address when subscribe is clicked' do
       fill_in 'Email', with: 'jobapps@transit.com'
       click_button 'Subscribe'
-      expect(page).to have_text 'jobapps@transit.com'
+      expect(page).to have_text('jobapps@transit.com')
     end
   end
 
-  context 'displaying existing subscriptions' do
-    let(:user1) { create(:user, :staff) }
-    let(:user2) { create(:user, :staff) }
+  describe 'displaying existing subscriptions' do
+    let(:subscription_user) { create(:user, :staff) }
+    let(:other_user) { create(:user, :staff) }
+
     let(:subscription) do
-      create(:subscription, user: user1, position:)
+      create(:subscription, user: subscription_user, position:)
     end
     let(:other_position) { create(:position) }
 
-    before do
-      when_current_user_is user2
-      visit edit_position_path(position)
-    end
-
     it 'does not display subscription belonging to another user' do
-      expect(page).to have_no_text subscription.email
+      when_current_user_is other_user
+      visit edit_position_path(position)
+      find_button('Subscribe')
+      expect(page).to have_no_text(subscription.email)
     end
 
     it 'only displays emails that have been subscribed to this position' do
+      when_current_user_is subscription_user
       visit edit_position_path(other_position)
-      expect(page).to have_no_text subscription.email
+      find_button('Subscribe')
+      expect(page).to have_no_text(subscription.email)
     end
   end
 
-  context 'deleting a subscription' do
+  describe 'deleting a subscription' do
     let(:user) { create(:user, :staff) }
-    let! :subscription do
-      create(:subscription, user:, position:)
-    end
+    let!(:subscription) { create(:subscription, user:, position:) }
 
     before do
       when_current_user_is user
@@ -52,9 +52,9 @@ describe 'subscriptions' do
     end
 
     it 'removes the email from the page when remove is clicked' do
-      form = within('.subscriptions') { find('form.button_to') }
-      within(form) { find('button').click }
-      expect(page).to have_no_text subscription.email
+      within('.subscriptions') { click_on 'Remove subscription' }
+      find_button('Subscribe')
+      expect(page).to have_no_text(subscription.email)
     end
   end
 end

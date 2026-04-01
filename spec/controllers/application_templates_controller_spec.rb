@@ -39,7 +39,7 @@ describe ApplicationTemplatesController do
         allow(ApplicationTemplate).to receive(:create!).and_return(template)
         allow(template).to receive(:create_draft).and_return(draft)
         submit
-        expect(assigns.fetch :draft).to eq(draft)
+        expect(assigns.fetch(:draft)).to eq(draft)
       end
 
       it 'redirects to the edit page for that draft' do
@@ -125,14 +125,14 @@ describe ApplicationTemplatesController do
       context 'when the button to activate application template has been pressed' do
         it 'marks the application as active' do
           template.update active: false
-          expect { submit }.to change { template.reload.active? }
+          expect { submit }.to(change { template.reload.active? })
         end
       end
 
       context 'when the button to deactivate application template has been pressed' do
         it 'marks the application as inactive' do
           template.update active: true
-          expect { submit }.to change { template.reload.active? }
+          expect { submit }.to(change { template.reload.active? })
         end
       end
 
@@ -167,7 +167,7 @@ describe ApplicationTemplatesController do
       end
 
       it 'changes eeo_enabled when called' do
-        expect { submit }.to change { template.reload.eeo_enabled }
+        expect { submit }.to(change { template.reload.eeo_enabled })
       end
 
       context 'with eeo disabled' do
@@ -205,7 +205,7 @@ describe ApplicationTemplatesController do
 
           it 'redirects to the edit path' do
             submit
-            expect(response).to redirect_to(edit_draft_path(template.draft_belonging_to user))
+            expect(response).to redirect_to(edit_draft_path(template.draft_belonging_to(user)))
           end
         end
 
@@ -277,7 +277,7 @@ describe ApplicationTemplatesController do
 
           it 'redirects to the edit path' do
             submit
-            expect(response).to redirect_to(edit_draft_path(template.draft_belonging_to user))
+            expect(response).to redirect_to(edit_draft_path(template.draft_belonging_to(user)))
           end
         end
 
@@ -349,7 +349,7 @@ describe ApplicationTemplatesController do
 
           it 'redirects to the edit path' do
             submit
-            expect(response).to redirect_to(edit_draft_path(template.draft_belonging_to user))
+            expect(response).to redirect_to(edit_draft_path(template.draft_belonging_to(user)))
           end
         end
 

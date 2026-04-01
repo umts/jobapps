@@ -26,7 +26,7 @@ describe ApplicationDraft do
       end
 
       it 'does not change the question below' do
-        expect { call }.not_to change { question_below.reload.number }
+        expect { call }.not_to(change { question_below.reload.number })
       end
     end
 
@@ -42,7 +42,7 @@ describe ApplicationDraft do
       end
 
       it 'does not change the question above' do
-        expect { call }.not_to change { question_above.reload.number }
+        expect { call }.not_to(change { question_above.reload.number })
       end
     end
   end
@@ -82,7 +82,7 @@ describe ApplicationDraft do
     end
 
     it 'does not change the number of any questions above the one specified' do
-      expect { call }.not_to change { question_above.reload.number }
+      expect { call }.not_to(change { question_above.reload.number })
     end
 
     it 'moves questions below the specified question up by one' do
@@ -143,7 +143,7 @@ describe ApplicationDraft do
 
     it 'destroys itself' do
       call
-      expect(described_class.where id: draft.id).to be_empty
+      expect(described_class.where(id: draft.id)).to be_empty
     end
   end
 end

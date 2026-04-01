@@ -3,25 +3,24 @@
 source 'https://rubygems.org'
 ruby file: '.ruby-version'
 
-gem 'bootstrap', '~> 4.6'
+gem 'cssbundling-rails'
 gem 'csv'
 gem 'friendly_id'
 gem 'haml'
 gem 'haml-rails'
 gem 'icalendar'
 gem 'irb'
-gem 'mysql2'
 # TODO: Remove ruby platform when we're off RHEL 7
 gem 'nokogiri', force_ruby_platform: true
 gem 'prawn'
 gem 'prawn-table'
 gem 'puma'
-gem 'rails', '~> 8.0.2'
+gem 'rails', '~> 8.1.3'
 gem 'redcarpet'
-gem 'sass-rails'
 gem 'snappconfig'
 gem 'sprockets-rails'
 gem 'terser'
+gem 'trilogy'
 gem 'whenever', require: false
 
 group :production do
@@ -53,7 +52,6 @@ group :development, :test do
   gem 'debug'
   gem 'factory_bot_rails'
   gem 'haml_lint'
-  gem 'spring', require: false
 end
 
 group :test do

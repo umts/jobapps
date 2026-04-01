@@ -8,7 +8,7 @@ describe ApplicationHelper do
     let(:output) { '<strong>' }
 
     it 'renders markdown for bold text properly' do
-      expect(render_markdown input).to include(output)
+      expect(render_markdown(input)).to include(output)
     end
   end
 end

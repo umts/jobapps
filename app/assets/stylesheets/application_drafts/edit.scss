@@ -1,46 +1,53 @@
-.container-fluid{
-  .row.header-row{
-    font-weight: bold; 
+.container-fluid {
+  .row.header-row {
+    font-weight: bold;
     text-align: center;
     width: 95%;
     margin-left: 4.5em;
   }
-  .row.field-row{
+
+  .row.field-row {
     border-radius: 5px;
     border: 1px solid #5b7f95;
     cursor: grab;
     padding: 1em;
-    .remove{
+
+    .remove {
       margin-left: 1em;
       margin-top: 1em;
     }
   }
 }
-span.grabbable-number.btn.btn-primary{
+
+span.grabbable-number.btn.btn-primary {
   float: left;
   cursor: grab;
-  &:after{
+
+  &::after {
     content: "\28FF";
     display: block;
     font-size: 1.5em;
   }
 }
 
-.number input{
+.number input {
   width: 1.5em;
   background-color: inherit;
   border: none;
   color: white;
   text-align: center;
 }
-.row{
+
+.row {
   margin: 1em;
 }
-.buttons{
+
+.buttons {
   width: 200px;
 }
-.form-attributes{
+
+.form-attributes {
   text-align: left;
   width: 50%;
-  margin: 0px auto;
+  margin: 0 auto;
 }

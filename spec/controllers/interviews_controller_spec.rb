@@ -161,24 +161,24 @@ describe InterviewsController do
       end
 
       it 'has a UID' do
-        expect(calendar_fields.fetch 'UID').to eq("INTERVIEW#{interview.id}@UMASS_TRANSIT//JOBAPPS")
+        expect(calendar_fields.fetch('UID')).to eq("INTERVIEW#{interview.id}@UMASS_TRANSIT//JOBAPPS")
       end
 
       it 'has a start time' do
-        expect(calendar_fields.fetch 'DTSTART').to eq(interview.scheduled.to_fs :ical)
+        expect(calendar_fields.fetch('DTSTART')).to eq(interview.scheduled.to_fs(:ical))
       end
 
       it 'has a summary' do
-        expect(calendar_fields.fetch 'SUMMARY').to eq(interview.calendar_title)
+        expect(calendar_fields.fetch('SUMMARY')).to eq(interview.calendar_title)
       end
 
       it 'has a description' do
-        expect(calendar_fields.fetch 'DESCRIPTION')
+        expect(calendar_fields.fetch('DESCRIPTION'))
           .to match(application_submission_path(interview.application_submission))
       end
 
       it 'has a stamp' do
-        expect(calendar_fields.fetch 'DTSTAMP').to eq(interview.created_at.to_fs :ical)
+        expect(calendar_fields.fetch('DTSTAMP')).to eq(interview.created_at.to_fs(:ical))
       end
     end
   end

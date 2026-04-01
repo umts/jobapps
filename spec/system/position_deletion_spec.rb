@@ -3,33 +3,31 @@
 require 'rails_helper'
 
 describe 'deleting a position' do
-  let!(:department) { create(:department) }
-  let!(:base_attributes) do
-    { name: 'A position',
-      department:,
-      default_interview_location: 'UMTS' }
-  end
-  let!(:position) { create(:position, base_attributes) }
-  let(:delete) do
+  subject(:delete) do
     dept_name = position.department.name
     pos_name = position.name
     click_on "Remove #{pos_name} (#{dept_name})"
   end
+
+  let(:position) { create(:position) }
 
   before do
     when_current_user_is :staff
     visit edit_position_path(position)
   end
 
-  it 'deletes the position in question' do
-    expect { delete }
-      .to change(Position, :count).by(-1)
-    expect(Position.all).not_to include position
+  it 'deletes a position' do
+    expect { delete }.to change(Position, :count).by(-1)
+  end
+
+  it 'deletes the specified position' do
+    delete
+    expect(Position.ids).not_to include(position.id)
   end
 
   it 'redirects to the staff dashboard' do
     delete
-    expect(page.current_path).to eql staff_dashboard_path
+    expect(page).to have_current_path(staff_dashboard_path)
   end
 
   it 'renders a positive flash message' do

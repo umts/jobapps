@@ -24,15 +24,15 @@ describe 'application_submissions/csv_export' do
   end
 
   it 'contains the id of the record' do
-    expect(data.first.fetch 'Record Number').to eq(record.id.to_s)
+    expect(data.first.fetch('Record Number')).to eq(record.id.to_s)
   end
 
   it 'containts the prompt of the question' do
-    expect(data.first.fetch 'Prompt').to eq(prompt)
+    expect(data.first.fetch('Prompt')).to eq(prompt)
   end
 
   it 'contains the answer to the question' do
-    expect(data.first.fetch 'Response').to eq(response)
+    expect(data.first.fetch('Response')).to eq(response)
   end
 
   it 'has the correct number of lines' do

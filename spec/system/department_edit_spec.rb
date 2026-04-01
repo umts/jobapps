@@ -11,22 +11,21 @@ describe 'editing departments' do
     visit edit_department_path(dept)
   end
 
-  context 'all fields filled in' do
+  context 'with all fields filled in' do
     before do
       within 'form.edit_department' do
-        fill_in_fields_for Department, attributes: base_attributes
-          .merge(name: 'Apples')
+        fill_in_fields_for Department, attributes: base_attributes.merge(name: 'Apples')
       end
     end
 
     it 'changes the given field' do
       click_on 'Save changes'
-      expect(dept.reload.name).to eql 'Apples'
+      expect(dept.reload.name).to eq('Apples')
     end
 
     it 'redirects to the staff dashboard' do
       click_on 'Save changes'
-      expect(page.current_path).to eql staff_dashboard_path
+      expect(page).to have_current_path(staff_dashboard_path)
     end
 
     it 'gives a flash message' do
@@ -35,27 +34,26 @@ describe 'editing departments' do
     end
   end
 
-  context 'field left blank' do
+  context 'with a required field left blank' do
     before do
       within 'form.edit_department' do
-        fill_in_fields_for Department, attributes: base_attributes
-          .merge(name: '')
+        fill_in_fields_for Department, attributes: base_attributes.merge(name: '')
       end
     end
 
     it 'does not change the given field' do
       click_on 'Save changes'
-      expect(dept.reload.name).to eql 'Bananas'
+      expect(dept.reload.name).to eq('Bananas')
     end
 
     it 'redirects back to same page' do
       click_on 'Save changes'
-      expect(page.current_path).to eql edit_department_path(dept)
+      expect(page).to have_current_path(edit_department_path(dept))
     end
 
     it 'gives a flash error' do
       click_on 'Save changes'
-      expect(page).to have_css '#errors', text: "Name can't be blank"
+      expect(page).to have_css('#errors', text: "Name can't be blank")
     end
   end
 end

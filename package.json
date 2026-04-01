@@ -1,11 +1,32 @@
 {
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.12.0",
-    "datatables.net": "^1.11.3",
-    "datatables.net-bs4": "^1.11.3",
+    "@csstools/postcss-sass": "*",
+    "autoprefixer": "*",
+    "bootstrap": "^4.6.2",
+    "datatables.net": "^2.3.7",
+    "datatables.net-bs4": "^2.3.7",
     "jquery": "^3.7.1",
-    "jquery-ui-dist": "^1.13.2",
+    "jquery-ui-dist": "^1.13.3",
     "jquery.maskedinput": "^1.4.1",
-    "multiple-select": "^1.5.2"
+    "multiple-select": "^2.3.1",
+    "popper.js": "^1.16.1",
+    "postcss": "*",
+    "postcss-cli": "< 11",
+    "postcss-scss": "*"
+  },
+  "devDependencies": {
+    "@eslint/js": "< 9",
+    "eslint": "< 9",
+    "eslint-config-google": "*",
+    "globals": "< 14",
+    "run-pty": "*",
+    "stylelint": "< 16",
+    "stylelint-config-standard": "< 35",
+    "stylelint-config-standard-scss": "< 12"
+  },
+  "scripts": {
+    "build:css": "postcss ./app/assets/stylesheets/application.scss -o ./app/assets/builds/application.css",
+    "lint": "eslint .",
+    "lint:css": "stylelint **/*.css **/*.scss"
   }
 }
