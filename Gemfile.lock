@@ -133,6 +133,7 @@ GEM
     debug_inspector (1.2.0)
     diff-lcs (1.6.2)
     docile (1.4.0)
+    dotenv (3.2.0)
     drb (2.2.3)
     ed25519 (1.4.0)
     erb (6.0.2)
@@ -434,7 +435,6 @@ GEM
 
 PLATFORMS
   arm64-darwin
-  ruby
   x86_64-darwin
   x86_64-linux
 
@@ -452,6 +452,7 @@ DEPENDENCIES
   cssbundling-rails
   csv
   debug
+  dotenv
   ed25519
   exception_notification
   factory_bot_rails
@@ -531,6 +532,7 @@ CHECKSUMS
   debug_inspector (1.2.0) sha256=9bdfa02eebc3da163833e6a89b154084232f5766087e59573b70521c77ea68a2
   diff-lcs (1.6.2) sha256=9ae0d2cba7d4df3075fe8cd8602a8604993efc0dfa934cff568969efb1909962
   docile (1.4.0) sha256=5f1734bde23721245c20c3d723e76c104208e1aa01277a69901ce770f0ebb8d3
+  dotenv (3.2.0) sha256=e375b83121ea7ca4ce20f214740076129ab8514cd81378161f11c03853fe619d
   drb (2.2.3) sha256=0b00d6fdb50995fe4a45dea13663493c841112e4068656854646f418fda13373
   ed25519 (1.4.0) sha256=16e97f5198689a154247169f3453ef4cfd3f7a47481fde0ae33206cdfdcac506
   erb (6.0.2) sha256=9fe6264d44f79422c87490a1558479bd0e7dad4dd0e317656e67ea3077b5242b
@@ -658,7 +660,7 @@ CHECKSUMS
   zeitwerk (2.7.5) sha256=d8da92128c09ea6ec62c949011b00ed4a20242b255293dd66bf41545398f73dd
 
 RUBY VERSION
-   ruby 3.4.8p72
+  ruby 3.4.8p72
 
 BUNDLED WITH
-   4.0.6
+  4.0.6
