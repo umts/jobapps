@@ -2,7 +2,7 @@ $(function() {
   $('.sortable').sortable({
     stop: function() {
       reAttribute();
-    }
+    },
   });
 
   $('#add-field-button').on('click', function(event) {
@@ -22,25 +22,25 @@ $(function() {
 
 function reAttribute() {
   $('#fields-container').find('.row.field-row').each(function(index) {
-    let currentRow = $(this)
-    let selectors = {};
-    selectors['number'] = '.number input'
-    selectors['prompt'] = '.prompt textarea'
-    selectors['data_type'] = '.data-type select'
-    selectors['required'] = '.field-required input'
-    for(const fieldType in selectors) {
-      let field = currentRow.find(selectors[fieldType]);
-      if(fieldType == 'number') field.val(index + 1);
+    const currentRow = $(this);
+    const selectors = {};
+    selectors['number'] = '.number input';
+    selectors['prompt'] = '.prompt textarea';
+    selectors['data_type'] = '.data-type select';
+    selectors['required'] = '.field-required input';
+    for (const fieldType in selectors) {
+      const field = currentRow.find(selectors[fieldType]);
+      if (fieldType == 'number') field.val(index + 1);
       field.attr('name', newName(fieldType, index));
-      field.attr('id', newID(fieldType, index))
+      field.attr('id', newID(fieldType, index));
     }
   });
 }
 
-function newName(fieldType, index){
+function newName(fieldType, index) {
   return 'draft[questions_attributes][' + index + '][' + fieldType + ']';
 }
 
-function newID(fieldType, index){
-  return 'draft_questions_attributes_' + index + '_' + fieldType
+function newID(fieldType, index) {
+  return 'draft_questions_attributes_' + index + '_' + fieldType;
 }

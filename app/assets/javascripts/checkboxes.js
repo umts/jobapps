@@ -1,29 +1,29 @@
 $(function() {
-  var mousedownOn = {
+  const mousedownOn = {
     id: '',
-    checkState: false
+    checkState: false,
   };
 
-  $(".calendar").mouseup(function() {
+  $('.calendar').mouseup(function() {
     mousedownOn.id = '';
   });
 
   $('.hours_checkbox input[type="checkbox"]')
       .mousedown(function() {
-        var $this = $(this);
+        const $this = $(this);
         mousedownOn.id = $this.attr('id');
         mousedownOn.checkState = $this.prop('checked');
-        $this.prop('checked',!$this.prop('checked'));
-    })
-    .mouseenter(function() {
-        var $this = $(this);
+        $this.prop('checked', !$this.prop('checked'));
+      })
+      .mouseenter(function() {
+        const $this = $(this);
 
-        if (mousedownOn.id != '' && mousedownOn.id != $this.attr('id')){
-            $this.prop('checked',!mousedownOn.checkState);
+        if (mousedownOn.id != '' && mousedownOn.id != $this.attr('id')) {
+          $this.prop('checked', !mousedownOn.checkState);
         }
-    })
-    .click(function(e) {
+      })
+      .click(function(e) {
         e.preventDefault();
         return false;
-    });
+      });
 });
