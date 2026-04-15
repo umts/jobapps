@@ -1,16 +1,18 @@
-const js = require('@eslint/js');
-const googleConfig = require('eslint-config-google');
-const globals = require('globals');
+import js from '@eslint/js';
+import {defineConfig, globalIgnores} from 'eslint/config';
+import googleConfig from 'eslint-config-google';
+import globals from 'globals';
 
-module.exports = [
-  {
-    ignores: [
-      'app/assets/builds/*',
-      'coverage/*',
-      'node_modules/*',
-      'public/assets/*',
-    ],
-  },
+delete googleConfig.rules['valid-jsdoc'];
+delete googleConfig.rules['require-jsdoc'];
+
+export default defineConfig([
+  globalIgnores([
+    'app/assets/builds/*',
+    'coverage/*',
+    'node_modules/*',
+    'public/assets/*',
+  ]),
   {
     files: ['**/*.js'],
     ...js.configs.recommended,
@@ -36,4 +38,4 @@ module.exports = [
       globals: {...globals.node},
     },
   },
-];
+]);

@@ -20,6 +20,7 @@
     "@eslint/js": "*",
     "eslint": "*",
     "eslint-config-google": "*",
+    "eslint-formatter-compact": "*",
     "globals": "*",
     "run-pty": "*",
     "stylelint": "*",
