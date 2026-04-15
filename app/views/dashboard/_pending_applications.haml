@@ -1,9 +1,9 @@
-.dashboard_partial
+.dashboard-partial
   - departments.each do |department|
-    .title_header.fs-26= department.name
-    .partial_block
+    .title-header.fs-26= department.name
+    .partial-block
       - department.positions.each do |position|
-        .position_label= position.name
+        .position-label= position.name
         %ul
           - if pending_records.key? position
             - pending_records[position].each do |record|

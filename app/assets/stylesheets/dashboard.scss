@@ -4,7 +4,7 @@
   }
 }
 
-.dashboard_partial {
+.dashboard-partial {
   border: 2px solid #003a5b;
   background-color: rgb(220 220 220 / 50%);
   border-radius: 5px;
@@ -16,11 +16,11 @@
     margin: .25em;
   }
 
-  .partial_block {
+  .partial-block {
     margin-bottom: 20px;
   }
 
-  .title_header {
+  .title-header {
     width: 60%;
     margin: 5px 0 5px 15px;
     font-size: 24px;
@@ -28,14 +28,14 @@
     border-bottom: 1px dotted black;
   }
 
-  .position_label {
+  .position-label {
     margin-left: 15px;
     font-weight: bold;
     font-size: 16px;
   }
 }
 
-.dashboard_heading {
+.dashboard-heading {
   font-size: 24px;
   font-weight: bold;
   float: right;
@@ -44,6 +44,6 @@
   margin-right: 5px;
 }
 
-.interview_review_link {
+.interview-review-link {
   margin-bottom: 1em;
 }
