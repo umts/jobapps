@@ -15,25 +15,20 @@ $(function() {
 
   $(document).on('click', '.remove-field-button', function(event) {
     event.preventDefault();
-    $(this).parents('.row.field-row').remove();
+    $(event.target).parents('.row.field-row').remove();
     reAttribute();
   });
 });
 
 function reAttribute() {
-  $('#fields-container').find('.row.field-row').each(function(index) {
-    const currentRow = $(this);
-    const selectors = {};
-    selectors['number'] = '.number input';
-    selectors['prompt'] = '.prompt textarea';
-    selectors['data_type'] = '.data-type select';
-    selectors['required'] = '.field-required input';
-    for (const fieldType in selectors) {
-      const field = currentRow.find(selectors[fieldType]);
-      if (fieldType == 'number') field.val(index + 1);
-      field.attr('name', newName(fieldType, index));
-      field.attr('id', newID(fieldType, index));
-    }
+  $('#fields-container').find('.row.field-row').each(function(index, element) {
+    const currentRow = $(element);
+    const number = currentRow.find('.number input');
+
+    number.val(index + 1).attr({'name': newName('number', index), 'id': newID('number', index)});
+    currentRow.find('.prompt textarea').attr({'name': newName('prompt', index), 'id': newID('prompt', index)});
+    currentRow.find('.data-type select').attr({'name': newName('data_type', index), 'id': newID('data_type', index)});
+    currentRow.find('.field-required input').attr({'name': newName('required', index), 'id': newID('required', index)});
   });
 }
 
