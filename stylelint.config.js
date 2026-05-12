@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   ignoreFiles: [
     'app/assets/builds/*',
     'coverage/**/*',

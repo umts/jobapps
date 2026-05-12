@@ -1,0 +1,21 @@
+default: &default
+  adapter: trilogy
+  encoding: utf8mb4
+  collation: utf8mb4_unicode_520_ci
+  username: <%= ENV.fetch('DATABASE_USER', ENV['USER']) %>
+
+production:
+  <<: *default
+  host: <%= Rails.application.credentials.dig(:database, :host) %>
+  port: <%= Rails.application.credentials.dig(:database, :port) %>
+  database: <%= Rails.application.credentials.dig(:database, :database) %>
+  username: <%= Rails.application.credentials.dig(:database, :username) %>
+  password: <%= Rails.application.credentials.dig(:database, :password) %>
+
+development:
+  <<: *default
+  database: jobapps_development
+
+test:
+  <<: *default
+  database: jobapps_test

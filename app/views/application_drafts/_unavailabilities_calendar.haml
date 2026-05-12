@@ -1,12 +1,12 @@
 %table.calendar
   %thead
-    %tr.hours_row
-      %th.col_1
+    %tr.hours-row
+      %th.col-narrow
       - Unavailability::HOURS.each do |hour|
         %th.hours= hour
   %tbody
     - Date::DAYNAMES.each do |dow|
-      %tr.dow_row
-        %td.day.col_1= dow
+      %tr.dow-row
+        %td.day.col-narrow= dow
         - Unavailability::HOURS.each do |hour|
-          %td.hours_checkbox= form.check_box "#{dow.downcase}_#{hour}"
+          %td.hours-checkbox= form.check_box "#{dow.downcase}_#{hour}"

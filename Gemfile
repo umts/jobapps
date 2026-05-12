@@ -10,8 +10,6 @@ gem 'haml'
 gem 'haml-rails'
 gem 'icalendar'
 gem 'irb'
-# TODO: Remove ruby platform when we're off RHEL 7
-gem 'nokogiri', force_ruby_platform: true
 gem 'prawn'
 gem 'prawn-table'
 gem 'puma'
@@ -50,6 +48,7 @@ group :development, :test do
   gem 'better_errors', require: false
   gem 'binding_of_caller', require: false
   gem 'debug'
+  gem 'dotenv'
   gem 'factory_bot_rails'
   gem 'haml_lint'
 end
