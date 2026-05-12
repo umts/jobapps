@@ -2,11 +2,11 @@
   border-collapse: collapse;
 }
 
-.checked_off {
+.checked-off {
   background-color: #b3b3b3;
 }
 
-.col_1 {
+.col-narrow {
   border: 1px solid #a0a0a0;
   width: 90px;
 }
@@ -16,7 +16,7 @@
   padding-left: 3px;
 }
 
-.dow_row {
+.dow-row {
   height: 21px;
   background: #ece0e0;
 }
@@ -30,14 +30,14 @@
   padding-top: 3px
 }
 
-.hours_checkbox {
+.hours-checkbox {
   height: 20px;
   width: 50px;
   border: 1px solid #a0a0a0;
   text-align: center;
 }
 
-.hours_row {
+.hours-row {
   height: 21px;
   justify-content: center;
   background-color: #cce5ff;

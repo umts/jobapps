@@ -8,7 +8,7 @@ $(function() {
     mousedownOn.id = '';
   });
 
-  $('.hours_checkbox input[type="checkbox"]')
+  $('.hours-checkbox input[type="checkbox"]')
       .mousedown(function(event) {
         const target = $(event.target);
         mousedownOn.id = target.attr('id');
