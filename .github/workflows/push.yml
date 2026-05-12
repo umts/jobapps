@@ -1,0 +1,10 @@
+name: push
+permissions:
+  contents: read
+on:
+  push:
+    branches:
+      - main
+jobs:
+  integrate:
+    uses: umts/.github/.github/workflows/integrate-rails.yml@main
