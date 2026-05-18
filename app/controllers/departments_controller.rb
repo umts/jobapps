@@ -35,7 +35,7 @@ class DepartmentsController < ApplicationController
 
   def find_department
     params.require :id
-    @department = Department.find params[:id]
+    @department = Department.find params.expect(:id)
   end
 
   def department_parameters

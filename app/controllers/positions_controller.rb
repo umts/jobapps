@@ -45,7 +45,7 @@ class PositionsController < ApplicationController
 
   def find_position
     params.require :id
-    @position = Position.find params[:id]
+    @position = Position.find params.expect(:id)
   end
 
   def position_parameters

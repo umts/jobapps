@@ -43,6 +43,6 @@ class InterviewsController < ApplicationController
 
   def find
     params.require :id
-    @interview = Interview.find params[:id]
+    @interview = Interview.find params.expect(:id)
   end
 end

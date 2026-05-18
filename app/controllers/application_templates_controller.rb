@@ -9,7 +9,7 @@ class ApplicationTemplatesController < ApplicationController
     @old_data = {}
     return unless params[:load_id]
 
-    @old_data = ApplicationSubmission.find(params[:load_id])
+    @old_data = ApplicationSubmission.find(params.expect(:load_id))
                                      .try :questions_hash || {}
   end
 
@@ -76,6 +76,6 @@ class ApplicationTemplatesController < ApplicationController
   private
 
   def find_template
-    @template = ApplicationTemplate.friendly.find(params[:id])
+    @template = ApplicationTemplate.friendly.find(params.expect(:id))
   end
 end

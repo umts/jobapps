@@ -39,7 +39,7 @@ class UsersController < ApplicationController
   end
 
   def promote_save
-    user = User.find_by(spire: params[:user].split.last)
+    user = User.find_by(spire: params.expect(:user).split.last)
     if user.nil?
       redirect_to promote_users_path
     elsif user.update(staff: true)
@@ -52,7 +52,7 @@ class UsersController < ApplicationController
 
   def find_user
     params.require :id
-    @user = User.find params[:id]
+    @user = User.find params.expect(:id)
   end
 
   def user_parameters
