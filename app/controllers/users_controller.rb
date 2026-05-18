@@ -39,7 +39,8 @@ class UsersController < ApplicationController
   end
 
   def promote_save
-    user = User.find_by(spire: params.expect(:user).split.last)
+    # TODO: Use the id field to identify a user by a known id...
+    user = User.find_by(spire: params[:user].split.last) # rubocop:disable Rails/StrongParametersExpect
     if user.nil?
       redirect_to promote_users_path
     elsif user.update(staff: true)
