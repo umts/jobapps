@@ -52,7 +52,6 @@ class UsersController < ApplicationController
   private
 
   def find_user
-    params.require :id
     @user = User.find params.expect(:id)
   end
 

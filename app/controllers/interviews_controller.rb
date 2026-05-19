@@ -42,7 +42,6 @@ class InterviewsController < ApplicationController
   private
 
   def find
-    params.require :id
     @interview = Interview.find params.expect(:id)
   end
 end

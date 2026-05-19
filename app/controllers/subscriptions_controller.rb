@@ -8,7 +8,6 @@ class SubscriptionsController < ApplicationController
   end
 
   def destroy
-    @subscription = Subscription.find params.require :id
     @subscription.destroy
     redirect_back_or_to edit_position_path(@subscription.position)
   end

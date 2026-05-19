@@ -96,7 +96,6 @@ class ApplicationSubmissionsController < ApplicationController
   end
 
   def find_record
-    params.require :id
     @record = ApplicationSubmission.find params.expect(:id)
   end
 
