@@ -39,7 +39,8 @@ class UsersController < ApplicationController
   end
 
   def promote_save
-    user = User.find_by(spire: params[:user].split.last)
+    # TODO: Use the id field to identify a user by a known id...
+    user = User.find_by(spire: params[:user].split.last) # rubocop:disable Rails/StrongParametersExpect
     if user.nil?
       redirect_to promote_users_path
     elsif user.update(staff: true)
@@ -51,8 +52,7 @@ class UsersController < ApplicationController
   private
 
   def find_user
-    params.require :id
-    @user = User.find params[:id]
+    @user = User.find params.expect(:id)
   end
 
   def user_parameters
