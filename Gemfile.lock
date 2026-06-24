@@ -412,7 +412,7 @@ GEM
     tilt (2.7.0)
     timecop (0.9.11)
     timeout (0.6.1)
-    trilogy (2.12.5)
+    trilogy (2.12.6)
       bigdecimal
     tsort (0.2.0)
     ttfunk (1.8.0)
@@ -646,7 +646,7 @@ CHECKSUMS
   tilt (2.7.0) sha256=0d5b9ba69f6a36490c64b0eee9f6e9aad517e20dcc848800a06eb116f08c6ab3
   timecop (0.9.11) sha256=41284dc6e5041f2184f781ace766f942108c842f8d8c1386a26e6343decc7542
   timeout (0.6.1) sha256=78f57368a7e7bbadec56971f78a3f5ecbcfb59b7fcbb0a3ed6ddc08a5094accb
-  trilogy (2.12.5) sha256=9d930b1cd7b28ac6bb11c0f975ab040206073a767f1b7672f154339fc2c0cd71
+  trilogy (2.12.6) sha256=2e0f97092150c92fec41acc304c382ad52f5ea98e1eb11073e4f501f80159cf7
   tsort (0.2.0) sha256=9650a793f6859a43b6641671278f79cfead60ac714148aabe4e3f0060480089f
   ttfunk (1.8.0) sha256=a7cbc7e489cc46e979dde04d34b5b9e4f5c8f1ee5fc6b1a7be39b829919d20ca
   tzinfo (2.0.6) sha256=8daf828cc77bcf7d63b0e3bdb6caa47e2272dcfaf4fbfe46f8c3a9df087a829b
