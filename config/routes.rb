@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   else root 'dashboard#main'
   end
 
+  get '/up' => 'rails/health#show', as: :rails_health_check
+
   resources :application_templates, as: :applications, path: :applications, only: [:new, :show] do
     member do
       post :toggle_active
