@@ -6,6 +6,7 @@ require 'simplecov'
 SimpleCov.start 'rails' do
   refuse_coverage_drop if ENV['CI']
   add_filter 'app/mailers/previews'
+  add_filter 'app/jobs'
 end
 
 RSpec.configure do |config|

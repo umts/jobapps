@@ -16,13 +16,13 @@ gem 'puma'
 gem 'rails', '~> 8.1.3'
 gem 'redcarpet'
 gem 'snappconfig'
-gem 'solid_queue'
 gem 'sprockets-rails'
 gem 'terser'
 gem 'trilogy'
 
 group :production do
   gem 'exception_notification'
+  gem 'solid_queue'
 end
 
 group :development do
