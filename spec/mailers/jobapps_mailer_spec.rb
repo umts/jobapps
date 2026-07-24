@@ -3,8 +3,7 @@
 require 'rails_helper'
 
 describe JobappsMailer do
-  let(:config) { ApplicationConfiguration }
-  let(:from) { config.configured_value %i[email default_from] }
+  let(:from) { Rails.configuration.x.app.email[:default_from] }
 
   describe '.application_denial' do
     subject(:output) { described_class.application_denial application_submission }

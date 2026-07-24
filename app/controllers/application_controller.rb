@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
-  include ApplicationConfiguration
-
   before_action :set_spire
   before_action :set_current_user
   before_action :redirect_unauthenticated
