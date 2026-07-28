@@ -3,12 +3,9 @@
 require 'rails_helper'
 
 describe 'layouts/_footer' do
-  let(:site_contact) { 'your-it-department@test.host' }
+  let(:site_contact) { I18n.t('site_contact_email') }
 
-  before do
-    stub_config(:email, :site_contact_email, site_contact)
-    render
-  end
+  before { render }
 
   # From the UMass Digital Brand Guide - "We live in a digital world."
   it 'has a span with a class of content' do
@@ -29,7 +26,7 @@ describe 'layouts/_footer' do
     end
   end
 
-  it 'has the configured value as the Site Contact Email' do
+  it 'has the Site Contact Email' do
     expect(rendered).to have_tag 'a', with: { href: "mailto:#{site_contact}" } do
       with_text 'Site Contact'
     end

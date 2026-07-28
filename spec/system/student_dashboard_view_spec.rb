@@ -35,83 +35,40 @@ describe 'viewing the dashboard as a student' do
         create(:application_submission, reviewed: true, user: student, rejection_message: 'No')
       end
 
-      context 'when configured value, "notify applicant", is true' do
-        before do
-          stub_config(:on_application_denial, :notify_applicant, true)
-          visit student_dashboard_path
-        end
+      before { visit student_dashboard_path }
 
-        it 'contains a link to review the pending application' do
-          expect(page).to have_link 'View your submitted application',
-                                    href: application_submission_path(pending_application)
-        end
-
-        it 'informs the applicant that there application is pending' do
-          click_link 'View your submitted application',
-                     href: application_submission_path(pending_application)
-          expect(page).to have_text 'Your application is pending'
-        end
-
-        it 'informs the applicant that they will be notified' do
-          click_link 'View your submitted application',
-                     href: application_submission_path(pending_application)
-          expect(page).to have_text 'You will be notified when your application has been reviewed'
-        end
-
-        context 'when configured value, "notify of reason", is set to false' do
-          before do
-            stub_config(:on_application_denial, :notify_of_reason, false)
-            visit student_dashboard_path
-          end
-
-          it 'informs the applicant of the denial' do
-            click_link 'View your submitted application',
-                       href: application_submission_path(denied_application)
-            expect(page).to have_text 'Your application has been denied.'
-          end
-
-          it 'does not inform the applicant why' do
-            click_link 'View your submitted application',
-                       href: application_submission_path(denied_application)
-            expect(page).to have_no_text 'Reason: No'
-          end
-        end
-
-        context 'when configured value, "notify of reason", is set to true' do
-          before do
-            stub_config(:on_application_denial, :notify_of_reason, true)
-            visit student_dashboard_path
-          end
-
-          it 'informs the applicant of the denial' do
-            click_link 'View your submitted application',
-                       href: application_submission_path(denied_application)
-            expect(page).to have_text 'Your application has been denied.'
-          end
-
-          it 'informs the applicant why' do
-            click_link 'View your submitted application',
-                       href: application_submission_path(denied_application)
-            expect(page).to have_text 'Reason: No'
-          end
-        end
+      it 'contains a link to review the pending application' do
+        expect(page).to have_link 'View your submitted application',
+                                  href: application_submission_path(pending_application)
       end
 
-      context 'when configured value, "notify applicant", is false' do
-        before do
-          stub_config(:on_application_denial, :notify_applicant, false)
-          visit student_dashboard_path
-        end
+      it 'contains a link to review the denied application' do
+        expect(page).to have_link 'View your submitted application',
+                                  href: application_submission_path(denied_application)
+      end
 
-        it 'contains a link to review pending applications' do
-          expect(page).to have_link 'View your submitted application',
-                                    href: application_submission_path(pending_application)
-        end
+      it 'informs the applicant that there application is pending' do
+        click_link 'View your submitted application',
+                   href: application_submission_path(pending_application)
+        expect(page).to have_text 'Your application is pending'
+      end
 
-        it 'does not contain a link to review denied applications' do
-          expect(page).to have_no_link 'View your submitted application',
-                                       href: application_submission_path(denied_application)
-        end
+      it 'informs the applicant that they will be notified' do
+        click_link 'View your submitted application',
+                   href: application_submission_path(pending_application)
+        expect(page).to have_text 'You will be notified when your application has been reviewed'
+      end
+
+      it 'informs the applicant of the denial' do
+        click_link 'View your submitted application',
+                   href: application_submission_path(denied_application)
+        expect(page).to have_text 'Your application has been denied.'
+      end
+
+      it 'informs the applicant why' do
+        click_link 'View your submitted application',
+                   href: application_submission_path(denied_application)
+        expect(page).to have_text 'Reason: No'
       end
     end
   end

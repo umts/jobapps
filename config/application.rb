@@ -24,8 +24,6 @@ module Jobapps
     config.time_zone = "Eastern Time (US & Canada)"
     config.active_storage.web_image_content_types = %w[image/png image/jpeg image/gif]
 
-    config.x.app = config_for(:app)
-
     mail_previews = Rails.root.join('app/mailers/previews')
     config.action_mailer.preview_paths << mail_previews
     config.eager_load_paths << mail_previews

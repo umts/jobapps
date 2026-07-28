@@ -1,9 +1,0 @@
-shared:
-  email:
-    default_from: 'transit-it@admin.umass.edu'
-    site_contact_email: 'transit-it@admin.umass.edu'
-  on_application_denial:
-    notify_applicant: true
-    notify_of_reason: true
-    allow_resubmission: true
-    fill_form_with_old: true

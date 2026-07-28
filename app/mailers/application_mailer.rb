@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 class ApplicationMailer < ActionMailer::Base
-  default from: -> { Rails.configuration.x.app.email[:default_from] }
+  default from: 'transit-it@admin.umass.edu'
 end

@@ -31,6 +31,7 @@
 
 en:
   organization_name: UMass Transit
+  site_contact_email: transit-it@admin.umass.edu
   errors:
     messages:
       true_false: 'must be true or false'

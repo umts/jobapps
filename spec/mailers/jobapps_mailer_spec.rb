@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe JobappsMailer do
-  let(:from) { Rails.configuration.x.app.email[:default_from] }
+  let(:from) { 'transit-it@admin.umass.edu' }
 
   describe '.application_denial' do
     subject(:output) { described_class.application_denial application_submission }
@@ -18,7 +18,7 @@ describe JobappsMailer do
       create(:application_submission, staff_note: 'note', position:)
     end
 
-    it 'emails from the configured value' do
+    it 'emails from the default address' do
       expect(output.from).to eq(Array(from))
     end
 
@@ -62,7 +62,7 @@ describe JobappsMailer do
     let(:subscription) { create(:subscription, position:) }
     let(:applicant) { create(:user, :student) }
 
-    it 'emails from the configured value' do
+    it 'emails from the default address' do
       expect(output.from).to eq(Array(from))
     end
 
@@ -93,7 +93,7 @@ describe JobappsMailer do
       create(:interview, application_submission:)
     end
 
-    it 'emails from the configured value' do
+    it 'emails from the default address' do
       expect(output.from).to eq(Array(from))
     end
 
@@ -128,7 +128,7 @@ describe JobappsMailer do
       create(:interview, application_submission:)
     end
 
-    it 'emails from the configured value' do
+    it 'emails from the default address' do
       expect(output.from).to eq(Array(from))
     end
 
@@ -161,7 +161,7 @@ describe JobappsMailer do
       create(:application_template, position: record.position, email: 'steve@sharklazers.com')
     end
 
-    it 'emails from the configured value' do
+    it 'emails from the default address' do
       expect(output.from).to eq(Array(from))
     end
 
@@ -228,7 +228,7 @@ describe JobappsMailer do
 
     let(:email) { 'foo@example.com' }
 
-    it 'emails from default configured value' do
+    it 'emails to the given email' do
       expect(output.to).to contain_exactly(email)
     end
 
