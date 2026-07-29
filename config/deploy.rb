@@ -5,7 +5,6 @@ set :deploy_to, "/srv/#{fetch :application}"
 set :log_level, :info
 
 set :bundle_config, { deployment: true, clean: true }
-set :whenever_command, [:sudo, :bundle, :exec, :whenever]
 
 append :linked_files,
   'config/application.yml',
@@ -15,3 +14,5 @@ append :linked_dirs, '.bundle', 'log', 'node_modules', 'storage'
 
 set :passenger_restart_with_sudo, true
 set :bundle_version, 4
+
+after 'deploy:published', 'solid_queue:restart'

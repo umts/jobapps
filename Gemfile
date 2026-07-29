@@ -19,10 +19,10 @@ gem 'snappconfig'
 gem 'sprockets-rails'
 gem 'terser'
 gem 'trilogy'
-gem 'whenever', require: false
 
 group :production do
   gem 'exception_notification'
+  gem 'solid_queue'
 end
 
 group :development do
