@@ -1,0 +1,5 @@
+<% require 'csv' %>
+spire_id
+<% @users.find_each do |user| %>
+<%= [user.spire.delete_suffix('@umass.edu')].to_csv -%>
+<% end %>

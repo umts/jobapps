@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount MaintenanceTasks::Engine, at: '/maintenance_tasks'
   if Rails.env.development?
     root 'sessions#dev_login'
   else root 'dashboard#main'
@@ -71,6 +72,7 @@ Rails.application.routes.draw do
     collection do
       get :promote
       put :promote_save
+      get :spire_ids
     end
   end
 end
