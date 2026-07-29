@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_22_200158) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_29_184317) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", precision: nil, null: false
@@ -100,6 +100,28 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_22_200158) do
     t.integer "user_id"
     t.index ["application_submission_id"], name: "index_interviews_on_application_submission_id", unique: true
     t.index ["user_id"], name: "index_interviews_on_user_id"
+  end
+
+  create_table "maintenance_tasks_runs", charset: "utf8mb4", collation: "utf8mb4_unicode_520_ci", force: :cascade do |t|
+    t.text "arguments"
+    t.text "backtrace"
+    t.datetime "created_at", null: false
+    t.string "cursor"
+    t.boolean "cursor_is_json", default: false, null: false
+    t.datetime "ended_at"
+    t.string "error_class"
+    t.string "error_message"
+    t.string "job_id"
+    t.integer "lock_version", default: 0, null: false
+    t.text "metadata"
+    t.datetime "started_at"
+    t.string "status", default: "enqueued", null: false
+    t.string "task_name", null: false
+    t.bigint "tick_count", default: 0, null: false
+    t.bigint "tick_total"
+    t.float "time_running", default: 0.0, null: false
+    t.datetime "updated_at", null: false
+    t.index ["task_name", "status", "created_at"], name: "index_maintenance_tasks_runs", order: { created_at: :desc }
   end
 
   create_table "positions", id: :integer, charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -273,11 +295,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_22_200158) do
     t.boolean "admin", default: false
     t.datetime "created_at", precision: nil
     t.string "email"
+    t.string "entra_uid"
     t.string "first_name"
     t.string "last_name"
     t.string "spire"
     t.boolean "staff", default: false
     t.datetime "updated_at", precision: nil
+    t.index ["entra_uid"], name: "index_users_on_entra_uid", unique: true
     t.index ["spire"], name: "index_users_on_spire", unique: true
   end
 
