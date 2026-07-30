@@ -1,0 +1,8 @@
+name: pull_request
+permissions:
+  contents: read
+on:
+  pull_request:
+jobs:
+  integrate:
+    uses: umts/.github/.github/workflows/integrate-rails.yml@main
