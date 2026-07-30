@@ -22,6 +22,7 @@ gem 'trilogy'
 group :production do
   gem 'exception_notification'
   gem 'solid_queue'
+  gem 'thruster', require: false
 end
 
 group :development do
