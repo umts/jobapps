@@ -98,15 +98,11 @@
 
 - elsif @record.pending?
   Your application is pending and has not yet been reviewed.
-  - if configured_value [:on_application_denial, :notify_applicant], default: true
-    You will be notified when your application has been reviewed.
-  - else
-    You will be contacted if an interview is requested.
+  You will be notified when your application has been reviewed.
 - elsif @interview.present?
   Your interview #{@interview.pending? ? 'is scheduled for' : 'occurred on'}
   = @interview.information
 - else
   Your application has been denied.
-  - if configured_value [:on_application_denial, :notify_of_reason], default: true
-    Reason:
-    = @record.rejection_message
+  Reason:
+  = @record.rejection_message

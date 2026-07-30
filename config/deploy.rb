@@ -7,7 +7,6 @@ set :log_level, :info
 set :bundle_config, { deployment: true, clean: true }
 
 append :linked_files,
-  'config/application.yml',
   'config/credentials/production.key'
 
 append :linked_dirs, '.bundle', 'log', 'node_modules', 'storage'

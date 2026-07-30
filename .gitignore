@@ -1,7 +1,6 @@
 /.local-overcommit.yml
 /app/assets/builds/*
 !/app/assets/builds/.keep
-/config/application.yml
 /coverage/*
 !/coverage/.last_run.json
 /log/
