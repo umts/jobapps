@@ -15,14 +15,13 @@ gem 'prawn-table'
 gem 'puma'
 gem 'rails', '~> 8.1.3'
 gem 'redcarpet'
-gem 'snappconfig'
 gem 'sprockets-rails'
 gem 'terser'
 gem 'trilogy'
-gem 'whenever', require: false
 
 group :production do
   gem 'exception_notification'
+  gem 'solid_queue'
 end
 
 group :development do
