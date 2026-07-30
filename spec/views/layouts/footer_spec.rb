@@ -3,8 +3,6 @@
 require 'rails_helper'
 
 describe 'layouts/_footer' do
-  let(:site_contact) { I18n.t('site_contact_email') }
-
   before { render }
 
   # From the UMass Digital Brand Guide - "We live in a digital world."
@@ -27,7 +25,7 @@ describe 'layouts/_footer' do
   end
 
   it 'has the Site Contact Email' do
-    expect(rendered).to have_tag 'a', with: { href: "mailto:#{site_contact}" } do
+    expect(rendered).to have_tag 'a', with: { href: 'mailto:transit-it@admin.umass.edu' } do
       with_text 'Site Contact'
     end
   end
