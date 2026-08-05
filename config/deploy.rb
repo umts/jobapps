@@ -13,5 +13,7 @@ append :linked_dirs, '.bundle', 'log', 'node_modules', 'storage'
 
 set :passenger_restart_with_sudo, true
 set :bundle_version, 4
+set :bundle_bins, fetch(:bundle_bins, []).push('bootsnap')
 
+before 'deploy:updated', 'bootsnap:precompile'
 after 'deploy:published', 'solid_queue:restart'

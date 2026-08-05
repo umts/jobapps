@@ -3,6 +3,7 @@
 source 'https://rubygems.org'
 ruby file: '.ruby-version'
 
+gem 'bootsnap', require: false
 gem 'cssbundling-rails'
 gem 'csv'
 gem 'friendly_id'
