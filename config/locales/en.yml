@@ -30,6 +30,7 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
+  organization_name: UMass Transit
   errors:
     messages:
       true_false: 'must be true or false'

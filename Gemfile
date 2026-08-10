@@ -3,6 +3,7 @@
 source 'https://rubygems.org'
 ruby file: '.ruby-version'
 
+gem 'bootsnap', require: false
 gem 'cssbundling-rails'
 gem 'csv'
 gem 'friendly_id'
@@ -16,7 +17,6 @@ gem 'prawn-table'
 gem 'puma'
 gem 'rails', '~> 8.1.3'
 gem 'redcarpet'
-gem 'snappconfig'
 gem 'sprockets-rails'
 gem 'terser'
 gem 'trilogy'
