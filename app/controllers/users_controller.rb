@@ -38,12 +38,6 @@ class UsersController < ApplicationController
                  .map { |attrs| attrs.join(' ') }
   end
 
-  def spire_ids
-    respond_to :csv
-    @users = User.where(entra_uid: nil)
-    render layout: false
-  end
-
   def promote_save
     # TODO: Use the id field to identify a user by a known id...
     user = User.find_by(spire: params[:user].split.last) # rubocop:disable Rails/StrongParametersExpect
@@ -62,7 +56,7 @@ class UsersController < ApplicationController
   end
 
   def user_parameters
-    params.expect user: %i[email first_name last_name spire staff]
+    params.expect user: %i[email first_name last_name staff entra_uid]
   end
 
   def allow_only_admin

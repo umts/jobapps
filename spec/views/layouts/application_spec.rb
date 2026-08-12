@@ -3,9 +3,11 @@
 require 'rails_helper'
 
 describe 'layouts/application' do
-  it 'displays a link to logout' do
+  it 'displays a button to logout' do
     render
-    expect(rendered).to have_tag('a', with: { href: '/sessions/destroy' })
+    expect(rendered).to have_tag('form', with: { action: destroy_session_path, method: 'post' }) do
+      with_tag 'button', text: 'Logout'
+    end
   end
 
   it 'has a link to the main dashboard' do

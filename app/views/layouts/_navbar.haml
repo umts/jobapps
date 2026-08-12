@@ -1,7 +1,7 @@
 #umass-banner
   #wordmark= image_tag 'wordmark.svg', height: 25
   #links
-    = link_to 'Logout', destroy_session_path
+    = button_to 'Logout', destroy_session_path
     = link_to 'Dashboard', main_dashboard_path
   #current-user-name= Current.user&.full_name
 #transportation-banner

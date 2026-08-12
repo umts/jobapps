@@ -1,6 +1,8 @@
-%h1 Login failure
-An error has occurred, and we are unable to verify your identity.
-%br
-For further assistance, please contact transit-it@admin.umass.edu.
-%br
-= link_to 'Logout', destroy_session_path
+%h1 Log in
+= button_to 'Log in with Microsoft', '/auth/entra_id', class: 'btn btn-primary'
+
+- unless Rails.env.production?
+  %h2 Development login
+  = form_with url: '/auth/developer/callback', method: :get do |f|
+    = f.collection_select :uid, @users, :entra_uid, :full_name
+    = f.submit 'Log in'

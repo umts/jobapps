@@ -1,11 +1,9 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
-  before_action :set_spire
   before_action :set_current_user
   before_action :redirect_unauthenticated
   before_action :access_control
-  before_action :check_primary_account
   layout 'application'
 
   private
@@ -24,42 +22,17 @@ class ApplicationController < ActionController::Base
   end
 
   def redirect_unauthenticated
-    return if Current.user.present? || session.key?(:spire)
+    return if Current.user.present? || session.key?(:entra_uid)
 
-    logger.info 'Request:'
-    logger.info request.inspect
-    logger.info 'Session:'
-    logger.info session.inspect
     redirect_to unauthenticated_session_path
   end
 
   def set_current_user
-    Current.user =
-      if session.key? :user_id
-        User.find_by id: session[:user_id]
-      elsif session.key? :spire
-        User.find_by(spire: session[:spire]).tap do |user|
-          session[:user_id] = user&.id
-        end
-      end
-  end
-
-  def set_spire
-    session[:spire] = request.env['fcIdNumber'] if request.env.key? 'fcIdNumber'
+    Current.user = User.find_by(entra_uid: session[:entra_uid]) if session.key?(:entra_uid)
   end
 
   def show_errors(object)
     flash[:errors] = object.errors.full_messages
     redirect_back_or_to root_path
-  end
-
-  def check_primary_account
-    return if request.env['UMAPrimaryAccount'] == request.env['uid']
-
-    @primary_account = request.env['UMAPrimaryAccount']
-    @uid = request.env['uid']
-    render 'sessions/unauthenticated_subsidiary',
-           status: :unauthorized,
-           layout: false
   end
 end
