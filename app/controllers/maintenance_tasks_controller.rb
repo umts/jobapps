@@ -12,6 +12,6 @@ class MaintenanceTasksController < ApplicationController
   private
 
   def allow_only_admin
-    deny_access unless Current.user&.admin?
+    raise Unauthorized unless Current.user&.admin?
   end
 end

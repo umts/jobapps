@@ -44,9 +44,9 @@ describe SessionsController do
     end
 
     context 'when in the development environment' do
-      it 'redirects to the login page' do
+      it 'redirects to the root path, which renders the login page' do
         delete :destroy
-        expect(response).to redirect_to unauthenticated_session_path
+        expect(response).to redirect_to root_path
       end
 
       it 'clears the session' do
@@ -73,19 +73,6 @@ describe SessionsController do
         delete :destroy
         expect(session).to have_received(:clear)
       end
-    end
-  end
-
-  describe 'GET #unauthenticated' do
-    it 'renders the correct template' do
-      get :unauthenticated
-      expect(response).to render_template :unauthenticated
-    end
-
-    it 'assigns the users available for the developer login' do
-      user = create(:user)
-      get :unauthenticated
-      expect(assigns(:users)).to include user
     end
   end
 end

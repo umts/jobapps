@@ -1,0 +1,6 @@
+%h1 Log in
+= button_to 'Log in with Microsoft', '/auth/entra_id', class: 'btn btn-primary'
+%h2 Development login
+= form_with url: '/auth/developer/callback', method: :get do |f|
+  = f.collection_select :uid, User.all, :entra_uid, :full_name
+  = f.submit 'Log in'

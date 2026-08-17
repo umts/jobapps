@@ -14,7 +14,7 @@ shared_examples 'an access-controlled resource' do |routes:|
     when_current_user_is :student
     routes.each do |route|
       call_controller_action route
-      expect(response).to have_http_status :unauthorized
+      expect(response).to have_http_status :forbidden
     end
   end
 end

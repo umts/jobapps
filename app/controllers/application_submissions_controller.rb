@@ -8,7 +8,7 @@ class ApplicationSubmissionsController < ApplicationController
                                          past_applications]
 
   def show
-    deny_access and return unless @record.user.current? || Current.user&.staff?
+    raise Unauthorized unless @record.user.current? || Current.user&.staff?
 
     @interview = @record.interview
     respond_to do |format|

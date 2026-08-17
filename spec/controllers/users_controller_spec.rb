@@ -18,7 +18,7 @@ describe UsersController do
 
       it 'does not create the user' do
         post :create, params: { user: build(:user) }
-        expect(response).to have_http_status :unauthorized
+        expect(response).to have_http_status :forbidden
       end
     end
   end
@@ -33,7 +33,7 @@ describe UsersController do
 
       it 'does not allow the request' do
         delete :destroy, params: { id: user }
-        expect(response).to have_http_status :unauthorized
+        expect(response).to have_http_status :forbidden
       end
 
       it 'does not destroy the user' do

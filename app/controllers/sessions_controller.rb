@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 class SessionsController < ApplicationController
-  layout false
-  skip_before_action :access_control, :redirect_unauthenticated
+  skip_before_action :access_control, :require_login
   skip_forgery_protection only: :create
 
   def create
@@ -15,14 +14,8 @@ class SessionsController < ApplicationController
     if Rails.env.production?
       redirect_to entra_logout_url, allow_other_host: true
     else
-      redirect_to unauthenticated_session_path
+      redirect_to root_path
     end
-  end
-
-  # The login page. In development it also lists users for the OmniAuth
-  # developer strategy; production only offers the Microsoft sign-in.
-  def unauthenticated
-    @users = User.all unless Rails.env.production?
   end
 
   private

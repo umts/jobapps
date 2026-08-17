@@ -60,6 +60,6 @@ class UsersController < ApplicationController
   end
 
   def allow_only_admin
-    deny_access and return unless Current.user&.admin?
+    raise Unauthorized unless Current.user&.admin?
   end
 end

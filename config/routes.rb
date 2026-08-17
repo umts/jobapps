@@ -60,7 +60,6 @@ Rails.application.routes.draw do
   # sessions
   get '/auth/:provider/callback', to: 'sessions#create'
   post 'logout', to: 'sessions#destroy', as: :destroy_session
-  get 'sessions/unauthenticated', to: 'sessions#unauthenticated', as: :unauthenticated_session
 
   resources :users, except: [:index, :show] do
     collection do
