@@ -1,9 +1,6 @@
 Rails.application.routes.draw do
   mount MaintenanceTasks::Engine, at: '/maintenance_tasks'
-  if Rails.env.development?
-    root 'sessions#dev_login'
-  else root 'dashboard#main'
-  end
+  root 'dashboard#main'
 
   get '/up' => 'rails/health#show', as: :rails_health_check
 
@@ -61,18 +58,13 @@ Rails.application.routes.draw do
   post 'markdown/explanation'
 
   # sessions
-  unless Rails.env.production?
-    get  'sessions/dev_login', to: 'sessions#dev_login', as: :dev_login
-    post 'sessions/dev_login', to: 'sessions#dev_login'
-  end
-  get 'sessions/unauthenticated', to: 'sessions#unauthenticated', as: :unauthenticated_session
-  get 'sessions/destroy', to: 'sessions#destroy', as: :destroy_session
+  get '/auth/:provider/callback', to: 'sessions#create'
+  post 'logout', to: 'sessions#destroy', as: :destroy_session
 
   resources :users, except: [:index, :show] do
     collection do
       get :promote
       put :promote_save
-      get :spire_ids
     end
   end
 end

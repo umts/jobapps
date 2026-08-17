@@ -3,27 +3,54 @@
 require 'rails_helper'
 
 describe SessionsController do
+  describe 'GET #create' do
+    let :auth_hash do
+      OmniAuth::AuthHash.new(
+        uid: 'entra-uid-abc',
+        info: { email: 'jane@umass.edu', first_name: 'Jane', last_name: 'Doe' }
+      )
+    end
+
+    before do
+      request.env['omniauth.auth'] = auth_hash
+    end
+
+    it 'stores the authenticated identity in the session' do
+      get :create, params: { provider: 'entra_id' }
+      expect(session[:entra_uid]).to eq 'entra-uid-abc'
+    end
+
+    it 'redirects to the main dashboard' do
+      get :create, params: { provider: 'entra_id' }
+      expect(response).to redirect_to main_dashboard_path
+    end
+
+    context 'when an origin was recorded' do
+      before do
+        request.env['omniauth.origin'] = student_dashboard_path
+      end
+
+      it 'redirects back to the origin' do
+        get :create, params: { provider: 'entra_id' }
+        expect(response).to redirect_to student_dashboard_path
+      end
+    end
+  end
+
   describe 'DELETE #destroy' do
     before do
       when_current_user_is :anyone
       allow(session).to receive(:clear).and_call_original
     end
 
-    let :submit do
-      delete :destroy
-    end
-
     context 'when in the development environment' do
-      before do
-        allow(Rails.env).to receive(:production?).and_return false
-      end
-
-      it 'redirects to dev_login' do
-        expect(submit).to redirect_to dev_login_path
+      it 'redirects to the root path, which renders the login page' do
+        delete :destroy
+        expect(response).to redirect_to root_path
       end
 
       it 'clears the session' do
-        submit
+        delete :destroy
         expect(session).to have_received(:clear)
       end
     end
@@ -31,71 +58,21 @@ describe SessionsController do
     context 'when in the production environment' do
       before do
         allow(Rails.env).to receive(:production?).and_return true
+        allow(Rails.application).to receive(:credentials)
+          .and_return(entra_id: { tenant_id: 'tenant' })
       end
 
-      it 'redirects to something about Shibboleth' do
-        expect(submit).to redirect_to %r{/Shibboleth.sso/Logout}
+      it 'redirects to the Entra logout url' do
+        delete :destroy
+        expect(response).to redirect_to(
+          "https://login.microsoftonline.com/tenant/oauth2/v2.0/logout?post_logout_redirect_uri=#{CGI.escape(root_url)}"
+        )
       end
 
       it 'clears the session' do
-        submit
+        delete :destroy
         expect(session).to have_received(:clear)
       end
-    end
-  end
-
-  describe 'GET #dev_login' do
-    let(:submit) { get :dev_login }
-
-    before do
-      when_current_user_is nil
-      create(:user) # for SPIRE purposes
-    end
-
-    it 'assigns instance variables' do
-      submit
-      expect(assigns.keys).to include 'staff', 'students'
-    end
-
-    it 'renders correct template' do
-      submit
-      expect(response).to render_template 'dev_login'
-    end
-  end
-
-  describe 'POST #dev_login' do
-    let :submit do
-      post :dev_login, params: { user_id: user.id }
-    end
-
-    let(:user) { create(:user) }
-
-    before do
-      when_current_user_is nil
-    end
-
-    it 'creates a session for the user specified' do
-      submit
-      expect(session[:user_id]).to eq(user.id)
-    end
-
-    context 'with a submitted SPIRE id' do
-      it 'creates a session with that SPIRE' do
-        post :dev_login, params: { spire: '12345678' }
-        expect(session[:spire]).to eq('12345678')
-      end
-    end
-
-    it 'redirects to main dashboard' do
-      expect(submit).to redirect_to main_dashboard_path
-    end
-  end
-
-  describe 'GET #unauthenticated' do
-    let(:submit) { get :unauthenticated }
-
-    it 'renders the correct template' do
-      expect(submit).to render_template :unauthenticated
     end
   end
 end

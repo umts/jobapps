@@ -10,9 +10,8 @@
     = f.label :email
     = f.text_field :email, required: true, class: 'form-control'
   .form-group
-    = f.label :spire
-    = f.text_field :spire, required: true,
-                           placeholder: 'e.g. 12345678@umass.edu', class: 'form-control'
+    = f.label :entra_uid
+    = f.text_field :entra_uid, required: true, class: 'form-control'
   .form-group
     = f.hidden_field :staff, value: true
     = f.submit 'Save changes', class: 'btn btn-primary'

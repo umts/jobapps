@@ -39,23 +39,23 @@ describe 'submitting application records' do
   end
 
   context 'when a student has been authenticated but has no user object' do
-    let(:spire) { '12345678@umass.edu' }
-    let(:user_attributes) { { first_name: 'John', last_name: 'Smith', email: 'johnsmith@umass.edu', spire: } }
+    let(:entra_uid) { 'entra-uid-applicant' }
+    let(:user_attributes) { { first_name: 'John', last_name: 'Smith', email: 'johnsmith@umass.edu', entra_uid: } }
 
     before do
       when_current_user_is nil
-      page.set_rack_session(spire:)
+      page.set_rack_session(entra_uid:)
       visit application_path(application_template)
       application_template.position.update(not_hiring_text: 'custom text')
     end
 
     it 'creates a new user' do
-      fill_in_fields_for User, attributes: user_attributes.except(:spire)
+      fill_in_fields_for User, attributes: user_attributes.except(:entra_uid)
       expect { click_on 'Submit application' }.to change(User, :count).by(1)
     end
 
     it 'creates a user object with the user-provided information' do
-      fill_in_fields_for User, attributes: user_attributes.except(:spire)
+      fill_in_fields_for User, attributes: user_attributes.except(:entra_uid)
       click_on 'Submit application'
       expect(User.last).to have_attributes user_attributes
     end

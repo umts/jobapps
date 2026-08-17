@@ -1,48 +1,39 @@
 # frozen_string_literal: true
 
 class SessionsController < ApplicationController
-  # layout without_logout
-  layout false
-  skip_before_action :access_control, :redirect_unauthenticated,
-                     :check_primary_account
+  skip_before_action :access_control, :require_login
+  skip_forgery_protection only: :create
+
+  def create
+    set_session
+    redirect_to auth_referer || main_dashboard_path
+  end
 
   def destroy
     session.clear
     if Rails.env.production?
-      redirect_to '/Shibboleth.sso/Logout?return=' \
-                  'https://webauth.umass.edu/saml2/idp/SingleLogoutService.php'
+      redirect_to entra_logout_url, allow_other_host: true
     else
-      redirect_to dev_login_path
+      redirect_to root_path
     end
   end
-
-  # route not defined in production
-  def dev_login
-    if request.get?
-      @staff     = User.staff
-      @students  = User.students
-      @new_spire = new_spire
-    elsif request.post?
-      find_user
-      redirect_to main_dashboard_path
-    end
-  end
-
-  # Only shows if no user in database AND no SPIRE provided from Shibboleth
-  def unauthenticated; end
 
   private
 
-  def find_user
-    if params.permit(:user_id).present?
-      @user = User.find_by(id: params[:user_id])
-      session[:user_id] = @user.id
-    elsif params.permit(:spire).present?
-      session[:spire] = params[:spire]
-    end
+  def set_session
+    session[:entra_uid] = auth_hash.uid
+    session[:email] = auth_hash.info.email
+    session[:first_name] = auth_hash.info.first_name
+    session[:last_name] = auth_hash.info.last_name
   end
 
-  def new_spire
-    format('%08d@umass.edu', User.maximum(:spire).to_i + 1)
+  def auth_hash = request.env['omniauth.auth']
+
+  def auth_referer = request.env['omniauth.origin'].presence
+
+  def entra_logout_url
+    tenant_id = Rails.application.credentials.dig(:entra_id, :tenant_id)
+    redirect_uri = CGI.escape(root_url)
+    "https://login.microsoftonline.com/#{tenant_id}/oauth2/v2.0/logout?post_logout_redirect_uri=#{redirect_uri}"
   end
 end
