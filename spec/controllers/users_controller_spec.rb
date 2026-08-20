@@ -68,7 +68,7 @@ describe UsersController do
       end
 
       it 'does not promote the user' do
-        put :promote_save, params: { user: "#{user.full_name} #{user.spire}" }
+        put :promote_save, params: { user: "#{user.full_name} #{user.id}" }
         user.reload
         expect(user).not_to be_staff
       end
