@@ -8,7 +8,7 @@ describe Interview do
 
     before do
       allow(JobappsMailer).to receive(:interview_confirmation).and_return(mail)
-      allow(mail).to receive(:deliver_now).and_return(true)
+      allow(mail).to receive(:deliver_later).and_return(true)
     end
 
     it 'creates the interview confirmation mail when interview is created' do
@@ -18,7 +18,7 @@ describe Interview do
 
     it 'sends the interview confirmation when interview is created' do
       create(:interview)
-      expect(mail).to have_received(:deliver_now)
+      expect(mail).to have_received(:deliver_later)
     end
   end
 
@@ -28,7 +28,7 @@ describe Interview do
 
     before do
       allow(JobappsMailer).to receive(:interview_reschedule).and_return(mail)
-      allow(mail).to receive(:deliver_now).and_return(true)
+      allow(mail).to receive(:deliver_later).and_return(true)
     end
 
     it 'creates the reschedule email when the location changes' do
@@ -38,7 +38,7 @@ describe Interview do
 
     it 'sends the resceduled email when the location changes' do
       interview.update location: 'another location'
-      expect(mail).to have_received(:deliver_now)
+      expect(mail).to have_received(:deliver_later)
     end
 
     it 'creates the rescheduled email when the scheduled time changes' do
@@ -48,7 +48,7 @@ describe Interview do
 
     it 'sends the rescheduled email when the scheduled time changes' do
       interview.update scheduled: 1.day.from_now.to_datetime
-      expect(mail).to have_received(:deliver_now)
+      expect(mail).to have_received(:deliver_later)
     end
 
     it 'does not send anything if completed changes' do
