@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'layouts/application' do
   it 'displays a button to logout' do
     render
-    expect(rendered).to have_tag('form', with: { action: destroy_session_path, method: 'post' }) do
+    expect(rendered).to have_tag('form', with: { action: logout_path, method: 'post' }) do
       with_tag 'button', text: 'Logout'
     end
   end

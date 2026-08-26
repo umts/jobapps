@@ -36,8 +36,7 @@ describe DashboardController do
         let(:submit) { get :staff, xhr: true }
 
         it 'does not allow access' do
-          submit
-          expect(response).to have_http_status :forbidden
+          expect { submit }.to raise_error(Unauthorized)
         end
       end
     end

@@ -22,7 +22,7 @@ describe SessionsController do
 
     it 'redirects to the main dashboard' do
       get :create, params: { provider: 'entra_id' }
-      expect(response).to redirect_to main_dashboard_path
+      expect(response).to redirect_to root_path
     end
 
     context 'when an origin was recorded' do
@@ -41,18 +41,6 @@ describe SessionsController do
     before do
       when_current_user_is :anyone
       allow(session).to receive(:clear).and_call_original
-    end
-
-    context 'when in the development environment' do
-      it 'redirects to the root path, which renders the login page' do
-        delete :destroy
-        expect(response).to redirect_to root_path
-      end
-
-      it 'clears the session' do
-        delete :destroy
-        expect(session).to have_received(:clear)
-      end
     end
 
     context 'when in the production environment' do

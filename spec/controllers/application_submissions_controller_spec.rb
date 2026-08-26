@@ -388,8 +388,7 @@ describe ApplicationSubmissionsController do
       end
 
       it 'does not allow access' do
-        submit
-        expect(response).to have_http_status(:forbidden)
+        expect { submit }.to raise_error(Unauthorized)
       end
     end
 
@@ -399,8 +398,7 @@ describe ApplicationSubmissionsController do
       end
 
       it 'does not allow access' do
-        submit
-        expect(response).to have_http_status(:forbidden)
+        expect { submit }.to raise_error(Unauthorized)
       end
     end
 

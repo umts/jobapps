@@ -13,8 +13,7 @@ shared_examples 'an access-controlled resource' do |routes:|
   it 'denies access for student user' do
     when_current_user_is :student
     routes.each do |route|
-      call_controller_action route
-      expect(response).to have_http_status :forbidden
+      expect { call_controller_action route }.to raise_error(Unauthorized)
     end
   end
 end
