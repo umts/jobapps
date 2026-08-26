@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 class ApplicationSubmissionsController < ApplicationController
-  skip_before_action :access_control, only: %i[create show]
+  skip_before_action :authorize_staff, only: %i[create show]
   before_action :find_record, except: %i[create
                                          csv_export
                                          eeo_data
                                          past_applications]
 
   def show
-    deny_access and return unless @record.user.current? || Current.user&.staff?
+    raise Unauthorized unless @record.user.current? || Current.user&.staff?
 
     @interview = @record.interview
     respond_to do |format|
@@ -84,9 +84,9 @@ class ApplicationSubmissionsController < ApplicationController
 
   def create_user
     user_attributes = params.expect(user: %i[first_name last_name email])
-    user_attributes[:spire] = session[:spire]
+    user_attributes[:entra_uid] = session[:entra_uid]
     user_attributes[:staff] = false
-    session[:user_id] = User.create(user_attributes).id
+    User.create(user_attributes)
     set_current_user
   end
 

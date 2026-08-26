@@ -1,9 +1,8 @@
 Rails.application.routes.draw do
-  mount MaintenanceTasks::Engine, at: '/maintenance_tasks'
-  if Rails.env.development?
-    root 'sessions#dev_login'
-  else root 'dashboard#main'
-  end
+  root 'dashboard#main'
+
+  get '/auth/:provider/callback', to: 'sessions#create', as: :auth_callback
+  post '/logout', to: 'sessions#destroy'
 
   get '/up' => 'rails/health#show', as: :rails_health_check
 
@@ -49,6 +48,8 @@ Rails.application.routes.draw do
     end
   end
 
+  mount MaintenanceTasks::Engine, at: '/maintenance_tasks'
+
   resources :positions, except: [:index, :show] do
     member do
       get :saved_applications
@@ -60,19 +61,20 @@ Rails.application.routes.draw do
   get 'markdown/explanation'
   post 'markdown/explanation'
 
-  # sessions
-  unless Rails.env.production?
-    get  'sessions/dev_login', to: 'sessions#dev_login', as: :dev_login
-    post 'sessions/dev_login', to: 'sessions#dev_login'
-  end
-  get 'sessions/unauthenticated', to: 'sessions#unauthenticated', as: :unauthenticated_session
-  get 'sessions/destroy', to: 'sessions#destroy', as: :destroy_session
-
   resources :users, except: [:index, :show] do
     collection do
       get :promote
       put :promote_save
-      get :spire_ids
     end
+  end
+
+  direct :azure_login do
+    '/auth/entra_id'
+  end
+
+  direct :azure_logout do
+    tenant_id = Rails.application.credentials.dig(:entra_id, :tenant_id)
+    redirect_uri = CGI.escape(root_url)
+    "https://login.microsoftonline.com/#{tenant_id}/oauth2/v2.0/logout?post_logout_redirect_uri=#{redirect_uri}"
   end
 end

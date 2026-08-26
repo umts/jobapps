@@ -1,0 +1,7 @@
+!!!
+= javascript_tag nonce: true do
+  :plain
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("production-login-form").submit()
+    })
+= form_with url: main_app.azure_login_path, local: true, html: { id: 'production-login-form' }
