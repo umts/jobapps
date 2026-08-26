@@ -11,7 +11,7 @@ describe 'MaintenanceTasks engine' do
 
       it 'denies access' do
         get '/maintenance_tasks'
-        expect(response).to have_http_status :unauthorized
+        expect(response).to have_http_status :forbidden
       end
     end
 

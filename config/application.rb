@@ -27,5 +27,6 @@ module Jobapps
     mail_previews = Rails.root.join('app/mailers/previews')
     config.action_mailer.preview_paths << mail_previews
     config.eager_load_paths << mail_previews
+    config.action_dispatch.rescue_responses['Unauthorized'] = :forbidden
   end
 end
