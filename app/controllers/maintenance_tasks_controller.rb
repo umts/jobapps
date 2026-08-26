@@ -1,11 +1,7 @@
 # frozen_string_literal: true
 
-# Parent controller for the MaintenanceTasks engine (see
-# config/initializers/maintenance_tasks.rb). Inherits authentication from
-# ApplicationController and restricts the engine to admins, since maintenance
-# tasks can read and overwrite arbitrary data.
-class MaintenanceTasksController < ApplicationController
-  layout 'maintenance_tasks/application'
+class MaintenanceTasksController < ActionController::Base # rubocop:disable Rails/ApplicationController
+  include Authorizable
 
   before_action :allow_only_admin
 

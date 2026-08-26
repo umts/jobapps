@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ApplicationSubmissionsController < ApplicationController
-  skip_before_action :access_control, only: %i[create show]
+  skip_before_action :authorize_staff, only: %i[create show]
   before_action :find_record, except: %i[create
                                          csv_export
                                          eeo_data

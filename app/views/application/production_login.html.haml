@@ -4,4 +4,4 @@
     document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("production-login-form").submit()
     })
-= form_with url: '/auth/entra_id', local: true, html: { id: 'production-login-form' }
+= form_with url: main_app.azure_login_path, local: true, html: { id: 'production-login-form' }
