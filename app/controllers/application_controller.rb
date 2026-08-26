@@ -41,15 +41,20 @@ class ApplicationController < ActionController::Base
   def render_login
     if Rails.env.production? || Rails.env.development?
       respond_to do |format|
-        # Force the application layout so the login page renders consistently
-        # even when the rescue fires from a controller with its own layout
-        # (e.g. the maintenance_tasks engine).
-        format.html { render "application/#{Rails.env}_login", layout: 'application', status: :unauthorized }
+        format.html { render "application/#{Rails.env}_login", layout: login_layout, status: :unauthorized }
         format.all { head :unauthorized }
       end
     else
       head :unauthorized
     end
+  end
+
+  # The production login is a self-contained page that auto-submits to Entra, so
+  # it renders without a layout. The development login is a normal page and is
+  # forced into the application layout so it renders consistently even when the
+  # rescue fires from a controller with its own layout (e.g. maintenance_tasks).
+  def login_layout
+    Rails.env.production? ? false : 'application'
   end
 
   def set_current_user

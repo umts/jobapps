@@ -1,2 +1,7 @@
-%h1 Log in
-= button_to 'Log in with Microsoft', '/auth/entra_id', class: 'btn btn-primary'
+!!!
+= javascript_tag nonce: true do
+  :plain
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("production-login-form").submit()
+    })
+= form_with url: '/auth/entra_id', local: true, html: { id: 'production-login-form' }

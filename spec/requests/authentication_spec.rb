@@ -28,8 +28,12 @@ describe 'Authentication' do
         get '/dashboard/staff'
       end
 
-      it 'renders the production login page in place' do
-        expect(response.body).to include('Log in with Microsoft')
+      it 'renders a login form that targets the OAuth endpoint' do
+        expect(response.body).to include('/auth/entra_id')
+      end
+
+      it 'auto-submits the login form' do
+        expect(response.body).to include('getElementById("production-login-form").submit()')
       end
 
       it 'does not offer the development login' do
