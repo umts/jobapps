@@ -18,7 +18,6 @@ class ApplicationSubmissionsController < ApplicationController
   end
 
   def create
-    create_user if Current.user.blank?
     record = create_record
     record.email_subscribers applicant: Current.user
 
@@ -80,14 +79,6 @@ class ApplicationSubmissionsController < ApplicationController
     ApplicationSubmission.create(record_params.merge(data:, user: Current.user, reviewed: false)).tap do |r|
       create_unavailability(r) if r.position.application_template.unavailability_enabled?
     end
-  end
-
-  def create_user
-    user_attributes = params.expect(user: %i[first_name last_name email])
-    user_attributes[:entra_uid] = session[:entra_uid]
-    user_attributes[:staff] = false
-    User.create(user_attributes)
-    set_current_user
   end
 
   def create_unavailability(record)

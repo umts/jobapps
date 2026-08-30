@@ -20,9 +20,36 @@ describe SessionsController do
       expect(session[:entra_uid]).to eq 'entra-uid-abc'
     end
 
+    it 'creates the user on first login' do
+      expect { get :create, params: { provider: 'entra_id' } }.to change(User, :count).by(1)
+    end
+
+    it 'populates the new user from Active Directory' do
+      get :create, params: { provider: 'entra_id' }
+      expect(User.find_by(entra_uid: 'entra-uid-abc'))
+        .to have_attributes(first_name: 'Jane', last_name: 'Doe', email: 'jane@umass.edu')
+    end
+
     it 'redirects to the main dashboard' do
       get :create, params: { provider: 'entra_id' }
       expect(response).to redirect_to root_path
+    end
+
+    context 'when the user already exists' do
+      before do
+        create(:user, entra_uid: 'entra-uid-abc',
+                      first_name: 'Old', last_name: 'Name', email: 'old@example.com')
+      end
+
+      it 'does not create another user' do
+        expect { get :create, params: { provider: 'entra_id' } }.not_to change(User, :count)
+      end
+
+      it 'syncs their name and email from Active Directory' do
+        get :create, params: { provider: 'entra_id' }
+        expect(User.find_by(entra_uid: 'entra-uid-abc'))
+          .to have_attributes(first_name: 'Jane', last_name: 'Doe', email: 'jane@umass.edu')
+      end
     end
 
     context 'when an origin was recorded' do
