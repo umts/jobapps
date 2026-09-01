@@ -20,7 +20,7 @@ describe 'creating a staff member' do
         visit new_user_path
       end
 
-      let(:user_fields) { attributes_for(:user).except :staff, :spire }
+      let(:user_fields) { attributes_for(:user).except :staff }
 
       context 'with required fields filled in' do
         before do
