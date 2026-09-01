@@ -18,6 +18,20 @@ describe 'submitting application records' do
       expect { click_on 'Submit application' }.to change { student.application_submissions.count }.by(1)
     end
 
+    it 'shows the first name from Active Directory as read-only' do
+      expect(page).to have_field('First name', disabled: true, with: student.first_name)
+    end
+
+    it 'shows the last name from Active Directory as read-only' do
+      expect(page).to have_field('Last name', disabled: true, with: student.last_name)
+    end
+
+    it 'updates the email when the applicant provides a different one' do
+      fill_in 'Email', with: 'preferred@umass.edu'
+      click_on 'Submit application'
+      expect(student.reload.email).to eq 'preferred@umass.edu'
+    end
+
     context 'when the application template has been marked as inactive' do
       before do
         application_template.update active: false

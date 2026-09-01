@@ -18,6 +18,7 @@ class ApplicationSubmissionsController < ApplicationController
   end
 
   def create
+    update_current_user_email
     record = create_record
     record.email_subscribers applicant: Current.user
 
@@ -73,6 +74,12 @@ class ApplicationSubmissionsController < ApplicationController
   end
 
   private
+
+  # Names come from Active Directory, but applicants may supply a preferred
+  # contact email on the form.
+  def update_current_user_email
+    Current.user.update! params.expect(user: %i[email])
+  end
 
   def create_record
     data = ApplicationDataParser.new(params.require(:data)).result

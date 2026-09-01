@@ -16,6 +16,7 @@ describe ApplicationSubmissionsController do
     let :params do
       {
         position_id: position.id,
+        user: { email: 'applicant@umass.edu' },
         data: {
           'response_1' => 'No',
           'prompt_1' => 'Do you like cats',
@@ -45,6 +46,11 @@ describe ApplicationSubmissionsController do
 
       it 'creates an application record as specified' do
         expect { submit }.to change(ApplicationSubmission, :count).by(1)
+      end
+
+      it 'updates the applicant email from the form' do
+        submit
+        expect(user.reload.email).to eq 'applicant@umass.edu'
       end
 
       it 'creates an unavailability' do

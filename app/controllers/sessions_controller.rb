@@ -22,13 +22,14 @@ class SessionsController < ApplicationController
 
   private
 
-  # Create the user on first login and keep their name and email in sync with
-  # Active Directory on every login (AD is the source of truth). staff and admin
-  # default to false for new users.
+  # Create the user on first login, seeding their email from Active Directory.
+  # Their name is kept in sync with AD on every login (AD is the source of truth
+  # for names), but email stays editable afterward so applicants can give a
+  # better contact address. staff and admin default to false for new users.
   def create_or_update_user
     user = User.find_or_initialize_by(entra_uid: auth_hash.uid)
-    user.update! email: auth_hash.info.email,
-                 first_name: auth_hash.info.first_name,
+    user.email = auth_hash.info.email if user.new_record?
+    user.update! first_name: auth_hash.info.first_name,
                  last_name: auth_hash.info.last_name
     session[:entra_uid] = user.entra_uid
   end

@@ -45,10 +45,15 @@ describe SessionsController do
         expect { get :create, params: { provider: 'entra_id' } }.not_to change(User, :count)
       end
 
-      it 'syncs their name and email from Active Directory' do
+      it 'syncs their name from Active Directory' do
         get :create, params: { provider: 'entra_id' }
         expect(User.find_by(entra_uid: 'entra-uid-abc'))
-          .to have_attributes(first_name: 'Jane', last_name: 'Doe', email: 'jane@umass.edu')
+          .to have_attributes(first_name: 'Jane', last_name: 'Doe')
+      end
+
+      it 'leaves their email untouched so a preferred address is kept' do
+        get :create, params: { provider: 'entra_id' }
+        expect(User.find_by(entra_uid: 'entra-uid-abc').email).to eq 'old@example.com'
       end
     end
 

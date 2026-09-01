@@ -40,6 +40,16 @@
             %td.load-column
               = link_to 'Load reponses', application_path(@template, load_id: app.id)
   = form_tag application_submissions_path, multipart: true do
+    = fields_for :user do |u|
+      .form-group
+        = u.label :first_name
+        = u.text_field :first_name, disabled: true, class: 'form-control', value: Current.user&.first_name
+      .form-group
+        = u.label :last_name
+        = u.text_field :last_name, disabled: true, class: 'form-control', value: Current.user&.last_name
+      .form-group
+        = u.label :email
+        = u.email_field :email, required: true, class: 'form-control', value: Current.user&.email
     = fields_for :data do |r|
       - @template.questions.each_with_index do |question, index|
         .form-group
