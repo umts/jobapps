@@ -15,7 +15,7 @@ def when_current_user_is(user)
 end
 
 # Helper method, sets the current user based on spec type
-# rubocop:disable Naming/AccessorMethodName
+# rubocop:disable-next Naming/AccessorMethodName
 def set_current_user(user)
   case self.class.metadata[:type]
   when :feature, :system
@@ -26,4 +26,3 @@ def set_current_user(user)
     put RackSessionAccess.path, params: { data: RackSessionAccess.encode(entra_uid: user&.entra_uid) }
   end
 end
-# rubocop:enable Naming/AccessorMethodName
