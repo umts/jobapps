@@ -83,7 +83,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_03_030638) do
 
   create_table "departments", id: :integer, charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.datetime "created_at", precision: nil
-    t.string "name"
+    t.string "name", null: false
     t.datetime "updated_at", precision: nil
     t.index ["name"], name: "index_departments_on_name", unique: true
   end
