@@ -77,7 +77,7 @@ describe 'viewing the dashboard as a student' do
     let!(:position_not_hiring) { create(:position) }
 
     before do
-      page.set_rack_session(spire: '12345678@umass.edu')
+      when_current_user_is student
       visit student_dashboard_path
     end
 

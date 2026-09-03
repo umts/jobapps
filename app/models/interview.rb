@@ -26,7 +26,7 @@ class Interview < ApplicationRecord
 
   # Looks bad to rubocop because of all the method calls, but it's
   # really just a builder pattern
-  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable-next Metrics/AbcSize
   def ical
     Icalendar::Calendar.new.tap do |cal|
       cal.prodid = '-//UMASS_TRANSIT_JOBAPPS//INTERVIEW_EXPORT//EN'
@@ -43,7 +43,6 @@ class Interview < ApplicationRecord
       cal.add_event event
     end
   end
-  # rubocop:enable Metrics/AbcSize
 
   def information(options = {})
     info = "#{scheduled.to_fs :long_with_time} at #{location}"
@@ -60,10 +59,10 @@ class Interview < ApplicationRecord
   def resend_confirmation
     return unless saved_change_to_location? || saved_change_to_scheduled?
 
-    JobappsMailer.interview_reschedule(self).deliver_now
+    JobappsMailer.interview_reschedule(self).deliver_later
   end
 
   def send_confirmation
-    JobappsMailer.interview_confirmation(self).deliver_now
+    JobappsMailer.interview_confirmation(self).deliver_later
   end
 end

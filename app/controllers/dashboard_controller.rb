@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class DashboardController < ApplicationController
-  skip_before_action :access_control, only: %i[main student]
+  skip_before_action :authorize_staff, only: %i[main student]
   before_action :positions, except: :main
 
   def main

@@ -14,7 +14,7 @@ describe 'UsersController' do
     context 'with staff privilege' do
       before { when_current_user_is :staff }
 
-      it { is_expected.to have_http_status(:unauthorized) }
+      it { is_expected.to have_http_status(:forbidden) }
     end
   end
 end

@@ -8,8 +8,7 @@ module ApplicationHelper
     # because it will, by definition, allow injecting user-input into the DOM.
     # However, the filter_html: true option above prevents users from entering
     # in their own tags. Thus, ignore this cop, it has done its job.
-    # rubocop:disable Rails/OutputSafety
+    # rubocop:disable-next Rails/OutputSafety
     markdown.render(text).html_safe
-    # rubocop:enable Rails/OutputSafety
   end
 end
