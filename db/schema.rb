@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_03_020741) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_03_030638) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", precision: nil, null: false
@@ -127,10 +127,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_03_020741) do
   create_table "positions", id: :integer, charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.datetime "created_at", precision: nil
     t.string "default_interview_location"
-    t.integer "department_id"
-    t.string "name"
+    t.integer "department_id", null: false
+    t.string "name", null: false
     t.string "not_hiring_text"
     t.datetime "updated_at", precision: nil
+    t.index ["department_id"], name: "index_positions_on_department_id"
   end
 
   create_table "questions", id: :integer, charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -305,6 +306,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_03_020741) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "positions", "departments"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_failed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
