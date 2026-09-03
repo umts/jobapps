@@ -20,7 +20,7 @@ describe ApplicationSubmission do
     before do
       create_list(:subscription, 3, position: record.position)
       allow(JobappsMailer).to receive(:application_notification).and_return(mail)
-      allow(mail).to receive(:deliver_now).and_return true
+      allow(mail).to receive(:deliver_later).and_return true
     end
 
     it 'makes a notification email for all subscribers' do
@@ -33,7 +33,7 @@ describe ApplicationSubmission do
 
     it 'sends the notification email to all subscribers' do
       call
-      expect(mail).to have_received(:deliver_now).exactly(3).times
+      expect(mail).to have_received(:deliver_later).exactly(3).times
     end
   end
 
@@ -122,7 +122,7 @@ describe ApplicationSubmission do
 
     before do
       allow(JobappsMailer).to receive(:application_denial).and_return(mail)
-      allow(mail).to receive(:deliver_now).and_return true
+      allow(mail).to receive(:deliver_later).and_return true
     end
 
     context 'with notify_of_denial set to true' do
@@ -135,7 +135,7 @@ describe ApplicationSubmission do
 
       it 'sends the application denial email' do
         call
-        expect(mail).to have_received(:deliver_now)
+        expect(mail).to have_received(:deliver_later)
       end
     end
 
@@ -170,7 +170,7 @@ describe ApplicationSubmission do
 
     before do
       allow(JobappsMailer).to receive(:send_note_for_later).and_return(mail)
-      allow(mail).to receive(:deliver_now).and_return true
+      allow(mail).to receive(:deliver_later).and_return true
     end
 
     context 'when mail to the applicant is desired' do
@@ -181,7 +181,7 @@ describe ApplicationSubmission do
 
       it 'sends the email' do
         record.update(saved_for_later: true, mail_note_for_later: true, note_for_later: 'avacadooo')
-        expect(mail).to have_received(:deliver_now)
+        expect(mail).to have_received(:deliver_later)
       end
     end
 

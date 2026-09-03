@@ -6,7 +6,6 @@ FactoryBot.define do
     first_name { 'FirstName' }
     last_name { 'LastName' }
     staff { false }
-    sequence(:spire) { |n| format('%08d@umass.edu', n) }
     sequence(:entra_uid) { |n| "entra-uid-#{n}" }
 
     trait :staff do

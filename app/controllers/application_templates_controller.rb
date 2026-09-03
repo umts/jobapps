@@ -22,18 +22,16 @@ class ApplicationTemplatesController < ApplicationController
 
   def toggle_active
     # We know it does.
-    # rubocop:disable Rails/SkipsModelValidations
+    # rubocop:disable-next Rails/SkipsModelValidations
     @template.toggle! :active
-    # rubocop:enable Rails/SkipsModelValidations
     flash[:message] = t(@template.active ? '.now_active' : '.now_inactive')
     redirect_back_or_to application_path(@template)
   end
 
   def toggle_eeo_enabled
     # We know it does.
-    # rubocop:disable Rails/SkipsModelValidations
+    # rubocop:disable-next Rails/SkipsModelValidations
     @template.toggle! :eeo_enabled
-    # rubocop:enable Rails/SkipsModelValidations
     flash[:message] = t(@template.eeo_enabled? ? '.enabled' : '.disabled')
     if @template.draft_belonging_to? Current.user
       draft = @template.draft_belonging_to Current.user
@@ -46,9 +44,8 @@ class ApplicationTemplatesController < ApplicationController
 
   def toggle_unavailability_enabled
     # We know it does.
-    # rubocop:disable Rails/SkipsModelValidations
+    # rubocop:disable-next Rails/SkipsModelValidations
     @template.toggle! :unavailability_enabled
-    # rubocop:enable Rails/SkipsModelValidations
     flash[:message] = t(@template.unavailability_enabled? ? '.enabled' : '.disabled')
     if @template.draft_belonging_to? Current.user
       draft = @template.draft_belonging_to Current.user
@@ -60,9 +57,8 @@ class ApplicationTemplatesController < ApplicationController
   end
 
   def toggle_resume_upload_enabled
-    # rubocop:disable Rails/SkipsModelValidations
+    # rubocop:disable-next Rails/SkipsModelValidations
     @template.toggle! :resume_upload_enabled
-    # rubocop:enable Rails/SkipsModelValidations
     flash[:message] = t(@template.resume_upload_enabled? ? '.enabled' : '.disabled')
     if @template.draft_belonging_to? Current.user
       draft = @template.draft_belonging_to Current.user

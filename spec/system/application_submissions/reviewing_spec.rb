@@ -19,7 +19,7 @@ describe 'reviewing applications' do
   describe 'pending applications' do
     before do
       allow(JobappsMailer).to receive(:application_denial).and_return(mail)
-      allow(mail).to receive(:deliver_now).and_return(true)
+      allow(mail).to receive(:deliver_later).and_return(true)
       click_link unreviewed_record.user.proper_name
     end
 
@@ -46,7 +46,7 @@ describe 'reviewing applications' do
       end
 
       it 'sends the notification email' do
-        expect(mail).to have_received(:deliver_now)
+        expect(mail).to have_received(:deliver_later)
       end
 
       it 'saves the staff note' do

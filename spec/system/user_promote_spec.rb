@@ -18,10 +18,17 @@ describe 'promoting a staff member' do
       before { visit promote_users_path }
 
       context 'with the field filled-in' do
-        it 'promotes the user' do
-          fill_in 'promote-search', with: "#{user.full_name} #{user.spire}"
+        before do
+          fill_in 'promote-search', with: "#{user.full_name} #{user.id}"
           click_on 'Promote'
+        end
+
+        it 'shows a success message' do
           expect(page).to have_text('User successfully updated.')
+        end
+
+        it 'promotes the identified user to staff' do
+          expect(user.reload).to be_staff
         end
       end
 

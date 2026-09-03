@@ -54,14 +54,14 @@ class ApplicationSubmission < ApplicationRecord
 
   before_save do
     if saved_for_later_changed? && saved_for_later? && mail_note_for_later
-      JobappsMailer.send_note_for_later(self).deliver_now
+      JobappsMailer.send_note_for_later(self).deliver_later
     end
   end
 
   def email_subscribers(applicant:)
     position.subscriptions.each do |sub|
       JobappsMailer.application_notification(sub, position, applicant)
-                   .deliver_now
+                   .deliver_later
     end
   end
 
@@ -72,7 +72,7 @@ class ApplicationSubmission < ApplicationRecord
   end
 
   def deny
-    JobappsMailer.application_denial(self).deliver_now if notify_of_denial
+    JobappsMailer.application_denial(self).deliver_later if notify_of_denial
   end
 
   def move_to_dashboard

@@ -21,7 +21,7 @@ describe 'editing staff users' do
       end
 
       context 'when every field is filled in correctly' do
-        let(:attributes) { attributes_for(:user).except :staff, :last_name, :spire }
+        let(:attributes) { attributes_for(:user).except :staff, :last_name }
 
         before do
           fill_in_fields_for User, attributes: attributes.merge(first_name: 'Bananas')
@@ -43,7 +43,7 @@ describe 'editing staff users' do
       end
 
       context 'when a required field is left blank' do
-        let(:attributes) { attributes_for(:user).except(:staff, :spire) }
+        let(:attributes) { attributes_for(:user).except(:staff) }
 
         before do
           fill_in_fields_for User, attributes: attributes.merge(first_name: '')
