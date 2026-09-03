@@ -2,8 +2,8 @@ require 'factory_bot_rails'
 require 'csv'
 
 exit if Rails.env.test?
-FactoryBot.create :user, first_name: 'David', last_name: 'Faulkenberry', staff: true, spire: '12345678@umass.edu', email: 'dfaulken@umass.edu', admin: true
-user = FactoryBot.create :user, first_name: 'Justin', last_name: 'Forgue', spire: '13579246@umass.edu', email: 'jforgue@umass.edu'
+FactoryBot.create :user, first_name: 'David', last_name: 'Faulkenberry', staff: true, email: 'dfaulken@umass.edu', admin: true
+user = FactoryBot.create :user, first_name: 'Justin', last_name: 'Forgue', email: 'jforgue@umass.edu'
 department = FactoryBot.create :department, name: 'Bus'
 position = FactoryBot.create :position, department: department, name: 'Operator'
 FactoryBot.create :application_submission,

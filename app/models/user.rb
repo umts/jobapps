@@ -10,8 +10,6 @@ class User < ApplicationRecord
   validates :email,
             format: { with: /\A([^@\s]+)@((?:[-a-zA-Z0-9]+\.)+[a-zA-Z]{2,})\Z/ }
   validates :staff, inclusion: { in: [true, false], message: :true_false }
-  validates :spire, uniqueness: { case_sensitive: false },
-                    format: { with: /\A\d{8}@umass\.edu\z/ }, allow_nil: true
   validates :entra_uid, presence: true, uniqueness: { case_sensitive: true }
 
   default_scope { order :last_name, :first_name }

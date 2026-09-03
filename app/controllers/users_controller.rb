@@ -34,13 +34,12 @@ class UsersController < ApplicationController
 
   def promote
     @users = User.where.not(staff: true)
-                 .pluck(:first_name, :last_name, :spire)
+                 .pluck(:first_name, :last_name, :id)
                  .map { |attrs| attrs.join(' ') }
   end
 
   def promote_save
-    # TODO: Use the id field to identify a user by a known id...
-    user = User.find_by(spire: params[:user].split.last) # rubocop:disable Rails/StrongParametersExpect
+    user = User.find_by(id: params[:user].split.last) # rubocop:disable Rails/StrongParametersExpect
     if user.nil?
       redirect_to promote_users_path
     elsif user.update(staff: true)
