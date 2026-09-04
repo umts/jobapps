@@ -1,16 +1,18 @@
+# TODO: Replace with creds api once on rails 8.2.
+# <% def env_or_credentials(*keys) = ENV.fetch(keys.join('__').upcase, Rails.application.credentials.dig(*keys)) %>
+
 default: &default
   adapter: trilogy
   encoding: utf8mb4
   collation: utf8mb4_unicode_520_ci
-  username: <%= ENV.fetch('DATABASE_USER', ENV['USER']) %>
+  host: <%= env_or_credentials(:database, :host) %>
+  port: <%= env_or_credentials(:database, :port) %>
+  username: <%= env_or_credentials(:database, :username) || ENV['USER'] %>
+  password: <%= env_or_credentials(:database, :password) %>
 
 production:
   <<: *default
-  host: <%= Rails.application.credentials.dig(:database, :host) %>
-  port: <%= Rails.application.credentials.dig(:database, :port) %>
-  database: <%= Rails.application.credentials.dig(:database, :database) %>
-  username: <%= Rails.application.credentials.dig(:database, :username) %>
-  password: <%= Rails.application.credentials.dig(:database, :password) %>
+  database: <%= env_or_credentials(:database, :database) %>
 
 development:
   <<: *default
