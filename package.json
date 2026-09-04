@@ -7,7 +7,7 @@
     "bootstrap": "^4.6.2",
     "datatables.net": "^3.0.2",
     "datatables.net-bs4": "^3.0.2",
-    "jquery": "^3.7.1",
+    "jquery": "^4.0.0",
     "jquery-ui-dist": "^1.13.3",
     "jquery.maskedinput": "^1.4.1",
     "multiple-select": "^2.4.0",
