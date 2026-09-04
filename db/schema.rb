@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_03_030638) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_04_033313) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", precision: nil, null: false
@@ -279,7 +279,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_03_030638) do
   end
 
   create_table "unavailabilities", id: :integer, charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.integer "application_submission_id"
+    t.integer "application_submission_id", null: false
     t.datetime "created_at", precision: nil, null: false
     t.string "friday"
     t.string "monday"
@@ -313,4 +313,5 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_03_030638) do
   add_foreign_key "solid_queue_ready_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_recurring_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_scheduled_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
+  add_foreign_key "unavailabilities", "application_submissions"
 end
