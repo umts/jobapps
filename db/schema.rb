@@ -121,7 +121,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_03_030638) do
     t.bigint "tick_total"
     t.float "time_running", default: 0.0, null: false
     t.datetime "updated_at", null: false
-    t.index ["task_name", "status", "created_at"], name: "index_maintenance_tasks_runs", order: { created_at: :desc }
+    t.index ["task_name", "status", "created_at"], name: "index_maintenance_tasks_runs"
   end
 
   create_table "positions", id: :integer, charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -293,13 +293,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_03_030638) do
   end
 
   create_table "users", id: :integer, charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.boolean "admin", default: false
+    t.boolean "admin", default: false, null: false
     t.datetime "created_at", precision: nil
-    t.string "email"
+    t.string "email", null: false
     t.string "entra_uid", null: false
-    t.string "first_name"
-    t.string "last_name"
-    t.boolean "staff", default: false
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.boolean "staff", default: false, null: false
     t.datetime "updated_at", precision: nil
     t.index ["entra_uid"], name: "index_users_on_entra_uid", unique: true
   end
