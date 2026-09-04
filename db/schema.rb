@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_04_015728) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_03_030638) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", precision: nil, null: false
@@ -121,7 +121,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_04_015728) do
     t.bigint "tick_total"
     t.float "time_running", default: 0.0, null: false
     t.datetime "updated_at", null: false
-    t.index ["task_name", "status", "created_at"], name: "index_maintenance_tasks_runs", order: { created_at: :desc }
+    t.index ["task_name", "status", "created_at"], name: "index_maintenance_tasks_runs"
   end
 
   create_table "positions", id: :integer, charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
