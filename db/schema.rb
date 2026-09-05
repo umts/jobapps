@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_03_030638) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_05_204137) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", precision: nil, null: false
@@ -270,10 +270,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_03_030638) do
 
   create_table "subscriptions", id: :integer, charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.datetime "created_at", precision: nil, null: false
-    t.string "email"
-    t.integer "position_id"
+    t.string "email", null: false
+    t.integer "position_id", null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.integer "user_id"
+    t.integer "user_id", null: false
     t.index ["position_id", "email"], name: "index_subscriptions_on_position_id_and_email", unique: true
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end
@@ -313,4 +313,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_03_030638) do
   add_foreign_key "solid_queue_ready_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_recurring_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_scheduled_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
+  add_foreign_key "subscriptions", "positions"
+  add_foreign_key "subscriptions", "users"
 end
