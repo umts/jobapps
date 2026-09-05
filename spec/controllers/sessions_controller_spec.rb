@@ -7,7 +7,8 @@ describe SessionsController do
     let :auth_hash do
       OmniAuth::AuthHash.new(
         uid: 'entra-uid-abc',
-        info: { email: 'jane@umass.edu', first_name: 'Jane', last_name: 'Doe' }
+        info: { email: 'jane@umass.edu', first_name: 'Jane', last_name: 'Doe' },
+        extra: { raw_info: { upn: 'jdoe@umass.edu' } }
       )
     end
 
@@ -27,7 +28,7 @@ describe SessionsController do
     it 'populates the new user from Active Directory' do
       get :create, params: { provider: 'entra_id' }
       expect(User.find_by(entra_uid: 'entra-uid-abc'))
-        .to have_attributes(first_name: 'Jane', last_name: 'Doe', email: 'jane@umass.edu')
+        .to have_attributes(first_name: 'Jane', last_name: 'Doe', email: 'jane@umass.edu', entra_upn: 'jdoe@umass.edu')
     end
 
     it 'redirects to the main dashboard' do
@@ -45,15 +46,30 @@ describe SessionsController do
         expect { get :create, params: { provider: 'entra_id' } }.not_to change(User, :count)
       end
 
-      it 'syncs their name from Active Directory' do
+      it 'syncs their name and UPN from Active Directory' do
         get :create, params: { provider: 'entra_id' }
         expect(User.find_by(entra_uid: 'entra-uid-abc'))
-          .to have_attributes(first_name: 'Jane', last_name: 'Doe')
+          .to have_attributes(first_name: 'Jane', last_name: 'Doe', entra_upn: 'jdoe@umass.edu')
       end
 
       it 'leaves their email untouched so a preferred address is kept' do
         get :create, params: { provider: 'entra_id' }
         expect(User.find_by(entra_uid: 'entra-uid-abc').email).to eq 'old@example.com'
+      end
+    end
+
+    context 'when Active Directory omits the UPN' do
+      let :auth_hash do
+        OmniAuth::AuthHash.new(
+          uid: 'entra-uid-abc',
+          info: { email: 'jane@umass.edu', first_name: 'Jane', last_name: 'Doe' },
+          extra: { raw_info: {} }
+        )
+      end
+
+      it 'creates the user without a UPN' do
+        get :create, params: { provider: 'entra_id' }
+        expect(User.find_by(entra_uid: 'entra-uid-abc').entra_upn).to be_nil
       end
     end
 
