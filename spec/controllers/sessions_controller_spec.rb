@@ -56,14 +56,45 @@ describe SessionsController do
         get :create, params: { provider: 'entra_id' }
         expect(User.find_by(entra_uid: 'entra-uid-abc').email).to eq 'old@example.com'
       end
+
+      context 'when only a uid is sent, as with the developer login' do
+        let(:auth_hash) { OmniAuth::AuthHash.new(uid: 'entra-uid-abc', info: {}) }
+
+        it 'logs them in' do
+          get :create, params: { provider: 'developer' }
+          expect(session[:entra_uid]).to eq 'entra-uid-abc'
+        end
+
+        it 'keeps their existing name rather than blanking it' do
+          get :create, params: { provider: 'developer' }
+          expect(User.find_by(entra_uid: 'entra-uid-abc'))
+            .to have_attributes(first_name: 'Old', last_name: 'Name')
+        end
+      end
+
+      context 'when Active Directory omits the UPN on a later login' do
+        let :auth_hash do
+          OmniAuth::AuthHash.new(
+            uid: 'entra-uid-abc',
+            info: { email: 'jane@umass.edu', first_name: 'Jane', last_name: 'Doe' },
+            extra: { raw_info: {} }
+          )
+        end
+
+        before { User.find_by(entra_uid: 'entra-uid-abc').update!(entra_upn: 'jdoe@umass.edu') }
+
+        it 'keeps the UPN already on record' do
+          get :create, params: { provider: 'entra_id' }
+          expect(User.find_by(entra_uid: 'entra-uid-abc').entra_upn).to eq 'jdoe@umass.edu'
+        end
+      end
     end
 
     context 'when Active Directory omits the UPN' do
       let :auth_hash do
         OmniAuth::AuthHash.new(
           uid: 'entra-uid-abc',
-          info: { email: 'jane@umass.edu', first_name: 'Jane', last_name: 'Doe' },
-          extra: { raw_info: {} }
+          info: { email: 'jane@umass.edu', first_name: 'Jane', last_name: 'Doe' }
         )
       end
 

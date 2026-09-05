@@ -13,5 +13,8 @@
     = f.label :entra_uid
     = f.text_field :entra_uid, required: true, class: 'form-control'
   .form-group
+    = f.label :entra_upn, 'UMass account'
+    = f.text_field :entra_upn, disabled: true, class: 'form-control'
+  .form-group
     = f.hidden_field :staff, value: true
     = f.submit 'Save changes', class: 'btn btn-primary'

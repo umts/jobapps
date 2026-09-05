@@ -33,10 +33,12 @@ class SessionsController < ApplicationController
     session[:entra_uid] = user.entra_uid
   end
 
+  # Claims the directory didn't send are left as they were rather than blanked.
+  # The developer login only sends a uid, and a missing claim shouldn't fail a login.
   def directory_attributes
     { first_name: auth_hash.info.first_name,
       last_name: auth_hash.info.last_name,
-      entra_upn: auth_hash.extra.raw_info&.upn }
+      entra_upn: auth_hash.dig(:extra, :raw_info, :upn) }.compact_blank
   end
 
   def auth_hash = request.env['omniauth.auth']

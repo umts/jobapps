@@ -20,6 +20,10 @@ describe 'editing staff users' do
         visit edit_user_path(user)
       end
 
+      it 'shows the UMass account from Active Directory without allowing edits' do
+        expect(page).to have_field 'UMass account', disabled: true
+      end
+
       context 'when every field is filled in correctly' do
         let(:attributes) { attributes_for(:user).except :staff, :last_name }
 
