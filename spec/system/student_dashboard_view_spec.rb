@@ -71,6 +71,27 @@ describe 'viewing the dashboard as a student' do
         expect(page).to have_text 'Reason: No'
       end
     end
+
+    context 'when viewing a rejected application that staff noted for later' do
+      let!(:rejected_application) do
+        create(:application_submission, reviewed: true, user: student,
+                                        rejection_message: 'No', saved_for_later: false,
+                                        note_for_later: 'Internal staff note')
+      end
+
+      before do
+        visit application_submission_path(rejected_application)
+      end
+
+      it 'does not show the staff-only re-review button' do
+        expect(page).to have_no_button 'Re-review Applicant'
+      end
+
+      it 'does not show the staff-only note for later' do
+        expect(page).to have_no_text 'Internal staff note'
+        expect(page).to have_no_text 'previously been saved for later review'
+      end
+    end
   end
 
   context 'when student has not yet submitted an application' do

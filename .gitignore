@@ -12,3 +12,4 @@
 
 *.key
 *.local
+/vendor/bundle/*
