@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_03_030638) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_08_182621) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", precision: nil, null: false
@@ -69,11 +69,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_03_030638) do
   end
 
   create_table "application_templates", id: :integer, charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.boolean "active", default: true
+    t.boolean "active", default: true, null: false
     t.datetime "created_at", precision: nil
     t.boolean "eeo_enabled", default: true
     t.string "email"
-    t.integer "position_id"
+    t.integer "position_id", null: false
     t.boolean "resume_upload_enabled", default: false
     t.string "slug"
     t.boolean "unavailability_enabled", default: false
@@ -306,6 +306,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_03_030638) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "application_templates", "positions"
   add_foreign_key "positions", "departments"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
