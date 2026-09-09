@@ -11,3 +11,4 @@ runs:
         node-version-file: .node-version
         cache: npm
     - run: npm ci
+      shell: bash
