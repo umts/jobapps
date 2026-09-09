@@ -14,6 +14,6 @@ export default defineConfig({
     "public/406-unsupported-browser.html",
     "public/422.html",
     "public/500.html",
-    "vendor/assets/**",
+    "vendor/**",
   ],
 });

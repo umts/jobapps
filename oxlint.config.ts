@@ -7,7 +7,7 @@ export default defineConfig({
     "app/assets/**",
 
     "app/javascript/controllers/index.js",
-    "vendor/assets/**",
+    "vendor/**",
   ],
   plugins: ["eslint", "unicorn", "oxc", "import", "promise"],
   categories: {
