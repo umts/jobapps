@@ -15,7 +15,6 @@
   .form-group
     = f.label 'Text to display to students when application is inactive'
     = f.text_area :not_hiring_text,
-                  class: 'form-control',
-                  placeholder: position.not_hiring
+                  class: 'form-control'
   .centered
     = f.submit 'Save changes', class: 'btn btn-primary'
