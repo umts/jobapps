@@ -1,2 +1,1 @@
-// oxlint-disable-next-line no-console
-console.log("Hello, Modules!");
+import "./controllers/index.js";

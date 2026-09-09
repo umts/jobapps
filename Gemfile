@@ -22,6 +22,7 @@ gem 'puma'
 gem 'rails', '~> 8.1.3'
 gem 'redcarpet'
 gem 'sprockets-rails'
+gem 'stimulus-rails'
 gem 'terser'
 gem 'trilogy'
 

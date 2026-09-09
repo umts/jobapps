@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@csstools/postcss-sass": "*",
+    "@hotwired/stimulus": "*",
     "autoprefixer": "*",
     "bootstrap": "^4.6.2",
     "datatables.net": "^3.0.2",
