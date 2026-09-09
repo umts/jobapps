@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_05_204137) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_08_152627) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", precision: nil, null: false
@@ -89,15 +89,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_05_204137) do
   end
 
   create_table "interviews", id: :integer, charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.integer "application_submission_id"
-    t.boolean "completed", default: false
+    t.integer "application_submission_id", null: false
+    t.boolean "completed", default: false, null: false
     t.datetime "created_at", precision: nil
-    t.boolean "hired", default: false
+    t.boolean "hired", default: false, null: false
     t.text "interview_note"
-    t.string "location"
-    t.datetime "scheduled", precision: nil
+    t.string "location", null: false
+    t.datetime "scheduled", precision: nil, null: false
     t.datetime "updated_at", precision: nil
-    t.integer "user_id"
+    t.integer "user_id", null: false
     t.index ["application_submission_id"], name: "index_interviews_on_application_submission_id", unique: true
     t.index ["user_id"], name: "index_interviews_on_user_id"
   end
@@ -308,6 +308,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_05_204137) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "application_submissions", "positions"
   add_foreign_key "application_submissions", "users"
+  add_foreign_key "interviews", "application_submissions"
+  add_foreign_key "interviews", "users"
   add_foreign_key "positions", "departments"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
