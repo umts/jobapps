@@ -12,5 +12,3 @@
 
 *.key
 *.local
-
-/node_modules
