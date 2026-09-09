@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       mariadb:
-        image: mariadb:10.4
+        image: mariadb:10.4@sha256:22edfe1c78349f8cae88bbb5c2873b7e6c515be767c91c691308ce57445806f3
         env:
           MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: true
         ports:
