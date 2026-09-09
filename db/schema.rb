@@ -279,7 +279,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_05_204137) do
   end
 
   create_table "unavailabilities", id: :integer, charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.integer "application_submission_id"
+    t.integer "application_submission_id", null: false
     t.datetime "created_at", precision: nil, null: false
     t.string "friday"
     t.string "monday"
@@ -317,4 +317,5 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_05_204137) do
   add_foreign_key "solid_queue_scheduled_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "subscriptions", "positions"
   add_foreign_key "subscriptions", "users"
+  add_foreign_key "unavailabilities", "application_submissions"
 end
