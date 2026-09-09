@@ -17,8 +17,15 @@ class ApplicationSubmissionsController < ApplicationController
     end
   end
 
-  def create
-    create_user if Current.user.blank?
+def create
+    if Current.user.blank?
+      user = create_user
+      unless user.persisted?
+        flash[:errors] = user.errors.full_messages
+        redirect_back_or_to root_path
+        return
+      end
+    end
     record = create_record
     record.email_subscribers applicant: Current.user
 
@@ -82,13 +89,14 @@ class ApplicationSubmissionsController < ApplicationController
     end
   end
 
-  def create_user
-    user_attributes = params.expect(user: %i[first_name last_name email])
-    user_attributes[:entra_uid] = session[:entra_uid]
-    user_attributes[:staff] = false
-    User.create(user_attributes)
-    set_current_user
-  end
+def create_user
+  user_attributes = params.expect(user: %i[first_name last_name email])
+  user_attributes[:entra_uid] = session[:entra_uid]
+  user_attributes[:staff] = false
+  user = User.create(user_attributes)
+  set_current_user
+  user
+end
 
   def create_unavailability(record)
     up = UnavailabilityParser.new(params.require(:unavailability))
