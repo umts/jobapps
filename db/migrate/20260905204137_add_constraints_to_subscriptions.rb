@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddConstraintsToSubscriptions < ActiveRecord::Migration[8.1]
   def change
     change_column_null :subscriptions, :user_id, false
