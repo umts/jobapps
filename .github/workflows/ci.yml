@@ -45,6 +45,12 @@ jobs:
       - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
       - run: npx oxfmt --check
+  oxlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+      - run: npx oxlint
   rubocop:
     runs-on: ubuntu-latest
     steps:

@@ -18,6 +18,10 @@ PreCommit:
     enabled: true
     required_executable: npx
     command: ["npx", "oxfmt"]
+  OxLint:
+    enabled: true
+    required_executable: npx
+    command: ["npx", "oxlint"]
   RuboCop:
     enabled: true
     required_executable: bundle
