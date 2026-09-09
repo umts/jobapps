@@ -51,19 +51,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_08_152627) do
 
   create_table "application_submissions", id: :integer, charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.datetime "created_at", precision: nil
-    t.text "data"
+    t.text "data", null: false
     t.date "date_for_later"
     t.string "email_to_notify"
     t.string "ethnicity"
     t.string "gender"
     t.text "note_for_later"
-    t.integer "position_id"
+    t.integer "position_id", null: false
     t.text "rejection_message"
-    t.boolean "reviewed", default: false
-    t.boolean "saved_for_later", default: false
+    t.boolean "reviewed", default: false, null: false
+    t.boolean "saved_for_later", default: false, null: false
     t.text "staff_note"
     t.datetime "updated_at", precision: nil
-    t.integer "user_id"
+    t.integer "user_id", null: false
     t.index ["position_id"], name: "index_application_submissions_on_position_id"
     t.index ["user_id"], name: "index_application_submissions_on_user_id"
   end
@@ -270,16 +270,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_08_152627) do
 
   create_table "subscriptions", id: :integer, charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.datetime "created_at", precision: nil, null: false
-    t.string "email"
-    t.integer "position_id"
+    t.string "email", null: false
+    t.integer "position_id", null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.integer "user_id"
+    t.integer "user_id", null: false
     t.index ["position_id", "email"], name: "index_subscriptions_on_position_id_and_email", unique: true
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end
 
   create_table "unavailabilities", id: :integer, charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.integer "application_submission_id"
+    t.integer "application_submission_id", null: false
     t.datetime "created_at", precision: nil, null: false
     t.string "friday"
     t.string "monday"
@@ -306,6 +306,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_08_152627) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "application_submissions", "positions"
+  add_foreign_key "application_submissions", "users"
   add_foreign_key "interviews", "application_submissions"
   add_foreign_key "interviews", "users"
   add_foreign_key "positions", "departments"
@@ -315,4 +317,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_08_152627) do
   add_foreign_key "solid_queue_ready_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_recurring_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_scheduled_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
+  add_foreign_key "subscriptions", "positions"
+  add_foreign_key "subscriptions", "users"
+  add_foreign_key "unavailabilities", "application_submissions"
 end
