@@ -4,6 +4,7 @@
   "scripts": {
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check",
+    "build": "rolldown --config",
     "build:css": "postcss ./app/assets/stylesheets/application.scss -o ./app/assets/builds/application.css",
     "lint": "oxlint",
     "lint:css": "stylelint **/*.css **/*.scss"
@@ -21,7 +22,8 @@
     "popper.js": "^1.16.1",
     "postcss": "*",
     "postcss-cli": "*",
-    "postcss-scss": "*"
+    "postcss-scss": "*",
+    "rolldown": "*"
   },
   "devDependencies": {
     "@eslint/js": "*",
