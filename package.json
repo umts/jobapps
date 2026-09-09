@@ -1,6 +1,13 @@
 {
   "private": true,
   "type": "module",
+  "scripts": {
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check",
+    "build:css": "postcss ./app/assets/stylesheets/application.scss -o ./app/assets/builds/application.css",
+    "lint": "eslint .",
+    "lint:css": "stylelint **/*.css **/*.scss"
+  },
   "dependencies": {
     "@csstools/postcss-sass": "*",
     "autoprefixer": "*",
@@ -22,14 +29,10 @@
     "eslint-config-google": "*",
     "eslint-formatter-compact": "*",
     "globals": "*",
+    "oxfmt": "*",
     "run-pty": "*",
     "stylelint": "*",
     "stylelint-config-standard": "*",
     "stylelint-config-standard-scss": "*"
-  },
-  "scripts": {
-    "build:css": "postcss ./app/assets/stylesheets/application.scss -o ./app/assets/builds/application.css",
-    "lint": "eslint .",
-    "lint:css": "stylelint **/*.css **/*.scss"
   }
 }
