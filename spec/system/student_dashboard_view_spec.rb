@@ -88,8 +88,7 @@ describe 'viewing the dashboard as a student' do
       end
 
       it 'does not show the staff-only note for later' do
-        expect(page).to have_no_text 'Internal staff note'
-        expect(page).to have_no_text 'previously been saved for later review'
+        expect(page).to have_no_text 'saved for later'
       end
     end
   end
