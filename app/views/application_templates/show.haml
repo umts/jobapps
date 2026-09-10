@@ -134,13 +134,13 @@
                     'Please select the ethnic group with which you most closely identify:'
         = select_tag :ethnicity,
                      options_for_select(ApplicationSubmission::ETHNICITY_OPTIONS),
-                     include_blank: 'Prefer not to answer', class: 'custom-select'
+                     include_blank: 'Prefer not to answer', class: 'form-select'
       .form-group
         = label_tag :gender,
                     'Please select the gender with which you most closely identify:'
         = select_tag :gender,
                      options_for_select(ApplicationSubmission::GENDER_OPTIONS),
-                     include_blank: 'Prefer not to answer', class: 'custom-select'
+                     include_blank: 'Prefer not to answer', class: 'form-select'
     - if @template.resume_upload_enabled?
       %h2.heading Resume
       .explanation
