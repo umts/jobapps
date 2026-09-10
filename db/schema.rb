@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_08_211016) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_10_155231) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", precision: nil, null: false
@@ -138,10 +138,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_08_211016) do
     t.integer "application_draft_id"
     t.integer "application_template_id"
     t.datetime "created_at", precision: nil
-    t.string "data_type"
-    t.integer "number"
-    t.text "prompt"
-    t.boolean "required", default: false
+    t.string "data_type", null: false
+    t.integer "number", null: false
+    t.text "prompt", null: false
+    t.boolean "required", default: false, null: false
     t.datetime "updated_at", precision: nil
     t.index ["application_draft_id", "number"], name: "index_questions_on_application_draft_id_and_number", unique: true
     t.index ["application_template_id", "number"], name: "index_questions_on_application_template_id_and_number", unique: true
@@ -314,6 +314,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_08_211016) do
   add_foreign_key "interviews", "application_submissions"
   add_foreign_key "interviews", "users"
   add_foreign_key "positions", "departments"
+  add_foreign_key "questions", "application_drafts"
+  add_foreign_key "questions", "application_templates"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_failed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
