@@ -1,4 +1,4 @@
-@for $i from 1 through 48 {
+@for $i from 7 through 48 {
   .fs-#{$i} {
     font-size: #{$i}px !important;
   }
