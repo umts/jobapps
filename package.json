@@ -1,10 +1,19 @@
 {
   "private": true,
   "type": "module",
+  "scripts": {
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check",
+    "build": "rolldown --config",
+    "build:css": "postcss ./app/assets/stylesheets/application.scss -o ./app/assets/builds/application.css",
+    "lint": "oxlint",
+    "lint:css": "stylelint **/*.css **/*.scss"
+  },
   "dependencies": {
     "@csstools/postcss-sass": "*",
+    "@hotwired/stimulus": "*",
     "autoprefixer": "*",
-    "bootstrap": "^5.0.0",
+    "bootstrap": "*",
     "datatables.net": "^3.0.2",
     "datatables.net-bs4": "^3.0.2",
     "jquery": "^3.7.1",
@@ -14,7 +23,8 @@
     "popper.js": "^1.16.1",
     "postcss": "*",
     "postcss-cli": "*",
-    "postcss-scss": "*"
+    "postcss-scss": "*",
+    "rolldown": "*"
   },
   "devDependencies": {
     "@eslint/js": "*",
@@ -22,14 +32,11 @@
     "eslint-config-google": "*",
     "eslint-formatter-compact": "*",
     "globals": "*",
+    "oxfmt": "*",
+    "oxlint": "*",
     "run-pty": "*",
     "stylelint": "*",
     "stylelint-config-standard": "*",
     "stylelint-config-standard-scss": "*"
-  },
-  "scripts": {
-    "build:css": "postcss ./app/assets/stylesheets/application.scss -o ./app/assets/builds/application.css",
-    "lint": "eslint .",
-    "lint:css": "stylelint **/*.css **/*.scss"
   }
 }
