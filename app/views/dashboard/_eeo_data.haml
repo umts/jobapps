@@ -9,11 +9,11 @@
                    multiple: true
     .form-row
       .mb-3.col-md-6
-        = label_tag :eeo_start_date, 'start date'
+        = label_tag :eeo_start_date, 'start date', class: 'form-label'
         = date_field_tag :eeo_start_date, '',
                          class: 'form-control m-2', required: true
       .mb-3.col-md-6
-        = label_tag :eeo_end_date, 'end date'
+        = label_tag :eeo_end_date, 'end date', class: 'form-label'
         = date_field_tag :eeo_end_date, '',
                          class: 'form-control m-2', required: true
     .form-row.mb-2

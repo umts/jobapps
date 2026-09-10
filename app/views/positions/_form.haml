@@ -2,18 +2,18 @@
            url: { controller: :positions, action: action, id: position.id } do |f|
   .row
     .mb-3.col-md-4
-      = f.label :department_id
+      = f.label :department_id, class: 'form-label'
       = f.collection_select :department_id, Department.all, :id, :name,
                             {}, { class: 'form-control' }
   .mb-3
-    = f.label :name
+    = f.label :name, class: 'form-label'
     = f.text_field :name, required: true, class: 'form-control'
   .mb-3
-    = f.label :default_interview_location
+    = f.label :default_interview_location, class: 'form-label'
     = f.text_field :default_interview_location,
                    required: false, class: 'form-control'
   .mb-3
-    = f.label 'Text to display to students when application is inactive'
+    = f.label 'Text to display to students when application is inactive', class: 'form-label'
     = f.text_area :not_hiring_text,
                   class: 'form-control'
   .centered

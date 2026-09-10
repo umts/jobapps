@@ -4,12 +4,12 @@
   = fields_for :interview do |f|
     .row
       .mb-3.col
-        = f.label :scheduled, 'Date/time'
+        = f.label :scheduled, 'Date/time', class: 'form-label'
         = f.datetime_field :scheduled,
                            class: 'form-control',
                            size: 40, required: true
       .mb-3.col
-        = f.label :location
+        = f.label :location, class: 'form-label'
         = f.text_field :location,
                        required: true,
                        value: record.position.default_interview_location,

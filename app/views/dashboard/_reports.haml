@@ -10,11 +10,11 @@
                    multiple: true
     .form-row
       .mb-3.col-md-6
-        = label_tag :start_date, 'start date'
+        = label_tag :start_date, 'start date', class: 'form-label'
         = date_field_tag :start_date, '',
                          class: 'form-control m-2', required: true
       .mb-3.col-md-6
-        = label_tag :end_date, 'end date'
+        = label_tag :end_date, 'end date', class: 'form-label'
         = date_field_tag :end_date, '',
                          class: 'form-control m-2', required: true
     .form-row.mb-2

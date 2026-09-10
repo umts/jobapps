@@ -69,12 +69,12 @@
                  action: :reschedule,
                  id: @interview.id do
         .mb-3
-          = label_tag :scheduled, 'New interview date/time:'
+          = label_tag :scheduled, 'New interview date/time:', class: 'form-label'
           = datetime_field_tag :scheduled, '',
                                required: true,
                                class: 'form-control'
         .mb-3
-          = label_tag :location, 'New location:'
+          = label_tag :location, 'New location:', class: 'form-label'
           = text_field_tag :location, @interview.location,
                            required: true,
                            class: 'form-control'
@@ -87,7 +87,7 @@
         .mb-3
           = submit_tag 'Candidate hired', name: 'hired', class: 'btn btn-primary'
         .mb-3
-          = label_tag :interview_note, 'Reason for rejection:'
+          = label_tag :interview_note, 'Reason for rejection:', class: 'form-label'
           = text_area_tag :interview_note, '', class: 'form-control'
         .mb-3
           = submit_tag 'Candidate not hired', class: 'btn btn-danger'

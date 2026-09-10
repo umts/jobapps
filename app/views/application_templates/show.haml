@@ -42,13 +42,13 @@
   = form_tag application_submissions_path, multipart: true do
     = fields_for :user do |u|
       .mb-3
-        = u.label :first_name
+        = u.label :first_name, class: 'form-label'
         = u.text_field :first_name, required: true, class: 'form-control', value: Current.user&.first_name
       .mb-3
-        = u.label :last_name
+        = u.label :last_name, class: 'form-label'
         = u.text_field :last_name, required: true, class: 'form-control', value: Current.user&.last_name
       .mb-3
-        = u.label :email
+        = u.label :email, class: 'form-label'
         = u.email_field :email, required: true, class: 'form-control', value: Current.user&.email
     = fields_for :data do |r|
       - @template.questions.each_with_index do |question, index|
@@ -59,7 +59,7 @@
             %h2.heading
               = question.prompt
           - else
-            = label_tag index, question.prompt
+            = label_tag index, question.prompt, class: 'form-label'
             - case question.data_type
             - when 'phone-number'
               = r.text_field question.unique_name, required: question.required?,
@@ -91,12 +91,12 @@
                                id: index,
                                value: (@old_data[question.id] || '').to_i
             - when 'yes/no'
-              = label_tag "#{index}_yes", 'Yes'
+              = label_tag "#{index}_yes", 'Yes', class: 'form-label'
               = r.radio_button question.unique_name, 'Yes',
                                required: question.required?,
                                id: "#{index}_yes",
                                checked: @old_data[question.id] == 'Yes'
-              = label_tag "#{index}_no", 'No'
+              = label_tag "#{index}_no", 'No', class: 'form-label'
               = r.radio_button question.unique_name, 'No',
                                required: question.required?,
                                id: "#{index}_no",
@@ -131,20 +131,22 @@
         the information requested below.
       .mb-3
         = label_tag :ethnicity,
-                    'Please select the ethnic group with which you most closely identify:'
+                    'Please select the ethnic group with which you most closely identify:',
+                    class: 'form-label'
         = select_tag :ethnicity,
                      options_for_select(ApplicationSubmission::ETHNICITY_OPTIONS),
                      include_blank: 'Prefer not to answer', class: 'form-select'
       .mb-3
         = label_tag :gender,
-                    'Please select the gender with which you most closely identify:'
+                    'Please select the gender with which you most closely identify:',
+                    class: 'form-label'
         = select_tag :gender,
                      options_for_select(ApplicationSubmission::GENDER_OPTIONS),
                      include_blank: 'Prefer not to answer', class: 'form-select'
     - if @template.resume_upload_enabled?
       %h2.heading Resume
       .explanation
-        = label_tag :resume, 'Please upload a copy of your resume.'
+        = label_tag :resume, 'Please upload a copy of your resume.', class: 'form-label'
       .mb-3
         = file_field_tag :resume, required: true
     - unless Current.user&.staff?

@@ -16,7 +16,7 @@
     .mb-3
       = link_to 'Add New Field', '', class: 'btn btn-secondary', id: 'add-field-button'
     .mb-3
-      = f.label :email, 'Reply-to email:'
+      = f.label :email, 'Reply-to email:', class: 'form-label'
       = f.text_field :email, class: 'form-control'
     .mb-3
       = f.submit 'Save changes and continue editing', class: 'btn btn-primary'

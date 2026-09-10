@@ -6,22 +6,22 @@
             url: { action: :toggle_saved_for_later },
             local: true do |form|
   .mb-3
-    = form.label :note_for_later, 'Note'
+    = form.label :note_for_later, 'Note', class: 'form-label'
     = form.text_area :note_for_later, class: 'form-control'
     %i This note will be listed as the reason their application was
     %i saved for review at a later date.
   .mb-3
-    = form.label :mail_note_for_later, 'Email note to applicant'
+    = form.label :mail_note_for_later, 'Email note to applicant', class: 'form-label'
     = form.check_box :mail_note_for_later
   .row
     .mb-3.col
-      = form.label :date_for_later, 'Select a date for later review'
+      = form.label :date_for_later, 'Select a date for later review', class: 'form-label'
       = form.date_field :date_for_later, class: 'form-control',
                                          placeholder: 'Click here to select date...'
       %i If a date is selected, the application will move back onto the dashboard at that time.
     .mb-3.col
       #notification
-        = form.label :email_to_notify, 'Get notified when this happens:'
+        = form.label :email_to_notify, 'Get notified when this happens:', class: 'form-label'
         = form.text_field :email_to_notify,
                           placeholder: 'person@example.com',
                           class: 'form-control'
