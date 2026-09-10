@@ -4,7 +4,7 @@
   "dependencies": {
     "@csstools/postcss-sass": "*",
     "autoprefixer": "*",
-    "bootstrap": "^4.6.2",
+    "bootstrap": "^5.0.0",
     "datatables.net": "^3.0.2",
     "datatables.net-bs4": "^3.0.2",
     "jquery": "^3.7.1",
