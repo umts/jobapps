@@ -1,4 +1,4 @@
-@use "bootstrap/scss/bootstrap" with ($blue: #5b7f95, $red: #a8431e);
+@use "bootstrap/scss/bootstrap" with ($blue: #5b7f95, $red: #a8431e, $link-decoration: none);
 @use "datatables.net-bs5/css/dataTables.bootstrap5";
 @use "jquery-ui-dist/jquery-ui";
 @use "multiple-select/dist/multiple-select";
@@ -33,4 +33,9 @@ h1 {
 
 .hidden {
   display: none;
+}
+
+// TODO: Remove.
+.btn-primary {
+  color: #fff;
 }
