@@ -12,12 +12,12 @@
 = form_tag controller: :application_submissions, action: :create do
   = fields_for :user do |u|
     - [:first_name, :last_name, :email].each do |field|
-      .form-group
+      .mb-3
         = u.label field
         = u.text_field field, required: true, class: 'form-control', value: Current.user&.send(field)
   = fields_for :data do |r|
     - @draft.questions.each_with_index do |question, index|
-      .form-group
+      .mb-3
         - if question.explanation?
           .explanation= render_markdown question.prompt
         - elsif question.heading?
@@ -69,7 +69,7 @@
         %strong NOT
         available to work.
         Note that you can click and drag to check or uncheck a range of boxes.
-      .form-group
+      .mb-3
         = fields_for :unavailability do |u|
           = render partial: 'unavailabilities_calendar', locals: { form: u }
     - if @draft.application_template.eeo_enabled?
@@ -79,19 +79,19 @@
         Transit Authority are equal opportunity employers. To help
         us ensure that we are complying with EEO policies, please supply
         the information requested below.
-      .form-group
+      .mb-3
         = label_tag :ethnicity,
                     'Please select the ethnic group with which you most closely identify:'
         = select_tag :ethnicity,
                      options_for_select(ApplicationSubmission::ETHNICITY_OPTIONS),
                      include_blank: 'Prefer not to answer', class: 'form-control'
-      .form-group
+      .mb-3
         = label_tag :gender,
                     'Please select the gender with which you most closely identify:'
         = select_tag :gender,
                      options_for_select(ApplicationSubmission::GENDER_OPTIONS),
                      include_blank: 'Prefer not to answer', class: 'form-control'
-    .form-group
+    .mb-3
       = submit_tag 'Submit application', disabled: true, class: 'btn btn-primary'
 .row
   .col.centered
