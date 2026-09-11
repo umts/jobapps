@@ -6,16 +6,17 @@
             application_submission_path(@record, format: :pdf),
             method: :get,
             class: 'btn btn-secondary'
-- if @record.rejected?
-  %p
-    = button_to 'Re-review Applicant',
-                unreject_application_submission_path(@application_submission, id: @record.id),
-                class: 'btn btn-primary'
-- if !@record.saved_for_later? && @record.note_for_later.present?
-  %p
-    %i This application had previously been saved for later review. Your note:
-  %p
-    = @record.note_for_later
+- if Current.user&.staff?
+  - if @record.rejected?
+    %p
+      = button_to 'Re-review Applicant',
+                  unreject_application_submission_path(@application_submission, id: @record.id),
+                  class: 'btn btn-primary'
+  - if !@record.saved_for_later? && @record.note_for_later.present?
+    %p
+      %i This application had previously been saved for later review. Your note:
+    %p
+      = @record.note_for_later
 %table.table.table-bordered.application-record-table
   %thead
     %tr

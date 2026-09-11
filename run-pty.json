@@ -7,6 +7,9 @@
     "defaultStatus": ["⏳", "S"]
   },
   {
+    "command": ["npm", "run", "build", "--", "--watch"]
+  },
+  {
     "command": ["npm", "run", "build:css", "--", "--watch"]
   }
 ]

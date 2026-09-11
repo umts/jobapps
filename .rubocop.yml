@@ -7,10 +7,10 @@ plugins:
 
 AllCops:
   Exclude:
-    - 'bin/**/*'
-    - 'config/**/*'
-    - 'db/**/*'
-    - 'vendor/**/*'
+    - "bin/**/*"
+    - "config/**/*"
+    - "db/**/*"
+    - "vendor/**/*"
   NewCops: enable
 
 Metrics/AbcSize:
