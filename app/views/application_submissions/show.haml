@@ -68,31 +68,31 @@
       = form_tag controller: :interviews,
                  action: :reschedule,
                  id: @interview.id do
-        .form-group
-          = label_tag :scheduled, 'New interview date/time:'
+        .mb-3
+          = label_tag :scheduled, 'New interview date/time:', class: 'form-label'
           = datetime_field_tag :scheduled, '',
                                required: true,
                                class: 'form-control'
-        .form-group
-          = label_tag :location, 'New location:'
+        .mb-3
+          = label_tag :location, 'New location:', class: 'form-label'
           = text_field_tag :location, @interview.location,
                            required: true,
                            class: 'form-control'
-        .form-group
+        .mb-3
           = submit_tag 'Reschedule interview', class: 'btn btn-secondary'
       %h3 Mark interview as complete:
       = form_tag controller: :interviews,
                  action: :complete,
                  id: @interview.id do
-        .form-group
+        .mb-3
           = submit_tag 'Candidate hired', name: 'hired', class: 'btn btn-primary'
-        .form-group
-          = label_tag :interview_note, 'Reason for rejection:'
+        .mb-3
+          = label_tag :interview_note, 'Reason for rejection:', class: 'form-label'
           = text_area_tag :interview_note, '', class: 'form-control'
-        .form-group
+        .mb-3
           = submit_tag 'Candidate not hired', class: 'btn btn-danger'
     - else # application is being reviewed for whatever reason
-      .form-group
+      .mb-3
         Interview occurred on
         = @interview.information
   = render partial: 'save_for_later', locals: { record: @record }

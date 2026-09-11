@@ -8,8 +8,8 @@
 %h2 Subscribe to email notifications
 %p You will be notified when someone fills out an application.
 = form_for :subscription, url: { controller: :subscriptions, action: :create }, class: 'mb-3' do |f|
-  .form-group
-    = f.label :email
+  .mb-3
+    = f.label :email, class: 'form-label'
     = f.text_field :email, class: 'form-control'
     = f.hidden_field :position_id, value: @position.id
     = f.hidden_field :user_id, value: Current.user.id

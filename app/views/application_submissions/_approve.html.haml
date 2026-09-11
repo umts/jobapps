@@ -3,15 +3,15 @@
   = form.hidden_field :accepted, value: 'true'
   = fields_for :interview do |f|
     .row
-      .form-group.col
-        = f.label :scheduled, 'Date/time'
+      .mb-3.col
+        = f.label :scheduled, 'Date/time', class: 'form-label'
         = f.datetime_field :scheduled,
                            class: 'form-control',
                            size: 40, required: true
-      .form-group.col
-        = f.label :location
+      .mb-3.col
+        = f.label :location, class: 'form-label'
         = f.text_field :location,
                        required: true,
                        value: record.position.default_interview_location,
                        class: 'form-control'
-    .row.form-group.col= f.submit 'Approve', class: 'btn btn-primary'
+    .row.mb-3.col= f.submit 'Approve', class: 'btn btn-primary'

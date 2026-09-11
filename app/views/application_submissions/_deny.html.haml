@@ -1,18 +1,18 @@
 %h4 Deny Application
 = form_with(model: record, url: { action: :review }, local: true) do |form|
   = form.hidden_field :accepted, value: 'false'
-  .form-group
-    = form.label :notify_of_denial, 'Notify applicant of denial'
+  .mb-3
+    = form.label :notify_of_denial, 'Notify applicant of denial', class: 'form-label'
     = form.check_box :notify_of_denial, checked: true
-  .form-group.rejection-message
-    = form.label :rejection_message, 'Tell them why (optional)'
+  .mb-3.rejection-message
+    = form.label :rejection_message, 'Tell them why (optional)', class: 'form-label'
     = form.text_area :rejection_message, class: 'form-control'
     %i This note will be emailed to the applicant
-  .form-group
-    = form.label :staff_note, 'Staff note (internal)'
+  .mb-3
+    = form.label :staff_note, 'Staff note (internal)', class: 'form-label'
     = form.text_area :staff_note, class: 'form-control'
     %i This note will
     %b not
     %i be provided to the applicant
-  .row.form-group.col
+  .row.mb-3.col
     = form.submit 'Decline', class: 'btn btn-danger'
