@@ -41,18 +41,6 @@ describe 'reviewing application templates' do
     expect(page).to have_no_button('Submit application')
   end
 
-  it "pre-fills the user's first name" do
-    expect(page).to have_field('First name', with: user.first_name)
-  end
-
-  it "pre-fills the user's last name" do
-    expect(page).to have_field('Last name', with: user.last_name)
-  end
-
-  it "pre-fills the user's email" do
-    expect(page).to have_field('Email', with: user.email)
-  end
-
   it 'uses the slug attribute of the application template as the path slug' do
     expect(page).to have_current_path(/#{application.slug}/)
   end

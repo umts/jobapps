@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
   skip_forgery_protection
 
   def create
-    set_session
+    create_or_update_user
     redirect_to auth_referer || root_path
   end
 
@@ -22,11 +22,16 @@ class SessionsController < ApplicationController
 
   private
 
-  def set_session
-    session[:entra_uid] = auth_hash.uid
-    session[:email] = auth_hash.info.email
-    session[:first_name] = auth_hash.info.first_name
-    session[:last_name] = auth_hash.info.last_name
+  # Create the user on first login, seeding their email from Active Directory.
+  # Their name is kept in sync with AD on every login (AD is the source of truth
+  # for names), but email stays editable afterward so applicants can give a
+  # better contact address. staff and admin default to false for new users.
+  def create_or_update_user
+    user = User.find_or_initialize_by(entra_uid: auth_hash.uid)
+    user.email = auth_hash.info.email if user.new_record?
+    user.update! first_name: auth_hash.info.first_name,
+                 last_name: auth_hash.info.last_name
+    session[:entra_uid] = user.entra_uid
   end
 
   def auth_hash = request.env['omniauth.auth']
