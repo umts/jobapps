@@ -1,17 +1,18 @@
 - if Current.user&.staff?
   - if @template.active?
-    .row
+    .row.px-5.py-3
       .col-6
         This application is available to applicants. Not hiring currently?
         Click here to deactivate the application:
-      .cold-6
+      .col-6
         = button_to 'Deactivate application',
                     toggle_active_application_url(@template), class: 'btn btn-secondary'
   - else
-    .row
-      This application is currently not available to applicants. Hiring
-      again? Click here to reactivate the application:
-      .cold-6
+    .row.px-5.py-3
+      .col-6
+        This application is currently not available to applicants. Hiring
+        again? Click here to reactivate the application:
+      .col-6
         = button_to 'Activate application',
                     toggle_active_application_url(@template), class: 'btn btn-secondary'
 
