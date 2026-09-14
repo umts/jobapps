@@ -26,10 +26,6 @@
     "rolldown": "*"
   },
   "devDependencies": {
-    "@eslint/js": "*",
-    "eslint": "*",
-    "eslint-config-google": "*",
-    "eslint-formatter-compact": "*",
     "globals": "*",
     "oxfmt": "*",
     "oxlint": "*",
