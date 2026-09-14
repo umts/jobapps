@@ -1,9 +1,10 @@
-#message, #errors {
+#message,
+#errors {
   border-radius: 5px;
   margin: auto;
-  margin-top: .25em;
-  margin-bottom: .25em;
-  padding: .25em;
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+  padding: 0.25em;
   text-align: center;
   width: 95%;
 }
@@ -14,8 +15,8 @@
 }
 
 #errors {
-  border: 2px solid #8D201E;
-  background-color: #FFBABA;
+  border: 2px solid #8d201e;
+  background-color: #ffbaba;
 
   ul {
     list-style-type: none;

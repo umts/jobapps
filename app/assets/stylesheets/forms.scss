@@ -1,6 +1,6 @@
 form {
   .heading {
-    background:  #ece0e0;
+    background: #ece0e0;
   }
 
   .explanation {
@@ -14,6 +14,6 @@ form {
 }
 
 .required::after {
-  content:"*";
-  color:red;
+  content: "*";
+  color: red;
 }
