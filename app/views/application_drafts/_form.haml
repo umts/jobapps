@@ -13,12 +13,12 @@
     = f.fields_for :questions do |g|
       = render partial: 'question_fields', locals: { g: g }
   .container
-    .form-group
+    .mb-3
       = link_to 'Add New Field', '', class: 'btn btn-secondary', id: 'add-field-button'
-    .form-group
-      = f.label :email, 'Reply-to email:'
+    .mb-3
+      = f.label :email, 'Reply-to email:', class: 'form-label'
       = f.text_field :email, class: 'form-control'
-    .form-group
+    .mb-3
       = f.submit 'Save changes and continue editing', class: 'btn btn-primary'
       = f.submit 'Preview changes', class: 'btn btn-primary'
 
