@@ -5,7 +5,8 @@ class SessionsController < ApplicationController
   skip_forgery_protection
 
   def create
-    set_session
+    session[:entra_uid] = auth_hash.uid
+    User.create_with(user_create_attrs).find_or_initialize_by(entra_uid: auth_hash.uid).update!(user_update_attrs)
     redirect_to auth_referer || root_path
   end
 
@@ -22,14 +23,15 @@ class SessionsController < ApplicationController
 
   private
 
-  def set_session
-    session[:entra_uid] = auth_hash.uid
-    session[:email] = auth_hash.info.email
-    session[:first_name] = auth_hash.info.first_name
-    session[:last_name] = auth_hash.info.last_name
-  end
-
   def auth_hash = request.env['omniauth.auth']
 
   def auth_referer = request.env['omniauth.origin'].presence
+
+  def user_create_attrs = { email: auth_hash.info.email }
+
+  def user_update_attrs
+    { first_name: auth_hash.info.first_name,
+      last_name: auth_hash.info.last_name,
+      entra_upn: auth_hash.extra&.raw_info&.upn }.compact_blank
+  end
 end

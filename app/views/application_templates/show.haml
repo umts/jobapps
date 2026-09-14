@@ -43,10 +43,10 @@
     = fields_for :user do |u|
       .mb-3
         = u.label :first_name, class: 'form-label'
-        = u.text_field :first_name, required: true, class: 'form-control', value: Current.user&.first_name
+        = u.text_field :first_name, disabled: true, class: 'form-control', value: Current.user&.first_name
       .mb-3
         = u.label :last_name, class: 'form-label'
-        = u.text_field :last_name, required: true, class: 'form-control', value: Current.user&.last_name
+        = u.text_field :last_name, disabled: true, class: 'form-control', value: Current.user&.last_name
       .mb-3
         = u.label :email, class: 'form-label'
         = u.email_field :email, required: true, class: 'form-control', value: Current.user&.email
