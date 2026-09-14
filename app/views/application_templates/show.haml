@@ -43,10 +43,10 @@
     = fields_for :user do |u|
       .form-group
         = u.label :first_name
-        = u.text_field :first_name, required: true, class: 'form-control', value: Current.user&.first_name
+        = u.text_field :first_name, disabled: true, class: 'form-control', value: Current.user&.first_name
       .form-group
         = u.label :last_name
-        = u.text_field :last_name, required: true, class: 'form-control', value: Current.user&.last_name
+        = u.text_field :last_name, disabled: true, class: 'form-control', value: Current.user&.last_name
       .form-group
         = u.label :email
         = u.email_field :email, required: true, class: 'form-control', value: Current.user&.email

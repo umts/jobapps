@@ -13,11 +13,10 @@ describe ApplicationSubmissionsController do
 
   describe 'POST #create' do
     let(:position) { create(:position) }
-    let(:user_params) { {} }
     let :params do
       {
         position_id: position.id,
-        user: user_params,
+        user: { email: 'applicant@umass.edu' },
         data: {
           'response_1' => 'No',
           'prompt_1' => 'Do you like cats',
@@ -40,21 +39,6 @@ describe ApplicationSubmissionsController do
 
     before { create(:application_template, position:, unavailability_enabled: true) }
 
-    context 'when the current user is nil' do
-      let :user_params do
-        {
-          first_name: 'FirstName',
-          last_name: 'LastName',
-          email: 'flastnam@umass.edu'
-        }
-      end
-
-      it 'creates a user' do
-        when_current_user_is nil
-        expect { submit }.to change(User, :count).by(1)
-      end
-    end
-
     context 'when the current user is a student' do
       let(:user) { create(:user, :student) }
 
@@ -62,6 +46,11 @@ describe ApplicationSubmissionsController do
 
       it 'creates an application record as specified' do
         expect { submit }.to change(ApplicationSubmission, :count).by(1)
+      end
+
+      it 'updates the applicant email from the form' do
+        submit
+        expect(user.reload.email).to eq 'applicant@umass.edu'
       end
 
       it 'creates an unavailability' do
