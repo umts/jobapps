@@ -75,8 +75,6 @@ class ApplicationSubmissionsController < ApplicationController
 
   private
 
-  # Names come from Active Directory, but applicants may supply a preferred
-  # contact email on the form.
   def update_current_user_email
     Current.user.update! params.expect(user: %i[email])
   end

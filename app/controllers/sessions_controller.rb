@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
   skip_forgery_protection
 
   def create
-    create_or_update_user
+    set_user
     redirect_to auth_referer || root_path
   end
 
@@ -22,26 +22,22 @@ class SessionsController < ApplicationController
 
   private
 
-  # Create the user on first login, seeding their email from Active Directory.
-  # Their name and UPN are kept in sync with AD on every login (AD is the source
-  # of truth for those), but email stays editable afterward so applicants can
-  # give a better contact address. staff and admin default to false for new users.
-  def create_or_update_user
-    user = User.find_or_initialize_by(entra_uid: auth_hash.uid)
-    user.email = auth_hash.info.email if user.new_record?
-    user.update! directory_attributes
-    session[:entra_uid] = user.entra_uid
-  end
-
-  # Claims the directory didn't send are left as they were rather than blanked.
-  # The developer login only sends a uid, and a missing claim shouldn't fail a login.
-  def directory_attributes
-    { first_name: auth_hash.info.first_name,
-      last_name: auth_hash.info.last_name,
-      entra_upn: auth_hash.dig(:extra, :raw_info, :upn) }.compact_blank
+  def set_user
+    session[:entra_uid] = auth_hash.uid
+    User.create_with(user_create_attributes)
+        .find_or_initialize_by(entra_uid: auth_hash.uid)
+        .update!(user_update_attributes)
   end
 
   def auth_hash = request.env['omniauth.auth']
 
   def auth_referer = request.env['omniauth.origin'].presence
+
+  def user_create_attributes = { email: auth_hash.info.email }
+
+  def user_update_attributes
+    { first_name: auth_hash.info.first_name,
+      last_name: auth_hash.info.last_name,
+      entra_upn: auth_hash.extra&.raw_info&.upn }.compact_blank
+  end
 end
