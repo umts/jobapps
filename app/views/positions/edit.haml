@@ -23,6 +23,6 @@
           = subscription.email
           = button_to subscription_path(subscription), { method: :delete, class: 'btn btn-dark' } do
             &times;
-            .sr-only Remove subscription for #{subscription.email}
+            .visually-hidden Remove subscription for #{subscription.email}
 - else
   %p You are not currently subscribed.
