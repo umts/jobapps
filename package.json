@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@csstools/postcss-sass": "*",
+    "@fontsource-utils/scss": "*",
+    "@fontsource/public-sans": "*",
     "@hotwired/stimulus": "*",
     "autoprefixer": "*",
     "bootstrap": "*",
