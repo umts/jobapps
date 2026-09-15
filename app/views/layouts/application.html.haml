@@ -17,8 +17,9 @@
   %body.min-vh-100.d-flex.flex-column.flex-nowrap.align-items-stretch.bg-primary
     %header
       = render partial: 'application/university_header'
+      = render partial: 'application/navbar'
     %main.bg-body.flex-grow-1
-      .container
+      .container.my-3
         = render partial: 'application/flash'
         = yield
     %footer

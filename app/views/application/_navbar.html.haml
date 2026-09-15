@@ -1,0 +1,22 @@
+.bg-body-tertiary.border-bottom
+  .container
+    %nav.navbar.navbar-expand-sm
+      = link_to root_path, class: 'navbar-brand' do
+        %i.fa-regular.fa-file-lines
+        Job Applications
+      - if Current.user.present?
+        = button_tag type: 'button',
+                     class: 'navbar-toggler',
+                     data: { 'bs-toggle': 'collapse', 'bs-target': '#navbar-nav-items' },
+                     aria: { expanded: 'false', label: 'Toggle navigation' } do
+          %span.navbar-toggler-icon
+        #navbar-nav-items.collapse.navbar-collapse
+          %ul.navbar-nav.ms-auto
+            %li.nav-item.dropdown
+              = button_tag Current.user.full_name,
+                           type: 'button',
+                           class: 'nav-link dropdown-toggle',
+                           'data-bs-toggle': 'dropdown',
+                           'aria-expanded': 'false'
+              %ul.dropdown-menu
+                %li= button_to 'Log out', logout_path, class: 'dropdown-item'
