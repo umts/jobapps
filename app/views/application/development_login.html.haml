@@ -1,6 +1,25 @@
-%h1 Log in
-= button_to 'Log in with Microsoft', main_app.azure_login_path, class: 'btn btn-primary'
-%h2 Development login
-= form_with url: main_app.auth_callback_path(provider: 'developer'), method: :get do |f|
-  = f.collection_select :uid, User.all, :entra_uid, :full_name
-  = f.submit 'Log in'
+:ruby
+  user_classes = {
+    'Admins' => User.where(admin: true),
+    'Staff' => User.where(admin: false, staff: true).distinct,
+    'Applicants' => User.where(admin: false, staff: false).distinct
+  }.compact_blank!
+%section
+  .border-bottom.mb-3
+    %h1.mb-0 Development login
+  .card.mb-3
+    .card-header Select user
+    .card-body
+      - user_classes.each do |name, users|
+        .mb-3
+          = form_with url: main_app.auth_callback_path(provider: 'developer'), method: :get, namespace: name do |f|
+            = f.label :uid, name, class: 'form-label'
+            .input-group
+              = f.collection_select :uid, users, :entra_uid, :full_name, { include_blank: false }, class: 'form-select'
+              = f.submit 'Log in', class: 'btn btn-tertiary'
+      %div
+        = form_with url: main_app.azure_login_path do |f|
+          = f.label :azure, class: 'form-label'
+          .input-group
+            = text_field_tag :azure, 'Yourself', disabled: true, class: 'form-control'
+            = f.submit 'Log in', class: 'btn btn-tertiary'

@@ -1,14 +1,13 @@
 - if flash[:alert].present? || flash[:notice].present?
-  .container
-    - { alert: 'primary', notice: 'secondary' }.each do |type, variant|
-      .alert.alert-primary.fade.show{ role: 'alert', class: "alert-#{variant}" }
-        .row.gx-3
-          .col-auto
-            %i.fa-solid.fa-fw.fa-circle-info
-          .col= flash[type]
-          .col-12.col-md-auto
-            %hr.d-md-none
-            .d-grid
-              = button_tag type: 'button', class: 'btn btn-text', 'data-bs-dismiss': 'alert' do
-                %i.fa-solid.fa-times
-                Dismiss
+  - { alert: 'primary', notice: 'tertiary' }.each do |type, variant|
+    .alert.fade.show{ role: 'alert', class: "alert-#{variant}" }
+      .row.gx-3
+        .col-auto
+          %i.fa-solid.fa-fw.fa-circle-info
+        .col= flash[type]
+        .col-12.col-md-auto
+          %hr.d-md-none
+          .d-grid
+            = button_tag type: 'button', class: 'nav-link', 'data-bs-dismiss': 'alert' do
+              %i.fa-solid.fa-times
+              Dismiss
