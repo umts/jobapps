@@ -1,0 +1,31 @@
+@use "bootstrap";
+
+.university-banner {
+  --bs-body-bg: #{bootstrap.$primary};
+  --bs-body-bg-rgb: #{bootstrap.to-rgb(bootstrap.$primary)};
+  --bs-body-color: #{bootstrap.$white};
+  --bs-body-color-rgb: #{bootstrap.to-rgb(bootstrap.$white)};
+  --bs-link-color: #{bootstrap.$white};
+  --bs-link-color-rgb: #{bootstrap.to-rgb(bootstrap.$white)};
+  --bs-link-hover-color: #{bootstrap.$white};
+  --bs-link-hover-color-rgb: #{bootstrap.to-rgb(bootstrap.$white)};
+
+  a {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .navbar {
+    --bs-navbar-color: #{bootstrap.$white};
+    --bs-navbar-hover-color: #{bootstrap.$white};
+    --bs-navbar-active-color: #{bootstrap.$white};
+    --bs-navbar-toggler-border-color: #{bootstrap.$navbar-dark-toggler-border-color};
+  }
+
+  .navbar-toggler-icon {
+    --bs-navbar-toggler-icon-bg: #{bootstrap.escape-svg(bootstrap.$navbar-dark-toggler-icon-bg)};
+  }
+}
