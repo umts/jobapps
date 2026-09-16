@@ -4,9 +4,7 @@
     'Staff' => User.where(admin: false, staff: true).distinct,
     'Applicants' => User.where(admin: false, staff: false).distinct
   }.compact_blank!
-%section
-  .border-bottom.mb-3
-    %h1.mb-0 Development login
+= render layout: 'layouts/resource', locals: { heading: 'Development Login' } do
   .card.mb-3
     .card-header Select user
     .card-body
