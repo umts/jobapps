@@ -1,4 +1,5 @@
 :ruby
+  link_reset_classes = 'text-white link-underline-light link-underline-opacity-0 link-underline-opacity-100-hover'
   nav_links = {
     'Site policies' => 'https://www.umass.edu/gateway/site-policies',
     'Privacy' => 'https://www.umass.edu/policy/information-privacy-policy',
@@ -6,8 +7,8 @@
       'https://www.umass.edu/policy/affirmative-action-non-discrimination-and-title-ix-non-discrimination-policy',
     'Accessibility' => 'https://www.umass.edu/accessibility',
     'Terms of use' => 'https://www.umass.edu/policy/acceptable-use-information-technology-resources'
-  }.map { |text, href| link_to(text, href, class: 'd-block d-md-inline text-center') }
-.university-banner.bg-body.text-body
+  }.map { |text, href| link_to(text, href, class: "d-block d-md-inline text-center #{link_reset_classes}") }
+.bg-primary.text-white{ 'data-bs-theme': 'dark' }
   .container.py-4
     .row.g-3
       .col-12.col-lg-auto.d-flex.justify-content-center.justify-content-lg-start.align-items-center
@@ -16,6 +17,6 @@
       .col-12.col-lg.d-flex.flex-column.justify-content-between.align-items-center.align-items-lg-end.gap-2
         %div
           ©#{Date.current.year}
-          = link_to 'University of Massachusetts Amherst', 'https://umass.edu'
+          = link_to 'University of Massachusetts Amherst', 'https://umass.edu', class: link_reset_classes
         %nav
           = safe_join nav_links, tag.span(' • ', class: 'd-none d-md-inline')

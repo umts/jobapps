@@ -1,4 +1,4 @@
-.university-banner.bg-body.text-body
+.bg-primary.text-white{ 'data-bs-theme': 'dark' }
   .container
     %nav.navbar.navbar-expand-sm
       = link_to 'https://umass.edu', class: 'navbar-brand' do
@@ -17,11 +17,12 @@
       #university-header-nav-items.collapse.navbar-collapse
         %ul.navbar-nav.ms-auto
           %li.nav-item
-            = link_to 'Visit', 'https://www.umass.edu/admissions/undergraduate-admissions/visit', class: 'nav-link'
-          %li.nav-item= link_to 'Apply', 'https://www.umass.edu/admissions', class: 'nav-link'
-          %li.nav-item= link_to 'Give', 'https://www.umass.edu/give', class: 'nav-link'
+            = link_to 'Visit', 'https://www.umass.edu/admissions/undergraduate-admissions/visit',
+                      class: 'nav-link text-white'
+          %li.nav-item= link_to 'Apply', 'https://www.umass.edu/admissions', class: 'nav-link text-white'
+          %li.nav-item= link_to 'Give', 'https://www.umass.edu/give', class: 'nav-link text-white'
           %li.nav-item
-            = link_to 'https://www.umass.edu/search', class: 'nav-link' do
+            = link_to 'https://www.umass.edu/search', class: 'nav-link text-white' do
               %i.fa-solid.fa-search
               %span.visually-hidden Search
 .bg-body.text-body.border-bottom
