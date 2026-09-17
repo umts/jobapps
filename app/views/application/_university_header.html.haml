@@ -28,11 +28,11 @@
 .bg-body.text-body.border-bottom
   .container.py-4
     .d-flex.align-items-center.gap-3
-      = image_tag 'umass-m-shortform.svg', alt: 'UMass', height: '80px'
+      = image_tag 'umass-m-shortform.svg', alt: 'UMass', height: '70px'
       .fs-4
-        %div
+        .lh-sm
           = link_to 'Facilities & Campus Services', 'https://www.umass.edu/facilities',
-                    class: 'text-body text-decoration-none'
-        %div
+                    class: 'lh-sm text-body text-decoration-none'
+        .lh-sm
           = link_to 'Transportation Services', 'https://umass.edu/transportation',
-                    class: 'text-primary-emphasis text-decoration-none fw-bold'
+                    class: 'lh-sm text-primary-emphasis text-decoration-none fw-bold'

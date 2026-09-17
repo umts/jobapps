@@ -19,4 +19,7 @@
           ©#{Date.current.year}
           = link_to 'University of Massachusetts Amherst', 'https://umass.edu', class: link_reset_classes
         %nav
-          = safe_join nav_links, tag.span(' • ', class: 'd-none d-md-inline')
+          - nav_link_separator = capture do
+            %span.d-none.d-md-inline
+              &bull;
+          = safe_join nav_links, nav_link_separator

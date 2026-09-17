@@ -2,8 +2,10 @@
 %html
   %head
     %title
-      = "#{yield(:title)} -" if content_for?(:title)
-      Transit Job Applications - UMass Amherst
+      - if content_for?(:title)
+        = yield :title
+        &bull;
+      Transit Job Applications &bull; UMass Amherst
     %meta{ name: 'viewport', content: 'width=device-width,initial-scale=1' }
     = csrf_meta_tags
     = csp_meta_tag
