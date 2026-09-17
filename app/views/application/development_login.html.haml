@@ -19,5 +19,5 @@
         = form_with url: main_app.azure_login_path do |f|
           = f.label :azure, class: 'form-label'
           .input-group
-            = text_field_tag :azure, 'Yourself', disabled: true, class: 'form-control'
+            = text_field_tag :azure, 'Yourself', readonly: true, class: 'form-control'
             = f.submit 'Log in', class: 'btn btn-neutral'
