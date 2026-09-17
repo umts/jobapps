@@ -1,5 +1,5 @@
 - if flash[:alert].present? || flash[:notice].present?
-  - { alert: 'primary', notice: 'tertiary' }.each do |type, variant|
+  - { alert: 'primary', notice: 'neutral' }.each do |type, variant|
     .alert.fade.show{ role: 'alert', class: "alert-#{variant}" }
       .row.gx-3
         .col-auto

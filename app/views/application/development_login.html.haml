@@ -14,10 +14,10 @@
             = f.label :uid, name, class: 'form-label'
             .input-group
               = f.collection_select :uid, users, :entra_uid, :full_name, { include_blank: false }, class: 'form-select'
-              = f.submit 'Log in', class: 'btn btn-tertiary'
+              = f.submit 'Log in', class: 'btn btn-neutral'
       %div
         = form_with url: main_app.azure_login_path do |f|
           = f.label :azure, class: 'form-label'
           .input-group
             = text_field_tag :azure, 'Yourself', disabled: true, class: 'form-control'
-            = f.submit 'Log in', class: 'btn btn-tertiary'
+            = f.submit 'Log in', class: 'btn btn-neutral'

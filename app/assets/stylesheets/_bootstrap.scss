@@ -6,19 +6,19 @@ $font-family-base: "Public Sans", helvetica, arial, sans-serif;
 
 @import "bootstrap/scss/bootstrap";
 
-.alert-tertiary {
+.alert-neutral {
   --bs-alert-color: var(--bs-body-color);
   --bs-alert-bg: var(--bs-tertiary-bg);
   --bs-alert-border-color: var(--bs-border-color);
   --bs-alert-link-color: var(--bs-link-color);
 }
 
-.btn-tertiary {
+.btn-neutral {
   @include button-variant($body-tertiary-bg, $border-color, $hover-background: $border-color);
 }
 
 @include color-mode(dark, true) {
-  .btn-tertiary {
+  .btn-neutral {
     @include button-variant(
       $body-tertiary-bg-dark,
       $border-color-dark,
