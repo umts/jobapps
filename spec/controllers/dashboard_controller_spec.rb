@@ -36,7 +36,7 @@ describe DashboardController do
         let(:submit) { get :staff, xhr: true }
 
         it 'does not allow access' do
-          expect { submit }.to raise_error(Unauthorized)
+          expect { submit }.to raise_error(ActionPolicy::Unauthorized)
         end
       end
     end

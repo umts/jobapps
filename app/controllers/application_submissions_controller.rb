@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 class ApplicationSubmissionsController < ApplicationController
-  skip_before_action :authorize_staff, only: %i[create show]
+  before_action :authorize!, except: :show
   before_action :find_record, except: %i[create
                                          csv_export
                                          eeo_data
                                          past_applications]
 
   def show
-    raise Unauthorized unless @record.user.current? || Current.user&.staff?
+    authorize! @record
 
     @interview = @record.interview
     respond_to do |format|

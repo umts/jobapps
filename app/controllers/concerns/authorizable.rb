@@ -5,9 +5,10 @@ module Authorizable
 
   included do
     before_action :set_current_user
-    before_action :authorize_user
-    before_action :authorize_staff
-    rescue_from Unauthorized do |exception|
+    authorize :request, through: :request
+    authorize :user, through: -> { Current.user }
+    verify_authorized
+    rescue_from ActionPolicy::Unauthorized do |exception|
       if session[:entra_uid].present?
         raise exception
         # simplecov:disable
@@ -22,15 +23,11 @@ module Authorizable
     end
   end
 
+  protected
+
+  def implicit_authorization_target = self.class.controller_path.to_sym
+
   private
-
-  def authorize_user
-    raise Unauthorized if session[:entra_uid].blank?
-  end
-
-  def authorize_staff
-    raise Unauthorized unless Current.user&.staff?
-  end
 
   def set_current_user
     Current.user = User.find_by(entra_uid: session[:entra_uid])

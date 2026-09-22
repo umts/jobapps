@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ApplicationTemplatesController < ApplicationController
-  skip_before_action :authorize_staff, only: :show
+  before_action :authorize!
   before_action :find_template, except: :new
 
   def show

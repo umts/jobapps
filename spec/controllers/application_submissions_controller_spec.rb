@@ -377,7 +377,7 @@ describe ApplicationSubmissionsController do
       end
 
       it 'does not allow access' do
-        expect { submit }.to raise_error(Unauthorized)
+        expect { submit }.to raise_error(ActionPolicy::Unauthorized)
       end
     end
 
@@ -387,7 +387,7 @@ describe ApplicationSubmissionsController do
       end
 
       it 'does not allow access' do
-        expect { submit }.to raise_error(Unauthorized)
+        expect { submit }.to raise_error(ActionPolicy::Unauthorized)
       end
     end
 

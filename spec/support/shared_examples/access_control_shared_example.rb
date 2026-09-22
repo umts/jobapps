@@ -13,7 +13,7 @@ shared_examples 'an access-controlled resource' do |routes:|
   it 'denies access for student user' do
     when_current_user_is :student
     routes.each do |route|
-      expect { call_controller_action route }.to raise_error(Unauthorized)
+      expect { call_controller_action route }.to raise_error(ActionPolicy::Unauthorized)
     end
   end
 end

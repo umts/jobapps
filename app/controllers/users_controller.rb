@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
+  before_action :authorize!
   before_action :find_user, only: %i[destroy edit update]
-  before_action :allow_only_admin
 
   def new; end
   def edit; end
@@ -56,9 +56,5 @@ class UsersController < ApplicationController
 
   def user_parameters
     params.expect user: %i[email first_name last_name staff entra_uid]
-  end
-
-  def allow_only_admin
-    raise Unauthorized unless Current.user&.admin?
   end
 end
