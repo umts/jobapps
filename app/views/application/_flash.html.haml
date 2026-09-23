@@ -1,5 +1,6 @@
-- variants = { alert: 'primary', notice: 'neutral' }
-- variants.select { |type, _| flash[type].present? }.each do |type, variant|
+- { alert: 'primary', notice: 'neutral' }.each do |type, variant|
+  - next if flash[type].blank?
+
   .alert.fade.show{ role: 'alert', class: "alert-#{variant}" }
     .row.gx-3
       .col-auto
