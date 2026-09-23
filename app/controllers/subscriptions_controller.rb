@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class SubscriptionsController < ApplicationController
-  before_action :authorize!
-
   def create
     @subscription = Subscription.new subscription_parameters
     @subscription.save

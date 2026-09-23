@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class ApplicationTemplatesController < ApplicationController
-  before_action :authorize!
   before_action :find_template, except: :new
 
   def show

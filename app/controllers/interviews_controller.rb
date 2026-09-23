@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class InterviewsController < ApplicationController
-  before_action :authorize!
   before_action :find
 
   def complete

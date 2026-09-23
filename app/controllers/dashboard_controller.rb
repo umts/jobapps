@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class DashboardController < ApplicationController
-  before_action :authorize!
   before_action :positions, except: :main
 
   def main

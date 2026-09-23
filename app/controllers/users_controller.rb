@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :authorize!
   before_action :find_user, only: %i[destroy edit update]
 
   def new; end

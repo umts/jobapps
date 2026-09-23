@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class SessionsController < ApplicationController
-  before_action :authorize!
   skip_forgery_protection
 
   def create

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class PositionsController < ApplicationController
-  before_action :authorize!
   before_action :find_position, only: %i[destroy
                                          edit
                                          update

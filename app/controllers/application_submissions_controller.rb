@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ApplicationSubmissionsController < ApplicationController
-  before_action :authorize!, except: :show
+  skip_before_action :authorize!, only: :show
   before_action :authorize_lookup, only: :show
   before_action :find_record, except: %i[create
                                          csv_export

@@ -7,6 +7,9 @@ module Authorizable
     before_action :set_current_user
     authorize :request, through: :request
     authorize :user, through: -> { Current.user }
+    # Deny by default: every action is authorized unless it explicitly opts out,
+    # so a controller that forgets to authorize fails closed rather than open.
+    before_action :authorize!
     verify_authorized
     rescue_from ActionPolicy::Unauthorized do |exception|
       if session[:entra_uid].present?
