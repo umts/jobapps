@@ -6,11 +6,23 @@ class ApplicationPolicy < ActionPolicy::Base
 
   pre_check :allow_admins
 
-  alias_rule :create?, to: :manage?
-  alias_rule :new?, to: :create?
   alias_rule :edit?, to: :update?
 
+  # Defined as methods rather than aliases so that rules resolve in one step and
+  # subclasses can override them normally. ActionPolicy::Policy::Defaults ships
+  # concrete false-returning index? and create?, which would otherwise shadow the
+  # manage? default rule.
+  def index? = manage?
+
+  def create? = manage?
+
+  def update? = manage?
+
   protected
+
+  # admin is additive to staff in this app, as it was when these were two
+  # separate before_actions.
+  def admin? = user&.admin? && staff_member?
 
   def staff_member? = user&.staff?
 
@@ -19,6 +31,6 @@ class ApplicationPolicy < ActionPolicy::Base
   private
 
   def allow_admins
-    allow! if user&.admin?
+    allow! if admin?
   end
 end

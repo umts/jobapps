@@ -2,6 +2,7 @@
 
 class ApplicationSubmissionsController < ApplicationController
   before_action :authorize!, except: :show
+  before_action :authorize_lookup, only: :show
   before_action :find_record, except: %i[create
                                          csv_export
                                          eeo_data
@@ -74,6 +75,8 @@ class ApplicationSubmissionsController < ApplicationController
   end
 
   private
+
+  def authorize_lookup = authorize!(to: :lookup?)
 
   def update_current_user_email
     Current.user.update! params.expect(user: %i[email])

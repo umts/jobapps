@@ -5,5 +5,9 @@ class ApplicationSubmissionPolicy < ApplicationPolicy
 
   def create? = logged_in?
 
-  def show? = record.user == user || staff_member?
+  def show? = logged_in? && (record.user == user || staff_member?)
+
+  # Gates the record lookup in #show, which happens before the record-level
+  # check and so must not be reachable unauthenticated.
+  def lookup? = logged_in?
 end
