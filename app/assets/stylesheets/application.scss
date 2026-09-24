@@ -1,6 +1,8 @@
 @use "pkg:@umts/brand/bootstrap";
+@use "pkg:@umts/brand/fontawesome" with (
+  $asset-path: "@fortawesome/fontawesome-free/webfonts"
+);
 @use "pkg:@umts/brand/public-sans" with (
   $asset-path: "@fontsource/public-sans/files"
 );
 @use "datatables";
-@use "fontawesome";

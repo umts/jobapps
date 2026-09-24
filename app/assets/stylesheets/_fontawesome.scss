@@ -1,7 +1,0 @@
-@forward "@fortawesome/fontawesome-free/scss/variables" with (
-  $font-path: "@fortawesome/fontawesome-free/webfonts"
-);
-@forward "@fortawesome/fontawesome-free/scss/fontawesome";
-@forward "@fortawesome/fontawesome-free/scss/fa";
-@forward "@fortawesome/fontawesome-free/scss/regular" as regular-*;
-@forward "@fortawesome/fontawesome-free/scss/solid" as solid-*;
