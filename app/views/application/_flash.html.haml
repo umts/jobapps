@@ -1,0 +1,14 @@
+- { alert: 'primary', notice: 'neutral' }.each do |type, variant|
+  - next if flash[type].blank?
+
+  .alert.fade.show{ role: 'alert', class: "alert-#{variant}" }
+    .row.gx-3
+      .col-auto
+        %i.fa-solid.fa-fw.fa-circle-info
+      .col= flash[type]
+      .col-12.col-md-auto
+        %hr.d-md-none
+        .d-grid
+          = button_tag type: 'button', class: 'nav-link', 'data-bs-dismiss': 'alert' do
+            %i.fa-solid.fa-times
+            Dismiss
