@@ -1,0 +1,17 @@
+:ruby
+  heading = local_assigns[:heading]
+  nav_expand = local_assigns[:nav_expand]
+  nav_items = local_assigns[:nav_items]
+%section
+  .navbar.align-items-end.border-bottom.mb-3.pt-0{ class: ['navbar-expand', nav_expand].compact_blank.join('-') }
+    %h1.me-3.mb-0= heading
+    - if nav_items.present?
+      = button_tag type: 'button',
+                   class: 'navbar-toggler',
+                   data: { 'bs-toggle': 'collapse', 'bs-target': '#resource-navbar-content' },
+                   aria: { expanded: 'false', label: 'Toggle navigation' } do
+        %i.navbar-toggler-icon
+      #resource-navbar-content.collapse.navbar-collapse
+        %ul.navbar-nav.ms-auto
+          = nav_items
+  = yield

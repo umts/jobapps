@@ -1,41 +1,4 @@
-@use "bootstrap/scss/bootstrap" with ($blue: #5b7f95, $red: #a8431e, $link-decoration: none);
-@use "datatables.net-bs5/css/dataTables.bootstrap5";
-@use "jquery-ui-dist/jquery-ui";
-@use "multiple-select/dist/multiple-select";
-
-// application
-@use "application_drafts/edit" as application_drafts-edit;
-@use "application_records/eeo_display" as application_records-eeo_display;
-@use "application_records/show" as application_records-show;
-@use "application_templates/show" as application_templates-show;
-@use "calendar";
-@use "dashboard";
-@use "flash";
-@use "forms";
-@use "subscriptions";
-@use "umass";
-
-body {
-  display: flex;
-  flex-direction: column;
-  font-family: Verdana, sans-serif;
-  margin: 0;
-  min-height: 100vh;
-}
-
-.main-content {
-  background-color: #fafafa;
-}
-
-h1 {
-  text-align: center;
-}
-
-.hidden {
-  display: none;
-}
-
-// TODO: Remove.
-.btn-primary {
-  color: #fff;
-}
+@use "bootstrap";
+@use "datatables";
+@use "fontawesome";
+@use "public-sans";

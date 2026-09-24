@@ -1,0 +1,17 @@
+@use "@fontsource/public-sans/scss/metadata";
+@use "@fontsource-utils/scss/src/mixins";
+@include mixins.faces(
+  $metadata: metadata.$metadata,
+  $directory: "@fontsource/public-sans/files",
+  $weights: (
+    100,
+    200,
+    300,
+    400,
+    500,
+    600,
+    700,
+    800,
+    900,
+  )
+);

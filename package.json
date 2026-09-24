@@ -11,6 +11,9 @@
   },
   "dependencies": {
     "@csstools/postcss-sass": "*",
+    "@fontsource-utils/scss": "*",
+    "@fontsource/public-sans": "*",
+    "@fortawesome/fontawesome-free": "*",
     "@hotwired/stimulus": "*",
     "autoprefixer": "*",
     "bootstrap": "*",
@@ -26,10 +29,6 @@
     "rolldown": "*"
   },
   "devDependencies": {
-    "@eslint/js": "*",
-    "eslint": "*",
-    "eslint-config-google": "*",
-    "eslint-formatter-compact": "*",
     "globals": "*",
     "oxfmt": "*",
     "oxlint": "*",
