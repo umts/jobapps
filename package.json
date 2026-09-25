@@ -14,7 +14,7 @@
     "@fontsource/public-sans": "*",
     "@fortawesome/fontawesome-free": "*",
     "@hotwired/stimulus": "*",
-    "@umts/brand": "file:../brand",
+    "@umts/brand": "github:umts/brand#main",
     "autoprefixer": "*",
     "bootstrap": "*",
     "datatables.net": "^3.0.2",

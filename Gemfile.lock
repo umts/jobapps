@@ -1,5 +1,7 @@
-PATH
-  remote: ../brand
+GIT
+  remote: https://github.com/umts/brand.git
+  revision: 19def4cc3421e7b140bddf4424ccf0c422350186
+  branch: main
   specs:
     umts-brand (0.0.0.pre.dev)
       rails (>= 8.1, < 8.2)
