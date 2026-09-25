@@ -4,12 +4,16 @@ class SessionsController < ApplicationController
   skip_forgery_protection
 
   def create
+    authorize!
+
     session[:entra_uid] = auth_hash.uid
     User.create_with(user_create_attrs).find_or_initialize_by(entra_uid: auth_hash.uid).update!(user_update_attrs)
     redirect_to auth_referer || root_path
   end
 
   def destroy
+    authorize!
+
     session.clear
     if Rails.env.development?
       # simplecov:disable

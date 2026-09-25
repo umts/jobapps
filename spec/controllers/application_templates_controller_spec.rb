@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe ApplicationTemplatesController do
-  it_behaves_like 'an access-controlled resource', routes: [
+  it_behaves_like 'an access-controlled resource', record: -> { create(:application_template).id }, routes: [
     %i[get new collection],
     %i[post toggle_active member],
     %i[post toggle_eeo_enabled member]

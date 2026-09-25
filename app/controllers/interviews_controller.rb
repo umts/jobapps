@@ -4,6 +4,8 @@ class InterviewsController < ApplicationController
   before_action :find
 
   def complete
+    authorize! @interview
+
     params.permit(:hired, :interview_note)
     if @interview.update completed: true
       flash[:message] = t('.success')
@@ -20,6 +22,8 @@ class InterviewsController < ApplicationController
   end
 
   def reschedule
+    authorize! @interview
+
     params.require :scheduled
     params.require :location
     if @interview.update scheduled: params[:scheduled],
@@ -32,6 +36,8 @@ class InterviewsController < ApplicationController
   end
 
   def show
+    authorize! @interview
+
     respond_to do |format|
       format.ics do
         render plain: @interview.ical.to_ical, content_type: 'text/calendar'

@@ -4,6 +4,8 @@ class ApplicationTemplatesController < ApplicationController
   before_action :find_template, except: :new
 
   def show
+    authorize! @template
+
     @old_applications = Current.user.try(:old_applications, @template)
     @old_data = {}
     return unless params[:load_id]
@@ -13,6 +15,8 @@ class ApplicationTemplatesController < ApplicationController
   end
 
   def new
+    authorize!
+
     position = Position.find params.require(:position_id)
     template = ApplicationTemplate.create!(position:, active: true)
     @draft = template.create_draft Current.user
@@ -20,6 +24,8 @@ class ApplicationTemplatesController < ApplicationController
   end
 
   def toggle_active
+    authorize! @template
+
     # We know it does.
     # rubocop:disable-next Rails/SkipsModelValidations
     @template.toggle! :active
@@ -28,6 +34,8 @@ class ApplicationTemplatesController < ApplicationController
   end
 
   def toggle_eeo_enabled
+    authorize! @template
+
     # We know it does.
     # rubocop:disable-next Rails/SkipsModelValidations
     @template.toggle! :eeo_enabled
@@ -42,6 +50,8 @@ class ApplicationTemplatesController < ApplicationController
   end
 
   def toggle_unavailability_enabled
+    authorize! @template
+
     # We know it does.
     # rubocop:disable-next Rails/SkipsModelValidations
     @template.toggle! :unavailability_enabled
@@ -56,6 +66,8 @@ class ApplicationTemplatesController < ApplicationController
   end
 
   def toggle_resume_upload_enabled
+    authorize! @template
+
     # rubocop:disable-next Rails/SkipsModelValidations
     @template.toggle! :resume_upload_enabled
     flash[:message] = t(@template.resume_upload_enabled? ? '.enabled' : '.disabled')

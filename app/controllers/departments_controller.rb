@@ -3,10 +3,17 @@
 class DepartmentsController < ApplicationController
   before_action :find_department, only: %i[destroy edit update]
 
-  def new; end
-  def edit; end
+  def new
+    authorize!
+  end
+
+  def edit
+    authorize! @department
+  end
 
   def create
+    authorize!
+
     @department = Department.new department_parameters
     if @department.save
       flash[:message] = t('.success')
@@ -17,6 +24,8 @@ class DepartmentsController < ApplicationController
   end
 
   def update
+    authorize! @department
+
     if @department.update department_parameters
       flash[:message] = t('.success')
       redirect_to staff_dashboard_path
@@ -26,6 +35,8 @@ class DepartmentsController < ApplicationController
   end
 
   def destroy
+    authorize! @department
+
     @department.destroy
     flash[:message] = t('.success')
     redirect_to staff_dashboard_path

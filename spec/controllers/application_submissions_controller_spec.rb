@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe ApplicationSubmissionsController do
-  it_behaves_like 'an access-controlled resource', routes: [
+  it_behaves_like 'an access-controlled resource', record: -> { create(:application_submission).id }, routes: [
     %i[get csv_export collection],
     %i[get eeo_data collection],
     %i[get past_applications collection],
