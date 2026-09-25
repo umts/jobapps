@@ -25,6 +25,7 @@ gem 'sprockets-rails'
 gem 'stimulus-rails'
 gem 'terser'
 gem 'trilogy'
+gem 'umts-brand', '0.0.0.pre.dev', github: 'umts/brand', branch: 'main'
 
 group :production do
   gem 'exception_notification'

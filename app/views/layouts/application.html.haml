@@ -10,19 +10,21 @@
     = csrf_meta_tags
     = csp_meta_tag
     = yield :head
-    %link{ rel: 'icon', href: '/icon.png', type: 'image/png' }
-    %link{ rel: 'icon', href: '/icon.svg', type: 'image/svg+xml' }
-    %link{ rel: 'apple-touch-icon', href: '/icon.png' }
+    = umts_brand_favicons
     = stylesheet_link_tag 'application.css', media: 'all'
     = javascript_include_tag 'application_legacy.js'
     = javascript_include_tag 'application.js', type: :module
   %body.min-vh-100.d-flex.flex-column.flex-nowrap.align-items-stretch.bg-primary
     %header
-      = render partial: 'application/university_header'
+      = render partial: 'umts/brand/university_header',
+               locals: { parent_department_name: 'Facilities & Campus Services',
+                         parent_department_link: 'https://www.umass.edu/facilities',
+                         department_name: 'Transit Services',
+                         department_link: 'https://www.umass.edu/transportation' }
       = render partial: 'application/navbar'
     %main.bg-body.flex-grow-1
       .container.my-3
         = render partial: 'application/flash'
         = yield
     %footer
-      = render partial: 'application/university_footer'
+      = render partial: 'umts/brand/university_footer'
