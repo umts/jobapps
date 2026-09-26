@@ -2,12 +2,18 @@
 
 class UsersController < ApplicationController
   before_action :find_user, only: %i[destroy edit update]
-  before_action :allow_only_admin
 
-  def new; end
-  def edit; end
+  def new
+    authorize!
+  end
+
+  def edit
+    authorize! @user
+  end
 
   def create
+    authorize!
+
     @user = User.new user_parameters
     if @user.save
       flash[:message] = t('.success')
@@ -18,6 +24,8 @@ class UsersController < ApplicationController
   end
 
   def update
+    authorize! @user
+
     if @user.update user_parameters
       flash[:message] = t('.success')
       redirect_to staff_dashboard_path
@@ -27,18 +35,24 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    authorize! @user
+
     @user.destroy
     flash[:message] = t('.success')
     redirect_to staff_dashboard_path
   end
 
   def promote
+    authorize!
+
     @users = User.where.not(staff: true)
                  .pluck(:first_name, :last_name, :id)
                  .map { |attrs| attrs.join(' ') }
   end
 
   def promote_save
+    authorize!
+
     user = User.find_by(id: params[:user].split.last) # rubocop:disable Rails/StrongParametersExpect
     if user.nil?
       redirect_to promote_users_path
@@ -56,9 +70,5 @@ class UsersController < ApplicationController
 
   def user_parameters
     params.expect user: %i[email first_name last_name staff entra_uid]
-  end
-
-  def allow_only_admin
-    raise Unauthorized unless Current.user&.admin?
   end
 end

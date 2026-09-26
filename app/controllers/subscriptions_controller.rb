@@ -2,6 +2,7 @@
 
 class SubscriptionsController < ApplicationController
   def create
+    authorize!
     @subscription = Subscription.new subscription_parameters
     @subscription.save
     redirect_back_or_to edit_position_path(@subscription.position)
@@ -9,6 +10,7 @@ class SubscriptionsController < ApplicationController
 
   def destroy
     @subscription = Subscription.find params.require :id
+    authorize! @subscription
     @subscription.destroy
     redirect_back_or_to edit_position_path(@subscription.position)
   end

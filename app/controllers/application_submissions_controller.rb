@@ -1,14 +1,13 @@
 # frozen_string_literal: true
 
 class ApplicationSubmissionsController < ApplicationController
-  skip_before_action :authorize_staff, only: %i[create show]
   before_action :find_record, except: %i[create
                                          csv_export
                                          eeo_data
                                          past_applications]
 
   def show
-    raise Unauthorized unless @record.user.current? || Current.user&.staff?
+    authorize! @record
 
     @interview = @record.interview
     respond_to do |format|
@@ -18,6 +17,8 @@ class ApplicationSubmissionsController < ApplicationController
   end
 
   def create
+    authorize!
+
     update_current_user_email
     record = create_record
     record.email_subscribers applicant: Current.user
@@ -27,6 +28,8 @@ class ApplicationSubmissionsController < ApplicationController
   end
 
   def csv_export
+    authorize!
+
     respond_to :csv
     @records = ApplicationSubmission.in_department(given_or_all_department_ids)
                                     .between(params[:start_date], params[:end_date])
@@ -34,12 +37,16 @@ class ApplicationSubmissionsController < ApplicationController
   end
 
   def eeo_data
+    authorize!
+
     @records = ApplicationSubmission.eeo_data params[:eeo_start_date],
                                               params[:eeo_end_date],
                                               given_or_all_department_ids
   end
 
   def past_applications
+    authorize!
+
     # text field tags must be unique to the page, hence records_start_date
     # instead of just start_date
     @records = ApplicationSubmission.in_department(given_or_all_department_ids)
@@ -48,6 +55,8 @@ class ApplicationSubmissionsController < ApplicationController
   end
 
   def review
+    authorize! @record
+
     @record.update review_params.except(:accepted)
     if review_params[:accepted]
       @interview = @record.interview || Interview.new(application_submission: @record)
@@ -60,6 +69,8 @@ class ApplicationSubmissionsController < ApplicationController
   end
 
   def toggle_saved_for_later
+    authorize! @record
+
     if @record.update save_for_later_params
       flash[:message] = t('.success')
     else
@@ -69,6 +80,8 @@ class ApplicationSubmissionsController < ApplicationController
   end
 
   def unreject
+    authorize! @record
+
     @record.move_to_dashboard
     redirect_to staff_dashboard_path
   end
