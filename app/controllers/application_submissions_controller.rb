@@ -1,17 +1,12 @@
 # frozen_string_literal: true
 
 class ApplicationSubmissionsController < ApplicationController
-  before_action :find_record, except: %i[show
-                                         create
+  before_action :find_record, except: %i[create
                                          csv_export
                                          eeo_data
                                          past_applications]
 
   def show
-    # Gate the lookup itself so an anonymous caller cannot tell a real id from a
-    # fake one by the 404, then authorize the record we found.
-    authorize! to: :lookup?
-    find_record
     authorize! @record
 
     @interview = @record.interview
