@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe InterviewsController do
-  it_behaves_like 'an access-controlled resource', routes: [
+  it_behaves_like 'an access-controlled resource', record: -> { create(:interview).id }, routes: [
     %i[post complete member],
     %i[post reschedule member],
     %i[get show member]
