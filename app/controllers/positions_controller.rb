@@ -12,13 +12,11 @@ class PositionsController < ApplicationController
 
   def edit
     authorize! @position
-
     @subscriptions = Subscription.where user: Current.user, position: @position
   end
 
   def create
     authorize!
-
     @position = Position.new position_parameters
     if @position.save
       flash[:message] = t('.success')
@@ -30,7 +28,6 @@ class PositionsController < ApplicationController
 
   def update
     authorize! @position
-
     if @position.update position_parameters
       flash[:message] = t('.success')
       redirect_to staff_dashboard_path
@@ -41,7 +38,6 @@ class PositionsController < ApplicationController
 
   def destroy
     authorize! @position
-
     @position.destroy
     flash[:message] = t('.success')
     redirect_to staff_dashboard_path
@@ -49,7 +45,6 @@ class PositionsController < ApplicationController
 
   def saved_applications
     authorize! @position
-
     @saved = @position.application_submissions.where(saved_for_later: true).order(:created_at)
   end
 

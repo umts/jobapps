@@ -76,10 +76,9 @@ describe ApplicationTemplatesController do
       end
 
       context 'with no user' do
-        it 'allows access' do
+        it 'denies access' do
           when_current_user_is nil
-          submit
-          expect(response).not_to have_http_status :unauthorized
+          expect { submit }.to raise_error(ActionPolicy::Unauthorized)
         end
       end
 

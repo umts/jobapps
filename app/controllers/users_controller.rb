@@ -13,7 +13,6 @@ class UsersController < ApplicationController
 
   def create
     authorize!
-
     @user = User.new user_parameters
     if @user.save
       flash[:message] = t('.success')
@@ -25,7 +24,6 @@ class UsersController < ApplicationController
 
   def update
     authorize! @user
-
     if @user.update user_parameters
       flash[:message] = t('.success')
       redirect_to staff_dashboard_path
@@ -36,7 +34,6 @@ class UsersController < ApplicationController
 
   def destroy
     authorize! @user
-
     @user.destroy
     flash[:message] = t('.success')
     redirect_to staff_dashboard_path
@@ -44,7 +41,6 @@ class UsersController < ApplicationController
 
   def promote
     authorize!
-
     @users = User.where.not(staff: true)
                  .pluck(:first_name, :last_name, :id)
                  .map { |attrs| attrs.join(' ') }
@@ -52,7 +48,6 @@ class UsersController < ApplicationController
 
   def promote_save
     authorize!
-
     user = User.find_by(id: params[:user].split.last) # rubocop:disable Rails/StrongParametersExpect
     if user.nil?
       redirect_to promote_users_path

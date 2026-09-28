@@ -8,7 +8,6 @@ class ApplicationSubmissionsController < ApplicationController
 
   def show
     authorize! @record
-
     @interview = @record.interview
     respond_to do |format|
       format.html
@@ -18,7 +17,6 @@ class ApplicationSubmissionsController < ApplicationController
 
   def create
     authorize!
-
     update_current_user_email
     record = create_record
     record.email_subscribers applicant: Current.user
@@ -29,7 +27,6 @@ class ApplicationSubmissionsController < ApplicationController
 
   def csv_export
     authorize!
-
     respond_to :csv
     @records = ApplicationSubmission.in_department(given_or_all_department_ids)
                                     .between(params[:start_date], params[:end_date])
@@ -38,7 +35,6 @@ class ApplicationSubmissionsController < ApplicationController
 
   def eeo_data
     authorize!
-
     @records = ApplicationSubmission.eeo_data params[:eeo_start_date],
                                               params[:eeo_end_date],
                                               given_or_all_department_ids
@@ -46,7 +42,6 @@ class ApplicationSubmissionsController < ApplicationController
 
   def past_applications
     authorize!
-
     # text field tags must be unique to the page, hence records_start_date
     # instead of just start_date
     @records = ApplicationSubmission.in_department(given_or_all_department_ids)
@@ -56,7 +51,6 @@ class ApplicationSubmissionsController < ApplicationController
 
   def review
     authorize! @record
-
     @record.update review_params.except(:accepted)
     if review_params[:accepted]
       @interview = @record.interview || Interview.new(application_submission: @record)
@@ -70,7 +64,6 @@ class ApplicationSubmissionsController < ApplicationController
 
   def toggle_saved_for_later
     authorize! @record
-
     if @record.update save_for_later_params
       flash[:message] = t('.success')
     else
@@ -81,7 +74,6 @@ class ApplicationSubmissionsController < ApplicationController
 
   def unreject
     authorize! @record
-
     @record.move_to_dashboard
     redirect_to staff_dashboard_path
   end

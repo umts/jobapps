@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 class ApplicationSubmissionPolicy < ApplicationPolicy
-  def manage? = staff_member?
+  def manage? = staff?
+
+  def show? = staff? || record.user == user
 
   def create? = logged_in?
-
-  def show? = logged_in? && (record.user == user || staff_member?)
 end

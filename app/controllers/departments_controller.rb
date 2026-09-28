@@ -13,7 +13,6 @@ class DepartmentsController < ApplicationController
 
   def create
     authorize!
-
     @department = Department.new department_parameters
     if @department.save
       flash[:message] = t('.success')
@@ -25,7 +24,6 @@ class DepartmentsController < ApplicationController
 
   def update
     authorize! @department
-
     if @department.update department_parameters
       flash[:message] = t('.success')
       redirect_to staff_dashboard_path
@@ -36,7 +34,6 @@ class DepartmentsController < ApplicationController
 
   def destroy
     authorize! @department
-
     @department.destroy
     flash[:message] = t('.success')
     redirect_to staff_dashboard_path
