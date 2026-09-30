@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/umts/brand.git
-  revision: a9a29b1c05b54a4d43d83d36d721e91d4a1b7356
-  branch: main
+  revision: 5d07d06fd2c49b7980ed357bc12c867da61c55e2
+  branch: layouts
   specs:
     umts-brand (0.0.0.pre.dev)
       rails (>= 8.1, < 8.2)
