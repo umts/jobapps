@@ -4,7 +4,7 @@
     'Staff' => User.where(admin: false, staff: true).distinct,
     'Applicants' => User.where(admin: false, staff: false).distinct
   }.compact_blank!
-= render layout: 'layouts/resource', locals: { heading: 'Development Login' } do
+= render layout: 'umts/brand/tabbed', locals: { heading: 'Development Login' } do
   .card.mb-3
     .card-header Select user
     .card-body
