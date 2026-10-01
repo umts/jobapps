@@ -3,6 +3,7 @@
 source 'https://rubygems.org'
 ruby '3.4.8'
 
+gem 'action_policy'
 gem 'bootsnap', require: false
 gem 'cssbundling-rails'
 gem 'csv'

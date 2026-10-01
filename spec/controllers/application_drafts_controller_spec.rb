@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe ApplicationDraftsController do
-  it_behaves_like 'an access-controlled resource', routes: [
+  it_behaves_like 'an access-controlled resource', record: -> { create(:application_draft).id }, routes: [
     %i[delete destroy member],
     %i[get edit member],
     %i[get new collection],

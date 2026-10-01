@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 class DashboardController < ApplicationController
-  skip_before_action :authorize_staff, only: %i[main student]
   before_action :positions, except: :main
 
   def main
-    if Current.user.presence&.staff?
+    authorize!
+    if allowed_to?(:staff?, :dashboard)
       redirect_to staff_dashboard_path
     else
       redirect_to student_dashboard_path
@@ -13,6 +13,7 @@ class DashboardController < ApplicationController
   end
 
   def staff
+    authorize!
     @departments = Department.includes :positions
     @pending_interviews = Interview.pending.group_by(&:position)
     @pending_records = ApplicationSubmission.where(saved_for_later: false)
@@ -25,6 +26,7 @@ class DashboardController < ApplicationController
   end
 
   def student
+    authorize!
     return if Current.user.blank?
 
     @application_submissions = Current.user.application_submissions.group_by(&:position)
