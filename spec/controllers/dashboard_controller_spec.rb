@@ -19,10 +19,9 @@ describe DashboardController do
       expect(response).to redirect_to student_dashboard_path
     end
 
-    it 'redirects to student dashboard with no user' do
+    it 'denies access with no user' do
       when_current_user_is nil
-      get :main
-      expect(response).to redirect_to student_dashboard_path
+      expect { get :main }.to raise_error(ActionPolicy::Unauthorized)
     end
   end
 
@@ -36,7 +35,7 @@ describe DashboardController do
         let(:submit) { get :staff, xhr: true }
 
         it 'does not allow access' do
-          expect { submit }.to raise_error(Unauthorized)
+          expect { submit }.to raise_error(ActionPolicy::Unauthorized)
         end
       end
     end
@@ -59,14 +58,9 @@ describe DashboardController do
     context 'with no user' do
       before { when_current_user_is nil }
 
-      it 'allows access' do
-        submit
-        expect(response).not_to have_http_status :unauthorized
-      end
-
-      it 'assigns the required instance variables' do
-        submit
-        expect(assigns.keys).to include 'positions'
+      it 'denies access' do
+        when_current_user_is nil
+        expect { get :main }.to raise_error(ActionPolicy::Unauthorized)
       end
     end
 
