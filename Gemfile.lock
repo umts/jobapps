@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/umts/brand.git
-  revision: a6d7052a9bc2e05e5c2438eeb8faf457d774664d
+  revision: b6e69016d400a4d2905df4e0032910998d211568
   branch: main
   specs:
     umts-brand (0.0.0.pre.dev)
