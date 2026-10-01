@@ -2,9 +2,31 @@
 
 require 'rails_helper'
 
-RSpec.describe 'UsersController' do
+describe 'UsersController' do
   shared_context 'with invalid attributes' do
     let(:attributes) { attributes_for(:user, email: nil, last_name: nil) }
+  end
+
+  describe 'GET /users/new' do
+    subject(:submit) { get '/users/new' }
+
+    context 'with admin privileges' do
+      before { when_current_user_is :admin }
+
+      it 'returns a successful response' do
+        submit
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
+    context 'with staff privilege' do
+      before { when_current_user_is :staff }
+
+      it 'returns forbidden' do
+        submit
+        expect(response).to have_http_status(:forbidden)
+      end
+    end
   end
 
   describe 'POST /users' do
@@ -94,6 +116,36 @@ RSpec.describe 'UsersController' do
           submit
           expect(flash[:errors]).to eq(['Email can\'t be blank', 'Last name can\'t be blank', 'Email is invalid'])
         end
+
+        it 'does not update the user' do
+          original_attributes = user.attributes.slice('email', 'last_name', 'first_name', 'entra_uid', 'staff')
+          submit
+          expect(user.reload.slice(*original_attributes.keys)).to eq(original_attributes)
+        end
+      end
+    end
+
+    context 'with staff privilege' do
+      before { when_current_user_is :staff }
+
+      it 'returns forbidden' do
+        submit
+        expect(response).to have_http_status(:forbidden)
+      end
+    end
+  end
+
+  describe 'GET /users/:id/edit' do
+    subject(:submit) { get "/users/#{user.id}/edit" }
+
+    let(:user) { create(:user) }
+
+    context 'with admin privileges' do
+      before { when_current_user_is :admin }
+
+      it 'returns success' do
+        submit
+        expect(response).to have_http_status(:ok)
       end
     end
 
@@ -172,8 +224,9 @@ RSpec.describe 'UsersController' do
   end
 
   describe 'PUT /users/promote_save' do
-    subject(:submit) { put '/users/promote_save', params: { user: "#{user.first_name} #{user.last_name} #{user.id}" } }
+    subject(:submit) { put '/users/promote_save', params: { user: selection } }
 
+    let(:selection) { "#{user.first_name} #{user.last_name} #{user.id}" }
     let(:user) { create(:user, staff: false) }
 
     context 'with staff privilege' do
@@ -204,9 +257,30 @@ RSpec.describe 'UsersController' do
       end
 
       context 'with an unknown user' do
+        let(:selection) { 'Unknown User 100000' }
+
         it 'redirects to the promote users page' do
           submit
           expect(response).to redirect_to(promote_users_path)
+        end
+
+        it 'does not respond with a success message' do
+          submit
+          expect(flash[:message]).to be_nil
+        end
+      end
+
+      context 'with no selected user' do
+        let(:selection) { '' }
+
+        it 'redirects to the promote users page' do
+          submit
+          expect(response).to redirect_to(promote_users_path)
+        end
+
+        it 'responds with an error message' do
+          submit
+          expect(flash[:message]).to be_nil
         end
       end
     end
