@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe ApplicationTemplatesController do
-  it_behaves_like 'an access-controlled resource', routes: [
+  it_behaves_like 'an access-controlled resource', record: -> { create(:application_template).id }, routes: [
     %i[get new collection],
     %i[post toggle_active member],
     %i[post toggle_eeo_enabled member]
@@ -76,10 +76,9 @@ describe ApplicationTemplatesController do
       end
 
       context 'with no user' do
-        it 'allows access' do
+        it 'denies access' do
           when_current_user_is nil
-          submit
-          expect(response).not_to have_http_status :unauthorized
+          expect { submit }.to raise_error(ActionPolicy::Unauthorized)
         end
       end
 

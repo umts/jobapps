@@ -2,6 +2,7 @@
 
 class MarkdownController < ApplicationController
   def explanation
+    authorize!
     params.permit :preview_input
     @preview_input = params[:preview_input]
   end

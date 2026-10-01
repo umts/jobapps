@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe DepartmentsController do
-  it_behaves_like 'an access-controlled resource', routes: [
+  it_behaves_like 'an access-controlled resource', record: -> { create(:department).id }, routes: [
     %i[post create collection],
     %i[delete destroy member],
     %i[get edit member],
