@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'UsersController' do
+describe 'UsersController' do
   shared_context 'with invalid attributes' do
     let(:attributes) { attributes_for(:user, email: nil, last_name: nil) }
   end
