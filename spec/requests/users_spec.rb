@@ -2,13 +2,27 @@
 
 require 'rails_helper'
 
-describe 'UsersController' do
+RSpec.describe 'UsersController' do
   shared_context 'with invalid attributes' do
     let(:attributes) { attributes_for(:user, email: nil, last_name: nil) }
   end
 
+  shared_examples 'a forbidden user-management request' do |role|
+    context "with #{role} privilege" do
+      before { when_current_user_is role }
+
+      it 'returns forbidden' do
+        submit
+        expect(response).to have_http_status(:forbidden)
+      end
+    end
+  end
+
   describe 'GET /users/new' do
     subject(:submit) { get '/users/new' }
+
+    it_behaves_like 'a forbidden user-management request', :staff
+    it_behaves_like 'a forbidden user-management request', :student
 
     context 'with admin privileges' do
       before { when_current_user_is :admin }
@@ -16,15 +30,6 @@ describe 'UsersController' do
       it 'returns a successful response' do
         submit
         expect(response).to have_http_status(:ok)
-      end
-    end
-
-    context 'with staff privilege' do
-      before { when_current_user_is :staff }
-
-      it 'returns forbidden' do
-        submit
-        expect(response).to have_http_status(:forbidden)
       end
     end
   end
@@ -73,14 +78,8 @@ describe 'UsersController' do
       end
     end
 
-    context 'with staff privilege' do
-      before { when_current_user_is :staff }
-
-      it 'returns forbidden' do
-        submit
-        expect(response).to have_http_status(:forbidden)
-      end
-    end
+    it_behaves_like 'a forbidden user-management request', :staff
+    it_behaves_like 'a forbidden user-management request', :student
   end
 
   describe 'PATCH /users' do
@@ -125,14 +124,8 @@ describe 'UsersController' do
       end
     end
 
-    context 'with staff privilege' do
-      before { when_current_user_is :staff }
-
-      it 'returns forbidden' do
-        submit
-        expect(response).to have_http_status(:forbidden)
-      end
-    end
+    it_behaves_like 'a forbidden user-management request', :staff
+    it_behaves_like 'a forbidden user-management request', :student
   end
 
   describe 'GET /users/:id/edit' do
@@ -149,14 +142,8 @@ describe 'UsersController' do
       end
     end
 
-    context 'with staff privilege' do
-      before { when_current_user_is :staff }
-
-      it 'returns forbidden' do
-        submit
-        expect(response).to have_http_status(:forbidden)
-      end
-    end
+    it_behaves_like 'a forbidden user-management request', :staff
+    it_behaves_like 'a forbidden user-management request', :student
   end
 
   describe 'DELETE /users/:id' do
@@ -164,14 +151,8 @@ describe 'UsersController' do
 
     let(:user) { create(:user) }
 
-    context 'with staff privilege' do
-      before { when_current_user_is :staff }
-
-      it 'returns forbidden' do
-        submit
-        expect(response).to have_http_status(:forbidden)
-      end
-    end
+    it_behaves_like 'a forbidden user-management request', :staff
+    it_behaves_like 'a forbidden user-management request', :student
 
     context 'with admin privileges' do
       before { when_current_user_is :admin }
@@ -196,14 +177,8 @@ describe 'UsersController' do
   describe 'GET /users/promote' do
     subject(:submit) { get '/users/promote' }
 
-    context 'with staff privilege' do
-      before { when_current_user_is :staff }
-
-      it 'returns forbidden' do
-        submit
-        expect(response).to have_http_status(:forbidden)
-      end
-    end
+    it_behaves_like 'a forbidden user-management request', :staff
+    it_behaves_like 'a forbidden user-management request', :student
 
     context 'with admin privileges' do
       before { when_current_user_is :admin }
@@ -229,14 +204,8 @@ describe 'UsersController' do
     let(:selection) { "#{user.first_name} #{user.last_name} #{user.id}" }
     let(:user) { create(:user, staff: false) }
 
-    context 'with staff privilege' do
-      before { when_current_user_is :staff }
-
-      it 'returns forbidden' do
-        submit
-        expect(response).to have_http_status(:forbidden)
-      end
-    end
+    it_behaves_like 'a forbidden user-management request', :staff
+    it_behaves_like 'a forbidden user-management request', :student
 
     context 'with admin privileges' do
       before { when_current_user_is :admin }
@@ -278,7 +247,7 @@ describe 'UsersController' do
           expect(response).to redirect_to(promote_users_path)
         end
 
-        it 'responds with an error message' do
+        it 'does not respond with a success message' do
           submit
           expect(flash[:message]).to be_nil
         end
