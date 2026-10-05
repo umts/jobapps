@@ -30,6 +30,9 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
+  application:
+    name: Transit Job Applications
+
   organization_name: UMass Transit
   errors:
     messages:
