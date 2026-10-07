@@ -64,6 +64,23 @@ describe ApplicationSubmissionsController do
         submit
         expect(application_submission).to have_received(:email_subscribers).with(applicant: user)
       end
+
+      context 'with an invalid email' do
+        let(:params) { super().merge(user: { email: 'applicant@localhost' }) }
+
+        it 'does not create an application record' do
+          expect { submit }.not_to change(ApplicationSubmission, :count)
+        end
+
+        it 'does not update the applicant email' do
+          expect { submit }.not_to(change { user.reload.email })
+        end
+
+        it 'shows the validation errors' do
+          submit
+          expect(flash[:errors]).to include 'Email is invalid'
+        end
+      end
     end
 
     context 'when the current user is staff' do
