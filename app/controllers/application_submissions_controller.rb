@@ -17,12 +17,14 @@ class ApplicationSubmissionsController < ApplicationController
 
   def create
     authorize!
-    update_current_user_email
-    record = create_record
-    record.email_subscribers applicant: Current.user
-
-    flash[:message] = t('.success')
-    redirect_to student_dashboard_path
+    if Current.user.update params.expect(user: %i[email])
+      record = create_record
+      record.email_subscribers applicant: Current.user
+      flash[:message] = t('.success')
+      redirect_to student_dashboard_path
+    else
+      show_errors Current.user
+    end
   end
 
   def csv_export
@@ -79,10 +81,6 @@ class ApplicationSubmissionsController < ApplicationController
   end
 
   private
-
-  def update_current_user_email
-    Current.user.update! params.expect(user: %i[email])
-  end
 
   def create_record
     data = ApplicationDataParser.new(params.require(:data)).result
