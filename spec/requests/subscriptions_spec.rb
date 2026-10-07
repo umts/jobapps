@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'SubscriptionsController' do
+describe 'Subscriptions' do
   describe 'POST /subscriptions' do
     subject(:submit) { post '/subscriptions', params: { subscription: attributes } }
 
