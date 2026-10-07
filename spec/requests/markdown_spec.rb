@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'MarkdownController' do
+describe 'Markdown' do
   describe 'POST /markdown/explanation' do
     subject(:submit) { post '/markdown/explanation', params: { preview_input: input } }
 
