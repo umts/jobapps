@@ -15,6 +15,7 @@
     "@fortawesome/fontawesome-free": "*",
     "@hotwired/stimulus": "*",
     "@umts/brand": "github:umts/brand#main",
+    "@umts/stimulus": "github:umts/stimulus#main",
     "autoprefixer": "*",
     "bootstrap": "*",
     "datatables.net": "^3.0.2",
@@ -24,7 +25,8 @@
     "jquery.maskedinput": "^1.4.1",
     "multiple-select": "^2.4.0",
     "rolldown": "*",
-    "sass": "*"
+    "sass": "*",
+    "tom-select": "*"
   },
   "devDependencies": {
     "globals": "*",
