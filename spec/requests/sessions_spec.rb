@@ -127,9 +127,7 @@ describe 'Sessions' do
 
       it 'syncs their name and UPN from Active Directory' do
         call
-        expect(user.reload).to have_attributes(
-          first_name: 'Jane', last_name: 'Doe', entra_upn: 'jdoe@umass.edu'
-        )
+        expect(user.reload).to have_attributes(first_name: 'Jane', last_name: 'Doe', entra_upn: 'jdoe@umass.edu')
       end
 
       it 'leaves their email untouched so a preferred address is kept' do
@@ -147,10 +145,7 @@ describe 'Sessions' do
 
         it 'keeps their existing name rather than blanking it' do
           call
-          expect(user.reload).to have_attributes(
-            first_name: 'Old',
-            last_name: 'Name'
-          )
+          expect(user.reload).to have_attributes(first_name: 'Old', last_name: 'Name')
         end
       end
 
@@ -165,10 +160,7 @@ describe 'Sessions' do
 
         it 'keeps their existing names' do
           call
-          expect(user.reload).to have_attributes(
-            first_name: 'Old',
-            last_name: 'Name'
-          )
+          expect(user.reload).to have_attributes(first_name: 'Old', last_name: 'Name')
         end
       end
 
@@ -180,8 +172,7 @@ describe 'Sessions' do
         end
 
         it 'keeps the UPN already on record' do
-          expect { call }.not_to change { user.reload.entra_upn }
-            .from('jdoe@umass.edu')
+          expect { call }.not_to change { user.reload.entra_upn }.from('jdoe@umass.edu')
         end
       end
     end
