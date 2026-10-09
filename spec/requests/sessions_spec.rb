@@ -127,7 +127,9 @@ describe 'Sessions' do
 
       it 'syncs their name and UPN from Active Directory' do
         call
-        expect(user.reload).to have_attributes(first_name: 'Jane', last_name: 'Doe', entra_upn: 'jdoe@umass.edu')
+        expect(user.reload).to have_attributes(
+          first_name: 'Jane', last_name: 'Doe', entra_upn: 'jdoe@umass.edu'
+        )
       end
 
       it 'leaves their email untouched so a preferred address is kept' do
