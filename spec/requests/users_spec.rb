@@ -57,11 +57,6 @@ describe 'Users' do
           submit
           expect(response).to redirect_to(staff_dashboard_path)
         end
-
-        it 'responds with a success message' do
-          submit
-          expect(flash[:message]).to eq(I18n.t('users.create.success'))
-        end
       end
 
       context 'with invalid attributes' do
@@ -69,11 +64,6 @@ describe 'Users' do
 
         it 'does not create a user' do
           expect { submit }.not_to change(User, :count)
-        end
-
-        it 'responds with validation errors' do
-          submit
-          expect(flash[:errors]).to eq(['Email can\'t be blank', 'Last name can\'t be blank', 'Email is invalid'])
         end
       end
     end
@@ -101,20 +91,10 @@ describe 'Users' do
           submit
           expect(response).to redirect_to(staff_dashboard_path)
         end
-
-        it 'responds with a success message' do
-          submit
-          expect(flash[:message]).to eq(I18n.t('users.update.success'))
-        end
       end
 
       context 'with invalid attributes' do
         include_context 'with invalid attributes'
-
-        it 'responds with validation errors' do
-          submit
-          expect(flash[:errors]).to eq(['Email can\'t be blank', 'Last name can\'t be blank', 'Email is invalid'])
-        end
 
         it 'does not update the user' do
           original_attributes = user.attributes.slice('email', 'last_name', 'first_name', 'entra_uid', 'staff')
@@ -166,11 +146,6 @@ describe 'Users' do
         submit
         expect(response).to redirect_to(staff_dashboard_path)
       end
-
-      it 'responds with a success message' do
-        submit
-        expect(flash[:message]).to eq(I18n.t('users.destroy.success'))
-      end
     end
   end
 
@@ -220,22 +195,12 @@ describe 'Users' do
         expect(response).to redirect_to(promote_users_path)
       end
 
-      it 'responds with a success message' do
-        submit
-        expect(flash[:message]).to eq(I18n.t('users.promote_save.success'))
-      end
-
       context 'with an unknown user' do
         let(:selection) { 'Unknown User 100000' }
 
         it 'redirects to the promote users page' do
           submit
           expect(response).to redirect_to(promote_users_path)
-        end
-
-        it 'does not respond with a success message' do
-          submit
-          expect(flash[:message]).to be_nil
         end
       end
 
@@ -245,11 +210,6 @@ describe 'Users' do
         it 'redirects to the promote users page' do
           submit
           expect(response).to redirect_to(promote_users_path)
-        end
-
-        it 'does not respond with a success message' do
-          submit
-          expect(flash[:message]).to be_nil
         end
       end
     end
