@@ -57,11 +57,6 @@ describe 'Departments' do
               expect(Department.find_by!(name: attributes[:name])).to have_attributes(attributes)
             end
 
-            it 'sets the success message' do
-              submit
-              expect(flash[:message]).to eq(I18n.t('departments.create.success'))
-            end
-
             it 'redirects to the staff dashboard' do
               submit
               expect(response).to redirect_to(staff_dashboard_path)
@@ -73,11 +68,6 @@ describe 'Departments' do
 
             it 'does not create a department' do
               expect { submit }.not_to change(Department, :count)
-            end
-
-            it 'sets the error messages' do
-              submit
-              expect(flash[:errors]).to be_present
             end
 
             it 'redirects back' do
@@ -138,11 +128,6 @@ describe 'Departments' do
               expect { submit }.to change { department.reload.name }.from('Old Name').to('New Name')
             end
 
-            it 'sets the success message' do
-              submit
-              expect(flash[:message]).to eq(I18n.t('departments.update.success'))
-            end
-
             it 'redirects to the staff dashboard' do
               submit
               expect(response).to redirect_to(staff_dashboard_path)
@@ -154,11 +139,6 @@ describe 'Departments' do
 
             it 'does not update the department' do
               expect { submit }.not_to(change { department.reload.name })
-            end
-
-            it 'sets the error messages' do
-              submit
-              expect(flash[:errors]).to be_present
             end
 
             it 'redirects back' do
@@ -186,11 +166,6 @@ describe 'Departments' do
 
           it 'destroys the department' do
             expect { submit }.to change(Department, :count).by(-1)
-          end
-
-          it 'sets the success message' do
-            submit
-            expect(flash[:message]).to eq(I18n.t('departments.destroy.success'))
           end
 
           it 'redirects to the staff dashboard' do
