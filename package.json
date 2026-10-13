@@ -19,7 +19,6 @@
     "inputmask": "*",
     "jquery": "^3.7.1",
     "jquery-ui-dist": "^1.13.3",
-    "jquery.maskedinput": "^1.4.1",
     "multiple-select": "^2.4.0",
     "postcss": "*",
     "postcss-cli": "*",
