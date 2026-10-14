@@ -1,9 +1,6 @@
 Rails.application.routes.draw do
   root 'dashboard#main'
 
-  get '/auth/:provider/callback', to: 'sessions#create', as: :auth_callback
-  post '/logout', to: 'sessions#destroy'
-
   get '/up' => 'rails/health#show', as: :rails_health_check
 
   resources :application_templates, as: :applications, path: :applications, only: [:new, :show] do
@@ -66,10 +63,6 @@ Rails.application.routes.draw do
       get :promote
       put :promote_save
     end
-  end
-
-  direct :azure_login do
-    '/auth/entra_id'
   end
 
   direct :azure_logout do

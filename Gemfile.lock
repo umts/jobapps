@@ -1,4 +1,15 @@
 GIT
+  remote: https://github.com/umts/auth.git
+  revision: fa591bf58156c1eb8e1f9f79d3ec55023024a509
+  branch: main
+  specs:
+    umts-auth (0.0.0.pre.dev)
+      omniauth (>= 2, < 3)
+      omniauth-entra-id (>= 3, < 4)
+      omniauth-rails_csrf_protection (>= 2, < 3)
+      rails (>= 8.1, < 8.2)
+
+GIT
   remote: https://github.com/umts/brand.git
   revision: b6e69016d400a4d2905df4e0032910998d211568
   branch: main
@@ -565,9 +576,6 @@ DEPENDENCIES
   kaminari
   listen
   maintenance_tasks
-  omniauth
-  omniauth-entra-id
-  omniauth-rails_csrf_protection
   overcommit
   prawn
   prawn-table
@@ -592,6 +600,7 @@ DEPENDENCIES
   terser
   timecop
   trilogy
+  umts-auth (= 0.0.0.pre.dev)!
   umts-brand (= 0.0.0.pre.dev)!
 
 CHECKSUMS
@@ -779,6 +788,7 @@ CHECKSUMS
   tsort (0.2.0) sha256=9650a793f6859a43b6641671278f79cfead60ac714148aabe4e3f0060480089f
   ttfunk (1.8.0) sha256=a7cbc7e489cc46e979dde04d34b5b9e4f5c8f1ee5fc6b1a7be39b829919d20ca
   tzinfo (2.0.6) sha256=8daf828cc77bcf7d63b0e3bdb6caa47e2272dcfaf4fbfe46f8c3a9df087a829b
+  umts-auth (0.0.0.pre.dev)
   umts-brand (0.0.0.pre.dev)
   unicode-display_width (3.3.0) sha256=4b7aa66a4b11db50f6f7e98411215cd0dd10eaecb665d36eec5bcacb3fa0b613
   unicode-emoji (4.3.0) sha256=11c02fa73290378c066bb0562cd4c87d8e1b706fbbe0059ca12746a4244de8ce
