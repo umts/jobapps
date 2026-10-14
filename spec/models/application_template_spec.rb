@@ -3,6 +3,13 @@
 require 'rails_helper'
 
 describe ApplicationTemplate do
+  describe '#slug' do
+    it 'is generated from the position name' do
+      template = create(:application_template, position: create(:position, name: 'Bus Driver'))
+      expect(template.slug).to eq('bus-driver')
+    end
+  end
+
   describe '#create_draft' do
     subject(:call) { application_template.create_draft user }
 

@@ -10,9 +10,9 @@ describe MarkdownController do
       post :explanation, params: { preview_input: input }
     end
 
-    context 'when the current user is staff' do
+    context 'when the current user manages no positions' do
       before do
-        when_current_user_is :staff
+        when_current_user_is :anyone
       end
 
       it 'passes preview input parameter through as an instance variable' do

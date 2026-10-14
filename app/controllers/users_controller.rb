@@ -39,24 +39,6 @@ class UsersController < ApplicationController
     redirect_to staff_dashboard_path
   end
 
-  def promote
-    authorize!
-    @users = User.where.not(staff: true)
-                 .pluck(:first_name, :last_name, :id)
-                 .map { |attrs| attrs.join(' ') }
-  end
-
-  def promote_save
-    authorize!
-    user = User.find_by(id: params[:user].split.last) # rubocop:disable Rails/StrongParametersExpect
-    if user.nil?
-      redirect_to promote_users_path
-    elsif user.update(staff: true)
-      flash[:message] = t('.success')
-      redirect_to promote_users_path
-    end
-  end
-
   private
 
   def find_user
@@ -64,6 +46,6 @@ class UsersController < ApplicationController
   end
 
   def user_parameters
-    params.expect user: %i[email first_name last_name staff entra_uid]
+    params.expect user: %i[email first_name last_name entra_uid]
   end
 end

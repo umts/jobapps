@@ -11,8 +11,8 @@ describe 'UsersController' do
 
     let(:user) { create(:user) }
 
-    context 'with staff privilege' do
-      before { when_current_user_is :staff }
+    context 'when the current user is a manager' do
+      before { when_current_user_is :manager }
 
       it { is_expected.to have_http_status(:forbidden) }
     end

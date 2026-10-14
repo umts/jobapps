@@ -1,9 +1,13 @@
 # frozen_string_literal: true
 
 class ApplicationSubmissionPolicy < ApplicationPolicy
-  def manage? = staff?
+  alias_rule :csv_export?, :eeo_data?, :past_applications?, to: :index?
 
-  def show? = staff? || record.user == user
+  def index? = manager?
+
+  def manage? = allowed_to?(:manage?, record.position)
+
+  def show? = record.user == user || manage?
 
   def create? = logged_in?
 end

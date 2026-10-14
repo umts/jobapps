@@ -60,7 +60,7 @@ describe JobappsMailer do
 
     let(:position) { create(:position) }
     let(:subscription) { create(:subscription, position:) }
-    let(:applicant) { create(:user, :student) }
+    let(:applicant) { create(:user) }
 
     it 'emails from the default address' do
       expect(output.from).to eq(Array(from))

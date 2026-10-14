@@ -13,9 +13,13 @@ class ApplicationPolicy < ActionPolicy::Base
 
   def admin? = user&.admin?
 
-  def staff? = user&.staff?
-
   def logged_in? = user.present?
+
+  def manager? = user&.position_managers&.any?
+
+  def manager_of?(position)
+    position.is_a?(Position) && user&.position_managers&.any? { |pm| pm.position_id == position.id }
+  end
 
   private
 

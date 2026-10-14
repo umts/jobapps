@@ -4,12 +4,16 @@ require 'rails_helper'
 
 describe ApplicationSubmissionsController do
   it_behaves_like 'an access-controlled resource', record: -> { create(:application_submission).id }, routes: [
-    %i[get csv_export collection],
-    %i[get eeo_data collection],
-    %i[get past_applications collection],
     %i[post review member],
     %i[post toggle_saved_for_later member]
   ]
+
+  it 'denies the reports to users who manage no positions' do
+    when_current_user_is :anyone
+    %i[csv_export eeo_data past_applications].each do |action|
+      expect { get action, format: :csv }.to raise_error(ActionPolicy::Unauthorized)
+    end
+  end
 
   describe 'POST #create' do
     let(:position) { create(:position) }
@@ -40,7 +44,7 @@ describe ApplicationSubmissionsController do
     before { create(:application_template, position:, unavailability_enabled: true) }
 
     context 'when the current user is a student' do
-      let(:user) { create(:user, :student) }
+      let(:user) { create(:user) }
 
       before { when_current_user_is user }
 
@@ -83,8 +87,8 @@ describe ApplicationSubmissionsController do
       end
     end
 
-    context 'when the current user is staff' do
-      let(:user) { create(:user, :staff) }
+    context 'when the current user is a manager' do
+      let(:user) { create(:user, :manager) }
 
       before { when_current_user_is user }
 
@@ -108,7 +112,7 @@ describe ApplicationSubmissionsController do
   end
 
   describe 'GET #csv_export' do
-    let(:department) { create(:department) }
+    let(:position) { create(:position) }
 
     let :params do
       {
@@ -124,37 +128,24 @@ describe ApplicationSubmissionsController do
     end
 
     before do
-      when_current_user_is :staff
+      when_current_user_is create(:user, :manager, managing: position)
+      allow(ApplicationSubmission).to receive(:in_positions).and_return ApplicationSubmission.none
     end
 
-    context 'when submitting with the department id param' do
-      let(:extra_params) { { department_ids: [department.id] } }
+    context 'when submitting with the position id param' do
+      let(:extra_params) { { position_ids: [position.id, create(:position).id] } }
 
-      it 'calls .in_department with the correct parameters' do
-        create(:department)
-        allow(ApplicationSubmission).to receive(:in_department).and_return ApplicationSubmission.none
+      it 'calls .in_positions with only the requested positions the user manages' do
         submit
-        expect(ApplicationSubmission).to have_received(:in_department).with([department.id.to_s])
-      end
-
-      it 'calls .between with the correct parameters' do
-        allow(ApplicationSubmission).to receive(:between)
-        submit
-        expect(ApplicationSubmission).to have_received(:between).with(params[:start_date], params[:end_date])
-      end
-
-      it 'assigns the correct records to the instance variable' do
-        allow(ApplicationSubmission).to receive(:between).and_return(:a_record)
-        submit
-        expect(assigns.fetch(:records)).to be(:a_record)
+        expect(ApplicationSubmission).to have_received(:in_positions).with([position.id])
       end
     end
 
-    context 'when submitting without the department id param' do
-      it 'calls .in_department with all department IDs' do
-        allow(ApplicationSubmission).to receive(:in_department).and_return ApplicationSubmission.none
+    context 'when submitting without the position id param' do
+      it 'calls .in_positions with every position the user manages' do
+        create(:position)
         submit
-        expect(ApplicationSubmission).to have_received(:in_department).with(Department.pluck(:id))
+        expect(ApplicationSubmission).to have_received(:in_positions).with([position.id])
       end
 
       it 'calls .between with the correct parameters' do
@@ -169,10 +160,20 @@ describe ApplicationSubmissionsController do
         expect(assigns.fetch(:records)).to be(:a_record)
       end
     end
+
+    context 'when the current user is an admin' do
+      before { when_current_user_is :admin }
+
+      it 'calls .in_positions with every position' do
+        other = create(:position)
+        submit
+        expect(ApplicationSubmission).to have_received(:in_positions).with(contain_exactly(position.id, other.id))
+      end
+    end
   end
 
   describe 'GET #eeo_data' do
-    let(:department) { create(:department) }
+    let(:position) { create(:position) }
     let :params do
       {
         eeo_start_date: 1.week.ago.to_date.to_fs(:db),
@@ -181,19 +182,19 @@ describe ApplicationSubmissionsController do
     end
 
     before do
-      when_current_user_is :staff
+      when_current_user_is create(:user, :manager, managing: position)
     end
 
-    context 'when submitting with the department ID param' do
+    context 'when submitting with the position ID param' do
       let :submit do
-        get :eeo_data, params: params.merge(department_ids: department.id)
+        get :eeo_data, params: params.merge(position_ids: [position.id, create(:position).id])
       end
 
-      it 'calls .eeo_data with the correct parameters' do
+      it 'calls .eeo_data with only the requested positions the user manages' do
         allow(ApplicationSubmission).to receive(:eeo_data)
         submit
         expect(ApplicationSubmission).to have_received(:eeo_data)
-          .with(params[:eeo_start_date], params[:eeo_end_date], department.id.to_s)
+          .with(params[:eeo_start_date], params[:eeo_end_date], [position.id])
       end
 
       it 'assigns the correct records to the instance variable' do
@@ -204,27 +205,21 @@ describe ApplicationSubmissionsController do
       end
     end
 
-    context 'when submitting without the department ID param' do
+    context 'when submitting without the position ID param' do
       let(:submit) { get :eeo_data, params: }
 
-      it 'calls .eeo_data with the correct parameters' do
+      it 'calls .eeo_data with every position the user manages' do
+        create(:position)
         allow(ApplicationSubmission).to receive(:eeo_data).and_return(ApplicationSubmission.none)
         submit
         expect(ApplicationSubmission).to have_received(:eeo_data)
-          .with(params[:eeo_start_date], params[:eeo_end_date], Department.pluck(:id))
-      end
-
-      it 'assigns the correct records to the instance variable' do
-        records = ApplicationSubmission.none
-        allow(ApplicationSubmission).to receive(:eeo_data).and_return records
-        submit
-        expect(assigns.fetch(:records)).to eql records
+          .with(params[:eeo_start_date], params[:eeo_end_date], [position.id])
       end
     end
   end
 
   describe 'GET #past_applications' do
-    let(:department) { create(:department) }
+    let(:position) { create(:position) }
     let :params do
       {
         records_start_date: 1.week.ago.to_date.to_fs(:db),
@@ -233,12 +228,12 @@ describe ApplicationSubmissionsController do
     end
 
     before do
-      when_current_user_is :staff
+      when_current_user_is create(:user, :manager, managing: position)
     end
 
-    context 'when submitting with the department ID param' do
+    context 'when submitting with the position ID param' do
       let(:submit) do
-        get :past_applications, params: params.merge(department_ids: department.id)
+        get :past_applications, params: params.merge(position_ids: [position.id, create(:position).id])
       end
 
       it 'calls .between with the correct parameters' do
@@ -248,27 +243,21 @@ describe ApplicationSubmissionsController do
           .with(params[:records_start_date], params[:records_end_date])
       end
 
-      it 'calls .in_department with the correct parameters' do
-        allow(ApplicationSubmission).to receive(:in_department).and_return ApplicationSubmission.none
+      it 'calls .in_positions with only the requested positions the user manages' do
+        allow(ApplicationSubmission).to receive(:in_positions).and_return ApplicationSubmission.none
         submit
-        expect(ApplicationSubmission).to have_received(:in_department).with(department.id.to_s)
+        expect(ApplicationSubmission).to have_received(:in_positions).with([position.id])
       end
     end
 
-    context 'when submitting without the department ID param' do
+    context 'when submitting without the position ID param' do
       let(:submit) { get :past_applications, params: }
 
-      it 'calls .between with the correct parameters' do
-        allow(ApplicationSubmission).to receive(:between).and_return ApplicationSubmission.none
+      it 'calls .in_positions with every position the user manages' do
+        create(:position)
+        allow(ApplicationSubmission).to receive(:in_positions).and_return ApplicationSubmission.none
         submit
-        expect(ApplicationSubmission).to have_received(:between)
-          .with(params[:records_start_date], params[:records_end_date])
-      end
-
-      it 'calls .in_department with all department IDs' do
-        allow(ApplicationSubmission).to receive(:in_department).and_return ApplicationSubmission.none
-        submit
-        expect(ApplicationSubmission).to have_received(:in_department).with(Department.pluck(:id))
+        expect(ApplicationSubmission).to have_received(:in_positions).with([position.id])
       end
     end
   end
@@ -277,9 +266,9 @@ describe ApplicationSubmissionsController do
     let(:record) { create(:application_submission) }
     let(:interview) { { location: 'somewhere', scheduled: 1.day.since.strftime('%Y/%m/%d %H:%M') } }
 
-    context 'when the current user is staff' do
+    context 'when the current user manages the position' do
       before do
-        when_current_user_is :staff
+        when_current_user_is create(:user, :manager, managing: record.position)
       end
 
       context 'when the record is accepted' do
@@ -339,7 +328,7 @@ describe ApplicationSubmissionsController do
 
   describe 'POST #toggle_saved_for_later' do
     before do
-      when_current_user_is :staff
+      when_current_user_is create(:user, :manager, managing: record.position)
     end
 
     context 'when something goes wrong' do
@@ -364,7 +353,7 @@ describe ApplicationSubmissionsController do
   end
 
   describe 'GET #show' do
-    let(:record) { create(:application_submission, user: create(:user, :student)) }
+    let(:record) { create(:application_submission, user: create(:user)) }
 
     let :submit do
       get :show, params: { id: record.id }
@@ -387,10 +376,10 @@ describe ApplicationSubmissionsController do
     end
 
     context 'when the record belongs to another student' do
-      let(:record) { create(:application_submission, user: create(:user, :student)) }
+      let(:record) { create(:application_submission, user: create(:user)) }
 
       before do
-        when_current_user_is :student
+        when_current_user_is :anyone
       end
 
       it 'does not allow access' do
@@ -408,9 +397,9 @@ describe ApplicationSubmissionsController do
       end
     end
 
-    context 'when the current user is staff' do
+    context 'when the current user manages the position' do
       before do
-        when_current_user_is :staff
+        when_current_user_is create(:user, :manager, managing: record.position)
       end
 
       it 'renders the correct template' do
@@ -432,7 +421,7 @@ describe ApplicationSubmissionsController do
 
   describe 'unreject' do
     before do
-      when_current_user_is :staff
+      when_current_user_is create(:user, :manager, managing: record.position)
     end
 
     let!(:record) { create(:application_submission, reviewed: 'true') }
