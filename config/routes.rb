@@ -64,10 +64,4 @@ Rails.application.routes.draw do
       put :promote_save
     end
   end
-
-  direct :azure_logout do
-    tenant_id = Rails.application.credentials.dig(:entra_id, :tenant_id)
-    redirect_uri = CGI.escape(root_url)
-    "https://login.microsoftonline.com/#{tenant_id}/oauth2/v2.0/logout?post_logout_redirect_uri=#{redirect_uri}"
-  end
 end
