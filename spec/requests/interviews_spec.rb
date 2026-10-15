@@ -65,6 +65,18 @@ describe 'Interviews' do
             expect(response).to redirect_to(staff_dashboard_path)
           end
         end
+
+        context 'when the interview cannot be saved' do
+          before do
+            allow(Interview).to receive(:find).and_return(interview)
+            allow(interview).to receive(:update).and_return(false)
+          end
+
+          it 'redirects back to the root path' do
+            submit
+            expect(response).to redirect_to(root_path)
+          end
+        end
       end
     end
 
@@ -124,6 +136,19 @@ describe 'Interviews' do
 
           it 'does not update the interview' do
             expect { submit }.not_to(change { interview.reload.scheduled })
+          end
+        end
+
+        context 'with an invalid scheduled time' do
+          let(:params) { { scheduled: 'not a date', location: new_location } }
+
+          it 'does not update the location' do
+            expect { submit }.not_to(change { interview.reload.location })
+          end
+
+          it 'redirects to the root path' do
+            submit
+            expect(response).to redirect_to(root_path)
           end
         end
       end
