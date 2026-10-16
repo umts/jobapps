@@ -4,15 +4,19 @@ require 'rails_helper'
 
 describe ApplicationTemplatesController do
   it_behaves_like 'an access-controlled resource', record: -> { create(:application_template).id }, routes: [
-    %i[get new collection],
     %i[post toggle_active member],
     %i[post toggle_eeo_enabled member]
   ]
 
   describe 'GET #new' do
-    context 'when the current user is staff' do
-      let(:user) { create(:user, :staff) }
+    it 'does not allow creating a template for a position the current user does not manage' do
+      when_current_user_is :manager
+      expect { get :new, params: { position_id: create(:position).id } }.to raise_error(ActionPolicy::Unauthorized)
+    end
+
+    context 'when the current user manages the position' do
       let(:position) { create(:position) }
+      let(:user) { create(:user, :manager, managing: position) }
       let(:template) { create(:application_template, position:) }
 
       let :submit do
@@ -52,8 +56,7 @@ describe ApplicationTemplatesController do
 
   describe 'GET #show' do
     let :template do
-      department = create(:department, name: 'Bus')
-      position = create(:position, name: 'Operator', department:)
+      position = create(:position, name: 'Operator')
       create(:application_template, position:)
     end
     let(:record) { create(:application_submission, data: [['a question', 'an answer', 'data type', 1]]) }
@@ -69,7 +72,7 @@ describe ApplicationTemplatesController do
 
       context 'with a record to preload from' do
         it 'gets the correct question hash' do
-          when_current_user_is :student
+          when_current_user_is :anyone
           submit_with_load_id
           expect(assigns(:old_data)).to eq(record.questions_hash)
         end
@@ -82,17 +85,17 @@ describe ApplicationTemplatesController do
         end
       end
 
-      context 'when the current user is a student' do
+      context 'when the current user manages no positions' do
         it 'allows access' do
-          when_current_user_is :student
+          when_current_user_is :anyone
           submit
           expect(response).not_to have_http_status :unauthorized
         end
       end
 
-      context 'when the current user is staff' do
+      context 'when the current user manages the position' do
         it 'allows access' do
-          when_current_user_is :staff
+          when_current_user_is create(:user, :manager, managing: template.position)
           submit
           expect(response).not_to have_http_status :unauthorized
         end
@@ -102,22 +105,20 @@ describe ApplicationTemplatesController do
 
   describe 'POST #toggle_active' do
     let :template do
-      department = create(:department, name: 'Bus')
-      position = create(:position, name: 'Operator', department:)
+      position = create(:position, name: 'Operator')
       create(:application_template, position:)
     end
 
     let :submit do
       post :toggle_active, params: {
         id: template.id,
-        position: template.position.name,
-        department: template.department.name
+        position: template.position.name
       }
     end
 
-    context 'when the current user is staff' do
+    context 'when the current user manages the position' do
       before do
-        when_current_user_is :staff
+        when_current_user_is create(:user, :manager, managing: template.position)
         request.env['HTTP_REFERER'] = 'http://test.host/redirect'
       end
 
@@ -144,21 +145,19 @@ describe ApplicationTemplatesController do
 
   describe 'POST #toggle_eeo_enabled' do
     let :template do
-      department = create(:department, name: 'Bus')
-      position = create(:position, department:, name: 'Operator')
+      position = create(:position, name: 'Operator')
       create(:application_template, position:)
     end
 
     let :submit do
       post :toggle_eeo_enabled, params: {
         id: template.id,
-        position: template.position.name,
-        department: template.department.name
+        position: template.position.name
       }
     end
 
-    context 'when the current user is staff' do
-      let(:user) { create(:user, :staff) }
+    context 'when the current user manages the position' do
+      let(:user) { create(:user, :manager, managing: template.position) }
 
       before do
         when_current_user_is user
@@ -220,21 +219,18 @@ describe ApplicationTemplatesController do
 
   describe 'POST #toggle_unavailability_enabled' do
     let :template do
-      department = create(:department)
-      position = create(:position, department:)
-      create(:application_template, position:)
+      create(:application_template)
     end
 
     let :submit do
       post :toggle_unavailability_enabled, params: {
         id: template.id,
-        position: template.position.name,
-        department: template.department.name
+        position: template.position.name
       }
     end
 
-    context 'when the current user is staff' do
-      let(:user) { create(:user, :staff) }
+    context 'when the current user manages the position' do
+      let(:user) { create(:user, :manager, managing: template.position) }
 
       before do
         when_current_user_is user
@@ -292,21 +288,18 @@ describe ApplicationTemplatesController do
 
   describe 'POST #toggle_resume_upload_enabled' do
     let :template do
-      department = create(:department)
-      position = create(:position, department:)
-      create(:application_template, position:)
+      create(:application_template)
     end
 
     let :submit do
       post :toggle_resume_upload_enabled, params: {
         id: template.id,
-        position: template.position.name,
-        department: template.department.name
+        position: template.position.name
       }
     end
 
-    context 'when the current user is staff' do
-      let(:user) { create(:user, :staff) }
+    context 'when the current user manages the position' do
+      let(:user) { create(:user, :manager, managing: template.position) }
 
       before do
         when_current_user_is user

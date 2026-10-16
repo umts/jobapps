@@ -3,7 +3,7 @@
 class ApplicationTemplate < ApplicationRecord
   extend FriendlyId
 
-  friendly_id :department_and_position, use: :slugged
+  friendly_id :position_name, use: :slugged
 
   has_many :questions, dependent: :destroy
   has_many :drafts, class_name: 'ApplicationDraft',
@@ -12,7 +12,7 @@ class ApplicationTemplate < ApplicationRecord
   accepts_nested_attributes_for :questions
 
   belongs_to :position
-  delegate :department, to: :position
+  delegate :name, to: :position, prefix: true
 
   validates :position, uniqueness: true
   validates :active, inclusion: { in: [true, false] }
@@ -42,10 +42,5 @@ class ApplicationTemplate < ApplicationRecord
 
   def draft_belonging_to?(user)
     draft_belonging_to(user).present?
-  end
-
-  def department_and_position
-    [department.name.parameterize,
-     position.name.parameterize].join('-')
   end
 end

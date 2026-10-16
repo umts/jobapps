@@ -2,8 +2,8 @@
 
 class SubscriptionsController < ApplicationController
   def create
-    authorize!
     @subscription = Subscription.new subscription_parameters
+    authorize! @subscription
     @subscription.save
     redirect_back_or_to edit_position_path(@subscription.position)
   end

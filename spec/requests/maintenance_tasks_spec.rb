@@ -4,9 +4,9 @@ require 'rails_helper'
 
 describe 'MaintenanceTasks engine' do
   describe 'GET /maintenance_tasks' do
-    context 'when the current user is staff' do
+    context 'when the current user is a manager' do
       before do
-        when_current_user_is :staff
+        when_current_user_is :manager
       end
 
       it 'denies access' do

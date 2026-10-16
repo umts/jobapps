@@ -5,7 +5,6 @@ class ApplicationSubmission < ApplicationRecord
 
   belongs_to :user
   belongs_to :position
-  delegate :department, to: :position
   has_one :interview, dependent: :destroy
   has_one :unavailability, dependent: :destroy
 
@@ -24,11 +23,7 @@ class ApplicationSubmission < ApplicationRecord
                     where created_at: start_date..end_date&.to_date&.end_of_day
                   }
 
-  scope :in_department,
-        lambda { |department_ids|
-          joins(:position)
-            .where(positions: { department_id: department_ids })
-        }
+  scope :in_positions, ->(position_ids) { where(position_id: position_ids) }
   scope :hire_count, lambda {
     joins(:interview)
       .where(interviews: { application_submission_id: ids, hired: true }).count
@@ -133,9 +128,9 @@ class ApplicationSubmission < ApplicationRecord
     end
   end
 
-  def self.eeo_data(start_date, end_date, dept_ids)
+  def self.eeo_data(start_date, end_date, position_ids)
     records = {}
-    records[:all] = between(start_date, end_date).in_department(dept_ids).order(:created_at)
+    records[:all] = between(start_date, end_date).in_positions(position_ids).order(:created_at)
     records[:ethnicities] = ethnicity_eeo_data(records[:all])
     records[:genders] = gender_eeo_data(records[:all])
     records[:combined_data] = combined_eeo_data(records[:all])
