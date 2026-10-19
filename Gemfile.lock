@@ -1,9 +1,10 @@
 GIT
   remote: https://github.com/umts/auth.git
-  revision: 246c4aa519407440696df1f3ea6ca2c98b693b67
+  revision: 5a758f9f64ac553a43ce42440e4e813dfecd39ce
   branch: main
   specs:
     umts-auth (0.0.0.pre.dev)
+      action_policy (>= 0.7, < 0.8)
       omniauth (>= 2, < 3)
       omniauth-entra-id (>= 3, < 4)
       omniauth-rails_csrf_protection (>= 2, < 3)
@@ -11,7 +12,7 @@ GIT
 
 GIT
   remote: https://github.com/umts/brand.git
-  revision: b6e69016d400a4d2905df4e0032910998d211568
+  revision: 405878b22c754e9d22283b53808d62da204d5d5a
   branch: main
   specs:
     umts-brand (0.0.0.pre.dev)
@@ -496,8 +497,9 @@ GEM
       fugit (~> 1.11)
       railties (>= 7.1)
       thor (>= 1.3.1)
-    sprockets (4.2.1)
-      concurrent-ruby (~> 1.0)
+    sprockets (4.4.1)
+      concurrent-ruby (~> 1.1)
+      logger
       rack (>= 2.2.4, < 4)
     sprockets-rails (3.5.2)
       actionpack (>= 6.1)
@@ -774,7 +776,7 @@ CHECKSUMS
   simplecov (1.3.2) sha256=2a22ec1759f1b8db60881a2e038758956fc69ef93ed669be0bde0678de6d0e85
   snaky_hash (2.0.7) sha256=7d02c70012a3f932e48860cd024577908300c9aa615e0cb9b450aaa749cbcb4d
   solid_queue (1.7.0) sha256=6566b70b801d1c317c81bba7bcdd5677c019afac584a30374b4164002ca356d3
-  sprockets (4.2.1) sha256=951b13dd2f2fcae840a7184722689a803e0ff9d2702d902bd844b196da773f97
+  sprockets (4.4.1) sha256=fbd665edad0916de5c7abefef0fc616866a60c5e48ce2846f39ac3fc5df9e184
   sprockets-rails (3.5.2) sha256=a9e88e6ce9f8c912d349aa5401509165ec42326baf9e942a85de4b76dbc4119e
   sshkit (1.25.0) sha256=c8c6543cdb60f91f1d277306d585dd11b6a064cb44eab0972827e4311ff96744
   stimulus-rails (1.3.4) sha256=765676ffa1f33af64ce026d26b48e8ffb2e0b94e0f50e9119e11d6107d67cb06

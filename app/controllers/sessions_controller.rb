@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
-class SessionsController < ApplicationController
-  include UMTS::Authentication
-
-  after_authenticated do
+class SessionsController < UMTS::Auth::SessionsController
+  after_login do
     User.create_with(email: session[:entra_email])
         .find_or_initialize_by(entra_uid: session[:entra_uid])
         .update!({ first_name: session[:entra_first_name],

@@ -19,6 +19,7 @@ class User < ApplicationRecord
   def full_name
     "#{first_name} #{last_name}"
   end
+  alias name full_name
 
   def name_and_email
     "#{full_name}, #{email}"

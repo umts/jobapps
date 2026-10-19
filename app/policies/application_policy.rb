@@ -1,13 +1,9 @@
 # frozen_string_literal: true
 
 class ApplicationPolicy < ActionPolicy::Base
-  authorize :user, allow_nil: true
+  include UMTS::Auth::Policy
 
   pre_check :allow_admins
-
-  alias_rule :create?, to: :manage?
-  alias_rule :new?, to: :create?
-  alias_rule :edit?, to: :update?
 
   protected
 
