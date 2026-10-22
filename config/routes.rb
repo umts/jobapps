@@ -59,8 +59,6 @@ Rails.application.routes.draw do
   get 'markdown/explanation'
   post 'markdown/explanation'
 
-  resources :users, except: [:index, :show]
-
   direct :azure_login do
     '/auth/entra_id'
   end
