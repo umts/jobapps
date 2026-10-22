@@ -298,10 +298,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_09_150000) do
     t.datetime "created_at", precision: nil
     t.string "email", null: false
     t.string "entra_uid", null: false
+    t.string "entra_upn"
     t.string "first_name", null: false
     t.string "last_name", null: false
     t.datetime "updated_at", precision: nil
-    t.string "entra_upn"
     t.index ["entra_uid"], name: "index_users_on_entra_uid", unique: true
   end
 
