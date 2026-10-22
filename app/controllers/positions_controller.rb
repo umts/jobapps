@@ -55,6 +55,6 @@ class PositionsController < ApplicationController
   end
 
   def position_parameters
-    params.expect position: %i[default_interview_location name not_hiring_text]
+    params.expect position: %i[default_interview_location department_id name not_hiring_text]
   end
 end

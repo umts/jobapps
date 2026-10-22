@@ -30,7 +30,7 @@ class ApplicationSubmissionsController < ApplicationController
   def csv_export
     authorize!
     respond_to :csv
-    @records = ApplicationSubmission.in_positions(position_ids)
+    @records = ApplicationSubmission.in_department(given_or_all_department_ids)
                                     .between(params[:start_date], params[:end_date])
     render layout: false
   end
@@ -39,14 +39,14 @@ class ApplicationSubmissionsController < ApplicationController
     authorize!
     @records = ApplicationSubmission.eeo_data params[:eeo_start_date],
                                               params[:eeo_end_date],
-                                              position_ids
+                                              given_or_all_department_ids
   end
 
   def past_applications
     authorize!
     # text field tags must be unique to the page, hence records_start_date
     # instead of just start_date
-    @records = ApplicationSubmission.in_positions(position_ids)
+    @records = ApplicationSubmission.in_department(given_or_all_department_ids)
                                     .between(params[:records_start_date], params[:records_end_date])
                                     .order(:created_at)
   end
@@ -98,10 +98,8 @@ class ApplicationSubmissionsController < ApplicationController
     @record = ApplicationSubmission.find params.expect(:id)
   end
 
-  def position_ids
-    positions = authorized_scope(Position.all, with: PositionPolicy)
-    positions = positions.where(id: params[:position_ids]) if params[:position_ids].present?
-    positions.ids
+  def given_or_all_department_ids
+    params[:department_ids] || Department.pluck(:id)
   end
 
   def record_params

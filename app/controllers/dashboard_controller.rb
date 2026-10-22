@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class DashboardController < ApplicationController
+  before_action :positions, except: :main
+
   def main
     authorize!
     if allowed_to?(:staff?, :dashboard)
@@ -12,23 +14,28 @@ class DashboardController < ApplicationController
 
   def staff
     authorize!
-    @positions = authorized_scope(Position.all)
-    @pending_interviews = Interview.pending.where(application_submission: { position: @positions })
-                                   .group_by(&:position)
-    @pending_records = ApplicationSubmission.in_positions(@positions).where(saved_for_later: false)
+    @departments = Department.includes :positions
+    @pending_interviews = Interview.pending.group_by(&:position)
+    @pending_records = ApplicationSubmission.where(saved_for_later: false)
                                             .pending.newest_first
                                             .group_by(&:position)
-    @saved_records = ApplicationSubmission.in_positions(@positions).where(saved_for_later: true)
+    @saved_records = ApplicationSubmission.where(saved_for_later: true)
                                           .group_by(&:position)
-    @templates = ApplicationTemplate.where(position: @positions).group_by(&:position)
+    @staff = User.staff
+    @templates = ApplicationTemplate.all.group_by(&:position)
   end
 
   def student
     authorize!
-    @positions = Position.all
     return if Current.user.blank?
 
     @application_submissions = Current.user.application_submissions.group_by(&:position)
     @interviews = Current.user.interviews
+  end
+
+  private
+
+  def positions
+    @positions = Position.all.group_by(&:department)
   end
 end

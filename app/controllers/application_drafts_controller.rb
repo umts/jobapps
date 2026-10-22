@@ -8,8 +8,8 @@ class ApplicationDraftsController < ApplicationController
   end
 
   def new
+    authorize!
     template = ApplicationTemplate.find params.require(:application_template_id)
-    authorize! ApplicationDraft.new(application_template: template)
     @draft = template.create_draft(Current.user) || template.draft_belonging_to(Current.user)
     redirect_to edit_draft_path(@draft)
   end

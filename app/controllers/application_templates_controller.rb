@@ -14,8 +14,8 @@ class ApplicationTemplatesController < ApplicationController
   end
 
   def new
+    authorize!
     position = Position.find params.require(:position_id)
-    authorize! ApplicationTemplate.new(position:)
     template = ApplicationTemplate.create!(position:, active: true)
     @draft = template.create_draft Current.user
     redirect_to edit_draft_path(@draft)
