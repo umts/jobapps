@@ -6,15 +6,10 @@ describe ApplicationDraftsController do
   it_behaves_like 'an access-controlled resource', record: -> { create(:application_draft).id }, routes: [
     %i[delete destroy member],
     %i[get edit member],
+    %i[get new collection],
     %i[post update member],
     %i[post update_application_template member]
   ]
-  it 'does not allow creating a draft for a position the current user does not manage' do
-    when_current_user_is :manager
-    template = create(:application_template)
-    expect { get :new, params: { application_template_id: template.id } }.to raise_error(ActionPolicy::Unauthorized)
-  end
-
   describe 'DELETE #destroy' do
     let(:draft) { create(:application_draft) }
 
@@ -22,9 +17,9 @@ describe ApplicationDraftsController do
       delete :destroy, params: { id: draft.id }
     end
 
-    context 'when the current user manages the position' do
+    context 'when the current user is staff' do
       before do
-        when_current_user_is create(:user, :manager, managing: draft.position)
+        when_current_user_is :staff
       end
 
       it 'assigns the correct draft to the draft instance variable' do
@@ -58,9 +53,9 @@ describe ApplicationDraftsController do
       get :edit, params: { id: draft.id }
     end
 
-    context 'when the current user manages the position' do
+    context 'when the current user is staff' do
       before do
-        when_current_user_is create(:user, :manager, managing: draft.position)
+        when_current_user_is :staff
       end
 
       it 'assigns the correct draft to the draft instance variable' do
@@ -92,8 +87,8 @@ describe ApplicationDraftsController do
       get :new, params: { application_template_id: template.id }
     end
 
-    context 'when the current user manages the position' do
-      let(:user) { create(:user, :manager, managing: template.position) }
+    context 'when the current user is staff' do
+      let(:user) { create(:user, :staff) }
 
       before { when_current_user_is user }
 
@@ -130,9 +125,9 @@ describe ApplicationDraftsController do
       post :update, params: { id: draft, draft: draft_changes, commit: }
     end
 
-    context 'when the current user manages the position' do
+    context 'when current user is staff' do
       before do
-        when_current_user_is create(:user, :manager, managing: draft.position)
+        when_current_user_is :staff
       end
 
       it 'assigns the correct draft variable' do
@@ -170,9 +165,9 @@ describe ApplicationDraftsController do
       post :update_application_template, params: { id: draft.id }
     end
 
-    context 'when the current user manages the position' do
+    context 'when the current user is staff' do
       before do
-        when_current_user_is create(:user, :manager, managing: draft.position)
+        when_current_user_is :staff
       end
 
       it 'assigns the correct draft to the draft instance variable' do

@@ -10,16 +10,8 @@ shared_examples 'an access-controlled resource' do |routes:, record: nil|
     end
   end
 
-  it 'denies access for a user who manages no positions' do
-    when_current_user_is :anyone
-    id = record ? instance_exec(&record) : 0
-    routes.each do |route|
-      expect { call_controller_action route, id }.to raise_error(ActionPolicy::Unauthorized)
-    end
-  end
-
-  it 'denies access for a manager of a different position' do
-    when_current_user_is :manager
+  it 'denies access for student user' do
+    when_current_user_is :student
     id = record ? instance_exec(&record) : 0
     routes.each do |route|
       expect { call_controller_action route, id }.to raise_error(ActionPolicy::Unauthorized)

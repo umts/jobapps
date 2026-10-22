@@ -5,21 +5,20 @@ FactoryBot.define do
     email { 'person@example.com' }
     first_name { 'FirstName' }
     last_name { 'LastName' }
+    staff { false }
     sequence(:entra_uid) { |n| "entra-uid-#{n}" }
 
-    trait :manager do
-      transient do
-        managing { [association(:position)] }
-      end
+    trait :staff do
+      staff { true }
+      email { 'staff@umass.edu' }
+    end
 
-      email { 'manager@umass.edu' }
-
-      after :create do |user, context|
-        Array(context.managing).each { |position| create(:position_manager, user:, position:) }
-      end
+    trait :student do
+      staff { false }
     end
 
     trait :admin do
+      staff
       admin { true }
     end
   end

@@ -16,9 +16,9 @@ describe InterviewsController do
       post :complete, params: { id: interview.id }
     end
 
-    context 'when the current user manages the position' do
+    context 'when the current user is staff' do
       before do
-        when_current_user_is create(:user, :manager, managing: interview.position)
+        when_current_user_is :staff
       end
 
       context 'when the "hired" button is pressed' do
@@ -99,9 +99,9 @@ describe InterviewsController do
       }
     end
 
-    context 'when the current user manages the position' do
+    context 'when the current user is staff' do
       before do
-        when_current_user_is create(:user, :manager, managing: interview.position)
+        when_current_user_is :staff
       end
 
       it 'updates interview as specified' do
@@ -145,9 +145,9 @@ describe InterviewsController do
       response.body.lines.to_h { |l| l.strip.split(':', 2) }
     end
 
-    context 'when the current user manages the position' do
+    context 'when the current user is staff' do
       before do
-        when_current_user_is create(:user, :manager, managing: interview.position)
+        when_current_user_is :staff
         submit
       end
 

@@ -3,15 +3,18 @@
 require 'rails_helper'
 
 describe DashboardController do
+  it_behaves_like 'an access-controlled resource', routes: [
+    %i[get staff collection]
+  ]
   describe 'GET #main' do
-    it 'redirects to staff dashboard for managers' do
-      when_current_user_is :manager
+    it 'redirects to staff dashboard for staff users' do
+      when_current_user_is :staff
       get :main
       expect(response).to redirect_to staff_dashboard_path
     end
 
-    it 'redirects to student dashboard for users who manage no positions' do
-      when_current_user_is :anyone
+    it 'redirects to student dashboard for student users' do
+      when_current_user_is :student
       get :main
       expect(response).to redirect_to student_dashboard_path
     end
@@ -25,12 +28,8 @@ describe DashboardController do
   describe 'GET #staff' do
     let(:submit) { get :staff }
 
-    context 'when the current user manages no positions' do
-      before { when_current_user_is :anyone }
-
-      it 'does not allow access' do
-        expect { submit }.to raise_error(ActionPolicy::Unauthorized)
-      end
+    context 'when the current user is a student' do
+      before { when_current_user_is :student }
 
       context 'with an XHR request' do
         let(:submit) { get :staff, xhr: true }
@@ -41,37 +40,14 @@ describe DashboardController do
       end
     end
 
-    context 'when the current user is a manager' do
-      let(:position) { create(:position) }
-
-      before { when_current_user_is create(:user, :manager, managing: position) }
+    context 'when the currrent user is staff' do
+      before { when_current_user_is :staff }
 
       it 'assigns the required instance variables' do
         submit
-        expect(assigns.keys).to include('pending_interviews', 'pending_records', 'positions')
-      end
-
-      it 'only includes pending applications for the positions they manage' do
-        create(:application_submission, position:)
-        create(:application_submission)
-        submit
-        expect(assigns[:pending_records].keys).to contain_exactly(position)
-      end
-
-      context 'with saved applications, interviews and templates for several positions' do
-        before do
-          [position, create(:position)].each do |p|
-            create(:application_submission, position: p, saved_for_later: true, note_for_later: 'later')
-            create(:interview, application_submission: create(:application_submission, position: p))
-            create(:application_template, position: p)
-          end
-        end
-
-        it 'only includes the ones for the positions they manage' do
-          submit
-          expect(assigns.values_at(:saved_records, :pending_interviews, :templates).map(&:keys))
-            .to all(contain_exactly(position))
-        end
+        expect(assigns.keys).to include('departments', 'pending_interviews',
+                                        'pending_records', 'positions',
+                                        'staff')
       end
     end
   end
@@ -88,8 +64,8 @@ describe DashboardController do
       end
     end
 
-    context 'when the current user manages no positions' do
-      before { when_current_user_is :anyone }
+    context 'when the current user is a student' do
+      before { when_current_user_is :student }
 
       it 'allows access' do
         submit

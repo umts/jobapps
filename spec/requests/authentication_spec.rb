@@ -18,7 +18,7 @@ describe 'Authentication' do
       end
 
       it 'renders the development login page in place' do
-        expect(response.body).to include('Development Login')
+        expect(response.body).to include('Log in with Microsoft', 'Development login')
       end
     end
 
@@ -37,7 +37,7 @@ describe 'Authentication' do
       end
 
       it 'does not offer the development login' do
-        expect(response.body).not_to include('Development Login')
+        expect(response.body).not_to include('Development login')
       end
     end
 
@@ -61,7 +61,7 @@ describe 'Authentication' do
       end
 
       it 'renders the login page in the application layout' do
-        expect(response.body).to include('university-header-nav-items')
+        expect(response.body).to include('umass-banner')
       end
     end
   end

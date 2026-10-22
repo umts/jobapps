@@ -64,18 +64,20 @@ describe ApplicationSubmission do
     end
   end
 
-  describe '.in_positions' do
-    subject(:call) { described_class.in_positions position.id }
+  describe '.in_department' do
+    subject(:call) { described_class.in_department department.id }
 
-    let(:position) { create(:position) }
-    let(:good_record) { create(:application_submission, position:) }
+    let(:department) { create(:department) }
+    let :good_record do
+      create(:application_submission, position: create(:position, department:))
+    end
     let(:bad_record) { create(:application_submission) }
 
-    it 'returns records for the specified position(s)' do
+    it 'returns records for the specified department(s)' do
       expect(call).to include(good_record)
     end
 
-    it 'excludes records not for the specified position(s)' do
+    it 'excludes records not for the specified department(s)' do
       expect(call).not_to include(bad_record)
     end
   end
@@ -396,13 +398,13 @@ describe ApplicationSubmission do
 
   describe '.eeo_data' do
     subject :call do
-      described_class.eeo_data start_date, end_date, position.id
+      described_class.eeo_data start_date, end_date, department.id
     end
 
-    let(:position) { create(:position) }
+    let(:department) { create(:department) }
     let(:start_date) { 1.week.ago }
     let(:end_date) { 1.week.from_now }
-    let(:relation) { described_class.between(start_date, end_date).in_positions(position.id) }
+    let(:relation) { described_class.between(start_date, end_date).in_department(department.id) }
 
     it 'calls AR#between to gather application records' do
       allow(described_class).to receive(:between).and_return(relation)
@@ -410,10 +412,10 @@ describe ApplicationSubmission do
       expect(described_class).to have_received(:between).with(start_date, end_date)
     end
 
-    it 'calls AR#in_positions to filter application records' do
-      allow(described_class).to receive(:in_positions).and_return(relation)
+    it 'calls AR#in_department to filter application records' do
+      allow(described_class).to receive(:in_department).and_return(relation)
       call
-      expect(described_class).to have_received(:in_positions).with(position.id)
+      expect(described_class).to have_received(:in_department).with(department.id)
     end
 
     it 'calls AR#ethnicity_eeo_data to populate hash with ethnicity numbers' do
