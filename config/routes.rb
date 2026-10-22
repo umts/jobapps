@@ -39,8 +39,6 @@ Rails.application.routes.draw do
   get '/dashboard/staff',   to: 'dashboard#staff',   as: :staff_dashboard
   get '/dashboard/student', to: 'dashboard#student', as: :student_dashboard
 
-  resources :departments, except: [:index, :show]
-
   resources :interviews, only: :show do
     member do
       post :complete
@@ -61,12 +59,7 @@ Rails.application.routes.draw do
   get 'markdown/explanation'
   post 'markdown/explanation'
 
-  resources :users, except: [:index, :show] do
-    collection do
-      get :promote
-      put :promote_save
-    end
-  end
+  resources :users, except: [:index, :show]
 
   direct :azure_login do
     '/auth/entra_id'
