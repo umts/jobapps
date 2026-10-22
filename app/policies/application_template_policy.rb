@@ -2,6 +2,4 @@
 
 class ApplicationTemplatePolicy < ApplicationPolicy
   def manage? = allowed_to?(:manage?, record.position)
-
-  def show? = logged_in?
 end
