@@ -15,7 +15,7 @@ module Authorizable
       elsif request.format.html? && Rails.env.production?
         render 'application/production_login', layout: false, status: :unauthorized
       elsif request.format.html? && Rails.env.development?
-        render 'application/development_login', layout: 'layouts/application', status: :unauthorized
+        render 'application/development_login', layout: 'umts/brand/public', status: :unauthorized
         # simplecov:enable
       else
         head :unauthorized
