@@ -62,13 +62,6 @@ en:
     toggle_resume_upload_enabled:
       enabled: Resume uploads enabled on this application.
       disabled: Resume uploads disabled on this application.
-  departments:
-    create:
-      success: Department successfully created.
-    update:
-      success: Department successfully updated.
-    destroy:
-      success: Department successfully deleted.
   interviews:
     complete:
       success: Interview marked as completed.
@@ -96,6 +89,11 @@ en:
       success: Position successfully updated.
     destroy:
       success: Position successfully deleted.
+  position_managers:
+    create:
+      success: Manager added.
+    destroy:
+      success: Manager removed.
   users:
     create:
       success: User successfully created.
@@ -103,5 +101,3 @@ en:
       success: User successfully updated.
     destroy:
       success: User successfully deleted.
-    promote_save:
-      success: User successfully updated.

@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 class InterviewPolicy < ApplicationPolicy
-  def manage? = staff?
+  def manage? = allowed_to?(:manage?, record.position)
 end

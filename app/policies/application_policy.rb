@@ -9,7 +9,7 @@ class ApplicationPolicy < ActionPolicy::Base
 
   def admin? = user&.admin?
 
-  def staff? = user&.staff?
+  def manager_of?(position) = user&.managed_positions&.include?(position)
 
   def logged_in? = user.present?
 
