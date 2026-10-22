@@ -12,10 +12,11 @@ class ApplicationTemplate < ApplicationRecord
   accepts_nested_attributes_for :questions
 
   belongs_to :position
-  delegate :name, to: :position, prefix: true
 
   validates :position, uniqueness: true
   validates :active, inclusion: { in: [true, false] }
+
+  delegate :name, to: :position, prefix: true
 
   def create_draft(user)
     return false if draft_belonging_to?(user)
