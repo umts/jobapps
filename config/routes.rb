@@ -52,8 +52,6 @@ Rails.application.routes.draw do
     member do
       get :saved_applications
     end
-
-    resources :position_managers, only: %i[create destroy], shallow: true
   end
 
   resources :subscriptions
