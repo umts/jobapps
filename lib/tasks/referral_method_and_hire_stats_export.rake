@@ -15,7 +15,8 @@ REFERRAL_METHODS = [
 namespace :referral_method_and_hire_stats do
   task bus: :environment do
     CSV.open(ARGV[1], 'wb') do |csv|
-      position = Position.find_by(name: 'Operator')
+      department = Department.find_by(name: 'Bus')
+      position = department.positions.find_by(name: 'Operator')
       records = position.application_records.includes(:interview)
       # headers
       csv << %w[date applicant referral_method interviewed hired]
