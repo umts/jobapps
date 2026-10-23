@@ -55,6 +55,4 @@ Rails.application.routes.draw do
 
   get 'markdown/explanation'
   post 'markdown/explanation'
-
-  resources :users, except: [:index, :show]
 end
