@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_10_155231) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_09_150000) do
   create_table "active_storage_attachments", charset: "latin1", collation: "latin1_swedish_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -81,13 +81,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_10_155231) do
     t.index ["position_id"], name: "index_application_templates_on_position_id", unique: true
   end
 
-  create_table "departments", id: :integer, charset: "utf8mb3", collation: "utf8mb3_unicode_ci", force: :cascade do |t|
-    t.string "name", null: false
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.index ["name"], name: "index_departments_on_name", unique: true
-  end
-
   create_table "interviews", id: :integer, charset: "utf8mb3", collation: "utf8mb3_unicode_ci", force: :cascade do |t|
     t.boolean "hired", default: false, null: false
     t.datetime "scheduled", precision: nil, null: false
@@ -124,14 +117,22 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_10_155231) do
     t.index ["task_name", "status", "created_at"], name: "index_maintenance_tasks_runs"
   end
 
+  create_table "position_managers", charset: "utf8mb4", collation: "utf8mb4_unicode_520_ci", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "position_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["position_id"], name: "index_position_managers_on_position_id"
+    t.index ["user_id", "position_id"], name: "index_position_managers_on_user_id_and_position_id", unique: true
+    t.index ["user_id"], name: "index_position_managers_on_user_id"
+  end
+
   create_table "positions", id: :integer, charset: "utf8mb3", collation: "utf8mb3_unicode_ci", force: :cascade do |t|
-    t.integer "department_id", null: false
     t.string "name", null: false
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.string "default_interview_location"
     t.string "not_hiring_text"
-    t.index ["department_id"], name: "index_positions_on_department_id"
   end
 
   create_table "questions", id: :integer, charset: "utf8mb3", collation: "utf8mb3_unicode_ci", force: :cascade do |t|
@@ -297,7 +298,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_10_155231) do
     t.string "last_name", null: false
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.boolean "staff", default: false, null: false
     t.string "email", null: false
     t.boolean "admin", default: false, null: false
     t.string "entra_uid", null: false
@@ -314,7 +314,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_10_155231) do
   add_foreign_key "application_templates", "positions"
   add_foreign_key "interviews", "application_submissions"
   add_foreign_key "interviews", "users"
-  add_foreign_key "positions", "departments"
+  add_foreign_key "position_managers", "positions"
+  add_foreign_key "position_managers", "users"
   add_foreign_key "questions", "application_drafts"
   add_foreign_key "questions", "application_templates"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade

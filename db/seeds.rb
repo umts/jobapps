@@ -2,10 +2,9 @@ require 'factory_bot_rails'
 require 'csv'
 
 exit if Rails.env.test?
-FactoryBot.create :user, first_name: 'David', last_name: 'Faulkenberry', staff: true, email: 'dfaulken@umass.edu', admin: true
+FactoryBot.create :user, first_name: 'David', last_name: 'Faulkenberry', email: 'dfaulken@umass.edu', admin: true
 user = FactoryBot.create :user, first_name: 'Justin', last_name: 'Forgue', email: 'jforgue@umass.edu'
-department = FactoryBot.create :department, name: 'Bus'
-position = FactoryBot.create :position, department: department, name: 'Operator'
+position = FactoryBot.create :position, name: 'Operator'
 FactoryBot.create :application_submission,
                   data: [["Bus Application", nil, "heading", 1],
                          [<<~REQS, nil, 'explanation', 81],
