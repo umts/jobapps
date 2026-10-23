@@ -1,0 +1,12 @@
+- content_for :title, 'New Position'
+= render layout: 'layouts/positions' do
+  .card.mb-3
+    .card-header
+      New Position
+    .card-body
+      = form_with model: @position do |f|
+        = render partial: 'fields', object: f
+        .d-grid
+          = f.button type: :submit, class: 'btn btn-outline-primary' do
+            %i.fa-solid.fa-save
+            Save

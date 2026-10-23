@@ -1,0 +1,22 @@
+- content_for :title, "Edit #{@position.name_was}"
+= render layout: 'layouts/position', locals: { position: @position, nav_item: 'settings' } do
+  .card.mb-3
+    .card-header
+      Edit Position
+    .card-body
+      = form_with model: @position, html: { id: 'position-form' } do |f|
+        = render partial: 'fields', object: f
+      .row.g-3
+        .col.d-grid
+          = button_tag type: :submit, form: 'position-form', class: 'btn btn-outline-primary' do
+            %i.fa-solid.fa-save
+            Save
+        - if allowed_to?(:destroy?, @position)
+          .col.d-grid
+            = button_to position_path(@position),
+                        method: :delete,
+                        class: 'btn btn-outline-secondary',
+                        form_class: 'd-grid',
+                        'data-confirm': 'Are you sure? This cannot be undone.' do
+              %i.fa-solid.fa-trash
+              Delete

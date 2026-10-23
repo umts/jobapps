@@ -1,0 +1,16 @@
+:ruby
+  position = local_assigns[:position]
+  nav_item = local_assigns[:nav_item]
+- nav_items = capture do
+  - if allowed_to?(:show?, position)
+    %li.nav-item
+      = link_to position_path(position), class: ['nav-link', nav_item == 'details' && 'active'] do
+        %i.fa-solid.fa-circle-info
+        Details
+  - if allowed_to?(:edit?, position)
+    %li.nav-item
+      = link_to edit_position_path(position), class: ['nav-link', nav_item == 'settings' && 'active'] do
+        %i.fa-solid.fa-gears
+        Settings
+= render layout: 'umts/brand/tabbed', locals: { heading: position.name_was, nav_expand: 'md', nav_items: } do
+  = yield
