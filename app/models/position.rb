@@ -14,7 +14,7 @@ class Position < ApplicationRecord
   default_scope { order :name }
 
   def not_hiring
-    not_hiring_text ||
+    not_hiring_text.presence ||
       "We are not currently hiring for #{name}."
   end
 end

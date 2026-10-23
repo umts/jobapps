@@ -3,12 +3,19 @@
 require 'rails_helper'
 
 describe Position do
-  describe '#name_and_department' do
-    subject(:call) { position.name_and_department }
+  describe '#not_hiring' do
+    subject(:call) { position.not_hiring }
 
-    let(:position) { build(:position) }
+    context 'with not hiring text' do
+      let(:position) { build(:position, not_hiring_text: 'Check back in the spring.') }
 
-    it { is_expected.to include(position.name) }
-    it { is_expected.to include(position.department.name) }
+      it { is_expected.to eq('Check back in the spring.') }
+    end
+
+    context 'with blank not hiring text' do
+      let(:position) { build(:position, name: 'Operator', not_hiring_text: '') }
+
+      it { is_expected.to eq('We are not currently hiring for Operator.') }
+    end
   end
 end

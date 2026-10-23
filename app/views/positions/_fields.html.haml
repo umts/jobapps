@@ -1,0 +1,10 @@
+.mb-3
+  = fields.label :name, class: 'form-label'
+  = fields.text_field :name, required: true, class: 'form-control'
+.mb-3
+  = fields.label :default_interview_location, class: 'form-label'
+  = fields.text_field :default_interview_location, class: 'form-control'
+.mb-3
+  = fields.label :not_hiring_text, class: 'form-label'
+  = fields.text_area :not_hiring_text, class: 'form-control'
+  .form-text Shown to applicants when the application isn't active. Leave blank to use the default.

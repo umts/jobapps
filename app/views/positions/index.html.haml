@@ -1,0 +1,24 @@
+- content_for :title, 'Positions'
+= render layout: 'layouts/positions' do
+  .card.mb-3
+    .card-header
+      .d-flex
+        .flex-grow-1
+          - if Current.user.admin?
+            All
+          - else
+            Your
+          Positions
+        - if allowed_to?(:new?, Position.new)
+          %div
+            = link_to new_position_path, class: 'btn btn-sm btn-text' do
+              %i.fa-solid.fa-plus
+              New
+    - if @positions.present?
+      .list-group.list-group-flush
+        - @positions.each do |position|
+          = link_to position.name, position_path(position), class: 'list-group-item list-group-item-action py-3'
+    - else
+      .card-body
+        No positions found
+  = paginate @positions

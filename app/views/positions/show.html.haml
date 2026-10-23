@@ -1,0 +1,10 @@
+- content_for :title, @position.name
+= render layout: 'layouts/position', locals: { position: @position, nav_item: 'details' } do
+  -# Application, applications, interviews, managers and subscriptions get added here as those models are rebuilt.
+  .card.mb-3
+    .card-body
+      %dl.row.mb-0
+        %dt.col-sm-4 Default interview location
+        %dd.col-sm-8= @position.default_interview_location.presence || 'None'
+        %dt.col-sm-4 Not hiring text
+        %dd.col-sm-8.mb-0= @position.not_hiring

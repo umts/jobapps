@@ -1,46 +1,59 @@
 # frozen_string_literal: true
 
 class PositionsController < ApplicationController
-  before_action :find_position, only: %i[destroy
-                                         edit
-                                         update
-                                         saved_applications]
+  before_action :find_position, only: %i[show edit update destroy saved_applications]
+  before_action :initialize_position, only: %i[new create]
+
+  def index
+    authorize!
+    @positions = authorized_scope(Position.all).page(params[:page])
+  end
+
+  def show
+    authorize! @position
+  end
 
   def new
-    authorize!
+    authorize! @position
   end
 
   def edit
     authorize! @position
-    @subscriptions = Subscription.where user: Current.user, position: @position
   end
 
   def create
-    authorize!
-    @position = Position.new position_parameters
+    @position.assign_attributes position_params
+    authorize! @position
     if @position.save
-      flash[:message] = t('.success')
-      redirect_to staff_dashboard_path
+      flash_success_for(@position)
+      redirect_to edit_position_path(@position)
     else
-      show_errors @position
+      flash_errors_now_for(@position)
+      render :new, status: :unprocessable_content
     end
   end
 
   def update
+    @position.assign_attributes position_params
     authorize! @position
-    if @position.update position_parameters
-      flash[:message] = t('.success')
-      redirect_to staff_dashboard_path
+    if @position.save
+      flash_success_for(@position)
+      redirect_to edit_position_path(@position)
     else
-      show_errors @position
+      flash_errors_now_for(@position)
+      render :edit, status: :unprocessable_content
     end
   end
 
   def destroy
     authorize! @position
-    @position.destroy
-    flash[:message] = t('.success')
-    redirect_to staff_dashboard_path
+    if @position.destroy
+      flash_success_for(@position)
+      redirect_to positions_path
+    else
+      flash_errors_for(@position)
+      redirect_to position_path(@position)
+    end
   end
 
   def saved_applications
@@ -54,7 +67,11 @@ class PositionsController < ApplicationController
     @position = Position.find params.expect(:id)
   end
 
-  def position_parameters
-    params.expect position: %i[default_interview_location department_id name not_hiring_text]
+  def initialize_position
+    @position = Position.new
+  end
+
+  def position_params
+    params.expect position: %i[name default_interview_location not_hiring_text]
   end
 end
