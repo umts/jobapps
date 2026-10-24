@@ -14,7 +14,6 @@
 // = require rails-ujs
 // = require jquery-ui/dist/jquery-ui
 // = require multiple-select/dist/multiple-select.js
-// = require jquery.maskedinput/src/jquery.maskedinput.js
 // = require datatables.net/js/dataTables.js
 // = require datatables.net-bs5/js/dataTables.bootstrap5.js
 // = require_tree .
