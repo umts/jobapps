@@ -187,7 +187,7 @@ GEM
       rainbow
       rubocop (>= 1.0)
       sysexits (~> 1.1)
-    hashie (5.1.0)
+    hashie (5.2.0)
       logger
     i18n (1.15.2)
       concurrent-ruby (~> 1.0)
@@ -276,11 +276,11 @@ GEM
       rack (>= 1.2, < 4)
       snaky_hash (~> 2.0, >= 2.0.7)
       version_gem (~> 1.1, >= 1.1.14)
-    omniauth (2.1.4)
-      hashie (>= 3.4.6)
+    omniauth (2.3.1)
+      hashie (>= 3.5.2)
       logger
-      rack (>= 2.2.3)
-      rack-protection
+      rack (>= 2.2.8)
+      rack-protection (>= 2.2.0)
     omniauth-entra-id (3.1.1)
       jwt (>= 2.9.2)
       omniauth-oauth2 (~> 1.8)
@@ -637,7 +637,7 @@ CHECKSUMS
   haml (7.5.1) sha256=91c5843dd85d32042cc6218d2df8c81282403459958aa53caa58fda238adc287
   haml-rails (3.1.0) sha256=4366474d973e4b9d5326cb216f2073150cfeff4c2a3c07fadb49a490ffdf610b
   haml_lint (0.78.0) sha256=e8840e3c3b43345eced88ea2c46adcb253be8b940b095f9e0abf4512cdad40a6
-  hashie (5.1.0) sha256=c266471896f323c446ea8207f8ffac985d2718df0a0ba98651a3057096ca3870
+  hashie (5.2.0) sha256=357a22635195c2e3911fbbc3de9a7d528843d1f42ab0aae02171048f16332d72
   i18n (1.15.2) sha256=00f9eb62412fe593b2a65a97daa75300d37abb8f7202ec748e94b6d46a9dd1b5
   icalendar (2.13.0) sha256=dbfad06c1db3e85f20fa66271fb6b500e5a8915b20f3fb84e5389659e23cf1da
   ice_cube (0.17.0) sha256=32deb45dda4b4acc53505c2f581f6d32b5afc04d29b9004769944a0df5a5fcbe
@@ -674,7 +674,7 @@ CHECKSUMS
   nokogiri (1.19.4-x86_64-darwin) sha256=7fd17057d3e1f00e9954a74b3cd76595d3d4a5ef233b7ed9599047c204f70551
   nokogiri (1.19.4-x86_64-linux-gnu) sha256=379fae440b28915e3f19d752ce2dcf8465ed2b2fbefd2a7ca0dd497bc981a06a
   oauth2 (2.0.25) sha256=2f736a2f93c2caa67c1b08dc3c9889bb907d62643f3183fefaa1723cba6a82ac
-  omniauth (2.1.4) sha256=42a05b0496f0d22e1dd85d42aaf602f064e36bb47a6826a27ab55e5ba608763c
+  omniauth (2.3.1) sha256=bb47bfcd5614b00cd89de4b45b0687123d09143dfeb5dbaf1bb57ff190bc2d2e
   omniauth-entra-id (3.1.1) sha256=16622979423891352f916709f0698401e692e60bb41d4dbf5f7a17d98fee27ef
   omniauth-oauth2 (1.9.0) sha256=ed15f6d9d20991807ce114cc5b9c1453bce3645b64e51c68c90cff5ff153fee8
   omniauth-rails_csrf_protection (2.0.1) sha256=c6e3204d7e3925bb537cb52d50fdfc9f05293f1a9d87c5d4ab4ca3a39ba8c32d
