@@ -125,12 +125,12 @@ number;data_type;prompt;required
 5;text;Local address (city);true
 6;text;Local address (state);true
 7;text;Local address (zip code);true
-8;text;Local phone number;true
+8;phone-number;Local phone number;true
 9;text;Permanent address (street, apt., etc.);true
 10;text;Permanent address (city);true
 11;text;Permanent address (state);true
 12;text;Permanent address (zip code);true
-13;text;Permanent phone number;true
+13;phone-number;Permanent phone number;true
 14;date;Date of birth;true
 15;date;Anticipated graduation date;true
 16;text;Major;true
@@ -141,7 +141,7 @@ number;data_type;prompt;required
 21;text;Supervisor's name;true
 22;text;Your job title;true
 23;text;Address of employer;true
-24;text;Phone number;true
+24;phone-number;Phone number;true
 25;date;Begin date;true
 26;date;End date;true
 27;number;Salary/wage;false
@@ -153,7 +153,7 @@ number;data_type;prompt;required
 33;text;Supervisor's name;false
 34;text;Your job title;false
 35;text;Address of employer;false
-36;text;Phone number;false
+36;phone-number;Phone number;false
 37;date;Begin date;false
 38;date;End date;false
 39;number;Salary/wage;false
