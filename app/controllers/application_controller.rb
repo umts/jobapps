@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
-  include Authorizable
+  include UMTS::Auth::Controller
+
+  layout 'umts/brand/public'
 
   def show_errors(object)
     flash[:errors] = object.errors.full_messages
