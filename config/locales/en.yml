@@ -82,13 +82,6 @@ en:
       subject: Saved application moved back to dashboard
     saved_applications_notification:
       subject: Saved applications moved back to dashboard
-  positions:
-    create:
-      success: Position successfully created.
-    update:
-      success: Position successfully updated.
-    destroy:
-      success: Position successfully deleted.
   position_managers:
     create:
       success: Manager added.
