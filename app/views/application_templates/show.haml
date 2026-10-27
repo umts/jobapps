@@ -63,10 +63,11 @@
             = label_tag index, question.prompt, class: 'form-label'
             - case question.data_type
             - when 'phone-number'
-              = r.text_field question.unique_name, required: question.required?,
-                                                   class: 'form-control phone', placeholder: '(XXX) XXX-XXXX',
-                                                   id: index,
-                                                   value: @old_data[question.id] || ''
+              = r.phone_field question.unique_name, required: question.required?,
+                                                    class: 'form-control phone',
+                                                    placeholder: '(XXX) XXX-XXXX',
+                                                    id: index,
+                                                    value: @old_data[question.id] || ''
             - when 'long-text'
               = r.text_area question.unique_name,
                             required: question.required?,

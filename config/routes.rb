@@ -1,9 +1,6 @@
 Rails.application.routes.draw do
   root 'dashboard#main'
 
-  get '/auth/:provider/callback', to: 'sessions#create', as: :auth_callback
-  post '/logout', to: 'sessions#destroy'
-
   get '/up' => 'rails/health#show', as: :rails_health_check
 
   resources :application_templates, as: :applications, path: :applications, only: [:new, :show] do
@@ -58,14 +55,4 @@ Rails.application.routes.draw do
 
   get 'markdown/explanation'
   post 'markdown/explanation'
-
-  direct :azure_login do
-    '/auth/entra_id'
-  end
-
-  direct :azure_logout do
-    tenant_id = Rails.application.credentials.dig(:entra_id, :tenant_id)
-    redirect_uri = CGI.escape(root_url)
-    "https://login.microsoftonline.com/#{tenant_id}/oauth2/v2.0/logout?post_logout_redirect_uri=#{redirect_uri}"
-  end
 end

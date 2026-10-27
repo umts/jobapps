@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
-  include Authorizable
+  include UMTS::Auth::Controller
 
   layout 'umts/brand/public'
 

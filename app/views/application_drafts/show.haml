@@ -26,10 +26,10 @@
           = label_tag index, question.prompt, class: 'form-label'
           - case question.data_type
           - when 'phone-number'
-            = r.text_field question.prompt, required: question.required?,
-                                            class: 'form-control phone',
-                                            id: index,
-                                            placeholder: '(XXX) XXX-XXXX'
+            = r.phone_field question.prompt, required: question.required?,
+                                             class: 'form-control phone',
+                                             id: index,
+                                             placeholder: '(XXX) XXX-XXXX'
           - when 'long-text'
             = r.text_area question.prompt,
                           required: question.required?,
