@@ -34,12 +34,6 @@ en:
     name: Transit Job Applications
 
   organization_name: UMass Transit
-  success:
-    message: "Successfully %{action} %{subject}"
-    actions:
-      create: "created"
-      update: "updated"
-      destroy: "deleted"
   errors:
     messages:
       true_false: "must be true or false"
