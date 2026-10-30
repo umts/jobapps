@@ -136,6 +136,32 @@ describe 'ApplicationSubmissions' do
       end
     end
 
+    context 'with a submission' do
+      let(:csv) { CSV.parse(response.body, headers: true) }
+
+      before do
+        create(:application_submission, data: [['A question', 'An answer', 'text', 1]])
+        when_current_user_is :staff
+        submit
+      end
+
+      it 'contains the id of the submission' do
+        expect(csv.first.fetch('Record Number')).to eq(ApplicationSubmission.first.id.to_s)
+      end
+
+      it 'contains the prompt of the question' do
+        expect(csv.first.fetch('Prompt')).to eq('A question')
+      end
+
+      it 'contains the response of the question' do
+        expect(csv.first.fetch('Response')).to eq('An answer')
+      end
+
+      it 'has the correct number of lines' do
+        expect(csv.length).to eq(1)
+      end
+    end
+
     it_behaves_like 'an authorized csv exporter', :staff
     it_behaves_like 'an authorized csv exporter', :admin
     it_behaves_like 'a forbidden submission request', :student
