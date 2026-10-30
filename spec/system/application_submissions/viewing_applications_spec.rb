@@ -18,4 +18,24 @@ describe 'viewing job applications individually' do
       expect(page).to have_text('No pending interviews')
     end
   end
+
+  context 'when viewing a submitted application' do
+    let(:submission) do
+      create(:application_submission,
+             data: [['When can you start?', '2027-01-01', 'date', 1], ['What is your name?', 'John Doe', 'text', 2]])
+    end
+
+    before do
+      when_current_user_is :staff
+      visit application_submission_path(submission)
+    end
+
+    it 'shows formatted date' do
+      expect(page).to have_text('01/01/2027')
+    end
+
+    it 'shows other response as entered' do
+      expect(page).to have_text('John Doe')
+    end
+  end
 end
