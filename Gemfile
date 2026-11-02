@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
-ruby '3.4.8'
+ruby '3.4.12'
 
 gem 'action_policy'
 gem 'bootsnap', require: false
@@ -63,7 +63,6 @@ end
 group :test do
   gem 'capybara'
   gem 'rack_session_access'
-  gem 'rails-controller-testing'
   gem 'rspec-html-matchers'
   gem 'rspec-rails'
   gem 'selenium-webdriver'
