@@ -11,7 +11,7 @@
           Positions
         - if allowed_to?(:new?, Position.new)
           %div
-            = link_to new_position_path, class: 'btn btn-sm btn-text' do
+            = link_to new_position_path, class: 'nav-link' do
               %i.fa-solid.fa-plus
               New
     - if @positions.present?

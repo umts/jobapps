@@ -8,14 +8,14 @@
         = render partial: 'fields', object: f
       .row.g-3
         .col.d-grid
-          = button_tag type: :submit, form: 'position-form', class: 'btn btn-outline-primary' do
+          = button_tag type: :submit, form: 'position-form', class: 'btn btn-primary' do
             %i.fa-solid.fa-save
             Save
         - if allowed_to?(:destroy?, @position)
           .col.d-grid
             = button_to position_path(@position),
                         method: :delete,
-                        class: 'btn btn-outline-secondary',
+                        class: 'btn btn-secondary',
                         form_class: 'd-grid',
                         'data-confirm': 'Are you sure? This cannot be undone.' do
               %i.fa-solid.fa-trash
