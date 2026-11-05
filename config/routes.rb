@@ -45,7 +45,7 @@ Rails.application.routes.draw do
 
   mount MaintenanceTasks::Engine, at: '/maintenance_tasks'
 
-  resources :positions, except: [:index, :show] do
+  resources :positions do
     member do
       get :saved_applications
     end

@@ -36,5 +36,8 @@
     "stylelint": "*",
     "stylelint-config-standard": "*",
     "stylelint-config-standard-scss": "*"
+  },
+  "allowScripts": {
+    "@parcel/watcher": true
   }
 }
