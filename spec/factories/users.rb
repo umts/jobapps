@@ -5,7 +5,6 @@ FactoryBot.define do
     email { 'person@example.com' }
     first_name { 'FirstName' }
     last_name { 'LastName' }
-    staff { false }
     sequence(:entra_uid) { |n| "entra-uid-#{n}" }
 
     trait :staff do
@@ -18,7 +17,6 @@ FactoryBot.define do
     end
 
     trait :admin do
-      staff
       admin { true }
     end
   end

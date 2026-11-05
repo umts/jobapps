@@ -5,20 +5,20 @@ class User < ApplicationRecord
   has_many :application_submissions, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
   has_many :positions, through: :subscriptions
+  has_many :position_managers, dependent: :destroy
+  has_many :managed_positions, through: :position_managers, source: :position
 
   validates :email, :first_name, :last_name, presence: true
   validates :email,
             format: { with: /\A([^@\s]+)@((?:[-a-zA-Z0-9]+\.)+[a-zA-Z]{2,})\Z/ }
-  validates :staff, inclusion: { in: [true, false], message: :true_false }
   validates :entra_uid, presence: true, uniqueness: { case_sensitive: true }
 
   default_scope { order :last_name, :first_name }
-  scope :staff,    -> { where staff: true }
-  scope :students, -> { where staff: false }
 
   def full_name
     "#{first_name} #{last_name}"
   end
+  alias name full_name
 
   def name_and_email
     "#{full_name}, #{email}"
@@ -26,10 +26,6 @@ class User < ApplicationRecord
 
   def proper_name
     "#{last_name}, #{first_name}"
-  end
-
-  def student?
-    !staff?
   end
 
   def old_applications(position)

@@ -5,7 +5,6 @@ class ApplicationSubmission < ApplicationRecord
 
   belongs_to :user
   belongs_to :position
-  delegate :department, to: :position
   has_one :interview, dependent: :destroy
   has_one :unavailability, dependent: :destroy
 
@@ -24,11 +23,6 @@ class ApplicationSubmission < ApplicationRecord
                     where created_at: start_date..end_date&.to_date&.end_of_day
                   }
 
-  scope :in_department,
-        lambda { |department_ids|
-          joins(:position)
-            .where(positions: { department_id: department_ids })
-        }
   scope :hire_count, lambda {
     joins(:interview)
       .where(interviews: { application_submission_id: ids, hired: true }).count

@@ -1,12 +1,12 @@
-$(function() {
-  $('[required]').each(function(index, element) {
-    const label = $('label[for=\'' + $(element).attr('id') + '\']');
-    label.addClass('required');
+$(function () {
+  $("[required]").each(function (index, element) {
+    const label = $("label[for='" + $(element).attr("id") + "']");
+    label.addClass("required");
   });
 
-  $('.dept-select').multipleSelect({
+  $(".dept-select").multipleSelect({
     width: 200,
-    placeholder: 'All Departments',
+    placeholder: "All Departments",
     selectAll: false,
   });
 });
