@@ -1,10 +1,11 @@
 - content_for :title, @position.name
-= render layout: 'layouts/position', locals: { position: @position, nav_item: 'details' } do
-  -# Application, applications, interviews, managers and subscriptions get added here as those models are rebuilt.
-  .card.mb-3
-    .card-body
-      %dl.row.mb-0
-        %dt.col-sm-4 Default interview location
-        %dd.col-sm-8= @position.default_interview_location.presence || 'None'
-        %dt.col-sm-4 Not hiring text
-        %dd.col-sm-8.mb-0= @position.not_hiring
+= render layout: 'layouts/position', object: @position, locals: { nav_item: 'details' } do
+  = render layout: 'umts/brand/card' do |card|
+    - card.heading 'Position Details'
+    - card.body do
+      .card-body
+        %dl.mb-0
+          %dt Default interview location
+          %dd= @position.default_interview_location.presence || 'None'
+          %dt Not hiring text
+          %dd.mb-0= @position.not_hiring_text.presence || 'None'

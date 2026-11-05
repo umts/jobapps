@@ -52,7 +52,7 @@ class PositionsController < ApplicationController
       redirect_to positions_path
     else
       flash_errors_for(@position)
-      redirect_to position_path(@position)
+      redirect_to edit_position_path(@position)
     end
   end
 
