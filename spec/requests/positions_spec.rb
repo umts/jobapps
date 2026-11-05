@@ -238,7 +238,7 @@ describe 'Positions' do
         end
 
         it 'redirects back to the position' do
-          expect(submit).to redirect_to(position_path(position))
+          expect(submit).to redirect_to(edit_position_path(position))
         end
 
         it 'says why it was not deleted' do
