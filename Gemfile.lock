@@ -1,7 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    action_policy (0.7.7)
+    action_policy (0.7.8)
       ruby-next-core (>= 1.0)
     action_text-trix (2.1.19)
       railties
@@ -566,7 +566,7 @@ DEPENDENCIES
   trilogy
 
 CHECKSUMS
-  action_policy (0.7.7) sha256=e17a708d2a6bcc80a7fe3fcd5461138c284d1ef19553533b1eeaf58c0fadaf33
+  action_policy (0.7.8) sha256=26d136c9719eb885cf4e66b82f755e36a303fd028c36e113f1e1d64ab371c090
   action_text-trix (2.1.19) sha256=7012f59421009cf284aa651294896414d653a61a2417c9b8714c8476d2f74009
   actioncable (8.1.4) sha256=cfcd72f8c861e01ccdc96d772ad8c5ad6ed0ea7c571aef81a794b6027eaa7f11
   actionmailbox (8.1.4) sha256=9c4525e577ebb671ce558f3ea78b8a634f64e56a0e6e8d105b28b873793a06eb
