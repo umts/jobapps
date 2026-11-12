@@ -55,22 +55,24 @@ describe JobappsMailer do
 
   describe '.application_notification' do
     subject :output do
-      described_class.application_notification subscription, position, applicant
+      described_class.application_notification position, applicant
     end
 
     let(:position) { create(:position) }
-    let(:subscription) { create(:subscription, position:) }
-    let(:applicant) { create(:user, :student) }
+    let!(:email_true) { create_list(:position_manager, 3, position:, email: true) }
+    let!(:email_false) { create_list(:position_manager, 2, position:, email: false) }
+    let(:applicant) { create(:user, admin: false) }
+
 
     it 'emails from the default address' do
       expect(output.from).to eq(Array(from))
     end
 
-    it 'emails to the subscriber email' do
-      expect(output.to).to eq([subscription.email])
+    it 'emails to all the position managers who have email notifications enabled' do
+      expect(output.to).to match_array(email_true.map { |manager| manager.user.email })
     end
 
-    it 'has a subject notifying the subscriber of the message purpose' do
+    it 'has a subject notifying the position manager of the message purpose' do
       expect(output.subject).to eq("New Application for #{position.name}")
     end
 

@@ -12,28 +12,24 @@ describe ApplicationSubmission do
     let(:mail) do
       ActionMailer::MessageDelivery.new JobappsMailer,
                                         :application_notification,
-                                        build(:subscription),
                                         record.position,
                                         record.user
     end
 
     before do
-      create_list(:subscription, 3, position: record.position)
       allow(JobappsMailer).to receive(:application_notification).and_return(mail)
       allow(mail).to receive(:deliver_later).and_return true
     end
 
-    it 'makes a notification email for all subscribers' do
+    it 'makes a notification email for position managers with email enabled' do
       call
-      record.position.subscriptions.each do |subscription|
-        expect(JobappsMailer).to have_received(:application_notification)
-          .with(subscription, record.position, record.user)
-      end
+      expect(JobappsMailer).to have_received(:application_notification)
+        .with(record.position, record.user).once
     end
 
-    it 'sends the notification email to all subscribers' do
+    it 'sends the notification email to position managers' do
       call
-      expect(mail).to have_received(:deliver_later).exactly(3).times
+      expect(mail).to have_received(:deliver_later).exactly(1).times
     end
   end
 
