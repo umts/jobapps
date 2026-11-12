@@ -63,12 +63,12 @@ describe JobappsMailer do
     let!(:email_false) { create_list(:position_manager, 2, position:, email: false) }
     let(:applicant) { create(:user, admin: false) }
 
-
     it 'emails from the default address' do
       expect(output.from).to eq(Array(from))
     end
 
     it 'emails to all the position managers who have email notifications enabled' do
+      email_false
       expect(output.to).to match_array(email_true.map { |manager| manager.user.email })
     end
 
