@@ -109,20 +109,32 @@ describe 'ApplicationTemplates' do
 
     shared_examples 'an authorized template viewer' do |role|
       context "with #{role} privilege" do
-        before { when_current_user_is role }
+        let(:user) { create(:user, role) }
+
+        before { when_current_user_is user }
 
         it 'returns a successful response' do
           submit
           expect(response).to have_http_status(:ok)
         end
 
-        context 'with a submission to preload from' do
-          let(:record) { create(:application_submission, data: [['a question', 'an answer', 'data type', 1]]) }
+        context 'with one of their own submissions to preload from' do
+          let(:record) { create(:application_submission, user:, data: [['a question', 'an answer', 'data type', 1]]) }
           let(:params) { { load_id: record.id } }
 
           it 'returns a successful response' do
             submit
             expect(response).to have_http_status(:ok)
+          end
+        end
+
+        context "with someone else's submission to preload from" do
+          let(:record) { create(:application_submission, data: [['a question', 'an answer', 'data type', 1]]) }
+          let(:params) { { load_id: record.id } }
+
+          it 'returns not found' do
+            submit
+            expect(response).to have_http_status(:not_found)
           end
         end
       end

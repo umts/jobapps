@@ -9,8 +9,8 @@ class ApplicationTemplatesController < ApplicationController
     @old_data = {}
     return unless params[:load_id]
 
-    @old_data = ApplicationSubmission.find(params.expect(:load_id))
-                                     .try :questions_hash || {}
+    @old_data = Current.user.application_submissions.find(params.expect(:load_id))
+                       .try :questions_hash || {}
   end
 
   def new
