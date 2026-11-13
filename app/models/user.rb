@@ -3,8 +3,7 @@
 class User < ApplicationRecord
   has_many :interviews, dependent: :destroy
   has_many :application_submissions, dependent: :destroy
-  has_many :subscriptions, dependent: :destroy
-  has_many :positions, through: :subscriptions
+  has_many :positions, through: :position_managers
   has_many :position_managers, dependent: :destroy
   has_many :managed_positions, through: :position_managers, source: :position
 

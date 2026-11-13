@@ -9,9 +9,9 @@ class JobappsMailerPreview < ActionMailer::Preview
   end
 
   def application_notification
-    subscription = build(:subscription)
+    position_manager = build(:position_manager, email: true)
     applicant = build(:user)
-    JobappsMailer.application_notification(subscription, subscription.position, applicant)
+    JobappsMailer.application_notification(position_manager.position, applicant)
   end
 
   def interview_confirmation

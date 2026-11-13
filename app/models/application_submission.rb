@@ -53,10 +53,7 @@ class ApplicationSubmission < ApplicationRecord
   end
 
   def email_subscribers(applicant:)
-    position.subscriptions.each do |sub|
-      JobappsMailer.application_notification(sub, position, applicant)
-                   .deliver_later
-    end
+    JobappsMailer.application_notification(position, applicant).deliver_later
   end
 
   def questions_hash

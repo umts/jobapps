@@ -51,8 +51,6 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :subscriptions
-
   get 'markdown/explanation'
   post 'markdown/explanation'
 end

@@ -4,5 +4,6 @@ FactoryBot.define do
   factory :position_manager do
     user
     position
+    email { false }
   end
 end
