@@ -11,7 +11,7 @@ class JobappsMailer < ApplicationMailer
   def application_notification(position, applicant)
     @position = position
     @applicant = applicant
-    mail to: PositionManager.where(position: position, email: true).joins(:user).pluck('users.email'),
+    mail to: position.position_managers.select(&:email).map { |manager| manager.user.email },
          subject: default_i18n_subject(position: position.name)
   end
 

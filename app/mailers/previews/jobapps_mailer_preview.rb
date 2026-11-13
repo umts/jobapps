@@ -9,7 +9,7 @@ class JobappsMailerPreview < ActionMailer::Preview
   end
 
   def application_notification
-    position_manager = create(:position_manager, email: true)
+    position_manager = build(:position_manager, email: true)
     applicant = build(:user)
     JobappsMailer.application_notification(position_manager.position, applicant)
   end
