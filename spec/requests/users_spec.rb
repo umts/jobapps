@@ -146,6 +146,20 @@ describe 'Users' do
         submit
         expect(response).to redirect_to(staff_dashboard_path)
       end
+
+      context 'when the user has an application draft' do
+        let!(:draft) { create(:application_draft, user:) }
+
+        it 'destroys the user' do
+          submit
+          expect { user.reload }.to raise_error(ActiveRecord::RecordNotFound)
+        end
+
+        it 'destroys the draft' do
+          submit
+          expect { draft.reload }.to raise_error(ActiveRecord::RecordNotFound)
+        end
+      end
     end
   end
 
