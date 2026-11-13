@@ -1,0 +1,12 @@
+- content_for :title, 'New Position'
+= render layout: 'layouts/positions' do
+  = render layout: 'umts/brand/card' do |card|
+    - card.heading 'New Position'
+    - card.body do
+      .card-body
+        = form_with model: @position do |f|
+          = render partial: 'fields', object: f
+          .d-grid
+            = f.button type: :submit, class: 'btn btn-primary' do
+              %i.fa-solid.fa-save
+              Save

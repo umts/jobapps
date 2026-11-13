@@ -8,10 +8,11 @@ class JobappsMailer < ApplicationMailer
     mail to: @user.email, reply_to: template&.email
   end
 
-  def application_notification(subscription, position, applicant)
+  def application_notification(position, applicant)
     @position = position
     @applicant = applicant
-    mail to: subscription.email, subject: default_i18n_subject(position: position.name)
+    mail to: position.position_managers.select(&:email).map { |manager| manager.user.email },
+         subject: default_i18n_subject(position: position.name)
   end
 
   def interview_confirmation(interview)

@@ -1,0 +1,11 @@
+- content_for :title, @position.name
+= render layout: 'layouts/position', object: @position, locals: { nav_item: 'details' } do
+  = render layout: 'umts/brand/card' do |card|
+    - card.heading 'Position Details'
+    - card.body do
+      .card-body
+        %dl.mb-0
+          %dt Default interview location
+          %dd= @position.default_interview_location.presence || 'None'
+          %dt Not hiring text
+          %dd.mb-0= @position.not_hiring_text.presence || 'None'
