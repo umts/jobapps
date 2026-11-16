@@ -71,6 +71,35 @@ describe 'editing application draft' do
     end
   end
 
+  describe 'adding a new question without a response type' do
+    before do
+      within('#fields-container .row.field-row:last-child') do
+        fill_in(find('textarea')[:name], with: 'Stuff')
+      end
+      click_button('Save changes and continue editing')
+    end
+
+    it 'does not save the question' do
+      expect(draft.reload.questions.count).to be(3)
+    end
+
+    it 'shows what went wrong' do
+      expect(page).to have_text("Question 4: Response type can't be blank")
+    end
+
+    it 'keeps what was entered' do
+      expect(page).to have_field(type: 'textarea', with: 'Stuff')
+    end
+
+    it 'saves the question once it is fixed' do
+      within('#fields-container .row.field-row:last-child') do
+        select 'text', from: find('select')[:name]
+      end
+      click_button('Save changes and continue editing')
+      expect(draft.reload.questions.pluck(:prompt).last).to eq('Stuff')
+    end
+  end
+
   describe 'editing an existing question' do
     before do
       within('#fields-container .row.field-row:first-child') do

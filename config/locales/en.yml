@@ -31,6 +31,10 @@
 
 en:
   organization_name: UMass Transit
+  activerecord:
+    attributes:
+      question:
+        data_type: Response type
   errors:
     messages:
       true_false: "must be true or false"

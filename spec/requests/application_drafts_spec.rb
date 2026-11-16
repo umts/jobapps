@@ -152,6 +152,26 @@ describe 'ApplicationDrafts' do
           end
         end
 
+        context 'with a question missing its response type' do
+          let(:draft_changes) { super().deep_merge(questions_attributes: { '0' => { data_type: '' } }) }
+
+          before { create(:question, application_draft: draft, prompt: 'Existing') }
+
+          it 'does not change the questions' do
+            submit
+            expect(draft.reload.questions.pluck(:prompt)).to eq(['Existing'])
+          end
+
+          it 'does not change the email' do
+            expect { submit }.not_to(change { draft.reload.email })
+          end
+
+          it 'returns unprocessable content' do
+            submit
+            expect(response).to have_http_status(:unprocessable_content)
+          end
+        end
+
         context 'without a commit value' do
           subject(:submit) { patch "/application_drafts/#{draft.id}", params: { draft: draft_changes } }
 

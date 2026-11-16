@@ -57,6 +57,53 @@ describe ApplicationDraft do
       expect(draft.questions.map(&:prompt)).to contain_exactly('A new prompt', 'A prompt')
     end
 
+    it { is_expected.to be(true) }
+
+    context 'when a removed question left only its id behind' do
+      let(:question_data) do
+        [
+          { number: 1, prompt: 'First', data_type: 'text', required: false },
+          { id: question.id }
+        ]
+      end
+
+      it { is_expected.to be(true) }
+
+      it 'skips it' do
+        call
+        expect(draft.questions.reload.pluck(:prompt)).to eq(['First'])
+      end
+    end
+
+    context 'when a question is missing its response type' do
+      let(:question_data) do
+        [
+          { number: 1, prompt: 'Changed', data_type: 'text', required: false },
+          { number: 2, prompt: 'No type', data_type: '', required: false }
+        ]
+      end
+
+      before { create(:question, application_draft: draft, number: 1, prompt: 'Existing') }
+
+      it { is_expected.to be(false) }
+
+      it 'keeps the saved questions' do
+        call
+        expect(draft.questions.reload.pluck(:prompt)).to eq(['Existing'])
+      end
+
+      it 'says which question is invalid' do
+        call
+        expect(draft.errors.full_messages).to eq(["Question 2: Response type can't be blank"])
+      end
+
+      it 'does not save the email' do
+        draft.email = 'drafts@example.com'
+        call
+        expect(draft.reload.email).to be_nil
+      end
+    end
+
     context 'when a question in the middle is left blank' do
       let(:question_data) do
         [
