@@ -5,48 +5,6 @@ require 'rails_helper'
 describe ApplicationDraft do
   let(:draft) { create(:application_draft) }
 
-  describe '#move_question' do
-    subject :call do
-      draft.move_question question_to_move.number, direction
-    end
-
-    let!(:question_above) { create(:question, application_draft: draft, number: 1) }
-    let(:question_to_move) { create(:question, application_draft: draft, number: 2) }
-    let!(:question_below) { create(:question, application_draft: draft, number: 3) }
-
-    context 'when moving a question up' do
-      let(:direction) { :up }
-
-      it 'moves the question up by 1' do
-        expect { call }.to change { question_to_move.reload.number }.by(-1)
-      end
-
-      it 'moves the question above down by 1' do
-        expect { call }.to change { question_above.reload.number }.by(1)
-      end
-
-      it 'does not change the question below' do
-        expect { call }.not_to(change { question_below.reload.number })
-      end
-    end
-
-    context 'when moving a question down' do
-      let(:direction) { :down }
-
-      it 'moves the question in question down by 1' do
-        expect { call }.to change { question_to_move.reload.number }.by(1)
-      end
-
-      it 'moves the question below up by 1' do
-        expect { call }.to change { question_below.reload.number }.by(-1)
-      end
-
-      it 'does not change the question above' do
-        expect { call }.not_to(change { question_above.reload.number })
-      end
-    end
-  end
-
   describe '#new_question' do
     subject(:call) { draft.new_question }
 
@@ -64,29 +22,6 @@ describe ApplicationDraft do
 
     it 'initializes a new question with the correct number' do
       expect(call.number).to be(4)
-    end
-  end
-
-  describe '#remove_question' do
-    subject :call do
-      draft.remove_question question_to_remove.number
-    end
-
-    let!(:question_above) { create(:question, application_draft: draft, number: 1) }
-    let(:question_to_remove) { create(:question, application_draft: draft, number: 2) }
-    let!(:question_below) { create(:question, application_draft: draft, number: 3) }
-
-    it 'removes the specified question' do
-      call
-      expect(draft.reload.questions).not_to include(question_to_remove)
-    end
-
-    it 'does not change the number of any questions above the one specified' do
-      expect { call }.not_to(change { question_above.reload.number })
-    end
-
-    it 'moves questions below the specified question up by one' do
-      expect { call }.to change { question_below.reload.number }.by(-1)
     end
   end
 
@@ -120,6 +55,68 @@ describe ApplicationDraft do
     it 'creates new ones with the given data' do
       call
       expect(draft.questions.map(&:prompt)).to contain_exactly('A new prompt', 'A prompt')
+    end
+
+    it { is_expected.to be(true) }
+
+    context 'when a removed question left only its id behind' do
+      let(:question_data) do
+        [
+          { number: 1, prompt: 'First', data_type: 'text', required: false },
+          { id: question.id }
+        ]
+      end
+
+      it { is_expected.to be(true) }
+
+      it 'skips it' do
+        call
+        expect(draft.questions.reload.pluck(:prompt)).to eq(['First'])
+      end
+    end
+
+    context 'when a question is missing its response type' do
+      let(:question_data) do
+        [
+          { number: 1, prompt: 'Changed', data_type: 'text', required: false },
+          { number: 2, prompt: 'No type', data_type: '', required: false }
+        ]
+      end
+
+      before { create(:question, application_draft: draft, number: 1, prompt: 'Existing') }
+
+      it { is_expected.to be(false) }
+
+      it 'keeps the saved questions' do
+        call
+        expect(draft.questions.reload.pluck(:prompt)).to eq(['Existing'])
+      end
+
+      it 'says which question is invalid' do
+        call
+        expect(draft.errors.full_messages).to eq(["Question 2: Response type can't be blank"])
+      end
+
+      it 'does not save the email' do
+        draft.email = 'drafts@example.com'
+        call
+        expect(draft.reload.email).to be_nil
+      end
+    end
+
+    context 'when a question in the middle is left blank' do
+      let(:question_data) do
+        [
+          { number: 1, prompt: 'First', data_type: 'text', required: false },
+          { number: 2, prompt: '', data_type: '', required: false },
+          { number: 3, prompt: 'Third', data_type: 'text', required: false }
+        ]
+      end
+
+      it 'numbers the saved questions in order without a gap' do
+        call
+        expect(draft.questions.reload.pluck(:number, :prompt)).to eq([[1, 'First'], [2, 'Third']])
+      end
     end
   end
 

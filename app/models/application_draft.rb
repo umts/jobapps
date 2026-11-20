@@ -9,36 +9,8 @@ class ApplicationDraft < ApplicationRecord
 
   validates :application_template, uniqueness: { scope: :user_id }
 
-  def move_question(question_number, direction)
-    transaction do
-      question = questions.find_by number: question_number
-      other_number = case direction
-                     when :up   then question_number - 1
-                     when :down then question_number + 1
-                     end
-      other_question = questions.find_by number: other_number
-      return unless other_question
-
-      # Temporarily set number to 0 to avoid unique index conflicts
-      question.update(number: 0)
-      other_question.update(number: question_number)
-      question.update(number: other_number)
-    end
-  end
-
   def new_question
     Question.new application_draft: self, number: new_question_number
-  end
-
-  def remove_question(question_number)
-    question_to_remove = questions.find_by number: question_number
-    question_to_remove.delete
-    questions.where('number > ?', question_number).find_each do |question|
-      question.number -= 1
-      question.save
-    end
-    save
-    question_to_remove
   end
 
   def update_application_template!
@@ -52,17 +24,34 @@ class ApplicationDraft < ApplicationRecord
   end
 
   def update_questions(question_data)
-    return if question_data.blank?
-
-    transaction do
-      questions.destroy_all
-      question_data.each do |question_attributes|
-        questions.create question_attributes
-      end
-    end
+    replace_questions question_data if question_data.present?
+    errors.none? && save
   end
 
   private
+
+  def replace_questions(question_data)
+    transaction do
+      questions.destroy_all
+      question_data.reject { |question_attributes| blank_question? question_attributes }
+                   .each.with_index(1) do |question_attributes, number|
+                     questions.create question_attributes.merge(number:)
+                   end
+      raise ActiveRecord::Rollback if questions.any? { |question| question.errors.any? }
+    end
+    add_question_errors
+  end
+
+  # The empty row the edit page adds for a new question, or the hidden id a removed row leaves behind
+  def blank_question?(question_attributes)
+    question_attributes.values_at(:prompt, :data_type).all?(&:blank?)
+  end
+
+  def add_question_errors
+    questions.each do |question|
+      question.errors.each { |error| errors.add :base, "Question #{question.number}: #{error.full_message}" }
+    end
+  end
 
   def new_question_number
     (questions.last&.number || 0) + 1

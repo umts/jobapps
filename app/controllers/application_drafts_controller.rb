@@ -21,15 +21,17 @@ class ApplicationDraftsController < ApplicationController
 
   def update
     authorize! @draft
-    draft_params = params.expect(draft: [:email, { questions_attributes: [%i[id number prompt data_type required]] }])
-    questions = draft_params.require(:questions_attributes).values
-    @draft.update email: draft_params[:email]
-    @draft.update_questions questions
-    case params.require :commit
-    when 'Save changes and continue editing'
-      redirect_to edit_draft_path(@draft)
-    when 'Preview changes'
-      render 'show'
+    @draft.email = draft_params[:email]
+    if @draft.update_questions(draft_params.require(:questions_attributes).values)
+      case params.require :commit
+      when 'Save changes and continue editing'
+        redirect_to edit_draft_path(@draft)
+      when 'Preview changes'
+        render 'show'
+      end
+    else
+      flash.now[:errors] = @draft.errors.full_messages
+      render 'edit', status: :unprocessable_content
     end
   end
 
@@ -48,6 +50,10 @@ class ApplicationDraftsController < ApplicationController
   end
 
   private
+
+  def draft_params
+    params.expect(draft: [:email, { questions_attributes: [%i[id number prompt data_type required]] }])
+  end
 
   def find_draft
     @draft = ApplicationDraft.includes(:questions).find(params.require(:id))
