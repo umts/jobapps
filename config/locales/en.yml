@@ -30,6 +30,9 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
+  application:
+    name: Transit Job Applications
+
   organization_name: UMass Transit
   errors:
     messages:
@@ -59,13 +62,6 @@ en:
     toggle_resume_upload_enabled:
       enabled: Resume uploads enabled on this application.
       disabled: Resume uploads disabled on this application.
-  departments:
-    create:
-      success: Department successfully created.
-    update:
-      success: Department successfully updated.
-    destroy:
-      success: Department successfully deleted.
   interviews:
     complete:
       success: Interview marked as completed.
@@ -86,13 +82,11 @@ en:
       subject: Saved application moved back to dashboard
     saved_applications_notification:
       subject: Saved applications moved back to dashboard
-  positions:
+  position_managers:
     create:
-      success: Position successfully created.
-    update:
-      success: Position successfully updated.
+      success: Manager added.
     destroy:
-      success: Position successfully deleted.
+      success: Manager removed.
   users:
     create:
       success: User successfully created.
@@ -100,5 +94,3 @@ en:
       success: User successfully updated.
     destroy:
       success: User successfully deleted.
-    promote_save:
-      success: User successfully updated.

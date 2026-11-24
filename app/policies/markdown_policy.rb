@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 class MarkdownPolicy < ApplicationPolicy
-  def manage? = staff?
+  def manage? = logged_in?
 end

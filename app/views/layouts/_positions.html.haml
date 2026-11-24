@@ -1,0 +1,10 @@
+-# locals: (nav_item: nil)
+= render layout: 'umts/brand/resource' do |resource|
+  - resource.heading 'Positions'
+  - resource.nav_items do
+    - if allowed_to?(:index?, Position)
+      = link_to positions_path, class: ['nav-link', nav_item == 'manage' && 'active'] do
+        %i.fa-solid.fa-list
+        Manage
+  - resource.body do
+    = yield

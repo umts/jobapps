@@ -3,9 +3,7 @@
 class Interview < ApplicationRecord
   belongs_to :user
   belongs_to :application_submission
-  delegate :department,
-           :position,
-           to: :application_submission
+  delegate :position, to: :application_submission
 
   validates :completed, :hired, inclusion: { in: [true, false], message: :true_false }
   validates :location, :scheduled, presence: true

@@ -1,0 +1,14 @@
+-# locals: (position:, nav_item: nil)
+= render layout: 'umts/brand/resource', locals: { nav_expand: 'md' } do |resource|
+  - resource.heading position.name_was
+  - resource.nav_items do
+    - if allowed_to?(:show?, position)
+      = link_to position_path(position), class: ['nav-link', nav_item == 'details' && 'active'] do
+        %i.fa-solid.fa-circle-info
+        Details
+    - if allowed_to?(:edit?, position)
+      = link_to edit_position_path(position), class: ['nav-link', nav_item == 'settings' && 'active'] do
+        %i.fa-solid.fa-gears
+        Settings
+  - resource.body do
+    = yield
